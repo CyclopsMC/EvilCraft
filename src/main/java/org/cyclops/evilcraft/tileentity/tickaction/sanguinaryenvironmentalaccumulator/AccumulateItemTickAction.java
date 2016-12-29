@@ -27,9 +27,9 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
         if(tile.getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE) != null && tile.canConsume(tile.getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE))) {
             ItemStack production = tile.getInventory().getStackInSlot(tile.getProduceSlot());
             ItemStack willProduce = willProduceItem(tile);
-            if(production == null) {
+            if(production.isEmpty()) {
                 precondition = true;
-            } else if(willProduce != null && production.getItem() == willProduceItem(tile).getItem() && production.getItemDamage() == willProduceItem(tile).getItemDamage()) {
+            } else if(!willProduce.isEmpty() && production.getItem() == willProduceItem(tile).getItem() && production.getItemDamage() == willProduceItem(tile).getItemDamage()) {
                 if(production.getCount() + willProduce.getCount() <= production.getMaxStackSize())
                     precondition = true;
             }

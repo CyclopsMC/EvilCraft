@@ -120,7 +120,7 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
         }
         else {
         	ItemStack outputStack = tile.getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
-        	if(outputStack != null &&
+        	if(!outputStack.isEmpty() &&
                     !entityName.equals(ItemMonsterPlacer.getNamedIdFrom(outputStack))) {
         		lines.add(L10NHelpers.localize(prefix + ".different_egg"));
         	}

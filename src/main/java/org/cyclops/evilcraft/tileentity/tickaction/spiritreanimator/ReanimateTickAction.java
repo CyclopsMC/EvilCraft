@@ -56,12 +56,12 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 		// Drain the tank a bit.
 		tile.getTank().drain(getRequiredMb(tile, tick), true);
 		if(tick >= getRequiredTicks(tile, slot, tick)) {
-			ItemStack spawnEgg = null;
+			ItemStack spawnEgg = ItemStack.EMPTY;
 			ResourceLocation entityName = tile.getEntityName();
 			if(entityName != null) {
 				spawnEgg = getSpawnEgg(entityName);
 			}
-			if(spawnEgg != null && addToProduceSlot(tile, spawnEgg)) {
+			if(!spawnEgg.isEmpty() && addToProduceSlot(tile, spawnEgg)) {
 				tile.getInventory().decrStackSize(TileSpiritReanimator.SLOT_EGG, 1);
 			}
 			if(SpiritReanimatorConfig.clearBoxContents) {

@@ -41,7 +41,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
     @SuppressWarnings("unchecked")
     @Override
     public boolean canWork(TilePurifier tile) {
-        if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null &&
+        if(tile.getPurifyItem().isEmpty() && !tile.getAdditionalItem().isEmpty() &&
                 tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
             List<EntityLivingBase> entities = tile.getWorld().getEntitiesWithinAABB(EntityLivingBase.class,
@@ -65,7 +65,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
         int tick = tile.getTick();
 
         // Try removing bad enchants.
-        if(tile.getPurifyItem() == null && tile.getAdditionalItem() != null
+        if(tile.getPurifyItem().isEmpty() && !tile.getAdditionalItem().isEmpty()
                 && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
             List<EntityLivingBase> entities = tile.getWorld().getEntitiesWithinAABB(EntityLivingBase.class,

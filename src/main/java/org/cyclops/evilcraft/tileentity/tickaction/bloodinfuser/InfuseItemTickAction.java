@@ -74,7 +74,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     public ItemStack willProduceItem(TileBloodInfuser tile) {
         IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe = getRecipe(tile);
         if (recipe == null) {
-            return null;
+            return ItemStack.EMPTY;
         }
         return recipe.getOutput().getItemStack();
     }

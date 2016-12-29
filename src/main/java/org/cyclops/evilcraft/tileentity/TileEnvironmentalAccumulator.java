@@ -535,7 +535,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     @Override
 	public ITextComponent getDisplayName() {
-		String message = L10NHelpers.localize("chat.evilcraft.bossDisplay.charge",
+		String message = L10NHelpers.localize("chat.evilcraft.boss_display.charge",
                 L10NHelpers.localize(EnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".name"));
 		return new TextComponentString(message);
 	}
@@ -578,7 +578,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     @Override
     public ItemStack getStackInSlot(int i) {
         if(i >= getSizeInventory() || i < 0)
-            return null;
+            return ItemStack.EMPTY;
         return inventory.getStackInSlot(i);
     }
 

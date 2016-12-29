@@ -232,10 +232,10 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 		ItemStack eggStack = getStackInSlot(SLOT_EGG);
 		ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
         boolean validNameStack = getEntityName() != null && EntityList.ENTITY_EGGS.containsKey(getEntityName())
-                && (outputStack == null ||
+                && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
                         && getEntityName().equals(ItemMonsterPlacer.getNamedIdFrom(outputStack))));
-        return eggStack != null /*&& ResurgenceEgg.getInstance().isEmpty(eggStack)*/
+        return !eggStack.isEmpty() /*&& ResurgenceEgg.getInstance().isEmpty(eggStack)*/
 				&& validNameStack;
 	}
 	

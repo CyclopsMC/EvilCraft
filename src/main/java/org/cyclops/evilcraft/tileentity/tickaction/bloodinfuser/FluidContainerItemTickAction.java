@@ -68,10 +68,10 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
     public ItemStack willProduceItem(TileBloodInfuser tile) {
         ItemStack itemStack = tile.getInventory().getStackInSlot(tile.getConsumeSlot());
         if (itemStack.isEmpty()) {
-            return null;
+            return ItemStack.EMPTY;
         }
         if (FluidUtil.getFluidHandler(itemStack) instanceof FluidContainerItemWrapperWithSimulation) {
-            return null;
+            return ItemStack.EMPTY;
         }
         ItemStack smallContainer = FluidUtil.tryFillContainer(itemStack, tile.getTank(), MB_PER_TICK, null, false).getResult();
         if (!smallContainer.isEmpty()) {

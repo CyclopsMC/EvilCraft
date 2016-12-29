@@ -26,10 +26,10 @@
 	<recipe type="shapeless">
 		<condition type="config">evilcraftpoison</condition>
 		<input>
-			<item type="oredict">material_poisonous</item>
-			<item type="oredict">material_poisonous</item>
-			<item type="oredict">material_poisonous</item>
-			<item type="oredict">material_poisonous</item>
+			<item type="oredict">materialPoisonous</item>
+			<item type="oredict">materialPoisonous</item>
+			<item type="oredict">materialPoisonous</item>
+			<item type="oredict">materialPoisonous</item>
 			<item>minecraft:water_bucket</item>
 			<item>minecraft:bucket</item>
 		</input>
@@ -123,7 +123,7 @@
     <recipe type="shapeless">
         <input>
             <item meta="*">minecraft:shears</item>
-            <item type="oredict">tree_sapling</item>
+            <item type="oredict">treeSapling</item>
         </input>
         <output>
             <item>minecraft:deadbush</item>
@@ -158,7 +158,7 @@
         <condition type="config">bowl_of_promises</condition>
         <condition type="config">promise</condition>
         <input>
-            <item type="oredict">material_bowl_of_promises0</item>
+            <item type="oredict">materialBowlOfPromises0</item>
             <item meta="0">evilcraft:promise_acceptor</item>
             <item>minecraft:spider_eye</item>
         </input>
@@ -171,7 +171,7 @@
         <condition type="config">bowl_of_promises</condition>
         <condition type="config">promise</condition>
         <input>
-            <item type="oredict">material_bowl_of_promises1</item>
+            <item type="oredict">materialBowlOfPromises1</item>
             <item meta="1">evilcraft:promise_acceptor</item>
             <item>minecraft:ender_pearl</item>
         </input>
@@ -184,7 +184,7 @@
         <condition type="config">bowl_of_promises</condition>
         <condition type="config">promise</condition>
         <input>
-            <item type="oredict">material_bowl_of_promises2</item>
+            <item type="oredict">materialBowlOfPromises2</item>
             <item meta="2">evilcraft:promise_acceptor</item>
             <item>minecraft:ender_eye</item>
         </input>
@@ -197,7 +197,7 @@
         <condition type="config">bowl_of_promises</condition>
         <condition type="config">promise</condition>
         <input>
-            <item type="oredict">material_bowl_of_promises1</item>
+            <item type="oredict">materialBowlOfPromises1</item>
             <item meta="0">evilcraft:promise_acceptor</item>
             <item>minecraft:redstone_block</item>
         </input>
@@ -210,7 +210,7 @@
         <condition type="config">bowl_of_promises</condition>
         <condition type="config">promise</condition>
         <input>
-            <item type="oredict">material_bowl_of_promises1</item>
+            <item type="oredict">materialBowlOfPromises1</item>
             <item meta="0">evilcraft:promise_acceptor</item>
             <item>minecraft:lapis_block</item>
         </input>
@@ -258,7 +258,7 @@
         <condition type="config">darkened_apple</condition>
         <input>
             <item>minecraft:apple</item>
-            <item type="oredict">gem_dark</item>
+            <item type="oredict">gemDark</item>
         </input>
         <output>
             <item>evilcraft:darkened_apple</item>
@@ -295,7 +295,7 @@
         <condition type="config">rejuvenated_flesh</condition>
         <condition type="config">garmonbozia</condition>
         <input>
-            <item type="oredict">material_flesh</item>
+            <item type="oredict">materialFlesh</item>
             <item>evilcraft:garmonbozia</item>
         </input>
         <output>
@@ -307,7 +307,7 @@
         <condition type="config">golden_string</condition>
         <input>
             <item>minecraft:string</item>
-            <item type="oredict">nugget_gold</item>
+            <item type="oredict">nuggetGold</item>
         </input>
         <output>
             <item>evilcraft:golden_string</item>

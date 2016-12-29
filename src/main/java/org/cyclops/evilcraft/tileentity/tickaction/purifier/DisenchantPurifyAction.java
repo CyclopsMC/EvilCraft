@@ -40,8 +40,8 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
     @Override
     public boolean canWork(TilePurifier tile) {
-        if(tile.getBucketsFloored() == tile.getMaxBuckets() && tile.getPurifyItem() != null &&
-                tile.getAdditionalItem() != null && tile.getAdditionalItem().getItem() == ALLOWED_BOOK.get()) {
+        if(tile.getBucketsFloored() == tile.getMaxBuckets() && !tile.getPurifyItem().isEmpty() &&
+                !tile.getAdditionalItem().isEmpty() && tile.getAdditionalItem().getItem() == ALLOWED_BOOK.get()) {
             return !EnchantmentHelper.getEnchantments(tile.getPurifyItem()).isEmpty();
         }
         return false;

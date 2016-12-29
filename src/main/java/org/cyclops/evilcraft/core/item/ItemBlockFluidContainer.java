@@ -85,7 +85,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        return oldStack.getItem() != newStack.getItem() || oldStack.getMetadata() != newStack.getMetadata();
+        return oldStack.getItem() != newStack.getItem() || oldStack.getMetadata() != newStack.getMetadata() || slotChanged;
     }
 
     @Override

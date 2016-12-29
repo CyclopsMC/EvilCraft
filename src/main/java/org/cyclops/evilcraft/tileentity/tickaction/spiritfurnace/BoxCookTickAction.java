@@ -111,7 +111,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
         if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork()
                 && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0)
-        		&& getCookStack(tile) != null && tile.canConsume(getCookStack(tile))) {
+        		&& !getCookStack(tile).isEmpty() && tile.canConsume(getCookStack(tile))) {
         	for(int slotId : tile.getProduceSlots()) {
 	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);
 	            if(production == null || production.getCount() < production.getMaxStackSize()) {
@@ -162,7 +162,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                 }
                 WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                 ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
-                if (drop != null) {
+                if (!drop.isEmpty()) {
                     tile.onItemDrop(drop);
                 }
             } else {
@@ -170,7 +170,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                     List<WeightedItemStack> possibleDrops = MOBDROP_OVERRIDES.get(entity.getClass());
                     WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
                     ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
-                    if (drop != null) {
+                    if (!drop.isEmpty()) {
                         tile.onItemDrop(drop);
                     }
                 } else {

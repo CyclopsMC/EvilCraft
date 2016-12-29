@@ -27,7 +27,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
 
     private static final ResourceLocation TEXTURE_BLOOK = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "blook.png");
-    private static final ResourceLocation TEXTURE_ENCHANTEDBOOK = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "enchantedBook.png");
+    private static final ResourceLocation TEXTURE_ENCHANTEDBOOK = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "enchanted_book.png");
     private ModelBook enchantmentBook = new ModelBook();
 	
 	@Override

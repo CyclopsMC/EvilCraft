@@ -50,7 +50,7 @@ public class ContainerTileWorking<T extends TileWorking<T, ?>> extends Container
                         tile.onUpgradeSlotChanged(getSlotIndex(),lastSlotContents, this.getStack());
                     }
                     lastSlotContents = this.getStack();
-                    if(lastSlotContents != null) lastSlotContents = lastSlotContents.copy();
+                    if(!lastSlotContents.isEmpty()) lastSlotContents = lastSlotContents.copy();
                 }
 
             });

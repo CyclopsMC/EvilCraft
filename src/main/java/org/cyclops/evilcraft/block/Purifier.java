@@ -63,10 +63,10 @@ public class Purifier extends ConfigurableBlockContainer {
                 SingleUseTank tank = tile.getTank();
                 if (itemStack.isEmpty() && !tile.getPurifyItem().isEmpty()) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
-                    tile.setPurifyItem(null);
+                    tile.setPurifyItem(ItemStack.EMPTY);
                 } else if (itemStack.isEmpty() && !tile.getAdditionalItem().isEmpty()) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getAdditionalItem());
-                    tile.setAdditionalItem(null);
+                    tile.setAdditionalItem(ItemStack.EMPTY);
                 } else if (itemFluidHandler != null && !tank.isFull()
                         && FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false).isSuccess()) {
                     ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
@@ -78,13 +78,13 @@ public class Purifier extends ConfigurableBlockContainer {
                     ItemStack newItemStack = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
                     InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
                     return true;
-                }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem() == null) {
+                }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
                     copy.setCount(1);
                     tile.setAdditionalItem(copy);
                     itemStack.shrink(1);
                     return true;
-                } else if(!itemStack.isEmpty() && tile.getActions().isItemValidForMainSlot(itemStack) && tile.getPurifyItem() == null) {
+                } else if(!itemStack.isEmpty() && tile.getActions().isItemValidForMainSlot(itemStack) && tile.getPurifyItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
                     copy.setCount(1);
                     tile.setPurifyItem(copy);

@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -175,7 +176,11 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 		} else {
 			ResourceLocation id = getSpiritNameOrNull(itemStack);
 			if (id != null) {
-				content = L10NHelpers.getLocalizedEntityName(id.toString());
+				String name = EntityList.getTranslationName(id);
+				if (name == null) {
+					name = id.getResourcePath();
+				}
+				content = L10NHelpers.getLocalizedEntityName(name);
 			}
 		}
 		return TextFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",

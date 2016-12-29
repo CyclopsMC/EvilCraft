@@ -89,9 +89,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     public static final int MAX_EFFICIENCY = 200;
 
-    @NBTPersist
+    @NBTPersist(useDefaultValue = false)
     private Vec3i size = LocationHelpers.copyLocation(Vec3i.NULL_VECTOR);
-    @NBTPersist
+    @NBTPersist(useDefaultValue = false)
     private Vec3i renderOffset = new Vec3i(0, 0, 0);
     @Getter
     @Setter

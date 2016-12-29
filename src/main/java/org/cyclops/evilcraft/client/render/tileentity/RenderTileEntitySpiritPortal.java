@@ -25,7 +25,7 @@ import java.util.Random;
  */
 public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
 
-    private static final ResourceLocation PORTALBASE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portalBases.png");
+    private static final ResourceLocation PORTALBASE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portal_bases.png");
 
 	@Override
 	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {

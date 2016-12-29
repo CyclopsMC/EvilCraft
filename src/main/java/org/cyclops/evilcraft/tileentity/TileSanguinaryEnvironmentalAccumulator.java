@@ -194,7 +194,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     public IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>
         getRecipe(ItemStack itemStack) {
         return recipeCache.get(new ImmutableTriple<ItemStack, FluidStack, WeatherType>(
-                itemStack.isEmpty() ? null : itemStack.copy(),
+                itemStack.isEmpty() ? ItemStack.EMPTY : itemStack.copy(),
                 getTank().getFluid() == null ? null : getTank().getFluid().copy(),
                 WeatherType.getActiveWeather(world)));
     }

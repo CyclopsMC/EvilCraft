@@ -49,7 +49,7 @@ public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
             tile.resetWork();
         }
         lastSlotContents = this.getStack();
-        if(lastSlotContents != null) lastSlotContents = lastSlotContents.copy();
+        if(!lastSlotContents.isEmpty()) lastSlotContents = lastSlotContents.copy();
     }
 	
 }

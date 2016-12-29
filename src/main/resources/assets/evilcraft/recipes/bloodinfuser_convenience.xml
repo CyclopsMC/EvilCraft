@@ -262,7 +262,7 @@
         <condition type="config">evilcraftblood</condition>
         <condition type="config">dull_dust</condition>
         <input>
-            <item type="oredict">dust_dull</item>
+            <item type="oredict">dustDull</item>
             <fluid amount="500">evilcraftblood</fluid>
         </input>
         <output>

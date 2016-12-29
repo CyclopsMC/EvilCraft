@@ -24,9 +24,9 @@ import org.lwjgl.opengl.GL11;
 public class ParticleBloodBrick extends Particle {
 	
 	private static final ResourceLocation TEXTURE = new ResourceLocation(
-			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation.png");
+			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "blood_brick_activation.png");
 	private static final ResourceLocation TEXTURE_FLIPPED = new ResourceLocation(
-			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "bloodBrickActivation_flipped.png");
+			Reference.MOD_ID, Reference.TEXTURE_PATH_PARTICLES + "blood_brick_activation_flipped.png");
 	private static final int TESSELATOR_BRIGHTNESS = 160;
 	
 	private EnumFacing side;

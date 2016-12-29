@@ -78,7 +78,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @Override
     public String getInfo(ItemStack itemStack) {
-        return L10NHelpers.localize("tile.blocks.evilcraft.innerBlock.info", TextFormatting.ITALIC+ getBlockFromMeta(itemStack.getItemDamage()).getBlock().getLocalizedName());
+        return L10NHelpers.localize("tile.blocks.evilcraft.inner_block.info", TextFormatting.ITALIC+ getBlockFromMeta(itemStack.getItemDamage()).getBlock().getLocalizedName());
     }
     
     @SuppressWarnings("rawtypes")

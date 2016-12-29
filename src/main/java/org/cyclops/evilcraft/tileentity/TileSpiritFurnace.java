@@ -206,7 +206,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      */
     public EntityLiving getEntity() {
     	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
-        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+        if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
     		ResourceLocation id = BoxOfEternalClosure.getInstance().getSpiritNameOrNull(boxStack);
             if(id != null && !id.equals(VengeanceSpirit.DEFAULT_L10N_KEY)) {
     			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
@@ -229,7 +229,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 
     public String getPlayerId() {
         ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
-        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+        if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
             return BoxOfEternalClosure.getInstance().getPlayerId(boxStack);
         }
         return "";
@@ -237,7 +237,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 
     public String getPlayerName() {
         ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
-        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
+        if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
             return BoxOfEternalClosure.getInstance().getPlayerName(boxStack);
         }
         return "";
@@ -378,7 +378,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 		// Try placing the item inside the inventory slots.
 		while(!placed && i < slots.length) {
 			ItemStack produceStack = getInventory().getStackInSlot(slots[i]);
-	        if(produceStack == null) {
+	        if(produceStack.isEmpty()) {
 	            getInventory().setInventorySlotContents(slots[i], itemStack);
 	            placed = true;
 	        } else {

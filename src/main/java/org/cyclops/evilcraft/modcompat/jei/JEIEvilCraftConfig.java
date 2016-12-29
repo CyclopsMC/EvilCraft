@@ -11,7 +11,6 @@ import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
 import org.cyclops.evilcraft.client.gui.container.GuiExaltedCrafter;
 import org.cyclops.evilcraft.client.gui.container.GuiSanguinaryEnvironmentalAccumulator;
-import org.cyclops.evilcraft.core.client.gui.container.GuiWorking;
 import org.cyclops.evilcraft.item.*;
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeCategory;
 import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeHandler;
@@ -68,7 +67,7 @@ public class JEIEvilCraftConfig implements IModPlugin {
             registry.addRecipeCategories(new BloodInfuserRecipeCategory(JEI_HELPER.getGuiHelper()));
             registry.addRecipeHandlers(new BloodInfuserRecipeHandler());
             registry.addRecipeClickArea(GuiBloodInfuser.class,
-                    GuiWorking.UPGRADES_OFFSET_X + GuiBloodInfuser.PROGRESSTARGETX, GuiBloodInfuser.PROGRESSTARGETY,
+                    GuiBloodInfuser.PROGRESSTARGETX, GuiBloodInfuser.PROGRESSTARGETY,
                     GuiBloodInfuser.PROGRESSWIDTH, GuiBloodInfuser.PROGRESSHEIGHT,
                     BloodInfuserRecipeHandler.CATEGORY);
             registry.getRecipeTransferRegistry().addRecipeTransferHandler(new BloodInfuserRecipeTransferInfo());
@@ -84,7 +83,7 @@ public class JEIEvilCraftConfig implements IModPlugin {
             registry.addRecipes(SanguinaryEnvironmentalAccumulatorRecipeJEI.getAllSanguinaryRecipes());
             registry.addRecipeCategories(new SanguinaryEnvironmentalAccumulatorRecipeCategory(JEI_HELPER.getGuiHelper()));
             registry.addRecipeHandlers(new SanguinaryEnvironmentalAccumulatorRecipeHandler());
-            registry.addRecipeClickArea(GuiSanguinaryEnvironmentalAccumulator.class, GuiWorking.UPGRADES_OFFSET_X + GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETX,
+            registry.addRecipeClickArea(GuiSanguinaryEnvironmentalAccumulator.class, GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETX,
                     GuiSanguinaryEnvironmentalAccumulator.PROGRESSTARGETY, GuiSanguinaryEnvironmentalAccumulator.PROGRESSWIDTH,
                     GuiSanguinaryEnvironmentalAccumulator.PROGRESSHEIGHT, SanguinaryEnvironmentalAccumulatorRecipeHandler.CATEGORY);
             registry.getRecipeTransferRegistry().addRecipeTransferHandler(new SanguinaryEnvironmentalAccumulatorRecipeTransferInfo());

@@ -70,7 +70,7 @@
 			<grid>
 				<gridrow>
 					<item>evilcraft:dark_gem_crushed</item>
-					<item type="oredict">gem_dark</item>
+					<item type="oredict">gemDark</item>
 					<item>evilcraft:dark_gem_crushed</item>
 				</gridrow>
 			</grid>
@@ -86,9 +86,9 @@
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
-			<item type="oredict">plank_wood</item>
+			<item type="oredict">plankWood</item>
 			<item type="predefined">evilcraft:broompart:rod_bare</item>
-			<item type="oredict">plank_wood</item>
+			<item type="oredict">plankWood</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:rod_wood</item>
@@ -298,9 +298,9 @@
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
-			<item type="oredict">tree_leaves</item>
+			<item type="oredict">treeLeaves</item>
 			<item type="predefined">evilcraft:broompart:brush_bare</item>
-			<item type="oredict">tree_leaves</item>
+			<item type="oredict">treeLeaves</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:brush_leaves</item>
@@ -312,11 +312,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">gem_dark</condition>
+		<condition type="oredict">gemDark</condition>
 		<input>
-			<item type="oredict">gem_dark</item>
+			<item type="oredict">gemDark</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">gem_dark</item>
+			<item type="oredict">gemDark</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_gem_dark</item>
@@ -326,11 +326,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">gem_diamond</condition>
+		<condition type="oredict">gemDiamond</condition>
 		<input>
-			<item type="oredict">gem_diamond</item>
+			<item type="oredict">gemDiamond</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">gem_diamond</item>
+			<item type="oredict">gemDiamond</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_gem_diamond</item>
@@ -340,11 +340,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">gem_emerald</condition>
+		<condition type="oredict">gemEmerald</condition>
 		<input>
-			<item type="oredict">gem_emerald</item>
+			<item type="oredict">gemEmerald</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">gem_emerald</item>
+			<item type="oredict">gemEmerald</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_gem_emerald</item>
@@ -354,11 +354,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">gem_quartz</condition>
+		<condition type="oredict">gemQuartz</condition>
 		<input>
-			<item type="oredict">gem_quartz</item>
+			<item type="oredict">gemQuartz</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">gem_quartz</item>
+			<item type="oredict">gemQuartz</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_gem_quartz</item>
@@ -368,11 +368,11 @@
 	<!--<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">gem_lapis</condition>
+		<condition type="oredict">gemLapis</condition>
 		<input>
-			<item type="oredict">gem_lapis</item>
+			<item type="oredict">gemLapis</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">gem_lapis</item>
+			<item type="oredict">gemLapis</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_gem_lapis</item>
@@ -382,14 +382,14 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">gem_dark_power</condition>
+		<condition type="oredict">gemDarkPower</condition>
 		<input>
-			<item type="oredict">gem_dark_power</item>
+			<item type="oredict">gemDarkPower</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">gem_dark_power</item>
+			<item type="oredict">gemDarkPower</item>
 		</input>
 		<output>
-			<item type="predefined">evilcraft:broompart:cap_gem_dark_power</item>
+			<item type="predefined">evilcraft:broompart:cap_gem_darkpower</item>
 		</output>
 	</recipe>
 
@@ -470,11 +470,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_iron</condition>
+		<condition type="oredict">ingotIron</condition>
 		<input>
-			<item type="oredict">ingot_iron</item>
+			<item type="oredict">ingotIron</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_iron</item>
+			<item type="oredict">ingotIron</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_iron</item>
@@ -484,11 +484,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_gold</condition>
+		<condition type="oredict">ingotGold</condition>
 		<input>
-			<item type="oredict">ingot_gold</item>
+			<item type="oredict">ingotGold</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_gold</item>
+			<item type="oredict">ingotGold</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_gold</item>
@@ -498,11 +498,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_thaumium</condition>
+		<condition type="oredict">ingotThaumium</condition>
 		<input>
-			<item type="oredict">ingot_thaumium</item>
+			<item type="oredict">ingotThaumium</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_thaumium</item>
+			<item type="oredict">ingotThaumium</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_thaumium</item>
@@ -512,11 +512,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_copper</condition>
+		<condition type="oredict">ingotCopper</condition>
 		<input>
-			<item type="oredict">ingot_copper</item>
+			<item type="oredict">ingotCopper</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_copper</item>
+			<item type="oredict">ingotCopper</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_copper</item>
@@ -526,11 +526,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_silver</condition>
+		<condition type="oredict">ingotSilver</condition>
 		<input>
-			<item type="oredict">ingot_silver</item>
+			<item type="oredict">ingotSilver</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_silver</item>
+			<item type="oredict">ingotSilver</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_silver</item>
@@ -540,11 +540,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_alubrass</condition>
+		<condition type="oredict">ingotAlubrass</condition>
 		<input>
-			<item type="oredict">ingot_alubrass</item>
+			<item type="oredict">ingotAlubrass</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_alubrass</item>
+			<item type="oredict">ingotAlubrass</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_alubrass</item>
@@ -554,11 +554,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_ardite</condition>
+		<condition type="oredict">ingotArdite</condition>
 		<input>
-			<item type="oredict">ingot_ardite</item>
+			<item type="oredict">ingotArdite</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_ardite</item>
+			<item type="oredict">ingotArdite</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_ardite</item>
@@ -568,11 +568,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_cobalt</condition>
+		<condition type="oredict">ingotCobalt</condition>
 		<input>
-			<item type="oredict">ingot_cobalt</item>
+			<item type="oredict">ingotCobalt</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_cobalt</item>
+			<item type="oredict">ingotCobalt</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_cobalt</item>
@@ -582,11 +582,11 @@
 	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
-		<condition type="oredict">ingot_manyullyn</condition>
+		<condition type="oredict">ingotManyullyn</condition>
 		<input>
-			<item type="oredict">ingot_manyullyn</item>
+			<item type="oredict">ingotManyullyn</item>
 			<item type="predefined">evilcraft:broompart:cap_bare</item>
-			<item type="oredict">ingot_manyullyn</item>
+			<item type="oredict">ingotManyullyn</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_metal_manyullyn</item>
