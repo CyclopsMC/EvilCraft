@@ -5,9 +5,9 @@
   },
   "variants": {
     "axis=none": { "model": "evilcraft:undead_log_bark" },
-    "axis=x": { "model": "evilcraft:undead_log_side", "y": 90 },
+    "axis=x": { "model": "evilcraft:undead_log", "x": 90, "y": 90 },
     "axis=y": { "model": "evilcraft:undead_log" },
-    "axis=z": { "model": "evilcraft:undead_log_side" },
+    "axis=z": { "model": "evilcraft:undead_log", "x": 90 },
     "inventory": { "model": "evilcraft:undead_log" }
   }
 }
