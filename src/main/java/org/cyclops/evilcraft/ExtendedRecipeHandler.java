@@ -17,7 +17,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
@@ -163,9 +163,9 @@ public class ExtendedRecipeHandler extends RecipeHandler {
 
         if(Configs.isEnabled(PoisonConfig.class)) {
             ItemStack poisonBucket = new ItemStack(Items.BUCKET);
-            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(poisonBucket);
+            IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(poisonBucket);
             fluidHandler.fill(new FluidStack(Poison.getInstance(), Fluid.BUCKET_VOLUME), true);
-            predefinedItems.put("evilcraft:bucket_poison", poisonBucket);
+            predefinedItems.put("evilcraft:bucket_poison", fluidHandler.getContainer());
         }
 
         ItemStack potionPoison = new ItemStack(Items.POTIONITEM);

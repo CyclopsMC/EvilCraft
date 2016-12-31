@@ -61,7 +61,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
 
     @Override
     protected String getUnlocalizedTitle() {
-        return "tile.blocks.evilcraft.environmentalAccumulator.name";
+        return "tile.blocks.evilcraft.environmental_accumulator.name";
     }
 
     @Override
