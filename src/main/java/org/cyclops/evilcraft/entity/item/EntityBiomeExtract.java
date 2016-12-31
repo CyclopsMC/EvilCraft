@@ -68,37 +68,39 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
 
     @Override
     protected void onImpact(final RayTraceResult movingobjectposition) {
-        ItemStack itemStack = getItemStack();
+        if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
+            ItemStack itemStack = getItemStack();
 
-        final Biome biome = BiomeExtract.getInstance().getBiome(itemStack);
-        if(biome != null) {
-            OrganicSpread spread = new OrganicSpread(world, 2, 5, new OrganicSpread.IOrganicSpreadable() {
-                @Override
-                public boolean isDone(World world, BlockPos location) {
-                    return world.getBiome(location) == biome;
-                }
-
-                @Override
-                public void spreadTo(World world, BlockPos location) {
-                    if(world.isRemote) {
-                        showChangedBiome(world, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
-                                location.getZ()), biome.getFoliageColorAtPos(new BlockPos(0, 0, 0)));
+            final Biome biome = BiomeExtract.getInstance().getBiome(itemStack);
+            if (biome != null) {
+                OrganicSpread spread = new OrganicSpread(world, 2, 5, new OrganicSpread.IOrganicSpreadable() {
+                    @Override
+                    public boolean isDone(World world, BlockPos location) {
+                        return world.getBiome(location) == biome;
                     }
-                    WorldHelpers.setBiome(world, location, biome);
+
+                    @Override
+                    public void spreadTo(World world, BlockPos location) {
+                        if (world.isRemote) {
+                            showChangedBiome(world, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
+                                    location.getZ()), biome.getFoliageColorAtPos(new BlockPos(0, 0, 0)));
+                        }
+                        WorldHelpers.setBiome(world, location, biome);
+                    }
+                });
+                BlockPos pos = movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK
+                        ? movingobjectposition.getBlockPos()
+                        : movingobjectposition.entityHit.getPosition();
+                for (int i = 0; i < 50; i++) {
+                    spread.spreadTick(pos);
                 }
-            });
-            BlockPos pos = movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK
-                    ? movingobjectposition.getBlockPos()
-                    : movingobjectposition.entityHit.getPosition();
-            for(int i = 0; i < 50; i++) {
-                spread.spreadTick(pos);
             }
+
+            // Play sound and show particles of splash potion of harming
+            this.world.playBroadcastSound(2002, getPosition(), 16428);
+
+            setDead();
         }
-        
-        // Play sound and show particles of splash potion of harming
-        this.world.playBroadcastSound(2002, getPosition(), 16428);
-        
-        setDead();
     }
 
     @SideOnly(Side.CLIENT)

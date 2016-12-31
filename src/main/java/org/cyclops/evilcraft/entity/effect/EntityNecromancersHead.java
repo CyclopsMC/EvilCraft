@@ -137,7 +137,7 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 
     @Override
     protected void onImpact(RayTraceResult position) {
-    	if(!observing) {
+    	if(position.typeOfHit == RayTraceResult.Type.BLOCK && !observing) {
 	        if(position.entityHit != null) {
 	            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
 	        }

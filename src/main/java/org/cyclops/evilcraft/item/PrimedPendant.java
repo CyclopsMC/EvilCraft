@@ -73,7 +73,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         ItemStack potionStack = getPotionStack(itemStack);
-        if(potionStack != null) {
+        if(!potionStack.isEmpty()) {
             List<PotionEffect> potionEffects = PotionUtils.getEffectsFromStack(potionStack);
             for(PotionEffect potionEffect : potionEffects) {
                 Double multiplier =  PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotion());
@@ -92,7 +92,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
                 && world.getWorldTime() % TICK_MODULUS == 0) {
             EntityPlayer player = (EntityPlayer) entity;
             ItemStack potionStack = getPotionStack(itemStack);
-            if(potionStack != null) {
+            if(!potionStack.isEmpty()) {
                 List<PotionEffect> potionEffects = PotionUtils.getEffectsFromStack(potionStack);
                 for(PotionEffect potionEffect : potionEffects) {
                     int toDrain = PrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
@@ -113,7 +113,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     }
 
     public boolean hasPotionStack(ItemStack itemStack) {
-        return getPotionStack(itemStack) != null;
+        return !getPotionStack(itemStack).isEmpty();
     }
 
     public ItemStack getPotionStack(ItemStack itemStack) {

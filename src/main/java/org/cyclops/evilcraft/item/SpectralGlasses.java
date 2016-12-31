@@ -24,7 +24,7 @@ public class SpectralGlasses extends ConfigurableItemArmor {
     // TODO: temporary fix for https://github.com/MinecraftForge/MinecraftForge/pull/2874
     public static ArmorMaterial MATERIAL = EnumHelper.addEnum(ArmorMaterial.class, "ArmorMaterial",
             new Class<?>[]{String.class, int.class, int[].class, int.class, SoundEvent.class, float.class},
-            Reference.MOD_ID + ":" + "spectralGlasses",
+            Reference.MOD_ID + ":" + "spectral_glasses",
             15, new int[]{1, 4, 5, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
 
     private static SpectralGlasses _instance = null;

@@ -53,7 +53,7 @@ public class ItemPowerableHelpers {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
                 player.sendMessage(new TextComponentString(TextFormatting.ITALIC
-                        + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.setPower", newPower)));
+                        + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.set_power", newPower)));
             }
             return true;
         }
