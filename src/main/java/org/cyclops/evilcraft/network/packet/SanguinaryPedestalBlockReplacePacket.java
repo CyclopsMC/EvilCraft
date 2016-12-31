@@ -8,10 +8,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 
 /**
@@ -21,7 +19,7 @@ import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
  */
 public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
 
-	private static final int RANGE = 15;
+	public static final int RANGE = 15;
 	
 	@CodecField
 	private double x = 0;
@@ -75,10 +73,10 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
     			0.9F + world.rand.nextFloat() * 0.1F, false);
 		ParticleBloodSplash.spawnParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.rand.nextInt(2), 1 + world.rand.nextInt(2));
 	}
+
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
-		EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(x, y, z, blockID),
-				LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
+
 	}
 	
 }

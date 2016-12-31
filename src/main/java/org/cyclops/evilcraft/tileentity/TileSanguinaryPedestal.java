@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
@@ -68,8 +69,9 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
     	if(!getTank().isFull()) {
 			fillWithPotentialBonus(new FluidStack(FLUID, amount));
 		}
-    	
-    	EvilCraft._instance.getPacketHandler().sendToServer(new SanguinaryPedestalBlockReplacePacket(location, block));
+
+		EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(location, block),
+				LocationHelpers.createTargetPointFromLocation(world, location, SanguinaryPedestalBlockReplacePacket.RANGE));
     }
 
     protected boolean hasEfficiency() {
