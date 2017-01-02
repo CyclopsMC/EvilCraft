@@ -65,9 +65,12 @@ public class BlockTankHelpers {
                     return true;
                 } else if(player.isSneaking() && !tank.isEmpty()
                         && FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false).isSuccess()) { // Drain the tank.
-                    ItemStack filledItem = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true).getResult();
-                    if (!player.capabilities.isCreativeMode) {
-                        InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
+                    FluidActionResult result = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
+                    if (result.isSuccess()) {
+                        ItemStack filledItem = result.getResult();
+                        if (!player.capabilities.isCreativeMode) {
+                            InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
+                        }
                     }
                     return true;
                 }
