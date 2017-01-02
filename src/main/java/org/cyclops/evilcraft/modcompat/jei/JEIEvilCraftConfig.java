@@ -51,6 +51,7 @@ public class JEIEvilCraftConfig implements IModPlugin {
         if (Configs.isEnabled(MaceOfDestructionConfig.class)) subtypeRegistry.registerSubtypeInterpreter(MaceOfDestruction.getInstance(), subtypeInterpreter);
         if (Configs.isEnabled(NecromancerStaffConfig.class)) subtypeRegistry.registerSubtypeInterpreter(NecromancerStaff.getInstance(), subtypeInterpreter);
         if (Configs.isEnabled(RejuvenatedFleshConfig.class)) subtypeRegistry.registerSubtypeInterpreter(RejuvenatedFlesh.getInstance(), subtypeInterpreter);
+        if (Configs.isEnabled(EntangledChaliceConfig.class)) subtypeRegistry.registerSubtypeInterpreter(Item.getItemFromBlock(EntangledChalice.getInstance()), subtypeInterpreter);
     }
 
     @Override
