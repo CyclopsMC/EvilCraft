@@ -206,7 +206,7 @@ public class WeatherContainer extends ConfigurableItem {
         private WeatherContainerTypes(WeatherType type, String description, TextFormatting damageColor, int damageRenderColor) {
             this.type = type;
             
-            this.description = L10NHelpers.localize("weatherContainer." + Reference.MOD_ID + "." + description);
+            this.description = L10NHelpers.localize("weather_container." + Reference.MOD_ID + "." + description);
             this.damageColor = damageColor;
             this.damageRenderColor = damageRenderColor;
         }

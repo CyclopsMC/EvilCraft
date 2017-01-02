@@ -48,7 +48,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     @Override
     public String getUnlocalizedName(ItemStack itemStack) {
     	if(isHumanFlesh(itemStack)) {
-    		return "item.items." + Reference.MOD_ID + ".humanFlesh";
+    		return "item.items." + Reference.MOD_ID + ".human_flesh";
     	}
         return "item.items."  + Reference.MOD_ID + "." + eConfig.getNamedId();
     }
