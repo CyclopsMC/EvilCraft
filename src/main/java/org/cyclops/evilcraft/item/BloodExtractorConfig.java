@@ -25,7 +25,7 @@ public class BloodExtractorConfig extends ItemConfig {
     /**
      * The maximum multiplier for amount of mB to receive per mob HP.
      */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum multiplier for amount of mB to receive per mob HP. IMPORTANT: must be larger than maximumMobMultiplier!", isCommandable = true)
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The maximum multiplier for amount of mB to receive per mob HP. IMPORTANT: must be larger than minimumMobMultiplier!", isCommandable = true)
     public static double maximumMobMultiplier = 40;
     /**
      * The amount of blood (mB) this container can hold.
