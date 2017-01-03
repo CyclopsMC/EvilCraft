@@ -33,6 +33,11 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
 	public String getUnlocalizedName() {
 		return "degradationeffect." + getNamedId();
 	}
+
+    @Override
+    public String getFullUnlocalizedName() {
+        return "degradationeffect." + getMod().getModId()  + "." +getNamedId();
+    }
     
     @Override
 	public ConfigurableType getHolderType() {

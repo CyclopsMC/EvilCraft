@@ -94,6 +94,7 @@ item.items.evilcraft.weatherContainer.name=Weather Container
 item.items.evilcraft.bloodPearlOfTeleportation.name=Blood Pearl of Teleportation
 item.items.evilcraft.broom.name=Broom
 item.items.evilcraft.broom.info=I can fly!
+item.items.evilcraft.broomPart.name=Broom Part
 item.items.evilcraft.hardenedBloodShard.name=Hardened Blood Shard
 item.items.evilcraft.hardenedBloodShard.info=Use Flint and Steel on Hardened Blood.
 item.items.evilcraft.bloodInfusionCore.name=Blood Infusion Core
@@ -745,3 +746,237 @@ infoBook.evilcraft.modIntegrations.tinkersConstruct.text=&0Tools, tools and tool
 
 infoBook.evilcraft.modIntegrations.waila=WAILA
 infoBook.evilcraft.modIntegrations.waila.text=What are you looking at, you ask? You should be able to tell, really.
+
+# Config Screens
+config.evilcraft=%s configuration
+
+## Config categories
+config.evilcraft.item=Item settings
+config.evilcraft.item.tooltip=Item settings
+config.evilcraft.block=Block settings
+config.evilcraft.block.tooltip=Block settings
+config.evilcraft.fluid=Fluid settings
+config.evilcraft.fluid.tooltip=Fluid settings
+config.evilcraft.entity=Entity settings
+config.evilcraft.entity.tooltip=Entity settings
+config.evilcraft.general=General settings
+config.evilcraft.general.tooltip=General settings
+config.evilcraft.worldgeneration=World generation settings
+config.evilcraft.worldgeneration.tooltip=World generation settings
+config.evilcraft.enchantment=Enchantment settings
+config.evilcraft.enchantment.tooltip=Enchantment settings
+config.evilcraft.mob=Mob settings
+config.evilcraft.mob.tooltip=Mob settings
+config.evilcraft.biome=Biome generation settings
+config.evilcraft.biome.tooltip=Biome generation settings
+config.evilcraft.machine=Machine settings
+config.evilcraft.machine.tooltip=Machine settings
+config.evilcraft.potion=Potion settings
+config.evilcraft.potion.tooltip=Potion settings
+config.evilcraft.core=Core settings
+config.evilcraft.core.tooltip=Core settings
+config.evilcraft.modcompat=Mod compatibility settings
+config.evilcraft.modcompat.tooltip=Mod compatibility settings
+config.evilcraft.degradationeffect=Degradation effect
+config.evilcraft.degradationeffect.tooltip=Degradation effect
+config.evilcraft.entity=Entity settings
+config.evilcraft.entity.tooltip=Entity settings
+
+## Block settings
+config.evilcraft.bloodStainedBlock.blockBlacklist=Blood stained block blacklist
+config.evilcraft.bloodStainedBlock.bloodMBPerHP=MB blood per HP
+config.evilcraft.excrementPile.effectiveness=Excrement effectiveness
+config.evilcraft.excrementPile.poisonEntities=Excrement poison to mobs
+config.evilcraft.gemStoneTorch.area=GemStone Torch area
+config.evilcraft.spikedPlate.damage=Spiked Plate damage
+config.evilcraft.spikedPlate.mobMultiplier=Spiked Plate MB mob multiplier
+
+## Core settings
+config.evilcraft.general.analytics=Send anonymous analytics
+config.evilcraft.general.crashOnInvalidRecipe=Crash on invalid Recipe
+config.evilcraft.general.crashOnModCompatCrash=Crash on Compatibility issue
+config.evilcraft.general.debug=Develop mode
+config.evilcraft.general.minimumPotionTypesArraySize=Minimal size of potion array
+config.evilcraft.general.version=Version
+config.evilcraft.general.versionChecker=Version check
+
+## Degradition effect settings
+degradationeffect.evilcraft.biome=Biome
+degradationeffect.evilcraft.knockbackDistort=Knockback Distortion
+degradationeffect.evilcraft.mobSpawn=Mob Spawning
+degradationeffect.evilcraft.nauseate=Nauseate
+degradationeffect.evilcraft.paling=Paling
+degradationeffect.evilcraft.particle=Particle
+degradationeffect.evilcraft.sound=Sound
+degradationeffect.evilcraft.terraform=Terraform
+
+## Entity settings
+config.evilcraft.entityAttackVengeanceBeam.crossBeamsExplosions=Vengeance beam cross explosion
+config.evilcraft.entityLightningBomb.fuse=Lighting bomb fuse
+
+## Fluid settings
+config.evilcraft.general.bloodConverters=Blood conversion ratios
+
+## General settings
+config.evilcraft.general.bloodGuiOverlay=Blood GUI overlay
+config.evilcraft.general.bloodGuiOverlayPosition=GUI overlay position
+config.evilcraft.general.bloodGuiOverlayPositionOffsetX=GUI overlay X offset
+config.evilcraft.general.bloodGuiOverlayPositionOffsetY=GUI overlay Y offset
+config.evilcraft.general.dieWithoutAnyReason=Die without any reason
+config.evilcraft.general.farting=Farting
+config.evilcraft.general.mbFlowRate=MB flow rate
+config.evilcraft.general.retrogen=Retrogen
+config.evilcraft.general.thaumcraftVengeanceSpiritWarp=Temp. warp on Vengeance Spirit hit
+config.evilcraft.potentiaSphere.enderPearlRecipe=Ender pearl recipe
+config.evilcraft.weatherContainer.shapelessRecipes=Shapeless recipes
+
+## Item settings
+config.evilcraft.biomeExtract.craftingBlacklist=Biome Extract crafting blacklist
+config.evilcraft.biomeExtract.creativeTabVariants=Biome Extract Creative Tab variants
+config.evilcraft.biomeExtract.envirAccCooldownTime=Biome Extract Enviroment cooldown
+config.evilcraft.biomeExtract.hasRecipes=Biome Extract recipes
+config.evilcraft.biomeExtract.usageBlacklist=Biome Extract usage blacklist
+
+config.evilcraft.bloodExtractor.containerSize=Blood Extractor container size
+config.evilcraft.bloodExtractor.maximumMobMultiplier=Blood Extractor maximal mob multiplier
+config.evilcraft.bloodExtractor.minimumMobMultiplier=Blood Extractor minimum mob multiplier
+
+config.evilcraft.bloodPearl.slownessDuration=Blood Pearl slowness duration
+
+config.evilcraft.boundBloodDrop.maxCapacity=Bound Blood Drop maximal mB capacity
+
+config.evilcraft.broom.bloodUsage=Broom blood usage per tick
+config.evilcraft.broom.bloodUsageBlockBreak=Broom blood usage per block break
+config.evilcraft.broom.broomModifierTooltips=Broom modifier tooltips
+config.evilcraft.broom.broomPartTooltips=Broom part tooltops
+config.evilcraft.broom.guiOverlayPosition=GUI overlay position
+config.evilcraft.broom.guiOverlayPositionOffsetX=GUI overlay X offset
+config.evilcraft.broom.guiOverlayPositionOffsetY=GUI overlay Y offset
+config.evilcraft.broom.lootChests=Broom in loot chests
+
+config.evilcraft.burningGemStone.maxDamage=Burning GemStone maximal damage
+
+config.evilcraft.enderTear.chanceDrop=Ender Tear drop chance
+config.evilcraft.enderTear.mbLiquidEnder=Liquid ender from Ender Tear
+
+config.evilcraft.exaltedCrafter.shiftCraftingGrid=Exalted Crafter shift click
+
+config.evilcraft.hardenedBloodShard.additionalDropped=Hardened Blood Shard additional amount
+config.evilcraft.hardenedBloodShard.minimumDropped=Hardened Blood Shard minimal amount
+
+config.evilcraft.invigPendant.capacity=Inverted Potentia capacity
+config.evilcraft.invigPendant.fireUsage=Inverted Potentia fire blood usage
+config.evilcraft.invigPendant.reduceDuration=Inverted Potentia duration reduction
+config.evilcraft.invigPendant.usage=Inverted Potentia blood usage
+
+config.evilcraft.kineticator.consumeHoldoff=Kineticator blood usage
+config.evilcraft.kineticator.moveXP=kineticator xp attraction
+config.evilcraft.kineticator.tickHoldoff=kineticator check timeout
+
+config.evilcraft.necromancerStaff.capacity=Necromancer Staff capacity
+config.evilcraft.necromancerStaff.usage=Necromancer Staff blood usage
+
+config.evilcraft.primedPendant.capacity=Primed Pendant capacity
+config.evilcraft.primedPendant.potionMultipliers=Primed Pendant potion multipliers
+config.evilcraft.primedPendant.usage=Primed Pendant blood usage
+
+config.evilcraft.redstoneGrenade.dropAfterUsage=Drop Redstine Grenade after use
+
+config.evilcraft.rejuvenatedFlesh.biteUsage=Rejuvenated Flesh blood usage
+config.evilcraft.rejuvenatedFlesh.containerSize=Rejuvenated Flesh capacity
+
+config.evilcraft.sanguinaryPedestal.efficiencyBoost=Sanguinary Pedestal blood multiplier
+
+config.evilcraft.veinSword.durability=Vein Sword durability
+config.evilcraft.veinSword.extractionBoost=Vein Sword blood boost
+
+config.evilcraft.vengeance.areaOfEffect=Vengeance area of effect size
+config.evilcraft.vengeance.vengeanceChance=Vengeance Spirit toggle chance
+
+config.evilcraft.vengeanceRing.areaOfEffect=Vengeance ring area of effect size
+
+config.evilcraft.werewolfFlesh.humanoidFleshDropChance=Humanoid flesh drop chance
+
+## Machine settings
+config.evilcraft.bloodChest.addRandomBadEnchants=Blood Chest random bad enchant
+config.evilcraft.bloodChest.mBPerDamage=Blood Chest required blood per HP
+config.evilcraft.bloodChest.repairTConstructTools=Blood Chest repair Tinkers' Construct
+config.evilcraft.bloodChest.ticksPerDamage=Blood Chest repair time
+
+config.evilcraft.bloodInfuser.itemBlacklist=Blood Chest blacklisted items
+
+config.evilcraft.colossalBloodChest.baseConcurrentItems=Colossal Blood Chest base concurrent items
+config.evilcraft.colossalBloodChest.baseMBPerDamage=Colossal Blood Chest required blood per damage
+config.evilcraft.colossalBloodChest.ticksPerDamage=Colossal Blood Chest repair time
+
+config.evilcraft.darkTank.creativeTabFluids=Dark tank Creative Tab variants
+config.evilcraft.darkTank.maxTankCreativeSize=Maximal Creative Dark tank size
+config.evilcraft.darkTank.maxTankSize=Maximal Dark tank size
+config.evilcraft.darkTank.staticBlockRendering=Dark Tank static block rendering
+
+config.evilcraft.entangledChalice.staticBlockRendering=Entangled Chalice static block rendering
+
+config.evilcraft.envirAcc.defaultProcessItemSpeed=Environmental accumulator item move speed
+config.evilcraft.envirAcc.defaultProcessItemTickCount=Environmental accumulator item process time
+config.evilcraft.envirAcc.defaultTickCooldown=Environmental accumulator cooldown time
+
+config.evilcraft.sangEnvirAcc.baseUsage=Sanguinary Environmental Acc. blood usage
+
+config.evilcraft.spiritFurnace.bossMBPerTick=Spirit Furnace boss blood usage
+config.evilcraft.spiritFurnace.mBPerTick=Spirit Furnace blood usage
+config.evilcraft.spiritFurnace.mobDeathSounds=Spirit Furnace death sounds
+config.evilcraft.spiritFurnace.playerDrops=Spirit Furnace custom player drops
+config.evilcraft.spiritFurnace.playerMBPerTick=Spirit Furnace player blood usage
+config.evilcraft.spiritFurnace.requiredTicksPerHp=Spirit Furnace boss entity cook time
+config.evilcraft.spiritFurnace.villagerDropEmeraldChance=Spirit Furnace vilager emerald drop chance
+
+config.evilcraft.spiritReanimator.clearBoxContents=Spirit Reanimator clear on revival
+config.evilcraft.spiritReanimator.mBPerTick=Spirit Reanimator blood usage
+config.evilcraft.spiritReanimator.requiredTicks=Spirit Reanimator reanimation time
+
+## Mob settings
+
+config.evilcraft.kineticator.kineticateBlacklist=Kineticator blacklist
+config.evilcraft.netherfish.isEnabled=Netherfish
+
+config.evilcraft.poisonousLibelle.hasAttackDamage=Poisonous Libelle damage
+config.evilcraft.poisonousLibelle.isEnabled=Poisonous Libelle
+config.evilcraft.poisonousLibelle.minY=Poisonous Libelle minimal Y-level
+config.evilcraft.poisonousLibelle.poisonChance=Poisonous Libelle poison chance
+
+config.evilcraft.vengeanceSpirit.entityBlacklist=Vengeance Spirit blacklist
+config.evilcraft.vengeanceSpirit.isEnabled=Vengeance Spirit
+config.evilcraft.vengeanceSpirit.nonDegradedSpawnChance=Vengeance Spirit spawn chance on item use
+config.evilcraft.vengeanceSpirit.spawnLimit=Vengeance Spirit spawn limit
+config.evilcraft.vengeanceSpirit.spawnLimitArea=Vengeance Spirit spawn area limit
+
+config.evilcraft.werewolf.isEnabled=Werewolf    
+
+## Mod compatibility settings
+config.evilcraft.baubles=Baubles
+config.evilcraft.BloodMagic=Blood magic
+config.evilcraft.IC2=Industrial Craft 2
+config.evilcraft.JEI=JEI
+config.evilcraft.Waila=Waila
+config.evilcraft.forestry=Forestry
+config.evilcraft.tconstruct=Tinkers' Construct
+
+## World generation
+config.evilcraft.boundBloodDrop.maxUpdateTicks=Soul network update interval
+
+config.evilcraft.darkOre.blocksPerVein=Dark Ore per vein
+config.evilcraft.darkOre.endY=Dark Ore maximal spawn height
+config.evilcraft.darkOre.startY=Dark Ore minimal spawn height
+config.evilcraft.darkOre.veinsPerChunk=Dark Ore veins per chunk
+
+config.evilcraft.general.darkTempleChestChance=Dark Temple loot chest chance
+config.evilcraft.general.darkTempleDimensions=Dark Temple allowed dimensions
+config.evilcraft.general.darkTempleFrequency=Dark Temple frequency
+config.evilcraft.general.darkTempleMaxHeight=Dark Temple maximal spawn height
+config.evilcraft.general.darkTempleMaxPillarLength=Dark Temple  maximal pillar height
+config.evilcraft.general.darkTempleMinHeight=Dark Temple minimal spawn height
+config.evilcraft.general.darkTempleMinimumChunkDistance=Dark Temple minimal chunk distance
+
+config.evilcraft.general.extraSilverfish=Extra Nether Monster Egg block spawns
+
+config.evilcraft.netherMonsterBlock.veinsPerChunk=Nether Monster Egg veins per chunk
