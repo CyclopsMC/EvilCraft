@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.world.gen.WorldGenMinableExtended;
 import org.cyclops.evilcraft.block.NetherfishSpawn;
 import org.cyclops.evilcraft.block.NetherfishSpawnConfig;
@@ -40,7 +39,7 @@ public class NetherfishSpawnGenerator extends WorldGenMinableExtended {
                 world.setBlockState(
                         blockPos,
                         spawnBlock.getDefaultState().withProperty(NetherfishSpawn.FAKEMETA, meta),
-                        MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                        16);
             }
         }
     }
