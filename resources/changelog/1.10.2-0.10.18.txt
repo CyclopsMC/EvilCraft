@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.9.0 or higher.
+
+Additions:
+* Added localization for configuration gui
+* Added config GUI restriction
+
+Fixes:
+* Fix server console error spam on ticking pedestals, Closes #507
+* Fix crash when filling bound blood drop with null fluidstack
