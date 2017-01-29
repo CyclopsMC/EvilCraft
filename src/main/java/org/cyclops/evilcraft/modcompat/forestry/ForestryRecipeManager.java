@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.modcompat.forestry;
 
 import forestry.api.recipes.RecipeManagers;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.evilcraft.Configs;
@@ -28,7 +29,8 @@ public class ForestryRecipeManager {
                 && Configs.isEnabled(BloodConfig.class)
                 && Configs.isEnabled(HardenedBloodShardConfig.class)) {
             int time = 20;
-            ItemStack[] input = {new ItemStack(UndeadLogConfig._instance.getBlockInstance())};
+            NonNullList<ItemStack> input = NonNullList.create();
+            input.add(new ItemStack(UndeadLogConfig._instance.getBlockInstance()));
             FluidStack fluidStack = new FluidStack(Blood.getInstance(),
                     Fluid.BUCKET_VOLUME / 10);
             ItemStack output = new ItemStack(HardenedBloodShardConfig._instance.getItemInstance());
@@ -41,7 +43,8 @@ public class ForestryRecipeManager {
                 && Configs.isEnabled(BloodConfig.class)
                 && Configs.isEnabled(HardenedBloodShardConfig.class)) {
             int time = 10;
-            ItemStack[] input = {new ItemStack(UndeadLeaves.getInstance())};
+            NonNullList<ItemStack> input = NonNullList.create();
+            input.add(new ItemStack(UndeadLeaves.getInstance()));
             FluidStack fluidStack = new FluidStack(Blood.getInstance(),
                     Fluid.BUCKET_VOLUME / 20);
             ItemStack output = new ItemStack(HardenedBloodShardConfig._instance.getItemInstance());

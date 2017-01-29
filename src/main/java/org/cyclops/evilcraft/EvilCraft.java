@@ -44,6 +44,7 @@ import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
 import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
+import org.cyclops.evilcraft.modcompat.forestry.ForestryModCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
@@ -103,7 +104,7 @@ public class EvilCraft extends ModBaseVersionable {
         // TODO: temporarily disable some mod compats
         //modCompatLoader.addModCompat(new BloodMagicModCompat());
         //modCompatLoader.addModCompat(new TConstructModCompat());
-        //modCompatLoader.addModCompat(new ForestryModCompat());
+        modCompatLoader.addModCompat(new ForestryModCompat());
         //modCompatLoader.addModCompat(new IC2ModCompat());
 
         // Capabilities

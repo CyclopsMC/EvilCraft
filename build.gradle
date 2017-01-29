@@ -70,7 +70,6 @@ sourceSets {
         java {
             exclude '**/modcompat/thaumcraft/**'
             exclude '**/modcompat/bloodmagic/**'
-            exclude '**/modcompat/forestry/**'
             exclude '**/modcompat/ic2/**'
             exclude '**/modcompat/tconstruct/**'
         }
