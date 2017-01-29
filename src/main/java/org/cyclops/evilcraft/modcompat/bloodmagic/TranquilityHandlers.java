@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.modcompat.bloodmagic;
 
 import WayofTime.bloodmagic.api.incense.EnumTranquilityType;
 import WayofTime.bloodmagic.api.incense.ITranquilityHandler;
+import WayofTime.bloodmagic.api.incense.IncenseTranquilityRegistry;
 import WayofTime.bloodmagic.api.incense.TranquilityStack;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +16,16 @@ import org.cyclops.evilcraft.block.*;
  * @author rubensworks
  */
 public class TranquilityHandlers {
+
+    public static void register() {
+        IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.TreeLog());
+        IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.TreeLeaves());
+        IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.Planks());
+        IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.Poison());
+        IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.HardenedBlood());
+        IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.DarkBricks());
+        IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.DarkBloodBricks());
+    }
 
     public static class TreeLog implements ITranquilityHandler {
         @Override
