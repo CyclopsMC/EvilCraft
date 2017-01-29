@@ -28,6 +28,7 @@ public class BloodMagicModCompat implements IModCompat {
     	} else if(step == IInitListener.Step.INIT) {
     		FMLCommonHandler.instance().bus().register(ClientSoulNetworkHandler.getInstance());
     		MinecraftForge.EVENT_BUS.register(ClientSoulNetworkHandler.getInstance());
+			MinecraftForge.EVENT_BUS.register(new VengeanceSpiritWillDropper());
 			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.TreeLog());
 			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.TreeLeaves());
 			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.Planks());
