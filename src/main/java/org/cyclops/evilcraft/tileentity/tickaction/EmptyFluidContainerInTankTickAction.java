@@ -30,11 +30,11 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
             } else {
                 result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), Fluid.BUCKET_VOLUME, null, true).getResult();
             }
-            if (result != null) {
+            if (!result.isEmpty()) {
                 if (result.getCount() == 0) {
                     result = containerStack;
                     if (result.getCount() == 0) {
-                        result = null;
+                        result = ItemStack.EMPTY;
                     }
                 }
                 tile.getInventory().setInventorySlotContents(slot, result);
