@@ -39,7 +39,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting grid, World world) {
-		return getCraftingResult(grid) != null;
+		return !getCraftingResult(grid).isEmpty();
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 		if(result != null) {
 			List<ItemStack> extraOutputs = result.getRight();
 			for (ItemStack extraOutput : extraOutputs) {
-				InventoryHelpers.tryReAddToStack(ForgeHooks.getCraftingPlayer(), null, extraOutput);
+				InventoryHelpers.tryReAddToStack(ForgeHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput);
 			}
 		}
 
@@ -94,7 +94,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 		// Loop over the grid and find an existing broom
 		for (int j = 0; j < grid.getSizeInventory(); j++) {
 			ItemStack element = grid.getStackInSlot(j);
-			if (element != null && element.getItem() instanceof IBroom) {
+			if (!element.isEmpty() && element.getItem() instanceof IBroom) {
 				Map<IBroomPart.BroomPartType, IBroomPart> currentExistingBroomParts = indexifyParts(BroomParts.REGISTRY.getBroomParts(element));
 				if(currentExistingBroomParts != null && areValidBroomParts(currentExistingBroomParts.values()) && element.getCount() == 1) {
 					if (existingBroomParts == null) {
@@ -111,7 +111,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 		// Loop over the grid and find parts and modifiers
 		for (int j = 0; j < grid.getSizeInventory(); j++) {
 			ItemStack element = grid.getStackInSlot(j);
-			if (element != null) {
+			if (!element.isEmpty()) {
 				IBroomPart part = BroomParts.REGISTRY.getPartFromItem(element);
 				Map<BroomModifier, Float> modifier = BroomModifiers.REGISTRY.getModifiersFromItem(element);
 				if (part != null) {
@@ -178,7 +178,7 @@ public class BroomPartCombinationRecipe implements IRecipe {
 	public ItemStack getCraftingResult(InventoryCrafting grid) {
 		Pair<ItemStack, List<ItemStack>> result = getResult(grid);
 		if(result == null) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		return result.getLeft();
 	}

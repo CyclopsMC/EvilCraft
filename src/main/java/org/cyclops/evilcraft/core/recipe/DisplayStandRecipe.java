@@ -33,7 +33,7 @@ public class DisplayStandRecipe extends ShapedOreRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventoryCrafting) {
-		ItemStack plankWoodStack = null;
+		ItemStack plankWoodStack = ItemStack.EMPTY;
 		for (int i = 0; i < inventoryCrafting.getSizeInventory(); i++) {
 			for (ItemStack plankType : plankTypes) {
 				ItemStack itemStack = inventoryCrafting.getStackInSlot(i);
@@ -42,7 +42,7 @@ public class DisplayStandRecipe extends ShapedOreRecipe {
 				}
 			}
 		}
-		if (plankWoodStack == null) {
+		if (plankWoodStack.isEmpty()) {
 			return null;
 		}
 		IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodStack);

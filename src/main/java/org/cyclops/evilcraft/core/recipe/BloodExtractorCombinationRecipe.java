@@ -37,7 +37,7 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting grid, World world) {
-		return getCraftingResult(grid) != null;
+		return !getCraftingResult(grid).isEmpty();
 	}
 	
 	@Override
@@ -84,7 +84,7 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 					FluidStack fluidStack = FluidUtil.getFluidContained(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
@@ -94,21 +94,21 @@ public class BloodExtractorCombinationRecipe implements IRecipe {
 					FluidStack fluidStack = FluidUtil.getFluidContained(element);
 					if(fluidStack != null) {
 						if(!blood.equals(fluidStack.getFluid())) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
 					IFluidHandlerItemCapacity fluidHandlerElement = FluidHelpers.getFluidHandlerItemCapacity(element);
 					totalCapacity = Helpers.addSafe(totalCapacity, fluidHandlerElement.getCapacity());
 				} else {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 		}
 		
 		if((extractors + tanks) < 2 || extractors < 1
 				|| totalCapacity > DarkTankConfig.maxTankSize) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		
 		// Set capacity and fill fluid into output.

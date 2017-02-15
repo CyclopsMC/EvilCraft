@@ -37,7 +37,7 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 
 	@Override
 	public boolean matches(InventoryCrafting grid, World world) {
-		return getCraftingResult(grid) != null;
+		return !getCraftingResult(grid).isEmpty();
 	}
 	
 	@Override
@@ -84,20 +84,20 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 						if(commonFluid == null) {
 							commonFluid = fluidStack.getFluid();
 						} else if(!commonFluid.equals(fluidStack.getFluid())) {
-							return null;
+							return ItemStack.EMPTY;
 						}
 						totalContent = Helpers.addSafe(totalContent, fluidStack.amount);
 					}
 					totalCapacity = Helpers.addSafe(totalCapacity, fluidHandler.getCapacity());
 				} else {
-					return null;
+					return ItemStack.EMPTY;
 				}
 			}
 		}
 		
 		if(inputItems < 2
 				|| totalCapacity > this.maxTankSize) {
-			return null;
+			return ItemStack.EMPTY;
 		}
 		
 		// Set capacity and fill fluid into output.
