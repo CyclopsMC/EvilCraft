@@ -536,7 +536,7 @@ public class EntityBroom extends Entity implements IConfigurable{
     }
 
     public void setBroomStack(ItemStack itemStack) {
-        dataManager.set(ITEMSTACK_INDEX, itemStack);
+        dataManager.set(ITEMSTACK_INDEX, itemStack.copy());
     }
 
     public ItemStack getBroomStack() {
