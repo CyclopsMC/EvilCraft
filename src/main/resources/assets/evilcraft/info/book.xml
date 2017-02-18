@@ -497,7 +497,7 @@
             <paragraph>infoBook.evilcraft.modIntegrations.ee3.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.forestry">
-            <tag type="mod">Forestry</tag>
+            <tag type="mod">forestry</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.forestry.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.ic2">
