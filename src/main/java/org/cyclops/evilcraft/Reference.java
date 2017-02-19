@@ -90,6 +90,7 @@ public class Reference {
     public static final String MOD_IC2 = "IC2";
     public static final String MOD_JEI = "JEI";
     public static final String MOD_IMMERSIVEENGINEERING = "immersiveengineering";
+    public static final String MOD_ENDERIO = "EnderIO";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES =

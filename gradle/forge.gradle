@@ -29,6 +29,10 @@ repositories {
         name "Blamejared Maven Repo"
         url "http://maven.blamejared.com/"
     }
+    maven {
+        name = "Terrag"
+        url = "http://maven.tterrag.com/"
+    }
 }
 dependencies {
     // Add something like 'cyclopscore_version_local=0.1.0-DEV' to your gradle.properties if you want to use a custom local CyclopsCore version.
@@ -48,6 +52,8 @@ dependencies {
     deobfCompile "info.amerifrance.guideapi:Guide-API:1.9.4-${config.guideapi_version}" // http://tehnut.info/maven/info/amerifrance/guideapi/Guide-API/
     deobfCompile "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}" // https://dvs1.progwml6.com/jenkins/
     deobfCompile "blusunrize:ImmersiveEngineering:${config.ie_version}"// http://maven.blamejared.com/blusunrize/ImmersiveEngineering/
+    deobfCompile "com.enderio:EnderIO:1.9.4-${config.enderio_version}" // http://maven.tterrag.com/com/enderio/EnderIO
+    deobfCompile "com.enderio.core:EnderCore:1.9.4-${config.endercore_version}" // http://maven.tterrag.com/com/enderio/EnderIO
 
     // Project lombok
     compile "org.projectlombok:lombok:1.14.4"
