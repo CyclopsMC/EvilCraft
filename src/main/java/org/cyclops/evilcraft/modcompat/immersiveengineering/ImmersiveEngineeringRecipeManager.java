@@ -10,8 +10,12 @@ import org.cyclops.evilcraft.block.UndeadLeavesConfig;
 import org.cyclops.evilcraft.block.UndeadLogConfig;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.fluid.BloodConfig;
+import org.cyclops.evilcraft.item.DarkGem;
+import org.cyclops.evilcraft.item.DarkGemConfig;
+import org.cyclops.evilcraft.item.DarkGemCrushedConfig;
 import org.cyclops.evilcraft.item.HardenedBloodShardConfig;
 
+import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
 import blusunrize.immersiveengineering.api.crafting.SqueezerRecipe;
 
 /**
@@ -43,7 +47,17 @@ public class ImmersiveEngineeringRecipeManager {
                     Fluid.BUCKET_VOLUME / 20);
             SqueezerRecipe recipe = new SqueezerRecipe(fluidStack, null, input, energy);
             SqueezerRecipe.recipeList.add(recipe);
-        }  
+        }
+
+        // Crusher dark gem -> crushed dark gem
+        if(Configs.isEnabled(DarkGemConfig.class) && Configs.isEnabled(DarkGemCrushedConfig.class)) {
+            ItemStack input = new ItemStack(DarkGem.getInstance());
+            ItemStack output = new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1);
+            int energy = 3600;
+
+            CrusherRecipe recipe = new CrusherRecipe(output, input, energy);
+            CrusherRecipe.recipeList.add(recipe);
+        }
     }
 
 }
