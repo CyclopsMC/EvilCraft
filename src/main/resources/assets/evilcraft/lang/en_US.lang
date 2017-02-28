@@ -723,6 +723,9 @@ infoBook.evilcraft.modIntegrations.bloodMagic.text=One day I discovered a very s
 infoBook.evilcraft.modIntegrations.ee3=Equivalent Exchange 3
 infoBook.evilcraft.modIntegrations.ee3.text=Magicians have discovered that almost all things in this world have some kind of &1value&0 relative to other things. These people have mastered the act of &1transmuting&0 these things to each other. Their strange methods even seem to work with my items.
 
+infoBook.evilcraft.modIntegrations.enderio=Ender IO
+infoBook.evilcraft.modIntegrations.enderio.text=These Ender-based technologies are very interesting, perhaps I could improve my machines based on that at some point. Eitherway, I seem to be able to process &1Dark Ore&0 and &1Dark Gems&0 using their machines, which is quite useful.
+
 infoBook.evilcraft.modIntegrations.forestry=Forestry
 infoBook.evilcraft.modIntegrations.forestry.text=When &ovisiting&r some of my friends working with trees and bees, I noticed that some of their bags allow me to insert some of my items. I also noticed that their machine called the &1Squeezer&0 is able to extract &4Blood&0 from parts of the &1Undead Tree&0, which can be easily grown using their tree growing system.
 

@@ -496,6 +496,10 @@
             <tag type="mod">EE3</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.ee3.text</paragraph>
         </section>
+        <section name="infoBook.evilcraft.modIntegrations.enderio">
+            <tag type="mod">EnderIO</tag>
+            <paragraph>infoBook.evilcraft.modIntegrations.enderio.text</paragraph>
+        </section>
         <section name="infoBook.evilcraft.modIntegrations.forestry">
             <tag type="mod">forestry</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.forestry.text</paragraph>
