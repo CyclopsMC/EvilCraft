@@ -1,22 +1,18 @@
 package org.cyclops.evilcraft.modcompat.immersiveengineering;
 
+import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
+import blusunrize.immersiveengineering.api.crafting.SqueezerRecipe;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-
 import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.block.UndeadLeaves;
-import org.cyclops.evilcraft.block.UndeadLeavesConfig;
-import org.cyclops.evilcraft.block.UndeadLogConfig;
+import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.item.DarkGem;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.item.DarkGemCrushedConfig;
 import org.cyclops.evilcraft.item.HardenedBloodShardConfig;
-
-import blusunrize.immersiveengineering.api.crafting.CrusherRecipe;
-import blusunrize.immersiveengineering.api.crafting.SqueezerRecipe;
 
 /**
  * Immersive Engineering recipe manager registrations.
@@ -47,6 +43,16 @@ public class ImmersiveEngineeringRecipeManager {
                     Fluid.BUCKET_VOLUME / 20);
             SqueezerRecipe recipe = new SqueezerRecipe(fluidStack, null, input, energy);
             SqueezerRecipe.recipeList.add(recipe);
+        }
+
+        // Crusher dark ore -> dark gem
+        if(Configs.isEnabled(DarkOreConfig.class) && Configs.isEnabled(DarkGemConfig.class)) {
+            ItemStack input = new ItemStack(DarkOre.getInstance());
+            ItemStack output = new ItemStack(DarkGem.getInstance(), 2);
+            int energy = 3600;
+
+            CrusherRecipe recipe = new CrusherRecipe(output, input, energy);
+            CrusherRecipe.recipeList.add(recipe);
         }
 
         // Crusher dark gem -> crushed dark gem
