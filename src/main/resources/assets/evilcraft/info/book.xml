@@ -504,9 +504,13 @@
             <tag type="mod">IC2</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.ic2.text</paragraph>
         </section>
-        <section name="infoBook.evilcraft.modIntegrations.jei">
-            <tag type="mod">JEI</tag>
-            <paragraph>infoBook.evilcraft.modIntegrations.jei.text</paragraph>
+        <section name="infoBook.evilcraft.modIntegrations.ic2">
+            <tag type="mod">IC2</tag>
+            <paragraph>infoBook.evilcraft.modIntegrations.ic2.text</paragraph>
+        </section>
+        <section name="infoBook.evilcraft.modIntegrations.immersiveengineering">
+            <tag type="mod">immersiveengineering</tag>
+            <paragraph>infoBook.evilcraft.modIntegrations.immersiveengineering.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.nei">
             <tag type="mod">NotEnoughItems</tag>

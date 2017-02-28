@@ -729,6 +729,9 @@ infoBook.evilcraft.modIntegrations.forestry.text=When &ovisiting&r some of my fr
 infoBook.evilcraft.modIntegrations.ic2=IndustrialCraft 2
 infoBook.evilcraft.modIntegrations.ic2.text=There is a group of odd people who constantly work with buzzing machines. I have no idea what these machines do, except for the &1Macerator&0. I am able to insert &1Dark Ore&0 into it to immediately retrieve &1Dark Gems&0 and their crushed variant. Regular &1Dark Gems&0 can also be inserted to crush.
 
+infoBook.evilcraft.modIntegrations.immersiveengineering=Immersive Engineering
+infoBook.evilcraft.modIntegrations.immersiveengineering.text=I have to admit, the machines of those engineers look pretty neat. Other than that, they also appear to be very good in processing &1Dark Ore&0 and &1Dark Gems&0, but also in squeezing &1Undead Logs&0 and &1Undead Leaves&0 for &4Blood&0.
+
 infoBook.evilcraft.modIntegrations.jei=Just Enough Items
 infoBook.evilcraft.modIntegrations.jei.text=Some people seem to have "&oToo Many Items&r", while others have "&oNot Enough Items&r". It seems like we finally reached a stage where people have "&oJust Enough Items&r", the knowledge from this book is understandable for them.
 
