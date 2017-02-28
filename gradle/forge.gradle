@@ -25,6 +25,14 @@ repositories {
         name "Tehnut Repo"
         url "http://tehnut.info/maven/"
     }
+    maven {
+        name "Blamejared Maven Repo"
+        url "http://maven.blamejared.com/"
+    }
+    maven {
+        name = "Terrag"
+        url = "http://maven.tterrag.com/"
+    }
 }
 dependencies {
     // Add something like 'cyclopscore_version_local=0.1.0-DEV' to your gradle.properties if you want to use a custom local CyclopsCore version.
@@ -42,6 +50,9 @@ dependencies {
     //compile "net.industrial-craft:industrialcraft-2:${config.IC2_version}:dev" // http://maven.ic2.player.to/
     //deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-${config.BM_version}" // http://tehnut.info/maven/com/wayoftime/bloodmagic/BloodMagic
     deobfCompile "mezz.jei:jei_${config.jei_version}" // https://dvs1.progwml6.com/jenkins/
+    //deobfCompile "blusunrize:ImmersiveEngineering:${config.ie_version}"// http://maven.blamejared.com/blusunrize/ImmersiveEngineering/
+    //deobfCompile "com.enderio:EnderIO:1.9.4-${config.enderio_version}" // http://maven.tterrag.com/com/enderio/EnderIO
+    //deobfCompile "com.enderio.core:EnderCore:1.9.4-${config.endercore_version}" // http://maven.tterrag.com/com/enderio/EnderIO
 
     // Project lombok
     compile "org.projectlombok:lombok:1.14.4"

@@ -72,6 +72,8 @@ sourceSets {
             exclude '**/modcompat/bloodmagic/**'
             exclude '**/modcompat/ic2/**'
             exclude '**/modcompat/tconstruct/**'
+            exclude '**/modcompat/immersiveengineering/**'
+            exclude '**/modcompat/enderio/**'
         }
     }
 }

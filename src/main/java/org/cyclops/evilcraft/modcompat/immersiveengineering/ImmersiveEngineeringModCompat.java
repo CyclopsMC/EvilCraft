@@ -1,25 +1,25 @@
-package org.cyclops.evilcraft.modcompat.tconstruct;
+package org.cyclops.evilcraft.modcompat.immersiveengineering;
 
 import org.cyclops.cyclopscore.init.IInitListener;
 import org.cyclops.cyclopscore.modcompat.IModCompat;
 import org.cyclops.evilcraft.Reference;
 
 /**
- * Compatibility plugin for Tinkers' Construct.
- * @author rubensworks
+ * Compatibility plugin for Immersive Engineering.
+ * @author runesmacher
  *
  */
-public class TConstructModCompat implements IModCompat {
+public class ImmersiveEngineeringModCompat implements IModCompat {
 
     @Override
     public String getModID() {
-        return Reference.MOD_TCONSTRUCT;
+       return Reference.MOD_IMMERSIVEENGINEERING;
     }
 
     @Override
     public void onInit(IInitListener.Step step) {
-        if (step == IInitListener.Step.POSTINIT) {
-            TConstructRecipeManager.register();
+        if(step == IInitListener.Step.INIT) {
+            ImmersiveEngineeringRecipeManager.register();
         }
     }
 
@@ -30,7 +30,7 @@ public class TConstructModCompat implements IModCompat {
 
     @Override
     public String getComment() {
-        return "Blood chest repair support for tinker tools.";
+        return "squeezer support.";
     }
 
 }

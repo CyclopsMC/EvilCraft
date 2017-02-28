@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.modcompat.bloodmagic;
 
-import WayofTime.bloodmagic.api.incense.IncenseTranquilityRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cyclops.cyclopscore.init.IInitListener;
@@ -29,13 +28,7 @@ public class BloodMagicModCompat implements IModCompat {
     		FMLCommonHandler.instance().bus().register(ClientSoulNetworkHandler.getInstance());
     		MinecraftForge.EVENT_BUS.register(ClientSoulNetworkHandler.getInstance());
 			MinecraftForge.EVENT_BUS.register(new VengeanceSpiritWillDropper());
-			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.TreeLog());
-			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.TreeLeaves());
-			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.Planks());
-			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.Poison());
-			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.HardenedBlood());
-			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.DarkBricks());
-			IncenseTranquilityRegistry.registerTranquilityHandler(new TranquilityHandlers.DarkBloodBricks());
+			TranquilityHandlers.register();
 		} else if(step == IInitListener.Step.POSTINIT) {
 			EvilCraft._instance.getPacketHandler().register(UpdateSoulNetworkCachePacket.class);
 			EvilCraft._instance.getPacketHandler().register(RequestSoulNetworkUpdatesPacket.class);

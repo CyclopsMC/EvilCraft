@@ -89,6 +89,8 @@ public class Reference {
     public static final String MOD_EE3 = "EE3";
     public static final String MOD_IC2 = "IC2";
     public static final String MOD_JEI = "jei";
+    public static final String MOD_IMMERSIVEENGINEERING = "immersiveengineering";
+    public static final String MOD_ENDERIO = "enderio";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES =
