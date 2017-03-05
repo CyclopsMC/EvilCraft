@@ -17,7 +17,6 @@ public class EnderIOModCompat implements IModCompat {
 
     @Override
     public void onInit(Step step) {
-        System.out.println("Step " + step.toString() + " in enabling " + Reference.MOD_ENDERIO + " Mod compat");
         if(step == Step.INIT) {
             EnderIORecipeManager.register();
         }
