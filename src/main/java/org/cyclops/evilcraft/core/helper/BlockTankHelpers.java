@@ -101,15 +101,6 @@ public class BlockTankHelpers {
      */
     public static ItemStack tileDataToItemStack(TileEntity tile, ItemStack itemStack) {
         if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            FluidActionResult res = FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
-            if (res.isSuccess()) {
-                itemStack = res.getResult();
-            }
-        }
-
-        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
                 && itemStack.hasCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null)) {
             IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
             if (fluidHandlerTile instanceof IFluidTank) {
@@ -117,6 +108,15 @@ public class BlockTankHelpers {
                 IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null);
                 fluidHandlerItemCapacity.setCapacity(fluidTank.getCapacity());
                 itemStack = fluidHandlerItemCapacity.getContainer();
+            }
+        }
+
+        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+                && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
+            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+            FluidActionResult res = FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
+            if (res.isSuccess()) {
+                itemStack = res.getResult();
             }
         }
         return itemStack;
