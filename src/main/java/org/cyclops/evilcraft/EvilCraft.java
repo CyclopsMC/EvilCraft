@@ -51,6 +51,7 @@ import org.cyclops.evilcraft.modcompat.ic2.IC2ModCompat;
 import org.cyclops.evilcraft.modcompat.immersiveengineering.ImmersiveEngineeringModCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
 import org.cyclops.evilcraft.modcompat.tconstruct.TConstructModCompat;
+import org.cyclops.evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
@@ -112,6 +113,7 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new IC2ModCompat());
         modCompatLoader.addModCompat(new ImmersiveEngineeringModCompat());
         modCompatLoader.addModCompat(new EnderIOModCompat());
+        modCompatLoader.addModCompat(new ThermalExpansionModCompat());
 
         // Capabilities
         getCapabilityConstructorRegistry().registerTile(TickingTankInventoryTileEntity.class, new WorkerWorkingTileCompat());

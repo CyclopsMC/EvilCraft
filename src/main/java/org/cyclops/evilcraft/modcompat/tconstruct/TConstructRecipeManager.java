@@ -24,7 +24,7 @@ public class TConstructRecipeManager {
     public static void register() {
         EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class)
                 .register(new TConstructToolRepairTickAction());
-        Fluid ender = FluidRegistry.getFluid("Ender");
+        Fluid ender = FluidRegistry.getFluid("ender");
         if (Configs.isEnabled(EnderTearConfig.class) && ender != null) {
             TinkerRegistry.registerMelting(new ItemStack(EnderTearConfig._instance.getItemInstance()), ender,
                     EnderTearConfig.mbLiquidEnder);
