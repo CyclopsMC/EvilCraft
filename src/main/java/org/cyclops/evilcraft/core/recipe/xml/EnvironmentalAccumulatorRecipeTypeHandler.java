@@ -2,8 +2,10 @@ package org.cyclops.evilcraft.core.recipe.xml;
 
 import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.init.RecipeHandler;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.xml.SuperRecipeTypeHandler;
 import org.cyclops.cyclopscore.recipe.xml.XmlRecipeLoader;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
@@ -16,10 +18,15 @@ import org.w3c.dom.Node;
  * @author rubensworks
  *
  */
-public class EnvironmentalAccumulatorRecipeTypeHandler extends SuperRecipeTypeHandler {
+public class EnvironmentalAccumulatorRecipeTypeHandler extends SuperRecipeTypeHandler<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> {
 
 	@Override
-	protected ItemStack handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
+	public String getCategoryId() {
+		return Reference.MOD_ID + ":envirAccRecipe";
+	}
+
+	@Override
+	protected IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
 			throws XmlRecipeLoader.XmlRecipeException {
 		Node inputItem = input.getElementsByTagName("item").item(0);
 		String inputWeather = input.getElementsByTagName("weather").item(0).getTextContent();
@@ -40,7 +47,7 @@ public class EnvironmentalAccumulatorRecipeTypeHandler extends SuperRecipeTypeHa
 		}
 
         ItemStack outputStack = (ItemStack) getItem(recipeHandler, outputItem);
-		EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
+		return EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
                 new EnvironmentalAccumulatorRecipeComponent(
                         (ItemStack) getItem(recipeHandler, inputItem),
                         getWeatherType(inputWeather)
@@ -51,7 +58,6 @@ public class EnvironmentalAccumulatorRecipeTypeHandler extends SuperRecipeTypeHa
                 ),
                 new EnvironmentalAccumulatorRecipeProperties(duration, cooldowntime, processingspeed)
         );
-        return outputStack;
 	}
 	
 	private WeatherType getWeatherType(String type) throws XmlRecipeLoader.XmlRecipeException {
