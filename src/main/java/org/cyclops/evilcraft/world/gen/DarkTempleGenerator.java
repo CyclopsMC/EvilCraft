@@ -27,9 +27,10 @@ public class DarkTempleGenerator implements IWorldGenerator {
 	@Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
 		if (canGenerate(world) && Configs.isEnabled(EnvironmentalAccumulatorConfig.class) && appliesAt(world, chunkX, chunkZ)) {
-			int x = chunkX * 16 + random.nextInt(16);
+			// Offset to chunk center to avoid cascaded chunk loading: #539
+			int x = chunkX * 16 + random.nextInt(16) + 8;
 			int y = 0;
-			int z = chunkZ * 16 + random.nextInt(16);
+			int z = chunkZ * 16 + random.nextInt(16) + 8;
 			// Generate the dark temple if possible (height checks are performed inside generate)
 			if(isTooClose(world, chunkX, chunkZ) || !DarkTempleStructure.getInstance().generate(world, random, new BlockPos(x, y, z))) {
 				EvilCraft.darkTempleData.addFailedLocation(world.provider.getDimension(), chunkX, chunkZ);
