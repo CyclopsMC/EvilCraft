@@ -206,6 +206,12 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 
 	@Optional.Method(modid = Reference.MOD_BAUBLES)
 	@Override
+	public boolean willAutoSync(ItemStack itemstack, EntityLivingBase player) {
+		return false;
+	}
+
+	@Optional.Method(modid = Reference.MOD_BAUBLES)
+	@Override
 	public BaubleType getBaubleType(ItemStack itemStack) {
 		return BaubleType.RING;
 	}

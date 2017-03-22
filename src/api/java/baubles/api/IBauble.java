@@ -42,4 +42,12 @@ public interface IBauble {
 	 * Can this bauble be removed from a bauble slot
 	 */
 	public boolean canUnequip(ItemStack itemstack, EntityLivingBase player);
+	
+	/**
+	 * Will bauble automatically sync to client if a change is detected in its NBT or damage values?
+	 * Default is off, so override and set to true if you want to auto sync.
+	 * This sync is not instant, but occurs every 10 ticks (.5 seconds).
+	 */
+	public boolean willAutoSync(ItemStack itemstack, EntityLivingBase player);
+	
 }

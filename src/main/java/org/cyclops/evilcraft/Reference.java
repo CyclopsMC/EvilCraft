@@ -82,7 +82,7 @@ public class Reference {
     public static final String MOD_FMP = "ForgeMultipart";
     public static final String MOD_FORESTRY = "forestry";
     public static final String MOD_TCONSTRUCT = "tconstruct";
-    public static final String MOD_BAUBLES = "Baubles";
+    public static final String MOD_BAUBLES = "baubles";
     public static final String MOD_NEI = "NotEnoughItems";
     public static final String MOD_BLOODMAGIC = "BloodMagic";
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
