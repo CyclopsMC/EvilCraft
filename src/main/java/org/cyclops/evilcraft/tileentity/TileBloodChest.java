@@ -110,17 +110,17 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         for(int i = 0; i < SLOTS_CHEST; i++) {
             addTicker(
                     new TickComponent<
-                                            TileBloodChest,
-                                            ITickAction<TileBloodChest>
-                                        >(this, REPAIR_TICK_ACTIONS, i)
-                    );
+                            TileBloodChest,
+                            ITickAction<TileBloodChest>
+                            >(this, REPAIR_TICK_ACTIONS, i)
+            );
         }
         addTicker(
                 new TickComponent<
-                    TileBloodChest,
-                    ITickAction<TileBloodChest>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
-                );
+                        TileBloodChest,
+                        ITickAction<TileBloodChest>
+                        >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
+        );
         
         // The slots side mapping
         List<Integer> inSlotsTank = new LinkedList<Integer>();

@@ -152,16 +152,16 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         for(int i = 0; i < SLOTS_CHEST; i++) {
             addTicker(
                     new TickComponent<
-                                                TileColossalBloodChest,
-                                                ITickAction<TileColossalBloodChest>
-                                                >(this, REPAIR_TICK_ACTIONS, i)
+                            TileColossalBloodChest,
+                            ITickAction<TileColossalBloodChest>
+                            >(this, REPAIR_TICK_ACTIONS, i)
             );
         }
         addTicker(
                 new TickComponent<
                         TileColossalBloodChest,
                         ITickAction<TileColossalBloodChest>
-                        >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
+                        >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
         );
 
         // The slots side mapping

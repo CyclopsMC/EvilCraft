@@ -136,13 +136,13 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
                 new TickComponent<
                     TileSpiritFurnace,
                     ITickAction<TileSpiritFurnace>
-                >(this, BOX_COOK_TICK_ACTIONS, SLOT_BOX)
+                >(this, BOX_COOK_TICK_ACTIONS, SLOT_BOX, true, false)
                 );
         addTicker(
                 new TickComponent<
                     TileSpiritFurnace,
                     ITickAction<TileSpiritFurnace>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false)
+                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
                 );
         
         // The slots side mapping
