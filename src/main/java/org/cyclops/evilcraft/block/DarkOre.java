@@ -134,11 +134,9 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos blockPos, IBlockState blockState, Entity entity) {
-        if(world.isRemote) {
-            this.glow(world, blockPos);
-        }
-        super.onEntityCollidedWithBlock(world, blockPos, blockState, entity);
+    public void onEntityWalk(World world, BlockPos pos, Entity entity) {
+        this.glow(world, pos);
+        super.onEntityWalk(world, pos, entity);
     }
     
     @Override
@@ -148,14 +146,12 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     private boolean isGlowing(World world, BlockPos blockPos) {
-        return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), GLOWING, false);
+        return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), GLOWING, true);
     }
 
     private void glow(World world, BlockPos blockPos) {
-    	if (!world.isRemote)
-    		return;
-
-        this.sparkle(world, blockPos);
+    	if (world.isRemote)
+            this.sparkle(world, blockPos);
 
         if (!isGlowing(world, blockPos)) {
             world.setBlockState(blockPos, this.blockState.getBaseState().withProperty(GLOWING, true), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
@@ -180,9 +176,6 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @SideOnly(Side.CLIENT)
     private void sparkle(World world, BlockPos blockPos) {
-        if (!world.isRemote)
-    		return;
-    	
         Random random = world.rand;
         double offset = 0.0625D;
 
