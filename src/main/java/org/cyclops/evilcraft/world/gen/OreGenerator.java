@@ -32,7 +32,7 @@ public class OreGenerator extends SimpleMinableWorldGenerator {
     private static List<WorldGenMinableExtended> getOreGenerators() {
     	List<WorldGenMinableExtended> oreGenerators = Lists.newLinkedList();
         if(Configs.isEnabled(DarkOreConfig.class) && DarkOreConfig.blocksPerVein > 0 && DarkOreConfig.veinsPerChunk > 0) {
-        	oreGenerators.add(new WorldGenMinableExtended(DarkOre.getInstance().getDefaultState(), DarkOreConfig.blocksPerVein,
+        	oreGenerators.add(new WorldGenMinableExtended(DarkOre.getInstance().getDefaultState().withProperty(DarkOre.GLOWING, false), DarkOreConfig.blocksPerVein,
         			DarkOreConfig.veinsPerChunk, DarkOreConfig.startY, DarkOreConfig.endY, Blocks.STONE));
 		}
 		if(GeneralConfig.extraSilverfish && GeneralConfig.silverfish_BlocksPerVein > 0 && GeneralConfig.silverfish_VeinsPerChunk > 0) {

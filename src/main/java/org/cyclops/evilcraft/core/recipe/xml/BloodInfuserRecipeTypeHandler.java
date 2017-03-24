@@ -3,9 +3,11 @@ package org.cyclops.evilcraft.core.recipe.xml;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.init.RecipeHandler;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.cyclopscore.recipe.xml.SuperRecipeTypeHandler;
 import org.cyclops.cyclopscore.recipe.xml.XmlRecipeLoader;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
@@ -17,10 +19,15 @@ import org.w3c.dom.Node;
  * @author rubensworks
  *
  */
-public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
+public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> {
+
+    @Override
+    public String getCategoryId() {
+        return Reference.MOD_ID + ":bloodInfuserRecipe";
+    }
 
 	@Override
-	protected ItemStack handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
+	protected IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
 			throws XmlRecipeLoader.XmlRecipeException {
 		Node inputItem = input.getElementsByTagName("item").item(0);
 		Node outputItem = output.getElementsByTagName("item").item(0);
@@ -52,12 +59,11 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler {
         }
 
         ItemStack outputStack = (ItemStack) getItem(recipeHandler, outputItem);
-		BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
+		return BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
                 recipeComponent,
                 new ItemStackRecipeComponent(outputStack),
                 new DurationXpRecipeProperties(duration, xp)
         );
-        return outputStack;
 	}
 
 }

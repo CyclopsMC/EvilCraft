@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -51,6 +52,9 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                     new WeightedItemStack(null, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)
             ));
         }
+        overrideMobDrop(EntityWither.class, Sets.newHashSet(
+                new WeightedItemStack(new ItemStack(Items.NETHER_STAR), 1)
+        ));
         overridePlayerDrop("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
         overridePlayerDrop("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
         overridePlayerDrop("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.DYE, 1, 3).setStackDisplayName("Lekkere Stront")); // Davivs69

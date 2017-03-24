@@ -496,13 +496,13 @@
             <tag type="mod">EE3</tag>
             <paragraph>info_book.evilcraft.mod_integrations.ee3.text</paragraph>
         </section>
-        <section name="infoBook.evilcraft.modIntegrations.enderio">
+        <section name="infoBook.evilcraft.mod_integrations.enderio">
             <tag type="mod">enderio</tag>
-            <paragraph>infoBook.evilcraft.modIntegrations.enderio.text</paragraph>
+            <paragraph>infoBook.evilcraft.mod_integrations.enderio.text</paragraph>
         </section>
-        <section name="infoBook.evilcraft.modIntegrations.forestry">
+        <section name="infoBook.evilcraft.mod_integrations.forestry">
             <tag type="mod">forestry</tag>
-            <paragraph>infoBook.evilcraft.modIntegrations.forestry.text</paragraph>
+            <paragraph>infoBook.evilcraft.mod_integrations.forestry.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.ic2">
             <tag type="mod">IC2</tag>
@@ -512,9 +512,9 @@
             <tag type="mod">jei</tag>
             <paragraph>info_book.evilcraft.mod_integrations.jei.text</paragraph>
         </section>
-        <section name="infoBook.evilcraft.modIntegrations.immersiveengineering">
+        <section name="infoBook.evilcraft.mod_integrations.immersiveengineering">
             <tag type="mod">immersiveengineering</tag>
-            <paragraph>infoBook.evilcraft.modIntegrations.immersiveengineering.text</paragraph>
+            <paragraph>infoBook.evilcraft.mod_integrations.immersiveengineering.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.nei">
             <tag type="mod">NotEnoughItems</tag>

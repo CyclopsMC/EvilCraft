@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Blocks;
@@ -25,6 +26,10 @@ import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
+import org.cyclops.cyclopscore.recipe.custom.Recipe;
+import org.cyclops.cyclopscore.recipe.custom.component.DummyPropertiesComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStacksRecipeComponent;
 import org.cyclops.cyclopscore.recipe.event.IRecipeOutputObserver;
 import org.cyclops.cyclopscore.recipe.event.ObservableShapedRecipe;
 import org.cyclops.cyclopscore.recipe.xml.IRecipeConditionHandler;
@@ -294,8 +299,12 @@ public class ExtendedRecipeHandler extends RecipeHandler {
 
             // Display Stand crafting
             if(Configs.isEnabled(DisplayStandConfig.class)) {
-                getTaggedOutput().put("display_stands", DisplayStand.getInstance().
-                        getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState()));
+                getTaggedRecipes().put("craftingRecipe:display_stands", new Recipe(
+                        new ItemStacksRecipeComponent(Lists.newArrayList()),
+                        new ItemStackRecipeComponent(DisplayStand.getInstance().
+                                getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState())),
+                        new DummyPropertiesComponent()
+                ));
                 GameRegistry.addRecipe(new DisplayStandRecipe(OreDictionary.getOres(Reference.DICT_WOODPLANK)));
             }
         }

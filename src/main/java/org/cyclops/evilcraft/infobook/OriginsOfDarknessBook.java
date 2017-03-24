@@ -76,27 +76,21 @@ public class OriginsOfDarknessBook extends InfoBook {
 
         });
 
-        InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixItemFactory() {
+        InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixItemFactory<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>() {
 
             @Override
-            public SectionAppendix create(IInfoBook infoBook, ItemStack itemStack) throws InfoBookParser.InvalidAppendixException {
-                List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
-                        recipes = BloodInfuser.getInstance().getRecipeRegistry().
-                        findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
-                return new BloodInfuserRecipeAppendix(infoBook, recipes.get(0));
+            public SectionAppendix create(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) throws InfoBookParser.InvalidAppendixException {
+                return new BloodInfuserRecipeAppendix(infoBook, recipe);
             }
 
         });
 
         if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
-            InfoBookParser.registerFactory(Reference.MOD_ID + ":envir_acc_recipe", new InfoBookParser.IAppendixItemFactory() {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":envir_acc_recipe", new InfoBookParser.IAppendixItemFactory<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>() {
 
                 @Override
-                public SectionAppendix create(IInfoBook infoBook, ItemStack itemStack) throws InfoBookParser.InvalidAppendixException {
-                    List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
-                            recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
-                            findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
-                    return new EnvironmentalAccumulatorRecipeAppendix(infoBook, recipes.get(0));
+                public SectionAppendix create(IInfoBook infoBook, IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) throws InfoBookParser.InvalidAppendixException {
+                    return new EnvironmentalAccumulatorRecipeAppendix(infoBook, recipe);
                 }
 
             });

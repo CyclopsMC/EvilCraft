@@ -30,7 +30,8 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
     
     private C tile;
 
-    private boolean redstoneDisableable;
+    private final boolean redstoneDisableable;
+    private final boolean resetTickWhenCantTick;
     private int tick = 0;
     
     private float requiredTicks = 0;
@@ -43,8 +44,9 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      * It must map the item class to an extension of {@link ITickAction}.
      * @param slot The inventory slot this ticker applies to.
      * @param redstoneDisableable If this ticker can be disabled when given a redstone signal.
+     * @param resetTickWhenCantTick If the tick progress has to be reset when one of the ticks can't continue.
      */
-    public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot, boolean redstoneDisableable) {
+    public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot, boolean redstoneDisableable, boolean resetTickWhenCantTick) {
         this.tile = tile;
         ImmutableMultimap.Builder<Class<?>, T> builder = ImmutableMultimap.builder();
         for (Entry<Class<?>, T> entry : tickActions.entrySet()) {
@@ -53,6 +55,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
         this.tickActions = builder.build();
         this.slot = slot;
         this.redstoneDisableable = redstoneDisableable;
+        this.resetTickWhenCantTick = resetTickWhenCantTick;
     }
     
     /**
@@ -62,12 +65,14 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      * It must map the item class to an extension of {@link ITickAction}.
      * @param slot The inventory slot this ticker applies to.
      * @param redstoneDisableable If this ticker can be disabled when given a redstone signal.
+     * @param resetTickWhenCantTick If the tick progress has to be reset when one of the ticks can't continue.
      */
-    public TickComponent(C tile, Multimap<Class<?>, T> tickActions, int slot, boolean redstoneDisableable) {
+    public TickComponent(C tile, Multimap<Class<?>, T> tickActions, int slot, boolean redstoneDisableable, boolean resetTickWhenCantTick) {
         this.tile = tile;
         this.tickActions = ImmutableMultimap.<Class<?>, T>builder().putAll(tickActions).build();
         this.slot = slot;
         this.redstoneDisableable = redstoneDisableable;
+        this.resetTickWhenCantTick = resetTickWhenCantTick;
     }
 
     /**
@@ -78,7 +83,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      * @param slot The inventory slot this ticker applies to.
      */
     public TickComponent(C tile, Map<Class<?>, T> tickActions, int slot) {
-        this(tile, tickActions, slot, true);
+        this(tile, tickActions, slot, true, true);
     }
 
     /**
@@ -89,7 +94,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
      * @param slot The inventory slot this ticker applies to.
      */
     public TickComponent(C tile, Multimap<Class<?>, T> tickActions, int slot) {
-        this(tile, tickActions, slot, true);
+        this(tile, tickActions, slot, true, true);
     }
 
     public T getTickAction(Item item, int actionOffset) {
@@ -136,7 +141,7 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
                         tick = 0;
                 }
             }
-            if (!ticked) {
+            if (!ticked && this.resetTickWhenCantTick) {
                 tick = 0;
             }
         } else tick = 0;

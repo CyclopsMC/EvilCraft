@@ -1,9 +1,9 @@
-package evilcraft.modcompat.thermalexpansion;
+package org.cyclops.evilcraft.modcompat.thermalexpansion;
 
-import evilcraft.api.recipes.custom.IRecipe;
-import evilcraft.modcompat.IModCompat;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import org.cyclops.cyclopscore.modcompat.IModCompat;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.Fluid;
@@ -14,12 +14,24 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.block.BloodInfuser;
+import org.cyclops.evilcraft.block.BloodInfuserConfig;
+import org.cyclops.evilcraft.block.DarkOre;
+import org.cyclops.evilcraft.block.DarkOreConfig;
+import org.cyclops.evilcraft.block.UndeadLogConfig;
+import org.cyclops.evilcraft.block.UndeadPlankConfig;
+import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.fluid.Poison;
+import org.cyclops.evilcraft.item.BloodWaxedCoalConfig;
+import org.cyclops.evilcraft.item.DarkGem;
+import org.cyclops.evilcraft.item.DarkGemConfig;
+import org.cyclops.evilcraft.item.DarkGemCrushedConfig;
+import org.cyclops.evilcraft.item.EnderTearConfig;
+import org.cyclops.evilcraft.item.HardenedBloodShardConfig;
 
 import java.util.List;
-import java.util.Map.Entry;
 
 /**
  * Compatibility plugin for Thermal Expansion.
@@ -34,8 +46,8 @@ public class ThermalExpansionModCompat implements IModCompat {
     }
 
     @Override
-    public void onInit(IInitListener.Step step) {
-    	if(step == IInitListener.Step.INIT) {
+    public void onInit(Step step) {
+    	if(step == Step.INIT) {
     		registerThermalExpansionRecipes();
     	}
     }
@@ -52,7 +64,7 @@ public class ThermalExpansionModCompat implements IModCompat {
     
             new ItemStack(UndeadLogConfig._instance.getBlockInstance()).writeToNBT(sawmillUndeadWood.getCompoundTag("input"));
             new ItemStack(UndeadPlankConfig._instance.getBlockInstance(), 6).writeToNBT(sawmillUndeadWood.getCompoundTag("primaryOutput"));
-            FMLInterModComms.sendMessage(TE, "SawmillRecipe", sawmillUndeadWood);
+            FMLInterModComms.sendMessage(TE, "addsawmillrecipe", sawmillUndeadWood);
         }
 
         // Pulverizer dark ore
@@ -72,7 +84,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             if(crushedEnabled) {
             	new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("secondaryOutput"));
             }
-            FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
+            FMLInterModComms.sendMessage(TE, "addpulverizerrecipe", pulverizerDarkOre);
         }
         
         // Pulverizer dark ore -> crushed
@@ -84,7 +96,7 @@ public class ThermalExpansionModCompat implements IModCompat {
     
             new ItemStack(DarkGem.getInstance()).writeToNBT(pulverizerDarkOre.getCompoundTag("input"));
             new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(), 1).writeToNBT(pulverizerDarkOre.getCompoundTag("primaryOutput"));
-            FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDarkOre);
+            FMLInterModComms.sendMessage(TE, "addpulverizerrecipe", pulverizerDarkOre);
         }
 
         // Crucible poison
@@ -100,7 +112,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             }
             materialPoisonous.writeToNBT(cruciblePoison.getCompoundTag("input"));
             new FluidStack(Poison.getInstance(), 250).writeToNBT(cruciblePoison.getCompoundTag("output"));
-            FMLInterModComms.sendMessage(TE, "CrucibleRecipe", cruciblePoison);
+            FMLInterModComms.sendMessage(TE, "addcruciblerecipe", cruciblePoison);
         }
 
         // Crucible ender
@@ -114,7 +126,7 @@ public class ThermalExpansionModCompat implements IModCompat {
 
                 new ItemStack(EnderTearConfig._instance.getItemInstance()).writeToNBT(crucibleEnder.getCompoundTag("input"));
                 new FluidStack(ender, EnderTearConfig.mbLiquidEnder).writeToNBT(crucibleEnder.getCompoundTag("output"));
-                FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleEnder);
+                FMLInterModComms.sendMessage(TE, "addcruciblerecipe", crucibleEnder);
             }
         }
 
@@ -127,7 +139,7 @@ public class ThermalExpansionModCompat implements IModCompat {
 
             new ItemStack(HardenedBloodShardConfig._instance.getItemInstance()).writeToNBT(crucibleBloodShard.getCompoundTag("input"));
             new FluidStack(Blood.getInstance(), 100).writeToNBT(crucibleBloodShard.getCompoundTag("output"));
-            FMLInterModComms.sendMessage(TE, "CrucibleRecipe", crucibleBloodShard);
+            FMLInterModComms.sendMessage(TE, "addcruciblerecipe", crucibleBloodShard);
         }
 
         // Fluid Transposer: blood infuse
@@ -147,26 +159,11 @@ public class ThermalExpansionModCompat implements IModCompat {
                     FluidStack fluid = recipe.getInput().getFluidStack().copy();
                     fluid.amount *= 1.5;
                     fluid.writeToNBT(bloodInfuse.getCompoundTag("fluid"));
-                    FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", bloodInfuse);
+                    FMLInterModComms.sendMessage(TE, "addtransposerfillrecipe", bloodInfuse);
                 }
             }
         }
-
-        // Fluid Transposer: buckets
-        for(Entry<Item, FluidStack> entry : EvilCraft._instance.getRecipeHandler().getBuckets().entrySet()) {
-            NBTTagCompound fill = new NBTTagCompound();
-            fill.setInteger("energy", 2000);
-            fill.setTag("input", new NBTTagCompound());
-            fill.setTag("output", new NBTTagCompound());
-            fill.setTag("fluid", new NBTTagCompound());
-
-            new ItemStack(entry.getKey()).writeToNBT(fill.getCompoundTag("input"));
-            new ItemStack(Items.bucket).writeToNBT(fill.getCompoundTag("output"));
-            fill.setBoolean("reversible", true);
-            entry.getValue().copy().writeToNBT(fill.getCompoundTag("fluid"));
-            FMLInterModComms.sendMessage(TE, "TransposerFillRecipe", fill);
-        }
-
+        
         // Pulverize Blood-Waxed Coal
         if(Configs.isEnabled(BloodWaxedCoalConfig.class)) {
             NBTTagCompound pulverizerDustCoal = new NBTTagCompound();
@@ -178,7 +175,7 @@ public class ThermalExpansionModCompat implements IModCompat {
             List<ItemStack> dustCoalList = OreDictionary.getOres("dustCoal");
             if(!dustCoalList.isEmpty()) {
                 ItemStack dustCoal = dustCoalList.get(0).copy();
-                dustCoal.stackSize = 2;
+                dustCoal.setCount(2);
                 dustCoal.writeToNBT(pulverizerDustCoal.getCompoundTag("primaryOutput"));
 
                 List<ItemStack> sulfurList = OreDictionary.getOres("dustSulfur");
@@ -187,11 +184,11 @@ public class ThermalExpansionModCompat implements IModCompat {
                     pulverizerDustCoal.setInteger("secondaryChance", 20);
 
                     ItemStack dustSulfur = sulfurList.get(0).copy();
-                    dustSulfur.stackSize = 1;
+                    dustSulfur.setCount(1);
                     dustSulfur.writeToNBT(pulverizerDustCoal.getCompoundTag("secondaryOutput"));
                 }
 
-                FMLInterModComms.sendMessage(TE, "PulverizerRecipe", pulverizerDustCoal);
+                FMLInterModComms.sendMessage(TE, "addpulverizerrecipe", pulverizerDustCoal);
             }
         }
     }

@@ -45,6 +45,11 @@ public class GuiOriginsOfDarkness extends GuiInfoBook {
     }
 
     @Override
+    protected int getFootnoteOffsetY() {
+        return -16;
+    }
+
+    @Override
     public void playPageFlipSound(SoundHandler soundHandler) {
         soundHandler.playSound(PositionedSoundRecord.getMasterRecord(EvilCraftSoundEvents.effect_page_flipsingle, 1.0F));
     }

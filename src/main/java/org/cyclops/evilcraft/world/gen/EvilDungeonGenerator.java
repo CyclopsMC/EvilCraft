@@ -21,7 +21,8 @@ public class EvilDungeonGenerator implements IWorldGenerator {
     }
     
     private void generateSurface(World world, Random random, int chunkX, int chunkZ) {
+        // Offset to chunk center to avoid cascaded chunk loading: #539
         (new EvilDungeonStructure()).generate(world, random,
-                new BlockPos(chunkX + random.nextInt(16), random.nextInt(60), chunkZ + random.nextInt(16)));
+                new BlockPos(chunkX + random.nextInt(16) + 8, random.nextInt(60), chunkZ + random.nextInt(16) + 8));
     }
 }

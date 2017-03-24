@@ -27,10 +27,11 @@ public class NetherfishSpawnGenerator extends WorldGenMinableExtended {
     @Override
     public void loopGenerate(World world, Random rand, int chunkX, int chunkZ) {
         for(int k = 0; k < veinsPerChunk; k++){
+            // Offset to chunk center to avoid cascaded chunk loading: #539
             BlockPos blockPos = new BlockPos(
-                    chunkX + rand.nextInt(16),
+                    chunkX + rand.nextInt(16) + 8,
                     startY + rand.nextInt(endY - startY),
-                    chunkZ + rand.nextInt(16));
+                    chunkZ + rand.nextInt(16) + 8);
             
             Block block = world.getBlockState(blockPos).getBlock();
             Block spawnBlock = NetherfishSpawn.getInstance();
