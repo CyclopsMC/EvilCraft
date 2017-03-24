@@ -1,0 +1,14 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.0 or higher.
+
+Additions:
+* Add Thermal Expansion Mod Compat
+
+Fixes:
+* Fix Dark Ore defaulting to the glowing state, Closes #541
+* Fix Spirit Furnace resetting when running out of blood
+* Fix Wither not dropping Nether Stars in Spirit Furnace, Closes #540
+* Update to latest Baubles API version to fix crash, Closes #538
+* Avoid cascading chunk generation, Closes #539
+* Remove EnderIO Mod Compat debug code
+* Fix TCon smeltery EnderTear to Liquid ender recipe
