@@ -58,7 +58,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<ItemFlui
 
     @Override
     public void bakeElement(InfoSection infoSection) {
-        renderItemHolders.put(INPUT, new ItemButton());
+        renderItemHolders.put(INPUT, new ItemButton(getInfoBook()));
         super.bakeElement(infoSection);
     }
 
