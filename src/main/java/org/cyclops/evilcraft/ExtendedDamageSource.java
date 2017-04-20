@@ -6,6 +6,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.FakePlayerFactory;
 
 /**
  * An extension of the Minecraft {@code DamageSource}.
@@ -25,7 +27,9 @@ public class ExtendedDamageSource extends DamageSource{
     /**
      * DamageSource for when entities die from a spiked plate.
      */
-    public static ExtendedDamageSource spiked = (ExtendedDamageSource)((new ExtendedDamageSource("spiked")));
+    public static ExtendedDamageSource spikedDamage(WorldServer world) {
+        return new ExtendedDamageSource("spiked", FakePlayerFactory.getMinecraft(world));
+    }
     /**
      * DamageSource for when necromancer's entities that are automatically killed.
      */

@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -66,14 +67,14 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
      * @param blockPos The position.
      * @return If the given entity was damaged.
      */
-    protected boolean damageEntity(World world, Entity entity, BlockPos blockPos) {
+    protected boolean damageEntity(WorldServer world, Entity entity, BlockPos blockPos) {
     	if(!(entity instanceof EntityPlayer) && entity instanceof EntityLivingBase) {
     		float damage = (float) SpikedPlateConfig.damage;
     		
     		// To make sure the entity actually will drop something.
     		ObfuscationHelpers.setRecentlyHit(((EntityLivingBase) entity), 100);
     		
-    		if(entity.attackEntityFrom(ExtendedDamageSource.spiked, damage)) {
+    		if(entity.attackEntityFrom(ExtendedDamageSource.spikedDamage(world), damage)) {
 	    		TileEntity tile = world.getTileEntity(blockPos.add(0, -1, 0));
 	    		if(tile != null && tile instanceof TileSanguinaryPedestal) {
 	    			int amount = MathHelper.floor_float(damage * (float) SpikedPlateConfig.mobMultiplier);
@@ -93,9 +94,9 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 
         int ret = 0;
 
-		if(list != null && !list.isEmpty()) {
+		if(!world.isRemote && list != null && !list.isEmpty()) {
             for(EntityLivingBase entity : list) {
-                if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity(world, entity, blockPos)) {
+                if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity((WorldServer) world, entity, blockPos)) {
                     ret = 15;
                 }
             }
