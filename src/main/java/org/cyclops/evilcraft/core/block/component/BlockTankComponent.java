@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -23,6 +24,9 @@ import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.block.IBlockTank;
+import org.cyclops.evilcraft.core.fluid.SimulatedFluidStack;
+
+import javax.annotation.Nullable;
 
 /**
  * Component for blockState tanks.
@@ -62,7 +66,7 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
         TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         if(tile != null) {
             if(itemStack != null) {
-                SingleUseTank tank = tile.getTank();
+				SimulatableTankWrapper tank = new SimulatableTankWrapper(tile.getTank());
             	IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
                 if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null
 						&& FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false) != null) { // Fill the tank.
@@ -123,6 +127,47 @@ public class BlockTankComponent<T extends BlockContainer & IBlockTank> {
 				&& event.getItemStack().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
 				&& event.getWorld().getBlockState(event.getPos()).getBlock() == tank) {
 			event.setUseBlock(Event.Result.ALLOW);
+		}
+	}
+
+	public static class SimulatableTankWrapper implements IFluidHandler {
+
+		private final SingleUseTank tank;
+
+		public SimulatableTankWrapper(SingleUseTank tank) {
+			this.tank = tank;
+		}
+
+		@Override
+		public IFluidTankProperties[] getTankProperties() {
+			return tank.getTankProperties();
+		}
+
+		@Override
+		public int fill(FluidStack resource, boolean doFill) {
+			return tank.fill(resource, doFill);
+		}
+
+		@Nullable
+		@Override
+		public FluidStack drain(FluidStack resource, boolean doDrain) {
+			FluidStack drained = tank.drain(resource, doDrain);
+			return doDrain ? drained : new SimulatedFluidStack(drained.getFluid(), drained.amount);
+		}
+
+		@Nullable
+		@Override
+		public FluidStack drain(int maxDrain, boolean doDrain) {
+			FluidStack drained = tank.drain(maxDrain, doDrain);
+			return doDrain ? drained : new SimulatedFluidStack(drained.getFluid(), drained.amount);
+		}
+
+		public boolean isFull() {
+			return tank.isFull();
+		}
+
+		public boolean isEmpty() {
+			return tank.isEmpty();
 		}
 	}
 
