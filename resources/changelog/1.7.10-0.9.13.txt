@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+
+Fixes:
+* Fix Blood dupe when using IC2 cells in machines, Closes #545
+
