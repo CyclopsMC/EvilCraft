@@ -50,6 +50,9 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
+        if (itemStack.stackSize > 1) {
+            return false;
+        }
         boolean emptyContainer = false;
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
         IFluidContainerItem container = (IFluidContainerItem) containerStack.getItem();
