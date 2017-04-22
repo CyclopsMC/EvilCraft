@@ -90,6 +90,7 @@ public class CondensedBloodConfig extends ItemConfig {
         @Override
         protected void setFluid(Fluid fluid) {
             if (fluid == null) {
+                container = container.copy();
                 container.shrink(1);
             }
         }
