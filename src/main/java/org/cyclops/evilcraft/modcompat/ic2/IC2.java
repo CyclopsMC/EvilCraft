@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.modcompat.ic2;
 
-import ic2.api.recipe.RecipeInputItemStack;
 import ic2.api.recipe.Recipes;
+import ic2.core.recipe.RecipeInputItemStack;
 import net.minecraft.item.ItemStack;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.DarkOre;

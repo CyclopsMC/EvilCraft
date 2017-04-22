@@ -73,7 +73,7 @@ public class Reference {
     // MOD ID's
     public static final String MOD_FORGE = "forge";
     public static final String MOD_FORGE_VERSION = "@FORGE_VERSION@";
-    public static final String MOD_FORGE_VERSION_MIN = "13.20.0.2201";
+    public static final String MOD_FORGE_VERSION_MIN = "13.20.0.2206";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";
     public static final String MOD_CYCLOPSCORE_VERSION = "@CYCLOPSCORE_VERSION@";
     public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.10.0";
@@ -87,7 +87,7 @@ public class Reference {
     public static final String MOD_BLOODMAGIC = "BloodMagic";
     public static final String MOD_THAUMCRAFT = "Thaumcraft";
     public static final String MOD_EE3 = "EE3";
-    public static final String MOD_IC2 = "IC2";
+    public static final String MOD_IC2 = "ic2";
     public static final String MOD_JEI = "jei";
     public static final String MOD_IMMERSIVEENGINEERING = "immersiveengineering";
     public static final String MOD_ENDERIO = "enderio";
