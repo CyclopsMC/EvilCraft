@@ -25,6 +25,7 @@ import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.infobook.pageelement.BloodInfuserRecipeAppendix;
 import org.cyclops.evilcraft.infobook.pageelement.BroomModifierRecipeAppendix;
 import org.cyclops.evilcraft.infobook.pageelement.EnvironmentalAccumulatorRecipeAppendix;
+import org.cyclops.evilcraft.item.BroomConfig;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -60,30 +61,39 @@ public class OriginsOfDarknessBook extends InfoBook {
             InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":blood_infuser_recipe");
         }
 
-        InfoBookParser.registerFactory(Reference.MOD_ID + ":envir_acc_recipe", new InfoBookParser.IAppendixFactory() {
+        if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":envir_acc_recipe", new InfoBookParser.IAppendixFactory() {
 
-            @Override
-            public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
-                ItemStack itemStack = InfoBookParser.createStack(node, infoBook.getMod().getRecipeHandler());
-                List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
-                        recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
-                        findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
-                int index = InfoBookParser.getIndex(node);
-                if(index >= recipes.size()) throw new InfoBookParser.InvalidAppendixException("Could not find Environmental Accumulator recipe for " +
-                        itemStack.getItem().getUnlocalizedName() + "with index " + index);
-                return new EnvironmentalAccumulatorRecipeAppendix(infoBook, recipes.get(index));
-            }
+                @Override
+                public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
+                    ItemStack itemStack = InfoBookParser.createStack(node, infoBook.getMod().getRecipeHandler());
+                    List<IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>>
+                            recipes = EnvironmentalAccumulator.getInstance().getRecipeRegistry().
+                            findRecipesByOutput(new EnvironmentalAccumulatorRecipeComponent(itemStack, WeatherType.ANY));
+                    int index = InfoBookParser.getIndex(node);
+                    if (index >= recipes.size())
+                        throw new InfoBookParser.InvalidAppendixException("Could not find Environmental Accumulator recipe for " +
+                                itemStack.getItem().getUnlocalizedName() + "with index " + index);
+                    return new EnvironmentalAccumulatorRecipeAppendix(infoBook, recipes.get(index));
+                }
 
-        });
+            });
+        } else {
+            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":envirAccRecipe");
+        }
 
-        InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixItemFactory<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>() {
+        if(Configs.isEnabled(BloodInfuserConfig.class)) {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixItemFactory<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>() {
 
-            @Override
-            public SectionAppendix create(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) throws InfoBookParser.InvalidAppendixException {
-                return new BloodInfuserRecipeAppendix(infoBook, recipe);
-            }
+                @Override
+                public SectionAppendix create(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) throws InfoBookParser.InvalidAppendixException {
+                    return new BloodInfuserRecipeAppendix(infoBook, recipe);
+                }
 
-        });
+            });
+        } else {
+            InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":bloodInfuserRecipe");
+        }
 
         if(Configs.isEnabled(EnvironmentalAccumulatorConfig.class)) {
             InfoBookParser.registerFactory(Reference.MOD_ID + ":envir_acc_recipe", new InfoBookParser.IAppendixItemFactory<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>() {
@@ -98,7 +108,7 @@ public class OriginsOfDarknessBook extends InfoBook {
             InfoBookParser.registerIgnoredFactory(Reference.MOD_ID + ":envir_acc_recipe");
         }
 
-        if(Configs.isEnabled(BloodInfuserConfig.class)) {
+        if(Configs.isEnabled(BroomConfig.class)) {
             InfoBookParser.registerFactory(Reference.MOD_ID + ":broom_modifier", new InfoBookParser.IAppendixFactory() {
 
                 @Override

@@ -51,9 +51,9 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
 
     @Override
     public void bakeElement(InfoSection infoSection) {
-        renderItemHolders.put(INPUT, new ItemButton());
-        renderItemHolders.put(RESULT, new ItemButton());
-        renderItemHolders.put(PROMISE, new ItemButton());
+        renderItemHolders.put(INPUT, new ItemButton(getInfoBook()));
+        renderItemHolders.put(RESULT, new ItemButton(getInfoBook()));
+        renderItemHolders.put(PROMISE, new ItemButton(getInfoBook()));
         super.bakeElement(infoSection);
     }
 

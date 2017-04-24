@@ -162,7 +162,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     @Override
     public void updateTick(World world, BlockPos blockPos, IBlockState state, Random random) {
         if (isGlowing(world, blockPos)) {
-            world.setBlockState(blockPos, getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlockState(blockPos, getDefaultState().withProperty(GLOWING, false), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
     }
     
