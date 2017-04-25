@@ -1,0 +1,18 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.1 or higher.
+
+Additions:
+* Restore IC2 mod compat
+
+Changes:
+* Update Russian translation
+
+Fixes:
+* Fix Thermal Expansion infobook mod id
+* Fix Condensed Blood modifying container stack instead of copying it
+* Correctly set Dark Ore state after glowing
+* Fix silk touching Dark Ore having wrong metadata, Closes #541
+* Fix Spiked Plate not producing player drops, Closes #547
+* Fix Blood duplication when filling Chalice or Bound Blood Drops in-hand, Closes #546
+* Fix item disabling causing book initialization crash, Closes #542
+* Fix Dark Power Gem part localization, Closes #543
