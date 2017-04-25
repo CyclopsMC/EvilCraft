@@ -505,7 +505,7 @@
             <paragraph>info_book.evilcraft.mod_integrations.forestry.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.ic2">
-            <tag type="mod">IC2</tag>
+            <tag type="mod">ic2</tag>
             <paragraph>info_book.evilcraft.mod_integrations.ic2.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.jei">
@@ -530,7 +530,7 @@
             <appendix type="evilcraft:blood_infuser_recipe">evilcraft:blood_wand_cap</appendix>
         </section>
         <section name="info_book.evilcraft.mod_integrations.thermal_expansion">
-            <tag type="mod">ThermalExpansion</tag>
+            <tag type="mod">thermalexpansion</tag>
             <paragraph>info_book.evilcraft.mod_integrations.thermal_expansion.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.tinkers_construct">
