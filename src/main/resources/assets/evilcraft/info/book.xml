@@ -508,10 +508,6 @@
             <tag type="mod">IC2</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.ic2.text</paragraph>
         </section>
-        <section name="infoBook.evilcraft.modIntegrations.ic2">
-            <tag type="mod">IC2</tag>
-            <paragraph>infoBook.evilcraft.modIntegrations.ic2.text</paragraph>
-        </section>
         <section name="infoBook.evilcraft.modIntegrations.immersiveengineering">
             <tag type="mod">immersiveengineering</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.immersiveengineering.text</paragraph>
@@ -530,7 +526,7 @@
             <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:bloodWandCap</appendix>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.thermalExpansion">
-            <tag type="mod">ThermalExpansion</tag>
+            <tag type="mod">thermalexpansion</tag>
             <paragraph>infoBook.evilcraft.modIntegrations.thermalExpansion.text</paragraph>
         </section>
         <section name="infoBook.evilcraft.modIntegrations.tinkersConstruct">
