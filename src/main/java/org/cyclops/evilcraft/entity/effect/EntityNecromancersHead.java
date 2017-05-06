@@ -140,8 +140,11 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 	        if(position.entityHit != null) {
 	            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
 	        }
-	        if(this.getThrower() != null && !getThrower().worldObj.isRemote
-	        		&& getThrower() instanceof EntityPlayerMP && position.entityHit instanceof EntityLivingBase) {
+	        if(this.getThrower() != null
+					&& !getThrower().worldObj.isRemote
+	        		&& getThrower() instanceof EntityPlayerMP
+					&& getThrower() != position.entityHit
+					&& position.entityHit instanceof EntityLivingBase) {
 	        	spawnSwarm(this.getThrower(), (EntityLivingBase) position.entityHit);
 	        } else {
 	        	this.setDead();
