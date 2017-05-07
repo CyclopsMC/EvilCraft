@@ -514,8 +514,8 @@ infoBook.evilcraft.firstAge.items.exaltedCrafter.text1=Crafting tables can be in
 infoBook.evilcraft.firstAge.items.exaltedCrafter.text2=Striking it with lightning seems to make it bound to reality so that it can’t be destroyed or disappear when dropped.
 
 infoBook.evilcraft.firstAge.items.displayStand=Display Stand
-infoBook.evilcraft.firstAge.items.displayStand.text1=This small block can showcase your favorite items and blocks. It seems to support any wood type, and it can be placed with any rotation you want.
-infoBook.evilcraft.firstAge.items.displayStand.text2=The stands will also accept fluids from any side with which it will attempt to fill the item with that fluid.
+infoBook.evilcraft.firstAge.items.displayStand.text1=This small block can showcase your favorite items and blocks. It seems to support any wood type, and it can be placed with any rotation you want. You can pipe items in and out from the bottom or the top.
+infoBook.evilcraft.firstAge.items.displayStand.text2=Interaction from all other sides of the block will be delegated to the item itself, so you can interact with its inventory, fluids, energy, ...
 
 # - Items -
 infoBook.evilcraft.firstAge.vengeanceSpirits=Vengeance Spirits

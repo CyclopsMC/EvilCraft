@@ -3,17 +3,12 @@ package org.cyclops.evilcraft.tileentity;
 import lombok.experimental.Delegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
+import net.minecraftforge.common.capabilities.Capability;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.InventoryTileEntity;
+import org.cyclops.evilcraft.block.DisplayStand;
 
-import javax.annotation.Nullable;
 import java.util.Collections;
 
 /**
@@ -36,7 +31,6 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
         for (EnumFacing side : EnumFacing.values()) {
             addSlotsToSide(side, Collections.singleton(0));
         }
-        addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, new ItemFluidWrapper(this));
     }
 
     public EnumFacing.AxisDirection getDirection() {
@@ -58,42 +52,23 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
         sendUpdate();
     }
 
-    public static class ItemFluidWrapper implements IFluidHandler {
+    protected EnumFacing getFacing() {
+        return getWorld().getBlockState(getPos()).getValue(DisplayStand.FACING);
+    }
 
-        private final TileDisplayStand tile;
+    protected ItemStack getContents() {
+        return getStackInSlot(0);
+    }
 
-        public ItemFluidWrapper(TileDisplayStand tile) {
-            this.tile = tile;
-        }
+    @Override
+    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+        return facing == getFacing() || facing == getFacing().getOpposite() || getContents() == null
+                ? super.hasCapability(capability, facing) : getContents().hasCapability(capability, null);
+    }
 
-        protected IFluidHandler getFluidHandler() {
-            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(tile.getStackInSlot(0));
-            if (fluidHandler == null) {
-                return EmptyFluidHandler.INSTANCE;
-            }
-            return fluidHandler;
-        }
-
-        @Override
-        public IFluidTankProperties[] getTankProperties() {
-            return getFluidHandler().getTankProperties();
-        }
-
-        @Override
-        public int fill(FluidStack resource, boolean doFill) {
-            return getFluidHandler().fill(resource, doFill);
-        }
-
-        @Nullable
-        @Override
-        public FluidStack drain(FluidStack resource, boolean doDrain) {
-            return getFluidHandler().drain(resource, doDrain);
-        }
-
-        @Nullable
-        @Override
-        public FluidStack drain(int maxDrain, boolean doDrain) {
-            return getFluidHandler().drain(maxDrain, doDrain);
-        }
+    @Override
+    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+        return facing == getFacing() || facing == getFacing().getOpposite() || getContents() == null
+                ? super.getCapability(capability, facing) : getContents().getCapability(capability, null);
     }
 }
