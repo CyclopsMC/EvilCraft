@@ -73,10 +73,10 @@ public class Reference {
     // MOD ID's
     public static final String MOD_FORGE = "forge";
     public static final String MOD_FORGE_VERSION = "@FORGE_VERSION@";
-    public static final String MOD_FORGE_VERSION_MIN = "13.20.0.2206";
+    public static final String MOD_FORGE_VERSION_MIN = "13.20.0.2282";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";
     public static final String MOD_CYCLOPSCORE_VERSION = "@CYCLOPSCORE_VERSION@";
-    public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.10.1";
+    public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.10.2";
     public static final String MOD_THERMALEXPANSION = "thermalexpansion";
     public static final String MOD_WAILA = "Waila";
     public static final String MOD_FMP = "ForgeMultipart";

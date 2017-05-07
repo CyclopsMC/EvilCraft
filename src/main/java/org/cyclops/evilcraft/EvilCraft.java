@@ -47,6 +47,7 @@ import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
 import org.cyclops.evilcraft.modcompat.forestry.ForestryModCompat;
 import org.cyclops.evilcraft.modcompat.ic2.IC2ModCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
+import org.cyclops.evilcraft.modcompat.tconstruct.TConstructModCompat;
 import org.cyclops.evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
@@ -105,7 +106,7 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new JEIModCompat());
         // TODO: temporarily disable some mod compats
         //modCompatLoader.addModCompat(new BloodMagicModCompat());
-        //modCompatLoader.addModCompat(new TConstructModCompat());
+        modCompatLoader.addModCompat(new TConstructModCompat());
         modCompatLoader.addModCompat(new ForestryModCompat());
         modCompatLoader.addModCompat(new IC2ModCompat());
         //modCompatLoader.addModCompat(new ImmersiveEngineeringModCompat());
