@@ -76,6 +76,10 @@ tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.info=Craftable Environm
 tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid=Unable to work
 tile.blocks.evilcraft.sanguinaryEnvironmentalAccumulator.help.invalid.invalidLocations=Tanks with Blood required at:
 tile.blocks.evilcraft.displayStand.name=Display Stand
+tile.blocks.evilcraft.undeadPlankStairs.name=Undead Plank Stairs
+tile.blocks.evilcraft.reinforcedUndeadPlankStairs.name=Reinforced Undead Plank Stairs
+tile.blocks.evilcraft.darkBrickStairs.name=Dark Brick Stairs
+tile.blocks.evilcraft.darkBloodBrickStairs.name=Dark Blood Brick Stairs
 
 # Items
 item.items.evilcraft.werewolfBone.name=Werewolf Bone

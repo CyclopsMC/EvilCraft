@@ -19,10 +19,12 @@
                 <tag>darkGemCrushed</tag>
                 <tag>darkBlock</tag>
                 <tag>darkBrick</tag>
+                <tag>darkBrickStairs</tag>
                 <paragraph>infoBook.evilcraft.firstAge.newWorld.darkOre.text</paragraph>
                 <appendix type="craftingRecipe">evilcraft:darkBlock</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkGem</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkBrick</appendix>
+                <appendix type="craftingRecipe">evilcraft:darkBrickStairs</appendix>
             </section>
             <section name="infoBook.evilcraft.firstAge.newWorld.darkenedApple">
                 <tag>darkenedApple</tag>
@@ -217,6 +219,7 @@
             <section name="infoBook.evilcraft.secondAge.bloodInfusion.undeadTree">
                 <tag>undeadSapling</tag>
                 <tag>darkStick</tag>
+                <tag>undeadPlankStairs</tag>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text2</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.bloodInfusion.undeadTree.text3</paragraph>
@@ -224,6 +227,7 @@
                 <appendix type="craftingRecipe">minecraft:deadBush</appendix>
                 <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:undeadSapling</appendix>
                 <appendix type="craftingRecipe">evilcraft:darkStick</appendix>
+                <appendix type="craftingRecipe">evilcraft:undeadPlankStairs</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.bloodInfusion.advancedBloodInfusion">
                 <tag>bowlOfPromises</tag>
@@ -447,12 +451,14 @@
             <section name="infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace">
                 <tag>darkBloodBrick</tag>
                 <tag>spiritFurnace</tag>
+                <tag>darkBloodBrickStairs</tag>
                 <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text1</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text2</paragraph>
                 <paragraph>infoBook.evilcraft.secondAge.abusingSpirits.spiritFurnace.text3</paragraph>
                 <appendix type="image" width="120" height="135">evilcraft:textures/gui/infobook/spiritFurnace.png</appendix>
                 <appendix type="evilcraft:bloodInfuserRecipe">evilcraft:darkBloodBrick</appendix>
                 <appendix type="craftingRecipe">evilcraft:spiritFurnace</appendix>
+                <appendix type="craftingRecipe">evilcraft:darkBloodBrickStairs</appendix>
             </section>
             <section name="infoBook.evilcraft.secondAge.abusingSpirits.spiritReanimator">
                 <tag>spiritReanimator</tag>

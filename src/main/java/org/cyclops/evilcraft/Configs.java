@@ -79,6 +79,10 @@ public class Configs {
         configs.add(new ReinforcedUndeadPlankConfig());
         configs.add(new SanguinaryEnvironmentalAccumulatorConfig());
         configs.add(new DisplayStandConfig());
+        configs.add(new UndeadPlankStairsConfig());
+        configs.add(new ReinforcedUndeadPlankStairsConfig());
+        configs.add(new DarkBrickStairsConfig());
+        configs.add(new DarkBloodBrickStairsConfig());
         
         // Items
         configs.add(new WerewolfBoneConfig());
