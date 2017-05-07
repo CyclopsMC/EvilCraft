@@ -663,7 +663,7 @@ infoBook.evilcraft.secondAge.tools.sceptreOfThunder=Sceptre of Thunder
 infoBook.evilcraft.secondAge.tools.sceptreOfThunder.text=I feel oddly at peace when there are thunderstorms. That is why I made a simple tool that can spawn such storms. This item can however be used only once, making this a rather expensive process.
 
 infoBook.evilcraft.secondAge.tools.vengeancePickaxe=Vengeance Pickaxe
-infoBook.evilcraft.secondAge.tools.vengeancePickaxe.text=I’ve discovered a way to reuse the technology from the &1Vengeance Ring&0 into a pickaxe. This seems to drastically reduce the durability of the pickaxe though. But it has an interesting side-effect that when crafted will have the ability to trigger an enormous &1Fortune&0.
+infoBook.evilcraft.secondAge.tools.vengeancePickaxe.text=I’ve discovered a way to reuse the technology from the &1Vengeance Ring&0 into a pickaxe. This seems to drastically reduce the durability of the pickaxe though. But it has an interesting side-effect that when crafted will have the ability to trigger an enormous &1Fortune&0. For some reason, the pickaxe seems to summon some spirits, and this effect can not be removed for some reason...
 
 infoBook.evilcraft.secondAge.tools.gemstoneTorch=Gemstone Torch
 infoBook.evilcraft.secondAge.tools.gemstoneTorch.text=I was able to combine the &1Burning Gemstone&0 with a &1Dark Stick&0 to make a special torch that seems to absorb any spawning &1Vengeance Spirits&0 in its light area. Note that any spirits spawned outside the area will still be able to wander in this area though, but a simple mundane wall should be able to solve that.
