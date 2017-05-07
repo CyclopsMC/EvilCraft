@@ -483,17 +483,17 @@
     </section>
     <section name="info_book.evilcraft.mod_integrations">
         <section name="info_book.evilcraft.mod_integrations.baubles">
-            <tag type="mod">Baubles</tag>
+            <tag type="mod">baubles</tag>
             <paragraph>info_book.evilcraft.mod_integrations.baubles.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.blood_magic">
-            <tag type="mod">BloodMagic</tag>
+            <tag type="mod">bloodmagic</tag>
             <tag>bound_blood_drop</tag>
             <paragraph>info_book.evilcraft.mod_integrations.blood_magic.text</paragraph>
             <appendix type="evilcraft:blood_infuser_recipe">evilcraft:bound_blood_drop</appendix>
         </section>
         <section name="info_book.evilcraft.mod_integrations.ee3">
-            <tag type="mod">EE3</tag>
+            <tag type="mod">ee3</tag>
             <paragraph>info_book.evilcraft.mod_integrations.ee3.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.enderio">
@@ -516,12 +516,8 @@
             <tag type="mod">immersiveengineering</tag>
             <paragraph>info_book.evilcraft.mod_integrations.immersiveengineering.text</paragraph>
         </section>
-        <section name="info_book.evilcraft.mod_integrations.nei">
-            <tag type="mod">NotEnoughItems</tag>
-            <paragraph>info_book.evilcraft.mod_integrations.nei.text</paragraph>
-        </section>
         <section name="info_book.evilcraft.mod_integrations.thaumcraft">
-            <tag type="mod">Thaumcraft</tag>
+            <tag type="mod">thaumcraft</tag>
             <tag>veined_scribing_tools</tag>
             <tag>blood_wand_cap</tag>
             <paragraph>info_book.evilcraft.mod_integrations.thaumcraft.text</paragraph>
@@ -538,7 +534,7 @@
             <paragraph>info_book.evilcraft.mod_integrations.tinkers_construct.text</paragraph>
         </section>
         <section name="info_book.evilcraft.mod_integrations.waila">
-            <tag type="mod">Waila</tag>
+            <tag type="mod">waila</tag>
             <paragraph>info_book.evilcraft.mod_integrations.waila.text</paragraph>
         </section>
     </section>

@@ -13,10 +13,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
@@ -51,7 +52,7 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     }
 
     public BoundBloodDrop(ExtendedConfig<ItemConfig> eConfig) {
-        super(eConfig, FluidContainerRegistry.BUCKET_VOLUME, Blood.getInstance());
+        super(eConfig, Fluid.BUCKET_VOLUME, Blood.getInstance());
         setPlaceFluids(true);
     }
 
@@ -84,12 +85,10 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     public boolean hasEffect(ItemStack itemStack) {
         return ItemHelpers.isActivated(itemStack);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked"})
+
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List itemList) {
-    	itemList.add(new ItemStack(this));
+    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> itemList) {
+        itemList.add(new ItemStack(this));
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -98,88 +97,95 @@ public class BoundBloodDrop extends ConfigurableDamageIndicatedItemFluidContaine
     public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
         super.addInformation(itemStack, entityPlayer, list, par4);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getUnlocalizedName() + ".info.autoSupply");
+                getUnlocalizedName() + ".info.auto_supply");
         if(itemStack.getTagCompound() != null) {
         	String owner = getOwnerName(itemStack);
         	if(owner == null || owner.isEmpty()) {
-        		owner = TextFormatting.ITALIC + L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner.none");
+        		owner = TextFormatting.ITALIC + L10NHelpers.localize(getUnlocalizedName() + ".info.current_owner.none");
         	}
-        	list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.currentOwner", owner));
+        	list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.current_owner", owner));
         }
     }
-    
+
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        ItemStack itemStack = player.getHeldItem(hand);
     	if(player.isSneaking()) {
             if(!world.isRemote)
             	ItemHelpers.toggleActivation(itemStack);
             return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStack);
         }
-        return super.onItemRightClick(itemStack, world, player, hand);
+        return super.onItemRightClick(world, player, hand);
     }
     
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
     	if(ItemHelpers.isActivated(itemStack)) {
-    		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack), itemStack, world, entity);
+    		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack), world, entity);
     	}
         super.onUpdate(itemStack, world, entity, par4, par5);
-    }
-    
-    @Override
-    public int getCapacity(ItemStack container) {
-    	FluidStack contents = getFluid(container);
-    	int contentsAmount = contents == null ? 0 : contents.amount;
-    	return Math.max(contentsAmount, BoundBloodDropConfig.maxCapacity);
-    }
-    
-    @Override
-    public FluidStack getFluid(ItemStack container) {
-    	String uuid = getOwnerUUID(container);
-    	int essence = 0;
-    	if(!(uuid == null || uuid.isEmpty())) {
-    		essence = getCurrentEssence(uuid);
-    	}
-    	FluidStack drainedEssence = new FluidStack(BloodMagicAPI.getLifeEssence(), essence);
-    	return BloodFluidConverter.getInstance().convert(drainedEssence);
-    }
-    
-    @Override
-    public int fill(ItemStack container, FluidStack resource, boolean doFill) {
-    	String uuid = getOwnerUUID(container);
-    	if(uuid == null || uuid.isEmpty()) {
-    		return 0;
-    	}
-    	int essence = getCurrentEssence(uuid);
-        FluidStack essenceFluid = BloodFluidConverter.getInstance().convertReverse(BloodMagicAPI.getLifeEssence(), resource);
-        int filled = essenceFluid == null ? 0 : essenceFluid.amount;
-    	if(doFill && !MinecraftHelpers.isClientSide()) {
-            NetworkHelper.getSoulNetwork(uuid).setCurrentEssence(essence + filled);
-    	}
-    	return filled;
-    }
-    
-    @Override
-    public FluidStack drain(ItemStack container, int maxDrain, boolean doDrain) {
-    	String uuid = getOwnerUUID(container);
-    	if(uuid == null || uuid.isEmpty()) {
-    		return null;
-    	}
-    	int essence = getCurrentEssence(uuid);
-    	FluidStack toDrain = new FluidStack(Blood.getInstance(), maxDrain);
-    	FluidStack toDrainEssence = BloodFluidConverter.getInstance().convertReverse(BloodMagicAPI.getLifeEssence(), toDrain);
-    	int drainEssence = Math.min(essence, toDrainEssence == null ? 0 : toDrainEssence.amount);
-    	if(doDrain && !MinecraftHelpers.isClientSide()) {
-            NetworkHelper.getSoulNetwork(uuid).setCurrentEssence(essence - drainEssence);
-    	}
-    	FluidStack drainedEssence = new FluidStack(BloodMagicAPI.getLifeEssence(), drainEssence);
-    	return BloodFluidConverter.getInstance().convert(drainedEssence);
     }
 
     @Override
     public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
         // This is a hack!
-        return new FluidContainerItemWrapperWithSimulation(this, stack);
+        return new FluidHandler(stack, Fluid.BUCKET_VOLUME);
+    }
+
+    public static class FluidHandler extends FluidContainerItemWrapperWithSimulation {
+
+        public FluidHandler(ItemStack container, int capacity) {
+            super(container, capacity, Blood.getInstance());
+        }
+
+        @Override
+        public int getCapacity() {
+            FluidStack contents = FluidUtil.getFluidContained(container);
+            int contentsAmount = contents == null ? 0 : contents.amount;
+            return Math.max(contentsAmount, BoundBloodDropConfig.maxCapacity);
+        }
+
+        @Override
+        public int fill(FluidStack resource, boolean doFill) {
+            doFill = shouldDoFill(resource, doFill);
+            String uuid = BoundBloodDrop.getInstance().getOwnerUUID(container);
+            if(uuid == null || uuid.isEmpty()) {
+                return 0;
+            }
+            int essence = getCurrentEssence(uuid);
+            FluidStack essenceFluid = BloodFluidConverter.getInstance().convertReverse(BloodMagicAPI.getLifeEssence(), resource);
+            int filled = essenceFluid == null ? 0 : essenceFluid.amount;
+            if(doFill && !MinecraftHelpers.isClientSide()) {
+                NetworkHelper.getSoulNetwork(uuid).setCurrentEssence(essence + filled);
+            }
+            return filled;
+        }
+
+        @Override
+        public FluidStack drain(int maxDrain, boolean doDrain) {
+            String uuid = BoundBloodDrop.getInstance().getOwnerUUID(container);
+            if(uuid == null || uuid.isEmpty()) {
+                return null;
+            }
+            int essence = getCurrentEssence(uuid);
+            FluidStack toDrain = new FluidStack(Blood.getInstance(), maxDrain);
+            FluidStack toDrainEssence = BloodFluidConverter.getInstance().convertReverse(BloodMagicAPI.getLifeEssence(), toDrain);
+            int drainEssence = Math.min(essence, toDrainEssence == null ? 0 : toDrainEssence.amount);
+            if(doDrain && !MinecraftHelpers.isClientSide()) {
+                NetworkHelper.getSoulNetwork(uuid).setCurrentEssence(essence - drainEssence);
+            }
+            FluidStack drainedEssence = new FluidStack(BloodMagicAPI.getLifeEssence(), drainEssence);
+            return wrapSimulatedDrained(BloodFluidConverter.getInstance().convert(drainedEssence), doDrain);
+        }
+
+        @Override
+        public FluidStack drain(FluidStack resource, boolean doDrain) {
+            doDrain = shouldDoDrain(resource, doDrain);
+            if (resource != null && canDrainFluidType(resource)) {
+                return drain(resource.amount, doDrain);
+            }
+            return null;
+        }
     }
 
 }

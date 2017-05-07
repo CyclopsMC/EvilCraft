@@ -79,14 +79,12 @@ public class Reference {
     public static final String MOD_CYCLOPSCORE_VERSION_MIN = "0.10.2";
     public static final String MOD_THERMALEXPANSION = "thermalexpansion";
     public static final String MOD_WAILA = "Waila";
-    public static final String MOD_FMP = "ForgeMultipart";
     public static final String MOD_FORESTRY = "forestry";
     public static final String MOD_TCONSTRUCT = "tconstruct";
     public static final String MOD_BAUBLES = "baubles";
-    public static final String MOD_NEI = "NotEnoughItems";
-    public static final String MOD_BLOODMAGIC = "BloodMagic";
-    public static final String MOD_THAUMCRAFT = "Thaumcraft";
-    public static final String MOD_EE3 = "EE3";
+    public static final String MOD_BLOODMAGIC = "bloodmagic";
+    public static final String MOD_THAUMCRAFT = "thaumcraft";
+    public static final String MOD_EE3 = "ee3";
     public static final String MOD_IC2 = "ic2";
     public static final String MOD_JEI = "jei";
     public static final String MOD_IMMERSIVEENGINEERING = "immersiveengineering";

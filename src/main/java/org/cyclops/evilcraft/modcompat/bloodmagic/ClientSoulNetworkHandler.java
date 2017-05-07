@@ -92,7 +92,7 @@ public class ClientSoulNetworkHandler {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onServerTick(ServerTickEvent event) {
         if(event.phase == Phase.START && WorldHelpers.efficientTick(
-				FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0],
+				FMLCommonHandler.instance().getMinecraftServerInstance().worlds[0],
 				BoundBloodDropConfig.maxUpdateTicks)) {
         	Map<String, Integer> toSend = Maps.newHashMap();
         	for(String uuid : UPDATE_PLAYERS) {

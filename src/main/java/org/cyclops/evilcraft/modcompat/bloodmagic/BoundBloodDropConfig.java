@@ -36,7 +36,7 @@ public class BoundBloodDropConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 true,
-                "boundBloodDrop",
+                "bound_blood_drop",
                 null,
                 BoundBloodDrop.class
         );

@@ -729,7 +729,7 @@ info_book.evilcraft.mod_integrations.forestry.text=When &ovisiting&r some of my 
 info_book.evilcraft.mod_integrations.enderio=Ender IO
 info_book.evilcraft.mod_integrations.enderio.text=These Ender-based technologies are very interesting, perhaps I could improve my machines based on that at some point. Eitherway, I seem to be able to process &1Dark Ore&0 and &1Dark Gems&0 using their machines, which is quite useful.
 
-info_book.evilcraft.mod_integrations.ic2=Industrial_craft 2
+info_book.evilcraft.mod_integrations.ic2=Industrial Craft 2
 info_book.evilcraft.mod_integrations.ic2.text=There is a group of odd people who constantly work with buzzing machines. I have no idea what these machines do, except for the &1Macerator&0. I am able to insert &1Dark Ore&0 into it to immediately retrieve &1Dark Gems&0 and their crushed variant. Regular &1Dark Gems&0 can also be inserted to crush.
 
 info_book.evilcraft.mod_integrations.jei=Just Enough Items
@@ -737,9 +737,6 @@ info_book.evilcraft.mod_integrations.jei.text=Some people seem to have "&oToo Ma
 
 info_book.evilcraft.mod_integrations.immersiveengineering=Immersive Engineering
 info_book.evilcraft.mod_integrations.immersiveengineering.text=I have to admit, the machines of those engineers look pretty neat. Other than that, they also appear to be very good in processing &1Dark Ore&0 and &1Dark Gems&0, but also in squeezing &1Undead Logs&0 and &1Undead Leaves&0 for &4Blood&0.
-
-info_book.evilcraft.mod_integrations.nei=Not Enough Items
-info_book.evilcraft.mod_integrations.nei.text=All these people keep talking about "&oNot Enough Items&r", which I really don't understand, since I just have "&oToo Many Items&r"! But it sounds like the former group seems to understand my knowledge...
 
 info_book.evilcraft.mod_integrations.thermal_expansion=Thermal Expansion
 info_book.evilcraft.mod_integrations.thermal_expansion.text=These people are quite strange, they always wear very odd clothes and mostly seem to be wielding many types of wrenches for some reason. I know only one thing about them, they have a machine that can transpose fluids which allows for some very basic blood infusion, but unfortunately this can't be upgraded.

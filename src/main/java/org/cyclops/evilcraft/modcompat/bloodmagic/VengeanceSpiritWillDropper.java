@@ -22,7 +22,7 @@ public class VengeanceSpiritWillDropper {
         if (attackedEntity instanceof VengeanceSpirit && event.getSource() instanceof ExtendedDamageSource.VengeanceBeamDamageSource) {
             double amountOfSouls = attackedEntity.getEntityWorld().rand.nextDouble() * 20;
             ItemStack soulStack = ((IDemonWill) ModItems.MONSTER_SOUL).createWill(0, amountOfSouls);
-            event.getDrops().add(new EntityItem(attackedEntity.worldObj, attackedEntity.posX, attackedEntity.posY, attackedEntity.posZ, soulStack));
+            event.getDrops().add(new EntityItem(attackedEntity.getEntityWorld(), attackedEntity.posX, attackedEntity.posY, attackedEntity.posZ, soulStack));
         }
     }
 

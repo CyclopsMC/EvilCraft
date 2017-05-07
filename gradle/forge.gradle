@@ -48,7 +48,8 @@ dependencies {
     deobfCompile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}" // http://maven.ic2.player.to/
     //compile "com.pahimar.ee3:EquivalentExchange3:${config.minecraft_version}-${config.EE3_version}:dev" // http://files.minecraftforge.net/maven/com/pahimar/ee3/EquivalentExchange3
     compile "net.industrial-craft:industrialcraft-2:${config.IC2_version}:dev" // http://maven.ic2.player.to/
-    //deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-${config.BM_version}" // http://tehnut.info/maven/com/wayoftime/bloodmagic/BloodMagic
+    deobfCompile "info.amerifrance.guideapi:Guide-API:1.11.2-${config.guideapi_version}" // http://tehnut.info/maven/info/amerifrance/guideapi/Guide-API
+    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.11-${config.BM_version}" // http://tehnut.info/maven/com/wayoftime/bloodmagic/BloodMagic
     deobfCompile "mezz.jei:jei_${config.jei_version}" // https://dvs1.progwml6.com/jenkins/
     //deobfCompile "blusunrize:ImmersiveEngineering:${config.ie_version}"// http://maven.blamejared.com/blusunrize/ImmersiveEngineering/
     //deobfCompile "com.enderio:EnderIO:1.9.4-${config.enderio_version}" // http://maven.tterrag.com/com/enderio/EnderIO
