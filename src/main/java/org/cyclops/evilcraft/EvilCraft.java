@@ -50,6 +50,7 @@ import org.cyclops.evilcraft.modcompat.forestry.ForestryModCompat;
 import org.cyclops.evilcraft.modcompat.ic2.IC2ModCompat;
 import org.cyclops.evilcraft.modcompat.immersiveengineering.ImmersiveEngineeringModCompat;
 import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
+import org.cyclops.evilcraft.modcompat.minetweaker.MineTweakerModCompat;
 import org.cyclops.evilcraft.modcompat.tconstruct.TConstructModCompat;
 import org.cyclops.evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
 import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
@@ -114,6 +115,7 @@ public class EvilCraft extends ModBaseVersionable {
         modCompatLoader.addModCompat(new ImmersiveEngineeringModCompat());
         modCompatLoader.addModCompat(new EnderIOModCompat());
         modCompatLoader.addModCompat(new ThermalExpansionModCompat());
+        modCompatLoader.addModCompat(new MineTweakerModCompat());
 
         // Capabilities
         getCapabilityConstructorRegistry().registerTile(TickingTankInventoryTileEntity.class, new WorkerWorkingTileCompat());
