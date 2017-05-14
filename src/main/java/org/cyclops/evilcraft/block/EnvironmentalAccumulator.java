@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IMachine;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
@@ -17,6 +18,7 @@ import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeCo
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import org.cyclops.evilcraft.item.EnvironmentalAccumulationCoreConfig;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
+import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
 
 import java.util.Random;
 
@@ -83,13 +85,12 @@ public class EnvironmentalAccumulator
 
 	@Override
 	protected void onPreBlockDestroyed(World world, BlockPos blockPos) {
-		/*if(!world.isRemote) {
+		if(!world.isRemote) {
 			BlockPos closest = DarkTempleGenerator.getClosestForCoords(world, blockPos.getX(), blockPos.getZ());
 			if(closest != null) {
-				DarkTempleGenerator.getCachedData(world).addFailedLocation(closest.getX() / WorldHelpers.CHUNK_SIZE, closest.getZ() / WorldHelpers.CHUNK_SIZE);
+				EvilCraft.darkTempleData.addFailedLocation(world.provider.getDimension(), closest.getX() / WorldHelpers.CHUNK_SIZE, closest.getZ() / WorldHelpers.CHUNK_SIZE);
 			}
-		}*/
-		// TODO: enable when
+		}
 		super.onPreBlockDestroyed(world, blockPos);
 	}
 
