@@ -26,6 +26,8 @@ public class ExtendedDamageSource extends DamageSource{
     public static ExtendedDamageSource distorted = (ExtendedDamageSource)((new ExtendedDamageSource("distorted")));
     /**
      * DamageSource for when entities die from a spiked plate.
+     * @param world The world.
+     * @return A new damage source instance.
      */
     public static ExtendedDamageSource spikedDamage(WorldServer world) {
         return new ExtendedDamageSource("spiked", FakePlayerFactory.getMinecraft(world));

@@ -113,6 +113,7 @@ public class EvilCraft extends ModBaseVersionable {
         //modCompatLoader.addModCompat(new ImmersiveEngineeringModCompat());
         //modCompatLoader.addModCompat(new EnderIOModCompat());
         modCompatLoader.addModCompat(new ThermalExpansionModCompat());
+        //modCompatLoader.addModCompat(new MineTweakerModCompat());
 
         // Capabilities
         getCapabilityConstructorRegistry().registerTile(TickingTankInventoryTileEntity.class, new WorkerWorkingTileCompat());

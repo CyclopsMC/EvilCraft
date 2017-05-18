@@ -76,6 +76,10 @@ tile.blocks.evilcraft.sanguinary_environmental_accumulator.info=Craftable Enviro
 tile.blocks.evilcraft.sanguinary_environmental_accumulator.help.invalid=Unable to work
 tile.blocks.evilcraft.sanguinary_environmental_accumulator.help.invalid.invalid_locations=Tanks with Blood required at:
 tile.blocks.evilcraft.display_stand.name=Display Stand
+tile.blocks.evilcraft.undead_plank_stairs.name=Undead Plank Stairs
+tile.blocks.evilcraft.reinforced_undead_plank_stairs.name=Reinforced Undead Plank Stairs
+tile.blocks.evilcraft.dark_brick_stairs.name=Dark Brick Stairs
+tile.blocks.evilcraft.dark_blood_brick_stairs.name=Dark Blood Brick Stairs
 
 # Items
 item.items.evilcraft.werewolf_bone.name=Werewolf Bone
@@ -510,8 +514,8 @@ info_book.evilcraft.first_age.items.exalted_crafter.text1=Crafting tables can be
 info_book.evilcraft.first_age.items.exalted_crafter.text2=Striking it with lightning seems to make it bound to reality so that it can’t be destroyed or disappear when dropped.
 
 info_book.evilcraft.first_age.items.display_stand=Display Stand
-info_book.evilcraft.first_age.items.display_stand.text1=This small block can showcase your favorite items and blocks. It seems to support any wood type, and it can be placed with any rotation you want.
-info_book.evilcraft.first_age.items.display_stand.text2=The stands will also accept fluids from any side with which it will attempt to fill the item with that fluid.
+info_book.evilcraft.first_age.items.display_stand.text1=This small block can showcase your favorite items and blocks. It seems to support any wood type, and it can be placed with any rotation you want. You can pipe items in and out from the bottom or the top.
+info_book.evilcraft.first_age.items.display_stand.text2=Interaction from all other sides of the block will be delegated to the item itself, so you can interact with its inventory, fluids, energy, ...
 
 # - Items -
 info_book.evilcraft.first_age.vengeance_spirits=Vengeance Spirits
@@ -617,7 +621,7 @@ info_book.evilcraft.second_age.tools.broom.modifiers.text.modifier_count=&l&nMod
 info_book.evilcraft.second_age.tools.broom.modifiers.text.speed=&l&nSpeed&r&NThe top speed of a &1Broom&0.
 info_book.evilcraft.second_age.tools.broom.modifiers.text.acceleration=&l&nAcceleration&r&NThe higher this value, the faster the &1Broom&0 will accelerate.
 info_book.evilcraft.second_age.tools.broom.modifiers.text.maneuverability=&l&nManeuverability&r&NHow fast a &1Broom&0 can rotate.
-info_book.evilcraft.second_age.tools.broom.modifiers.text.levitation=&l&nLevitation&r&NThe higher this value, the higher the &1Broom&0 can fly before slowing down.
+info_book.evilcraft.second_age.tools.broom.modifiers.text.levitation=&l&nLevitation&r&NThe higher this value, the faster the &1Broom&0 can fly up.
 info_book.evilcraft.second_age.tools.broom.modifiers.text.damage=&l&nDamage&r&NThe damage that will be afflicted onto colliding mobs. The faster the &1Broom&0 is flying, the higher this damage will be.
 info_book.evilcraft.second_age.tools.broom.modifiers.text.particles=&l&nParticles&r&NHow much particles should be emitted from the &1Broom&0 when flying.
 info_book.evilcraft.second_age.tools.broom.modifiers.text.flame=&l&nFlame&r&NAny colliding entity will be lit on fire.

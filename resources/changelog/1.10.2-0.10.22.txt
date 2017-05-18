@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.1 or higher.
+
+Fixes:
+* Fix Thermal Expansion infobook mod id
+* Correctly set Dark Ore state after glowing
+* Fix Spiked Plate not producing player drops, Closes #547
+* Fix Blood duplication when filling Chalice or Bound Blood Drops in-hand, Closes #546
+* Fix item disabling causing book initialization crash, Closes #542

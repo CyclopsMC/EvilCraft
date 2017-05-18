@@ -7,6 +7,8 @@ import net.minecraft.world.World;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
+import org.cyclops.evilcraft.enchantment.EnchantmentVengeance;
+import org.cyclops.evilcraft.item.VengeancePickaxe;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
@@ -42,9 +44,12 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
 
             // Check bad enchant registry
             for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
-                int enchantmentListID = EnchantmentHelpers.doesEnchantApply(tile.getPurifyItem(), enchant);
-                if (enchantmentListID >= 0) {
-                    return true;
+                if (tile.getPurifyItem().getItem() != VengeancePickaxe.getInstance()
+                        || enchant != EnchantmentVengeance.getInstance()) {
+                    int enchantmentListID = EnchantmentHelpers.doesEnchantApply(tile.getPurifyItem(), enchant);
+                    if (enchantmentListID >= 0) {
+                        return true;
+                    }
                 }
             }
         }
@@ -87,7 +92,10 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         // Try removing bad enchants.
         for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
             if(!done) {
-                done = removeEnchant(world, tile, purifyItem, tick, enchant);
+                if (tile.getPurifyItem().getItem() != VengeancePickaxe.getInstance()
+                        || enchant != EnchantmentVengeance.getInstance()) {
+                    done = removeEnchant(world, tile, purifyItem, tick, enchant);
+                }
             }
         }
 

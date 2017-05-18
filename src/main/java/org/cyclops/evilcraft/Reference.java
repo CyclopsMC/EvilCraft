@@ -69,6 +69,7 @@ public class Reference {
     public static final String DICT_ITEMSKULL = "itemSkull";
     public static final String DICT_DUSTDULL = "dustDull";
     public static final String DICT_FLESH = "materialFlesh";
+    public static final String DICT_STAIRWOOD = "stairWood";
     
     // MOD ID's
     public static final String MOD_FORGE = "forge";
@@ -89,6 +90,7 @@ public class Reference {
     public static final String MOD_JEI = "jei";
     public static final String MOD_IMMERSIVEENGINEERING = "immersiveengineering";
     public static final String MOD_ENDERIO = "enderio";
+    public static final String MOD_MINETWEAKER = "minetweaker3";
     
     // Dependencies
     public static final String MOD_DEPENDENCIES =

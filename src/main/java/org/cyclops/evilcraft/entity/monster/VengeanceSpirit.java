@@ -102,6 +102,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     /**
      * Make a new instance.
      * @param world The world.
+     * @param preferredInnerEntity The inner entity name.
      */
     public VengeanceSpirit(World world, String preferredInnerEntity) {
         super(world);

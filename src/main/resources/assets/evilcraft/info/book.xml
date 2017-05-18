@@ -19,10 +19,12 @@
                 <tag>dark_gem_crushed</tag>
                 <tag>dark_block</tag>
                 <tag>dark_brick</tag>
+                <tag>dark_brick_stairs</tag>
                 <paragraph>info_book.evilcraft.first_age.new_world.dark_ore.text</paragraph>
                 <appendix type="crafting_recipe">evilcraft:dark_block</appendix>
                 <appendix type="crafting_recipe">evilcraft:dark_gem</appendix>
                 <appendix type="crafting_recipe">evilcraft:dark_brick</appendix>
+                <appendix type="crafting_recipe">evilcraft:dark_brick_stairs</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.new_world.darkened_apple">
                 <tag>darkened_apple</tag>
@@ -217,6 +219,7 @@
             <section name="info_book.evilcraft.second_age.blood_infusion.undead_tree">
                 <tag>undead_sapling</tag>
                 <tag>dark_stick</tag>
+                <tag>undead_plank_stairs</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text3</paragraph>
@@ -224,6 +227,7 @@
                 <appendix type="crafting_recipe">minecraft:dead_bush</appendix>
                 <appendix type="evilcraft:blood_infuser_recipe">evilcraft:undead_sapling</appendix>
                 <appendix type="crafting_recipe">evilcraft:dark_stick</appendix>
+                <appendix type="crafting_recipe">evilcraft:undead_plank_stairs</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion">
                 <tag>bowl_of_promises</tag>
@@ -289,6 +293,7 @@
             <section name="info_book.second_age.evolved_blood_machinery.colossal_blood_chest">
                 <tag>reinforced_undead_plank</tag>
                 <tag>colossal_blood_chest</tag>
+                <tag>reinforced_undead_plank_stairs</tag>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text1</paragraph>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text2</paragraph>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text3</paragraph>
@@ -297,6 +302,7 @@
                 <appendix type="image" width="120" height="118">evilcraft:textures/gui/infobook/colossal_blood_chest.png</appendix>
                 <appendix type="evilcraft:blood_infuser_recipe">evilcraft:reinforced_undead_plank</appendix>
                 <appendix type="crafting_recipe">evilcraft:colossal_blood_chest</appendix>
+                <appendix type="crafting_recipe">evilcraft:reinforced_undead_plank_stairs</appendix>
             </section>
             <section name="info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator">
                 <tag>sanguinary_environmental_accumulator</tag>
@@ -447,12 +453,14 @@
             <section name="info_book.evilcraft.second_age.abusing_spirits.spirit_furnace">
                 <tag>dark_blood_brick</tag>
                 <tag>spirit_furnace</tag>
+                <tag>dark_blood_brick_stairs</tag>
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text3</paragraph>
                 <appendix type="image" width="120" height="135">evilcraft:textures/gui/infobook/spirit_furnace.png</appendix>
                 <appendix type="evilcraft:blood_infuser_recipe">evilcraft:dark_blood_brick</appendix>
                 <appendix type="crafting_recipe">evilcraft:spirit_furnace</appendix>
+                <appendix type="crafting_recipe">evilcraft:dark_blood_brick_stairs</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator">
                 <tag>spirit_reanimator</tag>

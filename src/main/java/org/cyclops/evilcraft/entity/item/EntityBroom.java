@@ -459,11 +459,11 @@ public class EntityBroom extends Entity implements IConfigurable{
         playerSpeed = playerSpeed * (1D - slowingFactor) + lastPlayerSpeed * slowingFactor;
 
         // Apply levitation modifier
-        float levitationModifier = 1;
-        if(y > 0) {
-            float levitation = getModifier(BroomModifiers.LEVITATION);
-            levitationModifier = Math.min(1F, ((levitation * 50F) / Math.max(1F, (float) posY - 64F))
-                    / BroomModifiers.LEVITATION.getMaxTierValue());
+        float levitation = getModifier(BroomModifiers.LEVITATION);
+        float levitationModifier = (levitation / BroomModifiers.LEVITATION.getMaxTierValue()) * 1.5F;
+        levitationModifier = Math.max(0.2F, levitationModifier);
+        if (y < 0) {
+            levitationModifier = Math.max(1.0F, levitationModifier);
         }
 
         motionX = motionX / 10 + x * SPEED * playerSpeed;

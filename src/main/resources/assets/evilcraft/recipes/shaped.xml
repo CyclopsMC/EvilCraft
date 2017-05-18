@@ -1401,4 +1401,112 @@
 		</output>
 	</recipe>
 
+	<recipe type="shaped">
+		<condition type="config">undead_plank</condition>
+		<condition type="config">undead_plank_stairs</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:undead_plank</item>
+					<item />
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:undead_plank</item>
+					<item>evilcraft:undead_plank</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:undead_plank</item>
+					<item>evilcraft:undead_plank</item>
+					<item>evilcraft:undead_plank</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="4">evilcraft:undead_plank_stairs</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">reinforced_undead_plank</condition>
+		<condition type="config">reinforced_undead_plank_stairs</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:reinforced_undead_plank</item>
+					<item />
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:reinforced_undead_plank</item>
+					<item>evilcraft:reinforced_undead_plank</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:reinforced_undead_plank</item>
+					<item>evilcraft:reinforced_undead_plank</item>
+					<item>evilcraft:reinforced_undead_plank</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="4">evilcraft:reinforced_undead_plank_stairs</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">dark_brick</condition>
+		<condition type="config">dark_brick_stairs</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:dark_brick</item>
+					<item />
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:dark_brick</item>
+					<item>evilcraft:dark_brick</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:dark_brick</item>
+					<item>evilcraft:dark_brick</item>
+					<item>evilcraft:dark_brick</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="4">evilcraft:dark_brick_stairs</item>
+		</output>
+	</recipe>
+
+	<recipe type="shaped">
+		<condition type="config">dark_blood_brick</condition>
+		<condition type="config">dark_blood_brick_stairs</condition>
+		<input>
+			<grid>
+				<gridrow>
+					<item>evilcraft:dark_blood_brick</item>
+					<item />
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:dark_blood_brick</item>
+					<item>evilcraft:dark_blood_brick</item>
+					<item />
+				</gridrow>
+				<gridrow>
+					<item>evilcraft:dark_blood_brick</item>
+					<item>evilcraft:dark_blood_brick</item>
+					<item>evilcraft:dark_blood_brick</item>
+				</gridrow>
+			</grid>
+		</input>
+		<output>
+			<item amount="4">evilcraft:dark_blood_brick_stairs</item>
+		</output>
+	</recipe>
+
 </recipes>
