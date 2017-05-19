@@ -1,0 +1,17 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.3 or higher.
+
+Additions:
+* Make Display Stand interactable with any kind of item capability
+* Add Exalted Crafter item handler capability
+* Add stairs for all relevant materials
+
+Changes:
+* Restore Blood Magic mod compat
+* Restore Tinkers Construct mod compat
+* Change broom levitation logic so that it increases the climbing speed
+* Block Vengeance enchant removal from Vengeance Pickaxe
+
+Fixes:
+* Remove EnvirAcc position from location service when broken
+* Fix Necromancer Staff entities sometimes targeting the thrower, Closes #551
