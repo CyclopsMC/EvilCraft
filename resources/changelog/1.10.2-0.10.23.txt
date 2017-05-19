@@ -10,6 +10,7 @@ Additions:
 Changes:
 * Change broom levitation logic so that it increases the climbing speed
 * Block Vengeance enchant removal from Vengeance Pickaxe
+* Update zh_CN.lang
 
 Fixes:
 * Remove EnvirAcc position from location service when broken
