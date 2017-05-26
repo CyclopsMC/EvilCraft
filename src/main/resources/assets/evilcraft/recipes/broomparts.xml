@@ -307,6 +307,20 @@
 		</output>
 	</recipe>
 
+	<recipe type="shapeless" nbt_sensitive="true">
+		<tag>broom_part_brush</tag>
+		<condition type="config">broom</condition>
+		<input>
+			<item type="oredict">stickWood</item>
+			<item type="predefined">evilcraft:broompart:brush_bare</item>
+			<item type="oredict">stickWood</item>
+			<item type="oredict">stickWood</item>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:broompart:brush_twig</item>
+		</output>
+	</recipe>
+
 	<!-- Caps -->
 
 	<recipe type="shapeless" nbt_sensitive="true">
