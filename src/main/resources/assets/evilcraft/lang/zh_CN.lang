@@ -3,35 +3,37 @@ itemGroup.evilcraft=邪恶工艺
 general.evilcraft.info.empty=空
 
 # Blocks
+tile.blocks.evilcraft.inner_block.info=方块: %s
 tile.blocks.evilcraft.block_blood.name=血液
 tile.blocks.evilcraft.block_poison.name=毒液
 tile.blocks.evilcraft.blood_chest.name=血能箱
-tile.blocks.evilcraft.blood_chest.info=用血液修复物品
+tile.blocks.evilcraft.blood_chest.info=用血液修复物品。
 tile.blocks.evilcraft.blood_infuser.name=血能注入器
-tile.blocks.evilcraft.dark_ore.name=暗能宝石矿石
-tile.blocks.evilcraft.dark_ore.info.custom=可以在 %s 到 %s高度找到。
-tile.blocks.evilcraft.dark_block.name=暗能宝石块
+tile.blocks.evilcraft.dark_ore.name=暗黑宝石矿石
+tile.blocks.evilcraft.dark_ore.info.custom=可以在 %s 到 %s 高度找到。
+tile.blocks.evilcraft.dark_block.name=暗黑宝石块
 tile.blocks.evilcraft.blood_stained_block.name=血迹方块
-tile.blocks.evilcraft.blood_stained_block.info=这是生物摔死的地方
+tile.blocks.evilcraft.blood_stained_block.info=这是生物摔死的地方。
 tile.blocks.evilcraft.lightning_bomb.name=雷电炸弹
 tile.blocks.evilcraft.bloody_cobblestone.name=血石
 tile.blocks.evilcraft.nether_monster_block.name=地狱刷怪砖
 tile.blocks.evilcraft.excrement_pile.name=便便
+tile.blocks.evilcraft.excrement_pile.info=会在动物下方形成。
 tile.blocks.evilcraft.hardened_blood.name=血块
-tile.blocks.evilcraft.hardened_blood.info=硬化了的血液，如果被淋湿的话会融化
+tile.blocks.evilcraft.hardened_blood.info=硬化了的血液，如果被淋湿的话会融化。
 tile.blocks.evilcraft.obscured_glass.name=毛玻璃
 tile.blocks.evilcraft.environmental_accumulator.name=天气储存器
-tile.blocks.evilcraft.environmental_accumulator.info=在山顶的黑暗神庙被找到，无法制造
+tile.blocks.evilcraft.environmental_accumulator.info=在山顶的暗黑神庙被找到，无法制造。
 tile.blocks.evilcraft.undead_leaves.name=亡灵树叶
-tile.blocks.evilcraft.undead_log.name=亡灵木
+tile.blocks.evilcraft.undead_log.name=亡灵原木
 tile.blocks.evilcraft.undead_sapling.name=亡灵树苗
-tile.blocks.evilcraft.undead_sapling.info=被注满了血液的枯死灌木
+tile.blocks.evilcraft.undead_sapling.info=被注满了血液的枯死灌木。
 tile.blocks.evilcraft.undead_plank.name=亡灵木板
 tile.blocks.evilcraft.invisible_redstone_block.name=隐形红石块
 tile.blocks.evilcraft.purifier.name=净化器
 tile.blocks.evilcraft.purifier.info=不再被添加随机附魔！
 tile.blocks.evilcraft.dark_brick.name=黑砖
-tile.blocks.evilcraft.dark_blood_brick.name=黑暗血砖
+tile.blocks.evilcraft.dark_blood_brick.name=暗黑血砖
 tile.blocks.evilcraft.spirit_furnace.name=灵魂炉
 tile.blocks.evilcraft.spirit_furnace.info=提供被捕灵魂血液，可以得到他们的掉落物(需要中空结构)。
 tile.blocks.evilcraft.spirit_furnace.help.invalid=无法注入血液
@@ -39,39 +41,45 @@ tile.blocks.evilcraft.spirit_furnace.help.invalid.no_entity=空的或者没有�
 tile.blocks.evilcraft.spirit_furnace.help.invalid.content_size=容量大小: %s
 tile.blocks.evilcraft.spirit_furnace.help.invalid.required_size=需要大小: %s
 tile.blocks.evilcraft.spirit_furnace.help.invalid.force_halt=没有空间
-tile.blocks.evilcraft.spirit_furnace.help.invalid.caught_error=无效生物灵魂，重新捕捉
+tile.blocks.evilcraft.spirit_furnace.help.invalid.caught_error=无效生物灵魂。联系mod开发者（们）。
 tile.blocks.evilcraft.box_of_eternal_closure.name=永恒的灵魂箱
 tile.blocks.evilcraft.box_of_eternal_closure.info.content=容量: %s
 tile.blocks.evilcraft.dark_tank.name=暗黑液体罐
-tile.blocks.evilcraft.dark_tank.info=叠加合成增加容量. Shift + 右键切换是否自动补给.
+tile.blocks.evilcraft.dark_tank.info=叠加合成增加容量。Shift+右键切换是否自动补给。
 tile.blocks.evilcraft.dark_tank.info.auto_supply=自动补给: %s
 tile.blocks.evilcraft.sanguinary_pedestal.name=血腥基座
-tile.blocks.evilcraft.sanguinary_pedestal.info=提取附近方块的血迹
+tile.blocks.evilcraft.sanguinary_pedestal.info=提取附近方块的血迹。
 tile.blocks.evilcraft.sanguinary_pedestal.boost=效率 I
 tile.blocks.evilcraft.spiked_plate.name=钉刺板
-tile.blocks.evilcraft.spiked_plate.info=对生物造成伤害，放置在基座上同时会生产血
+tile.blocks.evilcraft.spiked_plate.info=对生物造成伤害，放置在基座上同时会生产血。
 tile.blocks.evilcraft.spirit_reanimator.name=灵魂再生炉
-tile.blocks.evilcraft.spirit_reanimator.info=可以以蛋的形式复活复仇灵魂
+tile.blocks.evilcraft.spirit_reanimator.info=可以以蛋的形式复活复仇之魂
+tile.blocks.evilcraft.spirit_reanimator.help.invalid=无法赋予生命
 tile.blocks.evilcraft.spirit_reanimator.help.invalid.no_entity=无效,空的或者没有灵魂箱
 tile.blocks.evilcraft.spirit_reanimator.help.invalid.invalid_entity=这个生物没有刷怪蛋
 tile.blocks.evilcraft.spirit_reanimator.help.invalid.different_egg=请移除其它生物蛋
 tile.blocks.evilcraft.entangled_chalice.name=纠缠圣杯
-tile.blocks.evilcraft.entangled_chalice.info=穿越世界的纠缠，两个杯子将共享液体。\n_shift + 右键切换自动补给
-tile.blocks.evilcraft.entangled_chalice.info.auto_supply=自动补给: %s
-tile.blocks.evilcraft.dark_power_gem_block.name=血能宝石块
-tile.blocks.evilcraft.gem_stone_torch.name=暗能火把
-tile.blocks.evilcraft.gem_stone_torch.info=复仇灵魂不会在暗能火把15格范围内产生
+tile.blocks.evilcraft.entangled_chalice.info=穿越世界的纠缠，两个杯子将共享液体。\nShift+右键切换自动补给。
+tile.blocks.evilcraft.entangled_chalice.info.autoSupply=自动补给: %s
+tile.blocks.evilcraft.dark_power_gem_block.name=暗黑充能宝石块
+tile.blocks.evilcraft.gem_stone_torch.name=暗黑火把
+tile.blocks.evilcraft.gem_stone_torch.info=复仇之魂不会在暗黑火把15格范围内产生。
 tile.blocks.evilcraft.eternal_water_block.name=永恒水方块
-tile.blocks.evilcraft.eternal_water_block.info=一个无限的水源
+tile.blocks.evilcraft.eternal_water_block.info=一个无限的水源。
 tile.blocks.evilcraft.blood_waxed_coal_block.name=血蜡煤块
 tile.blocks.evilcraft.spirit_portal.name=灵魂之门
 tile.blocks.evilcraft.reinforced_undead_plank.name=强化亡灵木板
 tile.blocks.evilcraft.colossal_blood_chest.name=大型血能箱
-tile.blocks.evilcraft.colossal_blood_chest.info=工业规模的血能箱
+tile.blocks.evilcraft.colossal_blood_chest.info=工业规模的血能箱。
 tile.blocks.evilcraft.sanguinary_environmental_accumulator.name=血腥环境存储器
 tile.blocks.evilcraft.sanguinary_environmental_accumulator.info=人工环境存储器
 tile.blocks.evilcraft.sanguinary_environmental_accumulator.help.invalid=无法工作
-tile.blocks.evilcraft.sanguinary_environmental_accumulator.help.invalid.invalid_locations=需要在以下
+tile.blocks.evilcraft.sanguinary_environmental_accumulator.help.invalid.invalid_locations=需要在以下位置放置装有血液的储罐:
+tile.blocks.evilcraft.display_stand.name=展示架
+tile.blocks.evilcraft.undead_plank_stairs.name=亡灵楼梯
+tile.blocks.evilcraft.reinforced_undead_plank_stairs.name=强化亡灵楼梯
+tile.blocks.evilcraft.dark_brick_stairs.name=黑砖楼梯
+tile.blocks.evilcraft.dark_blood_brick_stairs.name=暗黑血砖楼梯
 
 # Items
 item.items.evilcraft.werewolf_bone.name=狼人的骨头
@@ -82,37 +90,38 @@ item.items.evilcraft.redstone_grenade.name=红石脉冲弹
 item.items.evilcraft.bucket_blood.name=血液桶
 item.items.evilcraft.bucket_poison.name=毒液桶
 item.items.evilcraft.blood_extractor.name=血液提取器
-item.items.evilcraft.blood_extractor.info=放在背包，杀死生物时会收集血液。\n_shift + 右键切换自动补给
-item.items.evilcraft.blood_extractor.info.auto_supply=自动补给: %s
-item.items.evilcraft.dark_gem.name=暗能宝石
-item.items.evilcraft.dark_stick.name=深色木棍
-item.items.evilcraft.weather_container.evilcraft.name=天气瓶子
+item.items.evilcraft.blood_extractor.info=放在背包，杀死生物时会收集血液。\nShift+右键切换自动补给。
+item.items.evilcraft.blood_extractor.info.autoSupply=自动补给: %s
+item.items.evilcraft.dark_gem.name=暗黑宝石
+item.items.evilcraft.dark_stick.name=暗黑木棍
+item.items.evilcraft.weather_container.name=天气容器
 item.items.evilcraft.blood_pearl_of_teleportation.name=血能末影珍珠
-item.items.evilcraft.broom.name=扫把
-item.items.evilcraft.broom.info=I can fly!
+item.items.evilcraft.broom.name=扫帚
+item.items.evilcraft.broom.info=我能飞起来了！
+item.items.evilcraft.broom_part.name=扫帚部件
 item.items.evilcraft.hardened_blood_shard.name=干血碎片
-item.items.evilcraft.hardened_blood_shard.info=在血块上使用打火石可以获得
+item.items.evilcraft.hardened_blood_shard.info=在血块上使用打火石可以获得。
 item.items.evilcraft.blood_infusion_core.name=血能注入核心
-item.items.evilcraft.dark_power_gem.name=血能宝石
-item.items.evilcraft.dark_power_gem.info=将暗能宝石投入至少5格的流动血液中，或者用血能注入器将血能注入暗能宝石
-item.items.evilcraft.blood_container.blood_cell.name=血瓶
-item.items.evilcraft.blood_container.blood_can.name=血罐
-item.items.evilcraft.blood_container.blood_basin.name=血盆
-item.items.evilcraft.blood_container.creative_blood_container.name=血箱(创造模式)
-item.items.evilcraft.blood_container.info=不推荐使用！请合成转换为暗黑液体罐.
-item.items.evilcraft.blood_container.info.auto_supply=自动补给模式:
+item.items.evilcraft.dark_power_gem.name=暗黑充能宝石
+item.items.evilcraft.dark_power_gem.info=将暗黑宝石投入至少5格的流动血液中，或者用血能注入器将血能注入暗黑宝石
+item.items.evilcraft.blood_container.bloodCell.name=血瓶
+item.items.evilcraft.blood_container.bloodCan.name=血罐
+item.items.evilcraft.blood_container.bloodBasin.name=血盆
+item.items.evilcraft.blood_container.creativeBloodContainer.name=血箱(创造模式)
+item.items.evilcraft.blood_container.info=不推荐使用！请合成转换为暗黑液体罐。
+item.items.evilcraft.blood_container.info.autoSupply=自动补给模式:
 item.items.evilcraft.poison_sac.name=毒囊
 item.items.evilcraft.werewolf_fur.name=狼人皮
 item.items.evilcraft.blook.name=血书
-item.items.evilcraft.blook.info=放入净化器中可以吸收物品的附魔
+item.items.evilcraft.blook.info=放入净化器中可以吸收物品的附魔。
 item.items.evilcraft.potentia_sphere.name=神秘球
-item.items.evilcraft.potentia_sphere.info=注入血液会变成末影珍珠
+item.items.evilcraft.potentia_sphere.info=注入血液会变成末影珍珠。
 item.items.evilcraft.inverted_potentia.name=暗黑能量球
-item.items.evilcraft.inverted_potentia.info=用闪电可以充能
+item.items.evilcraft.inverted_potentia.info=用闪电可以充能。
 item.items.evilcraft.mace_of_distortion.name=立场扭曲锤
 item.items.evilcraft.kineticator.name=磁场魔杖
 item.items.evilcraft.kineticator.repelling.name=反磁场魔杖
-item.items.evilcraft.kineticator.info=Shift + 右键开启魔杖 \n 右键改变作用面积
+item.items.evilcraft.kineticator.info=Shift+右键开启魔杖。\n右键改变作用面积。
 item.items.evilcraft.kineticator.info.attraction=吸引: %s
 item.items.evilcraft.kineticator.info.repelling.attraction=排斥: %s
 item.items.evilcraft.kineticator.info.area=范围: %s
@@ -211,11 +220,11 @@ item.items.evilcraft.poison_bottle.name=毒液瓶
 
 item.evilcraft.powerable.set_power=设置功率为 %s
 item.evilcraft.powerable.info.power=功率等级: %s
-item.evilcraft.powerable.info=按住Shift + 右键 改变功率等级.
+item.evilcraft.powerable.info=按住Shift+右键改变功率等级。
 
 # Fluids
-fluid.fluids.evilcraft.evilcraftblood=血液
-fluid.fluids.evilcraft.evilcraftpoison=毒液
+fluid.fluid.fluids.evilcraft.evilcraftblood=血液
+fluid.fluid.luids.evilcraft.evilcraftpoison=毒液
 
 # Weather container info
 weather_container.evilcraft.empty=空
@@ -225,8 +234,6 @@ weather_container.evilcraft.lightning=雷暴降临！轰隆隆！
 
 # Controls
 key.categories.evilcraft=邪恶工艺
-key.evilcraft.fart=开关放屁模式
-key.evilcraft.exalted_crafting=打开合成包
 key.evilcraft.fart=开关排气模式
 key.evilcraft.exalted_crafting=打开合成包
 
@@ -243,9 +250,15 @@ entity.controlled_zombie.name=受控僵尸
 
 # Enchantments
 enchantment.evilcraft.breaking=破碎
-enchantment.evilcraft.life_stealing=吸血
+description.enchantment.enchantments.breaking=你的工具很快就会坏掉
+enchantment.evilcraft.lifeStealing=吸血
+description.enchantment.enchantments.lifeStealing=从被攻击怪物身上偷取生命
 enchantment.evilcraft.unusing=保险
-enchantment.evilcraft.poison_tip=淬毒
+description.enchantment.enchantments.unusing=当仅剩1耐久值时工具将无法使用
+enchantment.evilcraft.poisonTip=淬毒
+description.enchantment.enchantments.poisonTip=被攻击怪物将中毒
+enchantment.evilcraft.vengeance=复仇
+description.enchantment.enchantments.vengeance=使用工具将召唤复仇之魂
 
 # Chat messages
 chat.evilcraft.command.farting_enabled=开启放屁模式
@@ -253,13 +266,16 @@ chat.evilcraft.command.farting_disabled=关闭放屁模式
 chat.evilcraft.boss_display.charge=%s 充能
 
 # Death messages
-death.attack.evilcraft.die_without_any_reason=%1$s 死的毫无缘由!
-death.attack.evilcraft.distorted=%1$s 无法活在扭曲里了。
-death.attack.evilcraft.spiked=%1$s 被针扎死!
-death.attack.evilcraft.paling=%1$s 消逝了。
+death.attack.evilcraft.die_without_any_reason=%1$s死的毫无缘由！
+death.attack.evilcraft.distorted=%1$s无法活在扭曲里了。
+death.attack.evilcraft.spiked=%1$s被针扎死！
+death.attack.evilcraft.paling=%1$s消逝了。
+death.attack.evilcraft.broom=%1$s被扫帚扫过。
+death.attack.evilcraft.broom.player=%1$s被%s的扫帚扫过。
+death.attack.evilcraft.vengeance_beam=%1$s被复仇光束蒸发了。
 
 # Biomes
-biomes.evilcraft.biome_degraded=Degraded
+biomes.evilcraft.biome_degraded=堕落
 
 # Potion Effects
 potions.evilcraft.paling=苍白
@@ -298,7 +314,97 @@ gui.waila.tank_config=液体含量
 gui.waila.inner_blocks_config=容器内物品
 gui.waila.box_of_eternal_closure_config=永恒的灵魂箱所含灵魂
 gui.waila.block_info_config=按住Shift查看方块详情
+gui.waila.broom_info_config=扫帚信息
 gui.nei.fluids=液体
+
+# Broom parts
+broom.evilcraft.shiftinfo=<按下Shift以查看扫帚信息>
+broom.parts.evilcraft.shiftinfo=<按下Shift以查看扫帚部件信息>
+broom.parts.evilcraft.rod_bare.name=裸杆
+broom.parts.evilcraft.rod_wood.name=木杆
+broom.parts.evilcraft.rod_stone.name=石杆
+broom.parts.evilcraft.rod_bone.name=骨杆
+broom.parts.evilcraft.rod_blaze.name=烈焰杆
+broom.parts.evilcraft.rod_reed.name=甘蔗杆
+broom.parts.evilcraft.rod_netherrack.name=地狱岩杆
+broom.parts.evilcraft.rod_obsidian.name=黑曜石杆
+broom.parts.evilcraft.rod_undead.name=亡灵杆
+broom.parts.evilcraft.rod_prismarine.name=海晶石杆
+broom.parts.evilcraft.rod_ice.name=冰杆
+broom.parts.evilcraft.rod_sponge.name=海绵杆
+broom.parts.evilcraft.rod_endstone.name=末地石杆
+broom.parts.evilcraft.rod_purpur.name=紫珀杆
+broom.parts.evilcraft.brush_bare.name=裸刷
+broom.parts.evilcraft.brush_wheat.name=干草刷
+broom.parts.evilcraft.brush_wool.name=羊毛刷
+broom.parts.evilcraft.brush_feather.name=羽毛刷
+broom.parts.evilcraft.brush_twig.name=枝条刷
+broom.parts.evilcraft.brush_leaves.name=树叶刷
+broom.parts.evilcraft.cap_bare.name=裸端
+broom.parts.evilcraft.cap_gem_dark.name=暗黑宝石端
+broom.parts.evilcraft.cap_gem_darkPower.name=暗黑充能宝石端
+broom.parts.evilcraft.cap_gem_diamond.name=钻石端
+broom.parts.evilcraft.cap_gem_emerald.name=绿宝石端
+broom.parts.evilcraft.cap_gem_quartz.name=石英端
+broom.parts.evilcraft.cap_gem_lapis.name=青金石端
+broom.parts.evilcraft.cap_head_skeleton.name=骷髅头颅端
+broom.parts.evilcraft.cap_head_witherskeleton.name=凋零骷髅头颅端
+broom.parts.evilcraft.cap_head_zombie.name=僵尸头颅端
+broom.parts.evilcraft.cap_head_player.name=玩家头颅端
+broom.parts.evilcraft.cap_head_creeper.name=爬行者头颅端
+broom.parts.evilcraft.cap_head_wither.name=凋零头颅端
+broom.parts.evilcraft.cap_metal_iron.name=铁端
+broom.parts.evilcraft.cap_metal_gold.name=金端
+broom.parts.evilcraft.cap_metal_thaumium.name=神秘端
+broom.parts.evilcraft.cap_metal_copper.name=铜端
+broom.parts.evilcraft.cap_metal_silver.name=银端
+broom.parts.evilcraft.cap_metal_alubrass.name=铝黄铜端
+broom.parts.evilcraft.cap_metal_ardite.name=阿迪特端
+broom.parts.evilcraft.cap_metal_cobalt.name=钴端
+broom.parts.evilcraft.cap_metal_manyullyn.name=玛玉灵端
+broom.parts.evilcraft.cap_slime.name=史莱姆端
+
+# Broom part types
+broom.parts.evilcraft.type.name=类型: %s
+broom.parts.evilcraft.types.name=部件:
+broom.parts.evilcraft.type.rod.name=杆
+broom.parts.evilcraft.type.brush.name=刷
+broom.parts.evilcraft.type.cap.name=端
+
+# Broom modifiers
+broom.modifiers.evilcraft.shiftinfo=<按下Shift以查看扫帚信息>
+broom.modifiers.evilcraft.type.name=强化
+broom.modifiers.evilcraft.types.name=强化:
+broom.modifiers.evilcraft.types.nameparam=强化(%s/%s):
+broom.modifiers.evilcraft.type.modifier_count.name=最大强化数
+broom.modifiers.evilcraft.type.speed.name=速度
+broom.modifiers.evilcraft.type.acceleration.name=加速度
+broom.modifiers.evilcraft.type.maneuverability.name=机动性
+broom.modifiers.evilcraft.type.levitation.name=悬浮性
+broom.modifiers.evilcraft.type.damage.name=碰撞伤害
+broom.modifiers.evilcraft.type.particles.name=粒子
+broom.modifiers.evilcraft.type.flame.name=火焰
+broom.modifiers.evilcraft.type.smash.name=粉碎
+broom.modifiers.evilcraft.type.bouncy.name=弹性
+broom.modifiers.evilcraft.type.witherer.name=凋零
+broom.modifiers.evilcraft.type.hungerer.name=饥饿
+broom.modifiers.evilcraft.type.kamikaze.name=神风
+broom.modifiers.evilcraft.type.withershield.name=凋零护盾
+broom.modifiers.evilcraft.type.sturdyness.name=坚固性
+broom.modifiers.evilcraft.type.luck.name=幸运
+broom.modifiers.evilcraft.type.efficiency.name=效率
+broom.modifiers.evilcraft.type.swimming.name=游泳
+broom.modifiers.evilcraft.type.icy.name=冰冻
+
+# Subtitles
+subtitles.evilcraft.effect.vengeancebeam.base=复仇光束
+subtitles.evilcraft.effect.vengeancebeam.start=复仇光束开始
+subtitles.evilcraft.effect.vengeancebeam.stop=复仇光束结束
+subtitles.evilcraft.mob.vengeancespirit.ambient=复仇之魂低吼
+subtitles.evilcraft.mob.vengeancespirit.death=复仇之魂死亡
+subtitles.evilcraft.effect.box.beam=永恒的灵魂箱光束
+subtitles.evilcraft.effect.page.flipsingle=翻页
+subtitles.evilcraft.effect.page.flipmultiple=翻多页
 
 # ------ Origins of Darkness contents ------
 info_book.evilcraft.section.main=黑暗起源
@@ -399,6 +505,10 @@ info_book.evilcraft.first_age.items.exalted_crafter=合成包
 info_book.evilcraft.first_age.items.exalted_crafter.text1=有时在偏远的地方，合成台并不再身边。而暗能宝石粉可以赋予你在物品栏合成的方法。当然它可以绑定热键，高级玩家会为此而高兴的。在合成包的界面，使用相同的热键就可以把合成栏的物品拿到背包，按住Shift在使用热键就能把合成栏的物品平均起来。
 info_book.evilcraft.first_age.items.exalted_crafter.text2=被直接雷击会使它充能，这样当成为掉落物时它不会被破坏或者删除。
 
+infoBook.evilcraft.firstAge.items.displayStand=展示架
+infoBook.evilcraft.firstAge.items.displayStand.text1=这个小方块能展示你最喜欢的物品和方块。它看起来支持任何种类的木头，且能被你以任何角度放置。
+infoBook.evilcraft.firstAge.items.displayStand.text2=这个展示架也将接收来自任何方向的液体并尝试以此液体填充其中的物品。
+
 # - Items -
 info_book.evilcraft.first_age.vengeance_spirits=复仇之魂
 
@@ -416,6 +526,13 @@ info_book.evilcraft.first_age.vengeance_spirits.spirit_protection.text=如果你
 
 # --- Second Age ---
 info_book.evilcraft.second_age=第二纪元
+
+# - Blood Extraction -
+infoBook.evilcraft.secondAge.bloodExtraction=血液提取
+infoBook.evilcraft.secondAge.bloodExtraction.text1=使用&1针管&0，我能简单地从各个地方获取&4血液&0。当杀死一些野兽且血液提取器在背包中时，此物品将被装入&4血液&0。有时你可能会遇到一些地上的&4血液&0污迹，简单地Shift+右击将提取一些&4血液&0到你的提取器。这些&4血液&0污迹看起来是什么东西从高处摔死形成的，可能有一天这会派上用场。
+infoBook.evilcraft.secondAge.bloodExtraction.text2=简单地右击此物品将在地上放置一桶&4血液&0。
+infoBook.evilcraft.secondAge.bloodExtraction.text3=在我找到一些非手动方式获取&4血液&0之前这将是有用的。
+infoBook.evilcraft.secondAge.bloodExtraction.text4=默认情况下，这些提取器的大小有限制。但是看起来我可以将多个&1血液提取器&0放在一起进行合成以提高容量，甚至可以与&1暗黑液体罐&0结合以获得更多的存储容量。
 
 # - Powers of Blood -
 info_book.evilcraft.second_age.powers_of_blood=血的力量
@@ -487,20 +604,53 @@ info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulato
 # - Tools -
 info_book.evilcraft.second_age.tools=工具
 
+info_book.evilcraft.second_age.tools.broom=扫帚
+
+info_book.evilcraft.second_age.tools.broom.introduction=扫帚基础
+info_book.evilcraft.second_age.tools.broom.introduction.text1=&1扫帚&0通常用于打扫地板。然而我注意到，通过使用&1暗黑宝石粉&0和&1暗黑木棍&0制作它们，并持续注入&4血液&0，它们看起来获得了一些非常有趣的特质。当以特定的方法拿着一把&1扫帚&0，它似乎飘起来了。在练习了一段时间后，我坐在上面能控制它飞往任何我想去的地方。
+info_book.evilcraft.second_age.tools.broom.introduction.text2=&1扫帚&0由三个重要部分组成。&1杆&0是你的扫帚的基础，这将影响它的主要属性。&1刷&0用于让扫帚易于操作。最后，&1端&0用于平衡你的&1扫帚&0。
+info_book.evilcraft.second_age.tools.broom.introduction.text3=所有可能的&1扫帚&0部件必须用&1裸杆，裸刷&0和&1裸端&0来制作，这可以通过在任何合成网格中结合这三种材料来完成。由不同材料制成的部件似乎拥有不同的属性。所有可能的属性将在我对所有的&1扫帚&0部件进行一个概述之后的章节中说明。
+info_book.evilcraft.second_age.tools.broom.introduction.text4=当使用&1扫帚&0飞行时，请始终确保它有足够的&4血液&0，否则&1扫帚&0将显著地减速。
+
+info_book.evilcraft.second_age.tools.broom.modifiers=扫帚强化
+info_book.evilcraft.second_age.tools.broom.modifiers.text.intro=在本章节中，我将列出所有我在冒险中发现的强化效果。它们能在合成网格中合成以被用于任何现有的&1扫帚&0 。一旦强化被应用，就无法再从&1扫帚&0中移除它。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.modifier_count=&l&n最大强化数&r&_n一把&1扫帚&0能拥有的最大强化数量。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.speed=&l&n速度&r&_n&1扫帚&0的最高速度。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.acceleration=&l&n加速度&r&_n数值越高，&1扫帚&0加速越快。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.maneuverability=&l&n机动性&r&_n&1扫帚&0转向能有多快。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.levitation=&l&n悬浮性&r&_n数值越高，&1扫帚&0在速度降低前起飞越快。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.damage=&l&n碰撞伤害&r&_n被碰撞的怪物收到的伤害&1扫帚&0飞得越快，伤害越高。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.particles=&l&n粒子&r&_n&1扫帚&0飞行时会散发出多少粒子效果。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.flame=&l&n火焰&r&_n任何被碰撞的实体将着火。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.smash=&l&n粉碎&r&_n这被用于启用&1扫帚&0在飞行时破坏方块。更高的值能破坏更硬的方块。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.bouncy=&l&n弹性&r&_n被碰撞的实体被弹飞，具体取决于强化值。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.witherer=&l&n凋零&r&_n凋零效果将被作用于被碰撞的实体。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.hungerer=&l&n饥饿&r&_n被碰撞的实体将经历突然的饥饿。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.kamikaze=&l&n神风&r&_n当&1扫帚&0与一个实体发生碰撞时将会爆炸。其上的玩家绝无幸存的可能。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.withershield=&l&n凋零护盾&r&_n强化数值越高，其上的玩家更可能被保护不受弹射物的影响。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.sturdyness=&l&n坚固性&r&_n更高的强化数值将让&1扫帚&0移动中受到外部因素的影响更小。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.luck=&l&n幸运&r&_n这种能力使得其上的玩家在杀死怪物和破坏方块时更幸运。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.efficiency=&l&n效率&r&_n更高的强化数值将有更高的机会无需消耗&4血液&0。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.swimming=&l&n游泳&r&_n折让&1扫帚&0在液体中更易于操纵（机动性更高）。
+info_book.evilcraft.second_age.tools.broom.modifiers.text.icy=&l&n冰冻&r&_n让被碰撞的实体减速。
+
+info_book.evilcraft.second_age.tools.broom.parts=扫帚部件
+info_book.evilcraft.second_age.tools.broom.parts.text1=可以使用各种材料制作扫帚部件。它们的_tooltip将显示合成后&1扫帚&0的基础强化。
+
 info_book.evilcraft.second_age.tools.introduction=介绍
 info_book.evilcraft.second_age.tools.introduction.text=使用血液的大部分物品会有一个内部的容器，可以容纳一些&4血液&0，可以使用&1血能注入器&0填充你的工具，或者打开其他工具的自动供给模式，它就会补满你手持的工具。当使用这些物品时会消耗一些&4血液&0，当这些物品消耗完血液以后，它会尝试消耗你背包内其他容器的血液，如果没有血液容器，它将停止工作。
 
 info_book.evilcraft.second_age.tools.blood_pearl_of_teleportation=血能末影珍珠
 info_book.evilcraft.second_age.tools.blood_pearl_of_teleportation.text=常规的末影珍珠可以做有趣的瞬移，但是这相当昂贵。使用血能，我制造了一个可以消耗血液重复使用的特殊的末影珍珠。它似乎比正常的末影珍珠更好用。
 
-info_book.evilcraft.second_age.tools.primed_pendant=装载吊坠
-info_book.evilcraft.second_age.tools.primed_pendant.text=制作了&1振奋吊坠&0后我就开始思考，除了移除药水效果，可不可以产生药水效果？这种新的吊坠能装入一种药水，消耗&4血液&0不断产生装入的药水效果，我注意到某些效果格外消耗&4血液&0。你可以通过拿着吊坠右键来装入药水。
-
 info_book.evilcraft.second_age.tools.invigorating_pendant=振奋吊坠
 info_book.evilcraft.second_age.tools.invigorating_pendant.text=坏药水的负面效果让我痛苦至今。这个吊坠可以通过消耗&4血液&0移除负面效果。越糟糕的效果消耗越多的血液。它甚至可以熄灭身上的火，当然我不建议你去岩浆里游泳。
 
+info_book.evilcraft.second_age.tools.primed_pendant=装载吊坠
+info_book.evilcraft.second_age.tools.primed_pendant.text=制作了&1振奋吊坠&0后我就开始思考，除了移除药水效果，可不可以产生药水效果？这种新的吊坠能装入一种药水，消耗&4血液&0不断产生装入的药水效果，我注意到某些效果格外消耗&4血液&0。你可以通过拿着吊坠右键来装入药水。
+
 info_book.evilcraft.second_age.tools.effortless_ring=迅捷指环
-info_book.evilcraft.second_age.tools.effortless_ring.text=我可以用&1速度的诺言&0和&1效率的诺言&0制作一个指环，可以使我走得更快，踏得更高。把它放在背包就能获得效果。按住Shift可以恢复正常速度。
+info_book.evilcraft.second_age.tools.effortless_ring.text=我可以用&1速度的诺言&0和&1效率的诺言&0制作一个指环，可以使我走得更快，踏得更高。把它放在背包就能获得效果。按住_shift可以恢复正常速度。
 
 info_book.evilcraft.second_age.tools.kineticator=磁场魔杖
 info_book.evilcraft.second_age.tools.kineticator.text1=这是一个可以在一定范围了吸引掉落物和经验的物品。范围大小可以用右键调节，使用Shift+右键可以控制开启或者关闭。吸引较近的物品会消耗少量的&4血液&0，而吸引远处的物品会消耗更多的血液。潜行时不吸引物品。
@@ -512,8 +662,8 @@ info_book.evilcraft.second_age.tools.sceptre_of_thunder.text=奇怪的是在和�
 info_book.evilcraft.second_age.tools.vengeance_pickaxe=复仇之镐
 info_book.evilcraft.second_age.tools.vengeance_pickaxe.text=我发现了一种方法，把复仇指环的技术运用于镐子。尽管这大大降低了镐子的耐久。但是它有一个强大的副作用，在使用是有触发大量时运效果的可能。
 
-info_book.evilcraft.second_age.tools.gemstone_torch=暗能火把
-info_book.evilcraft.second_age.tools.gemstone_torch.text=I我用一个&1灼烧的暗能宝石块&0和一个&1深色木棍&0制作了一个特殊的火把，它会吸收它照亮的区域产生的&1复仇之魂&0。请注意，在区域外产生的复仇之魂可以走进被照亮的区域，当然普通的墙壁就能住当它们。
+info_book.evilcraft.second_age.tools.gemstone_torch=暗黑火把
+info_book.evilcraft.second_age.tools.gemstone_torch.text=_i我用一个&1灼烧的暗黑宝石块&0和一个&1暗黑木棍&0制作了一个特殊的火把，它会吸收它照亮的区域产生的&1复仇之魂&0。请注意，在区域外产生的复仇之魂可以走进被照亮的区域，当然普通的墙壁就能住当它们。
 
 info_book.second_age.tools.rejuvenated_flesh=再生鲜肉
 info_book.second_age.tools.rejuvenated_flesh.text=通过将&1肉&0与&1痛苦之源&0结合，可以得到无限的食物，只需要给它提供血液。
@@ -537,17 +687,30 @@ info_book.evilcraft.second_age.weapons.mace_of_destruction.text=它是扭曲力�
 info_book.evilcraft.second_age.abusing_spirits=滥(qiao)用灵魂
 
 info_book.evilcraft.second_age.abusing_spirits.infusing_spirits=注入灵魂
-info_book.evilcraft.second_age.abusing_spirits.infusing_spirits.text=将复仇灵魂封印在灵魂棺中本身并没有什么用。我推测，会有一种使用&4血液&0和这些灵魂的方法...
+info_book.evilcraft.second_age.abusing_spirits.infusing_spirits.text=将复仇之魂封印在灵魂棺中本身并没有什么用。我推测，会有一种使用&4血液&0和这些灵魂的方法...
 
 info_book.evilcraft.second_age.abusing_spirits.spirit_furnace=灵魂炉
-info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text1=我最终成功重铸了&1复仇灵魂&0，或者说一部分。这种重铸的灵魂非常虚弱，以至于不能存活在现实世界，但是他们仍然会掉落那些相应生物的掉落物。然而为了使用这个发现，制造一个大型机器用来重铸灵魂。消耗大量的血液，会使这些灵魂立即复活。看起来&1永恒的灵魂棺&0可以无限的使用，如果灵魂没有逃走。
-info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text2=你需要一堆坚韧的方块，看起来注入一些&4血液&0的&1黑砖&0可以确保这种需要，灵魂也无法从中逃脱。你需要建造一个立方体结构，而内部结构足够大以适应你捕捉的灵魂的大小。拿僵尸做个例子，你需要两格高，所以你要建造一个3*4*3的立方体结构，使它中空两个方块的大小。如果你想容纳的生物很大，你可能需要一个9*9的结构，不要太小气哦！
+info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text1=我最终成功重铸了&1复仇之魂&0，或者说一部分。这种重铸的灵魂非常虚弱，以至于不能存活在现实世界，但是他们仍然会掉落那些相应生物的掉落物。然而为了使用这个发现，制造一个大型机器用来重铸灵魂。消耗大量的血液，会使这些灵魂立即复活。如果灵魂没有逃走的话，似乎&1永恒的灵魂棺&0可以无限的使用。
+info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text2=你需要一堆坚韧的方块，似乎注入一些&4血液&0的&1黑砖&0可以确保这种需要，灵魂也无法从中逃脱。你需要建造一个立方体结构，而内部结构足够大以适应你捕捉的灵魂的大小。拿僵尸做个例子，你需要两格高，所以你要建造一个3*4*3的立方体结构，使它中空两个方块的大小。如果你想容纳的生物很大，你可能需要一个9*9的结构，不要太小气哦！
 info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text3=你也需要预留一块地方放置&1灵魂炉&0。这个方块可以用已知的手段链接到其他容器或者液体罐。让你看见&4红光&0时表示结构搭建完成。
 
 info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator=灵魂再生炉
 info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text1=发明了&1灵魂炉&0之后，我还是想要复活这些灵魂。为了解决它们不稳定这些问题，我尝试把它们放到&1鸡蛋&0里面。这个过程也需要一些&4血液&0，当然也需要一个&1鸡蛋&0。
 info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text2=由于这种先进的工艺，灵魂会被消耗掉，所以每个&1灵魂&0只能制作一个&1刷怪蛋&0.
 info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text3=然而有些灵魂拒绝成为&1刷怪蛋&0，所以他们的灵魂会直接消失...
+
+# - Killing Spirits -
+infoBook.evilcraft.secondAge.afterDeath=死后
+
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101=灵魂杀手101
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text1=处理掉一个又一个的灵魂后，我变得相当舒适。因此，我能够注意到它们的某些特质，甚至恐惧！它们似乎不喜欢任何与“末影”有关的东西。
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text2=我一直很讨厌这些污秽的灵魂可能会攻击我，而我也没有什么可以用来对付它们的。这就是为什么寻找了一种伤害它们的方法。看起来它们从本质上厌恶着末影，因为那些东西会伤害它们。使用一些“末影”文物，我能够将我的&1复仇焦点&0升级为一个可以伤害它们的版本。
+infoBook.evilcraft.secondAge.afterDeath.spiritKilling101.text3=这个新焦点似乎足够强到完全“杀死”任何灵魂。但是当我惊喜之时，它们掉落了一些东西。这包括它们过去的身体携带的东西以及一些可怕的粉尘，其似乎承载着灵魂最黑暗的部分，这可能在未来被证明是有用的...
+
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia=痛苦之源
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text1=假如最黑暗的想法和情绪渗透进这个世界该怎么办？这可能是无法想象的力量的巨大来源。随着复仇，暗黑和血的发现，我想我可能拥有了基本的要素。
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text2=结合这些要素产生了一种奇怪的精神能量。它是这样的超脱凡尘，其本身不具有物质，这就是为什么它看起来跟玉米粒糊一样。
+infoBook.evilcraft.secondAge.afterDeath.garmonbozia.text3=我跑题跑太远了，妈的智障。
 
 # --- Mod Integrations ---
 info_book.evilcraft.mod_integrations=&o模组联动&r
@@ -561,11 +724,20 @@ info_book.evilcraft.mod_integrations.blood_magic.text=有一天我发现了一�
 info_book.evilcraft.mod_integrations.ee3=等价交换3
 info_book.evilcraft.mod_integrations.ee3.text=魔法师们发现世界上几乎所有的物品都有相对的&1价值&0，这些人已经掌握了物品&1相互转换&0的奥秘。他们新奇的方法视乎也能用在我的物品上。
 
+info_book.evilcraft.mod_integrations.enderio=_ender _i_o
+info_book.evilcraft.mod_integrations.enderio.text=这些基于末影的技术非常有趣，也许我可以在某些地方改进我的机器。无论如何，我似乎能用他们的机器来处理&1暗黑宝石矿石&0和&1暗黑宝石&0这是很有用的。
+
 info_book.evilcraft.mod_integrations.forestry=林业
-info_book.evilcraft.mod_integrations.forestry.text=当&o参观&r我的朋友从事着树与蜜蜂的工作，我发现他们的一些袋子可以装我的物品。我也发现他们的机器&1压榨机&0能从&1亡灵木&0中提取血液，当然&1亡灵树&0也可以通过他们的生长系统快速繁殖。
+info_book.evilcraft.mod_integrations.forestry.text=当&o参观&r我的朋友从事着树与蜜蜂的工作，我发现他们的一些袋子可以装我的物品。我也发现他们的机器&1压榨机&0能从&1亡灵原木&0中提取血液，当然&1亡灵树&0也可以通过他们的生长系统快速繁殖。
 
 info_book.evilcraft.mod_integrations.ic2=工业2
-info_book.evilcraft.mod_integrations.ic2.text=这群奇怪的人总在鼓捣嗡嗡作响的机器，我不知道这些机器干什么用，除了打粉机。放入一个&1暗能宝石矿石&0可以马上得到一个&1暗能宝石&0和粉末。&1暗能宝石&0也能研磨成粉末。
+info_book.evilcraft.mod_integrations.ic2.text=这群奇怪的人总在鼓捣嗡嗡作响的机器，我不知道这些机器干什么用，除了打粉机。放入一个&1暗黑宝石矿石&0可以马上得到一个&1暗黑宝石&0和粉末。&1暗黑宝石&0也能研磨成粉末。
+
+info_book.evilcraft.mod_integrations.immersiveengineering=沉浸工程
+info_book.evilcraft.mod_integrations.immersiveengineering.text=我不得不承认，这些工程师的机器看起来非常整洁。除此之外，它们在处理&1暗黑宝石矿石&0和&1暗黑宝石&0以及挤压&1亡灵原木&0和&1亡灵树叶&0获取&4血液&0方面也非常好。
+
+info_book.evilcraft.mod_integrations.jei=_j_e_i
+info_book.evilcraft.mod_integrations.jei.text=一些人看起来有"&o_too _many _items&r"，而其他人有"&o_not _enough _items&r"。似乎我们终于到了一个人们有"&o_just _enough _items&r"的阶段，这本书的知识对他们来说是可理解的。
 
 info_book.evilcraft.mod_integrations.nei=物品管理器(NEI)
 info_book.evilcraft.mod_integrations.nei.text=所有人都在谈论"&oNot Enough Items&r"，而我真的不懂，我只有"&oToo Many Items&r"!但是前面的它好像很懂我的知识...
@@ -576,8 +748,242 @@ info_book.evilcraft.mod_integrations.thermal_expansion.text=这些人很奇怪�
 info_book.evilcraft.mod_integrations.thaumcraft=神秘
 info_book.evilcraft.mod_integrations.thaumcraft.text=我注意到神秘是一个非常特别的魔法。神秘使们看见我的东西也很高兴，他们经常拿着他们怪异的六边形物品到处走动。为了让我的朋友高兴，我也制作了一些可以代替&1笔与墨&0的&1静脉画线工具&0，可以用血代替墨水。好像他们的&1金杖端&0也可以通过放入&1血能注入器&0注入血能，可以得到一些更好的灵气减免效果，为什么谁都不喜欢这种&1血杖端&0？
 
-info_book.evilcraft.mod_integrations.tinkers_construct=匠魂
-info_book.evilcraft.mod_integrations.tinkers_construct.text=&0工具 工具 工具！&r看起来这些人只会思考这些问题。没干什么但是他们的工具依然损坏严重，幸运的是有&1血能箱&0来修复它们！
+infoBook.evilcraft.modIntegrations.tinkersConstruct=匠魂
+infoBook.evilcraft.modIntegrations.tinkersConstruct.text=&0工具 工具 工具！&r似乎这些人只会思考这些问题。没干什么但是他们的工具依然损坏严重，幸运的是有&1血能箱&0来修复它们！
 
-info_book.evilcraft.mod_integrations.waila=WAILA
-info_book.evilcraft.mod_integrations.waila.text=你问我你到底看到什么？你应该知道的！
+infoBook.evilcraft.modIntegrations.waila=Waila
+infoBook.evilcraft.modIntegrations.waila.text=你问我你到底看到什么？你应该知道的！
+
+# Config Screens
+config.evilcraft=%s配置文件
+
+## Config categories
+config.evilcraft.item=物品设置
+config.evilcraft.item.tooltip=物品设置
+config.evilcraft.block=方块设置
+config.evilcraft.block.tooltip=方块设置
+config.evilcraft.fluid=液体设置
+config.evilcraft.fluid.tooltip=液体设置
+config.evilcraft.entity=实体设置
+config.evilcraft.entity.tooltip=实体设置
+config.evilcraft.general=常规设置
+config.evilcraft.general.tooltip=常规设置
+config.evilcraft.worldgeneration=世界生成设置
+config.evilcraft.worldgeneration.tooltip=世界生成设置
+config.evilcraft.enchantment=附魔设置
+config.evilcraft.enchantment.tooltip=附魔设置
+config.evilcraft.mob=怪物设置
+config.evilcraft.mob.tooltip=怪物设置
+config.evilcraft.biome=生物群系生成设置
+config.evilcraft.biome.tooltip=生物群系生成设置
+config.evilcraft.machine=机器设置
+config.evilcraft.machine.tooltip=机器设置
+config.evilcraft.potion=药水设置
+config.evilcraft.potion.tooltip=药水设置
+config.evilcraft.core=核心设置
+config.evilcraft.core.tooltip=核心设置
+config.evilcraft.modcompat=Mod兼容设置
+config.evilcraft.modcompat.tooltip=Mod兼容设置
+config.evilcraft.degradationeffect=堕落效果
+config.evilcraft.degradationeffect.tooltip=堕落效果
+config.evilcraft.entity=实体设置
+config.evilcraft.entity.tooltip=实体设置
+
+## Block settings
+config.evilcraft.bloodStainedBlock.blockBlacklist=血液污迹方块黑名单
+config.evilcraft.bloodStainedBlock.bloodMBPerHP=MB血液每点HP
+config.evilcraft.excrementPile.effectiveness=排泄效果
+config.evilcraft.excrementPile.poisonEntities=排泄使怪物中毒
+config.evilcraft.gemStoneTorch.area=暗黑火把区域
+config.evilcraft.spikedPlate.damage=钉刺板伤害
+config.evilcraft.spikedPlate.mobMultiplier=钉刺板产生怪物血液的乘数
+
+## Core settings
+config.evilcraft.general.analytics=发送匿名分析
+config.evilcraft.general.crashOnInvalidRecipe=无效合成崩溃
+config.evilcraft.general.crashOnModCompatCrash=兼容性问题崩溃
+config.evilcraft.general.debug=开发模式
+config.evilcraft.general.minimumPotionTypesArraySize=药水组最小大小
+config.evilcraft.general.version=版本
+config.evilcraft.general.versionChecker=版本检查
+
+## Degradition effect settings
+degradationeffect.evilcraft.biome=生物群系
+degradationeffect.evilcraft.knockbackDistort=击退扭曲
+degradationeffect.evilcraft.mobSpawn=怪物生成
+degradationeffect.evilcraft.nauseate=呕吐
+degradationeffect.evilcraft.paling=苍白
+degradationeffect.evilcraft.particle=粒子
+degradationeffect.evilcraft.sound=声音
+degradationeffect.evilcraft.terraform=地球化
+
+## Entity settings
+config.evilcraft.entity_attack_vengeance_beam.cross_beams_explosions=复仇光线相交爆炸
+config.evilcraft.entity_lightning_bomb.fuse=雷电炸弹保险丝
+
+## _fluid settings
+config.evilcraft.general.blood_converters=血液转换比
+
+## _general settings
+config.evilcraft.general.blood_gui_overlay=血液_g_u_i显示
+config.evilcraft.general.blood_gui_overlay_position=_g_u_i显示位置
+config.evilcraft.general.blood_gui_overlay_position_offset_x=_g_u_i显示_x偏移量
+config.evilcraft.general.blood_gui_overlay_position_offset_y=_g_u_i显示_y偏移量
+config.evilcraft.general.die_without_any_reason=无理由死亡
+config.evilcraft.general.farting=放屁
+config.evilcraft.general.mb_flow_rate=液体流速
+config.evilcraft.general.retrogen=重新生成
+config.evilcraft.general.thaumcraft_vengeance_spirit_warp=临时。复仇之魂的攻击增加扭曲值。
+config.evilcraft.potentia_sphere.ender_pearl_recipe=末影珍珠合成
+config.evilcraft.weather_container.shapeless_recipes=无序合成
+
+## _item settings
+config.evilcraft.biome_extract.crafting_blacklist=生物群系提取黑名单
+config.evilcraft.biome_extract.creative_tab_variants=提取的生物群系创造模式标签
+config.evilcraft.biome_extract.envir_acc_cooldown_time=生物群系提取环境冷却
+config.evilcraft.biome_extract.has_recipes=生物群系提取合成
+config.evilcraft.biome_extract.usage_blacklist=提取的生物群系使用黑名单
+
+config.evilcraft.blood_extractor.container_size=血液提取器储量大小
+config.evilcraft.blood_extractor.maximum_mob_multiplier=血液提取器最小怪物乘数
+config.evilcraft.blood_extractor.minimum_mob_multiplier=血液提取器最大怪物乘数
+
+config.evilcraft.blood_pearl.slowness_duration=血能末影珍珠冷却时间
+
+config.evilcraft.bound_blood_drop.max_capacity=绑定的血滴最大_m_b储量
+
+config.evilcraft.broom.blood_usage=扫帚每_tick血液消耗量
+config.evilcraft.broom.blood_usage_block_break=扫帚每破坏一个方块血液消耗量
+config.evilcraft.broom.broom_modifier_tooltips=扫帚强化信息
+config.evilcraft.broom.broom_part_tooltips=扫帚部件信息
+config.evilcraft.broom.gui_overlay_position=_g_u_i显示位置
+config.evilcraft.broom.gui_overlay_position_offset_x=_g_u_i显示_x偏移量
+config.evilcraft.broom.gui_overlay_position_offset_y=_g_u_i显示_y偏移量
+config.evilcraft.broom.loot_chests=扫帚在宝藏箱子中
+
+config.evilcraft.burning_gem_stone.max_damage=灼烧暗黑宝石块最大伤害
+
+config.evilcraft.ender_tear.chance_drop=末影人之泪掉落率
+config.evilcraft.ender_tear.mb_liquid_ender=从末影人之泪中获取的液态末影
+
+config.evilcraft.exalted_crafter.shift_crafting_grid=高级合成转换点击
+
+config.evilcraft.hardened_blood_shard.additional_dropped=干血碎片的额外数量
+config.evilcraft.hardened_blood_shard.minimum_dropped=干血碎片的最小数量
+
+config.evilcraft.invig_pendant.capacity=暗黑能量球储量
+config.evilcraft.invig_pendant.fire_usage=暗黑能量球放火血液消耗
+config.evilcraft.invig_pendant.reduce_duration=暗黑能量球持续时间减少
+config.evilcraft.invig_pendant.usage=暗黑能量球血液消耗
+
+config.evilcraft.kineticator.consume_holdoff=磁场魔杖血液消耗
+config.evilcraft.kineticator.move_x_p=磁场魔杖_x_p吸引
+config.evilcraft.kineticator.tick_holdoff=磁场魔杖检查超时
+
+config.evilcraft.necromancer_staff.capacity=死灵法师权杖储量
+config.evilcraft.necromancer_staff.usage=死灵法师权杖血液消耗
+
+config.evilcraft.primed_pendant.capacity=装载吊坠储量量
+config.evilcraft.primed_pendant.potion_multipliers=装载吊坠药水乘数
+config.evilcraft.primed_pendant.usage=装载吊坠血液消耗
+
+config.evilcraft.redstone_grenade.drop_after_usage=食用后掉落红石脉冲弹
+
+config.evilcraft.rejuvenated_flesh.bite_usage=再生鲜肉血液消耗
+config.evilcraft.rejuvenated_flesh.container_size=再生鲜肉储量
+
+config.evilcraft.sanguinary_pedestal.efficiency_boost=血腥基座血液乘数
+
+config.evilcraft.vein_sword.durability=静脉剑耐久
+config.evilcraft.vein_sword.extraction_boost=静脉剑血液获取
+
+config.evilcraft.vengeance.area_of_effect=复仇区域影响大小
+config.evilcraft.vengeance.vengeance_chance=复仇之魂切换机会
+
+config.evilcraft.vengeance_ring.area_of_effect=复仇戒指区域影响大小
+
+config.evilcraft.werewolf_flesh.humanoid_flesh_drop_chance=人肉掉落率
+
+## _machine settings
+config.evilcraft.blood_chest.add_random_bad_enchants=血能箱随机坏附魔
+config.evilcraft.blood_chest.m_b_per_damage=血能箱需求血液每点耐久值
+config.evilcraft.blood_chest.repair_t_construct_tools=血能箱修复匠魂工具
+config.evilcraft.blood_chest.ticks_per_damage=血能箱修复时间
+
+config.evilcraft.blood_infuser.item_blacklist=血能箱黑名单物品
+
+config.evilcraft.colossal_blood_chest.base_concurrent_items=大型血能箱同时工作物品
+config.evilcraft.colossal_blood_chest.base_m_b_per_damage=大型血能箱血液消耗每点耐久值
+config.evilcraft.colossal_blood_chest.ticks_per_damage=大型血能箱修复时间
+
+config.evilcraft.dark_tank.creative_tab_fluids=暗黑液体罐创造模式标签
+config.evilcraft.dark_tank.max_tank_creative_size=最大可制作的暗黑液体罐大小
+config.evilcraft.dark_tank.max_tank_size=最大暗黑液体罐大小
+config.evilcraft.dark_tank.static_block_rendering=暗黑液体罐静态方块渲染
+
+config.evilcraft.entangled_chalice.static_block_rendering=纠缠圣杯静态方块渲染
+
+config.evilcraft.envir_acc.default_process_item_speed=天气储存器物品移动速度
+config.evilcraft.envir_acc.default_process_item_tick_count=天气储存器处理时间
+config.evilcraft.envir_acc.default_tick_cooldown=天气储存器冷却时间
+
+config.evilcraft.sang_envir_acc.base_usage=血腥环境存储器血液消耗
+
+config.evilcraft.spirit_furnace.boss_m_b_per_tick=灵魂炉_boss血液消耗
+config.evilcraft.spirit_furnace.mb_per_tick=灵魂炉血液消耗
+config.evilcraft.spirit_furnace.mob_death_sounds=灵魂炉死亡音效
+config.evilcraft.spirit_furnace.player_drops=灵魂炉自定义玩家掉落
+config.evilcraft.spirit_furnace.player_m_b_per_tick=灵魂炉玩家血液消耗
+config.evilcraft.spirit_furnace.required_ticks_per_hp=灵魂炉_boss实体处理时间
+config.evilcraft.spirit_furnace.villager_drop_emerald_chance=灵魂炉村民绿宝石掉落率
+
+config.evilcraft.spirit_reanimator.clear_box_contents=灵魂再生炉复活后清除
+config.evilcraft.spirit_reanimator.m_b_per_tick=灵魂再生炉血液消耗
+config.evilcraft.spirit_reanimator.required_ticks=灵魂再生炉复活时间
+
+## _mob settings
+
+config.evilcraft.kineticator.kineticate_blacklist=磁场魔杖黑名单
+config.evilcraft.netherfish.is_enabled=下界蠹虫
+
+config.evilcraft.poisonous_libelle.has_attack_damage=毒蜻蜓伤害
+config.evilcraft.poisonous_libelle.is_enabled=毒蜻蜓
+config.evilcraft.poisonous_libelle.min_y=毒蜻蜓生成最小_y轴高度
+config.evilcraft.poisonous_libelle.poison_chance=毒蜻蜓生成几率
+
+config.evilcraft.vengeance_spirit.entity_blacklist=复仇之魂黑名单
+config.evilcraft.vengeance_spirit.is_enabled=复仇之魂
+config.evilcraft.vengeance_spirit.non_degraded_spawn_chance=使用物品生成复仇之魂的几率
+config.evilcraft.vengeance_spirit.spawn_limit=复仇之魂生成限制
+config.evilcraft.vengeance_spirit.spawn_limit_area=复仇之魂生成区域限制
+
+config.evilcraft.werewolf.is_enabled=狼人
+
+## _mod compatibility settings
+config.evilcraft.baubles=_baubles
+config.evilcraft.bloodmagic=血魔法
+config.evilcraft.ic2=工业2
+config.evilcraft.jei=_j_e_i
+config.evilcraft.waila=_waila
+config.evilcraft.forestry=林业
+config.evilcraft.tconstruct=匠魂
+
+## _world generation
+config.evilcraft.bound_blood_drop.max_update_ticks=灵魂网络更新间隔
+
+config.evilcraft.dark_ore.blocks_per_vein=暗黑宝石矿石每矿脉
+config.evilcraft.dark_ore.end_y=暗黑宝石矿石最大生成高度
+config.evilcraft.dark_ore.start_y=暗黑宝石矿石最小生成高度
+config.evilcraft.dark_ore.veins_per_chunk=暗黑宝石矿石矿脉每区块
+
+config.evilcraft.general.dark_temple_chest_chance=暗黑神庙宝藏箱子几率
+config.evilcraft.general.dark_temple_dimensions=暗黑神庙允许的生物群系
+config.evilcraft.general.dark_temple_frequency=暗黑神庙生成频率
+config.evilcraft.general.dark_temple_max_height=暗黑神庙最大生成高度
+config.evilcraft.general.dark_temple_max_pillar_length=暗黑神庙支柱最大生成高度
+config.evilcraft.general.dark_temple_min_height=暗黑神庙最小生成高度
+config.evilcraft.general.dark_temple_minimum_chunk_distance=暗黑神庙最小区块距离
+
+config.evilcraft.general.extra_silverfish=额外的地狱怪物蛋方块生成
+
+config.evilcraft.nether_monster_block.veins_per_chunk=地狱怪物蛋每区块

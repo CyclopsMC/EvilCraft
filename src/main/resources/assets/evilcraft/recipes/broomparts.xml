@@ -82,7 +82,7 @@
 
 	<!-- Rods -->
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -95,7 +95,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -108,7 +108,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -121,7 +121,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -134,7 +134,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -147,7 +147,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -160,7 +160,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -173,7 +173,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -187,7 +187,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -200,7 +200,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -213,7 +213,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -226,7 +226,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -239,7 +239,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -254,7 +254,7 @@
 
 	<!-- Brushes -->
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -267,7 +267,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -280,7 +280,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -294,7 +294,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -307,9 +307,23 @@
 		</output>
 	</recipe>
 
+	<recipe type="shapeless" nbt_sensitive="true">
+		<tag>broom_part_brush</tag>
+		<condition type="config">broom</condition>
+		<input>
+			<item type="oredict">stickWood</item>
+			<item type="predefined">evilcraft:broompart:brush_bare</item>
+			<item type="oredict">stickWood</item>
+			<item type="oredict">stickWood</item>
+		</input>
+		<output>
+			<item type="predefined">evilcraft:broompart:brush_twig</item>
+		</output>
+	</recipe>
+
 	<!-- Caps -->
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDark</condition>
@@ -323,7 +337,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDiamond</condition>
@@ -337,7 +351,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemEmerald</condition>
@@ -351,7 +365,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemQuartz</condition>
@@ -365,7 +379,7 @@
 		</output>
 	</recipe>
 
-	<!--<recipe type="shapeless">
+	<!--<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemLapis</condition>
@@ -379,7 +393,7 @@
 		</output>
 	</recipe>-->
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDarkPower</condition>
@@ -393,7 +407,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -405,7 +419,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -417,7 +431,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -429,7 +443,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -441,7 +455,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -453,7 +467,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
@@ -467,7 +481,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotIron</condition>
@@ -481,7 +495,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotGold</condition>
@@ -495,7 +509,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotThaumium</condition>
@@ -509,7 +523,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotCopper</condition>
@@ -523,7 +537,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotSilver</condition>
@@ -537,7 +551,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotAlubrass</condition>
@@ -551,7 +565,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotArdite</condition>
@@ -565,7 +579,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotCobalt</condition>
@@ -579,7 +593,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotManyullyn</condition>
@@ -593,7 +607,7 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless">
+	<recipe type="shapeless" nbt_sensitive="true">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">slimeball</condition>
