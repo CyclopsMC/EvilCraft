@@ -137,17 +137,16 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
 
     @Override
     protected void onImpact(RayTraceResult position) {
-    	if(position.typeOfHit == RayTraceResult.Type.BLOCK && !observing) {
+    	if(position.typeOfHit == RayTraceResult.Type.ENTITY && !observing && !getEntityWorld().isRemote) {
 	        if(position.entityHit != null) {
 	            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
 	        }
-	        if(this.getThrower() != null && !getThrower().world.isRemote
-	        		&& getThrower() instanceof EntityPlayerMP
+	        if(getThrower() instanceof EntityPlayerMP
 					&& getThrower() != position.entityHit
 					&& position.entityHit instanceof EntityLivingBase) {
 	        	spawnSwarm(this.getThrower(), (EntityLivingBase) position.entityHit);
 	        } else {
-	        	this.setDead();
+				this.setDead();
 	        }
     	}
     }
