@@ -20,9 +20,9 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.evilcraft.core.block.component.BlockTankComponent;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class Purifier extends ConfigurableBlockContainer {
             TilePurifier tile = (TilePurifier) world.getTileEntity(blockPos);
             if(tile != null) {
                 IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
-                SingleUseTank tank = tile.getTank();
+                BlockTankComponent.SimulatableTankWrapper tank = new BlockTankComponent.SimulatableTankWrapper(tile.getTank());
                 if (itemStack == null && tile.getPurifyItem() != null) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
                     tile.setPurifyItem(null);
