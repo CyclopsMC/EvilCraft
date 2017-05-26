@@ -1,0 +1,13 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.4 or higher.
+
+Changes:
+* Update zh_CN.lang
+
+Fixes:
+* Fix Necromancer Staff not spawning zombies, Closes #555
+* Fix Bound Blood Drop duplication Blood from Purifier, Closes #557
+  This occured when taking out blood from the Purifier with the Bound Blood Drop.
+* Add missing Twig Brush recipe, Closes #557
+* Make broom part recipes NBT sensitive, Closes #554
+  This fixes the problem where you could use any bare part to craft the desired parts.
