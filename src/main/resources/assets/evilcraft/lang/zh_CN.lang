@@ -233,8 +233,8 @@ item.evilcraft.powerable.info.power=功率等级: %s
 item.evilcraft.powerable.info=按住Shift+右键改变功率等级。
 
 # Fluids
-fluid.fluid.fluids.evilcraft.evilcraftblood=血液
-fluid.fluid.luids.evilcraft.evilcraftpoison=毒液
+fluid.fluids.evilcraft.evilcraftblood=血液
+fluid.fluids.evilcraft.evilcraftpoison=毒液
 
 # Weather container info
 weatherContainer.evilcraft.empty=空
