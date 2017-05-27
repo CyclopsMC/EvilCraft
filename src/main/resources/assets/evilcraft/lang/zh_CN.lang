@@ -22,7 +22,7 @@ tile.blocks.evilcraft.excrementPile.info=会在动物下方形成。
 tile.blocks.evilcraft.hardenedBlood.name=血块
 tile.blocks.evilcraft.hardenedBlood.info=硬化了的血液，如果被淋湿的话会融化。
 tile.blocks.evilcraft.obscuredGlass.name=毛玻璃
-tile.blocks.evilcraft.environmentalAccumulator.name=天气储存器
+tile.blocks.evilcraft.environmentalAccumulator.name=环境存储器
 tile.blocks.evilcraft.environmentalAccumulator.info=在山顶的暗黑神庙被找到，无法制造。
 tile.blocks.evilcraft.undeadLeaves.name=亡灵树叶
 tile.blocks.evilcraft.undeadLog.name=亡灵原木
@@ -926,9 +926,9 @@ config.evilcraft.darkTank.staticBlockRendering=暗黑液体罐静态方块渲染
 
 config.evilcraft.entangledChalice.staticBlockRendering=纠缠圣杯静态方块渲染
 
-config.evilcraft.envirAcc.defaultProcessItemSpeed=天气储存器物品移动速度
-config.evilcraft.envirAcc.defaultProcessItemTickCount=天气储存器处理时间
-config.evilcraft.envirAcc.defaultTickCooldown=天气储存器冷却时间
+config.evilcraft.envirAcc.defaultProcessItemSpeed=环境存储器物品移动速度
+config.evilcraft.envirAcc.defaultProcessItemTickCount=环境存储器处理时间
+config.evilcraft.envirAcc.defaultTickCooldown=环境存储器冷却时间
 
 config.evilcraft.sangEnvirAcc.baseUsage=血腥环境存储器血液消耗
 
