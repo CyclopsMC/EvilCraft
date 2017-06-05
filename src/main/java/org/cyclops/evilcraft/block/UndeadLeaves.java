@@ -60,8 +60,8 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
     }
 
     @Override
-    public void randomDisplayTick(World world, BlockPos blockPos, IBlockState blockState, Random rand) {
-        particleDropBlockComponent.randomDisplayTick(world, blockPos, blockState, rand);
+    public void randomDisplayTick(IBlockState blockState, World world, BlockPos blockPos, Random rand) {
+        particleDropBlockComponent.randomDisplayTick(blockState, world, blockPos, rand);
     }
 
     @Nullable
