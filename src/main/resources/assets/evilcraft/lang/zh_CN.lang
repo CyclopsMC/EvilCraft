@@ -22,7 +22,7 @@ tile.blocks.evilcraft.excrementPile.info=会在动物下方形成。
 tile.blocks.evilcraft.hardenedBlood.name=血块
 tile.blocks.evilcraft.hardenedBlood.info=硬化了的血液，如果被淋湿的话会融化。
 tile.blocks.evilcraft.obscuredGlass.name=毛玻璃
-tile.blocks.evilcraft.environmentalAccumulator.name=天气储存器
+tile.blocks.evilcraft.environmentalAccumulator.name=环境存储器
 tile.blocks.evilcraft.environmentalAccumulator.info=在山顶的暗黑神庙被找到，无法制造。
 tile.blocks.evilcraft.undeadLeaves.name=亡灵树叶
 tile.blocks.evilcraft.undeadLog.name=亡灵原木
@@ -32,7 +32,7 @@ tile.blocks.evilcraft.undeadPlank.name=亡灵木板
 tile.blocks.evilcraft.invisibleRedstoneBlock.name=隐形红石块
 tile.blocks.evilcraft.purifier.name=净化器
 tile.blocks.evilcraft.purifier.info=不再被添加随机附魔！
-tile.blocks.evilcraft.darkBrick.name=黑砖
+tile.blocks.evilcraft.darkBrick.name=暗黑砖
 tile.blocks.evilcraft.darkBloodBrick.name=暗黑血砖
 tile.blocks.evilcraft.spiritFurnace.name=灵魂炉
 tile.blocks.evilcraft.spiritFurnace.info=提供被捕灵魂血液，可以得到他们的掉落物(需要中空结构)。
@@ -233,8 +233,8 @@ item.evilcraft.powerable.info.power=功率等级: %s
 item.evilcraft.powerable.info=按住Shift+右键改变功率等级。
 
 # Fluids
-fluid.fluid.fluids.evilcraft.evilcraftblood=血液
-fluid.fluid.luids.evilcraft.evilcraftpoison=毒液
+fluid.fluids.evilcraft.evilcraftblood=血液
+fluid.fluids.evilcraft.evilcraftpoison=毒液
 
 # Weather container info
 weatherContainer.evilcraft.empty=空
@@ -926,9 +926,9 @@ config.evilcraft.darkTank.staticBlockRendering=暗黑液体罐静态方块渲染
 
 config.evilcraft.entangledChalice.staticBlockRendering=纠缠圣杯静态方块渲染
 
-config.evilcraft.envirAcc.defaultProcessItemSpeed=天气储存器物品移动速度
-config.evilcraft.envirAcc.defaultProcessItemTickCount=天气储存器处理时间
-config.evilcraft.envirAcc.defaultTickCooldown=天气储存器冷却时间
+config.evilcraft.envirAcc.defaultProcessItemSpeed=环境存储器物品移动速度
+config.evilcraft.envirAcc.defaultProcessItemTickCount=环境存储器处理时间
+config.evilcraft.envirAcc.defaultTickCooldown=环境存储器冷却时间
 
 config.evilcraft.sangEnvirAcc.baseUsage=血腥环境存储器血液消耗
 
