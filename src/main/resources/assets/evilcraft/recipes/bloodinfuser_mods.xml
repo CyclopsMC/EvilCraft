@@ -2,11 +2,11 @@
 <recipes>
 
     <recipe type="evilcraft:bloodinfuser">
-        <condition type="mod">Blood_magic</condition>
+        <condition type="mod">bloodmagic</condition>
         <condition type="config">blood_infuser</condition>
         <condition type="config">bound_blood_drop</condition>
         <input>
-            <item>Blood_magic:Item_blood_orb</item>
+            <item>bloodmagic:bloodmagic:itembloodorb</item>
             <fluid amount="10000">evilcraftblood</fluid>
         </input>
         <output>
