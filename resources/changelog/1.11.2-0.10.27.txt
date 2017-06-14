@@ -1,0 +1,13 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.5 or higher.
+
+Additions:
+* Allow Spirit Furnace mob drop overriding via config file, Closes #560
+
+Changes:
+* Update zh_CN.lang
+
+Fixes:
+* Fix Bound Blood Drop recipe, Closes #564
+* Fix Blood Stained Blocks not being created for tall mobs, Closes #559
+* Fix Undead Tree not dripping blood, Closes #561
