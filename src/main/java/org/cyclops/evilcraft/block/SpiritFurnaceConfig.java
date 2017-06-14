@@ -244,15 +244,15 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
                         throw new IllegalArgumentException("Invalid line '" + line + "' found for "
                                 + "a Spirit Furnace mob drop config.");
                     }
-                    String entityName = split[0];
-                    if (!EntityList.isStringValidEntityName(entityName)) {
+                    ResourceLocation entityName = new ResourceLocation(split[0]);
+                    if (!EntityList.isRegistered(entityName)) {
                         EvilCraft.clog("Invalid line '" + line + "' found for "
                                 + "a Spirit Furnace mob drop config: " + split[0] + " does not refer to a valid entity name; skipping.");
                         continue;
                     }
                     ResourceLocation resourceLocation = new ResourceLocation(split[1]);
-                    BoxCookTickAction.overrideMobDrop((Class<? extends EntityLivingBase>) EntityList.getClassFromID(
-                                    EntityList.getIDFromString(entityName)), resourceLocation);
+                    BoxCookTickAction.overrideMobDrop((Class<? extends EntityLivingBase>)
+                                    EntityList.getClass(entityName), resourceLocation);
                 }
             }
             calledOnce = true;
