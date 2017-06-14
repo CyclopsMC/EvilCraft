@@ -22,7 +22,7 @@ tile.blocks.evilcraft.excrement_pile.info=会在动物下方形成。
 tile.blocks.evilcraft.hardened_blood.name=血块
 tile.blocks.evilcraft.hardened_blood.info=硬化了的血液，如果被淋湿的话会融化。
 tile.blocks.evilcraft.obscured_glass.name=毛玻璃
-tile.blocks.evilcraft.environmental_accumulator.name=天气储存器
+tile.blocks.evilcraft.environmental_accumulator.name=环境存储器
 tile.blocks.evilcraft.environmental_accumulator.info=在山顶的暗黑神庙被找到，无法制造。
 tile.blocks.evilcraft.undead_leaves.name=亡灵树叶
 tile.blocks.evilcraft.undead_log.name=亡灵原木
@@ -32,7 +32,7 @@ tile.blocks.evilcraft.undead_plank.name=亡灵木板
 tile.blocks.evilcraft.invisible_redstone_block.name=隐形红石块
 tile.blocks.evilcraft.purifier.name=净化器
 tile.blocks.evilcraft.purifier.info=不再被添加随机附魔！
-tile.blocks.evilcraft.dark_brick.name=黑砖
+tile.blocks.evilcraft.dark_brick.name=暗黑砖
 tile.blocks.evilcraft.dark_blood_brick.name=暗黑血砖
 tile.blocks.evilcraft.spirit_furnace.name=灵魂炉
 tile.blocks.evilcraft.spirit_furnace.info=提供被捕灵魂血液，可以得到他们的掉落物(需要中空结构)。
@@ -45,11 +45,11 @@ tile.blocks.evilcraft.spirit_furnace.help.invalid.caught_error=无效生物灵�
 tile.blocks.evilcraft.box_of_eternal_closure.name=永恒的灵魂箱
 tile.blocks.evilcraft.box_of_eternal_closure.info.content=容量: %s
 tile.blocks.evilcraft.dark_tank.name=暗黑液体罐
-tile.blocks.evilcraft.dark_tank.info=叠加合成增加容量。Shift+右键切换是否自动补给。
+tile.blocks.evilcraft.dark_tank.info=叠加合成增加容量。_shift+右键切换是否自动补给。
 tile.blocks.evilcraft.dark_tank.info.auto_supply=自动补给: %s
 tile.blocks.evilcraft.sanguinary_pedestal.name=血腥基座
 tile.blocks.evilcraft.sanguinary_pedestal.info=提取附近方块的血迹。
-tile.blocks.evilcraft.sanguinary_pedestal.boost=效率 I
+tile.blocks.evilcraft.sanguinary_pedestal.boost=效率 _i
 tile.blocks.evilcraft.spiked_plate.name=钉刺板
 tile.blocks.evilcraft.spiked_plate.info=对生物造成伤害，放置在基座上同时会生产血。
 tile.blocks.evilcraft.spirit_reanimator.name=灵魂再生炉
@@ -59,8 +59,8 @@ tile.blocks.evilcraft.spirit_reanimator.help.invalid.no_entity=无效,空的或�
 tile.blocks.evilcraft.spirit_reanimator.help.invalid.invalid_entity=这个生物没有刷怪蛋
 tile.blocks.evilcraft.spirit_reanimator.help.invalid.different_egg=请移除其它生物蛋
 tile.blocks.evilcraft.entangled_chalice.name=纠缠圣杯
-tile.blocks.evilcraft.entangled_chalice.info=穿越世界的纠缠，两个杯子将共享液体。\nShift+右键切换自动补给。
-tile.blocks.evilcraft.entangled_chalice.info.autoSupply=自动补给: %s
+tile.blocks.evilcraft.entangled_chalice.info=穿越世界的纠缠，两个杯子将共享液体。\n_shift+右键切换自动补给。
+tile.blocks.evilcraft.entangled_chalice.info.auto_supply=自动补给: %s
 tile.blocks.evilcraft.dark_power_gem_block.name=暗黑充能宝石块
 tile.blocks.evilcraft.gem_stone_torch.name=暗黑火把
 tile.blocks.evilcraft.gem_stone_torch.info=复仇之魂不会在暗黑火把15格范围内产生。
@@ -223,8 +223,8 @@ item.evilcraft.powerable.info.power=功率等级: %s
 item.evilcraft.powerable.info=按住Shift+右键改变功率等级。
 
 # Fluids
-fluid.fluid.fluids.evilcraft.evilcraftblood=血液
-fluid.fluid.luids.evilcraft.evilcraftpoison=毒液
+fluid.fluids.evilcraft.evilcraftblood=血液
+fluid.fluids.evilcraft.evilcraftpoison=毒液
 
 # Weather container info
 weather_container.evilcraft.empty=空
@@ -923,9 +923,9 @@ config.evilcraft.dark_tank.static_block_rendering=暗黑液体罐静态方块渲
 
 config.evilcraft.entangled_chalice.static_block_rendering=纠缠圣杯静态方块渲染
 
-config.evilcraft.envir_acc.default_process_item_speed=天气储存器物品移动速度
-config.evilcraft.envir_acc.default_process_item_tick_count=天气储存器处理时间
-config.evilcraft.envir_acc.default_tick_cooldown=天气储存器冷却时间
+config.evilcraft.envir_acc.default_process_item_speed=环境存储器物品移动速度
+config.evilcraft.envir_acc.default_process_item_tick_count=环境存储器处理时间
+config.evilcraft.envir_acc.default_tick_cooldown=环境存储器冷却时间
 
 config.evilcraft.sang_envir_acc.base_usage=血腥环境存储器血液消耗
 

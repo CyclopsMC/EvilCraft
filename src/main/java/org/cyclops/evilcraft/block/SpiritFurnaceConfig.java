@@ -1,11 +1,13 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -85,6 +87,15 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
             changedCallback = OverridePlayerDrop.class)
     public static String[] playerDrops = new String[]{
             "93b459be-ce4f-4700-b457-c1aa91b3b687|minecraft:stone_slab", // Etho's Slab
+    };
+    /**
+     * Custom mob drops. Maps entity names to a loot table resource location. Expects the format entityname$loottable. For example: 'Pig|minecraft:entities/sheep'
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE,
+            comment = "Custom mob drops. Maps entity names to a loot table resource location. Expects the format entityname|loottable. For example: 'Pig|minecraft:entities/sheep'",
+            changedCallback = OverrideMobDrop.class)
+    public static String[] mobDrops = new String[]{
+            //"Pig|minecraft:entities/sheep",
     };
 
     /**
@@ -190,6 +201,7 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
                         if(!validId) {
                             EvilCraft.clog("Invalid line '" + line + "' found for "
                                     + "a Spirit Furnace player drop config: " + split[0] + " does not refer to a valid player UUID; skipping.");
+                            continue;
                         }
                         try {
                             ItemStack itemStack = ItemStackHelpers.parseItemStack(split[1]);
@@ -202,6 +214,45 @@ public class SpiritFurnaceConfig extends UpgradableBlockContainerConfig {
                         EvilCraft.clog("Invalid line '" + line + "' found for "
                                 + "a Spirit Furnace player drop config: " + split[0] + " is not a number; skipping.");
                     }
+                }
+            }
+            calledOnce = true;
+        }
+
+        @Override
+        public void onRegisteredPostInit(Object value) {
+            onChanged(value);
+        }
+
+    }
+
+    /**
+     * Callback for when the mob drops property is changed.
+     * @author rubensworks
+     *
+     */
+    public static class OverrideMobDrop implements IChangedCallback {
+
+        private static boolean calledOnce = false;
+
+        @Override
+        public void onChanged(Object value) {
+            if(calledOnce) {
+                for(String line : SpiritFurnaceConfig.mobDrops) {
+                    String[] split = line.split(DELIMITER);
+                    if(split.length != 2) {
+                        throw new IllegalArgumentException("Invalid line '" + line + "' found for "
+                                + "a Spirit Furnace mob drop config.");
+                    }
+                    String entityName = split[0];
+                    if (!EntityList.isStringValidEntityName(entityName)) {
+                        EvilCraft.clog("Invalid line '" + line + "' found for "
+                                + "a Spirit Furnace mob drop config: " + split[0] + " does not refer to a valid entity name; skipping.");
+                        continue;
+                    }
+                    ResourceLocation resourceLocation = new ResourceLocation(split[1]);
+                    BoxCookTickAction.overrideMobDrop((Class<? extends EntityLivingBase>) EntityList.getClassFromID(
+                                    EntityList.getIDFromString(entityName)), resourceLocation);
                 }
             }
             calledOnce = true;
