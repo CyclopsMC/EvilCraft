@@ -44,6 +44,7 @@ import java.util.UUID;
 public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 
     public static final Map<Class<? extends EntityLivingBase>, List<WeightedItemStack>> MOBDROP_OVERRIDES = Maps.newHashMap();
+    public static final Map<Class<? extends EntityLivingBase>, ResourceLocation> MOBDROPTABLES_OVERRIDES = Maps.newHashMap();
     public static final Map<UUID, List<WeightedItemStack>> PLAYERDROP_OVERRIDES = Maps.newHashMap();
     static {
         if(SpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
@@ -100,6 +101,15 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
      */
     public static void overrideMobDrop(Class<? extends EntityLivingBase> entity, Set<WeightedItemStack> drops) {
         MOBDROP_OVERRIDES.put(entity, WeightedItemStack.createWeightedList(drops));
+    }
+
+    /**
+     * Override an entity's drops inside the spirit furnace.
+     * @param entity The entity class.
+     * @param drops A loot table
+     */
+    public static void overrideMobDrop(Class<? extends EntityLivingBase> entity, ResourceLocation drops) {
+        MOBDROPTABLES_OVERRIDES.put(entity, drops);
     }
 
     /**
@@ -178,9 +188,18 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                         tile.onItemDrop(drop);
                     }
                 } else {
-                    ResourceLocation deathLootTable = ObfuscationHelpers.getLootTable(entity);
+                    ResourceLocation deathLootTable;
+                    if (MOBDROPTABLES_OVERRIDES.containsKey(entity.getClass())) {
+                        deathLootTable = MOBDROPTABLES_OVERRIDES.get(entity.getClass());
+                    } else {
+                        deathLootTable = ObfuscationHelpers.getLootTable(entity);
+                    }
                     if(deathLootTable != null) {
                         LootTable loottable = world.getLootTableManager().getLootTableFromLocation(deathLootTable);
+                        if (loottable == null) {
+                            throw new RuntimeException("Could not find the loot table " + deathLootTable
+                                    + ", an invalid loot table might have been configured as spirit furnace mob drop override.");
+                        }
                         LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer) tile.getWorld()))
                                 .withLootedEntity(entity)
                                 .withPlayer(FakePlayerFactory.getMinecraft((WorldServer) tile.getWorld()))
