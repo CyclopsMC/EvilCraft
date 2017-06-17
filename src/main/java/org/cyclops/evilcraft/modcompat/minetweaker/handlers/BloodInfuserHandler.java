@@ -1,14 +1,18 @@
 package org.cyclops.evilcraft.modcompat.minetweaker.handlers;
 
 import com.blamejared.mtlib.helpers.InputHelper;
+import mezz.jei.api.recipe.IRecipeWrapper;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
+import org.cyclops.cyclopscore.modcompat.jei.IJeiRecipeWrapperWrapper;
 import org.cyclops.cyclopscore.modcompat.minetweaker.handlers.RecipeRegistryHandler;
 import org.cyclops.cyclopscore.recipe.custom.Recipe;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.modcompat.jei.bloodinfuser.BloodInfuserRecipeJEI;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -25,6 +29,16 @@ public class BloodInfuserHandler extends RecipeRegistryHandler<BloodInfuser, Ite
     @Override
     protected String getRegistryName() {
         return "BloodInfuser";
+    }
+
+    @Override
+    protected IJeiRecipeWrapperWrapper<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> createJeiWrapperWrapper() {
+        return new IJeiRecipeWrapperWrapper<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>() {
+            @Override
+            public IRecipeWrapper wrap(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
+                return new BloodInfuserRecipeJEI(recipe);
+            }
+        };
     }
 
     @ZenMethod

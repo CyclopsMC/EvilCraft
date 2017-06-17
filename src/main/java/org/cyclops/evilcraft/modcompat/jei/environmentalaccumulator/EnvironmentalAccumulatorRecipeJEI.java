@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
@@ -16,7 +15,6 @@ import java.util.List;
  * Recipe wrapper for Envir Acc recipes
  * @author rubensworks
  */
-@EqualsAndHashCode(callSuper = false)
 @Data
 public class EnvironmentalAccumulatorRecipeJEI extends EnvironmentalAccumulatorRecipeJEIBase {
 

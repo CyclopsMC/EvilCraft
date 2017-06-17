@@ -20,6 +20,7 @@ import java.util.List;
 @Data
 public abstract class EnvironmentalAccumulatorRecipeJEIBase extends BlankRecipeWrapper {
 
+    private final IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe;
     private final WeatherType inputWeather;
     private final WeatherType outputWeather;
     private final List<ItemStack> input;
@@ -27,7 +28,7 @@ public abstract class EnvironmentalAccumulatorRecipeJEIBase extends BlankRecipeW
     private final EnvironmentalAccumulatorRecipeProperties properties;
 
     public EnvironmentalAccumulatorRecipeJEIBase(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
-        recipe.getInput().getWeatherType();
+        this.recipe = recipe;
         this.input = recipe.getInput().getItemStacks();
         this.inputWeather = recipe.getInput().getWeatherType();
         this.output = recipe.getOutput().getItemStacks();
@@ -53,5 +54,15 @@ public abstract class EnvironmentalAccumulatorRecipeJEIBase extends BlankRecipeW
 
     public EnvironmentalAccumulatorRecipeProperties getProperties() {
         return this.properties;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof EnvironmentalAccumulatorRecipeJEIBase && ((EnvironmentalAccumulatorRecipeJEIBase) o).recipe.equals(this.recipe);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1 | this.recipe.hashCode();
     }
 }

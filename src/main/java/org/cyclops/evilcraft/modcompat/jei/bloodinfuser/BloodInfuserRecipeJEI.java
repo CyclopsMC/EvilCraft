@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.modcompat.jei.bloodinfuser;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.util.Translator;
@@ -26,10 +25,10 @@ import java.util.List;
  * Recipe wrapper for Blood Infuser recipes
  * @author rubensworks
  */
-@EqualsAndHashCode(callSuper = false)
 @Data
 public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
 
+    private final IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe;
     private final FluidStack fluidStack;
     private final int upgrade;
     private final List<ItemStack> input;
@@ -37,6 +36,7 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
     private final String xpString;
 
     public BloodInfuserRecipeJEI(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
+        this.recipe = recipe;
         this.fluidStack = recipe.getInput().getFluidStack();
         this.upgrade = recipe.getInput().getTier();
         this.input = recipe.getInput().getItemStacks();
@@ -81,5 +81,15 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
         super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
         FontRenderer fontRendererObj = minecraft.fontRendererObj;
         fontRendererObj.drawString(this.xpString, 100 - fontRendererObj.getStringWidth(this.xpString) / 2, 5, Color.gray.getRGB());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof BloodInfuserRecipeJEI && ((BloodInfuserRecipeJEI) o).recipe.equals(this.recipe);
+    }
+
+    @Override
+    public int hashCode() {
+        return 1 | this.recipe.hashCode();
     }
 }
