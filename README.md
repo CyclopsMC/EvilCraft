@@ -6,7 +6,7 @@
 
 All stable releases (including deobfuscated builds) can be found on [CurseForge](http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files).
 
-More gameplay information can be found on [Minecraft Forum](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/wip-mods/1445975-evilcraft-open-source-v0-8-7).
+More gameplay information can be found on [CurseForge](https://minecraft.curseforge.com/projects/evilcraft/).
 
 ### Contributing
 * Before submitting a pull request containing a new feature, please discuss this first with one of the lead developers.
