@@ -6,7 +6,7 @@
         <condition type="config">blood_infuser</condition>
         <condition type="config">bound_blood_drop</condition>
         <input>
-            <item>bloodmagic:bloodmagic:itembloodorb</item>
+            <item>bloodmagic:itembloodorb</item>
             <fluid amount="10000">evilcraftblood</fluid>
         </input>
         <output>
