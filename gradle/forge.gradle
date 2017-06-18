@@ -13,9 +13,14 @@ repositories {
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven'
     }
-    maven {
+    // TODO: temp while player's maven is fixed
+    /*maven {
         name 'Player Maven FS'
         url 'http://maven.ic2.player.to/'
+    }*/
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
     }
     maven {
         name "Cyclops Repo"
@@ -45,13 +50,17 @@ dependencies {
     deobfCompile "slimeknights.mantle:Mantle:${config.minecraft_version}-${config.mantle_version}" // https://dvs1.progwml6.com/jenkins/
     deobfCompile "slimeknights:TConstruct:${config.minecraft_version}-${config.tconstruct_version}" // http://dvs1.progwml6.com/files/maven/slimeknights/TConstruct/maven-metadata.xml
     deobfCompile "mcp.mobius.waila:Waila:${config.waila_version}" // http://mobiusstrip.eu/maven/mcp/mobius/waila/Waila/
-    deobfCompile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}" // http://maven.ic2.player.to/
+    // TODO: temp while player's maven is fixed
+    //deobfCompile "net.sengir.forestry:forestry_${config.minecraft_version}:${config.forestry_version}" // http://maven.ic2.player.to/
+    deobfCompile 'forestry:forestry_1.11.2:5.3.4.102' // https://minecraft.curseforge.com/api/maven/
     //compile "com.pahimar.ee3:EquivalentExchange3:${config.minecraft_version}-${config.EE3_version}:dev" // http://files.minecraftforge.net/maven/com/pahimar/ee3/EquivalentExchange3
-    compile "net.industrial-craft:industrialcraft-2:${config.IC2_version}:dev" // http://maven.ic2.player.to/
+    //compile "net.industrial-craft:industrialcraft-2:${config.IC2_version}:dev" // http://maven.ic2.player.to/
+    // TODO: temp while player's maven is fixed
+    deobfCompile 'industrial-craft:industrialcraft-2:2.7.59:ex111' // https://minecraft.curseforge.com/api/maven/
     deobfCompile "info.amerifrance.guideapi:Guide-API:1.11.2-${config.guideapi_version}" // http://tehnut.info/maven/info/amerifrance/guideapi/Guide-API
     deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.11-${config.BM_version}" // http://tehnut.info/maven/com/wayoftime/bloodmagic/BloodMagic
     deobfCompile "mezz.jei:jei_${config.jei_version}" // https://dvs1.progwml6.com/jenkins/
-    //deobfCompile "blusunrize:ImmersiveEngineering:${config.ie_version}"// http://maven.blamejared.com/blusunrize/ImmersiveEngineering/
+    deobfCompile "blusunrize:ImmersiveEngineering:${config.ie_version}"// http://maven.blamejared.com/blusunrize/ImmersiveEngineering/
     //deobfCompile "com.enderio:EnderIO:1.9.4-${config.enderio_version}" // http://maven.tterrag.com/com/enderio/EnderIO
     //deobfCompile "com.enderio.core:EnderCore:1.9.4-${config.endercore_version}" // http://maven.tterrag.com/com/enderio/EnderIO
     deobfCompile "MineTweaker3:MineTweaker3-API:${config.minetweakerapi_version}"; // http://blamejared.com/maven/MineTweaker3/MineTweaker3-API/maven-metadata.xml
