@@ -1,6 +1,6 @@
 ## EvilCraft
 
-[![Build Status](https://travis-ci.org/CyclopsMC/EvilCraft.svg?branch=master-1.10)](https://travis-ci.org/rubensworks/EvilCraft)
+[![Build Status](https://travis-ci.org/CyclopsMC/EvilCraft.svg?branch=master-1.11)](https://travis-ci.org/rubensworks/EvilCraft)
 [![Download](https://api.bintray.com/packages/cyclopsmc/dev/EvilCraft/images/download.svg) ](https://bintray.com/cyclopsmc/dev/EvilCraft/_latestVersion)
 [![CurseForge](http://cf.way2muchnoise.eu/full_74610_downloads.svg)](http://minecraft.curseforge.com/projects/74610)
 
