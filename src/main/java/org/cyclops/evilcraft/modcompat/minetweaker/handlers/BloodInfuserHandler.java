@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.modcompat.minetweaker.handlers;
 
-import com.blamejared.mtlib.helpers.InputHelper;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
@@ -45,8 +44,8 @@ public class BloodInfuserHandler extends RecipeRegistryHandler<BloodInfuser, Ite
     public static void addRecipe(IItemStack inputStack, ILiquidStack inputFluid, int tier,
                                  IItemStack outputStack, int duration, int xp) {
         INSTANCE.add(new Recipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>(
-                new ItemFluidStackAndTierRecipeComponent(InputHelper.toStack(inputStack), InputHelper.toFluid(inputFluid), tier),
-                new ItemStackRecipeComponent(InputHelper.toStack(outputStack)),
+                new ItemFluidStackAndTierRecipeComponent(RecipeRegistryHandler.toStack(inputStack), RecipeRegistryHandler.toFluid(inputFluid), tier),
+                new ItemStackRecipeComponent(RecipeRegistryHandler.toStack(outputStack)),
                 new DurationXpRecipeProperties(duration, xp)));
     }
 
@@ -54,15 +53,15 @@ public class BloodInfuserHandler extends RecipeRegistryHandler<BloodInfuser, Ite
     public static void removeRecipe(IItemStack inputStack, ILiquidStack inputFluid, int tier,
                                     IItemStack outputStack, int duration, int xp) {
         INSTANCE.remove(new Recipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>(
-                new ItemFluidStackAndTierRecipeComponent(InputHelper.toStack(inputStack), InputHelper.toFluid(inputFluid), tier),
-                new ItemStackRecipeComponent(InputHelper.toStack(outputStack)),
+                new ItemFluidStackAndTierRecipeComponent(RecipeRegistryHandler.toStack(inputStack), RecipeRegistryHandler.toFluid(inputFluid), tier),
+                new ItemStackRecipeComponent(RecipeRegistryHandler.toStack(outputStack)),
                 new DurationXpRecipeProperties(duration, xp)));
     }
 
     @ZenMethod
     public static void removeRecipesWithOutput(IItemStack outputStack) {
         INSTANCE.remove(
-                new ItemStackRecipeComponent(InputHelper.toStack(outputStack))
+                new ItemStackRecipeComponent(RecipeRegistryHandler.toStack(outputStack))
         );
     }
 }

@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.modcompat.minetweaker.handlers;
 
-import com.blamejared.mtlib.helpers.InputHelper;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import minetweaker.api.item.IItemStack;
 import org.cyclops.cyclopscore.modcompat.jei.IJeiRecipeWrapperWrapper;
@@ -51,8 +50,8 @@ public class EnvironmentalAccumulatorHandler extends RecipeRegistryHandler<Envir
                                  IItemStack outputStack, String outputWeather,
                                  int duration, int cooldownTime, double processingSpeed) {
         INSTANCE.add(new Recipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>(
-                new EnvironmentalAccumulatorRecipeComponent(InputHelper.toStack(inputStack), getWeather(inputWeather)),
-                new EnvironmentalAccumulatorRecipeComponent(InputHelper.toStack(outputStack), getWeather(outputWeather)),
+                new EnvironmentalAccumulatorRecipeComponent(RecipeRegistryHandler.toStack(inputStack), getWeather(inputWeather)),
+                new EnvironmentalAccumulatorRecipeComponent(RecipeRegistryHandler.toStack(outputStack), getWeather(outputWeather)),
                 new EnvironmentalAccumulatorRecipeProperties(duration, cooldownTime, processingSpeed)));
     }
 
@@ -61,15 +60,15 @@ public class EnvironmentalAccumulatorHandler extends RecipeRegistryHandler<Envir
                                     IItemStack outputStack, String outputWeather,
                                     int duration, int cooldownTime, double processingSpeed) {
         INSTANCE.add(new Recipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>(
-                new EnvironmentalAccumulatorRecipeComponent(InputHelper.toStack(inputStack), getWeather(inputWeather)),
-                new EnvironmentalAccumulatorRecipeComponent(InputHelper.toStack(outputStack), getWeather(outputWeather)),
+                new EnvironmentalAccumulatorRecipeComponent(RecipeRegistryHandler.toStack(inputStack), getWeather(inputWeather)),
+                new EnvironmentalAccumulatorRecipeComponent(RecipeRegistryHandler.toStack(outputStack), getWeather(outputWeather)),
                 new EnvironmentalAccumulatorRecipeProperties(duration, cooldownTime, processingSpeed)));
     }
 
     @ZenMethod
     public static void removeRecipesWithOutput(IItemStack outputStack, String outputWeather) {
         INSTANCE.remove(
-                new EnvironmentalAccumulatorRecipeComponent(InputHelper.toStack(outputStack), getWeather(outputWeather))
+                new EnvironmentalAccumulatorRecipeComponent(RecipeRegistryHandler.toStack(outputStack), getWeather(outputWeather))
         );
     }
 }
