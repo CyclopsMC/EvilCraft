@@ -71,7 +71,6 @@ sourceSets {
             exclude '**/modcompat/thaumcraft/**'
             exclude '**/modcompat/immersiveengineering/**'
             exclude '**/modcompat/enderio/**'
-            exclude '**/modcompat/minetweaker/**'
         }
     }
 }
