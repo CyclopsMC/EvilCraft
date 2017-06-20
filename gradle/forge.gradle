@@ -17,10 +17,12 @@ dependencies {
     if(project.hasProperty("evilcraftcompat_version_local")) {
         shadow("org.cyclops.evilcraftcompat:EvilCraftCompat:${config.minecraft_version}-${project.evilcraftcompat_version_local}") {
             exclude group: 'org.cyclops.cyclopscore', module: 'CyclopsCore'
+            exclude group: 'org.cyclops.evilcraft', module: 'EvilCraft'
         }
     } else {
         shadow("org.cyclops.evilcraftcompat:EvilCraftCompat:${config.minecraft_version}-${config.evilcraftcompat_version}") {
             exclude group: 'org.cyclops.cyclopscore', module: 'CyclopsCore'
+            exclude group: 'org.cyclops.evilcraft', module: 'EvilCraft'
         }
     }
 
