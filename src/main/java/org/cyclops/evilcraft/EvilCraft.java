@@ -38,22 +38,9 @@ import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
-import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
-import org.cyclops.evilcraft.modcompat.bloodmagic.BloodMagicModCompat;
-import org.cyclops.evilcraft.modcompat.capabilities.WorkerEnvirAccTileCompat;
-import org.cyclops.evilcraft.modcompat.capabilities.WorkerWorkingTileCompat;
-import org.cyclops.evilcraft.modcompat.forestry.ForestryModCompat;
-import org.cyclops.evilcraft.modcompat.ic2.IC2ModCompat;
-import org.cyclops.evilcraft.modcompat.immersiveengineering.ImmersiveEngineeringModCompat;
-import org.cyclops.evilcraft.modcompat.jei.JEIModCompat;
-import org.cyclops.evilcraft.modcompat.minetweaker.MineTweakerModCompat;
-import org.cyclops.evilcraft.modcompat.tconstruct.TConstructModCompat;
-import org.cyclops.evilcraft.modcompat.thermalexpansion.ThermalExpansionModCompat;
-import org.cyclops.evilcraft.modcompat.waila.WailaModCompat;
-import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
@@ -105,21 +92,6 @@ public class EvilCraft extends ModBaseVersionable {
     protected void loadModCompats(ModCompatLoader modCompatLoader) {
         // Mod compats
         modCompatLoader.addModCompat(new BaublesModCompat());
-        modCompatLoader.addModCompat(new WailaModCompat());
-        modCompatLoader.addModCompat(new JEIModCompat());
-        // TODO: temporarily disable some mod compats
-        modCompatLoader.addModCompat(new BloodMagicModCompat());
-        modCompatLoader.addModCompat(new TConstructModCompat());
-        modCompatLoader.addModCompat(new ForestryModCompat());
-        modCompatLoader.addModCompat(new IC2ModCompat());
-        modCompatLoader.addModCompat(new ImmersiveEngineeringModCompat());
-        //modCompatLoader.addModCompat(new EnderIOModCompat());
-        modCompatLoader.addModCompat(new ThermalExpansionModCompat());
-        modCompatLoader.addModCompat(new MineTweakerModCompat());
-
-        // Capabilities
-        getCapabilityConstructorRegistry().registerTile(TickingTankInventoryTileEntity.class, new WorkerWorkingTileCompat());
-        getCapabilityConstructorRegistry().registerTile(TileEnvironmentalAccumulator.class, new WorkerEnvirAccTileCompat());
     }
 
     @Override

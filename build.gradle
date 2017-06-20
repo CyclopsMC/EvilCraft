@@ -9,6 +9,7 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
@@ -21,6 +22,7 @@ plugins {
 
 // For those who want the bleeding edge
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 loadProperties()
 
@@ -61,15 +63,5 @@ apply from: 'gradle/deploy.gradle'
 idea {
     module {
         sourceDirs += file('src/api/java')
-    }
-}
-
-// TODO: temporarily disable some mod compats
-sourceSets {
-    main {
-        java {
-            exclude '**/modcompat/thaumcraft/**'
-            exclude '**/modcompat/enderio/**'
-        }
     }
 }

@@ -15,6 +15,16 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier 'javadoc'
 }
 
+shadowJar {
+    archiveName = tasks.jar.archiveName
+    configurations = [project.configurations.shadow]
+}
+
+reobfJar {
+    setJar(tasks.shadowJar.archivePath)
+}
+reobfJar.dependsOn shadowJar
+
 artifacts {
     archives deobfJar
     //archives apiJar

@@ -1,3 +1,0 @@
-[submodule "src/api/java/org/cyclops/commoncapabilities/api"]
-	path = src/api/java/org/cyclops/commoncapabilities/api
-	url = https://github.com/CyclopsMC/CommonCapabilitiesAPI.git
