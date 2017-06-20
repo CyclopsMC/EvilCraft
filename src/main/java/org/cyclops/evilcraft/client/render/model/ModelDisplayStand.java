@@ -56,7 +56,7 @@ public class ModelDisplayStand extends DynamicItemAndBlockModel {
     }
 
     protected IBakedModel handleDisplayStandType(ItemStack displayStandType, boolean axisX, EnumFacing facing) {
-        if (displayStandType != null) {
+        if (!displayStandType.isEmpty()) {
             // Get reference texture
             IBlockState blockState = BlockHelpers.getBlockStateFromItemStack(displayStandType);
             String textureName = Minecraft.getMinecraft().getBlockRendererDispatcher()
