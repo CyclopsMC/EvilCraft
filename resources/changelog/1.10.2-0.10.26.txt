@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.6 or higher.
+
+Fixes:
+* Fix Minetweaker lib dependencies
+* Fix Minetweaker JEI integration
+

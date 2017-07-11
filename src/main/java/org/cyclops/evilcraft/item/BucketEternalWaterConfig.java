@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -12,6 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -82,6 +84,16 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
                     return EnumActionResult.SUCCESS;
                 }
                 return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
+            }
+
+            @Override
+            public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+                return new BucketWrapper(stack) {
+                    @Override
+                    protected void setFluid(Fluid fluid) {
+                        // Do nothing: we want to keep the item in-place
+                    }
+                };
             }
 
         };
