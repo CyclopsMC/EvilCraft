@@ -57,8 +57,8 @@ VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
     		comment = "The blacklisted entity spirits, by entity name.",
     		changedCallback = SpiritBlacklistChanged.class)
     public static String[] entityBlacklist = new String[]{
-        "evilcraft.werewolf",
-        "intangible.soul",
+        "evilcraft:werewolf",
+        "intangible:soul",
     };
 
     /**
