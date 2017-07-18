@@ -30,6 +30,14 @@ dependencies {
     compile "org.projectlombok:lombok:1.14.4"
 }
 
+shadowJar {
+    dependencies {
+        exclude(dependency {
+            it.moduleGroup == 'org.projectlombok'
+        })
+    }
+}
+
 
 minecraft {
     version = "${config.minecraft_version}-${config.forge_version}"
