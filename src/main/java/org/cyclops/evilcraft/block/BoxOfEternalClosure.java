@@ -7,13 +7,13 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
@@ -189,8 +189,7 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void provideInformation(ItemStack itemStack,
-			EntityPlayer entityPlayer, List list, boolean par4) {
+	public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 		
 	}
 
@@ -237,8 +236,9 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
-        list.add(new ItemStack(item));
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+		if (!BlockHelpers.isValidCreativeTab(this, tab)) return;
+        list.add(new ItemStack(this));
         list.add(BoxOfEternalClosure.boxOfEternalClosureFilled);
     }
 

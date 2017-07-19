@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.client.render.model;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelRotation;
@@ -14,6 +13,7 @@ import org.cyclops.evilcraft.block.BoxOfEternalClosureConfig;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.function.Function;
 
 /**
  * Model the box of eternal closure.

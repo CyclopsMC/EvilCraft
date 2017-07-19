@@ -55,8 +55,8 @@ public class EntityItemEmpowerable extends EntityItemIndestructable {
 	
 	@Override
 	protected boolean isIndestructable() {
-        if(!(getEntityItem().getItem() instanceof IItemEmpowerable)) return super.isIndestructable();
-		return ((IItemEmpowerable) getEntityItem().getItem()).isEmpowered(getEntityItem());
+        if(!(getItem().getItem() instanceof IItemEmpowerable)) return super.isIndestructable();
+		return ((IItemEmpowerable) getItem().getItem()).isEmpowered(getItem());
 	}
 	
 }

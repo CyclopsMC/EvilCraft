@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.item;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -9,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.potion.PotionEffect;
@@ -23,8 +23,8 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableItemFood;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.Reference;
 
 import javax.annotation.Nullable;
@@ -112,9 +112,6 @@ public class WerewolfFlesh extends ConfigurableItemFood {
         if(world != null && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             itemStack.shrink(1);
-            if (itemStack.getItemDamage() == 1) {
-                player.addStat(Achievements.CANNIBAL, 1);
-            }
             if (isOwnCanibal(itemStack, player)) {
                 if (!world.isRemote) {
                     player.addPotionEffect(new PotionEffect(MobEffects.WITHER,
@@ -155,17 +152,17 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	@SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, NonNullList<ItemStack> list) {
-    	list.add(new ItemStack(item, 1, 0));
-    	list.add(new ItemStack(item, 1, 1));
+    public void getSubItems(CreativeTabs tabs, NonNullList<ItemStack> list) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, tabs)) return;
+    	list.add(new ItemStack(this, 1, 0));
+    	list.add(new ItemStack(this, 1, 1));
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-    	super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+    	super.addInformation(itemStack, world, list, flag);
     	if(isHumanFlesh(itemStack)) {
     		String player = TextFormatting.ITALIC + "None";
     		if(itemStack.getTagCompound() != null) {

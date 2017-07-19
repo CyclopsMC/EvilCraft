@@ -49,7 +49,7 @@ public class ObfuscationHelpers {
 	 * @return The death sound.
 	 */
 	public static SoundEvent getDeathSound(EntityLivingBase entity) {
-		Method method = ReflectionHelper.findMethod(EntityLivingBase.class, entity, ObfuscationData.ENTITYLIVINGBASE_GETDEATHSOUND);
+		Method method = ReflectionHelper.findMethod(EntityLivingBase.class, ObfuscationData.ENTITYLIVINGBASE_GETDEATHSOUND[0], ObfuscationData.ENTITYLIVINGBASE_GETDEATHSOUND[1]);
 		try {
 			return (SoundEvent) method.invoke(entity);
 		} catch (IllegalAccessException e) {
@@ -68,7 +68,7 @@ public class ObfuscationHelpers {
 	 * @return The living sound.
 	 */
 	public static SoundEvent getAmbientSound(EntityLiving entity) {
-		Method method = ReflectionHelper.findMethod(EntityLiving.class, entity, ObfuscationData.ENTITYLIVING_GETAMBIENTSOUND);
+		Method method = ReflectionHelper.findMethod(EntityLiving.class, ObfuscationData.ENTITYLIVING_GETAMBIENTSOUND[0], ObfuscationData.ENTITYLIVING_GETAMBIENTSOUND[1]);
 		try {
 			return (SoundEvent) method.invoke(entity);
 		} catch (IllegalAccessException e) {
@@ -123,8 +123,9 @@ public class ObfuscationHelpers {
 	 * @param reapplyAttributes If the dataManager attributes need to be updated.
 	 */
 	public static void onChangedPotionEffect(EntityLivingBase entity, PotionEffect potionEffect, boolean reapplyAttributes) {
-		Method method = ReflectionHelper.findMethod(EntityLivingBase.class, entity,
-				ObfuscationData.ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT, PotionEffect.class, boolean.class);
+		Method method = ReflectionHelper.findMethod(EntityLivingBase.class,
+				ObfuscationData.ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT[0],
+				ObfuscationData.ENTITYLIVINGBASE_ONCHANGEDPOTIONEFFECT[1], PotionEffect.class, boolean.class);
 		try {
 			method.invoke(entity, potionEffect, reapplyAttributes);
 		} catch (IllegalAccessException e) {
@@ -142,8 +143,8 @@ public class ObfuscationHelpers {
 	 * @return The loot table.
 	 */
 	public static ResourceLocation getLootTable(EntityLiving entity) {
-		Method method = ReflectionHelper.findMethod(EntityLiving.class, entity,
-				ObfuscationData.ENTITYLIVINGBASE_GETLOOTTABLE);
+		Method method = ReflectionHelper.findMethod(EntityLiving.class,
+				ObfuscationData.ENTITYLIVINGBASE_GETLOOTTABLE[0], ObfuscationData.ENTITYLIVINGBASE_GETLOOTTABLE[1]);
 		try {
 			return (ResourceLocation) method.invoke(entity);
 		} catch (IllegalAccessException e) {

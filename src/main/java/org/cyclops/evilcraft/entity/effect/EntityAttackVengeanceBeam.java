@@ -57,7 +57,6 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
 
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof VengeanceSpirit) {
-            ((EntityPlayerMP) this.getThrower()).addStat(Achievements.CLOSURE, 1);
             entity.attackEntityFrom(ExtendedDamageSource.vengeanceBeam(this.getThrower()), 1F);
             ((VengeanceSpirit) entity).setRemainingLife(((VengeanceSpirit) entity).getRemainingLife() + 10);
         } else if (entity instanceof EntityLivingBase) {

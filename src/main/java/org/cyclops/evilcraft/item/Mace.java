@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.item;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleSmokeNormal;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -286,9 +287,9 @@ public abstract class Mace extends ConfigurableDamageIndicatedItemFluidContainer
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         ItemPowerableHelpers.addPreInformation(itemStack, list);
-        super.addInformation(itemStack, entityPlayer, list, par4);
+        super.addInformation(itemStack, world, list, flag);
         ItemPowerableHelpers.addPostInformation(itemStack, list);
     }
 

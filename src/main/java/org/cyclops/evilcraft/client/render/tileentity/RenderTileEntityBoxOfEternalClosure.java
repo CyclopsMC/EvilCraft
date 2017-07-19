@@ -39,7 +39,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
     FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
     
     @Override
-    public void renderTileEntityAt(TileBoxOfEternalClosure tile, double x, double y, double z, float partialTick, int destroyStage) {
+    public void render(TileBoxOfEternalClosure tile, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
         IBlockState blockState = getWorld().getBlockState(tile.getPos());
         Block block = blockState.getBlock();
 
@@ -152,7 +152,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             
             // Start tesselator
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer worldRenderer = tessellator.getBuffer();
+            BufferBuilder worldRenderer = tessellator.getBuffer();
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(GL11.GL_CULL_FACE);
             this.bindTexture(beamTexture);
@@ -247,7 +247,7 @@ public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRender
             GlStateManager.multMatrix(PROJECTION);
             GlStateManager.multMatrix(MODELVIEW);
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer worldrenderer = tessellator.getBuffer();
+            BufferBuilder worldrenderer = tessellator.getBuffer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
             float f11 = (field_147527_e.nextFloat() * 0.5F + 0.5F) * f6;
             float f12 = (field_147527_e.nextFloat() * 0.5F + 0.2F) * f6;

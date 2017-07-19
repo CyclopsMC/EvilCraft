@@ -4,6 +4,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -123,11 +124,6 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     @Override
-	public void onBlockHarvested(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player) {
-    	player.addStat(Achievements.FIRST_AGE, 1);
-    }
-    
-    @Override
     public void onBlockClicked(World world, BlockPos blockPos, EntityPlayer player) {
         this.glow(world, blockPos);
         super.onBlockClicked(world, blockPos, player);
@@ -232,7 +228,8 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void provideInformation(ItemStack itemStack,
-            EntityPlayer entityPlayer, List list, boolean par4) {}
+    public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+
+    }
 
 }

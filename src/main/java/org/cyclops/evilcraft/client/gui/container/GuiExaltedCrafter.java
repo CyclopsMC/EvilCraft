@@ -90,7 +90,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     	if(itemStack.hasDisplayName()) {
     		name = itemStack.getDisplayName();
     	}
-        this.fontRendererObj.drawString(name, 28, 6, 4210752);
+        this.fontRenderer.drawString(name, 28, 6, 4210752);
     }
     
 }

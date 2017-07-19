@@ -7,7 +7,7 @@ import org.cyclops.cyclopscore.infobook.InfoBook;
 import org.cyclops.cyclopscore.infobook.InfoBookParser;
 import org.cyclops.cyclopscore.infobook.pageelement.SectionAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
@@ -20,7 +20,7 @@ import org.cyclops.evilcraft.block.EnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.infobook.pageelement.BloodInfuserRecipeAppendix;
 import org.cyclops.evilcraft.infobook.pageelement.BroomModifierRecipeAppendix;
@@ -46,9 +46,9 @@ public class OriginsOfDarknessBook extends InfoBook {
                 @Override
                 public SectionAppendix create(IInfoBook infoBook, Element node) throws InfoBookParser.InvalidAppendixException {
                     ItemStack itemStack = InfoBookParser.createStack(node, infoBook.getMod().getRecipeHandler());
-                    List<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>>
+                    List<IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>>
                             recipes = BloodInfuser.getInstance().getRecipeRegistry().
-                            findRecipesByOutput(new ItemStackRecipeComponent(itemStack));
+                            findRecipesByOutput(new IngredientRecipeComponent(itemStack));
                     int index = InfoBookParser.getIndex(node);
                     if (index >= recipes.size())
                         throw new InfoBookParser.InvalidAppendixException("Could not find Blood Infuser recipe for " +
@@ -83,10 +83,10 @@ public class OriginsOfDarknessBook extends InfoBook {
         }
 
         if(Configs.isEnabled(BloodInfuserConfig.class)) {
-            InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixItemFactory<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>() {
+            InfoBookParser.registerFactory(Reference.MOD_ID + ":blood_infuser_recipe", new InfoBookParser.IAppendixItemFactory<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>() {
 
                 @Override
-                public SectionAppendix create(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) throws InfoBookParser.InvalidAppendixException {
+                public SectionAppendix create(IInfoBook infoBook, IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> recipe) throws InfoBookParser.InvalidAppendixException {
                     return new BloodInfuserRecipeAppendix(infoBook, recipe);
                 }
 

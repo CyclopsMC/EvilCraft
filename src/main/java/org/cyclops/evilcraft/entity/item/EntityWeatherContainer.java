@@ -26,7 +26,7 @@ import org.cyclops.evilcraft.item.WeatherContainerConfig;
  */
 public class EntityWeatherContainer extends EntityThrowable implements IConfigurable {
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.ITEM_STACK);
     
     /**
      * Make a new instance in the given world.

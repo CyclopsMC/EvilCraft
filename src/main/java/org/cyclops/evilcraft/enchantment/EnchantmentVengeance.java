@@ -81,7 +81,7 @@ public class EnchantmentVengeance extends ConfigurableEnchantment {
 
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
-        Entity entity = event.getSource().getEntity();
+        Entity entity = event.getSource().getTrueSource();
         if (entity instanceof EntityPlayer && !entity.world.isRemote) {
             EntityPlayer player = (EntityPlayer) entity;
             ItemStack heldItem = player.getHeldItem(player.getActiveHand());

@@ -94,7 +94,7 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
     }
     
 	protected void drawForgegroundString() {
-    	fontRendererObj.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
+    	fontRenderer.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override
@@ -118,8 +118,8 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
     }
     
     @Override
-    public void drawScreen(int mouseX, int mouseY, float gameTicks) {
-        super.drawScreen(mouseX, mouseY, gameTicks);
+    public void drawCurrentScreen(int mouseX, int mouseY, float gameTicks) {
+        super.drawCurrentScreen(mouseX, mouseY, gameTicks);
         drawTooltips(mouseX, mouseY);
     }
     

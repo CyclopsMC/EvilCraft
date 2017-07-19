@@ -50,8 +50,8 @@ public class BowlOfPromisesConfig extends ItemConfig {
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
         for(int tier = 0; tier < getTiers(); tier++) {
             for(int i = tier; i < getTiers(); i++) {
                 OreDictionary.registerOre(getBaseDictionaryName() + tier, new ItemStack(BowlOfPromises.getInstance(), 1, 2 + i));

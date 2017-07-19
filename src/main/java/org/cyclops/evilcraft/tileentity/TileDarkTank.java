@@ -91,13 +91,13 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 				for(Entity entity : entities) {
 					if(!getTank().isEmpty() && entity instanceof EntityItem) {
 						EntityItem item = (EntityItem) entity;
-						if (item.getEntityItem() != null
-								&& item.getEntityItem().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) &&
-								item.getEntityItem().getCount() == 1) {
-							ItemStack itemStack = item.getEntityItem().copy();
+						if (item.getItem() != null
+								&& item.getItem().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) &&
+								item.getItem().getCount() == 1) {
+							ItemStack itemStack = item.getItem().copy();
 							ItemStack fillItemStack;
 							if((fillItemStack = fill(itemStack)) != null) {
-								item.setEntityItemStack(fillItemStack);
+								item.setItem(fillItemStack);
 							}
 						}
 					} else if(entity instanceof EntityPlayer) {

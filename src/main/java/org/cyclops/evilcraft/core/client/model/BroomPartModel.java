@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.core.client.model;
 
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelRotation;
@@ -15,6 +14,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.function.Function;
 
 /**
  * Model for a variant of a broom part item.

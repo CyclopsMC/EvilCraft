@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.particle.ParticleBlur;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 
@@ -87,7 +86,8 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
         
     	if (!this.world.isRemote) {
             Entity entity = null;
-            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()
+                    .offset(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double d0 = 0.0D;
 
             for (Entity entity1 : list) {
@@ -157,7 +157,6 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
 
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof VengeanceSpirit) {
-            ((EntityPlayerMP) this.getThrower()).addStat(Achievements.CLOSURE, 1);
             ((VengeanceSpirit) entity).onHit(posX, posY, posZ, motionX, motionY, motionZ);
         }
     }

@@ -46,11 +46,11 @@ public class EntityNoMob extends EntityCreature {
     public void onLivingUpdate()
     {
         this.updateArmSwingProgress();
-        float f = this.getBrightness(1.0F);
+        float f = this.getBrightness();
 
         if (f > 0.5F)
         {
-            this.entityAge += 2;
+            this.idleTime += 2;
         }
 
         super.onLivingUpdate();
@@ -87,7 +87,7 @@ public class EntityNoMob extends EntityCreature {
         return this.isEntityInvulnerable(source) ? false : super.attackEntityFrom(source, amount);
     }
 
-    protected SoundEvent getHurtSound()
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
     {
         return SoundEvents.ENTITY_HOSTILE_HURT;
     }
@@ -205,6 +205,11 @@ public class EntityNoMob extends EntityCreature {
      * Entity won't drop items or experience points if this returns false
      */
     protected boolean canDropLoot()
+    {
+        return true;
+    }
+
+    public boolean isPreventingPlayerRest(EntityPlayer playerIn)
     {
         return true;
     }

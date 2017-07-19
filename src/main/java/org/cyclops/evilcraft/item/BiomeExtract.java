@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
@@ -18,6 +19,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
@@ -85,8 +87,8 @@ public class BiomeExtract extends ConfigurableItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         Biome biome = getBiome(itemStack);
         if(biome != null) {
             list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.content", biome.getBiomeName()));
@@ -99,9 +101,9 @@ public class BiomeExtract extends ConfigurableItem {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
-        super.getSubItems(item, creativeTabs, list);
+    public void getSubItems(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
+        super.getSubItems(creativeTabs, list);
         if(BiomeExtractConfig.creativeTabVariants) {
             for (Biome biome : getBiomes()) {
                 list.add(createItemStack(biome, 1));

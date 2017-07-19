@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.color.IItemColor;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -9,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
@@ -16,6 +18,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
@@ -87,8 +90,8 @@ public class Promise extends ConfigurableItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             list.add(TextFormatting.DARK_GREEN + L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".use_in"));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
@@ -99,10 +102,10 @@ public class Promise extends ConfigurableItem {
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+    public void getSubItems(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
         for(int i = 0; i < UPGRADES.length; i++) {
-            list.add(new ItemStack(item, 1, i));
+            list.add(new ItemStack(this, 1, i));
         }
     }
 

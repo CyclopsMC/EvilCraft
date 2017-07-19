@@ -95,7 +95,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
     }
 
     @Override
-    protected SoundEvent getHurtSound() {
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
         return SoundEvents.ENTITY_BAT_HURT;
     }
 
@@ -245,7 +245,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             this.rotationYaw += this.randomYawVelocity * 0.1F;
             float scaledMotionDistanceHeightPlane = (float)(2.0D / (motionDistanceHeightPlane + 1.0D));
             float staticMotionMultiplier = 0.06F;
-            this.moveRelative(0.0F, -1.0F, staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)));
+            this.moveRelative(0.0F, -1.0F, staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), 1.0F);
 
             this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 

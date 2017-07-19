@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -22,7 +23,7 @@ public class DisplayStandRecipe extends ShapedOreRecipe {
 	private final List<ItemStack> plankTypes;
 
 	public DisplayStandRecipe(List<ItemStack> plankTypes) {
-		super(DisplayStand.getInstance().
+		super(new ResourceLocation(Reference.MOD_ID, "display_stand"), DisplayStand.getInstance().
 						getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState()),
 				"SBS", "SPS", " P ",
 				'S', Reference.DICT_WOODSTICK,

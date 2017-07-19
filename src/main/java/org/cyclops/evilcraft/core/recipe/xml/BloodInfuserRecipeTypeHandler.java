@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.core.recipe.xml;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.cyclopscore.recipe.xml.SuperRecipeTypeHandler;
 import org.cyclops.cyclopscore.recipe.xml.XmlRecipeLoader;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
  * @author rubensworks
  *
  */
-public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> {
+public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> {
 
     @Override
     public String getCategoryId() {
@@ -27,7 +27,7 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler<ItemFl
     }
 
 	@Override
-	protected IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
+	protected IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> handleRecipe(RecipeHandler recipeHandler, Element input, Element output, Element properties)
 			throws XmlRecipeLoader.XmlRecipeException {
 		Node inputItem = input.getElementsByTagName("item").item(0);
 		Node outputItem = output.getElementsByTagName("item").item(0);
@@ -41,27 +41,18 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler<ItemFl
             xp = Float.parseFloat(properties.getElementsByTagName("xp").item(0).getTextContent());
         }
 
-        Object item = getItem(recipeHandler, inputItem);
+        Ingredient ingredient = getIngredient(recipeHandler, inputItem);
         FluidStack fluidStack = getFluid(recipeHandler, input.getElementsByTagName("fluid").item(0));
-        ItemFluidStackAndTierRecipeComponent recipeComponent;
-        if(item instanceof ItemStack) {
-            recipeComponent = new ItemFluidStackAndTierRecipeComponent(
-                    (ItemStack) item,
-                    fluidStack,
-                    tier
-            );
-        } else {
-            recipeComponent = new ItemFluidStackAndTierRecipeComponent(
-                    (String) item,
-                    fluidStack,
-                    tier
-            );
-        }
+        IngredientFluidStackAndTierRecipeComponent recipeComponent = new IngredientFluidStackAndTierRecipeComponent(
+                ingredient,
+                fluidStack,
+                tier
+        );
 
-        ItemStack outputStack = (ItemStack) getItem(recipeHandler, outputItem);
+        Ingredient outputIngredient = getIngredient(recipeHandler, outputItem);
 		return BloodInfuser.getInstance().getRecipeRegistry().registerRecipe(
                 recipeComponent,
-                new ItemStackRecipeComponent(outputStack),
+                new IngredientRecipeComponent(outputIngredient),
                 new DurationXpRecipeProperties(duration, xp)
         );
 	}

@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.color.IBlockColor;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
@@ -60,9 +62,10 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+        if (!BlockHelpers.isValidCreativeTab(this, tab)) return;
         for (int j = 0; j < INNER_BLOCKS.length; ++j) {
-            list.add(new ItemStack(item, 1, j));
+            list.add(new ItemStack(this, 1, j));
         }
     }
     
@@ -83,7 +86,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @SuppressWarnings("rawtypes")
     @Override
-    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+    public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         
     }
     

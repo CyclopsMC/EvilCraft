@@ -7,6 +7,7 @@ import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
@@ -83,7 +84,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
     }
 
     private void setResultingEnchantmentBook(TilePurifier tile, Map<Enchantment, Integer> enchantments, Enchantment enchantment) {
-        tile.setAdditionalItem(Items.ENCHANTED_BOOK.getEnchantedItemStack(
+        tile.setAdditionalItem(ItemEnchantedBook.getEnchantedItemStack(
                 new EnchantmentData(enchantment, enchantments.get(enchantment))));
     }
 

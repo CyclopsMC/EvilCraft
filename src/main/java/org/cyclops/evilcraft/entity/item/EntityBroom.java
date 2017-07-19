@@ -49,7 +49,7 @@ import java.util.Set;
  */
 public class EntityBroom extends Entity implements IConfigurable{
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.OPTIONAL_ITEM_STACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.ITEM_STACK);
 
     /**
      * Speed for the broom (in all directions)
@@ -204,12 +204,12 @@ public class EntityBroom extends Entity implements IConfigurable{
             if (this.isEntityInvulnerable(source)) {
                 return false;
             }
-            if (source.getEntity() instanceof EntityPlayer) {
+            if (source.getTrueSource() instanceof EntityPlayer) {
                 if (isBeingRidden()) {
                     this.dismountRidingEntity();
                 }
                 setDead();
-                EntityPlayer player = (EntityPlayer) source.getEntity();
+                EntityPlayer player = (EntityPlayer) source.getTrueSource();
                 if (!player.capabilities.isCreativeMode) {
                     ItemStack itemStack = getBroomStack().copy();
                     this.entityDropItem(itemStack, 0.0F);

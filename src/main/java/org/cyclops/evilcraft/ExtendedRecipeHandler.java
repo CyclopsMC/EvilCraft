@@ -1,16 +1,19 @@
 package org.cyclops.evilcraft;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.PotionType;
 import net.minecraft.potion.PotionUtils;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -19,17 +22,17 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.helper.CraftingHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.custom.Recipe;
 import org.cyclops.cyclopscore.recipe.custom.component.DummyPropertiesComponent;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStacksRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientsRecipeComponent;
 import org.cyclops.cyclopscore.recipe.event.IRecipeOutputObserver;
 import org.cyclops.cyclopscore.recipe.event.ObservableShapedRecipe;
 import org.cyclops.cyclopscore.recipe.xml.IRecipeConditionHandler;
@@ -93,7 +96,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         if(Configs.isEnabled(EnchantmentPoisonTipConfig.class)) {
             ItemStack poisonTipEnchant = new ItemStack(Items.ENCHANTED_BOOK);
             Enchantment enchant = EnchantmentPoisonTip.getInstance();
-            Items.ENCHANTED_BOOK.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
+            ItemEnchantedBook.addEnchantment(poisonTipEnchant, new EnchantmentData(enchant,
                     enchant.getMinLevel()));
             predefinedItems.put("evilcraft:enchanted_book_poison_tip", poisonTipEnchant);
         }
@@ -186,11 +189,11 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 && Configs.isEnabled(DarkGemConfig.class)
                 && Configs.isEnabled(CorruptedTearConfig.class)) {
             Item tear = CorruptedTearConfig._instance.getItemInstance();
-            GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
-                    new ItemStack(Items.GOLD_INGOT), new ItemStack(tear), new ItemStack(Items.GOLD_INGOT),
-                    new ItemStack(DarkGem.getInstance()), new ItemStack(Items.GOLD_INGOT), new ItemStack(DarkGem.getInstance()),
-                    new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT)
-            }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
+            CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "entangled_chalice"), new ObservableShapedRecipe("", 3, 3, NonNullList.from(Ingredient.EMPTY,
+                    Ingredient.fromItem(Items.GOLD_INGOT), Ingredient.fromItem(tear), Ingredient.fromItem(Items.GOLD_INGOT),
+                    Ingredient.fromItem(DarkGem.getInstance()), Ingredient.fromItem(Items.GOLD_INGOT), Ingredient.fromItem(DarkGem.getInstance()),
+                    Ingredient.fromItem(Items.GOLD_INGOT), Ingredient.fromItem(Items.GOLD_INGOT), Ingredient.fromItem(Items.GOLD_INGOT)
+            ), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
                 @Override
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
                     ItemStack newStack = output.copy();
@@ -200,11 +203,11 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 }
             }));
 
-            GameRegistry.addRecipe(new ObservableShapedRecipe(3, 3, new ItemStack[]{
-                    new ItemStack(Items.GOLD_INGOT), new ItemStack(tear), new ItemStack(Items.GOLD_INGOT),
-                    new ItemStack(DarkGem.getInstance()), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 1, OreDictionary.WILDCARD_VALUE), new ItemStack(DarkGem.getInstance()),
-                    new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT), new ItemStack(Items.GOLD_INGOT)
-            }, new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
+            CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "entangled_chalice_1"), new ObservableShapedRecipe("", 3, 3, NonNullList.from(Ingredient.EMPTY,
+                    Ingredient.fromItem(Items.GOLD_INGOT), Ingredient.fromItem(tear), Ingredient.fromItem(Items.GOLD_INGOT),
+                    Ingredient.fromItem(DarkGem.getInstance()), Ingredient.fromStacks(new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 1, OreDictionary.WILDCARD_VALUE)), Ingredient.fromItem(DarkGem.getInstance()),
+                    Ingredient.fromItem(Items.GOLD_INGOT), Ingredient.fromItem(Items.GOLD_INGOT), Ingredient.fromItem(Items.GOLD_INGOT)
+            ), new ItemStack(Item.getItemFromBlock(EntangledChalice.getInstance()), 2), new IRecipeOutputObserver() {
                 @Override
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
                     ItemStack newStack = output.copy();
@@ -219,21 +222,24 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         if(Configs.isEnabled(DarkTankConfig.class)) {
             for(int i = 1; i < 9; i++) {
                 ItemBlockFluidContainer tankItem = (ItemBlockFluidContainer) Item.getItemFromBlock(DarkTank.getInstance());
-                GameRegistry.addRecipe(new ItemBlockFluidContainerCombinationRecipe(i, tankItem, DarkTankConfig.maxTankSize));
+                CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "dark_tank_" + i),
+                        new ItemBlockFluidContainerCombinationRecipe(i, tankItem, DarkTankConfig.maxTankSize));
             }
         }
 
         // Blood Extractor upgrades
         if(Configs.isEnabled(BloodExtractorConfig.class) && Configs.isEnabled(DarkTankConfig.class)) {
             for(int i = 1; i < 9; i++) {
-                GameRegistry.addRecipe(new BloodExtractorCombinationRecipe(i));
+                CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "blood_extractor_" + i),
+                        new BloodExtractorCombinationRecipe(i));
             }
         }
 
         // Broom crafting
         if(Configs.isEnabled(BroomConfig.class)) {
             for(int i = 1; i < 9; i++) {
-                GameRegistry.addRecipe(new BroomPartCombinationRecipe(i));
+                CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "broom_part_" + i),
+                        new BroomPartCombinationRecipe(i));
             }
         }
 
@@ -300,12 +306,12 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             // Display Stand crafting
             if(Configs.isEnabled(DisplayStandConfig.class)) {
                 getTaggedRecipes().put("craftingRecipe:display_stands", new Recipe(
-                        new ItemStacksRecipeComponent(Lists.newArrayList()),
-                        new ItemStackRecipeComponent(DisplayStand.getInstance().
+                        new IngredientsRecipeComponent(NonNullList.<Ingredient>create()),
+                        new IngredientRecipeComponent(DisplayStand.getInstance().
                                 getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState())),
                         new DummyPropertiesComponent()
                 ));
-                GameRegistry.addRecipe(new DisplayStandRecipe(OreDictionary.getOres(Reference.DICT_WOODPLANK)));
+                CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "display_stand"), new DisplayStandRecipe(OreDictionary.getOres(Reference.DICT_WOODPLANK)));
             }
         }
     }

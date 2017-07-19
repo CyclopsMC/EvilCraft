@@ -111,7 +111,7 @@ public class OrganicSpread {
 
     protected boolean isBigEnough(Vec3d direction) {
         float MIN = 0.3F;
-        return Math.abs(direction.xCoord) >= MIN || Math.abs(direction.yCoord) >= MIN || Math.abs(direction.zCoord) >= MIN;
+        return Math.abs(direction.x) >= MIN || Math.abs(direction.y) >= MIN || Math.abs(direction.z) >= MIN;
     }
     
     /**

@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.item;
 import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,6 +11,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -54,10 +54,10 @@ public class PromiseAcceptor extends ConfigurableItem {
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+    public void getSubItems(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
         for(int i = 0; i < COLORS.size(); i++) {
-            list.add(new ItemStack(item, 1, i));
+            list.add(new ItemStack(this, 1, i));
         }
     }
 

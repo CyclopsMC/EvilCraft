@@ -8,12 +8,12 @@ import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.evilcraft.api.gameevent.BloodInfuserRemoveEvent;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 
 /**
@@ -71,9 +71,9 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
 
             @Override
             public ItemStack onTake(EntityPlayer player, ItemStack itemStack) {
-                IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>
+                IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>
                         recipe = BloodInfuser.getInstance().getRecipeRegistry().
-                        findRecipeByOutput(new ItemStackRecipeComponent(itemStack));
+                        findRecipeByOutput(new IngredientRecipeComponent(itemStack));
                 if(recipe != null) {
                     EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.getCount()));
                     FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));

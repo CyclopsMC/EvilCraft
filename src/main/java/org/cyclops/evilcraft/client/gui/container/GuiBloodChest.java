@@ -46,7 +46,7 @@ public class GuiBloodChest extends GuiContainerTankInventory<TileBloodChest> {
 
     @Override
     protected void drawForgegroundString() {
-        fontRendererObj.drawString(tile.getName(), 28 + offsetX, 4 + offsetY, 4210752);
+        fontRenderer.drawString(tile.getName(), 28 + offsetX, 4 + offsetY, 4210752);
     }
 
 }

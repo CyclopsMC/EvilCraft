@@ -7,9 +7,11 @@ import com.google.common.collect.Sets;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
@@ -29,7 +31,7 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class BroomPartCombinationRecipe implements IRecipe {
+public class BroomPartCombinationRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
 	private final int recipeSize;
 
@@ -40,11 +42,6 @@ public class BroomPartCombinationRecipe implements IRecipe {
 	@Override
 	public boolean matches(InventoryCrafting grid, World world) {
 		return !getCraftingResult(grid).isEmpty();
-	}
-	
-	@Override
-	public int getRecipeSize() {
-		return recipeSize;
 	}
 	
 	@Override
@@ -183,6 +180,16 @@ public class BroomPartCombinationRecipe implements IRecipe {
 		return result.getLeft();
 	}
 
+	@Override
+	public boolean canFit(int width, int height) {
+		return width * height >= recipeSize;
+	}
+
+	@Override
+	public NonNullList<Ingredient> getIngredients() {
+		return NonNullList.withSize(recipeSize, new BroomPartIngredient());
+	}
+
 	private boolean areValidBroomParts(Collection<IBroomPart> parts) {
 		Set<IBroomPart.BroomPartType> remainingRequiredTypes = Sets.newHashSet(IBroomPart.BroomPartType.BASE_TYPES);
 		for (IBroomPart part : parts) {
@@ -211,6 +218,23 @@ public class BroomPartCombinationRecipe implements IRecipe {
 		}
 		broomModifiers.put(BroomModifiers.MODIFIER_COUNT, (float) maxModifiers - baseMaxModifiers);
 		return modifiers <= maxModifiers;
+	}
+
+	public static class BroomPartIngredient extends Ingredient {
+		@Override
+		public ItemStack[] getMatchingStacks() {
+			return BroomParts.REGISTRY.getParts()
+					.stream()
+					.map(BroomParts.REGISTRY::getItemsFromPart)
+					.flatMap(Collection::stream)
+					.toArray(size -> new ItemStack[size]);
+		}
+
+		@Override
+		public boolean apply(ItemStack itemStack) {
+			return !itemStack.isEmpty()
+					&& (itemStack.getItem() instanceof IBroom || BroomParts.REGISTRY.getPartFromItem(itemStack) != null);
+		}
 	}
 
 }

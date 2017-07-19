@@ -61,9 +61,9 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
                     new AxisAlignedBB(
                             this.getPos().getX() - 0.5D, this.getPos().getY() - 0.5D, this.getPos().getZ() - 0.5D,
                             this.getPos().getX() + 1.5D, this.getPos().getY() + 1.5D, this.getPos().getZ() + 1.5D))) {
-                if (entityItem.getEntityItem().getItem() instanceof ItemBook) {
+                if (entityItem.getItem().getItem() instanceof ItemBook) {
                     Entity entity = new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ,
-                            new ItemStack(OriginsOfDarkness.getInstance(), entityItem.getEntityItem().getCount()));
+                            new ItemStack(OriginsOfDarkness.getInstance(), entityItem.getItem().getCount()));
                     entity.motionX = entityItem.motionX;
                     entity.motionY = entityItem.motionY;
                     entity.motionZ = entityItem.motionZ;

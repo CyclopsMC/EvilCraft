@@ -82,12 +82,12 @@
 
 	<!-- Rods -->
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item type="oredict">plankWood</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item type="oredict">plankWood</item>
 		</input>
 		<output>
@@ -95,12 +95,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item type="oredict">stone</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item type="oredict">stone</item>
 		</input>
 		<output>
@@ -108,12 +108,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:bone</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:bone</item>
 		</input>
 		<output>
@@ -121,12 +121,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:blaze_rod</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:blaze_rod</item>
 		</input>
 		<output>
@@ -134,12 +134,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:reeds</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:reeds</item>
 		</input>
 		<output>
@@ -147,12 +147,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:netherrack</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:netherrack</item>
 		</input>
 		<output>
@@ -160,12 +160,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:obsidian</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:obsidian</item>
 		</input>
 		<output>
@@ -173,12 +173,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>evilcraft:undead_plank</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>evilcraft:undead_plank</item>
 			<item>evilcraft:undead_plank</item>
 		</input>
@@ -187,12 +187,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:prismarine</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:prismarine</item>
 		</input>
 		<output>
@@ -200,12 +200,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:ice</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:ice</item>
 		</input>
 		<output>
@@ -213,12 +213,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:sponge</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:sponge</item>
 		</input>
 		<output>
@@ -226,12 +226,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:end_stone</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:end_stone</item>
 		</input>
 		<output>
@@ -239,12 +239,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_rod</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:purpur_block</item>
-			<item type="predefined">evilcraft:broompart:rod_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:rod_bare</item>
 			<item>minecraft:purpur_block</item>
 		</input>
 		<output>
@@ -254,12 +254,12 @@
 
 	<!-- Brushes -->
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item>minecraft:hay_block</item>
-			<item type="predefined">evilcraft:broompart:brush_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:brush_bare</item>
 			<item>minecraft:hay_block</item>
 		</input>
 		<output>
@@ -267,12 +267,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="*">minecraft:wool</item>
-			<item type="predefined">evilcraft:broompart:brush_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:brush_bare</item>
 			<item meta="*">minecraft:wool</item>
 		</input>
 		<output>
@@ -280,12 +280,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="*">minecraft:feather</item>
-			<item type="predefined">evilcraft:broompart:brush_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:brush_bare</item>
 			<item meta="*">minecraft:feather</item>
 			<item meta="*">minecraft:feather</item>
 		</input>
@@ -294,12 +294,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item type="oredict">treeLeaves</item>
-			<item type="predefined">evilcraft:broompart:brush_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:brush_bare</item>
 			<item type="oredict">treeLeaves</item>
 		</input>
 		<output>
@@ -307,12 +307,12 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_brush</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item type="oredict">stickWood</item>
-			<item type="predefined">evilcraft:broompart:brush_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:brush_bare</item>
 			<item type="oredict">stickWood</item>
 			<item type="oredict">stickWood</item>
 		</input>
@@ -323,13 +323,13 @@
 
 	<!-- Caps -->
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDark</condition>
 		<input>
 			<item type="oredict">gemDark</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">gemDark</item>
 		</input>
 		<output>
@@ -337,13 +337,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDiamond</condition>
 		<input>
 			<item type="oredict">gemDiamond</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">gemDiamond</item>
 		</input>
 		<output>
@@ -351,13 +351,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemEmerald</condition>
 		<input>
 			<item type="oredict">gemEmerald</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">gemEmerald</item>
 		</input>
 		<output>
@@ -365,13 +365,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemQuartz</condition>
 		<input>
 			<item type="oredict">gemQuartz</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">gemQuartz</item>
 		</input>
 		<output>
@@ -379,13 +379,13 @@
 		</output>
 	</recipe>
 
-	<!--<recipe type="shapeless" nbt_sensitive="true">
+	<!--<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemLapis</condition>
 		<input>
 			<item type="oredict">gemLapis</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">gemLapis</item>
 		</input>
 		<output>
@@ -393,13 +393,13 @@
 		</output>
 	</recipe>-->
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">gemDarkPower</condition>
 		<input>
 			<item type="oredict">gemDarkPower</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">gemDarkPower</item>
 		</input>
 		<output>
@@ -407,87 +407,87 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="0">minecraft:skull</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_head_skeleton</item>
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="1">minecraft:skull</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_head_witherskeleton</item>
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="2">minecraft:skull</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_head_zombie</item>
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="3">minecraft:skull</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_head_player</item>
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="4">minecraft:skull</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_head_creeper</item>
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<input>
 			<item meta="1">minecraft:skull</item>
 			<item meta="1">minecraft:skull</item>
 			<item meta="1">minecraft:skull</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 		</input>
 		<output>
 			<item type="predefined">evilcraft:broompart:cap_head_wither</item>
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotIron</condition>
 		<input>
 			<item type="oredict">ingotIron</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotIron</item>
 		</input>
 		<output>
@@ -495,13 +495,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotGold</condition>
 		<input>
 			<item type="oredict">ingotGold</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotGold</item>
 		</input>
 		<output>
@@ -509,13 +509,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotThaumium</condition>
 		<input>
 			<item type="oredict">ingotThaumium</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotThaumium</item>
 		</input>
 		<output>
@@ -523,13 +523,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotCopper</condition>
 		<input>
 			<item type="oredict">ingotCopper</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotCopper</item>
 		</input>
 		<output>
@@ -537,13 +537,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotSilver</condition>
 		<input>
 			<item type="oredict">ingotSilver</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotSilver</item>
 		</input>
 		<output>
@@ -551,13 +551,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotAlubrass</condition>
 		<input>
 			<item type="oredict">ingotAlubrass</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotAlubrass</item>
 		</input>
 		<output>
@@ -565,13 +565,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotArdite</condition>
 		<input>
 			<item type="oredict">ingotArdite</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotArdite</item>
 		</input>
 		<output>
@@ -579,13 +579,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotCobalt</condition>
 		<input>
 			<item type="oredict">ingotCobalt</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotCobalt</item>
 		</input>
 		<output>
@@ -593,13 +593,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">ingotManyullyn</condition>
 		<input>
 			<item type="oredict">ingotManyullyn</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">ingotManyullyn</item>
 		</input>
 		<output>
@@ -607,13 +607,13 @@
 		</output>
 	</recipe>
 
-	<recipe type="shapeless" nbt_sensitive="true">
+	<recipe type="shapeless">
 		<tag>broom_part_cap</tag>
 		<condition type="config">broom</condition>
 		<condition type="oredict">slimeball</condition>
 		<input>
 			<item type="oredict">slimeball</item>
-			<item type="predefined">evilcraft:broompart:cap_bare</item>
+			<item type="predefined" nbt_sensitive="true">evilcraft:broompart:cap_bare</item>
 			<item type="oredict">slimeball</item>
 		</input>
 		<output>

@@ -39,7 +39,7 @@ public class BloodPotash extends ConfigurableItem {
         boolean done = false;
         int attempts = 0;
         while (attempts < 2) {
-            done = ItemDye.applyBonemeal(itemStack.copy(), world, blockPos, player) | done;
+            done = ItemDye.applyBonemeal(itemStack.copy(), world, blockPos, player, hand) | done;
             attempts++;
         }
         if (done) {

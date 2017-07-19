@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -66,7 +67,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 	
 	@Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean par5) {
-    	if(block.isActivatable() && block.isActivated(itemStack, world, entity)) {
+    	if(block.isActivatable() && block.isActivated(itemStack, world)) {
             autofill(itemSlot, FluidUtil.getFluidHandler(itemStack), world, entity);
     	}
         super.onUpdate(itemStack, world, entity, itemSlot, par5);
@@ -75,10 +76,10 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         if(block.isActivatable()) {
-	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, entityPlayer.world, entityPlayer),
+	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
                     getUnlocalizedName() + ".info.auto_supply");
         }
     }

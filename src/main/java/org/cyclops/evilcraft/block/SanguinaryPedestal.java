@@ -3,17 +3,18 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
@@ -58,9 +59,10 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+        if (!BlockHelpers.isValidCreativeTab(this, tab)) return;
         for (int j = 0; j <= 1; ++j) {
-            list.add(new ItemStack(item, 1, j));
+            list.add(new ItemStack(this, 1, j));
         }
     }
 
@@ -79,8 +81,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     @SuppressWarnings("rawtypes")
     @Override
-    public void provideInformation(ItemStack itemStack,
-                                   EntityPlayer entityPlayer, List list, boolean par4) {
+    public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 
     }
 

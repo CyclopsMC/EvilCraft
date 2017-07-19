@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -8,12 +9,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -97,11 +97,12 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     @SuppressWarnings({ "rawtypes", "unchecked"})
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> itemList) {
-    	itemList.add(new ItemStack(item, 1, 0));
-    	itemList.add(new ItemStack(item, 1, 1));
-    	itemList.add(new ItemStack(item, 1, 2));
-    	itemList.add(new ItemStack(item, 1, 3));
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> itemList) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, tab)) return;
+    	itemList.add(new ItemStack(this, 1, 0));
+    	itemList.add(new ItemStack(this, 1, 1));
+    	itemList.add(new ItemStack(this, 1, 2));
+    	itemList.add(new ItemStack(this, 1, 3));
     }
     
     /**
@@ -121,8 +122,8 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         if(isEmpowered(itemStack))
             list.add(TextFormatting.RED + "Empowered");
     }

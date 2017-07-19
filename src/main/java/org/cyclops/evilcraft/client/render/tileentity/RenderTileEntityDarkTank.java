@@ -1,11 +1,10 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
@@ -20,7 +19,7 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
-public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
+public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer<TileDarkTank> {
 	
 	private static final double OFFSET = 0.01D;
 	private static final double MINY = OFFSET;
@@ -66,20 +65,17 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
     };
 
 	@Override
-	public void renderTileEntityAt(final TileEntity tileEntity, final double x, final double y, final double z, float f, int partialDamage) {
-		if(tileEntity instanceof TileDarkTank) {
-			final TileDarkTank tank = ((TileDarkTank) tileEntity);
-			FluidStack fluid = tank.getTank().getFluid();
-            RenderHelpers.renderTileFluidContext(fluid, x, y, z, tileEntity, new RenderHelpers.IFluidContextRender() {
+	public void render(final TileDarkTank tile, final double x, final double y, final double z, float f, int partialDamage, float alpha) {
+			FluidStack fluid = tile.getTank().getFluid();
+        RenderHelpers.renderTileFluidContext(fluid, x, y, z, tile, new RenderHelpers.IFluidContextRender() {
 
-                @Override
-                public void renderFluid(FluidStack fluid) {
-                    double height = tank.getFillRatio() * 0.99D;
-                    renderFluidSides(height, fluid, tileEntity.getWorld().getCombinedLight(tileEntity.getPos(), fluid.getFluid().getLuminosity(fluid)));
-                }
+            @Override
+            public void renderFluid(FluidStack fluid) {
+                double height = tile.getFillRatio() * 0.99D;
+                renderFluidSides(height, fluid, tile.getWorld().getCombinedLight(tile.getPos(), fluid.getFluid().getLuminosity(fluid)));
+            }
 
-            });
-		}
+        });
 	}
 	
 	/**
@@ -100,7 +96,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer{
 			TextureAtlasSprite icon = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluid, side);
 
             Tessellator t = Tessellator.getInstance();
-            VertexBuffer worldRenderer = t.getBuffer();
+            BufferBuilder worldRenderer = t.getBuffer();
             worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 			
 			double[][] c = coordinates[side.ordinal()];

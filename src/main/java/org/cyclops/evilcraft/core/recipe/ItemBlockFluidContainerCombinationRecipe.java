@@ -3,10 +3,12 @@ package org.cyclops.evilcraft.core.recipe;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -18,7 +20,7 @@ import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
  * @author rubensworks
  *
  */
-public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
+public class ItemBlockFluidContainerCombinationRecipe extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 	
 	private final int size;
 	private final ItemBlockFluidContainer tankItem;
@@ -38,11 +40,6 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 	@Override
 	public boolean matches(InventoryCrafting grid, World world) {
 		return !getCraftingResult(grid).isEmpty();
-	}
-	
-	@Override
-	public int getRecipeSize() {
-		return size;
 	}
 	
 	@Override
@@ -109,5 +106,14 @@ public class ItemBlockFluidContainerCombinationRecipe implements IRecipe {
 		
 		return output;
 	}
-	
+
+	@Override
+	public boolean canFit(int width, int height) {
+		return width * height >= size;
+	}
+
+	@Override
+	public NonNullList<Ingredient> getIngredients() {
+		return NonNullList.withSize(size, Ingredient.fromItem(tankItem));
+	}
 }

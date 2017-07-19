@@ -48,7 +48,7 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         if (recipe == null)
             return;
         
-        ItemStack stack = recipe.getInput().getItemStack();
+        ItemStack stack = recipe.getInput().getFirstItemStack();
         if (stack == null)
             return;
         

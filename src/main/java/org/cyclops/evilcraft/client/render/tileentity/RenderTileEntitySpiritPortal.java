@@ -1,14 +1,13 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.tileentity.TileSpiritPortal;
@@ -23,16 +22,12 @@ import java.util.Random;
  * @author immortaleeb
  *
  */
-public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
+public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer<TileSpiritPortal> {
 
     private static final ResourceLocation PORTALBASE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portal_bases.png");
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
-        renderTileEntityAt((TileSpiritPortal) tileentity, x, y, z, partialTickTime, partialDamage);
-	}
-	
-	protected void renderTileEntityAt(TileSpiritPortal tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
+	public void render(TileSpiritPortal tileentity, double x, double y, double z, float partialTickTime, int partialDamage, float alpha) {
         float progress = tileentity.getProgress();
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5F, 0.5f, 0.5F);
@@ -46,7 +41,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
 	}
 
     private void renderStar(float rotation, float progress, Tessellator tessellator, float partialTicks, Random random) {
-        VertexBuffer worldRenderer = tessellator.getBuffer();
+        BufferBuilder worldRenderer = tessellator.getBuffer();
 
 		/* Rotate opposite direction at 20% speed */
         GlStateManager.rotate(rotation * -0.2f % 360, 0.5f, 1, 0.5f);
@@ -99,7 +94,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         RenderHelper.enableStandardItemLighting();
     }
 
-    private void renderPortalBase(VertexBuffer worldRenderer, float x, float y, float z, float progress) {
+    private void renderPortalBase(BufferBuilder worldRenderer, float x, float y, float z, float progress) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         GlStateManager.enableRescaleNormal();
@@ -122,7 +117,7 @@ public class RenderTileEntitySpiritPortal extends TileEntitySpecialRenderer {
         GlStateManager.popMatrix();
     }
 
-    private void renderIconForProgress(VertexBuffer worldRenderer, int index, float progress) {
+    private void renderIconForProgress(BufferBuilder worldRenderer, int index, float progress) {
         if(progress > 0.8F) {
             progress -= (progress - 0.8F) * 4;
         }

@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.recipe.xml;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.cyclopscore.recipe.xml.SuperRecipeTypeHandler;
@@ -46,14 +46,14 @@ public class EnvironmentalAccumulatorRecipeTypeHandler extends SuperRecipeTypeHa
 			processingspeed = Double.parseDouble(properties.getElementsByTagName("processingspeed").item(0).getTextContent());
 		}
 
-        ItemStack outputStack = (ItemStack) getItem(recipeHandler, outputItem);
+        Ingredient outputIngredient = getIngredient(recipeHandler, outputItem);
 		return EnvironmentalAccumulator.getInstance().getRecipeRegistry().registerRecipe(
                 new EnvironmentalAccumulatorRecipeComponent(
-                        (ItemStack) getItem(recipeHandler, inputItem),
+                        getIngredient(recipeHandler, inputItem),
                         getWeatherType(inputWeather)
                 ),
                 new EnvironmentalAccumulatorRecipeComponent(
-                        outputStack,
+						outputIngredient,
                         getWeatherType(outputWeather)
                 ),
                 new EnvironmentalAccumulatorRecipeProperties(duration, cooldowntime, processingspeed)

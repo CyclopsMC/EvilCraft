@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
@@ -70,11 +71,12 @@ public class BroomPart extends ConfigurableItem {
     }
 
     @Override
-    public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
         for (IBroomPart part : BroomParts.REGISTRY.getParts()) {
             for (ItemStack itemStack : BroomParts.REGISTRY.getItemsFromPart(part)) {
                 if (itemStack.getItem() == this) {
-                    subItems.add(itemStack);
+                    list.add(itemStack);
                 }
             }
         }

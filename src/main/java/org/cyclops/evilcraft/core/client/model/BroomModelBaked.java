@@ -16,7 +16,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
 import net.minecraftforge.common.model.TRSRTransformation;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
@@ -160,6 +159,9 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     @Override
     public Pair<? extends IBakedModel, Matrix4f> handlePerspective(ItemCameraTransforms.TransformType cameraTransformType) {
-        return IPerspectiveAwareModel.MapWrapper.handlePerspective(this, PERSPECTIVE_TRANSFORMS, cameraTransformType);
+        TRSRTransformation tr = PERSPECTIVE_TRANSFORMS.get(cameraTransformType);
+        Matrix4f mat = null;
+        if(tr != null && !tr.equals(TRSRTransformation.identity())) mat = TRSRTransformation.blockCornerToCenter(tr).getMatrix();
+        return Pair.of(this, mat);
     }
 }

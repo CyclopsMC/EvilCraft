@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -94,8 +95,8 @@ public class ResurgenceEgg extends ConfigurableItem {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         String content = TextFormatting.ITALIC + L10NHelpers.localize("general.info.empty");
         ResourceLocation id = getEntityString(itemStack);
 		if(id != null) {

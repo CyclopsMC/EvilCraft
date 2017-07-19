@@ -119,7 +119,7 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 			this.addLayer(new LayerArrow(this));
 			this.addLayer(new LayerCustomHead(modelPlayer.bipedHead));
 
-			modelPlayer.setInvisible(true);
+			modelPlayer.setVisible(false);
 			Random rand = new Random();
 			modelPlayer.bipedHeadwear.showModel = rand.nextBoolean();
 			modelPlayer.bipedBodyWear.showModel = rand.nextBoolean();

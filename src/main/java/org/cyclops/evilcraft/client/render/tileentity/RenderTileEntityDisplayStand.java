@@ -36,7 +36,7 @@ public class RenderTileEntityDisplayStand extends TileEntitySpecialRenderer<Tile
             .build();
 
 	@Override
-	public void renderTileEntityAt(TileDisplayStand tile, double x, double y, double z, float partialTickTime, int partialDamage) {
+	public void render(TileDisplayStand tile, double x, double y, double z, float partialTickTime, int partialDamage, float alpha) {
 	    GlStateManager.pushMatrix();
 	    float var10 = (float) (x - 0.5F);
         float var11 = (float) (y - 0.5F);

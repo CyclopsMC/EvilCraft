@@ -49,7 +49,7 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     
     @SuppressWarnings("rawtypes")
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         // Do not appear in creative tab
     }
     

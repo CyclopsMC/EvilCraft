@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.IFuelHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
+import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
@@ -12,7 +12,7 @@ import org.cyclops.evilcraft.Reference;
  * @author rubensworks
  *
  */
-public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
+public class DarkGemCrushedConfig extends ItemConfig {
     
     /**
      * The unique instance.
@@ -36,18 +36,15 @@ public class DarkGemCrushedConfig extends ItemConfig implements IFuelHandler {
     public String getOreDictionaryId() {
         return Reference.DICT_GEMDARKCRUSHED;
     }
-    
-    @Override
-    public void onRegistered() {
-    	GameRegistry.registerFuelHandler(this);
-    }
 
     @Override
-    public int getBurnTime(ItemStack fuel) {
-        if(getItemInstance() == fuel.getItem()) {
-            return 16000;
-        }
-        return 0;
+    protected IConfigurable initSubInstance() {
+        return new ConfigurableItem(this) {
+            @Override
+            public int getItemBurnTime(ItemStack itemStack) {
+                return 16000;
+            }
+        };
     }
     
 }

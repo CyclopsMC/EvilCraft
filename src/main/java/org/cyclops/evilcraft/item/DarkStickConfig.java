@@ -1,7 +1,5 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
@@ -34,12 +32,6 @@ public class DarkStickConfig extends ItemConfig {
     @Override
     public String getOreDictionaryId() {
         return Reference.DICT_WOODSTICK;
-    }
-
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void onRegistered() {
-        super.onRegistered();
     }
 
 }

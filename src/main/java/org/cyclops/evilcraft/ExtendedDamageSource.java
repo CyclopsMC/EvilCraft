@@ -78,7 +78,7 @@ public class ExtendedDamageSource extends DamageSource{
     }
 
     @Override
-    public Entity getEntity() {
+    public Entity getTrueSource() {
         return entity;
     }
 

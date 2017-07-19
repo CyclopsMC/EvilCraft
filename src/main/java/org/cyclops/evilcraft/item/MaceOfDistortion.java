@@ -87,16 +87,6 @@ public class MaceOfDistortion extends Mace {
         	}
             distortEntity(world, initiator, entity, x, y, z, itemUsedCount, power);
         }
-        
-        if(entities.size() >= 1 && initiator instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) initiator;
-            if(entities.size() >= 10) {
-                player.addStat(Achievements.DISTORTER, 1);
-            }
-        	if(onePlayer) {
-                player.addStat(Achievements.PLAYER_DISTORTER, 1);
-        	}
-        }
     }
     
     /**
@@ -145,9 +135,6 @@ public class MaceOfDistortion extends Mace {
             }
             if(entity instanceof VengeanceSpirit) {
             	((VengeanceSpirit) entity).setSwarm(true);
-            }
-            if(initiator != null && entity instanceof EntityPlayer && initiator instanceof EntityPlayer) {
-                ((EntityPlayer) initiator).addStat(Achievements.PLAYER_DISTORTER, 1);
             }
             strength /= 2;
             entity.motionX += dx * strength;

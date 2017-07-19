@@ -13,8 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.IRetexturableModel;
+import net.minecraftforge.client.model.PerspectiveMapWrapper;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
@@ -41,10 +40,10 @@ public class ModelDisplayStand extends DynamicItemAndBlockModel {
             .build();
     private static final Map<String, IBakedModel> retexturedCache = Maps.newHashMap();
 
-    private final IPerspectiveAwareModel untexturedBakedModel;
-    private final IRetexturableModel retexturableModel;
+    private final IBakedModel untexturedBakedModel;
+    private final IModel retexturableModel;
 
-    public ModelDisplayStand(IPerspectiveAwareModel untexturedBakedModel, IRetexturableModel retexturableModel) {
+    public ModelDisplayStand(IBakedModel untexturedBakedModel, IModel retexturableModel) {
         super(true, false);
         this.untexturedBakedModel = untexturedBakedModel;
         this.retexturableModel = retexturableModel;
@@ -79,13 +78,13 @@ public class ModelDisplayStand extends DynamicItemAndBlockModel {
 
     @Override
     public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
-        return new MapWrapper(handleDisplayStandType(((IExtendedBlockState) state).getValue(DisplayStand.TYPE),
+        return new PerspectiveMapWrapper(handleDisplayStandType(((IExtendedBlockState) state).getValue(DisplayStand.TYPE),
                 state.getValue(DisplayStand.AXIS_X), state.getValue(DisplayStand.FACING)), ModelHelpers.DEFAULT_PERSPECTIVE_TRANSFORMS);
     }
 
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, EntityLivingBase entity) {
-        return new MapWrapper(handleDisplayStandType(DisplayStand.getInstance().getDisplayStandType(itemStack),
+        return new PerspectiveMapWrapper(handleDisplayStandType(DisplayStand.getInstance().getDisplayStandType(itemStack),
                 true, EnumFacing.DOWN), ModelHelpers.DEFAULT_PERSPECTIVE_TRANSFORMS);
     }
 }

@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.item;
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -70,8 +71,8 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     @SuppressWarnings({"rawtypes", "unchecked"})
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         ItemStack potionStack = getPotionStack(itemStack);
         if(!potionStack.isEmpty()) {
             List<PotionEffect> potionEffects = PotionUtils.getEffectsFromStack(potionStack);

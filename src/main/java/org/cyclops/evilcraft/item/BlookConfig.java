@@ -30,8 +30,8 @@ public class BlookConfig extends ItemConfig {
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
         DisenchantPurifyAction.ALLOWED_BOOK.set(getItemInstance());
     }
 }

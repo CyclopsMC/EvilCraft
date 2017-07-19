@@ -22,13 +22,13 @@ import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.recipe.custom.api.IMachine;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.api.ISuperRecipeRegistry;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.gui.container.GuiBloodInfuser;
 import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockContainerGuiTankInfo;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodInfuser;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
@@ -40,7 +40,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> {
+public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implements IMachine<BloodInfuser, IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> {
 
     @BlockProperty
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
@@ -74,7 +74,7 @@ public class BloodInfuser extends ConfigurableBlockContainerGuiTankInfo implemen
     }
 
     @Override
-    public IRecipeRegistry<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> getRecipeRegistry() {
+    public IRecipeRegistry<BloodInfuser, IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> getRecipeRegistry() {
         return EvilCraft._instance.getRegistryManager().getRegistry(ISuperRecipeRegistry.class).getRecipeRegistry(this);
     }
 

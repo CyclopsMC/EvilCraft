@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.entity.Entity;
@@ -67,7 +67,7 @@ public class ParticleBloodBrick extends Particle {
 	}
 
 	@Override
-	public void renderParticle(VertexBuffer worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+	public void renderParticle(BufferBuilder worldRenderer, Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		int oldDrawMode = worldRenderer.getDrawMode();
 		VertexFormat oldVertexFormat = worldRenderer.getVertexFormat();
 		Tessellator.getInstance().draw();

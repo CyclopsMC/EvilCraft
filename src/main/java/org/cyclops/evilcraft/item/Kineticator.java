@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.base.Predicate;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -25,6 +26,7 @@ import org.cyclops.cyclopscore.client.particle.ParticleBlur;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
@@ -90,8 +92,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getUnlocalizedName() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
         list.add(TextFormatting.BOLD
@@ -126,7 +128,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-        kineticate(entityItem.getEntityItem(), entityItem.world, entityItem);
+        kineticate(entityItem.getItem(), entityItem.world, entityItem);
         return super.onEntityItemUpdate(entityItem);
     }
     
@@ -163,7 +165,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                 for(Entity moveEntity : entities) {
                     if(repelling ||
                             (moveEntity instanceof EntityItem && !((EntityItem) moveEntity).cannotPickup()
-                                    && canKineticateItem(((EntityItem) moveEntity).getEntityItem())) ||
+                                    && canKineticateItem(((EntityItem) moveEntity).getItem())) ||
                             (moveEntity instanceof EntityXPOrb)) {
                         double dx = moveEntity.posX - x;
                         double dy = moveEntity.posY - (isPlayer ? (y + (world.isRemote ? -1 : 1)) : y);
@@ -257,10 +259,10 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     
     @SuppressWarnings("rawtypes")
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> itemList) {
-    	component.getSubItems(item, tab, itemList, fluid, 0);
-    	component.getSubItems(item, tab, itemList, fluid, 1);
+    public void getSubItems(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
+    	component.getSubItems(creativeTabs, list, fluid, 0);
+    	component.getSubItems(creativeTabs, list, fluid, 1);
     }
 
 }

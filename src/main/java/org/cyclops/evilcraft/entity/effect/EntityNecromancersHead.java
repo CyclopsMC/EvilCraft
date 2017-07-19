@@ -92,9 +92,6 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     	}
     	this.target = target;
     	setObserverMode();
-    	if(necromancer instanceof EntityPlayer && target instanceof EntityPlayer) {
-    		((EntityPlayer) necromancer).addStat(Achievements.PLAYER_DEVASTATOR, 1);
-    	}
     }
     
     @Override

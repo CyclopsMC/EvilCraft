@@ -87,7 +87,6 @@ public class DarkTankConfig extends BlockContainerConfig {
                 String modId = getMod().getModId();
                 String itemName = getModelName(new ItemStack(item, 1, meta));
                 ModelResourceLocation modelResourceLocation = new ModelResourceLocation(modId + ":" + itemName, "inventory");
-                ModelBakery.registerItemVariants(item, modelResourceLocation);
                 Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(
                         item, meta, modelResourceLocation);
             }

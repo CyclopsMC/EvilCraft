@@ -31,10 +31,10 @@ public class EntityStruckByLightningEventHook {
     private void empowerItem(EntityStruckByLightningEvent event) {
         if(event.getEntity() instanceof EntityItem) {
             EntityItem entity = (EntityItem) event.getEntity();
-            if(entity.getEntityItem().getItem() instanceof IItemEmpowerable) {
-            	IItemEmpowerable empowerable = (IItemEmpowerable) entity.getEntityItem().getItem();
-            	if(!empowerable.isEmpowered(entity.getEntityItem())) {
-            		entity.setEntityItemStack(empowerable.empower(entity.getEntityItem()));
+            if(entity.getItem().getItem() instanceof IItemEmpowerable) {
+            	IItemEmpowerable empowerable = (IItemEmpowerable) entity.getItem().getItem();
+            	if(!empowerable.isEmpowered(entity.getItem())) {
+            		entity.setItem(empowerable.empower(entity.getItem()));
             		event.setCanceled(true);
             		event.getLightning().setDead();
             	}

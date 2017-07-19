@@ -36,7 +36,7 @@ public class ExcrementPileItemBlock extends ItemBlock {
             boolean done = false;
             int attempts = 0;
             while(attempts < ExcrementPileConfig.effectiveness) {
-                done = ItemDye.applyBonemeal(itemStack.copy(), world, blockPos, player) | done;
+                done = ItemDye.applyBonemeal(itemStack.copy(), world, blockPos, player, hand) | done;
                 attempts++;
             }
             if(done) {

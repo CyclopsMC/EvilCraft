@@ -53,7 +53,7 @@ public class LivingDeathEventHook {
     }
 
 	private void bloodObtainEvent(LivingDeathEvent event) {
-        Entity e = event.getSource().getEntity();
+        Entity e = event.getSource().getTrueSource();
         if(e != null && e instanceof EntityPlayerMP && !e.world.isRemote
                 && event.getEntityLiving() != null && Configs.isEnabled(BloodExtractorConfig.class)) {
         	float boost = 1.0F;
@@ -108,7 +108,7 @@ public class LivingDeathEventHook {
                 spirit.copyLocationAndAnglesFrom(event.getEntityLiving());
                 world.spawnEntity(spirit);
                 if(directToPlayer) {
-                    EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+                    EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
                     spirit.setBuildupDuration(3 * MinecraftHelpers.SECOND_IN_TICKS);
                     spirit.setGlobalVengeance(true);
                     spirit.setAttackTarget(player);
@@ -118,8 +118,8 @@ public class LivingDeathEventHook {
 	}
 
     private boolean shouldDirectSpiritToPlayer(LivingDeathEvent event) {
-        if(event.getSource().getEntity() instanceof EntityPlayer && Configs.isEnabled(VengeanceRingConfig.class)) {
-            EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
+        if(event.getSource().getTrueSource() instanceof EntityPlayer && Configs.isEnabled(VengeanceRingConfig.class)) {
+            EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
             for(PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player); it.hasNext();) {
                 ItemStack itemStack = it.next();
                 if(!itemStack.isEmpty() && itemStack.getItem() == VengeanceRing.getInstance()) {

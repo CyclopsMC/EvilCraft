@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.tileentity.TileEntity;
@@ -24,7 +24,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
 	private static final ResourceLocation BEACON_TEXTURE = new ResourceLocation("textures/entity/beacon_beam.png");
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage) {
+	public void render(TileEntity tileentity, double x, double y, double z, float partialTickTime, int partialDamage, float alpha) {
 		renderBeacon((EvilCraftBeaconTileEntity)tileentity, x, y, z, partialTickTime, partialDamage);
 	}
 	
@@ -38,7 +38,7 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
         	Vector4f beamOuterColor = tileentity.getBeamOuterColor();
         	
             Tessellator tessellator = Tessellator.getInstance();
-            VertexBuffer worldRenderer = tessellator.getBuffer();
+            BufferBuilder worldRenderer = tessellator.getBuffer();
             this.bindTexture(BEACON_TEXTURE);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);

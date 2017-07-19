@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -24,16 +23,14 @@ import org.lwjgl.opengl.GL11;
  * @author rubensworks
  *
  */
-public class RenderTileEntityPurifier extends TileEntitySpecialRenderer {
+public class RenderTileEntityPurifier extends TileEntitySpecialRenderer<TilePurifier> {
 
     private static final ResourceLocation TEXTURE_BLOOK = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "blook.png");
     private static final ResourceLocation TEXTURE_ENCHANTEDBOOK = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "enchanted_book.png");
     private ModelBook enchantmentBook = new ModelBook();
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTickTime, int partialDamage) {
-	    TilePurifier tile = (TilePurifier) tileEntity;
-	    
+	public void render(TilePurifier tile, double x, double y, double z, float partialTickTime, int partialDamage, float alpha) {
 	    if(tile != null) {
             ItemStack additionalItem = tile.getAdditionalItem();
             if(additionalItem != null) {

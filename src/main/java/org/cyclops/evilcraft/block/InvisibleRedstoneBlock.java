@@ -120,7 +120,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     
     @SuppressWarnings("rawtypes")
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         // Do not appear in creative tab
     }
 }

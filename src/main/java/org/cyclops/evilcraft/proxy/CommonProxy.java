@@ -49,7 +49,6 @@ public class CommonProxy extends CommonProxyComponent {
         MinecraftForge.EVENT_BUS.register(new LivingDropsEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingSpawnEventHook());
         MinecraftForge.EVENT_BUS.register(new FillBucketEventHook());
-        MinecraftForge.EVENT_BUS.register(new EntityItemPickupEventHook());
         MinecraftForge.EVENT_BUS.register(new BlockBreakEventHook());
 
         FMLCommonHandler.instance().bus().register(new ItemCraftedEventHook());

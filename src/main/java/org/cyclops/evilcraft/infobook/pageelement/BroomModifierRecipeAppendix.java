@@ -11,10 +11,10 @@ import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
 import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ import java.util.Map;
  * Broom modifier info.
  * @author rubensworks
  */
-public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> {
+public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>> {
 
     private static final int START_X_RESULT = 68;
 

@@ -291,7 +291,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 				AxisAlignedBB spiritBoundingBox = target
 						.getEntityBoundingBox()
 						.expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS);
-				boolean spiritTrapped = spiritBoundingBox.intersectsWith(boxBoundingBox);
+				boolean spiritTrapped = spiritBoundingBox.intersects(boxBoundingBox);
 
 				if(spiritTrapped) {
 					captureSpirit(targetSpirit);

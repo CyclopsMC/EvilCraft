@@ -100,7 +100,7 @@ public class GuiColossalBloodChest extends GuiWorking<TileColossalBloodChest> {
 
     @Override
     protected void drawForgegroundString() {
-        fontRendererObj.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
+        fontRenderer.drawString(tile.getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
 
     @Override

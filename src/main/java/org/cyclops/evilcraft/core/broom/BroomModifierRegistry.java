@@ -1,13 +1,16 @@
 package org.cyclops.evilcraft.core.broom;
 
 import com.google.common.collect.Maps;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -180,5 +183,13 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
                 }
             }
         }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void beforeItemsRegistered(RegistryEvent<Block> event) {
+        // The block registry even is called before the items event
+        broomModifiers.clear();
+        broomModifierParts.clear();
+        broomItems.clear();
     }
 }

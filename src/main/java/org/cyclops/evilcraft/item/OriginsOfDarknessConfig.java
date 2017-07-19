@@ -33,8 +33,8 @@ public class OriginsOfDarknessConfig extends ItemConfig {
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
         LootHelpers.addVanillaLootChestLootEntry(
                 new LootEntryItem(getItemInstance(), 1, 5, new LootFunction[0], new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
     }

@@ -1,11 +1,12 @@
 package org.cyclops.evilcraft.core.recipe.custom;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeInput;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipeOutput;
-import org.cyclops.cyclopscore.recipe.custom.component.IItemStackRecipeComponent;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IIngredientRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
@@ -16,18 +17,28 @@ import java.util.List;
  * {@link EnvironmentalAccumulator}.
  * @author immortaleeb
  */
-public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IRecipeOutput, IItemStackRecipeComponent, IWeatherTypeRecipeComponent {
-    private final ItemStackRecipeComponent itemStack;
+public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IRecipeOutput, IIngredientRecipeComponent, IWeatherTypeRecipeComponent {
+    private final IngredientRecipeComponent ingredient;
     private final WeatherTypeRecipeComponent weatherType;
 
+    public EnvironmentalAccumulatorRecipeComponent(Ingredient ingredient, WeatherType weatherType) {
+        this.ingredient = new IngredientRecipeComponent(ingredient);
+        this.weatherType = new WeatherTypeRecipeComponent(weatherType);
+    }
+
     public EnvironmentalAccumulatorRecipeComponent(ItemStack itemStack, WeatherType weatherType) {
-        this.itemStack = new ItemStackRecipeComponent(itemStack);
+        this.ingredient = new IngredientRecipeComponent(itemStack);
         this.weatherType = new WeatherTypeRecipeComponent(weatherType);
     }
 
     @Override
-    public ItemStack getItemStack() {
-        return itemStack.getItemStack();
+    public Ingredient getIngredient() {
+        return ingredient.getIngredient();
+    }
+
+    @Override
+    public ItemStack getFirstItemStack() {
+        return ingredient.getFirstItemStack();
     }
 
     /**
@@ -36,7 +47,7 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
      * @return The new itemstack.
      */
     public ItemStack getConditionalItemStack(ItemStack inputStack) {
-        ItemStack itemStack = getItemStack().copy();
+        ItemStack itemStack = getFirstItemStack().copy();
         if(inputStack != null && inputStack.hasTagCompound()) {
             if(!itemStack.hasTagCompound()) {
                 itemStack.setTagCompound(new NBTTagCompound());
@@ -51,7 +62,7 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
     }
 
     public List<ItemStack> getItemStacks() {
-        return itemStack.getItemStacks();
+        return ingredient.getItemStacks();
     }
 
     @Override
@@ -66,7 +77,7 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
 
         EnvironmentalAccumulatorRecipeComponent that = (EnvironmentalAccumulatorRecipeComponent) o;
 
-        if (!itemStack.equals(that.itemStack)) return false;
+        if (!ingredient.equals(that.ingredient)) return false;
         if (!weatherType.equals(that.weatherType)) return false;
 
         return true;
@@ -74,7 +85,7 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
 
     @Override
     public int hashCode() {
-        int result = itemStack.hashCode();
+        int result = ingredient.hashCode();
         result = 31 * result + weatherType.hashCode();
         return result;
     }

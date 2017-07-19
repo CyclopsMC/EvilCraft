@@ -2,11 +2,10 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -25,6 +24,7 @@ import org.cyclops.cyclopscore.block.property.UnlistedProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
@@ -96,8 +96,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void provideInformation(ItemStack itemStack,
-			EntityPlayer entityPlayer, List list, boolean par4) {
+	public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 
 	}
 	
@@ -125,7 +124,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	}
 
 	@Override
-	public boolean isActivated(ItemStack itemStack, World world, Entity entity) {
+	public boolean isActivated(ItemStack itemStack, World world) {
 		return itemStack.getItemDamage() == 1;
 	}
 	
@@ -143,8 +142,9 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
-        ItemStack itemStack = new ItemStack(item);
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+		if (!BlockHelpers.isValidCreativeTab(this, tab)) return;
+        ItemStack itemStack = new ItemStack(this);
 		EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack);
 		fluidHandler.setTankID("creativeTank0");
         list.add(itemStack);

@@ -17,7 +17,7 @@ public abstract class EntityItemExtended extends EntityItem {
      * @param original The original entity item.
      */
 	public EntityItemExtended(World world, EntityItem original) {
-        super(world, original.posX, original.posY, original.posZ, original.getEntityItem());
+        super(world, original.posX, original.posY, original.posZ, original.getItem());
         setPickupDelay(40);
         motionX = original.motionX;
         motionY = original.motionY;

@@ -82,10 +82,8 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     }
 
     @Override
-    public void onRegistered() {
-        if (MinecraftHelpers.isClientSide()) {
-            onRegisteredClient();
-        }
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
 
         BoxOfEternalClosure.boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
         BoxOfEternalClosure.setVengeanceSwarmContent(BoxOfEternalClosure.boxOfEternalClosureFilled);
@@ -109,6 +107,13 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
                             }
                         }
                 }, new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
+    }
+
+    @Override
+    public void onRegistered() {
+        if (MinecraftHelpers.isClientSide()) {
+            onRegisteredClient();
+        }
     }
     
     @Override

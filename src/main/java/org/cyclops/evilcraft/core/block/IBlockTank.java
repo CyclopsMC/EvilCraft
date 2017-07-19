@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.core.block;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -32,9 +31,8 @@ public interface IBlockTank {
      * If the given item is activated.
      * @param itemStack The item.
      * @param world The world.
-     * @param entity The entity holding the item.
      * @return If it is activated.
      */
-    public boolean isActivated(ItemStack itemStack, World world, Entity entity);
+    public boolean isActivated(ItemStack itemStack, World world);
 	
 }

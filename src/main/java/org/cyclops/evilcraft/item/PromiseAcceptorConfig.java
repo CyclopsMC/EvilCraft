@@ -31,8 +31,8 @@ public class PromiseAcceptorConfig extends ItemConfig {
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
         for(int tier = 0; tier < PromiseAcceptor.COLORS.size(); tier++) {
             OreDictionary.registerOre("materialPromiseAcceptor", new ItemStack(PromiseAcceptor.getInstance(), 1, tier));
         }

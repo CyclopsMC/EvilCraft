@@ -125,6 +125,9 @@ public class EvilCraft extends ModBaseVersionable {
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
         getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
 
+        BroomParts.init();
+        BroomModifiers.init();
+
         super.preInit(event);
     }
     
@@ -135,9 +138,6 @@ public class EvilCraft extends ModBaseVersionable {
     @EventHandler
     @Override
     public void init(FMLInitializationEvent event) {
-        BroomParts.loadPre();
-        BroomModifiers.loadPre();
-
         super.init(event);
         
         // Register world generation
@@ -151,9 +151,6 @@ public class EvilCraft extends ModBaseVersionable {
         if(event.getSide() == Side.CLIENT) {
             GuiMainMenuEvilifier.evilifyMainMenu();
         }
-        
-        // Register achievements
-        Achievements.registerAchievements();
     }
     
     /**
@@ -164,9 +161,6 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-
-        BroomParts.loadPost();
-        BroomModifiers.loadPost();
 
         // Initialize info book
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
@@ -211,12 +205,6 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     public void onServerStopping(FMLServerStoppingEvent event) {
         super.onServerStopping(event);
-    }
-
-    @EventHandler
-    @Override
-    public void onMissingMappings(FMLMissingMappingsEvent event) {
-        super.onMissingMappings(event);
     }
 
     @Override

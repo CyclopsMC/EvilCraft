@@ -119,9 +119,9 @@ public class Netherfish extends EntitySilverfish implements IConfigurable{
         /**
          * Returns whether an in-progress EntityAIBase should continue executing
          */
-        public boolean continueExecuting()
+        public boolean shouldContinueExecuting()
         {
-            return this.field_179484_c ? false : super.continueExecuting();
+            return this.field_179484_c ? false : super.shouldContinueExecuting();
         }
 
         /**

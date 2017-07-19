@@ -29,7 +29,7 @@ public class RenderDarkStick extends Render<EntityItemDarkStick> {
 	}
 
     protected ItemStack getItemStack(EntityItemDarkStick entity) {
-        return entity.getEntityItem();
+        return entity.getItem();
     }
 
 	@Override

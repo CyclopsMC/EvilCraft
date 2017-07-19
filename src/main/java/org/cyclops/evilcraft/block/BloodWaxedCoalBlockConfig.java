@@ -53,8 +53,8 @@ public class BloodWaxedCoalBlockConfig extends BlockConfig implements IFuelHandl
     }
 
     @Override
-    public void onRegistered() {
-        super.onRegistered();
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
     	Blocks.FIRE.setFireInfo(getBlockInstance(), 5, 5);
         GameRegistry.registerFuelHandler(this);
     }

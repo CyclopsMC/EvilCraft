@@ -5,6 +5,7 @@ import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -186,8 +187,8 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+	public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+		super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
 				getUnlocalizedName() + ".info.status");
     }

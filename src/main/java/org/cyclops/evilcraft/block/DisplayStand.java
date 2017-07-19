@@ -8,10 +8,10 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,8 +25,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.client.model.IPerspectiveAwareModel;
-import net.minecraftforge.client.model.IRetexturableModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -194,13 +192,14 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     @Override
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+        if (!BlockHelpers.isValidCreativeTab(this, tab)) return;
         for (ItemStack plankWoodStack : OreDictionary.getOres("plankWood")) {
             if (plankWoodStack.getItem() instanceof ItemBlock) {
                 int plankWoodMeta = plankWoodStack.getItemDamage();
                 if (plankWoodMeta == OreDictionary.WILDCARD_VALUE) {
                     NonNullList<ItemStack> plankWoodSubItems = NonNullList.create();
-                    plankWoodStack.getItem().getSubItems(plankWoodStack.getItem(), null, plankWoodSubItems);
+                    plankWoodStack.getItem().getSubItems(CreativeTabs.SEARCH, plankWoodSubItems);
                     for (ItemStack plankWoodSubItem : plankWoodSubItems) {
                         IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
                         list.add(getTypedDisplayStandItem(plankWoodBlockState));
@@ -299,10 +298,8 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
             // We actually need to retrieve modelVariantLocation, but that seems to make it a non-IRetexturableModel
             // So instead, we manually apply model rotation in ModelDisplayStand when baking.
             IModel model = ModelLoaderRegistry.getModel(modelLocation);
-            if (model instanceof IRetexturableModel && originalBakedModel instanceof IPerspectiveAwareModel) {
-                event.getModelRegistry().putObject(modelVariantLocation,
-                        new ModelDisplayStand((IPerspectiveAwareModel) originalBakedModel, (IRetexturableModel) model));
-            }
+            event.getModelRegistry().putObject(modelVariantLocation,
+                    new ModelDisplayStand(originalBakedModel, model));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -318,7 +315,7 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     @Override
-    public void provideInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
+    public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 
     }
 }

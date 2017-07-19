@@ -234,7 +234,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 	@Override
 	public void onCraftMatrixChanged(IInventory inventory) {
 		if(initialized) {
-			result.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(craftingGrid, world));
+			result.setInventorySlotContents(0, CraftingManager.findMatchingResult(craftingGrid, world));
 			craftingGrid.save();
 		}
     }

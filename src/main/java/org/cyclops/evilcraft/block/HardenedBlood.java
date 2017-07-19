@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -94,8 +95,8 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
         ItemStack heldItem = player.getHeldItem(hand);
-        if (heldItem != null && heldItem.getItem() == Items.FLINT_AND_STEEL
-                && (player.capabilities.isCreativeMode || !heldItem.attemptDamageItem(1, world.rand))) {
+        if (!world.isRemote && heldItem != null && heldItem.getItem() == Items.FLINT_AND_STEEL
+                && (player.capabilities.isCreativeMode || !heldItem.attemptDamageItem(1, world.rand, (EntityPlayerMP) player))) {
             splitBlock(world, blockPos);
             return true;
         }

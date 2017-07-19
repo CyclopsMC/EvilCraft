@@ -9,7 +9,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.packet.PlayerPositionPacket;
-import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.client.particle.ParticleFart;
@@ -94,9 +93,9 @@ public class FartPacket extends PlayerPositionPacket {
         for (int i=0; i < numParticles; i++) {
             double extraDistance = rand.nextFloat() % 0.3;
             
-            double particleX = pos.xCoord + playerXOffset + extraDistance;
-            double particleY = pos.yCoord + playerYOffset;
-            double particleZ = pos.zCoord + playerZOffset + extraDistance;
+            double particleX = pos.x + playerXOffset + extraDistance;
+            double particleY = pos.y + playerYOffset;
+            double particleZ = pos.z + playerZOffset + extraDistance;
             
             float particleMotionX = -0.5F + rand.nextFloat();
             float particleMotionY = -0.5F + rand.nextFloat();
@@ -119,7 +118,6 @@ public class FartPacket extends PlayerPositionPacket {
     @Override
     public void actionServer(World world, EntityPlayerMP player) {
         if(GeneralConfig.farting) {
-            player.addStat(Achievements.FART, 1);
             super.actionServer(world, player);
         }
     }

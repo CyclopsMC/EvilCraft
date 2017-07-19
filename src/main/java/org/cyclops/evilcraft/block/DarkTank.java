@@ -5,9 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
@@ -35,6 +37,7 @@ import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
@@ -51,6 +54,7 @@ import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A tank that can hold liquids.
@@ -146,8 +150,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 
 	@SuppressWarnings("rawtypes")
 	@Override
-	public void provideInformation(ItemStack itemStack,
-			EntityPlayer entityPlayer, List list, boolean par4) {
+	public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 		
 	}
 
@@ -191,7 +194,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	}
 
 	@Override
-	public boolean isActivated(ItemStack itemStack, World world, Entity entity) {
+	public boolean isActivated(ItemStack itemStack, World world) {
 		return itemStack.getItemDamage() == 1;
 	}
 	
@@ -202,8 +205,9 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
-        ItemStack itemStack = new ItemStack(item);
+	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
+		if (!BlockHelpers.isValidCreativeTab(this, tab)) return;
+        ItemStack itemStack = new ItemStack(this);
 
         int capacityOriginal = TileDarkTank.BASE_CAPACITY;
 		int capacity = capacityOriginal;
@@ -243,6 +247,19 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 		return BlockRenderLayer.CUTOUT;
 	}
 
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void onModelRegistryEvent(ModelRegistryEvent event) {
+		// Handle additional type of dark tank item rendering
+		for (int meta = 0; meta < 2; meta++) {
+			Item item = Item.getItemFromBlock(this);
+			String modId = getConfig().getMod().getModId();
+			String itemName = getConfig().getModelName(new ItemStack(item, 1, meta));
+			ModelResourceLocation modelResourceLocation = new ModelResourceLocation(modId + ":" + itemName, "inventory");
+			ModelBakery.registerItemVariants(item, modelResourceLocation);
+		}
+	}
+
 	/**
 	 * Called for baking the model of the item version of the tank.
 	 * @param event The bake event.
@@ -252,7 +269,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
 	public void onModelBakeEvent(ModelBakeEvent event) {
         // Take the original item tank model and replace it with a dynamic one but pass this original one to it as parent.
         for(ModelResourceLocation itemModel : itemModels) {
-            IBakedModel baseModel = event.getModelRegistry().getObject(itemModel);
+			IBakedModel baseModel = Objects.requireNonNull(event.getModelRegistry().getObject(itemModel), "Could not find the item model for " + itemModel);
             ModelDarkTank newModel = new ModelDarkTank(baseModel);
             event.getModelRegistry().putObject(itemModel, newModel);
         }

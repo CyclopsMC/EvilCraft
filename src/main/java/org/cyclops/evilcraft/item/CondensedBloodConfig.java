@@ -58,7 +58,8 @@ public class CondensedBloodConfig extends ItemConfig {
     }
 
     @Override
-    public void onRegistered() {
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
         // Register in loot chests
         LootHelpers.addVanillaLootChestLootEntry(
                 new LootEntryItem(getItemInstance(), 5, 1, new LootFunction[]{new LootFunction(new LootCondition[0]) {
@@ -104,7 +105,7 @@ public class CondensedBloodConfig extends ItemConfig {
             FluidStack fluidStack = getFluid();
             if (fluidStack != null && fluidStack.isFluidEqual(resource)) {
                 if (doDrain) {
-                    setFluid(null);
+                    setFluid((FluidStack) null);
                 }
                 return fluidStack;
             }
@@ -120,7 +121,7 @@ public class CondensedBloodConfig extends ItemConfig {
             FluidStack fluidStack = getFluid();
             if (fluidStack != null) {
                 if (doDrain) {
-                    setFluid(null);
+                    setFluid((FluidStack) null);
                 }
                 return fluidStack;
             }

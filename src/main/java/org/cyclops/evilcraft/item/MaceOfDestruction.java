@@ -43,7 +43,7 @@ public class MaceOfDestruction extends Mace {
     protected void use(World world, EntityLivingBase entity, int itemUsedCount, int power) {
         if(!world.isRemote) {
             Vec3d v = entity.getLookVec();
-            world.createExplosion(entity, entity.posX + v.xCoord * 2, entity.posY + entity.getEyeHeight() + v.yCoord * 2, entity.posZ + v.zCoord * 2, ((float) itemUsedCount) / 20 + power, true);
+            world.createExplosion(entity, entity.posX + v.x * 2, entity.posY + entity.getEyeHeight() + v.y * 2, entity.posZ + v.z * 2, ((float) itemUsedCount) / 20 + power, true);
         }
     }
 }

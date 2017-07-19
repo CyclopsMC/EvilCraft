@@ -71,7 +71,7 @@ public class DarkGem extends ConfigurableItem {
                             // Do the transform when REQUIRED_BLOOD_BLOCKS are found
                             if(++amount == REQUIRED_BLOOD_BLOCKS) {
                                 // Spawn the new item
-                                entityItem.getEntityItem().shrink(1);
+                                entityItem.getItem().shrink(1);
                                 entityItem.dropItem(DarkPowerGemConfig._instance.getItemInstance(), 1);
 
                                 // Retrace coordinate steps and remove all those blocks + spawn particles

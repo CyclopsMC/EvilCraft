@@ -88,7 +88,7 @@ public class DetectionListenerPacket extends PacketCodec {
 	@Override
 	public void actionServer(World world, EntityPlayerMP player) {
 		EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(x, y, z, activation),
-				LocationHelpers.createTargetPointFromEntityPosition(player, RANGE));
+				LocationHelpers.createTargetPointFromEntity(player, RANGE));
 	}
 	
 }

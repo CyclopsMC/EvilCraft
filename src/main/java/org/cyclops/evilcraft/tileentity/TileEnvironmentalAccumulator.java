@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -244,7 +245,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             getBossInfo().setPercent(this.getHealth() / this.getMaxHealth());
             Set<Integer> playerIds = Sets.newHashSet();
             if (getHealth() != getMaxHealth()) {
-                for (EntityPlayer player : getWorld().getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(getPos()).expandXyz(32D))) {
+                for (EntityPlayer player : getWorld().getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(getPos()).grow(32D))) {
                     getBossInfo().addPlayer((EntityPlayerMP) player);
                     playerIds.add(player.getEntityId());
                 }
@@ -333,18 +334,15 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                 EnvironmentalAccumulator.getInstance().getRecipeRegistry().allRecipes()) {
             EnvironmentalAccumulatorRecipeComponent input = recipe.getInput();
 
-            ItemStack recipeStack = input.getItemStack();
+            Ingredient recipeIngredient = input.getIngredient();
             WeatherType weatherType = input.getWeatherType();
 
             // Loop over all dropped items
             for (Object obj : entityItems) {
                 EntityItem entityItem = (EntityItem) obj;
-                ItemStack stack = entityItem.getEntityItem();
+                ItemStack stack = entityItem.getItem();
 
-                if (recipeStack.getItem() == stack.getItem()
-                        && recipeStack.getItemDamage() == stack.getItemDamage()
-                        && recipeStack.getCount() <= stack.getCount()
-                        && (weatherType == null || weatherType.isActive(world))) {
+                if (recipeIngredient.apply(stack) && (weatherType == null || weatherType.isActive(world))) {
 
                     // Save the required input items in the inventory
                     this.setInventorySlotContents(0, stack.copy());
@@ -353,7 +351,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
                     this.recipe = recipe;
 
                     if (!world.isRemote) {
-                        decreaseStackSize(entityItem, recipeStack);
+                        decreaseStackSize(entityItem, input.getFirstItemStack());
                     }
 
                     activateProcessingItemState();
@@ -366,9 +364,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	}
 	
 	private void decreaseStackSize(EntityItem entityItem, ItemStack stack) {
-        entityItem.getEntityItem().shrink(stack.getCount());
+        entityItem.getItem().shrink(stack.getCount());
 	    
-	    if (entityItem.getEntityItem().getCount() == 0)
+	    if (entityItem.getItem().getCount() == 0)
 	        entityItem.setDead();
 	}
 	
@@ -380,10 +378,10 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        if (recipe == null) {
 	            // No recipe found, throw the item stack in the inventory back
 	            // (NOTE: this can be caused because of weather changes)
-	            entity.setEntityItemStack(this.getStackInSlot(0));
+	            entity.setItem(this.getStackInSlot(0));
 	        } else {
 	            // Recipe found, throw back the result
-	            entity.setEntityItemStack(recipe.getProperties().getResultOverride().getResult(getWorld(),
+	            entity.setItem(recipe.getProperties().getResultOverride().getResult(getWorld(),
                         getPos(), recipe.getOutput().getConditionalItemStack(this.getStackInSlot(0))));
 	            
 	            // Change the weather to the resulting weather

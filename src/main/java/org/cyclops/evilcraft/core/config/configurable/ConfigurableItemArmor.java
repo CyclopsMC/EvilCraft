@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.config.configurable;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -52,8 +53,8 @@ public abstract class ConfigurableItemArmor extends ItemArmor implements IConfig
     @SuppressWarnings("rawtypes")
     @SideOnly(Side.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List list, boolean par4) {
-        super.addInformation(itemStack, entityPlayer, list, par4);
+    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+        super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
     }
 

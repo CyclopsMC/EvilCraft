@@ -55,7 +55,8 @@ public class UndeadPlankConfig extends BlockConfig {
     }
     
     @Override
-    public void onRegistered() {
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
     	Blocks.FIRE.setFireInfo(getBlockInstance(), 5, 20);
     }
     

@@ -9,18 +9,18 @@ import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
 import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
+import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
 import org.cyclops.evilcraft.item.Promise;
 
 /**
  * Blood Infuser recipes.
  * @author rubensworks
  */
-public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>> {
+public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>> {
 
     private static final int SLOT_OFFSET_X = 16;
     private static final int SLOT_OFFSET_Y = 23;
@@ -30,7 +30,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<ItemFluid
     private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
     private static final AdvancedButton.Enum PROMISE = AdvancedButton.Enum.create();
 
-    public BloodInfuserRecipeAppendix(IInfoBook infoBook, IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
+    public BloodInfuserRecipeAppendix(IInfoBook infoBook, IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> recipe) {
         super(infoBook, recipe);
     }
 

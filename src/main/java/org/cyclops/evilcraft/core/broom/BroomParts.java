@@ -24,6 +24,10 @@ public final class BroomParts {
 
     public static final IBroomPartRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomPartRegistry.class);
 
+    public static void init() {
+
+    }
+
     public static IBroomPart ROD_BARE;
     public static IBroomPart ROD_WOOD;
     public static IBroomPart ROD_STONE;

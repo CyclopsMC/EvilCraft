@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableItemSword;
 
 /**
@@ -52,9 +53,9 @@ public class VeinSword extends ConfigurableItemSword {
     
     @SuppressWarnings({ "rawtypes", "unchecked"})
     @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> itemList) {
-    	itemList.add(createCraftingResult());
+    public void getSubItems(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
+        if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
+    	list.add(createCraftingResult());
     }
 
 }
