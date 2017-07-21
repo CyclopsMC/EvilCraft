@@ -530,7 +530,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	public static boolean canSpawnNew(World world, BlockPos blockPos) {
 		int area = VengeanceSpiritConfig.spawnLimitArea;
 		int threshold = VengeanceSpiritConfig.spawnLimit;
-		AxisAlignedBB box = new AxisAlignedBB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()).expand(area, area, area);
+		AxisAlignedBB box = new AxisAlignedBB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()).grow(area, area, area);
     	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box);
 		if(spirits.size() >= threshold) {
             return false;

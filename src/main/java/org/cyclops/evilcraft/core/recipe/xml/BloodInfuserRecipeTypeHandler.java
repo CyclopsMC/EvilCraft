@@ -23,7 +23,7 @@ public class BloodInfuserRecipeTypeHandler extends SuperRecipeTypeHandler<Ingred
 
     @Override
     public String getCategoryId() {
-        return Reference.MOD_ID + ":bloodInfuserRecipe";
+        return Reference.MOD_ID + ":blood_infuser_recipe";
     }
 
 	@Override

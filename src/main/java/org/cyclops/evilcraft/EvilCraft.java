@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -11,6 +12,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigReference;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
 import org.cyclops.cyclopscore.infobook.InfoBookRegistry;
 import org.cyclops.cyclopscore.init.ItemCreativeTab;
@@ -129,6 +131,14 @@ public class EvilCraft extends ModBaseVersionable {
         BroomModifiers.init();
 
         super.preInit(event);
+
+        // Initialize info book
+        getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
+                OriginsOfDarknessBook.getInstance(), "/assets/" + Reference.MOD_ID + "/info/book.xml");
+
+        if (MinecraftHelpers.isClientSide()) {
+            MinecraftForge.EVENT_BUS.register(EvilCraftSoundEvents.class);
+        }
     }
     
     /**
@@ -161,10 +171,6 @@ public class EvilCraft extends ModBaseVersionable {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
-
-        // Initialize info book
-        getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
-                OriginsOfDarknessBook.getInstance(), "/assets/" + Reference.MOD_ID + "/info/book.xml");
     }
 
     /**

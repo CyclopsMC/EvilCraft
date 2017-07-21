@@ -264,7 +264,7 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
         this.renderYawOffset = this.rotationYaw;
         
         if (!this.world.isRemote && this.hurtTime == 0 && !this.isDead) {
-            this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(1.0D, 0.0D, 1.0D)));
+            this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().grow(1.0D, 0.0D, 1.0D)));
         }
         
         // Update wing progress

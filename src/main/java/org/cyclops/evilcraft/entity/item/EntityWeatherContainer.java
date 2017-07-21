@@ -71,17 +71,19 @@ public class EntityWeatherContainer extends EntityThrowable implements IConfigur
 
     @Override
     protected void onImpact(RayTraceResult movingobjectposition) {
-        ItemStack stack = getItemStack();
-        WeatherContainer.WeatherContainerTypes containerType = WeatherContainer.getWeatherContainerType(stack);
-        containerType.onUse(world, stack);
+        if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
+            ItemStack stack = getItemStack();
+            WeatherContainer.WeatherContainerTypes containerType = WeatherContainer.getWeatherContainerType(stack);
+            containerType.onUse(world, stack);
 
-        playImpactSounds(world);
-        
-        // Play sound and show particles of splash potion of harming
-        // TODO: make custom particles for this
-        this.world.playBroadcastSound(2002, getPosition(), 16428);
-        
-        setDead();
+            playImpactSounds(world);
+
+            // Play sound and show particles of splash potion of harming
+            // TODO: make custom particles for this
+            this.world.playBroadcastSound(2002, getPosition(), 16428);
+
+            setDead();
+        }
     }
     
     @Override

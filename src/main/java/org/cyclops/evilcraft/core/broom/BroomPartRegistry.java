@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -211,7 +211,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void beforeItemsRegistered(RegistryEvent<Block> event) {
+    public void beforeItemsRegistered(RegistryEvent<Item> event) {
         // The block registry even is called before the items event
         parts.clear();
         partItems.clear();

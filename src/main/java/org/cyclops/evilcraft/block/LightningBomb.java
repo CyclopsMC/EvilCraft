@@ -112,8 +112,8 @@ public class LightningBomb extends ConfigurableBlock {
     
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float coordX, float coordY, float coordZ) {
-        if (!player.getActiveItemStack().isEmpty() &&
-                (player.getActiveItemStack().getItem() == Items.FLINT_AND_STEEL || player.getActiveItemStack().getItem() == Items.FIRE_CHARGE)) {
+        if (!player.getHeldItem(hand).isEmpty() &&
+                (player.getHeldItem(hand).getItem() == Items.FLINT_AND_STEEL || player.getHeldItem(hand).getItem() == Items.FIRE_CHARGE)) {
             this.primeBomb(world, blockPos, this.blockState.getBaseState().withProperty(PRIMED, true), player);
             world.setBlockToAir(blockPos);
             player.getActiveItemStack().damageItem(1, player);

@@ -290,7 +290,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 						.offset(blockPos);
 				AxisAlignedBB spiritBoundingBox = target
 						.getEntityBoundingBox()
-						.expand(ABSORB_RADIUS, ABSORB_RADIUS, ABSORB_RADIUS);
+						.grow(ABSORB_RADIUS);
 				boolean spiritTrapped = spiritBoundingBox.intersects(boxBoundingBox);
 
 				if(spiritTrapped) {
@@ -342,7 +342,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private boolean findNextEntity() {
     	AxisAlignedBB box = new AxisAlignedBB(getPos().getX(), getPos().getY(), getPos().getZ(),
-				getPos().getX(), getPos().getY(), getPos().getZ()).expand(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
+				getPos().getX(), getPos().getY(), getPos().getZ()).grow(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
     	@SuppressWarnings("unchecked")
 		List<VengeanceSpirit> entities = world.getEntitiesWithinAABB(VengeanceSpirit.class, box);
     	double minDistance = TARGET_RADIUS + 1;

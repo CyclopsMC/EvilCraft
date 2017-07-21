@@ -150,7 +150,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
             if(0 == world.getWorldTime() % KineticatorConfig.tickHoldoff) {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
-                AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).expand(area, area, area);
+                AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).grow(area);
                 List<Entity> entities = world.getEntitiesInAABBexcluding(entity, box, new Predicate<Entity>() {
 
                     @Override

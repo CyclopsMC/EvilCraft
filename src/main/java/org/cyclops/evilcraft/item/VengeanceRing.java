@@ -123,7 +123,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
             BlockPos blockPos = entity.getPosition();
 	    	
 	    	// Look for spirits in an area.
-	    	AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).expand(area, area, area);
+	    	AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).grow(area, area, area);
 	    	List<VengeanceSpirit> spirits = world.getEntitiesWithinAABB(VengeanceSpirit.class, box,
 					new Predicate<Entity>() {
 

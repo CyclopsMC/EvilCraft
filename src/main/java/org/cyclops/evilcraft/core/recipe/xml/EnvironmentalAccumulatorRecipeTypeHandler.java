@@ -22,7 +22,7 @@ public class EnvironmentalAccumulatorRecipeTypeHandler extends SuperRecipeTypeHa
 
 	@Override
 	public String getCategoryId() {
-		return Reference.MOD_ID + ":envirAccRecipe";
+		return Reference.MOD_ID + ":envir_acc_recipe";
 	}
 
 	@Override

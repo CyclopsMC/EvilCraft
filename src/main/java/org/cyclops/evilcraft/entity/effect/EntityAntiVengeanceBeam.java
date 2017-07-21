@@ -87,13 +87,13 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     	if (!this.world.isRemote) {
             Entity entity = null;
             List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()
-                    .offset(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+                    .offset(this.motionX, this.motionY, this.motionZ).grow(1.0D));
             double d0 = 0.0D;
 
             for (Entity entity1 : list) {
                 if (entity1 instanceof VengeanceSpirit && !((VengeanceSpirit) entity1).isSwarm()) {
                     float f = 0.3F;
-                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f, (double) f, (double) f);
+                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow((double) f);
                     RayTraceResult movingobjectposition1 = axisalignedbb.calculateIntercept(vec3, vec31);
 
                     if (movingobjectposition1 != null) {

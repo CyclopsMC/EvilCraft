@@ -76,7 +76,7 @@ public class MaceOfDistortion extends Mace {
         
         // Get the entities in the given area
         double area = getArea(itemUsedCount);
-        AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).expand(area, area, area);
+        AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).grow(area);
         List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(initiator, box);
         
         // Do knockback and damage to the list of entities
