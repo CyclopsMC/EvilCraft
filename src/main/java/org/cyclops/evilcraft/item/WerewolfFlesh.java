@@ -1,12 +1,14 @@
 package org.cyclops.evilcraft.item;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
@@ -111,6 +113,9 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     public ItemStack onItemUseFinish(ItemStack itemStack, @Nullable World world, EntityLivingBase entity) {
         if(world != null && entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
+            if (player instanceof EntityPlayerMP) {
+                CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, itemStack);
+            }
             itemStack.shrink(1);
             if (isOwnCanibal(itemStack, player)) {
                 if (!world.isRemote) {

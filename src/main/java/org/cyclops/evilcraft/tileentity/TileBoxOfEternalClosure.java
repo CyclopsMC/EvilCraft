@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -17,6 +18,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
+import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritData;
@@ -307,6 +309,9 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void captureSpirit(VengeanceSpirit targetSpirit) {
+		for (EntityPlayerMP player : targetSpirit.getEntanglingPlayers()) {
+			Advancements.BOX_OF_ETERNAL_CLOSURE_CAPTURE.trigger(player, targetSpirit.getInnerEntity());
+		}
 		world.removeEntity(targetSpirit);
 		this.playerId = targetSpirit.getPlayerId();
 		this.playerName = targetSpirit.getPlayerName();

@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
@@ -17,7 +16,7 @@ import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.Achievements;
+import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.entity.monster.ControlledZombie;
 import org.cyclops.evilcraft.item.NecromancerStaff;
 
@@ -92,6 +91,10 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     	}
     	this.target = target;
     	setObserverMode();
+
+		if (necromancer instanceof EntityPlayerMP) {
+			Advancements.NECROMANCE.trigger((EntityPlayerMP) necromancer, target);
+		}
     }
     
     @Override

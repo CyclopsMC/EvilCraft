@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:fireworks"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.fart"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.fart.desc"
+    },
+    "frame": "challenge"
+  },
+  "rewards": {
+    "experience": 25
+  },
+  "parent": "evilcraft:root",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "evilcraft:fart"
+    }
+  }
+}

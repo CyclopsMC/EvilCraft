@@ -26,7 +26,6 @@ import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
-import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.item.DarkGem;
 import org.cyclops.evilcraft.item.DarkGemConfig;

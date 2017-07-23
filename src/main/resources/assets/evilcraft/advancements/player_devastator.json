@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "evilcraft:necromancer_staff"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.player_devastator"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.player_devastator.desc"
+    }
+  },
+  "parent": "evilcraft:player_distorter",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "evilcraft:necromance",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:player"
+        }
+      }
+    }
+  }
+}

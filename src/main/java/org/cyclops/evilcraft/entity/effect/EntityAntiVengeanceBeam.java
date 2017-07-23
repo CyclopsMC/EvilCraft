@@ -158,6 +158,9 @@ public class EntityAntiVengeanceBeam extends EntityThrowable implements IConfigu
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof VengeanceSpirit) {
             ((VengeanceSpirit) entity).onHit(posX, posY, posZ, motionX, motionY, motionZ);
+            if (getThrower() instanceof EntityPlayerMP) {
+                ((VengeanceSpirit) entity).addEntanglingPlayer((EntityPlayerMP) getThrower());
+            }
         }
     }
 

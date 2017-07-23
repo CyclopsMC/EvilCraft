@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.particle.ParticleBlur;
-import org.cyclops.evilcraft.Achievements;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 

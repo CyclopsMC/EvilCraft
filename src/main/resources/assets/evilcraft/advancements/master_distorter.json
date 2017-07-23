@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "evilcraft:mace_of_distortion"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.master_distorter"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.master_distorter.desc"
+    }
+  },
+  "parent": "evilcraft:second_age",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "evilcraft:distort",
+      "conditions": {
+        "min_entities": 10
+      }
+    }
+  }
+}

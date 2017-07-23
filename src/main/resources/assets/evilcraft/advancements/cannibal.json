@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "evilcraft:werewolf_flesh",
+      "damage": 1
+    },
+    "title": {
+      "translate": "advancement.evilcraft.cannibal"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.cannibal.desc"
+    },
+    "frame": "challenge"
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "parent": "evilcraft:root",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "item": "evilcraft:werewolf_flesh",
+          "damage": 1
+        }
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@ import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -94,6 +95,8 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	private EntityLivingBase innerEntity = null;
 
     private String preferredInnerEntity;
+
+    private final Set<EntityPlayerMP> entanglingPlayers = Sets.newHashSet();
 
     public VengeanceSpirit(World world) {
         this(world, null);
@@ -733,5 +736,13 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
         VengeanceSpirit spirit = new VengeanceSpirit(world);
         spirit.readEntityFromNBT(spiritTag);
         return spirit;
+    }
+
+    public void addEntanglingPlayer(EntityPlayerMP player) {
+        this.entanglingPlayers.add(player);
+    }
+
+    public Set<EntityPlayerMP> getEntanglingPlayers() {
+        return entanglingPlayers;
     }
 }

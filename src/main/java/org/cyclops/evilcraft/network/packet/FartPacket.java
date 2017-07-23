@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.packet.PlayerPositionPacket;
+import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.client.particle.ParticleFart;
@@ -118,6 +119,7 @@ public class FartPacket extends PlayerPositionPacket {
     @Override
     public void actionServer(World world, EntityPlayerMP player) {
         if(GeneralConfig.farting) {
+            Advancements.FART.trigger(player, null);
             super.actionServer(world, player);
         }
     }

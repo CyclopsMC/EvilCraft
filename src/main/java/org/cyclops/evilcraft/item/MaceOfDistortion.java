@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -22,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.evilcraft.Achievements;
+import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 
@@ -86,6 +87,10 @@ public class MaceOfDistortion extends Mace {
         		onePlayer = true;
         	}
             distortEntity(world, initiator, entity, x, y, z, itemUsedCount, power);
+        }
+
+        if (initiator instanceof EntityPlayerMP) {
+            Advancements.DISTORT.trigger((EntityPlayerMP) initiator, entities);
         }
     }
     

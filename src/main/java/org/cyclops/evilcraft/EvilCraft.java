@@ -132,6 +132,8 @@ public class EvilCraft extends ModBaseVersionable {
 
         super.preInit(event);
 
+        Advancements.load();
+
         // Initialize info book
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
                 OriginsOfDarknessBook.getInstance(), "/assets/" + Reference.MOD_ID + "/info/book.xml");

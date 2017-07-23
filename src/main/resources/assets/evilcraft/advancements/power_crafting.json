@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "evilcraft:exalted_crafter",
+      "damage": 1
+    },
+    "title": {
+      "translate": "advancement.evilcraft.power_crafting"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.power_crafting.desc"
+    }
+  },
+  "parent": "evilcraft:first_age",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "cyclopscore:item_crafted",
+      "conditions": {
+        "items": [
+          {
+            "item": "evilcraft:exalted_crafter"
+          }
+        ]
+      }
+    }
+  }
+}

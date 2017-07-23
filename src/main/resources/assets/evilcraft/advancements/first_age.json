@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "evilcraft:dark_ore"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.first_age"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.first_age.desc"
+    }
+  },
+  "parent": "evilcraft:root",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "evilcraft:dark_gem"
+          }
+        ]
+      }
+    }
+  }
+}

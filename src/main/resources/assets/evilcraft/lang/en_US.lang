@@ -1,6 +1,7 @@
 # General
 itemGroup.evilcraft=EvilCraft
 general.evilcraft.info.empty=Empty
+general.evilcraft.description=An evil mod for Minecraft.
 
 # Blocks
 tile.blocks.evilcraft.inner_block.info=Block: %s
@@ -294,28 +295,28 @@ potion.potency.3=IV
 potion.potency.4=V
 
 # Achievements
-achievement.evilcraft.evil_source=A True Source of Evil
-achievement.evilcraft.evil_source.desc=Obtain a copy of the Origins of Darkness by throwing a book into the anomaly resulting from feeding a Darkened Apple to an animal.
-achievement.evilcraft.fart=Learn to Fart
-achievement.evilcraft.fart.desc=Finally release all of those nasty gases.
-achievement.evilcraft.first_age=First Age
-achievement.evilcraft.first_age.desc=Discover the origins of the first evil age by mining some Dark Gems.
-achievement.evilcraft.second_age=Second Age
-achievement.evilcraft.second_age.desc=Initiate the second evil age by crafting a Blood Extractor.
-achievement.evilcraft.master_distorter=Master Distorter
-achievement.evilcraft.master_distorter.desc=Distort over ten mobs at once with the Mace of Distortion.
-achievement.evilcraft.spirit_cooker=Mob Chef
-achievement.evilcraft.spirit_cooker.desc=Make a spirit furnace.
-achievement.evilcraft.closure=Eternal Closure
-achievement.evilcraft.closure.desc=Use the Vengeance Focus to entangle a Vengeance Spirit.
-achievement.evilcraft.player_distorter=Player Distorter
-achievement.evilcraft.player_distorter.desc=Distort a player with the Mace of Distortion.
-achievement.evilcraft.player_devastator=Player Devastator
-achievement.evilcraft.player_devastator.desc=Attack a player using zombies spawned from a Necromancer Staff.
-achievement.evilcraft.power_crafting=Power Crafting
-achievement.evilcraft.power_crafting.desc=Craft an Exalted Crafter, craft-ception!
-achievement.evilcraft.cannibal=Cannibal
-achievement.evilcraft.cannibal.desc=Eat some Humanoid Flesh.
+advancement.evilcraft.evil_source=A True Source of Evil
+advancement.evilcraft.evil_source.desc=Obtain a copy of the Origins of Darkness by throwing a book into the anomaly resulting from feeding a Darkened Apple to an animal.
+advancement.evilcraft.fart=Learn to Fart
+advancement.evilcraft.fart.desc=Finally release all of those nasty gases.
+advancement.evilcraft.first_age=First Age
+advancement.evilcraft.first_age.desc=Discover the origins of the first evil age by mining some Dark Gems.
+advancement.evilcraft.second_age=Second Age
+advancement.evilcraft.second_age.desc=Initiate the second evil age by crafting a Blood Extractor.
+advancement.evilcraft.master_distorter=Master Distorter
+advancement.evilcraft.master_distorter.desc=Distort over ten mobs at once with the Mace of Distortion.
+advancement.evilcraft.spirit_cooker=Mob Chef
+advancement.evilcraft.spirit_cooker.desc=Make a spirit furnace.
+advancement.evilcraft.closure=Eternal Closure
+advancement.evilcraft.closure.desc=Use a Vengeance Focus to capture a Vengeance Spirit in a Box of Eternal Closure.
+advancement.evilcraft.player_distorter=Player Distorter
+advancement.evilcraft.player_distorter.desc=Distort a player with the Mace of Distortion.
+advancement.evilcraft.player_devastator=Player Devastator
+advancement.evilcraft.player_devastator.desc=Attack a player using zombies spawned from a Necromancer Staff.
+advancement.evilcraft.power_crafting=Power Crafting
+advancement.evilcraft.power_crafting.desc=Craft an Exalted Crafter, craft-ception!
+advancement.evilcraft.cannibal=Cannibal
+advancement.evilcraft.cannibal.desc=Eat some Humanoid Flesh.
 
 # Gui
 gui.exalted_crafting=Exalted Crafting

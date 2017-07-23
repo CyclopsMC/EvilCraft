@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "evilcraft:box_of_eternal_closure"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.closure"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.closure.desc"
+    }
+  },
+  "parent": "evilcraft:first_age",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "evilcraft:box_of_eternal_closure_capture"
+    }
+  }
+}
