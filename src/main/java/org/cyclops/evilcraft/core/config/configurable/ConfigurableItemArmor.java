@@ -61,9 +61,9 @@ public abstract class ConfigurableItemArmor extends ItemArmor implements IConfig
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
         ItemStack itemStackIn = playerIn.getHeldItem(hand);
-        ItemStack existingStack = playerIn.getItemStackFromSlot(getEquipmentSlot());
+        ItemStack existingStack = playerIn.getItemStackFromSlot(armorType);
         if (existingStack.isEmpty()) {
-            playerIn.setItemStackToSlot(getEquipmentSlot(), itemStackIn.copy());
+            playerIn.setItemStackToSlot(armorType, itemStackIn.copy());
             itemStackIn.shrink(1);
             return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
         }
