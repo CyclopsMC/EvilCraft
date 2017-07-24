@@ -19,6 +19,10 @@ cache:
 before_cache:
     - rm -f $HOME/.gradle/caches/*/*.lock
 
+branches:
+  except:
+  - /^release-.*$/
+
 deploy:
   - provider: script
     skip_cleanup: true
