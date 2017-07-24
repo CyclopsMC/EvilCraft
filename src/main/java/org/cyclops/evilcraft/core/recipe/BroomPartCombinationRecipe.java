@@ -128,7 +128,7 @@ public class BroomPartCombinationRecipe extends IForgeRegistryEntry.Impl<IRecipe
 		if (existingBroomParts != null) {
 			for (Map.Entry<IBroomPart.BroomPartType, IBroomPart> entry : existingBroomParts.entrySet()) {
 				if(parts.containsKey(entry.getKey())) {
-					extraOutputs.add(Iterables.get(BroomParts.REGISTRY.getItemsFromPart(entry.getValue()), 0));
+					extraOutputs.add(Iterables.get(BroomParts.REGISTRY.getItemsFromPart(entry.getValue()), 0).copy());
 				} else {
 					parts.put(entry.getKey(), entry.getValue());
 				}
