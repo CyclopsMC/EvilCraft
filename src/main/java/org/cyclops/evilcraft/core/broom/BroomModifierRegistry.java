@@ -12,6 +12,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
@@ -169,6 +171,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void onTooltipEvent(ItemTooltipEvent event) {
         if (BroomConfig.broomModifierTooltips) {
             Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.getItemStack());

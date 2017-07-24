@@ -153,6 +153,7 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
@@ -207,6 +208,7 @@ public class Broom extends ConfigurableDamageIndicatedItemFluidContainer impleme
         return Pair.of(modifiers, maxModifiers);
     }
 
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onFovEvent(FOVUpdateEvent event) {
         if(event.getEntity().getRidingEntity() instanceof EntityBroom) {

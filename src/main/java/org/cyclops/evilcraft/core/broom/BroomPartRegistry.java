@@ -191,6 +191,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void onTooltipEvent(ItemTooltipEvent event) {
         if (BroomConfig.broomPartTooltips) {
             IBroomPart part = getPartFromItem(event.getItemStack());

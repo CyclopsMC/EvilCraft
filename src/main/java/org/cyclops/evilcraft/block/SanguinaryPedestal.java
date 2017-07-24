@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -81,6 +83,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
 
     @SuppressWarnings("rawtypes")
     @Override
+    @SideOnly(Side.CLIENT)
     public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 
     }

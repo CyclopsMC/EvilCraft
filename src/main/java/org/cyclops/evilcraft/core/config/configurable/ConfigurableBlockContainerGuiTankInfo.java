@@ -10,6 +10,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainerGui;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -65,6 +67,7 @@ public abstract class ConfigurableBlockContainerGuiTankInfo extends Configurable
     
     @SuppressWarnings("rawtypes")
     @Override
+    @SideOnly(Side.CLIENT)
     public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         
     }

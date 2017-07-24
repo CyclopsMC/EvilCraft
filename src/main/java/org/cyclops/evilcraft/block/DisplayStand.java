@@ -315,6 +315,7 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 
     }

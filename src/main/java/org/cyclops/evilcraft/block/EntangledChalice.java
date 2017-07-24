@@ -19,6 +19,8 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.UnlistedProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
@@ -96,6 +98,7 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 
 	@SuppressWarnings("rawtypes")
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 
 	}

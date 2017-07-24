@@ -86,6 +86,7 @@ public abstract class ConfigurableBlockWithInnerBlocks extends ConfigurableBlock
     
     @SuppressWarnings("rawtypes")
     @Override
+    @SideOnly(Side.CLIENT)
     public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         
     }

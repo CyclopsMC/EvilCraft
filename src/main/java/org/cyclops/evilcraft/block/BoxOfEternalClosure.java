@@ -189,8 +189,9 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 
 	@SuppressWarnings("rawtypes")
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void provideInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
-		
+
 	}
 
     @Override
