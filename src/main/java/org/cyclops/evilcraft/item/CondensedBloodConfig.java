@@ -96,6 +96,14 @@ public class CondensedBloodConfig extends ItemConfig {
             }
         }
 
+        @Override
+        protected void setFluid(@Nullable FluidStack fluidStack) {
+            if (fluidStack == null) {
+                container = container.copy();
+                container.shrink(1);
+            }
+        }
+
         @Nullable
         @Override
         public FluidStack drain(FluidStack resource, boolean doDrain) {
