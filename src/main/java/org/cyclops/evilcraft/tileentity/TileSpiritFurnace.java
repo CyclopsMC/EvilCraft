@@ -113,7 +113,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
     
-    @NBTPersist
+    @NBTPersist(useDefaultValue = false)
     private Vec3i size = LocationHelpers.copyLocation(Vec3i.NULL_VECTOR);
     @NBTPersist
     private Boolean forceHalt = false;
