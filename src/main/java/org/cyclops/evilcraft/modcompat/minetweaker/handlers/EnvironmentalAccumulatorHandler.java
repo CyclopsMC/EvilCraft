@@ -1,16 +1,12 @@
 package org.cyclops.evilcraft.modcompat.minetweaker.handlers;
 
-import mezz.jei.api.recipe.IRecipeWrapper;
 import minetweaker.api.item.IItemStack;
-import org.cyclops.cyclopscore.modcompat.jei.IJeiRecipeWrapperWrapper;
 import org.cyclops.cyclopscore.modcompat.minetweaker.handlers.RecipeRegistryHandler;
 import org.cyclops.cyclopscore.recipe.custom.Recipe;
-import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
 import org.cyclops.evilcraft.block.EnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeProperties;
 import org.cyclops.evilcraft.core.weather.WeatherType;
-import org.cyclops.evilcraft.modcompat.jei.environmentalaccumulator.EnvironmentalAccumulatorRecipeJEI;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -29,16 +25,6 @@ public class EnvironmentalAccumulatorHandler extends RecipeRegistryHandler<Envir
     @Override
     protected String getRegistryName() {
         return "EnvironmentalAccumulator";
-    }
-
-    @Override
-    protected IJeiRecipeWrapperWrapper<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> createJeiWrapperWrapper() {
-        return new IJeiRecipeWrapperWrapper<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties>() {
-            @Override
-            public IRecipeWrapper wrap(IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
-                return new EnvironmentalAccumulatorRecipeJEI(recipe);
-            }
-        };
     }
 
     protected static WeatherType getWeather(String weather) {

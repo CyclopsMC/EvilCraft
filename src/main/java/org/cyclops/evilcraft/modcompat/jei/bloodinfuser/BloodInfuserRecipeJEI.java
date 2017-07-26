@@ -1,23 +1,22 @@
 package org.cyclops.evilcraft.modcompat.jei.bloodinfuser;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeWrapper;
 import mezz.jei.util.Translator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.modcompat.jei.RecipeRegistryJeiRecipeWrapper;
 import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
+import org.cyclops.cyclopscore.recipe.custom.api.IRecipeRegistry;
 import org.cyclops.cyclopscore.recipe.custom.component.ItemStackRecipeComponent;
 import org.cyclops.evilcraft.block.BloodInfuser;
 import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
 import org.cyclops.evilcraft.core.recipe.custom.ItemFluidStackAndTierRecipeComponent;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.List;
 
@@ -26,9 +25,8 @@ import java.util.List;
  * @author rubensworks
  */
 @Data
-public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
+public class BloodInfuserRecipeJEI extends RecipeRegistryJeiRecipeWrapper<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties, BloodInfuserRecipeJEI> {
 
-    private final IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe;
     private final FluidStack fluidStack;
     private final int upgrade;
     private final List<ItemStack> input;
@@ -36,12 +34,31 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
     private final String xpString;
 
     public BloodInfuserRecipeJEI(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> recipe) {
-        this.recipe = recipe;
+        super(recipe);
         this.fluidStack = recipe.getInput().getFluidStack();
         this.upgrade = recipe.getInput().getTier();
         this.input = recipe.getInput().getItemStacks();
         this.output = recipe.getOutput().getItemStacks();
         this.xpString = Translator.translateToLocalFormatted("gui.jei.category.smelting.experience", recipe.getProperties().getXp());
+    }
+
+    protected BloodInfuserRecipeJEI() {
+        super(null);
+        this.fluidStack = null;
+        this.upgrade = -1;
+        this.input = null;
+        this.output = null;
+        this.xpString = null;
+    }
+
+    @Override
+    protected IRecipeRegistry<BloodInfuser, ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> getRecipeRegistry() {
+        return BloodInfuser.getInstance().getRecipeRegistry();
+    }
+
+    @Override
+    protected BloodInfuserRecipeJEI newInstance(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> input) {
+        return new BloodInfuserRecipeJEI(input);
     }
 
     @Override
@@ -67,13 +84,7 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
     }
 
     public static List<BloodInfuserRecipeJEI> getAllRecipes() {
-        return Lists.transform(BloodInfuser.getInstance().getRecipeRegistry().allRecipes(), new Function<IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties>, BloodInfuserRecipeJEI>() {
-            @Nullable
-            @Override
-            public BloodInfuserRecipeJEI apply(IRecipe<ItemFluidStackAndTierRecipeComponent, ItemStackRecipeComponent, DurationXpRecipeProperties> input) {
-                return new BloodInfuserRecipeJEI(input);
-            }
-        });
+        return new BloodInfuserRecipeJEI().createAllRecipes();
     }
 
     @Override
@@ -81,15 +92,5 @@ public class BloodInfuserRecipeJEI extends BlankRecipeWrapper {
         super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
         FontRenderer fontRendererObj = minecraft.fontRendererObj;
         fontRendererObj.drawString(this.xpString, 100 - fontRendererObj.getStringWidth(this.xpString) / 2, 5, Color.gray.getRGB());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o instanceof BloodInfuserRecipeJEI && ((BloodInfuserRecipeJEI) o).recipe.equals(this.recipe);
-    }
-
-    @Override
-    public int hashCode() {
-        return 1 | this.recipe.hashCode();
     }
 }
