@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.6 or higher.
+
+Changes:
+* Improve description of promises
+
+Fixes:
+* Fix Eternal Water bucket reverting to empty bucket when used on tanks, Closes #569
