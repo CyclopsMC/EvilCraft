@@ -64,7 +64,7 @@ public class ItemBlockFluidContainerCombinationRecipe extends IForgeRegistryEntr
 		ItemStack output = getRecipeOutput().copy();
 		IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output);
 		
-		Fluid commonFluid = null;
+		FluidStack commonFluid = null;
 		int totalCapacity = 0;
 		int totalContent = 0;
 		int inputItems = 0;
@@ -79,7 +79,7 @@ public class ItemBlockFluidContainerCombinationRecipe extends IForgeRegistryEntr
 					FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
 					if(fluidStack != null) {
 						if(commonFluid == null) {
-							commonFluid = fluidStack.getFluid();
+							commonFluid = fluidStack;
 						} else if(!commonFluid.equals(fluidStack.getFluid())) {
 							return ItemStack.EMPTY;
 						}

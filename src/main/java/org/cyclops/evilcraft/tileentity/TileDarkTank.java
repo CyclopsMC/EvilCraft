@@ -77,7 +77,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 			IFluidHandler handler = TileHelpers.getCapability(world, getPos().offset(down), down.getOpposite(),
 					CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
 			if(handler != null) {
-				FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
+				FluidStack fluidStack = new FluidStack(getTank().getFluid(),
                         Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
 				if(handler.fill(fluidStack, false) > 0) {
 					int filled = handler.fill(fluidStack, true);
@@ -121,7 +121,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	protected ItemStack fill(ItemStack itemStack) {
 		ItemStack fillItemStack = itemStack.copy();
 		IFluidHandler container = fillItemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-		FluidStack fluidStack = new FluidStack(getTank().getFluidType(),
+		FluidStack fluidStack = new FluidStack(getTank().getFluid(),
 				Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
 		if (container.fill(fluidStack, false) > 0) {
 			int filled = container.fill(fluidStack, true);

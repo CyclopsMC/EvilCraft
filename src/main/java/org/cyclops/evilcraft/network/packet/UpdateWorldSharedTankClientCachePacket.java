@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.network.packet;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -24,6 +25,8 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	private String tankID = null;
 	@CodecField
 	private String fluidName = null;
+	@CodecField
+	private NBTTagCompound fluidTag = null;
 	@CodecField
 	private int fluidAmount = 0;
 
@@ -48,9 +51,11 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 		this.tankID = tankID;
 		if(fluidStack == null) {
 			this.fluidName = "";
+			this.fluidTag = null;
 			this.fluidAmount = -1;
 		} else {
 			this.fluidName = fluidStack.getFluid().getName();
+			this.fluidTag = fluidStack.tag;
 			this.fluidAmount = fluidStack.amount;
 		}
 	}
@@ -61,7 +66,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 		FluidStack fluidStack = null;
 		Fluid fluid;
 		if(fluidAmount >= 0 && fluidName != null && (fluid = FluidRegistry.getFluid(fluidName)) != null) {
-			fluidStack = new FluidStack(fluid, fluidAmount);
+			fluidStack = new FluidStack(fluid, fluidAmount, fluidTag);
         }
 		WorldSharedTankCache.getInstance().setTankContent(tankID, fluidStack);
 	}    

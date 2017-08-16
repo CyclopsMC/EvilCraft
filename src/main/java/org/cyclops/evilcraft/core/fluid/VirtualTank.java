@@ -52,7 +52,7 @@ public class VirtualTank implements IFluidTank {
                     }
                 }
             }
-            return minFluid == null ? null : new FluidStack(minFluid.getFluid(), min * getTanks().length);
+            return minFluid == null ? null : new FluidStack(minFluid, min * getTanks().length);
         } else {
             FluidStack total = null;
             for (IFluidHandler tank : getTanks()) {
@@ -62,7 +62,7 @@ public class VirtualTank implements IFluidTank {
                         if (total == null) {
                             total = tankFluid.copy();
                         } else if (total.getFluid() == tankFluid.getFluid()) {
-                            total = new FluidStack(total.getFluid(), total.amount + tankFluid.amount);
+                            total = new FluidStack(total, total.amount + tankFluid.amount);
                         }
                     }
                 }

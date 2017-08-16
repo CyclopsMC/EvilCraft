@@ -103,7 +103,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 					IFluidHandler handler = TileHelpers.getCapability(getWorld(), getPos().offset(direction),
 							direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
 					if(!getTank().isEmpty() && handler != null) {
-						FluidStack fluidStack = new FluidStack(getTank().getFluidType(), Math.min(MB_RATE, getTank().getFluidAmount()));
+						FluidStack fluidStack = new FluidStack(getTank().getFluid(), Math.min(MB_RATE, getTank().getFluidAmount()));
 						if(handler.fill(fluidStack, false) > 0) {
 							int filled = handler.fill(fluidStack, true);
 							drain(filled, true);
