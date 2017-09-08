@@ -137,10 +137,11 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float motionX, float motionY, float motionZ) {
 		if(BlockTankHelpers.onBlockActivatedTank(world, blockPos, player, hand, side, motionX, motionY, motionZ)) {
         	return true;
-        } else {
+        } else if (!player.isSneaking()) {
         	world.setBlockState(blockPos, this.blockState.getBaseState().withProperty(DRAINING, !(Boolean)blockState.getValue(DRAINING)), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         	return true;
         }
+		return false;
     }
     
     @Override
