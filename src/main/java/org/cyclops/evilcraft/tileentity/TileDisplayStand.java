@@ -4,6 +4,7 @@ import lombok.experimental.Delegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.cyclopscore.tileentity.InventoryTileEntity;
@@ -53,7 +54,7 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
     }
 
     protected EnumFacing getFacing() {
-        return getWorld().getBlockState(getPos()).getValue(DisplayStand.FACING);
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), DisplayStand.FACING, EnumFacing.NORTH);
     }
 
     protected ItemStack getContents() {

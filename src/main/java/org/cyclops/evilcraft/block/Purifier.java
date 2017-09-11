@@ -134,7 +134,7 @@ public class Purifier extends ConfigurableBlockContainer {
 
     @Override
     public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos blockPos) {
-        return world.getBlockState(blockPos).getValue(FILL);
+        return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), FILL, 3);
     }
 
 }

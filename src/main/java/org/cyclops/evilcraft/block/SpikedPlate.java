@@ -16,6 +16,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.core.config.configurable.ConfigurableBlockBasePressurePlate;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
@@ -106,7 +107,7 @@ public class SpikedPlate extends ConfigurableBlockBasePressurePlate {
 	}
 
     protected int getRedstoneStrength(IBlockState blockState) {
-        return blockState.getValue(POWERED) ? 15 : 0;
+        return BlockHelpers.getSafeBlockStateProperty(blockState, POWERED, false) ? 15 : 0;
     }
 
     protected IBlockState setRedstoneStrength(IBlockState blockState, int meta) {

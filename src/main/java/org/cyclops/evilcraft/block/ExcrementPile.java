@@ -28,6 +28,7 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.item.BroomConfig;
@@ -75,12 +76,12 @@ public class ExcrementPile extends ConfigurableBlock {
     }
 
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
-        return worldIn.getBlockState(pos).getValue(LAYERS) < 5;
+        return BlockHelpers.getSafeBlockStateProperty(worldIn.getBlockState(pos), LAYERS, 2) < 5;
     }
 
     public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
         AxisAlignedBB bb = getBoundingBox(blockState, worldIn, pos);
-        int i = blockState.getValue(LAYERS) - 1;
+        int i = BlockHelpers.getSafeBlockStateProperty(blockState, LAYERS, 2) - 1;
         float f = 0.125F;
         return new AxisAlignedBB((double)pos.getX() + bb.minX, (double)pos.getY() + bb.minY, (double)pos.getZ() + bb.minZ, (double)pos.getX() + bb.maxX, (double)((float)pos.getY() + (float)i * f), (double)pos.getZ() + bb.maxZ);
     }
@@ -101,7 +102,7 @@ public class ExcrementPile extends ConfigurableBlock {
     }
 
     protected int getHeight(IBlockState blockState) {
-        return blockState.getValue(LAYERS);
+        return BlockHelpers.getSafeBlockStateProperty(blockState, LAYERS, 2);
     }
 
     @Override
