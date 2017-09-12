@@ -101,7 +101,8 @@ public class BlockTankHelpers {
     /**
      * Convert fluid capabilities of tile to item.
      * @param tile The tile that has already been removed from the world.
-     * @param itemStack The itemstack.
+     * @param itemStack The input itemstack.
+     * @return The resulting itemstack.
      */
     public static ItemStack tileDataToItemStack(TileEntity tile, ItemStack itemStack) {
         if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)

@@ -30,6 +30,7 @@ public class ItemBlockFluidContainerCombinationRecipe extends IForgeRegistryEntr
 	 * Make a new instance.
 	 * @param size The recipe size (should be called multiple times (1 to 9) to allow for all shapeless crafting types.
 	 * @param tankItem The tank item that is combinable.
+	 * @param maxTankSize The maximum allowed tank size in mB.
 	 */
 	public ItemBlockFluidContainerCombinationRecipe(int size, ItemBlockFluidContainer tankItem, int maxTankSize) {
 		this.size = size;

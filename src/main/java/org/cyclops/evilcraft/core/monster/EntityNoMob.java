@@ -39,7 +39,7 @@ public class EntityNoMob extends EntityCreature {
         return SoundCategory.HOSTILE;
     }
 
-    /**
+    /*
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
@@ -56,7 +56,7 @@ public class EntityNoMob extends EntityCreature {
         super.onLivingUpdate();
     }
 
-    /**
+    /*
      * Called to update the entity's position/logic.
      */
     public void onUpdate()
@@ -79,7 +79,7 @@ public class EntityNoMob extends EntityCreature {
         return SoundEvents.ENTITY_HOSTILE_SPLASH;
     }
 
-    /**
+    /*
      * Called when the entity is attacked.
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
@@ -160,7 +160,7 @@ public class EntityNoMob extends EntityCreature {
         return 0.5F - this.world.getLightBrightness(pos);
     }
 
-    /**
+    /*
      * Checks to make sure the light is not too bright where the mob is spawning
      */
     protected boolean isValidLightLevel()
@@ -187,7 +187,7 @@ public class EntityNoMob extends EntityCreature {
         }
     }
 
-    /**
+    /*
      * Checks if the entity's current position is a valid location to spawn this entity.
      */
     public boolean getCanSpawnHere()
@@ -201,7 +201,7 @@ public class EntityNoMob extends EntityCreature {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
     }
 
-    /**
+    /*
      * Entity won't drop items or experience points if this returns false
      */
     protected boolean canDropLoot()
