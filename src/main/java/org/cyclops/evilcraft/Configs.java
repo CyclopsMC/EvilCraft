@@ -211,7 +211,7 @@ public class Configs {
      * @param config The config to check.
      * @return If the given config is enabled.
      */
-    public static boolean isEnabled(Class<? extends ExtendedConfig> config) {
+    public static boolean isEnabled(Class<? extends ExtendedConfig<?>> config) {
         return ConfigHandler.isEnabled(config);
     }
     

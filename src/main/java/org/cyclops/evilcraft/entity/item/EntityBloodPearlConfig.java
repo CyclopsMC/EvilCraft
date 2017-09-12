@@ -16,7 +16,7 @@ import org.cyclops.evilcraft.item.BloodPearlOfTeleportation;
  * @author rubensworks
  *
  */
-public class EntityBloodPearlConfig extends EntityConfig<EntityThrowable> {
+public class EntityBloodPearlConfig extends EntityConfig<EntityBloodPearl> {
     
     /**
      * The unique instance.
@@ -38,8 +38,8 @@ public class EntityBloodPearlConfig extends EntityConfig<EntityThrowable> {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderSnowball(renderManager, BloodPearlOfTeleportation.getInstance(), renderItem);
+    public Render<EntityBloodPearl> getRender(RenderManager renderManager, RenderItem renderItem) {
+        return new RenderSnowball<>(renderManager, BloodPearlOfTeleportation.getInstance(), renderItem);
     }
     
     @Override
