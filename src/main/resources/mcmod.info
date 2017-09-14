@@ -12,6 +12,7 @@
   "credits": "kroeserr, _EeB_, Davivs69",
   "parent": "",
   "screenshots": [],
-  "dependencies": []
+  "dependencies": [],
+  "requiredMods": [ "forge", "cyclopscore" ]
 }
 ]
