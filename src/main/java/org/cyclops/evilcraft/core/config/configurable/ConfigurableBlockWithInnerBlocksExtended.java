@@ -198,6 +198,11 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
         return true;
     }
 
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
     @Nullable
     @Override
     @SideOnly(Side.CLIENT)
