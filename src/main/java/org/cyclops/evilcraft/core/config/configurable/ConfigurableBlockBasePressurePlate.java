@@ -15,6 +15,7 @@ import org.cyclops.cyclopscore.block.property.BlockProperty;
 import org.cyclops.cyclopscore.block.property.BlockPropertyManagerComponent;
 import org.cyclops.cyclopscore.block.property.IBlockPropertyManager;
 import org.cyclops.cyclopscore.config.configurable.IConfigurableBlock;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 
 import javax.annotation.Nullable;
@@ -35,7 +36,7 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     public static final PropertyBool POWERED = PropertyBool.create("powered");
 
     @SuppressWarnings("rawtypes")
-    protected ExtendedConfig eConfig = null;
+    protected BlockConfig eConfig = null;
     protected boolean hasGui = false;
     
     /**
@@ -44,9 +45,9 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
      * @param material Material of this blockState.
      */
     @SuppressWarnings({ "rawtypes" })
-    public ConfigurableBlockBasePressurePlate(ExtendedConfig eConfig, Material material) {
+    public ConfigurableBlockBasePressurePlate(ExtendedConfig<BlockConfig> eConfig, Material material) {
         super(material);
-        this.setConfig(eConfig);
+        this.setConfig((BlockConfig) eConfig);
         this.setUnlocalizedName(eConfig.getUnlocalizedName());
         setHardness(2F);
         setSoundType(SoundType.STONE);
@@ -71,12 +72,12 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
         }
     }
     
-    private void setConfig(@SuppressWarnings("rawtypes") ExtendedConfig eConfig) {
+    private void setConfig(@SuppressWarnings("rawtypes") BlockConfig eConfig) {
         this.eConfig = eConfig;
     }
 
     @Override
-    public ExtendedConfig<?> getConfig() {
+    public BlockConfig getConfig() {
         return eConfig;
     }
 
