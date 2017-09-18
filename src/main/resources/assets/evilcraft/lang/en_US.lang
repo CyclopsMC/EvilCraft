@@ -3,6 +3,16 @@ itemGroup.evilcraft=EvilCraft
 general.evilcraft.info.empty=Empty
 general.evilcraft.description=An evil mod for Minecraft.
 
+# Sound names
+subtitles.evilcraft.effect.vengeancebeam.base=Vengeance Beam
+subtitles.evilcraft.effect.vengeancebeam.start=Vengeance Beam Initiated
+subtitles.evilcraft.effect.vengeancebeam.stop=Vengeance Beam Stopped
+subtitles.evilcraft.mob.vengeancespirit.ambient=Vengeance Spirit Growl
+subtitles.evilcraft.mob.vengeancespirit.death=Vengeance Spirit Death
+subtitles.evilcraft.effect.box.beam=Box of Eternal Closure Beam
+subtitles.evilcraft.effect.page.flipsingle=Flip Page
+subtitles.evilcraft.effect.page.flipmultiple=Flip Pages
+
 # Blocks
 tile.blocks.evilcraft.inner_block.info=Block: %s
 tile.blocks.evilcraft.block_blood.name=Blood
