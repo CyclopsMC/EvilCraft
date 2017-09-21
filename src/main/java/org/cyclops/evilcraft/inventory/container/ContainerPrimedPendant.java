@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.inventory.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.util.EnumHand;
 import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
 import org.cyclops.evilcraft.item.PrimedPendant;
@@ -18,10 +19,10 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<PrimedPendant
     private static final int SLOT_X = 80;
     private static final int SLOT_Y = 35;
 
-    public ContainerPrimedPendant(EntityPlayer player, int itemIndex) {
-        super(player.inventory, PrimedPendant.getInstance(), itemIndex);
+    public ContainerPrimedPendant(EntityPlayer player, int itemIndex, EnumHand hand) {
+        super(player.inventory, PrimedPendant.getInstance(), itemIndex, hand);
 
-        addSlotToContainer(new SlotSingleItem(getItem().getSupplementaryInventory(player, getItemStack(player), itemIndex),
+        addSlotToContainer(new SlotSingleItem(getItem().getSupplementaryInventory(player, getItemStack(player), itemIndex, hand),
                 0, SLOT_X, SLOT_Y, Items.POTIONITEM));
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

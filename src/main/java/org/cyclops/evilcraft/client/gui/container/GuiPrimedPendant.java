@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.client.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.Reference;
@@ -19,11 +20,13 @@ public class GuiPrimedPendant extends GuiContainerExtended {
 
     private EntityPlayer player;
     private int itemIndex;
+    private EnumHand hand;
 
-    public GuiPrimedPendant(EntityPlayer player, int itemIndex) {
-        super(new ContainerPrimedPendant(player, itemIndex));
+    public GuiPrimedPendant(EntityPlayer player, int itemIndex, EnumHand hand) {
+        super(new ContainerPrimedPendant(player, itemIndex, hand));
         this.player = player;
         this.itemIndex = itemIndex;
+        this.hand = hand;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class GuiPrimedPendant extends GuiContainerExtended {
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
         super.drawGuiContainerForegroundLayer(x, y);
-        ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
+        ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex, hand);
         this.fontRenderer.drawString(itemStack.getDisplayName(), 28, 6, 4210752);
     }
     

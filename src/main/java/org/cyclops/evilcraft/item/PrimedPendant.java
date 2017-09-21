@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.gui.GuiHandler;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableDamageIndicatedItemFluidContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -177,10 +178,11 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
      * @param player The player using the crafter.
      * @param itemStack The item stack.
      * @param itemIndex The item index.
+     * @param hand The hand the item is in.
      * @return The inventory.
      */
-    public IInventory getSupplementaryInventory(EntityPlayer player, ItemStack itemStack, int itemIndex) {
-        return new NBTSimpleInventoryItemHeld(player, itemIndex, 1, 64);
+    public IInventory getSupplementaryInventory(EntityPlayer player, ItemStack itemStack, int itemIndex, EnumHand hand) {
+        return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 1, 64);
     }
 
     /**
@@ -231,9 +233,10 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
      * @param world The world.
      * @param player The player.
      * @param itemIndex The item index in the player inventory.
+     * @param hand The hand the item is in.
      */
-    public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex) {
-        EvilCraft._instance.getGuiHandler().setTemporaryData(GuiHandler.GuiType.ITEM, itemIndex);
+    public void openGuiForItemIndex(World world, EntityPlayer player, int itemIndex, EnumHand hand) {
+        EvilCraft._instance.getGuiHandler().setTemporaryData(GuiHandler.GuiType.ITEM, Pair.of(itemIndex, hand));
         if(!world.isRemote || isClientSideOnlyGui()) {
             player.openGui(EvilCraft._instance, getGuiID(), world, (int) player.posX, (int) player.posY, (int) player.posZ);
         }
@@ -246,7 +249,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack itemStack = player.getHeldItem(hand);
-        openGuiForItemIndex(world, player, player.inventory.currentItem);
+        openGuiForItemIndex(world, player, player.inventory.currentItem, hand);
         return MinecraftHelpers.successAction(itemStack);
     }
 
