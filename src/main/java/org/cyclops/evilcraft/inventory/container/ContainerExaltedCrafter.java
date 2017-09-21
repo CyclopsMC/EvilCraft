@@ -12,6 +12,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -80,17 +81,18 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
      * Make a new instance.
      * @param player The player.
      * @param itemIndex The index of the item in use inside the player inventory.
+     * @param hand The hand the player is using.
      */
-    public ContainerExaltedCrafter(EntityPlayer player, int itemIndex) {
-        super(player.inventory, ExaltedCrafter.getInstance(), itemIndex);
+    public ContainerExaltedCrafter(EntityPlayer player, int itemIndex, EnumHand hand) {
+        super(player.inventory, ExaltedCrafter.getInstance(), itemIndex, hand);
         initialized = false;
         this.world = player.world;
         this.player = player;
         this.result = new InventoryCraftResult();
-        this.craftingGrid = new NBTCraftingGrid(player, itemIndex, this);
+        this.craftingGrid = new NBTCraftingGrid(player, itemIndex, hand, this);
         
         this.addCraftingGrid(player, craftingGrid);
-        this.addInventory(getItem().getSupplementaryInventory(player, InventoryHelpers.getItemFromIndex(player, itemIndex), itemIndex),
+        this.addInventory(getItem().getSupplementaryInventory(player, InventoryHelpers.getItemFromIndex(player, itemIndex, hand), itemIndex, hand),
         		0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
         		CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);

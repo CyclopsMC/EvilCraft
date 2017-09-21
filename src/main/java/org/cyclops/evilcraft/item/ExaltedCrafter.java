@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -110,11 +111,12 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
      * @param player The player using the crafter.
      * @param itemStack The item stack.
      * @param itemIndex The item index.
+     * @param hand The used hand.
      * @return The inventory.
      */
-    public IInventory getSupplementaryInventory(EntityPlayer player, ItemStack itemStack, int itemIndex) {
+    public IInventory getSupplementaryInventory(EntityPlayer player, ItemStack itemStack, int itemIndex, EnumHand hand) {
     	if(isWooden(itemStack)) {
-    		return new NBTSimpleInventoryItemHeld(player, itemIndex, 27, 64);
+    		return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 27, 64);
     	}
     	return player.getInventoryEnderChest();
     }

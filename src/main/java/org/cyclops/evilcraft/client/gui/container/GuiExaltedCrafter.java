@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.gui.container;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -27,16 +28,19 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     public static final int BUTTON_TOGGLERETURN = 3;
 	private EntityPlayer player;
 	private int itemIndex;
+    private EnumHand hand;
 	
     /**
      * Make a new instance.
      * @param player The player.
      * @param itemIndex The index of the item in use inside the player inventory.
+     * @param hand The hand the player is using.
      */
-    public GuiExaltedCrafter(EntityPlayer player, int itemIndex) {
-        super(new ContainerExaltedCrafter(player, itemIndex));
+    public GuiExaltedCrafter(EntityPlayer player, int itemIndex, EnumHand hand) {
+        super(new ContainerExaltedCrafter(player, itemIndex, hand));
         this.player = player;
         this.itemIndex = itemIndex;
+        this.hand = hand;
 
         this.allowUserInput = true;
     }
@@ -85,7 +89,7 @@ public class GuiExaltedCrafter extends GuiContainerExtended {
     @Override
     protected void drawGuiContainerForegroundLayer(int x, int y) {
     	super.drawGuiContainerForegroundLayer(x, y);
-    	ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex);
+    	ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex, hand);
     	String name = L10NHelpers.localize("gui.exalted_crafting");
     	if(itemStack.hasDisplayName()) {
     		name = itemStack.getDisplayName();
