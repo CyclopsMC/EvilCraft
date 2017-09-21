@@ -90,7 +90,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
             public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
                 return new BucketWrapper(stack) {
                     @Override
-                    protected void setFluid(Fluid fluid) {
+                    protected void setFluid(FluidStack fluid) {
                         // Do nothing: we want to keep the item in-place
                     }
                 };
