@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.19 or higher.
+
+Fixes:
+* Fix Eternal Water Bucket sometimes glitching to an empty bucket, Closes #587
+* Make Primed Pendant work in off hand
+* Fix Exalted Crafter not being usable in off hand, Closes #590
+* Fix rare crash when placing Display Stands, Closes #592
