@@ -29,4 +29,9 @@ public class WeatherTypeRecipeComponent implements IRecipeInput, IRecipeOutput, 
     public int hashCode() {
         return weatherType.hashCode() + 99;
     }
+
+    @Override
+    public float getChance() {
+        return 1.0F;
+    }
 }

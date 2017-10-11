@@ -89,4 +89,9 @@ public class EnvironmentalAccumulatorRecipeComponent implements IRecipeInput, IR
         result = 31 * result + weatherType.hashCode();
         return result;
     }
+
+    @Override
+    public float getChance() {
+        return 1.0F;
+    }
 }
