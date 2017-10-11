@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.tileentity.tickaction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -21,23 +22,24 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
 
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
-        ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
+        ItemStack containerStack = tile.getInventory().getStackInSlot(slot).copy();
         IFluidHandler container = FluidUtil.getFluidHandler(containerStack);
         if(container != null && FluidHelpers.hasFluid(container)) {
-            ItemStack result;
+            FluidActionResult result;
             if (FluidUtil.tryEmptyContainer(containerStack, tile.getTank(), MB_PER_TICK, null, false).isSuccess()) {
-                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), MB_PER_TICK, null, true).getResult();
+                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), MB_PER_TICK, null, true);
             } else {
-                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), Fluid.BUCKET_VOLUME, null, true).getResult();
+                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), Fluid.BUCKET_VOLUME, null, true);
             }
-            if (!result.isEmpty()) {
-                if (result.getCount() == 0) {
-                    result = containerStack;
-                    if (result.getCount() == 0) {
-                        result = ItemStack.EMPTY;
+            if (result.isSuccess()) {
+                ItemStack resultStack = result.getResult();
+                if (resultStack.getCount() == 0) {
+                    resultStack = containerStack;
+                    if (resultStack.getCount() == 0) {
+                        resultStack = ItemStack.EMPTY;
                     }
                 }
-                tile.getInventory().setInventorySlotContents(slot, result);
+                tile.getInventory().setInventorySlotContents(slot, resultStack);
             }
         }
     }
