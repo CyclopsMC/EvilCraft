@@ -22,6 +22,9 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
+        if (containerStack != null) {
+            containerStack = containerStack.copy();
+        }
         IFluidHandler container = FluidUtil.getFluidHandler(containerStack);
         if(container != null && FluidHelpers.hasFluid(container)) {
             ItemStack result;
