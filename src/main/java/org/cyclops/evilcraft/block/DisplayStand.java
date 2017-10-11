@@ -196,7 +196,7 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
         if (!BlockHelpers.isValidCreativeTab(this, tab)) return;
         for (ItemStack plankWoodStack : OreDictionary.getOres("plankWood")) {
             if (plankWoodStack.getItem() instanceof ItemBlock) {
-                int plankWoodMeta = plankWoodStack.getItemDamage();
+                int plankWoodMeta = plankWoodStack.getMetadata();
                 if (plankWoodMeta == OreDictionary.WILDCARD_VALUE) {
                     NonNullList<ItemStack> plankWoodSubItems = NonNullList.create();
                     plankWoodStack.getItem().getSubItems(CreativeTabs.SEARCH, plankWoodSubItems);
