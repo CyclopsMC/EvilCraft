@@ -29,7 +29,7 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
     }
 
     public EnchantmentPoisonTip(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, Rarity.RARE, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
+        super(eConfig, Rarity.RARE, EnumEnchantmentType.BOW, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
     }
     
     @Override
