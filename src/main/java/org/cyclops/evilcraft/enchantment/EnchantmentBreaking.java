@@ -30,7 +30,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     }
 
     public EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, Rarity.COMMON, EnumEnchantmentType.WEAPON, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
+        super(eConfig, Rarity.COMMON, EnumEnchantmentType.BREAKABLE, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
     }
     
@@ -72,8 +72,7 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
         if(enchantmentListID > -1) {
             int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
             int newDamage = itemStack.getItemDamage() + 2;
-            if(itemStack.getItem() instanceof ItemArmor
-                    && random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0
+            if(random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0
                     && newDamage <= itemStack.getMaxDamage()) {
                 itemStack.setItemDamage(newDamage);
             }
