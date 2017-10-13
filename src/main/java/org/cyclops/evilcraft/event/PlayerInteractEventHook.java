@@ -34,7 +34,7 @@ public class PlayerInteractEventHook {
     private void unusingEvent(PlayerInteractEvent.LeftClickBlock event) {
         if(Configs.isEnabled(EnchantmentUnusingConfig.class) && doesEnchantApply(event, EnchantmentUnusingConfig._instance.getEnchantment()) > -1) {
             if(event.getEntityPlayer() != null
-                    && EnchantmentUnusing.unuseTool(event.getEntityPlayer().getActiveItemStack())) {
+                    && EnchantmentUnusing.unuseTool(event.getEntityPlayer().getHeldItem(event.getHand()))) {
                 event.setCanceled(true);
                 event.getEntityPlayer().stopActiveHand();
             }
@@ -44,14 +44,14 @@ public class PlayerInteractEventHook {
     private void breakingEvent(PlayerInteractEvent.LeftClickBlock event) {
         if(Configs.isEnabled(EnchantmentBreakingConfig.class)) {
             int i = doesEnchantApply(event, EnchantmentBreakingConfig._instance.getEnchantment());
-            ItemStack itemStack = event.getEntityPlayer().getActiveItemStack();
+            ItemStack itemStack = event.getEntityPlayer().getHeldItem(event.getHand());
             EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
         }
     }
     
     private int doesEnchantApply(PlayerInteractEvent.LeftClickBlock event, Enchantment enchantment) {
         if(event.getEntityPlayer() != null) {
-            ItemStack itemStack = event.getEntityPlayer().getActiveItemStack();
+            ItemStack itemStack = event.getEntityPlayer().getHeldItem(event.getHand());
             return EnchantmentHelpers.doesEnchantApply(itemStack, enchantment);
         }
         return -1;

@@ -116,7 +116,7 @@ public class LightningBomb extends ConfigurableBlock {
                 (player.getHeldItem(hand).getItem() == Items.FLINT_AND_STEEL || player.getHeldItem(hand).getItem() == Items.FIRE_CHARGE)) {
             this.primeBomb(world, blockPos, this.blockState.getBaseState().withProperty(PRIMED, true), player);
             world.setBlockToAir(blockPos);
-            player.getActiveItemStack().damageItem(1, player);
+            player.getHeldItem(hand).damageItem(1, player);
             return true;
         } else {
             return super.onBlockActivated(world, blockPos, blockState, player, hand, side, coordX, coordY, coordZ);
