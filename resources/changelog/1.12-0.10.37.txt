@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.21 or higher.
+
+Fixes:
+* Fix incorrect input and output sides on machines
+* Fix incorrect calls to Player#getActiveItemStack()
+* Fix breaking enchant not working
+* Fix poison tip enchant not being applyable to bows, Closes #595
+* Fix machines wasting Condensed Blood if almost full, Closes #596
+* Fix Display Stand not correctly checking wildcard metadata, Closes #597
