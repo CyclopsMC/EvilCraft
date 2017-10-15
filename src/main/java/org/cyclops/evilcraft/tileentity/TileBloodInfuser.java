@@ -194,7 +194,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 
     @Override
     public EnumFacing getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BloodInfuser.FACING, EnumFacing.NORTH);
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BloodInfuser.FACING, EnumFacing.NORTH).getOpposite();
     }
     
     @Override

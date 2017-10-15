@@ -165,7 +165,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 
     @Override
     public EnumFacing getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), SpiritReanimator.FACING, EnumFacing.NORTH);
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), SpiritReanimator.FACING, EnumFacing.NORTH).getOpposite();
     }
     
     @Override

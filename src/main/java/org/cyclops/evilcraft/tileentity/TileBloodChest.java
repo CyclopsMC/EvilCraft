@@ -138,7 +138,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
 
     @Override
     public EnumFacing getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BloodChest.FACING, EnumFacing.NORTH);
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BloodChest.FACING, EnumFacing.NORTH).getOpposite();
     }
 
     @Override
