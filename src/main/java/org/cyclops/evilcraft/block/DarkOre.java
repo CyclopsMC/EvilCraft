@@ -13,6 +13,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -101,15 +102,14 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     }
     
     @Override
-    public List<ItemStack> getDrops(IBlockAccess world, BlockPos blockPos, IBlockState blockState, int fortune) {
-    	List<ItemStack> drops = super.getDrops(world, blockPos, blockState, fortune);
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos blockPos, IBlockState blockState, int fortune) {
+        super.getDrops(drops, world, blockPos, blockState, fortune);
         Random rand = new Random();
     	if((fortune > 0 || rand.nextInt(CRUSHEDCHANCE) == 0)
     			&& Configs.isEnabled(DarkGemCrushedConfig.class)) {
     		drops.add(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(),
     				rand.nextInt(fortune / 3 + 1) + 1));
     	}
-        return drops;
     }
 
     @Override
