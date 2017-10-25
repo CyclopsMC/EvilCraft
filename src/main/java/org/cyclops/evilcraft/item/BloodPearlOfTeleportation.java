@@ -46,8 +46,7 @@ public class BloodPearlOfTeleportation extends ConfigurableDamageIndicatedItemFl
             
             if (!world.isRemote) {
             	EntityBloodPearl pearl = new EntityBloodPearl(world, player);
-                // Last three params: pitch offset, velocity, inaccuracy
-                pearl.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.0F);
+                pearl.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.0F);
             	pearl.motionX *= 3;
             	pearl.motionY *= 3;
             	pearl.motionZ *= 3;

@@ -48,7 +48,7 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
     public VengeancePickaxe(ExtendedConfig<ItemConfig> eConfig) {
         super(eConfig, ToolMaterial.DIAMOND);
         this.setMaxDamage(154);
-        this.efficiencyOnProperMaterial *= 1.250F;
+        this.efficiency *= 1.250F;
     }
 
     // Can break all blocks, like diamond

@@ -91,7 +91,7 @@ public class PoisonBottle extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
-        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+        public int colorMultiplier(ItemStack itemStack, int renderPass) {
             return renderPass == 0 ? Helpers.RGBToInt(77, 117, 15) : -1;
         }
     }

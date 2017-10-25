@@ -97,7 +97,7 @@ public class BowlOfPromises extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
-        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+        public int colorMultiplier(ItemStack itemStack, int renderPass) {
             if(itemStack.getItemDamage() > 1 && renderPass == 0) {
                 float division = (((float) ((BowlOfPromisesConfig._instance.getTiers() -
                         (itemStack.getItemDamage() - 2)) - 1) / 3) + 1);

@@ -53,7 +53,7 @@ public class NecromancerStaff extends ConfigurableDamageIndicatedItemFluidContai
     	if(!entityLiving.world.isRemote) {
     		head.setMobType(mobType);
             // Last three params: pitch offset, velocity, inaccuracy
-            head.setHeadingFromThrower(entityLiving, entityLiving.rotationPitch, entityLiving.rotationYaw, -20.0F, 0.5F, 1.0F);
+            head.shoot(entityLiving, entityLiving.rotationPitch, entityLiving.rotationYaw, -20.0F, 0.5F, 1.0F);
     		entityLiving.world.spawnEntity(head);
         }
     }

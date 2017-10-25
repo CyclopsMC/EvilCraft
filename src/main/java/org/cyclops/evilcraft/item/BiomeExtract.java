@@ -75,8 +75,7 @@ public class BiomeExtract extends ConfigurableItem {
         if(!world.isRemote && getBiome(itemStack) != null && !BiomeExtractConfig._instance.isUsageBlacklisted(getBiome(itemStack))) {
             world.playSound(player, player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
-            // Last three params: pitch offset, velocity, inaccuracy
-            entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            entity.shoot(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
             world.spawnEntity(entity);
             itemStack.shrink(1);
         }
@@ -175,7 +174,7 @@ public class BiomeExtract extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
-        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+        public int colorMultiplier(ItemStack itemStack, int renderPass) {
             if(renderPass == 0 && itemStack.getItemDamage() > 0) {
                 Biome biome = BiomeExtract.getInstance().getBiome(itemStack);
                 if(biome != null) {

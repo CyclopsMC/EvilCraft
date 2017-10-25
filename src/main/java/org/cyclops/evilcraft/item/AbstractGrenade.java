@@ -32,8 +32,7 @@ public abstract class AbstractGrenade extends ConfigurableItem {
             world.playSound(player, player.posX, player.posY, player.posZ, new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.MASTER, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
             EntityThrowable entity = getThrowableEntity(itemStack, world, player);
-            // Last three params: pitch offset, velocity, inaccuracy
-            entity.setHeadingFromThrower(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            entity.shoot(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
             world.spawnEntity(entity);
         }
         return MinecraftHelpers.successAction(itemStack);

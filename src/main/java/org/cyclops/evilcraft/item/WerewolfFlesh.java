@@ -188,7 +188,7 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     @SideOnly(Side.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
-        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+        public int colorMultiplier(ItemStack itemStack, int renderPass) {
             if(WerewolfFlesh.getInstance().isHumanFlesh(itemStack)) {
                 return Helpers.RGBToInt(255, 200, 180);
             }

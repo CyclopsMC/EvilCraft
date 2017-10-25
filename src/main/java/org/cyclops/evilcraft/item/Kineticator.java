@@ -198,7 +198,7 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
                                 moveEntity.motionX = dx * strength;
                                 moveEntity.motionY = dy * strength;
                                 moveEntity.motionZ = dz * strength;
-                                if(moveEntity.isCollidedHorizontally) {
+                                if(moveEntity.collidedHorizontally) {
                                     moveEntity.motionY = 0.3;
                                 }
                             }

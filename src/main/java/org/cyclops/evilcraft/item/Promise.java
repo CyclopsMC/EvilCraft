@@ -146,7 +146,7 @@ public class Promise extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
-        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+        public int colorMultiplier(ItemStack itemStack, int renderPass) {
             Upgrades.Upgrade upgrade = Promise.getInstance().getUpgrade(itemStack);
             return renderPass == 0 ? SECONDARY_COLORS.get(upgrade) : MAIN_COLORS.get(upgrade);
         }

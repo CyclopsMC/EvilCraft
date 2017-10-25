@@ -53,8 +53,8 @@ public class SpikeyClaws extends ConfigurableItemSword {
     }
 
     @Override
-    public float getStrVsBlock(ItemStack stack, IBlockState state) {
-        return canHarvestBlock(state, stack) ? super.getStrVsBlock(stack, state) * 2.0F : 0.1F;
+    public float getDestroySpeed(ItemStack stack, IBlockState state) {
+        return canHarvestBlock(state, stack) ? super.getDestroySpeed(stack, state) * 2.0F : 0.1F;
     }
 
     @Override

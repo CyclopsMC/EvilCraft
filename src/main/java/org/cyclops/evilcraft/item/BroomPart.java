@@ -92,7 +92,7 @@ public class BroomPart extends ConfigurableItem {
     @SideOnly(Side.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
-        public int getColorFromItemstack(ItemStack itemStack, int renderPass) {
+        public int colorMultiplier(ItemStack itemStack, int renderPass) {
             IBroomPart part = BroomPart.getInstance().getPart(itemStack);
             if (part != null) {
                 return part.getModelColor();

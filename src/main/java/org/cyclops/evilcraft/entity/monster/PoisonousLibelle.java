@@ -193,8 +193,8 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
             if (this.forceNewTarget
                     || distance < 3.0D
                     || distance > 250.0D
-                    || this.isCollidedHorizontally
-                    || this.isCollidedVertically
+                    || this.collidedHorizontally
+                    || this.collidedVertically
                     || this.targetY > MAXHEIGHT) {
                 this.setNewTarget();
             }
