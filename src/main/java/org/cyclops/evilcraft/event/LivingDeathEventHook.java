@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.event;
 
+import com.google.common.util.concurrent.ListenableFutureTask;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -15,6 +16,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -28,9 +30,17 @@ import org.cyclops.evilcraft.block.SpiritPortalConfig;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
-import org.cyclops.evilcraft.item.*;
+import org.cyclops.evilcraft.item.BloodExtractor;
+import org.cyclops.evilcraft.item.BloodExtractorConfig;
+import org.cyclops.evilcraft.item.VeinSword;
+import org.cyclops.evilcraft.item.VeinSwordConfig;
+import org.cyclops.evilcraft.item.VengeanceRing;
+import org.cyclops.evilcraft.item.VengeanceRingConfig;
+import org.cyclops.evilcraft.item.WerewolfFlesh;
+import org.cyclops.evilcraft.item.WerewolfFleshConfig;
 
 import java.util.Random;
+import java.util.concurrent.Executors;
 
 /**
  * Event for {@link LivingDeathEvent}.
@@ -83,8 +93,16 @@ public class LivingDeathEventHook {
             		|| block == BloodStainedBlock.getInstance()) {
                 if (!event.getEntity().world.isRemote) {
                     // Transform blockState into blood stained version
-                	BloodStainedBlock.getInstance().stainBlock(event.getEntity().world, pos,
-                			(int) (BloodStainedBlockConfig.bloodMBPerHP * event.getEntityLiving().getMaxHealth()));
+                    FMLCommonHandler.instance().getMinecraftServerInstance().futureTaskQueue.add(
+                            ListenableFutureTask.create(Executors.callable(() -> {
+                                // Only in the next tick, to resolve #601.
+                                // The problem is that Vanilla's logic for handling fall events caches the Block.
+                                // But Forge throws the living death event _after_ this block is determined,
+                                // after which vanilla can still perform operators with this block.
+                                // In some cases, this can result in inconsistencies, which can lead to crashes.
+                                BloodStainedBlock.getInstance().stainBlock(event.getEntity().world, pos,
+                                        (int) (BloodStainedBlockConfig.bloodMBPerHP * event.getEntityLiving().getMaxHealth()));
+                            })));
                 } else {
                     // Init particles
                     Random random = new Random();
