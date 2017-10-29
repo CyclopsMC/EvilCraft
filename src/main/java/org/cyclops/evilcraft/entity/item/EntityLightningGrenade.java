@@ -65,7 +65,7 @@ public class EntityLightningGrenade extends EntityThrowable implements IConfigur
         if (!this.world.isRemote) {
             if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {    
                 EntityHelpers.onEntityCollided(this.world, par1MovingObjectPosition.getBlockPos(), this);
-                this.world.addWeatherEffect(new EntityLightningBolt(this.world, this.posX, this.posY, this.posZ, true));
+                this.world.addWeatherEffect(new EntityLightningBolt(this.world, this.posX, this.posY, this.posZ, false));
             }
 
             this.setDead();
