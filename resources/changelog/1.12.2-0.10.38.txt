@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.22 or higher.
+
+Changes:
+* Compress PNGs
+* Override the non-deprecated version of getDrops
+
+Fixes:
+* Fix crash when a slime falls to death on a BoP block, Closes #601
+* Fix lightning grenade producing 'fake' lightning
