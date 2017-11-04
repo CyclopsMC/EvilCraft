@@ -9,6 +9,7 @@ env:
   global:
   - TERM=dumb
 
+before_install: openssl aes-256-cbc -K $encrypted_ce9429f4f8d8_key -iv $encrypted_ce9429f4f8d8_iv -in keystore.jks.enc -out keystore.jks -d
 install: ./gradlew setupCIWorkspace -S
 script: ./gradlew build -S
 

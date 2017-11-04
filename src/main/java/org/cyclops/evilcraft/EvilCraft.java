@@ -61,7 +61,8 @@ import org.cyclops.evilcraft.world.gen.nbt.DarkTempleData;
         useMetadata = true,
         version = Reference.MOD_VERSION,
         dependencies = Reference.MOD_DEPENDENCIES,
-        guiFactory = "org.cyclops.evilcraft.GuiConfigOverview$ExtendedConfigGuiFactory"
+        guiFactory = "org.cyclops.evilcraft.GuiConfigOverview$ExtendedConfigGuiFactory",
+        certificateFingerprint = Reference.MOD_FINGERPRINT
 )
 public class EvilCraft extends ModBaseVersionable {
     
