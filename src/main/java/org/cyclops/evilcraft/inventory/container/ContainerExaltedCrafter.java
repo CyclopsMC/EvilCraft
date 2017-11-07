@@ -6,12 +6,15 @@ import invtweaks.api.container.ChestContainer;
 import invtweaks.api.container.ContainerSection;
 import invtweaks.api.container.ContainerSectionCallback;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.network.play.server.SPacketSetSlot;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -235,9 +238,21 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 	
 	@Override
 	public void onCraftMatrixChanged(IInventory inventory) {
-		if(initialized) {
-			result.setInventorySlotContents(0, CraftingManager.findMatchingResult(craftingGrid, world));
-			craftingGrid.save();
+        if(initialized && !this.world.isRemote) {
+            ItemStack itemstack = ItemStack.EMPTY;
+
+            // Slightly altered logic from Container#slotChangedCraftingGrid
+            IRecipe irecipe = CraftingManager.findMatchingRecipe(craftingGrid, world);
+            if (irecipe != null && (irecipe.isDynamic()
+                    || !this.world.getGameRules().getBoolean("doLimitedCrafting")
+                    || ((EntityPlayerMP) this.player).getRecipeBook().isUnlocked(irecipe))) {
+                result.setRecipeUsed(irecipe);
+                itemstack = irecipe.getCraftingResult(craftingGrid);
+            }
+            result.setInventorySlotContents(0, itemstack);
+            ((EntityPlayerMP) this.player).connection.sendPacket(new SPacketSetSlot(this.windowId, 9, itemstack));
+
+            craftingGrid.save();
 		}
     }
 

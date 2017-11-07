@@ -27,6 +27,7 @@ import net.minecraftforge.oredict.RecipeSorter;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.CraftingHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.init.RecipeHandler;
 import org.cyclops.cyclopscore.recipe.custom.Recipe;
@@ -198,8 +199,10 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 public ItemStack getRecipeOutput(InventoryCrafting craftingGrid, ItemStack output) {
                     ItemStack newStack = output.copy();
                     EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(newStack);
-                    fluidHandler.setNextTankID();
-                    return newStack;
+                    if (!MinecraftHelpers.isClientSide()) {
+                        fluidHandler.setNextTankID();
+                    }
+                    return fluidHandler.getContainer();
                 }
             }));
 
