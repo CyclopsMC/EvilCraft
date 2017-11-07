@@ -65,9 +65,9 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
     protected void itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
         super.itemStackDataToTile(itemStack, tile);
         // Convert tank id
-        String tankId = ((TileEntangledChalice) tile).getWorldTankId();
         EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack);
-        fluidHandler.setTankID(tankId);
+        String tankId = fluidHandler.getTankID();
+        ((TileEntangledChalice) tile).setWorldTankId(tankId);
     }
 
     public static class FluidHandler extends FluidContainerItemWrapperWithSimulation {
@@ -97,7 +97,7 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
          */
         public String getTankID() {
             NBTTagCompound tag = ItemStackHelpers.getSafeTagCompound(getContainer());
-            if(tag.hasKey(WorldSharedTank.NBT_TANKID)) {
+            if(!tag.hasKey(WorldSharedTank.NBT_TANKID)) {
                 tag.setString(WorldSharedTank.NBT_TANKID, "");
             }
             return tag.getString(WorldSharedTank.NBT_TANKID);

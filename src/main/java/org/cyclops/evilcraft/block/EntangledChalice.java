@@ -176,9 +176,9 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
 	protected ItemStack tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
 		itemStack = super.tileDataToItemStack(tile, itemStack);
 		// Convert tank id
+		String tankId = ((TileEntangledChalice) tile).getWorldTankId();
 		EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack);
-		String tankId = fluidHandler.getTankID();
-		((TileEntangledChalice) tile).setWorldTankId(tankId);
+		fluidHandler.setTankID(tankId);
 
 		return itemStack;
 	}
