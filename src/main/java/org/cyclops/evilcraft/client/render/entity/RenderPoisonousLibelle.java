@@ -29,7 +29,7 @@ public class RenderPoisonousLibelle extends RenderModelLiving<PoisonousLibelle, 
 
     @Override
     protected void preRenderCallback(PoisonousLibelle entity, float f){
-        GlStateManager.scale(0.5F, 0.5F, 0.5F);
+        GlStateManager.scale(-0.5F, 0.5F, -0.5F);
         GlStateManager.translate(0, 0.5F, 0);
     }
 
