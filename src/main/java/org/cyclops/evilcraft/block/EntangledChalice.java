@@ -13,6 +13,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.property.IExtendedBlockState;
@@ -27,6 +28,7 @@ import org.cyclops.cyclopscore.config.configurable.ConfigurableBlockContainer;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
@@ -87,8 +89,16 @@ public class EntangledChalice extends ConfigurableBlockContainer implements IInf
     
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumHand hand, EnumFacing side, float motionX, float motionY, float motionZ) {
-    	return BlockTankHelpers.onBlockActivatedTank(world, blockPos, player, hand, side, motionX, motionY, motionZ) ||
-                super.onBlockActivated(world, blockPos, blockState, player, hand, side, motionX, motionY, motionZ);
+    	if (BlockTankHelpers.onBlockActivatedTank(world, blockPos, player, hand, side, motionX, motionY, motionZ)) {
+    		return true;
+		}
+		if (world.isRemote) {
+			TileEntangledChalice tile = TileHelpers.getSafeTile(world, blockPos, TileEntangledChalice.class);
+    		String tankId = tile == null ? "null" : tile.getWorldTankId();
+			player.sendStatusMessage(new TextComponentTranslation(L10NHelpers.localize(
+					"tile.blocks.evilcraft.entangled_chalice.info.id", tankId)), true);
+		}
+		return super.onBlockActivated(world, blockPos, blockState, player, hand, side, motionX, motionY, motionZ);
     }
     
     @Override

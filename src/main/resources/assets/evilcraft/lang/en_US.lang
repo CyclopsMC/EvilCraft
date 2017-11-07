@@ -72,6 +72,7 @@ tile.blocks.evilcraft.spirit_reanimator.help.invalid.different_egg=Remove the di
 tile.blocks.evilcraft.entangled_chalice.name=Entangled Chalice
 tile.blocks.evilcraft.entangled_chalice.info=Contents of entangled chalices are omnipresent.\nShift + Right click to omni-supply.
 tile.blocks.evilcraft.entangled_chalice.info.auto_supply=Omni-supply: %s
+tile.blocks.evilcraft.entangled_chalice.info.id=Group ID: %s
 tile.blocks.evilcraft.dark_power_gem_block.name=Dark Power Gem Block
 tile.blocks.evilcraft.gem_stone_torch.name=Gemstone Torch
 tile.blocks.evilcraft.gem_stone_torch.info=Blocks Vengeance Spirit spawning in a radius of 15 blocks.
