@@ -124,4 +124,8 @@ public class RenderTileEntityBeacon extends TileEntitySpecialRenderer {
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.5F);
 	}
 
+    @Override
+    public boolean isGlobalRenderer(TileEntity te) {
+        return true;
+    }
 }
