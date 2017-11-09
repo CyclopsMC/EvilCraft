@@ -1,0 +1,16 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.22 or higher.
+
+Additions:
+* Show Entangled Chalice group id in item tooltip and on block right click
+
+Changes:
+* Sign jars
+* Handle Exalted Crafter recipes fully server-side
+
+Fixes:
+* Fix crash when Burning Gemstone breaks, Closes #604
+* Fix Poisonous Libelle flying backwards, Closes #609
+* Fix Envir Acc beam not always rendering, Closes #608
+* Fix Entangled Chalice losing ID, Closes #607
+* Fix some textures being too bright, Closes #606
