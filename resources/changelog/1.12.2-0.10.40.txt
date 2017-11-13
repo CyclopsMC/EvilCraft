@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.22 or higher.
+
+Changes:
+* Make Vengeance Pickaxe enchantments configurable, Closes #610
+* Add localization for enchantments, Closes #605
