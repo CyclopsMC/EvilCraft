@@ -25,15 +25,6 @@ import java.util.Map;
  *
  */
 public class VengeancePickaxe extends ConfigurableItemPickaxe {
-	
-	/**
-	 * The fortune level of this pickaxe.
-	 */
-	public static final int FORTUNE_LEVEL = 5;
-    /**
-     * The vengeance level of this pickaxe.
-     */
-    public static final int VENGEANCE_LEVEL = 3;
     
     private static VengeancePickaxe _instance = null;
     
@@ -65,8 +56,8 @@ public class VengeancePickaxe extends ConfigurableItemPickaxe {
     public static ItemStack createCraftingResult() {
     	ItemStack pickaxe = new ItemStack(VengeancePickaxe.getInstance());
         Map<Enchantment, Integer> enchantments = Maps.newHashMap();
-        enchantments.put(Enchantments.FORTUNE, FORTUNE_LEVEL);
-        enchantments.put(EnchantmentVengeance.getInstance(), VENGEANCE_LEVEL);
+        enchantments.put(Enchantments.FORTUNE, VengeancePickaxeConfig.fortuneLevel);
+        enchantments.put(EnchantmentVengeance.getInstance(), VengeancePickaxeConfig.vengeanceLevel);
         EnchantmentHelper.setEnchantments(enchantments, pickaxe);
         return pickaxe;
     }
