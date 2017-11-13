@@ -270,15 +270,15 @@ entity.Villager.werewolf_villager=Werewolvian
 
 # Enchantments
 enchantment.evilcraft.breaking=Breaking
-description.enchantment.enchantments.breaking=Your tools break faster
+enchantment.evilcraft.breaking.desc=Your tools break faster
 enchantment.evilcraft.life_stealing=Life Stealing
-description.enchantment.enchantments.life_stealing=Steal health from attacked mobs
+enchantment.evilcraft.life_stealing.desc=Steal health from attacked mobs
 enchantment.evilcraft.unusing=Unusing
-description.enchantment.enchantments.unusing=Tools become unusable when having one durability left
+enchantment.evilcraft.unusing.desc=Tools become unusable when having one durability left
 enchantment.evilcraft.poison_tip=Poison Tip
-description.enchantment.enchantments.poison_tip=Damaged mobs get poisoned
+enchantment.evilcraft.poison_tip.desc=Damaged mobs get poisoned
 enchantment.evilcraft.vengeance=Vengeance
-description.enchantment.enchantments.vengeance=Using a tool will spawn Vengeance Spirits
+enchantment.evilcraft.vengeance.desc=Using a tool will spawn Vengeance Spirits
 
 # Chat messages
 chat.evilcraft.command.farting_enabled=Farting enabled
