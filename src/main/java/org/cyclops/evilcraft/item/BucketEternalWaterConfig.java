@@ -1,15 +1,20 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCauldron;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -84,6 +89,22 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
                     return EnumActionResult.SUCCESS;
                 }
                 return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
+            }
+
+            @Override
+            public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
+                                          EnumFacing side, float hitX, float hitY, float hitZ) {
+                IBlockState state = world.getBlockState(pos);
+                Block block = state.getBlock();
+                if(block instanceof BlockCauldron && !player.isSneaking()) {
+                    if(!world.isRemote && state.getValue(BlockCauldron.LEVEL) < 3) {
+                        player.addStat(StatList.CAULDRON_FILLED);
+                        ((BlockCauldron)block).setWaterLevel(world, pos, state, 3);
+                        world.playSound((EntityPlayer)null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                     }
+                    return EnumActionResult.SUCCESS;
+                }
+                return super.onItemUse(player, world, pos, hand, side, hitX, hitY, hitZ);
             }
 
             @Override
