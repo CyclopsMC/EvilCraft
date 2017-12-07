@@ -1,12 +1,14 @@
 ## EvilCraft
 
 [![Build Status](https://travis-ci.org/CyclopsMC/EvilCraft.svg?branch=master-1.11)](https://travis-ci.org/rubensworks/EvilCraft)
-[![Download](https://api.bintray.com/packages/cyclopsmc/dev/EvilCraft/images/download.svg) ](https://bintray.com/cyclopsmc/dev/EvilCraft/_latestVersion)
+[![Download](https://img.shields.io/maven-metadata/v/http/cyclopsmc.jfrog.io/cyclopsmc/libs-release/org/cyclops/evilcraft/EvilCraft/maven-metadata.xml.svg) ](https://cyclopsmc.jfrog.io/cyclopsmc/libs-release/org/cyclops/evilcraft/EvilCraft/)
 [![CurseForge](http://cf.way2muchnoise.eu/full_74610_downloads.svg)](http://minecraft.curseforge.com/projects/74610)
 
 All stable releases (including deobfuscated builds) can be found on [CurseForge](http://minecraft.curseforge.com/mc-mods/74610-evilcraft/files).
 
 More gameplay information can be found on [CurseForge](https://minecraft.curseforge.com/projects/evilcraft/).
+
+[Development builds](https://cyclopsmc.jfrog.io/cyclopsmc/libs-release/org/cyclops/evilcraft/EvilCraft/) are hosted by [JFrog Artifactory](https://www.jfrog.com/artifactory/).
 
 ### Contributing
 * Before submitting a pull request containing a new feature, please discuss this first with one of the lead developers.
