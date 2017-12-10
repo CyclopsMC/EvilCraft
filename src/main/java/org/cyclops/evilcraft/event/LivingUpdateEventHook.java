@@ -5,6 +5,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -70,7 +71,8 @@ public class LivingUpdateEventHook {
         if(event.getEntity() instanceof EntityVillager && !event.getEntity().world.isRemote) {
             EntityVillager villager = (EntityVillager) event.getEntity();
             if(Werewolf.isWerewolfTime(event.getEntity().world) && Configs.isEnabled(WerewolfVillagerConfig.class)
-                    && villager.getProfessionForge() == WerewolfVillager.getInstance()) {
+                    && villager.getProfessionForge() == WerewolfVillager.getInstance()
+                    && villager.world.getLightFor(EnumSkyBlock.SKY, villager.getPosition()) > 0) {
                 Werewolf.replaceVillager(villager);
             }
         }
