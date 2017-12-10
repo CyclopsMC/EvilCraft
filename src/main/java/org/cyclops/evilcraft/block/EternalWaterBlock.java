@@ -5,9 +5,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -67,9 +71,21 @@ public class EternalWaterBlock extends ConfigurableBlockContainer {
                                     float xp, float yp, float zp) {
         ItemStack itemStack = player.inventory.getCurrentItem();
         if (!itemStack.isEmpty()) {
-            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
-            if (fluidHandler != null) {
-                fluidHandler.fill(TileEternalWaterBlock.WATER, true);
+            if (itemStack.getItem() == Items.BUCKET) {
+                if (!world.isRemote) {
+                    itemStack.shrink(1);
+                    if (itemStack.isEmpty()) {
+                        player.setHeldItem(hand, new ItemStack(Items.WATER_BUCKET));
+                    } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.WATER_BUCKET))) {
+                        player.dropItem(new ItemStack(Items.WATER_BUCKET), false);
+                    }
+                    world.playSound((EntityPlayer)null, blockPos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                }
+            } else {
+                IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
+                if (fluidHandler != null) {
+                    fluidHandler.fill(TileEternalWaterBlock.WATER, true);
+                }
             }
         }
         return true;
