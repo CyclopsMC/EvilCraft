@@ -967,6 +967,7 @@ config.evilcraft.vengeance_spirit.isEnabled=Vengeance Spirit
 config.evilcraft.vengeance_spirit.nonDegradedSpawnChance=Vengeance Spirit spawn chance on item use
 config.evilcraft.vengeance_spirit.spawnLimit=Vengeance Spirit spawn limit
 config.evilcraft.vengeance_spirit.spawnLimitArea=Vengeance Spirit spawn area limit
+config.evilcraft.vengeance_spirit.alwaysVisibleInCreative=Vengeance Spirits always visible in creative
 
 config.evilcraft.werewolf.isEnabled=Werewolf    
 

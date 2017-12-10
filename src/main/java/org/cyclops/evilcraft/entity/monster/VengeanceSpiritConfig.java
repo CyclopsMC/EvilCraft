@@ -61,6 +61,9 @@ VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
         "intangible:soul",
     };
 
+    @ConfigurableProperty(category = ConfigurableTypeCategory.MOB, comment = "Whether vengeance spirits should always be visible in creative mode.")
+    public static boolean alwaysVisibleInCreative = false;
+
     /**
      * The 1/X chance that an actual spirit will spawn when doing actions like mining with the Vengeance Pickaxe.
      */
