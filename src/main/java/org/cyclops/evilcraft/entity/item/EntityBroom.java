@@ -204,7 +204,7 @@ public class EntityBroom extends Entity implements IConfigurable{
             if (this.isEntityInvulnerable(source)) {
                 return false;
             }
-            if (source.getTrueSource() instanceof EntityPlayer) {
+            if (source.getTrueSource() instanceof EntityPlayer && source.getTrueSource() != lastMounted) {
                 if (isBeingRidden()) {
                     this.dismountRidingEntity();
                 }
