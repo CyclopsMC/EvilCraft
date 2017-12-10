@@ -8,7 +8,12 @@ import org.cyclops.cyclopscore.proxy.CommonProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.event.*;
-import org.cyclops.evilcraft.network.packet.*;
+import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
+import org.cyclops.evilcraft.network.packet.ExaltedCrafterButtonPacket;
+import org.cyclops.evilcraft.network.packet.ExaltedCrafterOpenPacket;
+import org.cyclops.evilcraft.network.packet.FartPacket;
+import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
+import org.cyclops.evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 
 /**
  * Proxy for server and client side.
@@ -51,7 +56,6 @@ public class CommonProxy extends CommonProxyComponent {
         MinecraftForge.EVENT_BUS.register(new FillBucketEventHook());
         MinecraftForge.EVENT_BUS.register(new BlockBreakEventHook());
 
-        FMLCommonHandler.instance().bus().register(new ItemCraftedEventHook());
         FMLCommonHandler.instance().bus().register(WorldSharedTankCache.getInstance());
     }
 

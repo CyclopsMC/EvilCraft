@@ -224,7 +224,7 @@
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text3</paragraph>
                 <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undead_tree.png</appendix>
-                <appendix type="crafting_recipe">minecraft:deadbush</appendix>
+                <appendix_list type="crafting_recipe">deadbush</appendix_list>
                 <appendix type="evilcraft:blood_infuser_recipe">evilcraft:undead_sapling</appendix>
                 <appendix type="crafting_recipe">evilcraft:dark_stick</appendix>
                 <appendix type="crafting_recipe">evilcraft:undead_plank_stairs</appendix>

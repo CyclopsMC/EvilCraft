@@ -23,6 +23,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.OreIngredient;
 import net.minecraftforge.oredict.RecipeSorter;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.CraftingHelpers;
@@ -44,6 +45,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.recipe.BloodExtractorCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.BroomPartCombinationRecipe;
+import org.cyclops.evilcraft.core.recipe.DeadBushRecipe;
 import org.cyclops.evilcraft.core.recipe.DisplayStandRecipe;
 import org.cyclops.evilcraft.core.recipe.ItemBlockFluidContainerCombinationRecipe;
 import org.cyclops.evilcraft.core.recipe.custom.EnvironmentalAccumulatorRecipeComponent;
@@ -316,6 +318,14 @@ public class ExtendedRecipeHandler extends RecipeHandler {
                 ));
                 CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "display_stand"), new DisplayStandRecipe(OreDictionary.getOres(Reference.DICT_WOODPLANK)));
             }
+
+            // Undead bush crafting
+            getTaggedRecipes().put("craftingRecipe:deadbush", new Recipe(
+                    new IngredientsRecipeComponent(NonNullList.from(Ingredient.EMPTY, Ingredient.fromItem(Items.SHEARS), new OreIngredient("treeSapling"))),
+                    new IngredientRecipeComponent(new ItemStack(Blocks.DEADBUSH)),
+                    new DummyPropertiesComponent()
+            ));
+            CraftingHelpers.registerRecipe(new ResourceLocation(getMod().getModId(), "deadbush"), new DeadBushRecipe());
         }
     }
 }

@@ -121,16 +121,6 @@
     </recipe>
 
     <recipe type="shapeless">
-        <input>
-            <item meta="*">minecraft:shears</item>
-            <item type="oredict">treeSapling</item>
-        </input>
-        <output>
-            <item>minecraft:deadbush</item>
-        </output>
-    </recipe>
-
-    <recipe type="shapeless">
         <condition type="config">dark_power_gem</condition>
         <condition type="config">dark_power_gem_block</condition>
         <input>
