@@ -384,7 +384,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
     
     private boolean isAlternativelyVisible() {
         EntityPlayerSP player = Minecraft.getMinecraft().player;
-		return player != null && player.capabilities.isCreativeMode;
+		return VengeanceSpiritConfig.alwaysVisibleInCreative && player != null && player.capabilities.isCreativeMode;
 	}
 
     @Override
