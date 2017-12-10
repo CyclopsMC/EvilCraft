@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -21,7 +20,7 @@ import javax.annotation.Nullable;
  */
 public class TileEternalWaterBlock extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
 
-    public static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME);
+    public static final FluidStack WATER = new FluidStack(FluidRegistry.WATER, Integer.MAX_VALUE);
 
     @Delegate
     private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
@@ -37,8 +36,7 @@ public class TileEternalWaterBlock extends CyclopsTileEntity implements CyclopsT
                 IFluidHandler handler = TileHelpers.getCapability(getWorld(), getPos().offset(direction),
                         direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
                 if (handler != null) {
-                    FluidStack fluidStack = new FluidStack(FluidRegistry.WATER, Fluid.BUCKET_VOLUME);
-                    handler.fill(fluidStack, true);
+                    handler.fill(WATER, true);
                 }
             }
 		}
@@ -47,7 +45,7 @@ public class TileEternalWaterBlock extends CyclopsTileEntity implements CyclopsT
     public static class InfiniteWaterFluidCapability implements IFluidHandler {
         @Override
         public IFluidTankProperties[] getTankProperties() {
-            return new IFluidTankProperties[] { new FluidTankProperties(WATER, 0) };
+            return new IFluidTankProperties[] { new FluidTankProperties(WATER, Integer.MAX_VALUE) };
         }
 
         @Override
@@ -61,13 +59,13 @@ public class TileEternalWaterBlock extends CyclopsTileEntity implements CyclopsT
             if (resource == null || resource.getFluid() != WATER.getFluid()) {
                 return null;
             }
-            return new FluidStack(WATER.getFluid(), Math.min(resource.amount, WATER.amount));
+            return new FluidStack(WATER.getFluid(), resource.amount);
         }
 
         @Nullable
         @Override
         public FluidStack drain(int maxDrain, boolean doDrain) {
-            return new FluidStack(WATER.getFluid(), Math.min(maxDrain, WATER.amount));
+            return new FluidStack(WATER.getFluid(), maxDrain);
         }
     }
 }
