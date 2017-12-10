@@ -13,11 +13,9 @@ import org.lwjgl.util.vector.Vector4f;
  *
  */
 public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
-	
+
     @SideOnly(Side.CLIENT)
-	private Vector4f beamInnerColor;
-    @SideOnly(Side.CLIENT)
-	private Vector4f beamOuterColor;
+	private Vector4f beamColor;
 	
 	private boolean isActive;
 	
@@ -34,34 +32,14 @@ public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implem
 	}
 	
 	/**
-	 * Make a new instance with set colors.
-	 * @param beamInnerColor The inner color for the beam.
-	 * @param beamOuterColor The outer color (glow) for the beam.
+	 * Make a new instance with set color.
+	 * @param beamColor The color for the beam.
 	 */
 	@SideOnly(Side.CLIENT)
-	public EvilCraftBeaconTileEntity(Vector4f beamInnerColor, Vector4f beamOuterColor) {
-		this.beamInnerColor = beamInnerColor;
-		this.beamOuterColor = beamOuterColor;
+	public EvilCraftBeaconTileEntity(Vector4f beamColor) {
+		this.beamColor = beamColor;
 		
 		isActive = true;
-	}
-	
-	/**
-	 * Get the inner color.
-	 * @return The inner color.
-	 */
-	@SideOnly(Side.CLIENT)
-	public Vector4f getBeamInnerColor() {
-		return beamInnerColor;
-	}
-	
-	/**
-	 * Set the inner color.
-	 * @param beamInnerColor The inner color.
-	 */
-	@SideOnly(Side.CLIENT)
-	public void setBeamInnerColor(Vector4f beamInnerColor) {
-	    this.beamInnerColor = beamInnerColor;
 	}
 	
 	/**
@@ -69,8 +47,8 @@ public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implem
 	 * @return The outer color.
 	 */
 	@SideOnly(Side.CLIENT)
-	public Vector4f getBeamOuterColor() {
-		return beamOuterColor;
+	public Vector4f getBeamColor() {
+		return beamColor;
 	}
 	
 	/**
@@ -78,8 +56,8 @@ public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implem
 	 * @param beamOuterColor The outer color.
 	 */
 	@SideOnly(Side.CLIENT)
-	public void setBeamOuterColor(Vector4f beamOuterColor) {
-	    this.beamOuterColor = beamOuterColor;
+	public void setBeamColor(Vector4f beamOuterColor) {
+	    this.beamColor = beamOuterColor;
 	}
 	
 	/**

@@ -109,8 +109,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    inventory = new SimpleInventory(1, EnvironmentalAccumulatorConfig._instance.getNamedId(), 64);
 	    
 	    if (MinecraftHelpers.isClientSide()) {
-	        setBeamInnerColor(getInnerColorByState(state));
-	        setBeamOuterColor(getOuterColorByState(state));
+	        setBeamColor(getOuterColorByState(state));
 	    }
 	}
 
@@ -123,26 +122,15 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     }
 	
 	@SideOnly(Side.CLIENT)
-	private Vector4f getInnerColorByState(int state) {
+    private Vector4f getOuterColorByState(int state) {
         Triple<Float, Float, Float> baseColor = getBaseBeamColor();
         float coolFactor = (getMaxCooldownTick() - tick) / (float) getMaxCooldownTick();
         if (state == EnvironmentalAccumulator.STATE_PROCESSING_ITEM)
-	        return new Vector4f(baseColor.getLeft(), baseColor.getMiddle(), baseColor.getRight(), 0.05f);
-	    if (state == EnvironmentalAccumulator.STATE_IDLE)
-	        return new Vector4f(baseColor.getLeft(), baseColor.getMiddle(), baseColor.getRight(), 0.13f);
-	    else
-            return new Vector4f(baseColor.getLeft() * coolFactor, baseColor.getMiddle() * coolFactor, baseColor.getRight() * coolFactor, 0.13f);
-	        
-	}
-	
-	@SideOnly(Side.CLIENT)
-    private Vector4f getOuterColorByState(int state) {
-        Triple<Float, Float, Float> baseColor = getBaseBeamColor();
-        float coolFactor = ((getMaxCooldownTick() - tick) / (float) getMaxCooldownTick()) / 2;
-        if (state == EnvironmentalAccumulator.STATE_COOLING_DOWN)
-            return new Vector4f(baseColor.getLeft() * coolFactor, baseColor.getMiddle() * coolFactor, baseColor.getRight() * coolFactor, 0.13f);
+            return new Vector4f(baseColor.getLeft(), baseColor.getMiddle(), baseColor.getRight(), 0.05f);
+        if (state == EnvironmentalAccumulator.STATE_IDLE)
+            return new Vector4f(baseColor.getLeft(), baseColor.getMiddle(), baseColor.getRight(), 0.13f);
         else
-            return new Vector4f(baseColor.getLeft() / 2, baseColor.getMiddle() / 2, baseColor.getRight() / 2, 0.13f);
+            return new Vector4f(baseColor.getLeft() * coolFactor, baseColor.getMiddle() * coolFactor, baseColor.getRight() * coolFactor, 0.13f);
     }
 	
 	/**
@@ -230,7 +218,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             }
         } // Are we cooling down?
         else if (state == EnvironmentalAccumulator.STATE_COOLING_DOWN) {
-            setBeamColors(state);
+            setBeamColor(state);
 	        // TODO: in the rewrite of this tile entity, it should be ensured that the
 	        // random effect is equal on client and server side?
 	        degradationExecutor.runRandomEffect(world.isRemote);
@@ -456,17 +444,16 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    }
 	    
 	    // Change the beam colors if we receive an update
-	    setBeamColors(state);
+	    setBeamColor(state);
 	}
 	
 	/**
 	 * Set the beam colors.
 	 * @param state The state to base the colors on.
 	 */
-	public void setBeamColors(int state) {
+	public void setBeamColor(int state) {
         if (world.isRemote) {
-    	    setBeamInnerColor(getInnerColorByState(state));
-    	    setBeamOuterColor(getOuterColorByState(state));
+    	    setBeamColor(getOuterColorByState(state));
         }
 	}
 	
