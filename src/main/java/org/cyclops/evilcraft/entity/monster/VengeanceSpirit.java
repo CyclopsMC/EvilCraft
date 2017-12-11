@@ -189,7 +189,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
     @Override
     public boolean isEntityInvulnerable(DamageSource damageSource) {
-        return !(damageSource instanceof ExtendedDamageSource.VengeanceBeamDamageSource);
+        return !(damageSource instanceof ExtendedDamageSource.VengeanceBeamDamageSource || damageSource == DamageSource.OUT_OF_WORLD);
     }
     
     @Override
@@ -224,7 +224,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 
         // Also drop loot from inner entity!
         EntityLivingBase innerEntity = getInnerEntity();
-        if (innerEntity instanceof EntityLiving) {
+        if (innerEntity instanceof EntityLiving && damageSource != DamageSource.OUT_OF_WORLD) {
             ResourceLocation deathLootTable = ObfuscationHelpers.getLootTable((EntityLiving) innerEntity);
             if (deathLootTable != null) {
                 LootTable loottable = getEntityWorld().getLootTableManager().getLootTableFromLocation(deathLootTable);
