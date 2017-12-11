@@ -470,6 +470,10 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        recipe = EnvironmentalAccumulator.getInstance().getRecipeRegistry().findRecipeByNamedId(recipeId);
 	    
 	    degradationExecutor.readFromNBT(compound);
+
+        if (getWorld() != null && getWorld().isRemote) {
+            setBeamColor(getOuterColorByState(state));
+        }
 	}
 	
 	@Override
