@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelChest;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
 import org.cyclops.evilcraft.block.BloodChest;
@@ -22,7 +23,13 @@ public class RenderTileEntityBloodChest extends RenderTileEntityModel<TileBloodC
     public RenderTileEntityBloodChest(ModelBase model, ResourceLocation texture) {
         super(model, texture);
     }
-    
+
+    @Override
+    protected void preRotate(TileBloodChest tile) {
+        super.preRotate(tile);
+        GlStateManager.rotate(180, 0, 1, 0);
+    }
+
     @Override
     protected void renderModel(TileBloodChest tile, ModelBase model, float partialTick, int destroyStage) {
         ModelChest modelchest = (ModelChest) model;
