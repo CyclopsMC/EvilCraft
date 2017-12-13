@@ -1,0 +1,37 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.10.24 or higher.
+
+Fixes:
+* Fix incorrect facing rendered for Blood Chest
+* Don't always show vengeance spirits in creative mode
+  When this was originally added, spectral glasses didn't exist. Now that they
+  do, creative players can just get and use these to see spirits if they want.
+  Fixes #632.
+
+
+
+0.10.41 was pulled shortly after being pushed, because of an incompatibility with CyclopsCore.
+A new version of CyclopsCore was released to resolve this, so this version adds a requirement on this new version.
+Below you can find the original changelog for EvilCraft 0.10.41.
+
+Changes:
+* Improve crafting of dead bushes using shears, Closes #617
+  This fixes inconveniences and dupe bugs with other mods.
+* Make the Eternal Water Block more powerful
+  It will now output as much water as possible, not only 1 bucket per tick.
+* Update zh_CN.lang
+
+Fixes:
+* Fix Vengeance Spirits ignoring the \kill command, Closes #635
+* Fix Envir Acc losing color after world restart, Closes #637
+* Fix Envir Acc beam hiding water, #631
+* Fix dismounting from broom when shooting arrows, Closes #613
+* Fix Exalted Crafter not rendering as entity, Closes #618
+* Fix #622: make buckets fillable from Eternal Water Block
+* Fix #620: stop werewolves transforming in sky light 0
+* Fix lightning bolts not transforming werewolf villagers
+  Turning villagers into werewolvians never actually worked right, because in
+  vanilla, lightning turns villagers into witches, and it "wins". Rework it to
+  have a 50% chance of making them witches like vanilla, and a 50% chance of
+  making them werewolvians.
+* Fix #614: make the eternal water bucket work on cauldrons
