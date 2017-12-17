@@ -3,7 +3,11 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -61,15 +65,21 @@ public class CondensedBloodConfig extends ItemConfig {
     public void onForgeRegistered() {
         super.onForgeRegistered();
         // Register in loot chests
-        LootHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(getItemInstance(), 5, 1, new LootFunction[]{new LootFunction(new LootCondition[0]) {
-                    @Override
-                    public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
-                        stack.grow(rand.nextInt(32));
-                        return stack;
-                    }
-                }}, new LootCondition[0],
-                        getMod().getModId() + ":" + getSubUniqueName()));
+        LootEntryItem lootEntry = new LootEntryItem(getItemInstance(), 5, 1, new LootFunction[]{new LootFunction(new LootCondition[0]) {
+            @Override
+            public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
+                stack.grow(rand.nextInt(32));
+                return stack;
+            }
+        }}, new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName());
+        LootPool lootPool = new LootPool(new LootEntry[]{lootEntry}, new LootCondition[0], new RandomValueRange(1),
+                new RandomValueRange(0), "condensed_blood");
+        LootHelpers.addLootPool(LootTableList.CHESTS_SPAWN_BONUS_CHEST, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_VILLAGE_BLACKSMITH, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_NETHER_BRIDGE, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_SIMPLE_DUNGEON, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_ABANDONED_MINESHAFT, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_JUNGLE_TEMPLE, lootPool);
     }
 
     public static class FluidWrapper extends FluidBucketWrapper {

@@ -6,7 +6,11 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -89,24 +93,31 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
         BoxOfEternalClosure.setVengeanceSwarmContent(BoxOfEternalClosure.boxOfEternalClosureFilled);
 
         final ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
-        LootHelpers.addVanillaLootChestLootEntry(
-                new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 4, new LootFunction[]{
-                        new LootFunction(new LootCondition[0]) {
-                            @Override
-                            public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
-                                if (rand.nextBoolean()) {
-                                    List<UUID> players = Lists.newArrayList(BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet());
-                                    Collections.shuffle(players, rand);
-                                    if (!players.isEmpty()) {
-                                        ItemStack playerStack = spiritStack.copy();
-                                        BoxOfEternalClosure.setPlayerContent(playerStack, players.get(0));
-                                        return playerStack;
-                                    }
-                                }
-                                return BoxOfEternalClosure.boxOfEternalClosureFilled;
+        LootEntryItem lootEntry = new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 4, new LootFunction[]{
+                new LootFunction(new LootCondition[0]) {
+                    @Override
+                    public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
+                        if (rand.nextBoolean()) {
+                            List<UUID> players = Lists.newArrayList(BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet());
+                            Collections.shuffle(players, rand);
+                            if (!players.isEmpty()) {
+                                ItemStack playerStack = spiritStack.copy();
+                                BoxOfEternalClosure.setPlayerContent(playerStack, players.get(0));
+                                return playerStack;
                             }
                         }
-                }, new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName()));
+                        return BoxOfEternalClosure.boxOfEternalClosureFilled;
+                    }
+                }
+        }, new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName());
+        LootPool lootPool = new LootPool(new LootEntry[]{lootEntry},
+                new LootCondition[]{(rand, context) -> rand.nextInt(3) == 0}, new RandomValueRange(1),
+                new RandomValueRange(0), "box_of_eternal_closure");
+        LootHelpers.addLootPool(LootTableList.CHESTS_SPAWN_BONUS_CHEST, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_END_CITY_TREASURE, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_SIMPLE_DUNGEON, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_ABANDONED_MINESHAFT, lootPool);
+        LootHelpers.addLootPool(LootTableList.CHESTS_STRONGHOLD_LIBRARY, lootPool);
     }
 
     @Override
