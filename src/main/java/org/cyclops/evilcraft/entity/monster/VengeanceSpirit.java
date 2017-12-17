@@ -63,7 +63,7 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	/**
 	 * The default I18N key for when no inner entity exists.
 	 */
-	public static final ResourceLocation DEFAULT_L10N_KEY = new ResourceLocation("vengeance_spirit");
+	public static final ResourceLocation DEFAULT_L10N_KEY = new ResourceLocation(Reference.MOD_ID, "vengeance_spirit");
 	
     private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
     private static final Set<Class<? extends EntityLivingBase>> IMC_BLACKLIST = Sets.newHashSet();
