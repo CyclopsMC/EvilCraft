@@ -62,6 +62,11 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
     }
 
     @Override
+    protected boolean canAccess(int slot, EnumFacing side) {
+        return side == getFacing();
+    }
+
+    @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
         return facing == getFacing() || facing == getFacing().getOpposite() || getContents() == null
                 ? super.hasCapability(capability, facing) : getContents().hasCapability(capability, null);
