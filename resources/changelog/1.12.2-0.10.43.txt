@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.0 or higher.
+
+Changes:
+* Only require one bucket in the Poison Bucket recipe, Closes #623
+
+Fixes:
+* Fix hopper filling Display Stand slot for all sides
+* Fix BOEC incorrectly localizing Vengeance Spirits
+* Fix spamming of loot pools by other mods, Closes #625
