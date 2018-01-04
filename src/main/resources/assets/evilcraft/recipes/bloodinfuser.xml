@@ -25,7 +25,7 @@
         <condition type="config">evilcraftblood</condition>
         <input>
             <item>minecraft:deadbush</item>
-            <fluid amount="2000">evilcraftblood</fluid>
+            <fluid amount="800">evilcraftblood</fluid>
         </input>
         <output>
             <item>evilcraft:undead_sapling</item>
