@@ -8,11 +8,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.Attributes;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -93,7 +93,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
             for(int i = 0; i < data.length / 7; i++) {
                 data[i * 7 + 3] = color;
             }
-            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.getSprite(), true, Attributes.DEFAULT_BAKED_FORMAT));
+            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.getSprite(), true, DefaultVertexFormats.ITEM));
         }
 
         // Fluid
