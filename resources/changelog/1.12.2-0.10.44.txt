@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.1 or higher.
+
+Changes:
+* Rebalance Undead Sapling recipe
+  It now requires 800mB instead of 2000mB, so that it can serve as a more convenient way to generate Blood when combined with squeezing logs using third-party mods.
+* Move Ender Tear dropping logic to loot tables, Closes #640
+  This allows pack makers to more easily tweak or disable Ender Tear dropping.
+
+Fixes:
+* Fix fluid rendering too dark in tank and chalice
