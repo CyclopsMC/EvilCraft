@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.1 or higher.
+
+Fixes:
+* Fix crash with picking up water when eternal water block is disabled, Closes #645
+* Fix JEI integration breaking when disabling blocks, Closes #646
