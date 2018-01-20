@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.block.EternalWaterBlockConfig;
 
 /**
@@ -23,7 +24,7 @@ public class FillBucketEventHook {
     }
     
     private void stopFillWithEternalWaterBlock(FillBucketEvent event) {
-        if (event.getTarget() != null) {
+        if (Configs.isEnabled(EternalWaterBlockConfig.class) && event.getTarget() != null) {
             Block block = event.getWorld().getBlockState(event.getTarget().getBlockPos()).getBlock();
             if (block == EternalWaterBlockConfig._instance.getBlockInstance()) {
                 event.setCanceled(true);
