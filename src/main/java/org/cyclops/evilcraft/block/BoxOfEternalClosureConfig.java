@@ -1,18 +1,9 @@
 package org.cyclops.evilcraft.block;
 
-import com.google.common.collect.Lists;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootEntryItem;
-import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,12 +19,6 @@ import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.entity.monster.VengeanceSpiritConfig;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
-import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
 
 /**
  * Config for the {@link BoxOfEternalClosure}.
@@ -88,36 +73,15 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
+        LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/box_of_eternal_closure"),
+                LootTableList.CHESTS_SPAWN_BONUS_CHEST,
+                LootTableList.CHESTS_END_CITY_TREASURE,
+                LootTableList.CHESTS_SIMPLE_DUNGEON,
+                LootTableList.CHESTS_ABANDONED_MINESHAFT,
+                LootTableList.CHESTS_STRONGHOLD_LIBRARY);
 
         BoxOfEternalClosure.boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
         BoxOfEternalClosure.setVengeanceSwarmContent(BoxOfEternalClosure.boxOfEternalClosureFilled);
-
-        final ItemStack spiritStack = new ItemStack(Item.getItemFromBlock(BoxOfEternalClosure.getInstance()), 1, 0);
-        LootEntryItem lootEntry = new LootEntryItem(Item.getItemFromBlock(getBlockInstance()), 1, 4, new LootFunction[]{
-                new LootFunction(new LootCondition[0]) {
-                    @Override
-                    public ItemStack apply(ItemStack stack, Random rand, LootContext context) {
-                        if (rand.nextBoolean()) {
-                            List<UUID> players = Lists.newArrayList(BoxCookTickAction.PLAYERDROP_OVERRIDES.keySet());
-                            Collections.shuffle(players, rand);
-                            if (!players.isEmpty()) {
-                                ItemStack playerStack = spiritStack.copy();
-                                BoxOfEternalClosure.setPlayerContent(playerStack, players.get(0));
-                                return playerStack;
-                            }
-                        }
-                        return BoxOfEternalClosure.boxOfEternalClosureFilled;
-                    }
-                }
-        }, new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName());
-        LootPool lootPool = new LootPool(new LootEntry[]{lootEntry},
-                new LootCondition[]{(rand, context) -> rand.nextInt(3) == 0}, new RandomValueRange(1),
-                new RandomValueRange(0), "box_of_eternal_closure");
-        LootHelpers.addLootPool(LootTableList.CHESTS_SPAWN_BONUS_CHEST, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_END_CITY_TREASURE, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_SIMPLE_DUNGEON, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_ABANDONED_MINESHAFT, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_STRONGHOLD_LIBRARY, lootPool);
     }
 
     @Override

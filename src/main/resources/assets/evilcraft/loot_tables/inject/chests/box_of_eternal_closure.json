@@ -1,0 +1,160 @@
+{
+  "pools": [
+    {
+      "name": "spirit",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{spiritTag:{playerName:\"\",innerEntity:\"\",remainingLife:0,isSwarm:1b,swarmTier:0,buildupDuration:0,frozenDuration:0,playerId:\"\"}}"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.1665
+        }
+      ]
+    },
+    {
+      "name": "forgotten_player",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"kroeserr\",playerId:\"068d4de0-3a75-4c6a-9f01-8c37e16a394c\",spiritTag:{playerName:\"kroeserr\",playerId:\"068d4de0-3a75-4c6a-9f01-8c37e16a394c\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"_EeB_\",playerId:\"e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c\",spiritTag:{playerName:\"_EeB_\",playerId:\"e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"Davivs69\",playerId:\"777e7aa3-9373-4511-8d75-f99d23ebe252\",spiritTag:{playerName:\"Davivs69\",playerId:\"777e7aa3-9373-4511-8d75-f99d23ebe252\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"Jona\",playerId:\"3e13f558-fb72-4949-a842-07879924bc49\",spiritTag:{playerName:\"Jona\",playerId:\"3e13f558-fb72-4949-a842-07879924bc49\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"dodo3231\",playerId:\"b5c31e33-8224-4f96-a4bf-73721be9d2ec\",spiritTag:{playerName:\"dodo3231\",playerId:\"b5c31e33-8224-4f96-a4bf-73721be9d2ec\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"_KillaH229_\",playerId:\"b2faeaab-fc87-4f91-98d3-836024f268ae\",spiritTag:{playerName:\"_KillaH229_\",playerId:\"b2faeaab-fc87-4f91-98d3-836024f268ae\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"Notch\",playerId:\"069a79f4-44e9-4726-a5be-fca90e38aaf5\",spiritTag:{playerName:\"Notch\",playerId:\"069a79f4-44e9-4726-a5be-fca90e38aaf5\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"jeb_\",playerId:\"853c80ef-3c37-49fd-aa49-938b674adae6\",spiritTag:{playerName:\"jeb_\",playerId:\"853c80ef-3c37-49fd-aa49-938b674adae6\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"Dinnerbone\",playerId:\"61699b2e-d327-4a01-9f1e-0ea8c3f06bc6\",spiritTag:{playerName:\"Dinnerbone\",playerId:\"61699b2e-d327-4a01-9f1e-0ea8c3f06bc6\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"direwolf20\",playerId:\"bbb87dbe-690f-4205-bdc5-72ffb8ebc29d\",spiritTag:{playerName:\"direwolf20\",playerId:\"bbb87dbe-690f-4205-bdc5-72ffb8ebc29d\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "evilcraft:box_of_eternal_closure",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{playerName:\"iChun\",playerId:\"0b7509f0-2458-4160-9ce1-2772b9a45ac2\",spiritTag:{playerName:\"iChun\",playerId:\"0b7509f0-2458-4160-9ce1-2772b9a45ac2\",innerEntity:\"\",remainingLife:0,isSwarm:0b,swarmTier:0,buildupDuration:0,frozenDuration:0}}"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 0.1665
+        }
+      ]
+    }
+  ]
+}

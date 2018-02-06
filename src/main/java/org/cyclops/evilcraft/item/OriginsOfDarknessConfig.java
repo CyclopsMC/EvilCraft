@@ -1,15 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootEntryItem;
-import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraft.world.storage.loot.functions.LootFunction;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 
 /**
  * Config for the Blood Orb.
@@ -39,16 +35,12 @@ public class OriginsOfDarknessConfig extends ItemConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        LootEntryItem lootEntry = new LootEntryItem(getItemInstance(), 1, 5, new LootFunction[0],
-                new LootCondition[0], getMod().getModId() + ":" + getSubUniqueName());
-        LootPool lootPool = new LootPool(new LootEntry[]{lootEntry},
-                new LootCondition[]{(rand, context) -> rand.nextInt(2) == 0}, new RandomValueRange(1),
-                new RandomValueRange(0), "origins_of_darkness");
-        LootHelpers.addLootPool(LootTableList.CHESTS_SPAWN_BONUS_CHEST, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_VILLAGE_BLACKSMITH, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_SIMPLE_DUNGEON, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_ABANDONED_MINESHAFT, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_JUNGLE_TEMPLE, lootPool);
-        LootHelpers.addLootPool(LootTableList.CHESTS_IGLOO_CHEST, lootPool);
+        LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/origins_of_darkness"),
+                LootTableList.CHESTS_SPAWN_BONUS_CHEST,
+                LootTableList.CHESTS_VILLAGE_BLACKSMITH,
+                LootTableList.CHESTS_SIMPLE_DUNGEON,
+                LootTableList.CHESTS_ABANDONED_MINESHAFT,
+                LootTableList.CHESTS_JUNGLE_TEMPLE,
+                LootTableList.CHESTS_IGLOO_CHEST);
     }
 }
