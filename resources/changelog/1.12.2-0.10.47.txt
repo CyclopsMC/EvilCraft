@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.3 or higher.
+
+Changes:
+* Move dynamic loot table injection from code to files, Closes #647
+  This makes the loot table injection not so hacky anymore.
+
+Fixes:
+* Fix crash when villager spirits are cooked in the spirit furnace, Closes #650
+* Fix crash with latest Forestry version, Closes CyclopsMC/EvilCraft#648
