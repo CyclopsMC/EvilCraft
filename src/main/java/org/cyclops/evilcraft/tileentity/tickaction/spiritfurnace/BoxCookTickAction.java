@@ -50,7 +50,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         if(SpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
             overrideMobDrop(EntityVillager.class, Sets.newHashSet(
                     new WeightedItemStack(new ItemStack(Items.EMERALD), 1),
-                    new WeightedItemStack(null, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)
+                    new WeightedItemStack(ItemStack.EMPTY, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)
             ));
         }
         overrideMobDrop(EntityWither.class, Sets.newHashSet(
