@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.3 or higher.
+
+Changes:
+* Improve loot in dark temples and evil dungeons, Closes #660
+
+Fixes:
+* Fix BOEC loot tables not loading and showing console errors, Closes #657
