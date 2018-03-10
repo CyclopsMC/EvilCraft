@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.3 or higher.
+
+Changes:
+* Classify breaking and unusing enchants as curses, Closes #663
+* Disable blood stains on Magma blocks, Closes #662
+* Make Blood Extractors and Dark Tanks also fill buckets, #664
+
+Fixes:
+* Fix Blood Extractor destroying items when it is unable to fill, Closes #664
+* Fix incorrect Spirit Furnace item handler side mapping, Closes #665
