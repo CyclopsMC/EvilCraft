@@ -2,15 +2,18 @@ package org.cyclops.evilcraft.core.helper;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.UniversalBucket;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.fluid.Blood;
 
@@ -87,9 +90,16 @@ public class ItemHelpers {
                 EntityPlayer player = (EntityPlayer) entity;
                 for (EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
-                    ItemStack filled = tryFillContainerForPlayer(toDrain, held, tickFluid, player);
+                    ItemStack toFill = held.splitStack(1);
+                    ItemStack filled = tryFillContainerForPlayer(toDrain, toFill, tickFluid, player);
                     if (!filled.isEmpty()) {
-                        player.setHeldItem(hand, filled);
+                        if (player.getHeldItem(hand).isEmpty()) {
+                            player.setHeldItem(hand, filled);
+                        } else {
+                            player.addItemStackToInventory(filled);
+                        }
+                    } else {
+                        held.grow(1);
                     }
                 }
             }
@@ -105,9 +115,13 @@ public class ItemHelpers {
      * @return The filled container
      */
     public static ItemStack tryFillContainerForPlayer(IFluidHandlerItem toDrain, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
-        if(toFill != null && toFill != toDrain.getContainer() && FluidUtil.getFluidHandler(toFill) != null
-                && player.getItemInUseCount() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, false).isSuccess()) {
-            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true).getResult();
+        int maxFill = MB_FILL_PERTICK;
+        if (toFill.getItem() == Items.BUCKET) {
+            maxFill = Fluid.BUCKET_VOLUME;
+        }
+        if(!toFill.isEmpty() && toFill != toDrain.getContainer() && FluidUtil.getFluidHandler(toFill) != null
+                && player.getItemInUseCount() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.amount), player, false).isSuccess()) {
+            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.amount), player, true).getResult();
         }
         return ItemStack.EMPTY;
     }
