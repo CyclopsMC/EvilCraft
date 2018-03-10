@@ -88,7 +88,7 @@ public class ItemHelpers {
                 for (EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
                     ItemStack filled = tryFillContainerForPlayer(toDrain, held, tickFluid, player);
-                    if (filled != null) {
+                    if (!filled.isEmpty()) {
                         player.setHeldItem(hand, filled);
                     }
                 }
@@ -109,7 +109,7 @@ public class ItemHelpers {
                 && player.getItemInUseCount() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, false).isSuccess()) {
             return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(MB_FILL_PERTICK, tickFluid.amount), player, true).getResult();
         }
-        return null;
+        return ItemStack.EMPTY;
     }
 
     /**
