@@ -57,6 +57,11 @@ public class EnchantmentVengeance extends ConfigurableEnchantment {
     }
 
     @Override
+    public boolean isCurse() {
+        return true;
+    }
+
+    @Override
     public boolean canApplyAtEnchantingTable(ItemStack itemStack) {
         return false;
     }
