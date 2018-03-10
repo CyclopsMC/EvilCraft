@@ -148,17 +148,17 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         // The slots side mapping
         List<Integer> inSlots = new LinkedList<Integer>();
         inSlots.add(SLOT_BOX);
-        List<Integer> inSlotsTank = new LinkedList<Integer>();
-        inSlotsTank.add(SLOT_CONTAINER);
-        List<Integer> outSlots = new LinkedList<Integer>();
-        for(int slot : SLOTS_DROP) {
-        	outSlots.add(slot);
+        inSlots.add(SLOT_CONTAINER);
+        List<Integer> interactSlots = new LinkedList<Integer>();
+        for(int slot : new int[]{1, 2, 3, 4, 5}) {
+            interactSlots.add(slot);
         }
-        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
+        addSlotsToSide(EnumFacing.EAST, inSlots);
         addSlotsToSide(EnumFacing.UP, inSlots);
-        addSlotsToSide(EnumFacing.DOWN, outSlots);
-        addSlotsToSide(EnumFacing.SOUTH, outSlots);
-        addSlotsToSide(EnumFacing.WEST, outSlots);
+        addSlotsToSide(EnumFacing.DOWN, interactSlots);
+        addSlotsToSide(EnumFacing.SOUTH, interactSlots);
+        addSlotsToSide(EnumFacing.WEST, interactSlots);
+        addSlotsToSide(EnumFacing.NORTH, interactSlots);
 
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(1) {
@@ -424,4 +424,18 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 		this.caughtError = true;
 	}
 
+    @Override
+    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
+        return slot < 2 && super.canInsertItem(slot, itemStack, side);
+    }
+
+    @Override
+    public boolean canExtractItem(int slot, ItemStack itemStack, EnumFacing side) {
+        return slot >= 2 && super.canExtractItem(slot, itemStack, side);
+    }
+
+    @Override
+    protected EnumFacing transformFacingForRotation(EnumFacing facing) {
+        return facing;
+    }
 }
