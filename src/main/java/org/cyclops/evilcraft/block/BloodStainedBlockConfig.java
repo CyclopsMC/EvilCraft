@@ -31,6 +31,7 @@ public class BloodStainedBlockConfig extends BlockContainerConfig {
     public static String[] blockBlacklist = new String[]{
     	"minecraft:redstone_lamp",
     	"minecraft:crafting_table",
+        "minecraft:magma",
     };
 
     /**
