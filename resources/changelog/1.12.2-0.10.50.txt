@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.5 or higher.
+
+Fixes:
+* Remove language file that is conflicting with the main mod, Closes CyclopsMC/EvilCraft#667
+* Fix Unusing being classified as a Curse instead of Vengeance, Closes #666
