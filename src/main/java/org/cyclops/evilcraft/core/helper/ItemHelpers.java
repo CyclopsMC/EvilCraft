@@ -90,16 +90,18 @@ public class ItemHelpers {
                 EntityPlayer player = (EntityPlayer) entity;
                 for (EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
-                    ItemStack toFill = held.splitStack(1);
-                    ItemStack filled = tryFillContainerForPlayer(toDrain, toFill, tickFluid, player);
-                    if (!filled.isEmpty()) {
-                        if (player.getHeldItem(hand).isEmpty()) {
-                            player.setHeldItem(hand, filled);
+                    if (!held.isEmpty()) {
+                        ItemStack toFill = held.splitStack(1);
+                        ItemStack filled = tryFillContainerForPlayer(toDrain, toFill, tickFluid, player);
+                        if (!filled.isEmpty()) {
+                            if (player.getHeldItem(hand).isEmpty()) {
+                                player.setHeldItem(hand, filled);
+                            } else {
+                                player.addItemStackToInventory(filled);
+                            }
                         } else {
-                            player.addItemStackToInventory(filled);
+                            held.grow(1);
                         }
-                    } else {
-                        held.grow(1);
                     }
                 }
             }
