@@ -51,9 +51,9 @@ public class EntangledChaliceItem extends ItemBlockFluidContainer {
             do {
                 tickFluid = FluidHelpers.getFluid(source);
                 ItemStack toFill = it.next();
-                if (tickFluid != null && toFill != null && toFill.getCount() == 1) {
+                if (tickFluid != null && !toFill.isEmpty() && toFill.getCount() == 1) {
                     ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, toFill, tickFluid, player);
-                    if (filled != null) {
+                    if (!filled.isEmpty()) {
                         it.replace(filled);
                         player.inventory.setInventorySlotContents(itemSlot, source.getContainer());
                     }
