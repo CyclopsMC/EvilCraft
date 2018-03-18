@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.recipe;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
@@ -35,7 +36,18 @@ public class DeadBushRecipe extends ShapelessOreRecipe {
 			ItemStack itemStack = inv.getStackInSlot(i);
 			if (itemStack.getItem() == Items.SHEARS) {
 				itemStack = itemStack.copy();
-				itemStack.damageItem(1, ForgeHooks.getCraftingPlayer());
+
+				EntityPlayer craftingPlayer = ForgeHooks.getCraftingPlayer();
+				if (craftingPlayer != null) {
+					// Regular item damaging if there is a player executing the recipe
+					itemStack.damageItem(1, craftingPlayer);
+				} else {
+					// Fallback in case there is no crafting player
+					itemStack.setItemDamage(itemStack.getItemDamage() + 1);
+					if (itemStack.getItemDamage() > itemStack.getMaxDamage()) {
+						itemStack.shrink(1);
+					}
+				}
 			} else {
 				itemStack = ForgeHooks.getContainerItem(itemStack);
 			}
