@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.5 or higher.
+
+Changes:
+* Add dimension whitelist option for evil dungeon generation, Closes #674
+* Override dedicated method for dropping XP from Dark Ore, Closes #675
+  This allows other mods to customize the number of XP that is dropped through events.
