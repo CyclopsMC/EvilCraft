@@ -134,6 +134,14 @@ public class GeneralConfig extends DummyConfig {
     public static int darkTempleMinimumChunkDistance = 40;
 
     /**
+     * Whitelisted dimensions in which evil dungeons can generate.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.WORLDGENERATION, comment = "Whitelisted dimensions in which evil dungeons can generate.")
+    public static int[] evilDungeonDimensions = new int[]{
+            0
+    };
+
+    /**
      * The amount of mB that can flow per tick.
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.GENERAL, comment = "The amount of mB that can flow per tick out of machines and items.", requiresMcRestart = true)
