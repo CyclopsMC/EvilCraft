@@ -41,7 +41,8 @@ import java.util.Random;
  *
  */
 public class DarkOre extends ConfigurableBlock implements IInformationProvider {
-    
+
+    private static final Random RAND = new Random();
     private static DarkOre _instance = null;
     private static final int MINIMUM_DROPS = 1; // Minimum amount of drops when mining this blockState
     private static final int INCREASE_DROPS = 3; // Amount that can be increased at random for drops
@@ -90,15 +91,13 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
     public int quantityDropped(Random random) {
         return MINIMUM_DROPS + random.nextInt(INCREASE_DROPS);
     }
-    
-    @Override
-    public void dropBlockAsItemWithChance(World world, BlockPos blockPos, IBlockState blockState, float dropchance, int fortune) {
-        super.dropBlockAsItemWithChance(world, blockPos, blockState, dropchance, fortune);
 
-        if (this.getItemDropped(blockState, world.rand, fortune) != Item.getItemFromBlock(this)) {
-            int xp = 1 + world.rand.nextInt(INCREASE_XP);
-            this.dropXpOnBlockBreak(world, blockPos, xp);
+    @Override
+    public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune) {
+        if (this.getItemDropped(state, RAND, fortune) != Item.getItemFromBlock(this)) {
+            return 1 + RAND.nextInt(INCREASE_XP);
         }
+        return super.getExpDrop(state, world, pos, fortune);
     }
     
     @Override
