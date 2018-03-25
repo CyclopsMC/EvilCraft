@@ -8,9 +8,11 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -43,13 +45,18 @@ public class ModelBloodStainedBlock extends DelegatingChildDynamicItemAndBlockMo
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
+        BlockRenderLayer layer = MinecraftForgeClient.getRenderLayer();
         List<BakedQuad> quads;
-        try {
-            quads = Lists.newArrayList(baseModel.getQuads(innerBlockState, getRenderingSide(), rand));
-        } catch (Exception e) {
-            quads = Lists.newArrayList(); // It's better to render a bit stranger, than to crash all together.
+        if(innerBlockState.getBlock().canRenderInLayer(innerBlockState, layer)) {
+            try {
+                quads = Lists.newArrayList(baseModel.getQuads(innerBlockState, getRenderingSide(), rand));
+            } catch (Exception e) {
+                quads = Lists.newArrayList(); // It's better to render a bit stranger, than to crash all together.
+            }
+        } else {
+            quads = Lists.newArrayList();
         }
-        if(facing == EnumFacing.UP || facing == null) {
+        if((facing == EnumFacing.UP || facing == null) && layer == BlockRenderLayer.CUTOUT_MIPPED) {
             addBakedQuad(quads, 0, 1, 0, 1, 1.01F, overlayIcon, EnumFacing.UP);
         }
         return quads;

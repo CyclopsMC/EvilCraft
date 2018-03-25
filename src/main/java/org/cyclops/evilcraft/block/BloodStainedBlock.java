@@ -173,8 +173,8 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     }
 
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT_MIPPED;
+    public boolean canRenderInLayer(IBlockState state, BlockRenderLayer layer) {
+        return true; // delegated to ModelBloodStainedBlock#getGeneralQuads
     }
     
     /**
