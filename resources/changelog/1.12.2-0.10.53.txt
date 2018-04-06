@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.5 or higher.
+
+Changes:
+* Allow regex in blood stained block blacklist config, Closes #677
+
+Fixes:
+* Fix #594: render blood-stained blocks in the right layer
