@@ -24,10 +24,10 @@ public class BloodStainedBlockConfig extends BlockContainerConfig {
     public static int bloodMBPerHP = 20;
     
     /**
-     * The blacklisted blood stained blocks, by blockState name.
+     * The blacklisted blood stained blocks, by blockState name. (Java regular expressions are allowed)
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.BLOCK,
-    		comment = "The blacklisted blood stained blocks, by blockState name.")
+    		comment = "The blacklisted blood stained blocks, by blockState name. (Java regular expressions are allowed)")
     public static String[] blockBlacklist = new String[]{
     	"minecraft:redstone_lamp",
     	"minecraft:crafting_table",
