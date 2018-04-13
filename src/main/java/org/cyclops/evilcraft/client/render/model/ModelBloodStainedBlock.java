@@ -47,7 +47,8 @@ public class ModelBloodStainedBlock extends DelegatingChildDynamicItemAndBlockMo
     public List<BakedQuad> getGeneralQuads() {
         BlockRenderLayer layer = MinecraftForgeClient.getRenderLayer();
         List<BakedQuad> quads;
-        if(innerBlockState.getBlock().canRenderInLayer(innerBlockState, layer)) {
+        if(layer == null || innerBlockState.getBlock().canRenderInLayer(innerBlockState, layer)) {
+            // Yes, we do want to run this if layer is null. If we don't, we don't get block breaking textures
             try {
                 quads = Lists.newArrayList(baseModel.getQuads(innerBlockState, getRenderingSide(), rand));
             } catch (Exception e) {
