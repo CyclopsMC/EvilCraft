@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.5 or higher.
+
+Fixes:
+* Fix #680: skip checking canRenderInLayer if the layer is null
+
