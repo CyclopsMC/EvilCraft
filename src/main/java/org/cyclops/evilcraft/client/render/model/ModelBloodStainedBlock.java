@@ -47,15 +47,15 @@ public class ModelBloodStainedBlock extends DelegatingChildDynamicItemAndBlockMo
     public List<BakedQuad> getGeneralQuads() {
         BlockRenderLayer layer = MinecraftForgeClient.getRenderLayer();
         List<BakedQuad> quads;
-        if(layer == null || innerBlockState.getBlock().canRenderInLayer(innerBlockState, layer)) {
-            // Yes, we do want to run this if layer is null. If we don't, we don't get block breaking textures
-            try {
+        try {
+            if(layer == null || innerBlockState.getBlock().canRenderInLayer(innerBlockState, layer)) {
+                // Yes, we do want to run this if layer is null. If we don't, we don't get block breaking textures
                 quads = Lists.newArrayList(baseModel.getQuads(innerBlockState, getRenderingSide(), rand));
-            } catch (Exception e) {
-                quads = Lists.newArrayList(); // It's better to render a bit stranger, than to crash all together.
+            } else {
+                quads = Lists.newArrayList();
             }
-        } else {
-            quads = Lists.newArrayList();
+        } catch (Exception e) {
+            quads = Lists.newArrayList(); // It's better to render a bit stranger, than to crash all together.
         }
         if((facing == EnumFacing.UP || facing == null) && layer == BlockRenderLayer.CUTOUT_MIPPED) {
             addBakedQuad(quads, 0, 1, 0, 1, 1.01F, overlayIcon, EnumFacing.UP);
