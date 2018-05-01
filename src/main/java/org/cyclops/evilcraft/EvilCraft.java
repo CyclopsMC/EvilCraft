@@ -105,7 +105,6 @@ public class EvilCraft extends ModBaseVersionable {
                 "smelting.xml",
                 "bloodinfuser.xml",
                 "bloodinfuser_convenience.xml",
-                "bloodinfuser_mods.xml",
                 "environmentalaccumulator.xml",
                 "broomparts.xml"
         );
