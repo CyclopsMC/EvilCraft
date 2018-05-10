@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
@@ -45,7 +46,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
 
     @Override
     public boolean canApply(ItemStack itemStack) {
-        return !itemStack.isEmpty() && !itemStack.getItem().getToolClasses(itemStack).isEmpty();
+        return !itemStack.isEmpty() && (!itemStack.getItem().getToolClasses(itemStack).isEmpty() || itemStack.getItem() instanceof ItemSword);
     }
     
     /**
