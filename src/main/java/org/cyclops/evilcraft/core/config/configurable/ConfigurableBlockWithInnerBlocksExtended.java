@@ -83,10 +83,8 @@ public abstract class ConfigurableBlockWithInnerBlocksExtended extends Configura
     public boolean canHarvestBlock(IBlockAccess world, BlockPos blockPos, EntityPlayer player) {
         try {
             return getTile(world, blockPos).getInnerBlockState().getBlock().canHarvestBlock(world, blockPos, player);
-        } catch (InvalidInnerBlocksTileException e) {
-            return Blocks.COBBLESTONE.canHarvestBlock(world, blockPos, player);
-        } catch (IllegalArgumentException e) {
-            return Blocks.COBBLESTONE.canHarvestBlock(world, blockPos, player);
+        } catch (InvalidInnerBlocksTileException | IllegalArgumentException e) {
+            return player.getHeldItemMainhand().getItem().canHarvestBlock(Blocks.STONE.getDefaultState());
         }
     }
 
