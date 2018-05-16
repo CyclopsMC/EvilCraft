@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
+import org.cyclops.evilcraft.block.DarkTankConfig;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
@@ -62,7 +63,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
     }
 
     protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
-        ItemHelpers.updateAutoFill(source, world, entity);
+        ItemHelpers.updateAutoFill(source, world, entity, DarkTankConfig.autoFillBuckets);
     }
 	
 	@Override

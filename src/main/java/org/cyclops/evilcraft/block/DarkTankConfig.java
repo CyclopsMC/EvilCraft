@@ -48,6 +48,11 @@ public class DarkTankConfig extends BlockContainerConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.MACHINE, comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.tab.", requiresMcRestart = true)
     public static boolean staticBlockRendering = false;
+    /**
+     * If held buckets should be autofilled when enabled.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If held buckets should be autofilled when enabled.", isCommandable = true)
+    public static boolean autoFillBuckets = false;
 
     /**
      * Make a new instance.

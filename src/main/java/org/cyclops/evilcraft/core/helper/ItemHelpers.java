@@ -82,15 +82,16 @@ public class ItemHelpers {
      * @param toDrain The item handler to drain from.
      * @param world The world.
      * @param entity The entity that holds this item.
+     * @param fillBuckets If buckets should be filled.
      */
-    public static void updateAutoFill(IFluidHandlerItem toDrain, World world, Entity entity) {
+    public static void updateAutoFill(IFluidHandlerItem toDrain, World world, Entity entity, boolean fillBuckets) {
     	if(entity instanceof EntityPlayer && !world.isRemote) {
             FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, false);
             if(tickFluid != null && tickFluid.amount > 0) {
                 EntityPlayer player = (EntityPlayer) entity;
                 for (EnumHand hand : EnumHand.values()) {
                     ItemStack held = player.getHeldItem(hand);
-                    if (!held.isEmpty()) {
+                    if (!held.isEmpty() && (fillBuckets || held.getItem() != Items.BUCKET)) {
                         ItemStack toFill = held.splitStack(1);
                         ItemStack filled = tryFillContainerForPlayer(toDrain, toFill, tickFluid, player);
                         if (!filled.isEmpty()) {

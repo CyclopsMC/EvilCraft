@@ -32,6 +32,11 @@ public class BloodExtractorConfig extends ItemConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "The amount of blood (mB) this container can hold.", requiresMcRestart = true)
     public static int containerSize = 5000;
+    /**
+     * If held buckets should be autofilled when enabled.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If held buckets should be autofilled when enabled.", isCommandable = true)
+    public static boolean autoFillBuckets = false;
 
     /**
      * Make a new instance.
