@@ -1,0 +1,13 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.6 or higher.
+
+Changes:
+* Add config options to say change behaviour of autofilling buckets
+  Buckets will not be filled anymore by default from enabled Blood Extractors and Dark Tanks, but both can be enabled again separately.
+  Closes #692
+* Update es_es.lang
+
+Fixes:
+* Load after Thaumcraft to fix aspect registry issues, Closes CyclopsMC/EvilCraft#693
+* Fix crash when breaking blood stained blocks in an exotic way, Closes CyclopsMC/CyclopsCore#110
+* Fix unusing enchant not being applyable to swords, Closes #690
