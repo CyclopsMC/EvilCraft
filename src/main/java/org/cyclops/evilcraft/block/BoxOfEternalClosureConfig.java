@@ -83,7 +83,6 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
         super.onForgeRegistered();
         if (injectLootTables) {
             LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/box_of_eternal_closure"),
-                    LootTableList.CHESTS_SPAWN_BONUS_CHEST,
                     LootTableList.CHESTS_END_CITY_TREASURE,
                     LootTableList.CHESTS_SIMPLE_DUNGEON,
                     LootTableList.CHESTS_ABANDONED_MINESHAFT,
