@@ -8,6 +8,8 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.client.model.SingleModelLoader;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -38,6 +40,12 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     public static ResourceLocation boxLidModel;
     @SideOnly(Side.CLIENT)
     public static ResourceLocation boxLidRotatedModel;
+
+    /**
+     * If this item should be injected in loot tables.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If this item should be injected in loot tables..", requiresMcRestart = true)
+    public static boolean injectLootTables = true;
 
     /**
      * Make a new instance.
@@ -73,12 +81,14 @@ public class BoxOfEternalClosureConfig extends BlockContainerConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/box_of_eternal_closure"),
-                LootTableList.CHESTS_SPAWN_BONUS_CHEST,
-                LootTableList.CHESTS_END_CITY_TREASURE,
-                LootTableList.CHESTS_SIMPLE_DUNGEON,
-                LootTableList.CHESTS_ABANDONED_MINESHAFT,
-                LootTableList.CHESTS_STRONGHOLD_LIBRARY);
+        if (injectLootTables) {
+            LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/box_of_eternal_closure"),
+                    LootTableList.CHESTS_SPAWN_BONUS_CHEST,
+                    LootTableList.CHESTS_END_CITY_TREASURE,
+                    LootTableList.CHESTS_SIMPLE_DUNGEON,
+                    LootTableList.CHESTS_ABANDONED_MINESHAFT,
+                    LootTableList.CHESTS_STRONGHOLD_LIBRARY);
+        }
 
         BoxOfEternalClosure.boxOfEternalClosureFilled = new ItemStack(BoxOfEternalClosure.getInstance());
         BoxOfEternalClosure.setVengeanceSwarmContent(BoxOfEternalClosure.boxOfEternalClosureFilled);

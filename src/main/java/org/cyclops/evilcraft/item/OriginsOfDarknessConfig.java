@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.item;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -20,6 +22,12 @@ public class OriginsOfDarknessConfig extends ItemConfig {
     public static OriginsOfDarknessConfig _instance;
 
     /**
+     * If this item should be injected in loot tables.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If this item should be injected in loot tables..", requiresMcRestart = true)
+    public static boolean injectLootTables = true;
+
+    /**
      * Make a new instance.
      */
     public OriginsOfDarknessConfig() {
@@ -35,12 +43,14 @@ public class OriginsOfDarknessConfig extends ItemConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/origins_of_darkness"),
-                LootTableList.CHESTS_SPAWN_BONUS_CHEST,
-                LootTableList.CHESTS_VILLAGE_BLACKSMITH,
-                LootTableList.CHESTS_SIMPLE_DUNGEON,
-                LootTableList.CHESTS_ABANDONED_MINESHAFT,
-                LootTableList.CHESTS_JUNGLE_TEMPLE,
-                LootTableList.CHESTS_IGLOO_CHEST);
+        if (injectLootTables) {
+            LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/origins_of_darkness"),
+                    LootTableList.CHESTS_SPAWN_BONUS_CHEST,
+                    LootTableList.CHESTS_VILLAGE_BLACKSMITH,
+                    LootTableList.CHESTS_SIMPLE_DUNGEON,
+                    LootTableList.CHESTS_ABANDONED_MINESHAFT,
+                    LootTableList.CHESTS_JUNGLE_TEMPLE,
+                    LootTableList.CHESTS_IGLOO_CHEST);
+        }
     }
 }

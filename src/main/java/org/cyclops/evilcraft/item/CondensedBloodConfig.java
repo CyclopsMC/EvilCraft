@@ -10,6 +10,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.configurable.ConfigurableItem;
 import org.cyclops.cyclopscore.config.configurable.IConfigurable;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -31,6 +33,12 @@ public class CondensedBloodConfig extends ItemConfig {
      * The unique instance.
      */
     public static CondensedBloodConfig _instance;
+
+    /**
+     * If this item should be injected in loot tables.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If this item should be injected in loot tables..", requiresMcRestart = true)
+    public static boolean injectLootTables = true;
 
     /**
      * Make a new instance.
@@ -58,13 +66,15 @@ public class CondensedBloodConfig extends ItemConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/condensed_blood"),
-                LootTableList.CHESTS_SPAWN_BONUS_CHEST,
-                LootTableList.CHESTS_VILLAGE_BLACKSMITH,
-                LootTableList.CHESTS_NETHER_BRIDGE,
-                LootTableList.CHESTS_SIMPLE_DUNGEON,
-                LootTableList.CHESTS_ABANDONED_MINESHAFT,
-                LootTableList.CHESTS_JUNGLE_TEMPLE);
+        if (injectLootTables) {
+            LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/condensed_blood"),
+                    LootTableList.CHESTS_SPAWN_BONUS_CHEST,
+                    LootTableList.CHESTS_VILLAGE_BLACKSMITH,
+                    LootTableList.CHESTS_NETHER_BRIDGE,
+                    LootTableList.CHESTS_SIMPLE_DUNGEON,
+                    LootTableList.CHESTS_ABANDONED_MINESHAFT,
+                    LootTableList.CHESTS_JUNGLE_TEMPLE);
+        }
     }
 
     public static class FluidWrapper extends FluidBucketWrapper {

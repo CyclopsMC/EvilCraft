@@ -30,6 +30,12 @@ public class EnderTearConfig extends ItemConfig {
     public static int mbLiquidEnder = 2000;
 
     /**
+     * If this item should be injected in loot tables.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.ITEM, comment = "If this item should be injected in loot tables..", requiresMcRestart = true)
+    public static boolean injectLootTables = true;
+
+    /**
      * Make a new instance.
      */
     public EnderTearConfig() {
@@ -50,7 +56,9 @@ public class EnderTearConfig extends ItemConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/entities/ender_tear"),
-                LootTableList.ENTITIES_ENDERMAN);
+        if (injectLootTables) {
+            LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/entities/ender_tear"),
+                    LootTableList.ENTITIES_ENDERMAN);
+        }
     }
 }
