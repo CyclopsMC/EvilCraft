@@ -1,0 +1,14 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.6 or higher.
+
+Changes:
+* Rebalance loot table frequencies
+  This balances the spawning of condensed blood, origins of darkness, and box of eternal closure.
+  #696
+* Allow loot table injection to be disabled for each item
+  #696
+
+Fixes:
+* Fix rare crash when rendering fluid in chalices, Closes #CyclopsMC/CyclopsCore#112
+* Fix Undead Leaves dropping invalid meta-block on silk touch, Closes #679
+* Fix Dark Tank making buckets vanish when it can't drain them completely, Closes #695
