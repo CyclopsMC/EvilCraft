@@ -60,21 +60,16 @@ public class BlockTankHelpers {
             if(!itemStack.isEmpty()) {
                 SimulatableTankWrapper tank = new SimulatableTankWrapper(tile.getTank());
                 IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
-                if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null
-                        && FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false).isSuccess()) { // Fill the tank.
-                    ItemStack drainedItem = FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true).getResult();
-                    if(!player.capabilities.isCreativeMode) {
-                        InventoryHelpers.tryReAddToStack(player, itemStack, drainedItem);
+                if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null) { // Fill the tank.
+                    FluidActionResult result = FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
+                    if (result.isSuccess() && !player.capabilities.isCreativeMode) {
+                        InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult());
                     }
                     return true;
-                } else if(player.isSneaking() && !tank.isEmpty()
-                        && FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, false).isSuccess()) { // Drain the tank.
+                } else if(player.isSneaking() && !tank.isEmpty()) { // Drain the tank.
                     FluidActionResult result = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
-                    if (result.isSuccess()) {
-                        ItemStack filledItem = result.getResult();
-                        if (!player.capabilities.isCreativeMode) {
-                            InventoryHelpers.tryReAddToStack(player, itemStack, filledItem);
-                        }
+                    if (result.isSuccess() && !player.capabilities.isCreativeMode) {
+                        InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult());
                     }
                     return true;
                 }
