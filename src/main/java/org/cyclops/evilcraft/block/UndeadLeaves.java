@@ -70,4 +70,8 @@ public class UndeadLeaves extends ConfigurableBlockLeaves implements IEntityDrop
         return new ItemStack(this);
     }
 
+    @Override
+    protected ItemStack getSilkTouchDrop(IBlockState state) {
+        return new ItemStack(this);
+    }
 }
