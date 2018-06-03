@@ -63,8 +63,12 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         overridePlayerDrop("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
         overridePlayerDrop("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setStackDisplayName("Fuurnas")); // _KillaH229_
         overridePlayerDrop("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.GOLDEN_APPLE, 1, 1)); // Notch
-        overridePlayerDrop("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SPAWN_EGG, 1, 91).setStackDisplayName("jeb_")); // jeb_
-        overridePlayerDrop("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SPAWN_EGG, 1, 91).setStackDisplayName("Dinnerbone")); // Dinnerbone
+        NBTTagCompound sheepTag = new NBTTagCompound();
+        NBTTagCompound sheepIdTag = new NBTTagCompound();
+        sheepIdTag.setString("id", "minecraft:sheep");
+        sheepTag.setTag("EntityTag", sheepIdTag);
+        overridePlayerDrop("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SPAWN_EGG, 1, 0, sheepTag).setStackDisplayName("jeb_")); // jeb_
+        overridePlayerDrop("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SPAWN_EGG, 1, 0, sheepTag).setStackDisplayName("Dinnerbone")); // Dinnerbone
         overridePlayerDrop("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setStackDisplayName("direwolf20")); // direwolf20
         overridePlayerDrop("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.PORKCHOP)); // iChun
     }
