@@ -172,7 +172,9 @@ public class WerewolfFlesh extends ConfigurableItemFood {
     		String player = TextFormatting.ITALIC + "None";
     		if(itemStack.getTagCompound() != null) {
     			GameProfile profile = NBTUtil.readGameProfileFromNBT(itemStack.getTagCompound());
-    			player = profile.getName();
+    			if (profile != null) {
+                    player = profile.getName();
+                }
     		}
     		list.add("Player: " + TextFormatting.WHITE + player);
     	}
