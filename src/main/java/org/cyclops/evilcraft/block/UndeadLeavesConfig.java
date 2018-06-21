@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.init.Blocks;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 
 /**
  * Config for the {@link UndeadLeaves}.
@@ -39,5 +40,9 @@ public class UndeadLeavesConfig extends BlockConfig {
     public boolean isDisableable() {
         return false;
     }
-    
+
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_LEAVESTREE;
+    }
 }

@@ -62,6 +62,7 @@ public class Reference {
     public static final String DICT_WOODLOG = "logWood";
     public static final String DICT_WOODSTICK = "stickWood";
     public static final String DICT_SAPLINGTREE = "treeSapling";
+    public static final String DICT_LEAVESTREE = "treeLeaves";
     public static final String DICT_GEMDARK = "gemDark";
     public static final String DICT_GEMDARKPOWER = "gemDarkPower";
     public static final String DICT_DYERED = "dyeRed";
