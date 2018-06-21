@@ -1,0 +1,12 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.6 or higher.
+
+Additions:
+
+Changes:
+* Add undead leaves to oredict, Closes #698
+
+Fixes:
+* Fix crash when Werewolf Flesh has invalid NBT, Closes #700
+* Fix Bound Blood Drop crash when enabled, Closes CyclopsMC/EvilCraft#702
+* Fix special spirit furnace spawn eggs being invalid, Closes #697
