@@ -28,6 +28,7 @@
             ]
         },
         {
+            "name": "evilcraft:werewolf_fur",
             "conditions": [
                 {
                     "condition": "killed_by_player"
