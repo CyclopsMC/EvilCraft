@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.6 or higher.
+
+Fixes:
+* Fix eternal water buckets resetting stacksize after usage, Closes #703
+* Fix invalid werewolf loot table, Closes #704
+* Fix box rendering crash due to model not being baked.
+  The breaking change was in MinecraftForge/MinecraftForge#a749861cb22c2139db18a07a84bf59568ee63328
+  This fix is backwards-compatible.
+  Closes #707
