@@ -73,7 +73,7 @@ public class BucketEternalWaterConfig extends ItemBucketConfig {
                 }
 
                 ActionResult<ItemStack> result = super.onItemRightClick(world, player, hand);
-                if(result.getResult() != null && result.getResult().getItem() == Items.BUCKET) return MinecraftHelpers.successAction(new ItemStack(getContainerItem()));
+                if(result.getResult() != null && result.getResult().getItem() == Items.BUCKET) return MinecraftHelpers.successAction(itemStack);
 
                 return result;
             }
