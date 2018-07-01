@@ -5,6 +5,6 @@
   },
   "variants": {
     "normal": { "model": "evilcraft:box_of_eternal_closure" },
-    "inventory": { "model": "evilcraft:box_of_eternal_closure" }
+    "inventory": { "model": "evilcraft:models/item/box_of_eternal_closure" }
   }
 }
