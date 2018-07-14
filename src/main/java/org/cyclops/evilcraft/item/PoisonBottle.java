@@ -64,7 +64,7 @@ public class PoisonBottle extends ConfigurableItem {
                         event.getEntityPlayer().canPlayerEdit(pos.getBlockPos(), pos.sideHit, event.getEntityPlayer().getHeldItem(hand)) &&
                         event.getWorld().getBlockState(pos.getBlockPos()).getMaterial() == Material.WATER) {
                     if(event.getWorld().getBlockState(pos.getBlockPos()).getBlock() == FluidBlockPoison.getInstance()) {
-                        InventoryHelpers.tryReAddToStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItem(hand), new ItemStack(this));
+                        InventoryHelpers.tryReAddToStack(event.getEntityPlayer(), event.getEntityPlayer().getHeldItem(hand), new ItemStack(this), hand);
                         event.getWorld().setBlockToAir(pos.getBlockPos());
                         event.setCanceled(true);
                     }

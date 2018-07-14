@@ -61,7 +61,8 @@ public class BroomPartCombinationRecipe extends IForgeRegistryEntry.Impl<IRecipe
 		if(result != null) {
 			List<ItemStack> extraOutputs = result.getRight();
 			for (ItemStack extraOutput : extraOutputs) {
-				InventoryHelpers.tryReAddToStack(ForgeHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput);
+				InventoryHelpers.tryReAddToStack(ForgeHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput,
+                        ForgeHooks.getCraftingPlayer().getActiveHand());
 			}
 		}
 

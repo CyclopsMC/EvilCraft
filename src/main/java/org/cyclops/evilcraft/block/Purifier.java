@@ -70,13 +70,13 @@ public class Purifier extends ConfigurableBlockContainer {
                 } else if (itemFluidHandler != null && !tank.isFull()
                         && FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false).isSuccess()) {
                     ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
-                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
+                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack, hand);
                     tile.sendUpdate();
                     return true;
                 } else if (itemFluidHandler != null && !tank.isEmpty() &&
                         FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false).isSuccess()) {
                     ItemStack newItemStack = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
-                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack);
+                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack, hand);
                     return true;
                 }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
