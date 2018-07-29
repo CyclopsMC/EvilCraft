@@ -1,0 +1,17 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.7 or higher.
+
+Changes:
+* Respect Blood Magic's Soul Network limits in Bound Blood Drop
+  Closes CyclopsMC/EvilCraft#715
+
+Fixes:
+* Fix rare Entangled Chalice render crash, Closes #710
+* Improve efficiency of VeinedScribingTools damage retrieval
+  Forge's FluidUtil would copy the stack on every call,
+  which is not required for our use.
+
+  This also fixes the problem where interaction with other mods
+  could cause an infinite init loop.
+
+  Closes CyclopsMC/EvilCraft#712
