@@ -1,0 +1,6 @@
+{
+  "ignoredFiles": [
+    "src/main/resources/assets/evilcraft/textures/blocks/dark_brick.png",
+    "src/main/resources/assets/evilcraft/textures/blocks/sanguinary_pedestal_tier0.png"
+  ]
+}
