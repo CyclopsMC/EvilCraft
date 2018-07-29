@@ -22,7 +22,7 @@ public class RenderTileEntityEntangledChalice extends TileEntitySpecialRenderer<
 
     @Override
     public void render(final TileEntangledChalice tile, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
-        if(tile.getTank().getFluid() != null && tile.getTank().getFluid().getFluid() != null) {
+        if(tile != null && tile.getTank().getFluid() != null && tile.getTank().getFluid().getFluid() != null) {
             lastTile = tile;
             RenderHelpers.renderTileFluidContext(tile.getTank().getFluid(), x, y, z, tile, this);
         }
