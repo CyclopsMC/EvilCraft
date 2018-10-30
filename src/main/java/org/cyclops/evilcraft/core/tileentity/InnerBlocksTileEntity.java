@@ -37,7 +37,9 @@ public abstract class InnerBlocksTileEntity extends CyclopsTileEntity implements
      */
 	public IBlockState getInnerBlockState() {
         if(blockName == null || blockName.isEmpty()) return Blocks.STONE.getDefaultState();
-		return Block.getBlockFromName(blockName).getStateFromMeta(this.meta);
+        Block block = Block.getBlockFromName(blockName);
+        if (block == null) return Blocks.STONE.getDefaultState();
+		return block.getStateFromMeta(this.meta);
     }
 	
 	protected void onDeprecationTrigger() {
