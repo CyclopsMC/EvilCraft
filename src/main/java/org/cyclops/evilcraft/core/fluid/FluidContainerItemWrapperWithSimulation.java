@@ -22,8 +22,11 @@ public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCap
     }
 
     protected boolean shouldDoFill(FluidStack resource, boolean doFill) {
+        if (!doFill) {
+            return false;
+        }
         // Extremely nasty hack incoming, Forge supports no clean way of doing this cleanly unfortunately...
-        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
+        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[3];
         if (stackTraceElement.getClassName().equals("net.minecraftforge.fluids.FluidUtil")
                 && stackTraceElement.getMethodName().equals("tryFillContainer")) {
             doFill = false;
@@ -56,6 +59,9 @@ public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCap
     }
 
     protected boolean shouldDoDrain(FluidStack resource, boolean doDrain) {
+        if (!doDrain) {
+            return false;
+        }
         if (resource instanceof SimulatedFluidStack) {
             doDrain = false;
         }
