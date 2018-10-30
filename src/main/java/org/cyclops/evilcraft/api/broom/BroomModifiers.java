@@ -30,6 +30,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.Reference;
@@ -309,7 +310,9 @@ public class BroomModifiers {
 
     protected static void loadPost() {
         REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(Items.NETHER_STAR));
-        REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(GarmonboziaConfig._instance.getItemInstance()));
+        if (Configs.isEnabled(GarmonboziaConfig.class)) {
+            REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(GarmonboziaConfig._instance.getItemInstance()));
+        }
 
         REGISTRY.registerModifiersItem(SPEED, 1F, new ItemStack(Items.REDSTONE));
         REGISTRY.registerModifiersItem(SPEED, 9F, new ItemStack(Blocks.REDSTONE_BLOCK));
@@ -322,7 +325,9 @@ public class BroomModifiers {
 
         REGISTRY.registerModifiersItem(LEVITATION, 1F, new ItemStack(Items.FEATHER));
 
-        REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(DarkSpikeConfig._instance.getItemInstance()));
+        if (Configs.isEnabled(DarkSpikeConfig.class)) {
+            REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(DarkSpikeConfig._instance.getItemInstance()));
+        }
         REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.QUARTZ));
 
         REGISTRY.registerModifiersItem(PARTICLES, 1F, new ItemStack(Items.GUNPOWDER));

@@ -170,7 +170,8 @@ public class BroomPartRegistry implements IBroomPartRegistry {
             }
 
             if(parts.isEmpty()) {
-                return Lists.newArrayList(BroomParts.BRUSH_WHEAT, BroomParts.CAP_GEM_DARK, BroomParts.ROD_WOOD);
+                return Lists.newArrayList(BroomParts.BRUSH_WHEAT,
+                        BroomParts.CAP_GEM_DARK != null ? BroomParts.CAP_GEM_DARK : BroomParts.CAP_GEM_QUARTZ, BroomParts.ROD_WOOD);
             }
 
             return parts;
