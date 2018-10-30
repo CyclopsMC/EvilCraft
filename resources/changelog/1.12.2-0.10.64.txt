@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 0.11.7 or higher.
+
+Fixes:
+* Fix Entangled Chalice item producing infinite fluid, Closes #730
+* Fix crash when Dark Gem or Dark Stick is disabled, Closes #731
+* Fix typo in Burning GemStone name, Closes #735
+* Fix blood-stained block crash on invalid inner blocks, Closes #733
+
