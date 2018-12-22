@@ -5,7 +5,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.infobook.AdvancedButton;
+import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.GuiInfoBook;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -27,7 +27,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<Ingredie
 
     private static final int START_X_RESULT = 68;
 
-    private static final AdvancedButton.Enum INPUT = AdvancedButton.Enum.create();
+    private static final AdvancedButtonEnum INPUT = AdvancedButtonEnum.create();
 
     private final BroomModifier modifier;
     private final List<Pair<ItemStack, Float>> modifierValues;

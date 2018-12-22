@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.infobook.AdvancedButton;
+import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.GuiInfoBook;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -42,8 +43,8 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<IReci
     private static final int START_X_RESULT = 68;
     private static final int Y_START = 2;
 
-    private static final AdvancedButton.Enum INPUT = AdvancedButton.Enum.create();
-    private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
+    private static final AdvancedButtonEnum INPUT = AdvancedButtonEnum.create();
+    private static final AdvancedButtonEnum RESULT = AdvancedButtonEnum.create();
 
     public EnvironmentalAccumulatorRecipeAppendix(IInfoBook infoBook, IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe) {
         super(infoBook, recipe);

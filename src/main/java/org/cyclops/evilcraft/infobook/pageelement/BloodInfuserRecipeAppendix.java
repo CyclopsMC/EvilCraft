@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.infobook.pageelement;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import org.cyclops.cyclopscore.infobook.AdvancedButton;
+import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.GuiInfoBook;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -26,9 +26,9 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<IRecipe<Ingredien
     private static final int SLOT_OFFSET_Y = 23;
     private static final int START_X_RESULT = 68;
 
-    private static final AdvancedButton.Enum INPUT = AdvancedButton.Enum.create();
-    private static final AdvancedButton.Enum RESULT = AdvancedButton.Enum.create();
-    private static final AdvancedButton.Enum PROMISE = AdvancedButton.Enum.create();
+    private static final AdvancedButtonEnum INPUT = AdvancedButtonEnum.create();
+    private static final AdvancedButtonEnum RESULT = AdvancedButtonEnum.create();
+    private static final AdvancedButtonEnum PROMISE = AdvancedButtonEnum.create();
 
     public BloodInfuserRecipeAppendix(IInfoBook infoBook, IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> recipe) {
         super(infoBook, recipe);
