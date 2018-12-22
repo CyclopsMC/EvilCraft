@@ -10,6 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -79,7 +80,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
     
     private int infuseTicker;
-    private SingleCache<Triple<ItemStack, FluidStack, Integer>,
+    private SingleCache<Pair<ItemStack, Integer>,
                 IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>> recipeCache;
     
     private static final Multimap<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = LinkedListMultimap.create();
@@ -163,14 +164,14 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         });
 
         // Efficient cache to retrieve the current craftable recipe.
-        recipeCache = new SingleCache<Triple<ItemStack, FluidStack, Integer>,
+        recipeCache = new SingleCache<Pair<ItemStack, Integer>,
                 IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>>(
-                new SingleCache.ICacheUpdater<Triple<ItemStack, FluidStack, Integer>,
+                new SingleCache.ICacheUpdater<Pair<ItemStack, Integer>,
                         IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>>() {
             @Override
-            public IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> getNewValue(Triple<ItemStack, FluidStack, Integer> key) {
+            public IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> getNewValue(Pair<ItemStack, Integer> key) {
                 IngredientFluidStackAndTierRecipeComponent recipeInput = new IngredientFluidStackAndTierRecipeComponent(key.getLeft(),
-                        key.getMiddle(), -1);
+                        new FluidStack(Blood.getInstance(), Integer.MAX_VALUE), -1);
                 IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> maxRecipe = null;
                 int maxRecipeTier = -1;
                 for(IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties> recipe :
@@ -183,10 +184,9 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
             }
 
             @Override
-            public boolean isKeyEqual(Triple<ItemStack, FluidStack, Integer> cacheKey, Triple<ItemStack, FluidStack, Integer> newKey) {
+            public boolean isKeyEqual(Pair<ItemStack, Integer> cacheKey, Pair<ItemStack, Integer> newKey) {
                 return cacheKey == null || newKey == null ||
                         (ItemStack.areItemStacksEqual(cacheKey.getLeft(), newKey.getLeft()) &&
-                        FluidStack.areFluidStackTagsEqual(cacheKey.getMiddle(), newKey.getMiddle()) &&
                         cacheKey.getRight().equals(newKey.getRight()));
             }
         });
@@ -209,9 +209,8 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
      */
     public IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>
         getRecipe(ItemStack itemStack) {
-        return recipeCache.get(Triple.of(
+        return recipeCache.get(Pair.of(
                 itemStack.isEmpty() ? ItemStack.EMPTY : itemStack.copy(),
-                getTank().getFluid() == null ? null : getTank().getFluid().copy(),
                 getTier()));
     }
     
