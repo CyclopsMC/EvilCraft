@@ -3,6 +3,8 @@ package org.cyclops.evilcraft.infobook.pageelement;
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
@@ -63,6 +65,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<Ingredie
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void drawElementInner(GuiInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
         int tick = getTick(gui);
         Pair<ItemStack, Float> value = modifierValues.get(tick % modifierValues.size());
@@ -77,6 +80,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<Ingredie
         drawString(gui, line, x + SLOT_SIZE + 4, y + 3);
     }
 
+    @SideOnly(Side.CLIENT)
     protected void drawString(GuiInfoBook gui, String string, int x, int y) {
         FontRenderer fontRenderer = gui.getFontRenderer();
         boolean oldUnicode = fontRenderer.getUnicodeFlag();
