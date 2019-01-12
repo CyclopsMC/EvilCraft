@@ -131,4 +131,8 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 		return null;
 	}
 
+	@Override
+	protected boolean isUpdateInventoryHashOnTankContentsChanged() {
+		return true;
+	}
 }
