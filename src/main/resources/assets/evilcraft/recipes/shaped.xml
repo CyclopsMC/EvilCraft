@@ -54,19 +54,19 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
 					<item>evilcraft:dark_power_gem</item>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:dark_power_gem</item>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
 					<item>evilcraft:dark_power_gem</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
 					<item>evilcraft:dark_power_gem</item>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
 				</gridrow>
 			</grid>
 		</input>
@@ -211,19 +211,19 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item>minecraft:ender_pearl</item>
-					<item>minecraft:ender_pearl</item>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
+					<item type="oredict">enderpearl</item>
+					<item type="oredict">enderpearl</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
 					<item type="predefined">evilcraft:lightning_weather_container</item>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:ender_pearl</item>
-					<item>minecraft:ender_pearl</item>
-					<item>minecraft:ender_pearl</item>
+					<item type="oredict">enderpearl</item>
+					<item type="oredict">enderpearl</item>
+					<item type="oredict">enderpearl</item>
 				</gridrow>
 			</grid>
 		</input>
@@ -276,18 +276,18 @@
 		<input>
 			<grid>
 				<gridrow>
-					<item>minecraft:redstone</item>
-					<item>minecraft:glowstone_dust</item>
-					<item>minecraft:redstone</item>
+					<item type="oredict">dustRedstone</item>
+					<item type="oredict">dustGlowstone</item>
+					<item type="oredict">dustRedstone</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:glowstone_dust</item>
-					<item>minecraft:slime_ball</item>
-					<item>minecraft:glowstone_dust</item>
+					<item type="oredict">dustGlowstone</item>
+					<item type="oredict">slimeball</item>
+					<item type="oredict">dustGlowstone</item>
 				</gridrow>
 				<gridrow>
 					<item meta="4">minecraft:dye</item>
-					<item>minecraft:glowstone_dust</item>
+					<item type="oredict">dustGlowstone</item>
 					<item meta="4">minecraft:dye</item>
 				</gridrow>
 			</grid>
@@ -395,13 +395,13 @@
 					<item>evilcraft:dark_stick</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:gold_ingot</item>
+					<item type="oredict">ingotGold</item>
                     <item meta="1">evilcraft:blood_orb</item>
-					<item>minecraft:gold_ingot</item>
+					<item type="oredict">ingotGold</item>
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:dark_stick</item>
-					<item>minecraft:diamond</item>
+					<item type="oredict">gemDiamond</item>
 					<item />
 				</gridrow>
 			</grid>
@@ -420,13 +420,13 @@
             <grid>
                 <gridrow>
                     <item />
-                    <item>minecraft:diamond</item>
+                    <item type="oredict">gemDiamond</item>
                     <item>evilcraft:dark_stick</item>
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:gold_ingot</item>
+					<item type="oredict">ingotGold</item>
                     <item meta="1">evilcraft:blood_orb</item>
-                    <item>minecraft:gold_ingot</item>
+					<item type="oredict">ingotGold</item>
                 </gridrow>
                 <gridrow>
                     <item>evilcraft:dark_stick</item>
@@ -475,13 +475,13 @@
 			<grid>
 				<gridrow>
 					<item>evilcraft:hardened_blood_shard</item>
-					<item>minecraft:diamond</item>
+					<item type="oredict">gemDiamond</item>
 					<item>evilcraft:hardened_blood_shard</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:diamond</item>
+					<item type="oredict">gemDiamond</item>
 					<item>evilcraft:dark_stick</item>
-					<item>minecraft:diamond</item>
+					<item type="oredict">gemDiamond</item>
 				</gridrow>
 				<gridrow>
 					<item />
@@ -530,17 +530,17 @@
 			<grid>
 				<gridrow>
 					<item>evilcraft:dark_gem_crushed</item>
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 					<item>evilcraft:dark_gem_crushed</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 					<item />
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:dark_gem_crushed</item>
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 					<item>evilcraft:dark_gem_crushed</item>
 				</gridrow>
 			</grid>
@@ -558,17 +558,17 @@
 			<grid>
 				<gridrow>
 					<item>evilcraft:dark_gem_crushed</item>
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 					<item>evilcraft:dark_gem_crushed</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 					<item>evilcraft:vengeance_ring</item>
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 				</gridrow>
 				<gridrow>
 					<item>evilcraft:dark_gem_crushed</item>
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 					<item>evilcraft:dark_gem_crushed</item>
 				</gridrow>
 			</grid>
@@ -590,7 +590,7 @@
 				</gridrow>
 				<gridrow>
 					<item type="predefined">evilcraft:potion_weakness</item>
-					<item>minecraft:ender_chest</item>
+					<item type="oredict">chestEnder</item>
 					<item type="predefined">evilcraft:potion_weakness</item>
 				</gridrow>
 				<gridrow>
@@ -643,9 +643,9 @@
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">ingotIron</item>
                     <item type="oredict">blockGlass</item>
-                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">ingotIron</item>
                 </gridrow>
                 <gridrow>
                     <item />
@@ -669,9 +669,9 @@
 					<item />
 				</gridrow>
 				<gridrow>
-					<item>minecraft:iron_block</item>
+					<item type="oredict">blockIron</item>
 					<item type="oredict">blockGlass</item>
-					<item>minecraft:iron_block</item>
+					<item type="oredict">blockIron</item>
 				</gridrow>
 				<gridrow>
 					<item />
@@ -748,7 +748,7 @@
                     <item type="oredict">gemDark</item>
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">ingotIron</item>
                 </gridrow>
             </grid>
         </input>
@@ -784,19 +784,19 @@
         <input>
             <grid>
                 <gridrow>
-                    <item>minecraft:gold_ingot</item>
-                    <item>minecraft:crafting_table</item>
-                    <item>minecraft:gold_ingot</item>
+                    <item type="oredict">ingotGold</item>
+                    <item type="oredict">workbench</item>
+                    <item type="oredict">ingotGold</item>
                 </gridrow>
                 <gridrow>
                     <item>evilcraft:dark_gem_crushed</item>
-                    <item>minecraft:ender_chest</item>
+                    <item type="oredict">chestEnder</item>
                     <item>evilcraft:dark_gem_crushed</item>                    
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:gold_ingot</item>
-                    <item>minecraft:iron_ingot</item>
-                    <item>minecraft:gold_ingot</item>
+                    <item type="oredict">ingotGold</item>
+                    <item type="oredict">ingotIron</item>
+                    <item type="oredict">ingotGold</item>
                 </gridrow>
             </grid>
         </input>
@@ -811,19 +811,19 @@
         <input>
             <grid>
                 <gridrow>
-                    <item>minecraft:gold_ingot</item>
-                    <item>minecraft:crafting_table</item>
-                    <item>minecraft:gold_ingot</item>
+                    <item type="oredict">ingotGold</item>
+                    <item type="oredict">workbench</item>
+                    <item type="oredict">ingotGold</item>
                 </gridrow>
                 <gridrow>
                     <item>evilcraft:dark_gem_crushed</item>
-                    <item>minecraft:chest</item>
+                    <item type="oredict">chest</item>
                     <item>evilcraft:dark_gem_crushed</item>                    
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:gold_ingot</item>
-                    <item>minecraft:iron_ingot</item>
-                    <item>minecraft:gold_ingot</item>
+                    <item type="oredict">ingotGold</item>
+                    <item type="oredict">ingotIron</item>
+                    <item type="oredict">ingotGold</item>
                 </gridrow>
             </grid>
         </input>
@@ -896,7 +896,7 @@
             <grid>
                 <gridrow>
                     <item type="oredict">cobblestone</item>
-                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">ingotIron</item>
                     <item type="oredict">cobblestone</item>
                 </gridrow>
                 <gridrow>
@@ -906,7 +906,7 @@
                 </gridrow>
                 <gridrow>
                     <item type="oredict">cobblestone</item>
-                    <item>minecraft:iron_block</item>
+                    <item type="oredict">blockIron</item>
                     <item type="oredict">cobblestone</item>
                 </gridrow>
             </grid>
@@ -975,9 +975,9 @@
                     <item>minecraft:sugar</item>
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:gunpowder</item>
+                    <item type="oredict">gunpowder</item>
                     <item>minecraft:sugar</item>
-                    <item>minecraft:gunpowder</item>
+                    <item type="oredict">gunpowder</item>
                 </gridrow>
                 <gridrow>
                     <item>minecraft:sugar</item>
@@ -1123,7 +1123,7 @@
                 </gridrow>
                 <gridrow>
                     <item type="oredict">blockGlass</item>
-                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">ingotIron</item>
                     <item type="oredict">blockGlass</item>
                 </gridrow>
                 <gridrow>
@@ -1144,17 +1144,17 @@
             <grid>
                 <gridrow>
                     <item meta="4">evilcraft:promise</item>
-                    <item>minecraft:gold_ingot</item>
+                    <item type="oredict">ingotGold</item>
                     <item />
                 </gridrow>
                 <gridrow>
-                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">ingotIron</item>
                     <item meta="3">evilcraft:promise</item>
-                    <item>minecraft:iron_ingot</item>
+                    <item type="oredict">ingotIron</item>
                 </gridrow>
                 <gridrow>
                     <item />
-                    <item>minecraft:gold_ingot</item>
+                    <item type="oredict">ingotGold</item>
                     <item />
                 </gridrow>
             </grid>
@@ -1261,9 +1261,9 @@
 					<item type="oredict">cobblestone</item>
 				</gridrow>
 				<gridrow>
-					<item>minecraft:iron_block</item>
+					<item type="oredict">blockIron</item>
 					<item>evilcraft:garmonbozia</item>
-					<item>minecraft:iron_block</item>
+					<item type="oredict">blockIron</item>
 				</gridrow>
 				<gridrow>
 					<item type="oredict">cobblestone</item>
@@ -1373,7 +1373,7 @@
 				</gridrow>
 				<gridrow>
 					<item />
-					<item>minecraft:iron_ingot</item>
+					<item type="oredict">ingotIron</item>
 					<item />
 				</gridrow>
 			</grid>
