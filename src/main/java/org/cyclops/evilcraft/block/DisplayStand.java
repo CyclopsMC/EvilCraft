@@ -201,8 +201,10 @@ public class DisplayStand extends ConfigurableBlockContainer implements IInforma
                     NonNullList<ItemStack> plankWoodSubItems = NonNullList.create();
                     plankWoodStack.getItem().getSubItems(CreativeTabs.SEARCH, plankWoodSubItems);
                     for (ItemStack plankWoodSubItem : plankWoodSubItems) {
-                        IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
-                        list.add(getTypedDisplayStandItem(plankWoodBlockState));
+                        if (plankWoodSubItem.getItem() instanceof ItemBlock) {
+                            IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodSubItem);
+                            list.add(getTypedDisplayStandItem(plankWoodBlockState));
+                        }
                     }
                 } else {
                     IBlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(plankWoodStack);
