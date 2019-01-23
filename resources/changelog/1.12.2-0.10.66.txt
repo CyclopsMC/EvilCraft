@@ -1,0 +1,17 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.0.0 or higher.
+
+Additions:
+* Add whitelist for blood stained blocks, Closes #721
+  This will only apply if the list is non-empty.
+  The existing blacklist can still be used
+  after the whitelist has been checked.
+
+Changes:
+* Use more oredict variants in recipes instead of fixed items
+* Add known multiblocks to blood stained block blacklist, #721
+* Document that crushed dark gems can be obtained more easily with fortune, Closes #739
+
+Fixes:
+* Fix display stand crash when loading due to invalid plankWood subItems, Closes #725
+* Fix rare crash with null fluids in entangled chalices, Closes #744
