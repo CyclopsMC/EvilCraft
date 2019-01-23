@@ -22,9 +22,18 @@ public class BloodStainedBlockConfig extends BlockContainerConfig {
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.BLOCK, comment = "The amount of blood per HP (2HP = 1 heart) of the max mob health that will be added to this blockState when a mob dies from fall damage.", isCommandable = true)
     public static int bloodMBPerHP = 20;
+
+    /**
+     * The whitelisted blood stained blocks, by blockState name. (Java regular expressions are allowed). Only applicable if this list is not empty. Blacklist will still be checked after this.
+     */
+    @ConfigurableProperty(category = ConfigurableTypeCategory.BLOCK,
+            comment = "The whitelisted blood stained blocks, by blockState name. (Java regular expressions are allowed). Only applicable if this list is not empty. Blacklist will still be checked after this.")
+    public static String[] blockWhitelist = new String[]{
+            // Empty by default
+    };
     
     /**
-     * The blacklisted blood stained blocks, by blockState name. (Java regular expressions are allowed)
+     * The blacklisted blood stained blocks, by blockState name. (Java regular expressions are allowed).
      */
     @ConfigurableProperty(category = ConfigurableTypeCategory.BLOCK,
     		comment = "The blacklisted blood stained blocks, by blockState name. (Java regular expressions are allowed)")

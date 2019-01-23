@@ -137,6 +137,18 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
     
     protected boolean isBlacklisted(Block block) {
     	String name = Block.REGISTRY.getNameForObject(block).toString();
+    	if (BloodStainedBlockConfig.blockWhitelist.length > 0) {
+    	    boolean whitelistValid = false;
+            for(String whitelisted : BloodStainedBlockConfig.blockWhitelist) {
+                if (name.matches(whitelisted)) {
+                    whitelistValid = true;
+                    break;
+                }
+            }
+            if (!whitelistValid) {
+                return true;
+            }
+        }
         for(String blacklisted : BloodStainedBlockConfig.blockBlacklist) {
             if (name.matches(blacklisted)) {
                 return true;
