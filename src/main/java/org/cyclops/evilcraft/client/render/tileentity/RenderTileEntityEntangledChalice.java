@@ -24,7 +24,12 @@ public class RenderTileEntityEntangledChalice extends TileEntitySpecialRenderer<
     public void render(final TileEntangledChalice tile, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
         if(tile != null && tile.getTank().getFluid() != null && tile.getTank().getFluid().getFluid() != null) {
             lastTile = tile;
-            RenderHelpers.renderTileFluidContext(tile.getTank().getFluid(), x, y, z, tile, this);
+            try {
+                RenderHelpers.renderTileFluidContext(tile.getTank().getFluid(), x, y, z, tile, this);
+            } catch (NullPointerException e) {
+                // This can happen because worlds are multi-threaded, and the fluid suddenly may become null while out fluid context is being executed.
+                // Unfortunately we can't lock on worlds, so there isn't really a cleaner solution for this.
+            }
         }
     }
 
