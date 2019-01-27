@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.0.0 or higher.
+
+Fixes:
+* Fix client crash in combination with JEI and CTM, Closes #747
+* Fix Blood Extractor duplication when activated on off-hand, Closes #750
