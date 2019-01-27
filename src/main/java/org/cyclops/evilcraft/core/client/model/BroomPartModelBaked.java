@@ -19,6 +19,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
 
     public BroomPartModelBaked() {
         super(true, false);
-        this.quads = null;
+        this.quads = Collections.emptyList();
     }
 
     public BroomPartModelBaked(List<BakedQuad> quads) {
