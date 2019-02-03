@@ -52,12 +52,8 @@ public class ObfuscationHelpers {
 		Method method = ReflectionHelper.findMethod(EntityLivingBase.class, ObfuscationData.ENTITYLIVINGBASE_GETDEATHSOUND[0], ObfuscationData.ENTITYLIVINGBASE_GETDEATHSOUND[1]);
 		try {
 			return (SoundEvent) method.invoke(entity);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// Ignore errors
 		}
 		return null;
 	}
@@ -71,12 +67,8 @@ public class ObfuscationHelpers {
 		Method method = ReflectionHelper.findMethod(EntityLiving.class, ObfuscationData.ENTITYLIVING_GETAMBIENTSOUND[0], ObfuscationData.ENTITYLIVING_GETAMBIENTSOUND[1]);
 		try {
 			return (SoundEvent) method.invoke(entity);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// Ignore errors
 		}
 		return null;
 	}
@@ -147,12 +139,8 @@ public class ObfuscationHelpers {
 				ObfuscationData.ENTITYLIVINGBASE_GETLOOTTABLE[0], ObfuscationData.ENTITYLIVINGBASE_GETLOOTTABLE[1]);
 		try {
 			return (ResourceLocation) method.invoke(entity);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			// Ignore errors
 		}
 		return null;
 	}
