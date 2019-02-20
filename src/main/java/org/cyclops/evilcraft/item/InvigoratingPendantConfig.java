@@ -57,7 +57,7 @@ public class InvigoratingPendantConfig extends ItemConfig {
     
     @Override
 	protected String getConfigPropertyPrefix() {
-		return "invigPendant";
+		return "invig_pendant";
 	}
     
 }

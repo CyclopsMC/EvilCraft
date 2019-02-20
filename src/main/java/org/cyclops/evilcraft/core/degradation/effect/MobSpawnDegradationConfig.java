@@ -20,7 +20,7 @@ public class MobSpawnDegradationConfig extends DegradationEffectConfig {
     public MobSpawnDegradationConfig() {
         super(
             true,
-            "mobSpawn",
+            "mobspawn",
             null,
             MobSpawnDegradation.class,
             2

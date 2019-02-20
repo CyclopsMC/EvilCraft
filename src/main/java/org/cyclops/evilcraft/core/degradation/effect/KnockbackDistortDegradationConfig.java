@@ -20,7 +20,7 @@ public class KnockbackDistortDegradationConfig extends DegradationEffectConfig {
     public KnockbackDistortDegradationConfig() {
         super(
             true,
-            "knockbackDistort",
+            "knockbackdistort",
             null,
             KnockbackDistortDegradation.class,
             5
