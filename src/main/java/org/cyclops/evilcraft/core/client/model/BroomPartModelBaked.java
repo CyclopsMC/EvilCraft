@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A baked broom part model.
@@ -41,7 +42,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
 
     public BroomPartModelBaked(List<BakedQuad> quads) {
         super(false, true);
-        this.quads = quads;
+        this.quads = Objects.requireNonNull(quads);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
 
     @Override
     public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

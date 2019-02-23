@@ -27,8 +27,10 @@ import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3f;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * A baked broom model.
@@ -73,12 +75,12 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     public BroomModelBaked() {
         super(true, false);
-        this.quads = null;
+        this.quads = Collections.emptyList();
     }
 
     public BroomModelBaked(List<BakedQuad> quads) {
         super(false, true);
-        this.quads = quads;
+        this.quads = Objects.requireNonNull(quads);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     @Override
     public IBakedModel handleBlockState(IBlockState state, EnumFacing side, long rand) {
-        return null; // Not required
+        throw new UnsupportedOperationException();
     }
 
     @Override
