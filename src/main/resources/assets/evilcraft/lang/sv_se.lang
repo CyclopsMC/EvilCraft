@@ -737,6 +737,7 @@ config.evilcraft.degradationeffect=Degraderingseffekt
 config.evilcraft.entity=Entitetsinställningar
 
 ## Block settings
+config.evilcraft.blood_stained_block.blockWhitelist=Vitlista för blodstänkta block
 config.evilcraft.blood_stained_block.blockBlacklist=Svartlista för blodstänkta block
 config.evilcraft.blood_stained_block.bloodMBPerHP=mB blod per HP
 config.evilcraft.excrement_pile.effectiveness=Effektivitet hos exkrement
