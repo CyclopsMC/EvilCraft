@@ -830,9 +830,9 @@ config.evilcraft.hardened_blood_shard.additionalDropped=Extra mängd förhårdna
 config.evilcraft.hardened_blood_shard.minimumDropped=Min. mängd förhårdnade blodskärvor
 
 config.evilcraft.invig_pendant.capacity=Kapacitet för stärkande halsband
-config.evilcraft.invig_pendant.fireUsage=Eldblodsanvändning för stärkande halsband
-config.evilcraft.invig_pendant.reduceDuration=Längdreducering för stärkande halsband
-config.evilcraft.invig_pendant.usage=Blodanvändning för stärkande halsband
+config.evilcraft.invig_pendant.fireUsage=Eldblodsanvändn. f. stärkande halsb.
+config.evilcraft.invig_pendant.reduceDuration=Längdreducering f. stärkande halsb.
+config.evilcraft.invig_pendant.usage=Blodanvändning för stärkande halsb.
 
 config.evilcraft.origins_of_darkness.injectLootTables=Skattabeller för Mörkrets ursprung
 
@@ -844,8 +844,8 @@ config.evilcraft.necromancer_staff.capacity=Kapacitet för nekromantikerns stav
 config.evilcraft.necromancer_staff.usage=Blodanv. för nekromantikerns stav
 
 config.evilcraft.primed_pendant.capacity=Kapacitet för uppladdat halsband
-config.evilcraft.primed_pendant.potionMultipliers=Brygdmultiplikatorer f. uppladdat halsb.
-config.evilcraft.primed_pendant.usage=Blodanvändning för uppladdat halsband
+config.evilcraft.primed_pendant.potionMultipliers=Brygdmultiplikatorer för uppl. halsb.
+config.evilcraft.primed_pendant.usage=Blodanvändn. för uppladdat halsband
 
 config.evilcraft.redstone_grenade.dropAfterUsage=Släpp redstonegranat efter användn.
 
