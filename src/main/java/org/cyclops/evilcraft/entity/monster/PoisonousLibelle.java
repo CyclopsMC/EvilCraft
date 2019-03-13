@@ -185,8 +185,8 @@ public class PoisonousLibelle extends EntityFlying implements IConfigurable, IMo
 
                 this.targetY = Math.min(this.target.getEntityBoundingBox().minY + Yplus, MAXHEIGHT);
             } else {
-                this.targetX += this.rand.nextGaussian() * 2.0D;
-                this.targetZ += this.rand.nextGaussian() * 2.0D;
+                this.targetX += (this.rand.nextDouble() * 2.0D - 1.0D) * 2.0D;
+                this.targetZ += (this.rand.nextDouble() * 2.0D - 1.0D) * 2.0D;
             }
 
             // Reset target
