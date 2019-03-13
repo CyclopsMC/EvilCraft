@@ -44,10 +44,10 @@ public class BloodOrb extends ConfigurableItem {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
+    public String getTranslationKey(ItemStack itemStack) {
         String suffix = "empty";
         if(itemStack.getItemDamage() == 1) suffix = "filled";
-        return super.getUnlocalizedName(itemStack) + "." + suffix;
+        return super.getTranslationKey(itemStack) + "." + suffix;
     }
 
 }

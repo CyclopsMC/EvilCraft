@@ -57,9 +57,9 @@ public class ParticleBloodBrick extends Particle {
 		this.particleMaxAge = 40;
 		this.setSize(0.01F, 0.01F);
 		
-		this.posX += (double) (side.getFrontOffsetX()) / 30D;
-		this.posY += (double) (side.getFrontOffsetY()) / 30D;
-		this.posZ += (double) (side.getFrontOffsetZ()) / 30D;
+		this.posX += (double) (side.getXOffset()) / 30D;
+		this.posY += (double) (side.getYOffset()) / 30D;
+		this.posZ += (double) (side.getZOffset()) / 30D;
 		
 		this.prevPosX = posX;
 		this.prevPosY = posY;
@@ -106,9 +106,9 @@ public class ParticleBloodBrick extends Particle {
             GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 		}
 
-        GlStateManager.rotate(90.0F, side.getFrontOffsetY(), -side.getFrontOffsetX(), side.getFrontOffsetZ());
+        GlStateManager.rotate(90.0F, side.getYOffset(), -side.getXOffset(), side.getZOffset());
 		
-	    if(side.getFrontOffsetZ() > 0) {
+	    if(side.getZOffset() > 0) {
             GlStateManager.translate(0.0D, 0.0D, 0.5D);
             GlStateManager.rotate(180.0F, 0.0F, -1.0F, 0.0F);
 	    } else {

@@ -75,7 +75,7 @@ public class GuiSanguinaryEnvironmentalAccumulator extends GuiWorking<TileSangui
     @Override
     protected void drawAdditionalForeground(int mouseX, int mouseY) {
         super.drawAdditionalForeground(mouseX, mouseY);
-        String prefix = SanguinaryEnvironmentalAccumulator.getInstance().getUnlocalizedName() + ".help.invalid";
+        String prefix = SanguinaryEnvironmentalAccumulator.getInstance().getTranslationKey() + ".help.invalid";
         List<String> lines = new ArrayList<String>();
         lines.add(L10NHelpers.localize(prefix));
         if(!tile.canWork()) {

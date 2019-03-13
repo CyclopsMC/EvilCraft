@@ -190,7 +190,7 @@ public class VengeanceRing extends ConfigurableItem implements IBauble {
 	public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
 		super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-				getUnlocalizedName() + ".info.status");
+				getTranslationKey() + ".info.status");
     }
 
 	@Optional.Method(modid = Reference.MOD_BAUBLES)

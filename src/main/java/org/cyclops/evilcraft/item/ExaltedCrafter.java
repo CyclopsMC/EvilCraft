@@ -91,8 +91,8 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
     
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
-        return super.getUnlocalizedName() + (isWooden(itemStack) ? ".wood" : "");
+    public String getTranslationKey(ItemStack itemStack) {
+        return super.getTranslationKey() + (isWooden(itemStack) ? ".wood" : "");
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked"})

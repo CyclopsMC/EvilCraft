@@ -237,7 +237,7 @@ public class BroomModifiers {
                                                     // Block breaking sequence
                                                     block.onBlockHarvested(world, pos, blockState, player);
                                                     if(block.removedByPlayer(blockState, world, pos, player, true)) {
-                                                        block.onBlockDestroyedByPlayer(world, pos, blockState);
+                                                        block.onPlayerDestroy(world, pos, blockState);
                                                         block.harvestBlock(world, player, pos, blockState, world.getTileEntity(pos), null);
                                                         block.dropXpOnBlockBreak(world, pos, expToDrop);
                                                     }
@@ -249,7 +249,7 @@ public class BroomModifiers {
                                                 // Play sound and client-side block breaking sequence
                                                 world.playBroadcastSound(2001, pos, Block.getStateId(blockState));
                                                 if(block.removedByPlayer(blockState, world, pos, player, true)) {
-                                                    block.onBlockDestroyedByPlayer(world, pos, blockState);
+                                                    block.onPlayerDestroy(world, pos, blockState);
                                                 }
 
                                                 // Tell the server we are done with breaking this block

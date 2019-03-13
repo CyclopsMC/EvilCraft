@@ -145,7 +145,7 @@ public class VengeanceSpiritData {
     }
 
     public static ResourceLocation getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
-        if(tag != null && !tag.hasNoTags()) {
+        if(tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             return getSpiritNameOrNullFromInnerEntity(innerEntity);
         }

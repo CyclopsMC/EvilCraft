@@ -78,9 +78,9 @@ public class BloodStainedBlock extends ConfigurableBlockWithInnerBlocksExtended 
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos blockPos, IBlockState blockState, Entity entity) {
+    public void onEntityCollision(World world, BlockPos blockPos, IBlockState blockState, Entity entity) {
         splash(world, blockPos);
-        super.onEntityCollidedWithBlock(world, blockPos, blockState, entity);
+        super.onEntityCollision(world, blockPos, blockState, entity);
     }
     
     /**

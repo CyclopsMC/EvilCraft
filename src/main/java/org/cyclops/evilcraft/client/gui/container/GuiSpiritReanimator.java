@@ -109,7 +109,7 @@ public class GuiSpiritReanimator extends GuiWorking<TileSpiritReanimator> {
     
     @Override
 	protected void drawAdditionalForeground(int mouseX, int mouseY) {
-    	String prefix = SpiritReanimator.getInstance().getUnlocalizedName() + ".help.invalid";
+    	String prefix = SpiritReanimator.getInstance().getTranslationKey() + ".help.invalid";
     	List<String> lines = new ArrayList<String>();
     	lines.add(L10NHelpers.localize(prefix));
         ResourceLocation entityName = tile.getEntityName();

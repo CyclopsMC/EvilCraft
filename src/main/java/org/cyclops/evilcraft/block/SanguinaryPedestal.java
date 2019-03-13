@@ -76,7 +76,7 @@ public class SanguinaryPedestal extends ConfigurableBlockContainer implements II
     @Override
     public String getInfo(ItemStack itemStack) {
         if(itemStack.getItemDamage() == 1) {
-            return TextFormatting.GRAY + L10NHelpers.localize(this.getUnlocalizedName() + ".boost");
+            return TextFormatting.GRAY + L10NHelpers.localize(this.getTranslationKey() + ".boost");
         }
         return null;
     }

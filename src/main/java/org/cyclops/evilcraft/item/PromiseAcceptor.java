@@ -62,8 +62,8 @@ public class PromiseAcceptor extends ConfigurableItem {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
-        return super.getUnlocalizedName(itemStack) + "." + itemStack.getItemDamage();
+    public String getTranslationKey(ItemStack itemStack) {
+        return super.getTranslationKey(itemStack) + "." + itemStack.getItemDamage();
     }
 
     @Nullable

@@ -102,7 +102,7 @@ public class ResurgenceEgg extends ConfigurableItem {
 		if(id != null) {
 			content = L10NHelpers.getLocalizedEntityName(id.toString());
 		}
-		list.add(TextFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
+		list.add(TextFormatting.BOLD + L10NHelpers.localize(getTranslationKey() + ".info.content",
                 TextFormatting.RESET + content));
     }
     

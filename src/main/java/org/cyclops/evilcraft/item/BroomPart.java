@@ -44,12 +44,12 @@ public class BroomPart extends ConfigurableItem {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
+    public String getTranslationKey(ItemStack itemStack) {
         IBroomPart part = getPart(itemStack);
         if(part != null) {
-            return part.getUnlocalizedName();
+            return part.getTranslationKey();
         }
-        return super.getUnlocalizedName(itemStack);
+        return super.getTranslationKey(itemStack);
     }
 
     @Override

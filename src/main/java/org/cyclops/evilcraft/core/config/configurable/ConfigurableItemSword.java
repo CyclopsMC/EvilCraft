@@ -35,7 +35,7 @@ public abstract class ConfigurableItemSword extends ItemSword implements IConfig
     protected ConfigurableItemSword(ExtendedConfig eConfig, Item.ToolMaterial material) {
         super(material);
         this.setConfig(eConfig);
-        this.setUnlocalizedName(eConfig.getUnlocalizedName());
+        this.setTranslationKey(eConfig.getTranslationKey());
     }
 
     @SuppressWarnings("rawtypes")
@@ -53,7 +53,7 @@ public abstract class ConfigurableItemSword extends ItemSword implements IConfig
     @Override
     public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
-        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
+        L10NHelpers.addOptionalInfo(list, getTranslationKey());
     }
     
 }

@@ -245,7 +245,7 @@ public class DarkTank extends ConfigurableBlockContainer implements IInformation
     }
 
 	@SideOnly(Side.CLIENT)
-	public BlockRenderLayer getBlockLayer() {
+	public BlockRenderLayer getRenderLayer() {
 		return BlockRenderLayer.CUTOUT;
 	}
 

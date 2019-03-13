@@ -109,7 +109,7 @@ public class GuiSpiritFurnace extends GuiWorking<TileSpiritFurnace> {
     
     @Override
 	protected void drawAdditionalForeground(int mouseX, int mouseY) {
-    	String prefix = SpiritFurnace.getInstance().getUnlocalizedName() + ".help.invalid";
+    	String prefix = SpiritFurnace.getInstance().getTranslationKey() + ".help.invalid";
     	List<String> lines = new ArrayList<String>();
     	lines.add(L10NHelpers.localize(prefix));
         if(tile.getEntity() == null) {

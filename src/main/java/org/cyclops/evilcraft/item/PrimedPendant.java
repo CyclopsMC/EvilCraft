@@ -80,7 +80,7 @@ public class PrimedPendant extends ConfigurableDamageIndicatedItemFluidContainer
             for(PotionEffect potionEffect : potionEffects) {
                 Double multiplier =  PrimedPendantConfig._instance.getMultiplier(potionEffect.getPotion());
                 String striked = multiplier != null && multiplier < 0 ? "§m" : "";
-                list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".potion",
+                list.add(L10NHelpers.localize(super.getTranslationKey(itemStack) + ".potion",
                         striked + L10NHelpers.localize(potionEffect.getEffectName()),
                         I18n.translateToLocal("enchantment.level." + (potionEffect.getAmplifier() + 1))));
             }

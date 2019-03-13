@@ -16,8 +16,8 @@ public class BroomLoader implements ICustomModelLoader {
 
     @Override
     public boolean accepts(ResourceLocation modelLocation) {
-        return modelLocation.getResourceDomain().equals(Reference.MOD_ID)
-               && modelLocation.getResourcePath().equals(LOCATION);
+        return modelLocation.getNamespace().equals(Reference.MOD_ID)
+               && modelLocation.getPath().equals(LOCATION);
     }
 
     @Override

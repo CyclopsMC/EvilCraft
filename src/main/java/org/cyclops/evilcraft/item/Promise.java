@@ -93,9 +93,9 @@ public class Promise extends ConfigurableItem {
     public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         if(Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            list.add(TextFormatting.DARK_GREEN + L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".use_in"));
+            list.add(TextFormatting.DARK_GREEN + L10NHelpers.localize(super.getTranslationKey(itemStack) + ".use_in"));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
-                list.add(TextFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getUnlocalizedName() + ".name"));
+                list.add(TextFormatting.ITALIC + L10NHelpers.localize("tile." + upgradable.getTranslationKey() + ".name"));
             }
         }
     }
@@ -110,8 +110,8 @@ public class Promise extends ConfigurableItem {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
-        return super.getUnlocalizedName(itemStack) + "." + getUpgrade(itemStack).getId();
+    public String getTranslationKey(ItemStack itemStack) {
+        return super.getTranslationKey(itemStack) + "." + getUpgrade(itemStack).getId();
     }
 
     /**

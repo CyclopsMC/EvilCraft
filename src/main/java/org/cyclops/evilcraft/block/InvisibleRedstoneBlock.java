@@ -54,7 +54,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
 
@@ -93,7 +93,7 @@ public class InvisibleRedstoneBlock extends ConfigurableBlockContainer {
     }
 
     @Override
-    public EnumPushReaction getMobilityFlag(IBlockState blockState) {
+    public EnumPushReaction getPushReaction(IBlockState blockState) {
         return EnumPushReaction.BLOCK;
     }
 

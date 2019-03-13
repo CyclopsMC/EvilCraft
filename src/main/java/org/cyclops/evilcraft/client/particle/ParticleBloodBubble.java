@@ -74,11 +74,11 @@ public class ParticleBloodBubble extends ParticleSplash {
         if(tile != null && random.nextInt(10) == 0) {
             if (tile.isVisuallyWorking()) {
                 for(int i = 0; i < 1 + random.nextInt(5); i++) {
-                    double particleX = blockPos.getX() - rotatedDirection.getFrontOffsetX() + (rotatedDirection == EnumFacing.EAST ? 1 : 0)
+                    double particleX = blockPos.getX() - rotatedDirection.getXOffset() + (rotatedDirection == EnumFacing.EAST ? 1 : 0)
                             + (rotatedDirection == EnumFacing.NORTH || rotatedDirection == EnumFacing.SOUTH ?
                             (0.3 + random.nextDouble() * 0.4) : 0);
                     double particleY = blockPos.getY() + 0.1 + random.nextDouble() * 0.5;
-                    double particleZ = blockPos.getZ() - rotatedDirection.getFrontOffsetZ() + (rotatedDirection == EnumFacing.SOUTH ? 1 : 0)
+                    double particleZ = blockPos.getZ() - rotatedDirection.getZOffset() + (rotatedDirection == EnumFacing.SOUTH ? 1 : 0)
                             + (rotatedDirection == EnumFacing.EAST || rotatedDirection == EnumFacing.WEST ?
                             (0.3 + random.nextDouble() * 0.4) : 0);
 

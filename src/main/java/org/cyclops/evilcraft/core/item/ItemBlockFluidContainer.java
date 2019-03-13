@@ -81,7 +81,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         super.addInformation(itemStack, world, list, flag);
         if(block.isActivatable()) {
 	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
-                    getUnlocalizedName() + ".info.auto_supply");
+                    getTranslationKey() + ".info.auto_supply");
         }
     }
 

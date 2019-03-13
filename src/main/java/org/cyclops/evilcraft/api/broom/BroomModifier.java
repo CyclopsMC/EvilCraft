@@ -64,7 +64,7 @@ public class BroomModifier {
     }
 
     public String getName() {
-        return id.getResourcePath();
+        return id.getPath();
     }
 
     public Type getType() {
@@ -95,8 +95,8 @@ public class BroomModifier {
         return getTierValue() * getMaxTiers();
     }
 
-    public String getUnlocalizedName() {
-        return "broom.modifiers." + id.getResourceDomain() + ".type." + getName() + ".name";
+    public String getTranslationKey() {
+        return "broom.modifiers." + id.getNamespace() + ".type." + getName() + ".name";
     }
 
     public boolean showTooltip() {
@@ -110,13 +110,13 @@ public class BroomModifier {
     public String getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
         String suffix;
         if (bonusValue > 0) {
-            suffix = String.format("%s: %s (+%s) / %s", L10NHelpers.localize(getUnlocalizedName()),
+            suffix = String.format("%s: %s (+%s) / %s", L10NHelpers.localize(getTranslationKey()),
                     value, bonusValue, getMaxTierValue());
         } else if (showMaxValue) {
-            suffix = String.format("%s: %s / %s", L10NHelpers.localize(getUnlocalizedName()),
+            suffix = String.format("%s: %s / %s", L10NHelpers.localize(getTranslationKey()),
                     value, getMaxTierValue());
         } else {
-            suffix = String.format("%s: %s", L10NHelpers.localize(getUnlocalizedName()), value);
+            suffix = String.format("%s: %s", L10NHelpers.localize(getTranslationKey()), value);
         }
         return L10NHelpers.localize(prefix + getTooltipFormat() + suffix);
     }

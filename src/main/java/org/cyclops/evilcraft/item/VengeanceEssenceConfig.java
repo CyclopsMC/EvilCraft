@@ -56,10 +56,10 @@ public class VengeanceEssenceConfig extends ItemConfig {
             }
 
             @Override
-            public String getUnlocalizedName(ItemStack itemStack) {
+            public String getTranslationKey(ItemStack itemStack) {
                 String suffix = "";
                 if(itemStack.getItemDamage() == 1) suffix = ".materialized";
-                return super.getUnlocalizedName(itemStack) + suffix;
+                return super.getTranslationKey(itemStack) + suffix;
             }
         };
         item.setHasSubtypes(true);

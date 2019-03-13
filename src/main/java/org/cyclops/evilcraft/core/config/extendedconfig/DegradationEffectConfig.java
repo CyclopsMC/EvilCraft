@@ -30,7 +30,7 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
     }
     
     @Override
-	public String getUnlocalizedName() {
+	public String getTranslationKey() {
 		return "degradationeffect." + getNamedId();
 	}
 

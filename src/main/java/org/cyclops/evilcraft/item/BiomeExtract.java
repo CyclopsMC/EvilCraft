@@ -60,8 +60,8 @@ public class BiomeExtract extends ConfigurableItem {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
-        return super.getUnlocalizedName(itemStack) + (itemStack.getItemDamage() == 0 ? ".empty" : "");
+    public String getTranslationKey(ItemStack itemStack) {
+        return super.getTranslationKey(itemStack) + (itemStack.getItemDamage() == 0 ? ".empty" : "");
     }
 
     @Override
@@ -90,7 +90,7 @@ public class BiomeExtract extends ConfigurableItem {
         super.addInformation(itemStack, world, list, flag);
         Biome biome = getBiome(itemStack);
         if(biome != null) {
-            list.add(L10NHelpers.localize(getUnlocalizedName() + ".info.content", biome.getBiomeName()));
+            list.add(L10NHelpers.localize(getTranslationKey() + ".info.content", biome.getBiomeName()));
         }
     }
 

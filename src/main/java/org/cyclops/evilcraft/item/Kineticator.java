@@ -95,9 +95,9 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getUnlocalizedName() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
+                getTranslationKey() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
         list.add(TextFormatting.BOLD
-        		+ L10NHelpers.localize(getUnlocalizedName() + ".info.area", getArea(itemStack)));
+        		+ L10NHelpers.localize(getTranslationKey() + ".info.area", getArea(itemStack)));
     }
 
     /**
@@ -253,8 +253,8 @@ public class Kineticator extends ConfigurableDamageIndicatedItemFluidContainer {
     }
     
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
-        return super.getUnlocalizedName() + (isRepelling(itemStack) ? ".repelling" : "");
+    public String getTranslationKey(ItemStack itemStack) {
+        return super.getTranslationKey() + (isRepelling(itemStack) ? ".repelling" : "");
     }
     
     @SuppressWarnings("rawtypes")

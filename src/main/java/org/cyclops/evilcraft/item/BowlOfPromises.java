@@ -68,11 +68,11 @@ public class BowlOfPromises extends ConfigurableItem {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
+    public String getTranslationKey(ItemStack itemStack) {
         String suffix = "active";
         if(itemStack.getItemDamage() == 0) suffix = "dusted";
         if(itemStack.getItemDamage() == 1) suffix = "empty";
-        return super.getUnlocalizedName(itemStack) + "." + suffix;
+        return super.getTranslationKey(itemStack) + "." + suffix;
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -82,7 +82,7 @@ public class BowlOfPromises extends ConfigurableItem {
         super.addInformation(itemStack, world, list, flag);
         if(itemStack.getItemDamage() >= ACTIVE_META) {
             int tier = itemStack.getItemDamage() - ACTIVE_META;
-            list.add(L10NHelpers.localize(super.getUnlocalizedName(itemStack) + ".strength") + " " +
+            list.add(L10NHelpers.localize(super.getTranslationKey(itemStack) + ".strength") + " " +
                     (tier == 0 ? 0 : L10NHelpers.localize("enchantment.level." + tier)));
         }
     }

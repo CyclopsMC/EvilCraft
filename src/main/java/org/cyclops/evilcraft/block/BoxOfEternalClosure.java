@@ -178,12 +178,12 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
 			if (id != null) {
 				String name = EntityList.getTranslationName(id);
 				if (name == null) {
-					name = id.getResourcePath();
+					name = id.getPath();
 				}
 				content = L10NHelpers.getLocalizedEntityName(name);
 			}
 		}
-		return TextFormatting.BOLD + L10NHelpers.localize(getUnlocalizedName() + ".info.content",
+		return TextFormatting.BOLD + L10NHelpers.localize(getTranslationKey() + ".info.content",
 				TextFormatting.RESET + content);
 	}
 

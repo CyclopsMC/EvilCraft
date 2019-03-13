@@ -76,7 +76,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<Ingredie
         renderItem(gui, x, y, input, mx, my, INPUT);
 
         // Effect
-        String line = String.format("+ %s %s", value.getValue().toString(), L10NHelpers.localize(modifier.getUnlocalizedName()));
+        String line = String.format("+ %s %s", value.getValue().toString(), L10NHelpers.localize(modifier.getTranslationKey()));
         drawString(gui, line, x + SLOT_SIZE + 4, y + 3);
     }
 

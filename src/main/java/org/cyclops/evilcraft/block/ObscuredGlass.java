@@ -64,7 +64,7 @@ public class ObscuredGlass extends ConfigurableBlockConnectedTexture {
     }
 
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
 }

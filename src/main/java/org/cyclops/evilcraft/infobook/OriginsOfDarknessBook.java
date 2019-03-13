@@ -52,7 +52,7 @@ public class OriginsOfDarknessBook extends InfoBook {
                     int index = InfoBookParser.getIndex(node);
                     if (index >= recipes.size())
                         throw new InfoBookParser.InvalidAppendixException("Could not find Blood Infuser recipe for " +
-                                itemStack.getItem().getUnlocalizedName() + "with index " + index);
+                                itemStack.getItem().getTranslationKey() + "with index " + index);
                     return new BloodInfuserRecipeAppendix(infoBook, recipes.get(index));
                 }
 
@@ -73,7 +73,7 @@ public class OriginsOfDarknessBook extends InfoBook {
                     int index = InfoBookParser.getIndex(node);
                     if (index >= recipes.size())
                         throw new InfoBookParser.InvalidAppendixException("Could not find Environmental Accumulator recipe for " +
-                                itemStack.getItem().getUnlocalizedName() + "with index " + index);
+                                itemStack.getItem().getTranslationKey() + "with index " + index);
                     return new EnvironmentalAccumulatorRecipeAppendix(infoBook, recipes.get(index));
                 }
 

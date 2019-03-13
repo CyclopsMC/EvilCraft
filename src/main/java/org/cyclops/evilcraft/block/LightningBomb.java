@@ -57,7 +57,7 @@ public class LightningBomb extends ConfigurableBlock {
         super.onBlockAdded(world, blockPos, blockState);
 
         if (world.isBlockPowered(blockPos)) {
-            this.onBlockDestroyedByPlayer(world, blockPos, blockState.withProperty(PRIMED, true));
+            this.onPlayerDestroy(world, blockPos, blockState.withProperty(PRIMED, true));
             world.setBlockToAir(blockPos);
         }
     }
@@ -65,13 +65,13 @@ public class LightningBomb extends ConfigurableBlock {
     @Override
     public void neighborChanged(IBlockState blockState, World world, BlockPos blockPos, Block neighbour, BlockPos fromPos) {
         if (world.isBlockPowered(blockPos)) {
-            this.onBlockDestroyedByPlayer(world, blockPos, blockState.withProperty(PRIMED, true));
+            this.onPlayerDestroy(world, blockPos, blockState.withProperty(PRIMED, true));
             world.setBlockToAir(blockPos);
         }
     }
     
     @Override
-    public void onBlockDestroyedByExplosion(World world, BlockPos blockPos, Explosion explosion) {
+    public void onBlockExploded(World world, BlockPos blockPos, Explosion explosion) {
         if (!world.isRemote) {
             EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(world,
                     (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
@@ -82,7 +82,7 @@ public class LightningBomb extends ConfigurableBlock {
     }
     
     @Override
-    public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
+    public void onPlayerDestroy(World world, BlockPos blockPos, IBlockState blockState) {
         this.primeBomb(world, blockPos, blockState, null);
     }
     

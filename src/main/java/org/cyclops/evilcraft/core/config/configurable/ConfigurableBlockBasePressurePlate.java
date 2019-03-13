@@ -48,7 +48,7 @@ public abstract class ConfigurableBlockBasePressurePlate extends BlockBasePressu
     public ConfigurableBlockBasePressurePlate(ExtendedConfig<BlockConfig> eConfig, Material material) {
         super(material);
         this.setConfig((BlockConfig) eConfig);
-        this.setUnlocalizedName(eConfig.getUnlocalizedName());
+        this.setTranslationKey(eConfig.getTranslationKey());
         setHardness(2F);
         setSoundType(SoundType.STONE);
     }

@@ -47,17 +47,17 @@ public class BroomPartBase implements IBroomPart {
     @SideOnly(Side.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(getId().getResourceDomain(), "broom_part/" + getId().getResourcePath().toLowerCase()));
+                new ResourceLocation(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase()));
     }
 
     @Override
-    public String getUnlocalizedName() {
-        return "broom.parts." + getId().getResourceDomain() + "." + getId().getResourcePath();
+    public String getTranslationKey() {
+        return "broom.parts." + getId().getNamespace() + "." + getId().getPath();
     }
 
     @Override
     public @Nullable String getTooltipLine(String prefix) {
-        return prefix + L10NHelpers.localize(getUnlocalizedName() + ".name");
+        return prefix + L10NHelpers.localize(getTranslationKey() + ".name");
     }
 
     @Override

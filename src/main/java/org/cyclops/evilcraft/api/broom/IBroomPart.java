@@ -28,7 +28,7 @@ public interface IBroomPart {
     /**
      * @return The unlocalized name.
      */
-    public String getUnlocalizedName();
+    public String getTranslationKey();
 
     /**
      * The line to be added to tooltips.
@@ -113,7 +113,7 @@ public interface IBroomPart {
             return name;
         }
 
-        public String getUnlocalizedName() {
+        public String getTranslationKey() {
             return "broom.parts." + Reference.MOD_ID + ".type." + getName() + ".name";
         }
 

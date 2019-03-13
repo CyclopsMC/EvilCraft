@@ -98,7 +98,7 @@ public class BloodExtractor extends ConfigurableDamageIndicatedItemFluidContaine
     public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getUnlocalizedName() + ".info.auto_supply");
+                getTranslationKey() + ".info.auto_supply");
     }
     
     @Override

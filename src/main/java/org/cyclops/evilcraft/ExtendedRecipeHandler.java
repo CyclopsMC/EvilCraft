@@ -160,7 +160,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
         if(Configs.isEnabled(BroomConfig.class)) {
             for (IBroomPart broomPart : BroomParts.REGISTRY.getParts()) {
                 String id = String.format("%s:%s:%s",
-                        broomPart.getId().getResourceDomain(), "broompart", broomPart.getId().getResourcePath());
+                        broomPart.getId().getNamespace(), "broompart", broomPart.getId().getPath());
                 ItemStack itemStack = Iterables.getFirst(BroomParts.REGISTRY.getItemsFromPart(broomPart), ItemStack.EMPTY);
                 if (!itemStack.isEmpty()) {
                     predefinedItems.put(id, itemStack);

@@ -56,7 +56,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
     }
 
     @Override
-    public void onBlockDestroyedByPlayer(World world, BlockPos blockPos, IBlockState blockState) {
+    public void onPlayerDestroy(World world, BlockPos blockPos, IBlockState blockState) {
         if (!world.isRemote && Configs.isEnabled(NetherfishConfig.class)) {
             Netherfish netherfish = new Netherfish(world);
             netherfish.setLocationAndAngles((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D, 0.0F, 0.0F);
@@ -64,7 +64,7 @@ public class NetherfishSpawn extends ConfigurableBlockWithInnerBlocks {
             netherfish.spawnExplosionParticle();
         }
 
-        super.onBlockDestroyedByPlayer(world, blockPos, blockState);
+        super.onPlayerDestroy(world, blockPos, blockState);
     }
     
     @Override

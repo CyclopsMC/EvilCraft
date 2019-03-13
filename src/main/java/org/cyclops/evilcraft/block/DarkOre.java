@@ -70,7 +70,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT_MIPPED;
     }
     
@@ -220,7 +220,7 @@ public class DarkOre extends ConfigurableBlock implements IInformationProvider {
 
     @Override
     public String getInfo(ItemStack itemStack) {
-    	return IInformationProvider.INFO_PREFIX + L10NHelpers.localize(this.getUnlocalizedName()
+    	return IInformationProvider.INFO_PREFIX + L10NHelpers.localize(this.getTranslationKey()
                 + ".info.custom", DarkOreConfig.startY, DarkOreConfig.endY);
     }
 

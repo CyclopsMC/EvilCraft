@@ -37,7 +37,7 @@ public abstract class ConfigurableItemArmor extends ItemArmor implements IConfig
     protected ConfigurableItemArmor(ExtendedConfig eConfig, ItemArmor.ArmorMaterial material, EntityEquipmentSlot equipmentSlot) {
         super(material, 0, equipmentSlot);
         this.setConfig(eConfig);
-        this.setUnlocalizedName(eConfig.getUnlocalizedName());
+        this.setTranslationKey(eConfig.getTranslationKey());
     }
 
     @SuppressWarnings("rawtypes")
@@ -55,7 +55,7 @@ public abstract class ConfigurableItemArmor extends ItemArmor implements IConfig
     @Override
     public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
-        L10NHelpers.addOptionalInfo(list, getUnlocalizedName());
+        L10NHelpers.addOptionalInfo(list, getTranslationKey());
     }
 
     @Override
