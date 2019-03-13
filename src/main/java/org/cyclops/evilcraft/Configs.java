@@ -212,7 +212,7 @@ public class Configs {
      * @return If the given config is enabled.
      */
     public static boolean isEnabled(Class<? extends ExtendedConfig<?>> config) {
-        return ConfigHandler.isEnabled(config);
+        return EvilCraft._instance.getConfigHandler().isConfigEnabled(config);
     }
     
 }
