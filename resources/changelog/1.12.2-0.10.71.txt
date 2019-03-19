@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.1.0 or higher.
+
+Changes:
+* Update to Forge 14.23.5.2768 and MCP snapshot_20180814
+* Use cheaper method for checking if a config is enabled, CyclopsMC/CyclopsCore#116
+* Make random value calls in libelle logic cheaper, Closes #763
+* Update sv_se.lang
