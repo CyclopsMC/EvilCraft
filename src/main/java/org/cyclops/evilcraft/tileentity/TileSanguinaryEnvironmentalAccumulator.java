@@ -316,7 +316,6 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
     @Override
     public void onStateChanged() {
-        sendUpdate();
         IBlockState blockState = world.getBlockState(getPos()).withProperty(SanguinaryEnvironmentalAccumulator.ON, isWorking());
         world.setBlockState(getPos(), blockState);
         world.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT); // Update light

@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
+import com.google.common.collect.Lists;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.IContainerListener;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.inventory.container.TileInventoryContainer;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * A container for a ticking tile entity with inventory.
@@ -20,9 +20,10 @@ import java.util.Map;
  */
 public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEntity<T>> extends TileInventoryContainer<T> {
 
-    private Map<TickComponent<T, ITickAction<T>>, Integer> previousTicks;
-    
-    private static final int INDEX_OFFSET = 1;
+    private final List<Supplier<Integer>> variablesMaxProgress;
+    private final List<Supplier<Integer>> variablesProgress;
+    private final Supplier<FluidStack> variableFluidStack;
+    private final Supplier<Integer> variableFluidCapacity;
     
     /**
      * Make a new TickingInventoryContainer.
@@ -31,53 +32,31 @@ public class TickingTankInventoryContainer<T extends TickingTankInventoryTileEnt
      */
     public TickingTankInventoryContainer(InventoryPlayer inventory, T tile) {
         super(inventory, tile);
-        previousTicks = new HashMap<TickComponent<T, ITickAction<T>>, Integer>();
+        this.variablesMaxProgress = Lists.newArrayList();
+        this.variablesProgress = Lists.newArrayList();
         for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
-            previousTicks.put(ticker, ticker.getTick());
+            this.variablesMaxProgress.add(registerSyncedVariable(Integer.class, () -> (int) ticker.getRequiredTicks()));
+            this.variablesProgress.add(registerSyncedVariable(Integer.class, ticker::getTick));
         }
-    }
-    
-    @Override
-    public void addListener(IContainerListener icrafting) {
-        super.addListener(icrafting);
-        sendTickersUpdates(icrafting, true);
-    }
-    
-    private void sendTickersUpdates(IContainerListener icrafting, boolean force) {
-        int index = 0;
-        for(TickComponent<T, ITickAction<T>> ticker : tile.getTickers()) {
-            if(previousTicks.get(ticker) != ticker.getTick() || force) {
-                // Send current tick to client
-                icrafting.sendWindowProperty(this, INDEX_OFFSET + index, ticker.getTick());
-                
-                // Send the required ticks to the client with an index offset
-                icrafting.sendWindowProperty(this, INDEX_OFFSET + tile.getTickers().size() + index, Math.round(ticker.getRequiredTicks()));
-            
-                // And finally update the previous tick of this ticker.
-                previousTicks.put(ticker, ticker.getTick());
-            }
-            index++;
-        }
+        this.variableFluidStack = registerSyncedVariable(FluidStack.class, () -> getTile().getTank().getFluid());
+        this.variableFluidCapacity = registerSyncedVariable(Integer.class, () -> getTile().getTank().getCapacity());
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-        for (IContainerListener icrafting : listeners) {
-            sendTickersUpdates(icrafting, false);
-        }
+    public int getMaxProgress(int ticker) {
+        return variablesMaxProgress.get(ticker).get();
     }
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int index, int value) {
-        // This will receive the current tick, the required ticks for this crafting or the contents of the tank.
-        if(index >= tile.getTickers().size() + INDEX_OFFSET) {
-            tile.getTickers().get(index - tile.getTickers().size() - INDEX_OFFSET).setRequiredTicks(value);
-        } else if(index >= INDEX_OFFSET) {
-            tile.getTickers().get(index - INDEX_OFFSET).setTick(value);
-        }
+
+    public int getProgress(int ticker) {
+        return variablesProgress.get(ticker).get();
+    }
+
+    @Nullable
+    public FluidStack getFluidStack() {
+        return variableFluidStack.get();
+    }
+
+    public int getFluidCapacity() {
+        return variableFluidCapacity.get();
     }
 
 }

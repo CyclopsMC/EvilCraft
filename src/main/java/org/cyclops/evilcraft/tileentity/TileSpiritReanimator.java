@@ -241,7 +241,6 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	
 	@Override
     public void onStateChanged() {
-        sendUpdate();
         world.setBlockState(getPos(), world.getBlockState(getPos()).withProperty(SpiritReanimator.ON, isWorking()));
     }
 

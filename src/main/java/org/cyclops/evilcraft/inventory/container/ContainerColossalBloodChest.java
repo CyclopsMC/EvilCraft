@@ -4,10 +4,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.block.ColossalBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
+
+import java.util.function.Supplier;
 
 /**
  * Container for the {@link ColossalBloodChest}.
@@ -44,6 +47,8 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
     private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
 
+    private final Supplier<Integer> variableEfficiency;
+
     /**
      * Make a new instance.
      * @param inventory The inventory of the player.
@@ -65,6 +70,12 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
 
         this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         this.addPlayerArmorInventory(inventory, ARMOR_INVENTORY_OFFSET_X, ARMOR_INVENTORY_OFFSET_Y);
+
+        this.variableEfficiency = registerSyncedVariable(Integer.class, () -> getTile().getEfficiency());
+    }
+
+    public int getEfficiency() {
+        return variableEfficiency.get();
     }
 
     protected void addChestSlots(int rows, int columns) {

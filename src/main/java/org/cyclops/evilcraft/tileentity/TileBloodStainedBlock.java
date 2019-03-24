@@ -26,7 +26,7 @@ public class TileBloodStainedBlock extends InnerBlocksTileEntity {
 	 */
 	public void addAmount(int amount) {
 		this.amount += amount;
-		sendUpdate();
+		markDirty();
 	}
 	
 	@Override

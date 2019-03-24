@@ -284,7 +284,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             int oldEfficiency = efficiency;
             efficiency = Math.max(0, efficiency - ColossalBloodChestConfig.baseConcurrentItems);
             if(oldEfficiency != efficiency) {
-                sendUpdate();
+                markDirty();
             }
         }
         // Resynchronize clients with the server state, the last condition makes sure

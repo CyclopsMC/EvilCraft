@@ -7,10 +7,12 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.GuiContainerExtended;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.inventory.container.ExtendedInventoryContainer;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
+import org.cyclops.evilcraft.core.inventory.container.TickingTankInventoryContainer;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -47,12 +49,17 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
      * @param container The container to make the GUI for.
      * @param tile The tile entity to make the GUI for.
      */
-    public GuiContainerTankInventory(ExtendedInventoryContainer container, T tile) {
+    public GuiContainerTankInventory(TickingTankInventoryContainer container, T tile) {
         super(container);
         this.tile = tile;
     }
-    
-	protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
+
+    @Override
+    protected TickingTankInventoryContainer getContainer() {
+        return (TickingTankInventoryContainer) super.getContainer();
+    }
+
+    protected void setTank(int tankWidth, int tankHeight, int tankX, int tankY, int tankTargetX, int tankTargetY) {
         this.showTank = true;
         this.tankWidth = tankWidth;
         this.tankHeight = tankHeight;
@@ -104,10 +111,10 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        SingleUseTank tank = tile.getTank();
-        if(shouldRenderTank()) {
-            int tankSize = Math.min(tank.getCapacity(), tank.getFluidAmount()) * tankHeight / tank.getCapacity();
-            drawTank(tankTargetX, tankTargetY, tank.getAcceptedFluid(), tankSize);
+        FluidStack fluidStack = getContainer().getFluidStack();
+        if(shouldRenderTank(fluidStack)) {
+            int tankSize = Math.min(getContainer().getFluidCapacity(), fluidStack.amount * tankHeight / getContainer().getFluidCapacity());
+            drawTank(tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
         }
         drawAdditionalForeground(mouseX, mouseY);
         GlStateManager.disableBlend();
@@ -123,11 +130,10 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
         drawTooltips(mouseX, mouseY);
     }
     
-	protected boolean shouldRenderTank() {
+	protected boolean shouldRenderTank(FluidStack fluidStack) {
         if(!showTank)
             return false;
-        SingleUseTank tank = tile.getTank();
-        return tank != null && tank.getAcceptedFluid() != null && tank.getFluidAmount() > 0;
+        return fluidStack != null && fluidStack.amount > 0;
     }
     
 	protected void drawTank(int xOffset, int yOffset, Fluid fluid, int level) {
@@ -159,10 +165,10 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
     }
     
 	protected void drawTooltips(int mouseX, int mouseY) {
-        if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank()) {
-            SingleUseTank tank = tile.getTank();
-            String fluidName = tank.getFluid().getLocalizedName();
-            drawBarTooltipTank(fluidName, tank.getFluid(), tank.getFluidAmount(), tank.getCapacity(), mouseX, mouseY);
+        FluidStack fluidStack = getContainer().getFluidStack();
+        if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
+            String fluidName = fluidStack.getLocalizedName();
+            drawBarTooltipTank(fluidName, fluidStack, fluidStack.amount, getContainer().getFluidCapacity(), mouseX, mouseY);
         }
     }
     

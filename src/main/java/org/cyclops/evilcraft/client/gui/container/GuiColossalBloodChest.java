@@ -108,7 +108,7 @@ public class GuiColossalBloodChest extends GuiWorking<TileColossalBloodChest> {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         this.mc.renderEngine.bindTexture(texture);
-        int minusFactor = (int) (((float) (TileColossalBloodChest.MAX_EFFICIENCY - tile.getEfficiency()) * EFFICIENCYBARHEIGHT) / TileColossalBloodChest.MAX_EFFICIENCY);
+        int minusFactor = (int) (((float) (TileColossalBloodChest.MAX_EFFICIENCY - ((ContainerColossalBloodChest) getContainer()).getEfficiency()) * EFFICIENCYBARHEIGHT) / TileColossalBloodChest.MAX_EFFICIENCY);
         this.drawTexturedModalRect(EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
                 EFFICIENCYBARX, EFFICIENCYBARY + minusFactor, EFFICIENCYBARWIDTH, EFFICIENCYBARHEIGHT - minusFactor);
     }

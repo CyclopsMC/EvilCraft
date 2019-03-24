@@ -129,7 +129,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
 
     @Override
     public void onStateChanged() {
-        sendUpdate();
+        markDirty();
     }
 
     protected List<ItemStack> getUpgradeItems() {

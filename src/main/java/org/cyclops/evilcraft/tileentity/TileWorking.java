@@ -51,7 +51,7 @@ public abstract class TileWorking<T extends TankInventoryTileEntity, O> extends 
         if(super.onUpgradeSlotChanged(slotId, oldItemStack, itemStack)) {
             resetTier();
             if(!world.isRemote) getTank().setCapacity(getTankTierMultiplier(getTier()) * tankSize);
-            sendUpdate();
+            markDirty();
             return true;
         }
         return false;
