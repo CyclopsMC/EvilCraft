@@ -78,6 +78,7 @@ public class LightningBomb extends ConfigurableBlock {
                     (double)((float)blockPos.getZ() + 0.5F), explosion.getExplosivePlacedBy());
             entityprimed.setFuse(world.rand.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
             world.spawnEntity(entityprimed);
+            world.setBlockToAir(blockPos);
         }
     }
     
