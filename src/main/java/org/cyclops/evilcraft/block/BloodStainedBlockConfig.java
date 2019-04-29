@@ -38,6 +38,7 @@ public class BloodStainedBlockConfig extends BlockContainerConfig {
     @ConfigurableProperty(category = ConfigurableTypeCategory.BLOCK,
     		comment = "The blacklisted blood stained blocks, by blockState name. (Java regular expressions are allowed)")
     public static String[] blockBlacklist = new String[]{
+            "minecraft:bedrock",
             "minecraft:redstone_lamp",
             "minecraft:crafting_table",
             "minecraft:magma",
