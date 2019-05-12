@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.1.1 or higher.
+
+Fixes:
+* Improve first input determination in blood infuser recipe handler
+  Related to CyclopsMC/IntegratedCrafting#30
+* Make JEI recipe wrapper type checking in categories stricter
+  Related to CyclopsMC/IntegratedDynamics#717
