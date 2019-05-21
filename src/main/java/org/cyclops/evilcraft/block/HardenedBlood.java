@@ -81,10 +81,10 @@ public class HardenedBlood extends ConfigurableBlockConnectedTexture {
             }
         }
     }
-    
+
     @Override
     public EnumPushReaction getPushReaction(IBlockState blockState) {
-        return EnumPushReaction.BLOCK;
+        return EnumPushReaction.NORMAL;
     }
     
     @Override
