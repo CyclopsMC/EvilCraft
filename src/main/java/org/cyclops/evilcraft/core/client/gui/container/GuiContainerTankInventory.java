@@ -112,7 +112,7 @@ public abstract class GuiContainerTankInventory<T extends TankInventoryTileEntit
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         FluidStack fluidStack = getContainer().getFluidStack();
-        if(shouldRenderTank(fluidStack)) {
+        if(shouldRenderTank(fluidStack) && getContainer().getFluidCapacity() > 0) {
             int tankSize = Math.min(getContainer().getFluidCapacity(), fluidStack.amount * tankHeight / getContainer().getFluidCapacity());
             drawTank(tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
         }
