@@ -16,7 +16,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -35,6 +39,7 @@ import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
@@ -226,14 +231,12 @@ public class BoxOfEternalClosure extends ConfigurableBlockContainer implements I
     
     @Override
     public int getLightValue(IBlockState blockState, IBlockAccess world, BlockPos blockPos) {
-    	if(world.getTileEntity(blockPos) != null) {
-	    	TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
-	    	if(tile.getLidAngle() > 0) {
-	    		return LIGHT_LEVEL;
-	    	}
-    	}
-        return super.getLightValue(blockState, world, blockPos);
-    }
+		TileBoxOfEternalClosure tile = TileHelpers.getSafeTile(world, blockPos, TileBoxOfEternalClosure.class);
+		if(tile != null && tile.getLidAngle() > 0) {
+			return LIGHT_LEVEL;
+		}
+		return super.getLightValue(blockState, world, blockPos);
+	}
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
