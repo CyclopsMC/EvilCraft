@@ -4,6 +4,7 @@ import lombok.experimental.Delegate;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
@@ -68,13 +69,20 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        return facing == getFacing() || facing == getFacing().getOpposite() || getContents() == null
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            capability = CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY;
+        }
+        return facing == getFacing() || facing == getFacing().getOpposite() || getContents().isEmpty()
                 ? super.hasCapability(capability, facing) : getContents().hasCapability(capability, null);
     }
 
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-        return facing == getFacing() || facing == getFacing().getOpposite() || getContents() == null
-                ? super.getCapability(capability, facing) : getContents().getCapability(capability, null);
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            capability = (Capability<T>) CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY;
+        }
+        return facing == getFacing() || facing == getFacing().getOpposite() || getContents().isEmpty()
+                ? super.getCapability(capability, facing)
+                : getContents().getCapability(capability, null);
     }
 }
