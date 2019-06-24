@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.1.1 or higher.
+
+Changes:
+* Allow regex vengeance spirit blacklist entries, Closes #576
+
+Fixes:
+* Fix fluids not being delegated in Display Stand, Closes #778
+* Fix unsafe tile retrieval in BOEC light value calculation, Closes CyclopsMC/EvilCraft#777
