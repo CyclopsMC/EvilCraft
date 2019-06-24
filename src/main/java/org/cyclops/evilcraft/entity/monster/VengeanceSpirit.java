@@ -64,9 +64,9 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	 * The default I18N key for when no inner entity exists.
 	 */
 	public static final ResourceLocation DEFAULT_L10N_KEY = new ResourceLocation(Reference.MOD_ID, "vengeance_spirit");
-	
-    private static final Set<Class<? extends EntityLivingBase>> BLACKLIST = Sets.newHashSet();
-    private static final Set<Class<? extends EntityLivingBase>> IMC_BLACKLIST = Sets.newHashSet();
+
+    private static final Set<String> BLACKLIST = Sets.newHashSet();
+    private static final Set<String> IMC_BLACKLIST = Sets.newHashSet();
     
     /**
      * The minimum life duration in ticks the spirits should have.
@@ -499,11 +499,15 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it can become a spirit.
      */
 	public static boolean canSustain(EntityLivingBase entityLiving) {
-		for(Class<? extends EntityLivingBase> clazz : BLACKLIST) {
-            if(clazz.isInstance(entityLiving)) {
-				return false;
-			}
-		}
+        ResourceLocation entityId = EntityList.getKey(entityLiving);
+        if (entityId != null) {
+            String entityName = entityId.toString();
+            for (String blacklistedRegex : BLACKLIST) {
+                if (entityName.matches(blacklistedRegex)) {
+                    return false;
+                }
+            }
+        }
 		return true;
 	}
 
@@ -513,12 +517,20 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
      * @return If it can become a spirit.
      */
     public static boolean canSustainClass(Class<?> entityLivingClazz) {
-        for(Class<? extends EntityLivingBase> clazz : BLACKLIST) {
-            if(clazz.equals(entityLivingClazz)) {
-                return false;
+        try {
+            ResourceLocation entityId = EntityList.getKey((Class<? extends Entity>) entityLivingClazz);
+            if (entityId != null) {
+                String entityName = entityId.toString();
+                for (String blacklistedRegex : BLACKLIST) {
+                    if (entityName.matches(blacklistedRegex)) {
+                        return false;
+                    }
+                }
             }
+            return true;
+        } catch (ClassCastException e) {
+            return false;
         }
-        return true;
     }
 	
 	/**
@@ -650,46 +662,40 @@ public class VengeanceSpirit extends EntityNoMob implements IConfigurable {
 	/**
 	 * Add an entity class to the blacklist, every subinstance of this class will not
 	 * be spirited anymore.
-	 * @param clazz The root class that will be blocked from spiritation.
+	 * @param entityName The entity name or regexthat will be blocked from spiritation.
 	 */
-	public static void addToBlacklist(Class<? extends EntityLivingBase> clazz) {
-		if(BLACKLIST.add(clazz))
-			EvilCraft.clog("Added entity class " + clazz.getCanonicalName()
+	public static void addToBlacklist(String entityName) {
+		if(BLACKLIST.add(entityName))
+			EvilCraft.clog("Added entity name " + entityName
                     + " to the spirit blacklist.", Level.TRACE);
 	}
 
     /**
-     * Add an entity class to the blacklist, every subinstance of this class will not
+     * Add an entity name to the blacklist, every subinstance of this class will not
      * be spirited anymore.
      * This should only be called by IMC message handlers.
-     * @param clazz The root class that will be blocked from spiritation.
+     * @param entityName The entity name or regexthat will be blocked from spiritation.
      */
-    public static void addToBlacklistIMC(Class<? extends EntityLivingBase> clazz) {
-        IMC_BLACKLIST.add(clazz);
-        addToBlacklist(clazz);
+    public static void addToBlacklistIMC(String entityName) {
+        IMC_BLACKLIST.add(entityName);
+        addToBlacklist(entityName);
     }
 	
 	@SuppressWarnings("unchecked")
 	protected static void setBlacklist(String[] blacklist) {
         BLACKLIST.clear();
-		for(String entity : blacklist) {
-			Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) EntityList.getClass(new ResourceLocation(entity));
-			if(clazz == null) {
-				EvilCraft.clog("Skipped adding entity by name '" + entity
-                        + "' to the spirit blacklist, because it could not be found.", Level.INFO);
-			} else {
-				addToBlacklist(clazz);
-			}
+		for(String entityName : blacklist) {
+			addToBlacklist(entityName);
 		}
 
-        for(Class<? extends EntityLivingBase> clazz : IMC_BLACKLIST) {
-            addToBlacklist(clazz);
+        for(String imcBlacklisted : IMC_BLACKLIST) {
+            addToBlacklist(imcBlacklisted);
         }
 		
 		// Hard-code some entities
-		addToBlacklist(VengeanceSpirit.class);
-        addToBlacklist(ControlledZombie.class);
-    	addToBlacklist(EntityDragon.class);
+		addToBlacklist(EntityList.getKey(VengeanceSpirit.class).toString());
+        addToBlacklist(EntityList.getKey(ControlledZombie.class).toString());
+    	addToBlacklist(EntityList.getKey(EntityDragon.class).toString());
 	}
 	
 	/**

@@ -23,9 +23,7 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit.SpiritBlacklistChang
  * @author rubensworks
  *
  */
-public class
-
-VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
+public class VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
     
     /**
      * The unique instance.
@@ -113,17 +111,7 @@ VengeanceSpiritConfig extends MobConfig<VengeanceSpirit> {
                 @Override
                 public boolean handle(FMLInterModComms.IMCMessage message) {
                     if(!message.isStringMessage()) return false;
-                    try {
-                        Class<EntityLivingBase> clazz = (Class<EntityLivingBase>) Class.forName(message.getStringValue());
-                        VengeanceSpirit.addToBlacklistIMC(clazz);
-                    } catch (ClassNotFoundException e) {
-                        EvilCraft.clog("IMC blacklist vengeance spirit did not provide an existing class.", Level.ERROR);
-                        return false;
-                    } catch (ClassCastException e) {
-                        EvilCraft.clog("IMC blacklist vengeance spirit did not provide a class of type EntityLivingBase.",
-                                Level.ERROR);
-                        return false;
-                    }
+                    VengeanceSpirit.addToBlacklistIMC(message.getStringValue());
                     return true;
                 }
             });
