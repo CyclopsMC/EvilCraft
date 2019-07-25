@@ -310,7 +310,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
 
             // Display Stand crafting
             if(Configs.isEnabled(DisplayStandConfig.class)) {
-                getTaggedRecipes().put("craftingRecipe:display_stands", new Recipe(
+                getTaggedRecipes().put("crafting_recipe:display_stands", new Recipe(
                         new IngredientsRecipeComponent(NonNullList.<Ingredient>create()),
                         new IngredientRecipeComponent(DisplayStand.getInstance().
                                 getTypedDisplayStandItem(Blocks.PLANKS.getDefaultState())),
@@ -320,7 +320,7 @@ public class ExtendedRecipeHandler extends RecipeHandler {
             }
 
             // Undead bush crafting
-            getTaggedRecipes().put("craftingRecipe:deadbush", new Recipe(
+            getTaggedRecipes().put("crafting_recipe:deadbush", new Recipe(
                     new IngredientsRecipeComponent(NonNullList.from(Ingredient.EMPTY, Ingredient.fromItem(Items.SHEARS), new OreIngredient("treeSapling"))),
                     new IngredientRecipeComponent(new ItemStack(Blocks.DEADBUSH)),
                     new DummyPropertiesComponent()
