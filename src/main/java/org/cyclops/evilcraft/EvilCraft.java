@@ -42,6 +42,7 @@ import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.item.DarkGemConfig;
+import org.cyclops.evilcraft.metadata.RegistryExportables;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
@@ -133,6 +134,7 @@ public class EvilCraft extends ModBaseVersionable {
         super.preInit(event);
 
         Advancements.load();
+        RegistryExportables.load();
 
         // Initialize info book
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
