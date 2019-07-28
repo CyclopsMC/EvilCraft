@@ -7,6 +7,10 @@ import net.minecraft.world.World;
  * @author immortaleeb
  */
 public class WeatherTypeAny extends WeatherType {
+    public WeatherTypeAny() {
+        super("any");
+    }
+
     @Override
     public boolean isActive(World world) {
         return true;

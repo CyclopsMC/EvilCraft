@@ -10,6 +10,10 @@ import net.minecraft.world.storage.WorldInfo;
  */
 public class WeatherTypeLightning extends WeatherType {
 
+    public WeatherTypeLightning() {
+        super("lightning");
+    }
+
     @Override
     public boolean isActive(World world) {
         return world.isThundering();

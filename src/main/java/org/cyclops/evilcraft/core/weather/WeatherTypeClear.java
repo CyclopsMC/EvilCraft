@@ -8,6 +8,10 @@ import net.minecraft.world.World;
  *
  */
 public class WeatherTypeClear extends WeatherType {
+    public WeatherTypeClear() {
+        super("clear");
+    }
+
     @Override
     public boolean isActive(World world) {
         return !(RAIN.isActive(world) || LIGHTNING.isActive(world));

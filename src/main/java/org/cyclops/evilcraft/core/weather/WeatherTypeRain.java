@@ -9,6 +9,10 @@ import net.minecraft.world.World;
  */
 public class WeatherTypeRain extends WeatherType {
 
+    public WeatherTypeRain() {
+        super("rain");
+    }
+
     @Override
     public boolean isActive(World world) {
         return world.isRaining() && !world.isThundering();

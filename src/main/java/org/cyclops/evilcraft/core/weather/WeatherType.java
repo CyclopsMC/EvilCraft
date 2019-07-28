@@ -32,7 +32,18 @@ public abstract class WeatherType {
      * Array that contains all possible weather types
      */
     public static final WeatherType[] WEATHER_TYPES = {CLEAR, RAIN, LIGHTNING};
-    
+
+    private final String name;
+
+    protected WeatherType(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
     /**
      * Check if this weather is active in the given world.
      * @param world The world.

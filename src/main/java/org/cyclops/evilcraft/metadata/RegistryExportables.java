@@ -10,6 +10,7 @@ public class RegistryExportables {
 
     public static void load() {
         REGISTRY.register(new RegistryExportableBloodInfuserRecipe());
+        REGISTRY.register(new RegistryExportableEnvirAccRecipe());
     }
 
 }
