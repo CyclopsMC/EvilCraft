@@ -12,7 +12,7 @@ import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 
 /**
- * Blood infuser recipe exporter.
+ * Environmental accumulator recipe exporter.
  */
 public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAbstract<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> {
 
