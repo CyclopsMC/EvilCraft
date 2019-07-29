@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.metadata;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.metadata.IRegistryExportable;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 
@@ -30,7 +30,7 @@ public class RegistryExportableBroomModifier implements IRegistryExportable {
             }
             object.add("items", items);
             object.addProperty("name", modifier.getTranslationKey());
-            root.add(modifier.getName(), object);
+            root.add(Reference.MOD_ID + ":" + modifier.getName(), object);
         }
 
         return root;
