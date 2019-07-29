@@ -97,7 +97,6 @@ public class ExaltedCrafter extends ItemGui implements IItemEmpowerable {
     
     @SuppressWarnings({ "rawtypes", "unchecked"})
     @Override
-    @SideOnly(Side.CLIENT)
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> itemList) {
         if (!ItemStackHelpers.isValidCreativeTab(this, tab)) return;
     	itemList.add(new ItemStack(this, 1, 0));

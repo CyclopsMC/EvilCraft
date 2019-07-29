@@ -59,7 +59,6 @@ public class BowlOfPromises extends ConfigurableItem {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    @SideOnly(Side.CLIENT)
     public void getSubItems(CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
         if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
         for(int i = 0; i < ACTIVE_META + ((BowlOfPromisesConfig) getConfig()).getTiers(); i++) {
