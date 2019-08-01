@@ -138,7 +138,7 @@ public class OriginsOfDarknessBook extends InfoBook {
     }
 
     private OriginsOfDarknessBook() {
-        super(EvilCraft._instance, 2);
+        super(EvilCraft._instance, 2, Reference.BOOK_URL);
     }
 
     public static OriginsOfDarknessBook getInstance() {
