@@ -1,0 +1,13 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.5.0 or higher.
+
+Additions:
+* Link to infobook Web version
+  https://evilcraft.rubensworks.net/book/
+* Add registry exporters
+
+Changes:
+* Remove SideOnly client annotation from getSubItems
+
+Fixes:
+* Fix invalid crafting recipe tagging for display stands and undead bush
