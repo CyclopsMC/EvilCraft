@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
@@ -37,6 +38,14 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
                     resultStack = containerStack;
                     if (resultStack.getCount() == 0) {
                         resultStack = ItemStack.EMPTY;
+                    }
+                } else {
+                    if (containerStack.getCount() > 0) {
+                        // In this case we have an "empty container", and a remaining container stack.
+                        // Let's pop out the empty container in this case
+                        MinecraftHelpers.dropItems(tile.getWorld(), resultStack.copy(), tile.getPos());
+                        resultStack = containerStack;
+                        // TODO: in the next major update, rewrite this so that we have a proper "empty container" slot.
                     }
                 }
                 tile.getInventory().setInventorySlotContents(slot, resultStack);
