@@ -1,0 +1,14 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.5.0 or higher.
+
+Fixes:
+* Fix Bound Blood Drop damage bar sometimes rendering weirdly
+  This could occur when BM sets the orb level to a value below
+  the current fill level.
+  Closes CyclopsMC/EvilCraft#788
+* Fix gui progress bars always showing some progress
+* Fix stackable fluid containers voiding when draining into machines
+  The items that won't fit anymore will pop into the world.
+  This is a temporary measure that will be rewritten in the
+  next major EC update.
+  Closes #791
