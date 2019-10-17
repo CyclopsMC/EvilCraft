@@ -41,7 +41,7 @@ public abstract class GuiWorking<T extends TileWorking<?, ?>> extends GuiContain
     
     @Override
     protected int getProgressXScaled(int width) {
-        return (int) Math.ceil((float)(getContainer().getProgress(0) + 1) / (float)getContainer().getMaxProgress(0) * (float)width);
+        return (int) Math.ceil((float)(getContainer().getProgress(0)) / (float)getContainer().getMaxProgress(0) * (float)width);
     }
 
     @Override
