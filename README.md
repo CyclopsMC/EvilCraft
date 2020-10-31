@@ -1,4 +1,5 @@
-## EvilCraft
+<h1 align=center>EvilCraft</h1>
+<h3 align=center>An evil mod for Minecraft</h3>
 
 [![Build Status](https://travis-ci.org/CyclopsMC/EvilCraft.svg?branch=master-1.11)](https://travis-ci.org/rubensworks/EvilCraft)
 [![Download](https://img.shields.io/maven-metadata/v/https/oss.jfrog.org/artifactory/simple/libs-release/org/cyclops/evilcraft/EvilCraft/maven-metadata.xml.svg) ](https://oss.jfrog.org/artifactory/simple/libs-release/org/cyclops/evilcraft/EvilCraft/)
