@@ -21,12 +21,12 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
     public boolean canTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         // Only allow ticking if production slot is empty or if the producing item is the same and
         // there is at least one spot left in the stack.
-        if(!tile.getTank().isEmpty() && getInfuseStack(tile) != null && tile.canConsume(getInfuseStack(tile))) {
+        if(!tile.getTank().isEmpty() && getInfuseStack(tile) != null && tile.getTileWorkingMetadata().canConsume(getInfuseStack(tile), tile.getWorld())) {
             ItemStack production = tile.getInventory().getStackInSlot(tile.getProduceSlot());
             ItemStack willProduce = willProduceItem(tile);
             if(production.isEmpty()) {
                 return true;
-            } else if(!willProduce.isEmpty() && production.getItem() == willProduceItem(tile).getItem() && production.getItemDamage() == willProduceItem(tile).getItemDamage()) {
+            } else if(!willProduce.isEmpty() && production.getItem() == willProduceItem(tile).getItem()) {
                 if(production.getCount() + willProduce.getCount() <= production.getMaxStackSize())
                     return true;
             }                

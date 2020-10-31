@@ -1,21 +1,19 @@
 package org.cyclops.evilcraft.core.helper;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeModContainer;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.UniversalBucket;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import org.cyclops.cyclopscore.helper.ItemStackHelpers;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.GeneralConfig;
-import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
  * Helpers for items.
@@ -33,7 +31,7 @@ public class ItemHelpers {
      * @return If it is an active container.
      */
     public static boolean isActivated(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.getTagCompound() != null && itemStack.getTagCompound().getBoolean("enabled");
+        return !itemStack.isEmpty() && itemStack.hasTag() && itemStack.getTag().getBoolean("enabled");
     }
     
     /**
@@ -41,12 +39,12 @@ public class ItemHelpers {
      * @param itemStack The item to toggle.
      */
     public static void toggleActivation(ItemStack itemStack) {
-        NBTTagCompound tag = itemStack.getTagCompound();
+        CompoundNBT tag = itemStack.getTag();
         if(tag == null) {
-            tag = new NBTTagCompound();
-            itemStack.setTagCompound(tag);
+            tag = new CompoundNBT();
+            itemStack.setTag(tag);
         }
-        tag.setBoolean("enabled", !isActivated(itemStack));
+        tag.putBoolean("enabled", !isActivated(itemStack));
     }
     
     /**
@@ -56,10 +54,10 @@ public class ItemHelpers {
      * @return The integer value for the given tag.
      */
     public static int getNBTInt(ItemStack itemStack, String tag) {
-        if(itemStack.isEmpty() || itemStack.getTagCompound() == null) {
+        if(itemStack.isEmpty() || itemStack.getTag() == null) {
             return 0;
         }
-        return itemStack.getTagCompound().getInteger(tag);
+        return itemStack.getTag().getInt(tag);
     }
     
     /**
@@ -69,12 +67,12 @@ public class ItemHelpers {
      * @param tag The tag in NBT for storing this value.
      */
     public static void setNBTInt(ItemStack itemStack, int integer, String tag) {
-        NBTTagCompound tagCompound = itemStack.getTagCompound();
+        CompoundNBT tagCompound = itemStack.getTag();
         if(tagCompound == null) {
-            tagCompound = new NBTTagCompound();
-            itemStack.setTagCompound(tagCompound);
+            tagCompound = new CompoundNBT();
+            itemStack.setTag(tagCompound);
         }
-        tagCompound.setInteger(tag, integer);
+        tagCompound.putInt(tag, integer);
     }
     
     /**
@@ -85,14 +83,14 @@ public class ItemHelpers {
      * @param fillBuckets If buckets should be filled.
      */
     public static void updateAutoFill(IFluidHandlerItem toDrain, World world, Entity entity, boolean fillBuckets) {
-    	if(entity instanceof EntityPlayer && !world.isRemote) {
-            FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, false);
-            if(tickFluid != null && tickFluid.amount > 0) {
-                EntityPlayer player = (EntityPlayer) entity;
-                for (EnumHand hand : EnumHand.values()) {
+    	if(entity instanceof PlayerEntity && !world.isRemote()) {
+            FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
+            if(!tickFluid.isEmpty()) {
+                PlayerEntity player = (PlayerEntity) entity;
+                for (Hand hand : Hand.values()) {
                     ItemStack held = player.getHeldItem(hand);
                     if (!held.isEmpty() && (fillBuckets || held.getItem() != Items.BUCKET)) {
-                        ItemStack toFill = held.splitStack(1);
+                        ItemStack toFill = held.split(1);
                         ItemStack filled = tryFillContainerForPlayer(toDrain, toFill, tickFluid, player);
                         if (!filled.isEmpty()) {
                             if (player.getHeldItem(hand).isEmpty()) {
@@ -117,14 +115,14 @@ public class ItemHelpers {
      * @param player The player that is the owner of toFill.
      * @return The filled container
      */
-    public static ItemStack tryFillContainerForPlayer(IFluidHandlerItem toDrain, ItemStack toFill, FluidStack tickFluid, EntityPlayer player) {
+    public static ItemStack tryFillContainerForPlayer(IFluidHandlerItem toDrain, ItemStack toFill, FluidStack tickFluid, PlayerEntity player) {
         int maxFill = MB_FILL_PERTICK;
         if (toFill.getItem() == Items.BUCKET) {
-            maxFill = Fluid.BUCKET_VOLUME;
+            maxFill = FluidHelpers.BUCKET_VOLUME;
         }
         if(!toFill.isEmpty() && toFill != toDrain.getContainer() && FluidUtil.getFluidHandler(toFill) != null
-                && player.getItemInUseCount() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.amount), player, false).isSuccess()) {
-            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.amount), player, true).getResult();
+                && player.getItemInUseCount() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, false).isSuccess()) {
+            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, true).getResult();
         }
         return ItemStack.EMPTY;
     }
@@ -134,7 +132,7 @@ public class ItemHelpers {
      */
     public static ItemStack getBloodBucket() {
         if (bloodBucket == null) {
-            bloodBucket = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, Blood.getInstance());
+            bloodBucket = new ItemStack(RegistryEntries.ITEM_BUCKET_BLOOD);
         }
         return bloodBucket;
     }

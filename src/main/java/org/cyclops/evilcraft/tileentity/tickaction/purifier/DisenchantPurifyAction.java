@@ -5,9 +5,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.init.Items;
+import net.minecraft.item.EnchantedBookItem;
+import net.minecraft.item.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemEnchantedBook;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
@@ -60,7 +60,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(purifyItem);
         if (!enchantments.isEmpty()) {
             if (tick >= PURIFY_DURATION) {
-                if (!world.isRemote) {
+                if (!world.isRemote()) {
                     Enchantment enchantment = getRandomEnchantment(world, enchantments);
                     setResultingEnchantmentBook(tile, enchantments, enchantment);
                     removePriorWorkPenalty(enchantments, purifyItem);
@@ -70,7 +70,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
                 tile.setBuckets(0, tile.getBucketsRest());
                 done = true;
             }
-            if (world.isRemote) {
+            if (world.isRemote()) {
                 tile.showEffect();
                 tile.showEnchantingEffect();
             }
@@ -84,7 +84,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
     }
 
     private void setResultingEnchantmentBook(TilePurifier tile, Map<Enchantment, Integer> enchantments, Enchantment enchantment) {
-        tile.setAdditionalItem(ItemEnchantedBook.getEnchantedItemStack(
+        tile.setAdditionalItem(EnchantedBookItem.getEnchantedItemStack(
                 new EnchantmentData(enchantment, enchantments.get(enchantment))));
     }
 
@@ -103,8 +103,8 @@ public class DisenchantPurifyAction implements IPurifierAction {
             purifyItem = new ItemStack(Items.BOOK);
         }
 
-        if (purifyItem.hasTagCompound() && purifyItem.getTagCompound().hasKey("StoredEnchantments")) {
-            purifyItem.getTagCompound().removeTag("StoredEnchantments");
+        if (purifyItem.hasTag() && purifyItem.getTag().contains("StoredEnchantments")) {
+            purifyItem.getTag().remove("StoredEnchantments");
         }
         EnchantmentHelper.setEnchantments(remainingEnchantments, purifyItem);
         return purifyItem;

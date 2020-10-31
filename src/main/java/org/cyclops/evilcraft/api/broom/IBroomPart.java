@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.api.broom;
 
 import com.google.common.collect.Lists;
-import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import org.cyclops.evilcraft.Reference;
 
 import javax.annotation.Nullable;
@@ -35,7 +36,8 @@ public interface IBroomPart {
      * @param prefix A line prefix
      * @return The line, null if no line should be shown
      */
-    public @Nullable String getTooltipLine(String prefix);
+    @Nullable
+    public ITextComponent getTooltipLine(String prefix);
 
     /**
      * @return The length of this part (1.0F = 1 block)
@@ -45,7 +47,7 @@ public interface IBroomPart {
     /**
      * @return The rarity.
      */
-    public EnumRarity getRarity();
+    public Rarity getRarity();
 
     /**
      * @return If the item has an effect overlay.

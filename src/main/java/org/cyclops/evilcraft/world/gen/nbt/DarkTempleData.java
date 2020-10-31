@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.world.gen.nbt;
 
 import com.google.common.collect.Maps;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraft.world.dimension.Dimension;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.CollectionHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
@@ -21,7 +22,7 @@ import java.util.Set;
 public class DarkTempleData extends WorldStorage {
 
 	@NBTPersist
-	private Map<Integer, Set<Pair<Integer, Integer>>> failedLocations = Maps.newHashMap();
+	private Map<String, Set<Pair<Integer, Integer>>> failedLocations = Maps.newHashMap();
 
 	/**
 	 * Creates a new instance.
@@ -34,23 +35,24 @@ public class DarkTempleData extends WorldStorage {
 	@Override
 	public void onStartedEvent(FMLServerStartedEvent event) {
 		// Hacky thing to make sure that locations that are inserted WHILE the server is starting, are not lost.
-		Map<Integer, Set<Pair<Integer, Integer>>> oldFailedLocations = Maps.newHashMap(failedLocations);
+		Map<String, Set<Pair<Integer, Integer>>> oldFailedLocations = Maps.newHashMap(failedLocations);
 		super.onStartedEvent(event);
 		failedLocations.putAll(oldFailedLocations);
 	}
 
 	/**
 	 * Add a failed location of a dark temple.
-	 * @param dimensionId The dimension id
+	 * @param dimension The dimension
 	 * @param chunkX Chunk X
 	 * @param chunkZ Chunk Y
 	 */
-	public void addFailedLocation(int dimensionId, int chunkX, int chunkZ) {
-		CollectionHelpers.addToMapSet(failedLocations, dimensionId, Pair.of(chunkX, chunkZ));
+	public void addFailedLocation(Dimension dimension, int chunkX, int chunkZ) {
+		CollectionHelpers.addToMapSet(failedLocations, dimension.getType().getRegistryName().toString(), Pair.of(chunkX, chunkZ));
 	}
 
-	public boolean isFailed(int dimensionId, int chunkX, int chunkZ) {
-		return failedLocations.containsKey(dimensionId) && failedLocations.get(dimensionId).contains(Pair.of(chunkX, chunkZ));
+	public boolean isFailed(Dimension dimension, int chunkX, int chunkZ) {
+		String id = dimension.getType().getRegistryName().toString();
+		return failedLocations.containsKey(id) && failedLocations.get(id).contains(Pair.of(chunkX, chunkZ));
 	}
 
     @Override

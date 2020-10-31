@@ -1,8 +1,11 @@
 package org.cyclops.evilcraft.core.inventory.slot;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Slot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
+import org.cyclops.evilcraft.core.inventory.container.ContainerWorking;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 
 /**
@@ -11,43 +14,41 @@ import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
  * @param <T> The tile type.
  *
  */
-public class SlotWorking<T extends WorkingTileEntity<?, ?>> extends Slot {
+public class SlotWorking<T extends TileWorking<T, ?>> extends Slot {
 
-	protected T tile;
+	protected ContainerWorking<T> container;
     private ItemStack lastSlotContents = null;
-    
-    /**
-     * Make a new instance.
-     * @param index The index of this slot.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param tile The tile this slot is in.
-     */
-    public SlotWorking(int index, int x,
-            int y, T tile) {
-        super(tile, index, x, y);
-        this.tile = tile;
+    private final World world;
+
+    public SlotWorking(int index, int x, int y, ContainerWorking<T> container, World world) {
+        super(container.getContainerInventory(), index, x, y);
+        this.container = container;
         this.lastSlotContents = getStack();
+        this.world = world;
     }
     
     @Override
     public boolean isItemValid(ItemStack itemStack) {
-        return !itemStack.isEmpty() && tile.canConsume(itemStack);
+        return !itemStack.isEmpty() && container.getTileWorkingMetadata().canConsume(itemStack, this.world);
     }
     
     @Override
-    public ItemStack onTake(EntityPlayer player, ItemStack itemStack) {
-        if(!ItemStack.areItemStackTagsEqual(itemStack, this.getStack())) {
-            tile.resetWork();
-        }
+    public ItemStack onTake(PlayerEntity player, ItemStack itemStack) {
+        container.getTileSupplier().ifPresent(tile -> {
+            if(!ItemStack.areItemStackTagsEqual(itemStack, this.getStack())) {
+                tile.resetWork();
+            }
+        });
         return super.onTake(player, itemStack);
     }
     
     @Override
     public void onSlotChanged() {
-        if(!ItemStack.areItemStackTagsEqual(lastSlotContents, this.getStack())) {
-            tile.resetWork();
-        }
+        container.getTileSupplier().ifPresent(tile -> {
+            if(!ItemStack.areItemStackTagsEqual(lastSlotContents, this.getStack())) {
+                tile.resetWork();
+            }
+        });
         lastSlotContents = this.getStack();
         if(!lastSlotContents.isEmpty()) lastSlotContents = lastSlotContents.copy();
     }

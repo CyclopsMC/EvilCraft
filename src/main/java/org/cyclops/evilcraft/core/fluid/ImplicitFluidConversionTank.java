@@ -12,40 +12,41 @@ import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 public class ImplicitFluidConversionTank extends SingleUseTank {
 
 	private ImplicitFluidConverter converter;
-	
-	/**
-     * Make a new tank instance.
-     * @param name The name for the tank, will be used for NBT storage.
-     * @param capacity The capacity (mB) for the tank.
-     * @param tile The TileEntity that uses this tank.
-	 * @param converter The fluid converter.
-     */
-    public ImplicitFluidConversionTank(String name, int capacity, CyclopsTileEntity tile,
-    		ImplicitFluidConverter converter) {
-        super(name, capacity, tile);
+
+    public ImplicitFluidConversionTank(int capacity, ImplicitFluidConverter converter) {
+        super(capacity);
         this.converter = converter;
     }
     
     @Override
-    public int fill(FluidStack resource, boolean doFill) {
-    	FluidStack converted = converter.convert(resource);
-        if(converted == null) {
+    public int fill(FluidStack resource, FluidAction action) {
+        if (!canFillFluidType(resource)) {
             return 0;
         }
-        double ratio = resource != null ? converter.getRatio(resource.getFluid()) : 1;
-        return (int) Math.ceil(super.fill(converted, doFill) / ratio);
+
+    	FluidStack converted = converter.convert(resource);
+        if(converted.isEmpty()) {
+            return 0;
+        }
+        double ratio = !resource.isEmpty() ? converter.getRatio(resource.getFluid()) : 1;
+        return (int) Math.ceil(super.fill(converted, action) / ratio);
     }
 
     @Override
+    public FluidStack drain(FluidStack resource, FluidAction action) {
+        if (!canDrainFluidType(resource)) {
+            return FluidStack.EMPTY;
+        }
+
+        return super.drain(resource, action);
+    }
+
     public boolean canFillFluidType(FluidStack fluid) {
-        return super.canFillFluidType(fluid) &&
-                (fluid == null || fluid.getFluid() == converter.getTarget() || converter.canConvert(fluid.getFluid()));
+        return fluid.isEmpty() || fluid.getFluid() == converter.getTarget() || converter.canConvert(fluid.getFluid());
     }
 
-    @Override
     public boolean canDrainFluidType(FluidStack fluid) {
-        return super.canDrainFluidType(fluid) &&
-                (fluid == null || fluid.getFluid() == converter.getTarget() || converter.canConvert(fluid.getFluid()));
+        return fluid.isEmpty() || fluid.getFluid() == converter.getTarget() || converter.canConvert(fluid.getFluid());
     }
 	
 }

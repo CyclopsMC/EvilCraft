@@ -1,67 +1,29 @@
 package org.cyclops.evilcraft.core.entity.item;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
- * An indestructible version of the {@link EntityItem}.
+ * An indestructible version of the {@link ItemEntity}.
  * Make sure to register sub-classes of this as a mod entity!
  * @author rubensworks
  *
  */
 public abstract class EntityItemIndestructable extends EntityItemExtended {
-    
-    /**
-     * New instance.
-     * @param world The world.
-     * @param original The original entity item.
-     */
-	public EntityItemIndestructable(World world, EntityItem original) {
-        super(world, original);
-        motionX = original.motionX;
-        motionY = original.motionY;
-        motionZ = original.motionZ;
-        init();
-    }
-	
-	/**
-	 * Make a new instance.
-	 * @param world The world.
-	 */
-	public EntityItemIndestructable(World world) {
-        super(world);
+
+	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, World world, ItemEntity original) {
+        super(type, world, original);
         init();
     }
 
-	/**
-	 * Make a new instance.
-	 * @param world The world.
-	 * @param x X
-	 * @param y Y
-	 * @param z Z
-	 */
-    public EntityItemIndestructable(World world, double x, double y, double z) {
-        super(world, x, y, z);
-        init();
-    }
-    
-    /**
-	 * Make a new instance.
-	 * @param world The world.
-	 * @param x X
-	 * @param y Y
-	 * @param z Z
-     * @param itemStack The item stack.
-	 */
-    public EntityItemIndestructable(World world, double x, double y, double z, ItemStack itemStack) {
-        super(world, x, y, z, itemStack);
+	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, World world) {
+        super(type, world);
         init();
     }
     
     private void init() {
-        setPickupDelay(40);
         if(isUndespawnable()) {
             this.lifespan = Integer.MAX_VALUE;
         }
@@ -82,8 +44,9 @@ public abstract class EntityItemIndestructable extends EntityItemExtended {
 		}
     }
 
-	@Override
-	public boolean isEntityInvulnerable(DamageSource damageSource) {
-		return isIndestructable();
-	}
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return isIndestructable() || super.isInvulnerableTo(source);
+    }
+
 }

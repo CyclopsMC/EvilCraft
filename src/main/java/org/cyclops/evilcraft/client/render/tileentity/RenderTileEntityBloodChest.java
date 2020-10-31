@@ -1,43 +1,58 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelChest;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.Atlases;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
-import org.cyclops.evilcraft.block.BloodChest;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.block.BlockBloodChest;
 import org.cyclops.evilcraft.tileentity.TileBloodChest;
 
 /**
- * Renderer for the {@link BloodChest}.
+ * Renderer for the {@link BlockBloodChest}.
  * @author rubensworks
  *
  */
-public class RenderTileEntityBloodChest extends RenderTileEntityModel<TileBloodChest, ModelBase> {
-	
-	/**
-     * Make a new instance.
-     * @param model The model to render.
-     * @param texture The texture to render the model with.
-     */
-    public RenderTileEntityBloodChest(ModelBase model, ResourceLocation texture) {
-        super(model, texture);
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class RenderTileEntityBloodChest extends RenderTileEntityChestBase<TileBloodChest> {
+
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "blood_chest.png");
+
+    @SubscribeEvent
+    public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        if (event.getMap().getTextureLocation().equals(Atlases.CHEST_ATLAS)) {
+            event.addSprite(TEXTURE);
+        }
+    }
+
+    public RenderTileEntityBloodChest(TileEntityRendererDispatcher p_i226008_1_) {
+        super(p_i226008_1_);
     }
 
     @Override
-    protected void preRotate(TileBloodChest tile) {
-        super.preRotate(tile);
-        GlStateManager.rotate(180, 0, 1, 0);
+    protected Material getMaterial(TileBloodChest tile) {
+        return new Material(Atlases.CHEST_ATLAS, TEXTURE);
     }
 
     @Override
-    protected void renderModel(TileBloodChest tile, ModelBase model, float partialTick, int destroyStage) {
-        ModelChest modelchest = (ModelChest) model;
-    	float lidangle = tile.prevLidAngle + (tile.lidAngle - tile.prevLidAngle) * partialTick;
+    protected Direction getDirection(TileBloodChest tile) {
+        return tile.getRotation();
+    }
 
-        lidangle = 1.0F - lidangle;
-        lidangle = 1.0F - lidangle * lidangle * lidangle;
-        modelchest.chestLid.rotateAngleX = -(lidangle * (float)Math.PI / 2.0F);
-        modelchest.renderAll();
+    @Override
+    public void render(TileBloodChest tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int combinedLightIn, int combinedOverlayIn) {
+        matrixStack.push();
+        matrixStack.translate(0.325F, 0F, 0.325F);
+        float size = 0.3F * 1.125F;
+        matrixStack.scale(size, size, size);
+        super.render(tile, partialTicks, matrixStack, renderTypeBuffer, combinedLightIn, combinedOverlayIn);
+        matrixStack.pop();
     }
 }

@@ -2,17 +2,16 @@ package org.cyclops.evilcraft.core.broom;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.oredict.OreDictionary;
-import org.apache.commons.lang3.StringUtils;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
-import org.cyclops.evilcraft.item.BroomPart;
 
 import java.util.Collections;
 
@@ -144,12 +143,12 @@ public final class BroomParts {
                 new ResourceLocation(Reference.MOD_ID, "cap_bare"),
                 IBroomPart.BroomPartType.CAP, 0.0625F));
 
-        CAP_GEM_DARK = registerCapGemOredict("dark", 55, 55, 55);
-        CAP_GEM_DIAMOND = registerCapGemOredict("diamond", 105, 223, 218);
-        CAP_GEM_EMERALD = registerCapGemOredict("emerald", 66, 216, 109);
-        CAP_GEM_QUARTZ = registerCapGemOredict("quartz", 237, 235, 228);
+        CAP_GEM_DARK = registerCapGemOredict("dark", new ResourceLocation(Reference.MOD_ID, "gems/dark"), 55, 55, 55);
+        CAP_GEM_DIAMOND = registerCapGemOredict("diamond", new ResourceLocation("forge:gems/diamond"), 105, 223, 218);
+        CAP_GEM_EMERALD = registerCapGemOredict("emerald", new ResourceLocation("forge:gems/emerald"), 66, 216, 109);
+        CAP_GEM_QUARTZ = registerCapGemOredict("quartz", new ResourceLocation("forge:gems/quartz"), 237, 235, 228);
         //CAP_GEM_LAPIS = registerCapGemOredict("lapis", 38, 79, 162);
-        CAP_GEM_DARKPOWER = registerCapGemOredict("darkPower", 112, 59, 59);
+        CAP_GEM_DARKPOWER = registerCapGemOredict("dark_power", new ResourceLocation(Reference.MOD_ID, "gems/dark_power"), 112, 59, 59);
 
         CAP_HEAD_SKELETON = registerCapHead("skeleton");
         CAP_HEAD_WITHERSKELETON = registerCapHead("witherskeleton");
@@ -158,15 +157,15 @@ public final class BroomParts {
         CAP_HEAD_CREEPER = registerCapHead("creeper");
         CAP_HEAD_WITHER = registerCapHead("wither");
 
-        CAP_METAL_IRON = registerCapMetalOredict("iron", 216, 216, 216);
-        CAP_METAL_GOLD = registerCapMetalOredict("gold", 255, 255, 139);
-        CAP_METAL_THAUMIUM = registerCapMetalOredict("thaumium", 98, 81, 151);
-        CAP_METAL_COPPER = registerCapMetalOredict("copper", 167, 108, 68);
-        CAP_METAL_SILVER = registerCapMetalOredict("silver", 123, 135, 120);
-        CAP_METAL_BRASS = registerCapMetalOredict("alubrass", 230, 195, 75);
-        CAP_METAL_ARDITE = registerCapMetalOredict("ardite", 214, 71, 0);
-        CAP_METAL_COBALT = registerCapMetalOredict("cobalt", 31, 126, 239);
-        CAP_METAL_MANYULLYN = registerCapMetalOredict("manyullyn", 117, 58, 159);
+        CAP_METAL_IRON = registerCapMetalOredict("iron", new ResourceLocation("forge:ingots/iron"), 216, 216, 216);
+        CAP_METAL_GOLD = registerCapMetalOredict("gold", new ResourceLocation("forge:ingots/gold"), 255, 255, 139);
+        CAP_METAL_THAUMIUM = registerCapMetalOredict("thaumium", new ResourceLocation("thaumcraft:ingots/thaumium"), 98, 81, 151);
+        CAP_METAL_COPPER = registerCapMetalOredict("copper", new ResourceLocation("forge:ingots/copper"), 167, 108, 68);
+        CAP_METAL_SILVER = registerCapMetalOredict("silver", new ResourceLocation("forge:ingots/silver"), 123, 135, 120);
+        CAP_METAL_BRASS = registerCapMetalOredict("alubrass", new ResourceLocation("tconstruct:ingots/alubrass"), 230, 195, 75);
+        CAP_METAL_ARDITE = registerCapMetalOredict("ardite", new ResourceLocation("tconstruct:ingots/ardite"), 214, 71, 0);
+        CAP_METAL_COBALT = registerCapMetalOredict("cobalt", new ResourceLocation("tconstruct:ingots/cobalt"), 31, 126, 239);
+        CAP_METAL_MANYULLYN = registerCapMetalOredict("manyullyn", new ResourceLocation("tconstruct:ingots/manyullyn"), 117, 58, 159);
 
         CAP_SLIME = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "cap_slime"),
@@ -174,7 +173,7 @@ public final class BroomParts {
 
         for (IBroomPart part : REGISTRY.getParts()) {
             if (part.shouldAutoRegisterMissingItem() && REGISTRY.getItemsFromPart(part).isEmpty()) {
-                ItemStack itemStack = new ItemStack(BroomPart.getInstance());
+                ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BROOM);
                 REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
                 REGISTRY.registerPartItem(part, itemStack);
             }
@@ -390,8 +389,8 @@ public final class BroomParts {
         EvilCraft.clog(String.format("%s possible Broom base combinations are ready for flying!", combinations));
     }
 
-    public static IBroomPart registerCapGemOredict(String name, int r, int g, int b) {
-        if(OreDictionary.doesOreNameExist("gem" + StringUtils.capitalize(name))) {
+    public static IBroomPart registerCapGemOredict(String name, ResourceLocation tag, int r, int g, int b) {
+        if (ItemTags.getCollection().get(tag) != null) {
             return REGISTRY.registerPart(new BroomPartCapGem(
                     new ResourceLocation(Reference.MOD_ID, "cap_gem_" + name),
                     Helpers.RGBToInt(r, g, b)));
@@ -405,8 +404,8 @@ public final class BroomParts {
                 IBroomPart.BroomPartType.CAP, 0.5F));
     }
 
-    public static IBroomPart registerCapMetalOredict(String name, int r, int g, int b) {
-        if(OreDictionary.doesOreNameExist("ingot" + StringUtils.capitalize(name))) {
+    public static IBroomPart registerCapMetalOredict(String name, ResourceLocation tag, int r, int g, int b) {
+        if (ItemTags.getCollection().get(tag) != null) {
             return REGISTRY.registerPart(new BroomPartCapMetal(
                     new ResourceLocation(Reference.MOD_ID, "cap_metal_" + name),
                     Helpers.RGBToInt(r, g, b)));

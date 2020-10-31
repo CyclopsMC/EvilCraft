@@ -1,23 +1,21 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import org.cyclops.cyclopscore.helper.EntityHelpers;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
-import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
-import org.cyclops.evilcraft.api.gameevent.BloodInfuserRemoveEvent;
-import org.cyclops.evilcraft.block.BloodInfuser;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockBloodInfuser;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 
+import java.util.Optional;
+
 /**
- * Container for the {@link BloodInfuser}.
+ * Container for the {@link BlockBloodInfuser}.
  * @author rubensworks
  *
  */
@@ -56,36 +54,44 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
     private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
 
-    /**
-     * Make a new instance.
-     * @param inventory The inventory of the player.
-     * @param tile The tile entity that calls the GUI.
-     */
-    public ContainerBloodInfuser(InventoryPlayer inventory, TileBloodInfuser tile) {
-        super(inventory, tile);
+    public ContainerBloodInfuser(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new Inventory(TileBloodInfuser.SLOTS + TileBloodInfuser.INVENTORY_SIZE_UPGRADES), Optional.empty());
+    }
+
+    public ContainerBloodInfuser(int id, PlayerInventory playerInventory, IInventory inventory,
+                                 Optional<TileBloodInfuser> tileSupplier) {
+        super(RegistryEntries.CONTAINER_BLOOD_INFUSER, id, playerInventory, inventory, tileSupplier,
+                TileBloodInfuser.TICKERS, TileBloodInfuser.INVENTORY_SIZE_UPGRADES);
 
         // Adding inventory
-        addSlotToContainer(new SlotFluidContainer(tile, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, tile.getTank())); // Container emptier
-        addSlotToContainer(new SlotWorking<TileBloodInfuser>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, tile)); // Infuse slot
-        addSlotToContainer(new SlotRemoveOnly(tile, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
-
+        addSlot(new SlotFluidContainer(inventory, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, RegistryEntries.FLUID_BLOOD)); // Container emptier
+        addSlot(new SlotWorking<>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, this, playerInventory.player.world)); // Infuse slot
+        addSlot(new SlotRemoveOnly(inventory, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
+/*
             @Override
-            public ItemStack onTake(EntityPlayer player, ItemStack itemStack) {
-                IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>
+            public ItemStack onTake(PlayerEntity player, ItemStack itemStack) {
+
+                Optional<RecipeBloodInfuser>
                         recipe = BloodInfuser.getInstance().getRecipeRegistry().
                         findRecipeByOutput(new IngredientRecipeComponent(itemStack));
                 if(recipe != null) {
                     EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.getCount()));
-                    FMLCommonHandler.instance().bus().post(new BloodInfuserRemoveEvent(player, itemStack));
+                    MinecraftForge.EVENT_BUS.post(new BloodInfuserRemoveEvent(player, itemStack));
                 }
+                TODO: reimplement recipes
+
                 return super.onTake(player, itemStack);
             }
-
+            */
         }); // Infuse result slot
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileBloodInfuser.SLOTS);
 
-        this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+        this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
-    
+
+    @Override
+    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+        return TileBloodInfuser.METADATA;
+    }
 }

@@ -1,11 +1,12 @@
 package org.cyclops.evilcraft.event;
 
 import net.minecraft.block.Block;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.block.EternalWaterBlockConfig;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.cyclops.evilcraft.block.BlockEternalWater;
 
 /**
  * Event hook for {@link net.minecraftforge.event.entity.player.FillBucketEvent}.
@@ -24,9 +25,9 @@ public class FillBucketEventHook {
     }
     
     private void stopFillWithEternalWaterBlock(FillBucketEvent event) {
-        if (Configs.isEnabled(EternalWaterBlockConfig.class) && event.getTarget() != null) {
-            Block block = event.getWorld().getBlockState(event.getTarget().getBlockPos()).getBlock();
-            if (block == EternalWaterBlockConfig._instance.getBlockInstance()) {
+        if (event.getTarget() != null && event.getTarget().getType() == RayTraceResult.Type.BLOCK) {
+            Block block = event.getWorld().getBlockState(((BlockRayTraceResult) event.getTarget()).getPos()).getBlock();
+            if (block instanceof BlockEternalWater) {
                 event.setCanceled(true);
             }
         }

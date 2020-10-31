@@ -3,10 +3,11 @@ package org.cyclops.evilcraft.core.degradation.effect;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableDegradationEffect;
+import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import org.cyclops.evilcraft.item.MaceOfDistortion;
+import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
 
 import java.util.List;
 
@@ -15,23 +16,13 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
+public class KnockbackDistortDegradation implements IDegradationEffect {
 
-    private static KnockbackDistortDegradation _instance = null;
-    
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static KnockbackDistortDegradation getInstance() {
-        return _instance;
-    }
-    
     private static final int MINIMUM_DEGRADATION = 3;
     private static final int POWER_LEVEL = 1;
     
-    public KnockbackDistortDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        super(eConfig);
+    public KnockbackDistortDegradation(DegradationEffectConfig eConfig) {
+
     }
 
     @Override
@@ -52,7 +43,7 @@ public class KnockbackDistortDegradation extends ConfigurableDegradationEffect {
         double y = center.getY();
         double z = center.getZ();
         for(Entity entity : entities) {
-            MaceOfDistortion.getInstance().distortEntity(
+            RegistryEntries.ITEM_MACE_OF_DISTORTION.distortEntity(
                     degradable.getDegradationWorld(),
                     null,
                     entity,

@@ -8,22 +8,12 @@ import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
  *
  */
 public class MobSpawnDegradationConfig extends DegradationEffectConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static MobSpawnDegradationConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public MobSpawnDegradationConfig() {
         super(
-            true,
-            "mobspawn",
-            null,
-            MobSpawnDegradation.class,
-            2
+                "mobspawn",
+                MobSpawnDegradation::new,
+                2
         );
     }
     

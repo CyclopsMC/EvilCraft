@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.tileentity.tickaction.bloodinfuser;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -32,20 +31,20 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         if (!infuseStack.isEmpty()) {
             infuseStack = infuseStack.copy();
         }
-        IFluidHandler container = FluidUtil.getFluidHandler(infuseStack);
+        IFluidHandler container = FluidUtil.getFluidHandler(infuseStack).orElse(null);
         FluidStack fluidStack = tile.getTank().getFluid().copy();
 
         MutableInt duration = new MutableInt(MB_PER_TICK);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, TileBloodInfuser.UPGRADEEVENT_FILLBLOODPERTICK));
         int minAmount = duration.getValue();
 
-        fluidStack.amount = Math.min(minAmount, fluidStack.amount);
-        int filled = container.fill(fluidStack, true);
+        fluidStack.setAmount(Math.min(minAmount, fluidStack.getAmount()));
+        int filled = container.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
         if (filled > 0) {
             // Everything ok, filling the container bit by bit
-            tile.getTank().drain(filled, true);
+            tile.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
             tile.getInventory().setInventorySlotContents(tile.getConsumeSlot(), infuseStack);
-            if (FluidHelpers.getFluid(container) != null && FluidHelpers.getAmount(FluidHelpers.getFluid(container)) == FluidHelpers.getCapacity(container)) {
+            if (!FluidHelpers.getFluid(container).isEmpty() && FluidHelpers.getAmount(FluidHelpers.getFluid(container)) == FluidHelpers.getCapacity(container)) {
                 if (addToProduceSlot(tile, infuseStack)) {
                     tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
                 }
@@ -70,14 +69,14 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         if (itemStack.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        if (FluidUtil.getFluidHandler(itemStack) instanceof FluidContainerItemWrapperWithSimulation) {
+        if (FluidUtil.getFluidHandler(itemStack).orElse(null) instanceof FluidContainerItemWrapperWithSimulation) {
             return ItemStack.EMPTY;
         }
         ItemStack smallContainer = FluidUtil.tryFillContainer(itemStack, tile.getTank(), MB_PER_TICK, null, false).getResult();
         if (!smallContainer.isEmpty()) {
             return smallContainer;
         }
-        return FluidUtil.tryFillContainer(itemStack, tile.getTank(), Fluid.BUCKET_VOLUME, null, false).getResult();
+        return FluidUtil.tryFillContainer(itemStack, tile.getTank(), FluidHelpers.BUCKET_VOLUME, null, false).getResult();
     }
     
 }

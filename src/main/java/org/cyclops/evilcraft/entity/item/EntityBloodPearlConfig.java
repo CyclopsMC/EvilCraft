@@ -1,15 +1,15 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
-import org.cyclops.evilcraft.item.BloodPearlOfTeleportation;
 
 /**
  * Config for the {@link EntityBloodPearl}.
@@ -17,34 +17,21 @@ import org.cyclops.evilcraft.item.BloodPearlOfTeleportation;
  *
  */
 public class EntityBloodPearlConfig extends EntityConfig<EntityBloodPearl> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityBloodPearlConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public EntityBloodPearlConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_blood_pearl",
-            null,
-            EntityBloodPearl.class
+                "blood_pearl",
+                eConfig -> EntityType.Builder.<EntityBloodPearl>create(EntityBloodPearl::new, EntityClassification.MISC)
+                        .size(0.6F, 1.8F)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render<EntityBloodPearl> getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderSnowball<>(renderManager, BloodPearlOfTeleportation.getInstance(), renderItem);
-    }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
+    public EntityRenderer<EntityBloodPearl> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        return new SpriteRenderer<>(renderManager, renderItem);
     }
     
 }

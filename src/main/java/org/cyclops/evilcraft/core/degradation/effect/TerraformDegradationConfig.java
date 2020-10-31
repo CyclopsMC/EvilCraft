@@ -9,22 +9,12 @@ import org.cyclops.evilcraft.world.biome.BiomeDegraded;
  *
  */
 public class TerraformDegradationConfig extends DegradationEffectConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static TerraformDegradationConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public TerraformDegradationConfig() {
         super(
-            false,
-            "terraform",
-            null,
-            TerraformDegradation.class,
-            1
+                "terraform",
+                TerraformDegradation::new,
+                1
         );
     }
     

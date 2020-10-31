@@ -1,7 +1,10 @@
 package org.cyclops.evilcraft.tileentity.tickaction.bloodchest;
 
-import net.minecraft.item.ItemAnvilBlock;
+import net.minecraft.block.AnvilBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 
 import java.util.Random;
@@ -15,22 +18,17 @@ public class AnvilRepairAction implements IBloodChestRepairAction {
     
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
-        return itemStack.getItem() instanceof ItemAnvilBlock;
+        return itemStack.getItem() instanceof BlockItem && ((BlockItem) itemStack.getItem()).getBlock() instanceof AnvilBlock;
     }
 
     @Override
     public boolean canRepair(ItemStack itemStack, int tick) {
-        return isItemValidForSlot(itemStack) && itemStack.getItemDamage() > 0;
+        return itemStack.getItem() == Items.CHIPPED_ANVIL || itemStack.getItem() == Items.DAMAGED_ANVIL;
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
-        if(doAction) {
-            // Repair the item
-            int newDamage = itemStack.getItemDamage() - 1;
-            itemStack.setItemDamage(newDamage);
-        }
-        return 25;
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
+        return Pair.of(25F, new ItemStack(itemStack.getItem() == Items.CHIPPED_ANVIL ? Items.ANVIL : Items.CHIPPED_ANVIL));
     }
 
 }

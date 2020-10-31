@@ -1,10 +1,12 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.render.entity.RenderBroom;
@@ -15,38 +17,21 @@ import org.cyclops.evilcraft.client.render.entity.RenderBroom;
  *
  */
 public class EntityBroomConfig extends EntityConfig<EntityBroom> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityBroomConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public EntityBroomConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "broom_entity",
-            null,
-            EntityBroom.class
+            "broom",
+                eConfig -> EntityType.Builder.<EntityBroom>create(EntityBroom::new, EntityClassification.MISC)
+                        .size(0.6F, 1.8F)
+                        .setShouldReceiveVelocityUpdates(true)
+                        .setUpdateInterval(10)
         );
     }
     
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
+    public EntityRenderer<EntityBroom> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
         return new RenderBroom(renderManager, this);
-    }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
-    }
-    
-    @Override
-    public int getUpdateFrequency() {
-        return 10;
     }
 }

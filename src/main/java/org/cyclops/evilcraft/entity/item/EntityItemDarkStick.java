@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -9,7 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.world.gen.DarkTempleGenerator;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorDarkTemple;
 
 /**
  * Entity for the dark stick item.
@@ -24,66 +25,34 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     private double lastPosX = -1;
     private double lastPosY = -1;
     private double lastPosZ = -1;
-	
-	/**
-	 * Make a new instance.
-	 * @param world The world.
-	 * @param original The original entity item.
-	 */
-	public EntityItemDarkStick(World world, EntityItem original) {
-		super(world, original);
+
+	public EntityItemDarkStick(EntityType<? extends EntityItemDarkStick> type, World world) {
+		super(type, world);
 	}
 
-    /**
-     * Make a new instance.
-     * @param world The world.
-     */
-    public EntityItemDarkStick(World world) {
-        super(world);
-    }
-
-    /**
-     * Make a new instance.
-     * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
-     */
-    public EntityItemDarkStick(World world, double x, double y, double z) {
-        super(world, x, y, z);
-    }
-
-    /**
-     * Make a new instance.
-     * @param world The world.
-     * @param x X
-     * @param y Y
-     * @param z Z
-     * @param itemStack The item stack.
-     */
-    public EntityItemDarkStick(World world, double x, double y, double z, ItemStack itemStack) {
-        super(world, x, y, z, itemStack);
-    }
+	public EntityItemDarkStick(World world, ItemEntity original) {
+		super(RegistryEntries.ENTITY_ITEM_DARK_STICK, world, original);
+	}
 
 	@Override
-	public void entityInit() {
-		super.entityInit();
+	public void registerData() {
+		super.registerData();
         Float angle = MinecraftHelpers.isClientSide() ? null : loadRotation();
 		this.dataManager.register(WATCHERID_VALID, angle != null ? 1 : 0);
 		this.dataManager.register(WATCHERID_ANGLE, angle == null ? 0 : angle);
 	}
 
     protected boolean hasMoved() {
-        boolean moved = Math.abs(lastPosX - posX) > 0.1F || Math.abs(lastPosZ - posZ) > 0.1F;
-        lastPosX = posX;
-        lastPosY = posY;
-        lastPosZ = posZ;
+        boolean moved = Math.abs(lastPosX - getPosX()) > 0.1F || Math.abs(lastPosZ - getPosZ()) > 0.1F;
+        lastPosX = getPosX();
+        lastPosY = getPosY();
+        lastPosZ = getPosZ();
         return moved;
     }
 
 	@Override
-	public void onEntityUpdate() {
-        super.onEntityUpdate();
+	public void tick() {
+        super.tick();
 		if(!MinecraftHelpers.isClientSide() && hasMoved()) {
             Float angle = loadRotation();
             setValid(angle != null);
@@ -92,15 +61,15 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	}
 	
 	private Float loadRotation() {
-		BlockPos closest = DarkTempleGenerator.getClosestForCoords(world, (int) posX, (int) posZ);
+		BlockPos closest = WorldDecoratorDarkTemple.getClosestForCoords(world, (int) getPosX(), (int) getPosZ());
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
-			double d = closest.distanceSq(new BlockPos((int) posX, 0, (int) posZ));
+			double d = closest.distanceSq(new BlockPos((int) getPosX(), 0, (int) getPosZ()));
             if(d <= WorldHelpers.CHUNK_SIZE * 2) {
                 return null;
             }
-			BlockPos normalized = new BlockPos(closest.getX() - (int) posX, 0,
-					closest.getZ() - (int) posZ);
+			BlockPos normalized = new BlockPos(closest.getX() - (int) getPosX(), 0,
+					closest.getZ() - (int) getPosZ());
 			return (float) (Math.atan2(normalized.getX(), normalized.getZ()) * 180 / Math.PI);
 		}
 		return null;
@@ -108,7 +77,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	
 	@Override
 	protected boolean hasCustomRotation() {
-		return isValid() && DarkTempleGenerator.canGenerate(getEntityWorld());
+		return isValid() && WorldDecoratorDarkTemple.canGenerate(getEntityWorld());
 	}
 
 	public float getAngle() {

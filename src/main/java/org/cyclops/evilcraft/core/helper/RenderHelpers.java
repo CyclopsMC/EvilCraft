@@ -1,17 +1,17 @@
 package org.cyclops.evilcraft.core.helper;
 
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * A helper for rendering.
  * @author rubensworks
  *
  */
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderHelpers {
     
     /**
@@ -22,5 +22,5 @@ public class RenderHelpers {
     /**
      * Texture sheet of all blocks.
      */
-    public static ResourceLocation TEXTURE_MAP = TextureMap.LOCATION_BLOCKS_TEXTURE;
+    public static ResourceLocation TEXTURE_MAP = AtlasTexture.LOCATION_BLOCKS_TEXTURE;
 }

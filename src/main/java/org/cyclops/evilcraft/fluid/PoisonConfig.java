@@ -1,31 +1,34 @@
 package org.cyclops.evilcraft.fluid;
 
 
+import net.minecraft.item.Rarity;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import org.cyclops.cyclopscore.config.extendedconfig.FluidConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
- * Config for {@link Poison}.
+ * Config for poison.
  * @author rubensworks
  *
  */
 public class PoisonConfig extends FluidConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static PoisonConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public PoisonConfig() {
         super(
                 EvilCraft._instance,
-            true,
-            "evilcraftpoison",
-            null,
-            Poison.class
+                "poison",
+                fluidConfig -> new ForgeFlowingFluid.Source(
+                        getDefaultFluidProperties(EvilCraft._instance,
+                                "block/blood",
+                                builder -> builder
+                                        .density(1000)
+                                        .viscosity(1000)
+                                        .temperature(290)
+                                        .rarity(Rarity.UNCOMMON)
+                                        .translationKey("block.evilcraft.poison"))
+                                .bucket(() -> RegistryEntries.ITEM_BUCKET_POISON)
+                                .block(() -> RegistryEntries.BLOCK_POISON))
         );
     }
     

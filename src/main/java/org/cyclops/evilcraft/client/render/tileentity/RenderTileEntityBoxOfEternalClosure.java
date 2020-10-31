@@ -1,289 +1,113 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.client.renderer.Atlases;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.entity.EnderDragonRenderer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.block.BoxOfEternalClosure;
+import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
+import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
-import org.lwjgl.opengl.GL11;
-
-import java.nio.FloatBuffer;
-import java.util.Random;
 
 /**
- * Renderer for the {@link BoxOfEternalClosure}.
+ * Renderer for the {@link BlockBoxOfEternalClosure}.
  * @author rubensworks
  *
  */
-public class RenderTileEntityBoxOfEternalClosure extends TileEntitySpecialRenderer<TileBoxOfEternalClosure> {
+public class RenderTileEntityBoxOfEternalClosure extends RendererTileEntityEndPortalBase<TileBoxOfEternalClosure> {
 
-    private static final ResourceLocation END_SKY_TEXTURE = new ResourceLocation("textures/environment/end_sky.png");
-    private static final ResourceLocation END_PORTAL_TEXTURE = new ResourceLocation("textures/entity/end_portal.png");
-    private static final Random field_147527_e = new Random(31100L);
 	private static final ResourceLocation beamTexture =
 			new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
-    private static final FloatBuffer MODELVIEW = GLAllocation.createDirectFloatBuffer(16);
-    private static final FloatBuffer PROJECTION = GLAllocation.createDirectFloatBuffer(16);
 
-    FloatBuffer field_147528_b = GLAllocation.createDirectFloatBuffer(16);
-    
-    @Override
-    public void render(TileBoxOfEternalClosure tile, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
-        IBlockState blockState = getWorld().getBlockState(tile.getPos());
-        Block block = blockState.getBlock();
-
-        // For some reason the block at the position of a TileBoxOfEternalClosure isn't necessarily a BOEC
-        if ( !(block instanceof BoxOfEternalClosure) )
-            return;
-
-        GlStateManager.getFloat(2982, MODELVIEW);
-        GlStateManager.getFloat(2983, PROJECTION);
-
-        ResourceLocation texture = TextureMap.LOCATION_BLOCKS_TEXTURE;
-
-        if (destroyStage >= 0) {
-            this.bindTexture(DESTROY_STAGES[destroyStage]);
-            GlStateManager.matrixMode(5890);
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(4.0F, 4.0F, 1.0F);
-            GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
-            GlStateManager.matrixMode(5888);
-        } else if(texture != null) {
-            this.bindTexture(texture);
-        }
-
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.alphaFunc(516, 0.1F);
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.pushMatrix();
-        GlStateManager.pushAttrib();
-
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.translate((float) x, (float) y, (float) z);
-        GlStateManager.disableRescaleNormal();
-
-        GlStateManager.translate(0.5F, 0.5F, 0.5F);
-        EnumFacing direction = BlockHelpers.getSafeBlockStateProperty(
-                tile.getWorld().getBlockState(tile.getPos()), BoxOfEternalClosure.FACING, EnumFacing.NORTH);
-        short rotation = 0;
-        if (direction == EnumFacing.SOUTH) {
-            rotation = 180;
-        }
-        if (direction == EnumFacing.NORTH) {
-            rotation = 0;
-        }
-        if (direction == EnumFacing.WEST) {
-            rotation = 90;
-        }
-        if (direction == EnumFacing.EAST) {
-            rotation = -90;
-        }
-        GlStateManager.rotate((float) rotation, 0.0F, 1.0F, 0.0F);
-        GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-
-        Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().
-                renderModelBrightnessColor(ModelBoxOfEternalClosureBaked.boxModel, 1.0F, 1.0F, 1.0F, 1.0F);
-
-        float angle = tile.getPreviousLidAngle()
-                + (tile.getLidAngle() - tile.getPreviousLidAngle()) * partialTick;
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0F, 0.375F, 0.25F);
-        GlStateManager.rotate(-angle, 1F, 0F, 0);
-        GlStateManager.translate(0F, -0.375F, -0.25F);
-        Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().
-                renderModelBrightnessColor(ModelBoxOfEternalClosureBaked.boxLidModel, 1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.popMatrix();
-
-        if(angle > 0) {
-            boolean hasFacing = blockState.getProperties().containsKey(BoxOfEternalClosure.FACING);
-            if (hasFacing)
-                renderEnd(x, y, z, blockState.getValue(BoxOfEternalClosure.FACING).getAxis(), tile.getPos().toLong());
-        }
-
-        GlStateManager.popAttrib();
-        GlStateManager.popMatrix();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableBlend();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-
-        if (destroyStage >= 0) {
-            GlStateManager.matrixMode(5890);
-            GlStateManager.popMatrix();
-            GlStateManager.matrixMode(5888);
-        }
-
-    	// Make sure the beam originates from the center of the box.
-    	x += 0.5D;
-    	y -= 0.5D;
-    	z += 0.5D;
-    	
-    	// Optionally render beam
-    	VengeanceSpirit target = tile.getTargetSpirit();
-    	if(target != null) {
-            // The 'bouncy' effect
-    		float innerRotation = (float)tile.innerRotation + partialTick;
-            float yOffset = MathHelper.sin(innerRotation * 0.2F) / 4.0F + 0.5F;
-            yOffset = (yOffset * yOffset + yOffset) * 0.2F;
-            
-            // Calculate the coordinates of the end of the beam
-            float rotateX = -(target.width / 2) -(float)(tile.getPos().getX() - target.posX - (target.prevPosX - target.posX) * (double)(1.0F - partialTick));
-            float rotateY = (target.height / 2) - (float)((double)yOffset + tile.getPos().getY() - target.posY - (target.prevPosY - target.posY) * (double)(1.0F - partialTick));
-            float rotateZ = -(target.width / 2) -(float)(tile.getPos().getZ() - target.posZ - (target.prevPosZ - target.posZ) * (double)(1.0F - partialTick));
-            float distance = MathHelper.sqrt(rotateX * rotateX + rotateZ * rotateZ);
-            
-            // Set the scene coordinates right for the beam rendering
-            GL11.glPushMatrix();
-            GL11.glTranslatef((float)x, (float)y + 1.0F, (float)z);
-            GL11.glRotatef((float)(-Math.atan2((double)rotateZ, (double)rotateX)) * 180.0F / (float)Math.PI - 90.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef((float)(-Math.atan2((double)distance, (double)rotateY)) * 180.0F / (float)Math.PI - 90.0F, 1.0F, 0.0F, 0.0F);
-            
-            // Start tesselator
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder worldRenderer = tessellator.getBuffer();
-            RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            this.bindTexture(beamTexture);
-            GlStateManager.shadeModel(GL11.GL_SMOOTH);
-            worldRenderer.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_TEX_COLOR);
-            
-            // Calculate UV coordinates for the beam
-            float zuv = MathHelper.sqrt(rotateX * rotateX + rotateY * rotateY + rotateZ * rotateZ);
-            float v1 = MathHelper.sqrt(rotateX * rotateX + rotateY * rotateY
-                    + rotateZ * rotateZ) / 32.0F
-            		- ((float)target.ticksExisted + partialTick) * 0.01F;
-            float v2 = 0.0F - ((float)target.ticksExisted + partialTick) * 0.01F;
-            
-            // Draw the beam in a circle shape
-            int amount = 8;
-            for (int i = 0; i <= amount; ++i) {
-                float xuv = MathHelper.sin((float)(i % amount) * (float)Math.PI * 2.0F / (float)amount) * 0.75F;
-                float yuv = MathHelper.cos((float)(i % amount) * (float)Math.PI * 2.0F / (float)amount) * 0.75F;
-                float u = (float)(i % amount) * 1.0F / (float)amount;
-                worldRenderer.pos((double)(xuv * 0.2F), (double)(yuv * 0.2F), 0.0D).tex((double)u, (double)v2).color(0, 0, 0, 255).endVertex();
-                worldRenderer.pos((double)xuv, (double)yuv, (double)zuv).tex((double)u, (double)v1).color(255, 255, 255, 255).endVertex();
-            }
-
-            // Finish drawing
-            tessellator.draw();
-            GL11.glEnable(GL11.GL_CULL_FACE);
-            GlStateManager.shadeModel(GL11.GL_FLAT);
-            RenderHelper.enableStandardItemLighting();
-            GL11.glPopMatrix();
-        }
+    public RenderTileEntityBoxOfEternalClosure(TileEntityRendererDispatcher rendererDispatcherIn) {
+        super(rendererDispatcherIn);
     }
 
-    // Copied and adapted from TileEntityEndPortalRenderer
-    protected void renderEnd(double x, double y, double z, EnumFacing.Axis axis, long seedOffset) {
-        float f = (float)this.rendererDispatcher.entityX;
-        float f1 = (float)this.rendererDispatcher.entityY;
-        float f2 = (float)this.rendererDispatcher.entityZ;
-        GlStateManager.disableLighting();
-        field_147527_e.setSeed(31100L + seedOffset);
-        float f3 = 0.25F;
+    @Override
+    public void render(TileBoxOfEternalClosure tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        Direction direction = BlockHelpers.getSafeBlockStateProperty(
+                tile.getWorld().getBlockState(tile.getPos()), BlockBoxOfEternalClosure.FACING, Direction.NORTH);
+        short rotation = 0;
+        if (direction == Direction.SOUTH) {
+            rotation = 180;
+        }
+        if (direction == Direction.NORTH) {
+            rotation = 0;
+        }
+        if (direction == Direction.WEST) {
+            rotation = 90;
+        }
+        if (direction == Direction.EAST) {
+            rotation = -90;
+        }
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(rotation));
+        matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
 
-        for (int i = 0; i < 16; ++i)
-        {
-            GlStateManager.pushMatrix();
-            float f4 = (float)(16 - i);
-            float f5 = 0.0625F;
-            float f6 = 1.0F / (f4 + 1.0F);
+        BlockState blockState = tile.getBlockState();
+        Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelRenderer().
+                renderModelBrightnessColor(matrixStackIn.getLast(), bufferIn.getBuffer(Atlases.getSolidBlockType()), blockState, ModelBoxOfEternalClosureBaked.boxModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
 
-            if (i == 0)
-            {
-                this.bindTexture(END_SKY_TEXTURE);
-                f6 = 0.1F;
-                f4 = 65.0F;
-                f5 = 0.125F;
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(770, 771);
-            }
+        float angle = tile.getPreviousLidAngle()
+                + (tile.getLidAngle() - tile.getPreviousLidAngle()) * partialTicks;
+        matrixStackIn.push();
+        matrixStackIn.translate(0F, 0.375F, 0.25F);
+        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(-angle));
+        matrixStackIn.translate(0F, -0.375F, -0.25F);
+        Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelRenderer().
+                renderModelBrightnessColor(matrixStackIn.getLast(), bufferIn.getBuffer(Atlases.getSolidBlockType()), blockState, ModelBoxOfEternalClosureBaked.boxLidModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+        matrixStackIn.pop();
 
-            if (i >= 1)
-            {
-                this.bindTexture(END_PORTAL_TEXTURE);
-            }
-
-            if (i == 1)
-            {
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(1, 1);
-                f5 = 0.5F;
-            }
-
-
-            GlStateManager.texGen(GlStateManager.TexGen.S, 9217);
-            GlStateManager.texGen(GlStateManager.TexGen.T, 9217);
-            GlStateManager.texGen(GlStateManager.TexGen.R, 9217);
-            GlStateManager.texGen(GlStateManager.TexGen.Q, 9216);
-            GlStateManager.texGen(GlStateManager.TexGen.S, 9473, this.func_147525_a(1.0F, 0.0F, 0.0F, 0.0F));
-            GlStateManager.texGen(GlStateManager.TexGen.T, 9473, this.func_147525_a(0.0F, 0.0F, 1.0F, 0.0F));
-            GlStateManager.texGen(GlStateManager.TexGen.R, 9473, this.func_147525_a(0.0F, 0.0F, 0.0F, 1.0F));
-            GlStateManager.texGen(GlStateManager.TexGen.Q, 9474, this.func_147525_a(0.0F, 1.0F, 0.0F, 0.0F));
-            GlStateManager.enableTexGenCoord(GlStateManager.TexGen.S);
-            GlStateManager.enableTexGenCoord(GlStateManager.TexGen.T);
-            GlStateManager.enableTexGenCoord(GlStateManager.TexGen.R);
-            GlStateManager.enableTexGenCoord(GlStateManager.TexGen.Q);
-            GlStateManager.popMatrix();
-            GlStateManager.matrixMode(5890);
-            GlStateManager.pushMatrix();
-            GlStateManager.loadIdentity();
-            GlStateManager.translate(0.0F, (float)((Minecraft.getSystemTime() + seedOffset) % 700000L) / 700000.0F, 0.0F);
-            GlStateManager.scale(f5, f5, f5);
-            GlStateManager.translate(0.5F, 0.5F, 0.0F);
-            GlStateManager.rotate((float)(i * i * 4321 + i * 9) * 2.0F, 0.0F, 0.0F, 1.0F);
-            GlStateManager.multMatrix(PROJECTION);
-            GlStateManager.multMatrix(MODELVIEW);
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder worldrenderer = tessellator.getBuffer();
-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            float f11 = (field_147527_e.nextFloat() * 0.5F + 0.5F) * f6;
-            float f12 = (field_147527_e.nextFloat() * 0.5F + 0.2F) * f6;
-            float f13 = (field_147527_e.nextFloat() * 0.5F + 0.2F) * f6;
-
-            if (i == 0)
-            {
-                f11 = f12 = f13 = 1.0F * f6;
-            }
-
-            double edgeX = axis == EnumFacing.Axis.Y ? 0.3125D : 0;
-            double edgeZ = axis == EnumFacing.Axis.Y ? 0 : 0.3125D;
+        if(angle > 0) {
+            /*
+            TODO
+            double edgeX = axis == Direction.Axis.Y ? 0.3125D : 0;
+            double edgeZ = axis == Direction.Axis.Y ? 0 : 0.3125D;
             worldrenderer.pos(0 + edgeX, (double)f3, 0.0D + edgeZ).color(f11, f12, f13, 1.0F).endVertex();
             worldrenderer.pos(0 + edgeX, (double)f3, 1.0D - edgeZ).color(f11, f12, f13, 1.0F).endVertex();
             worldrenderer.pos(1.0D - edgeX, (double)f3, 1.0D - edgeZ).color(f11, f12, f13, 1.0F).endVertex();
             worldrenderer.pos(1.0D - edgeX, (double)f3, 0.0D + edgeZ).color(f11, f12, f13, 1.0F).endVertex();
-            tessellator.draw();
-            GlStateManager.popMatrix();
-            GlStateManager.matrixMode(5888);
-            this.bindTexture(END_SKY_TEXTURE);
+             */
+            super.render(tile, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
         }
-
-        GlStateManager.blendFunc(1, 1);
-        GlStateManager.disableTexGenCoord(GlStateManager.TexGen.S);
-        GlStateManager.disableTexGenCoord(GlStateManager.TexGen.T);
-        GlStateManager.disableTexGenCoord(GlStateManager.TexGen.R);
-        GlStateManager.disableTexGenCoord(GlStateManager.TexGen.Q);
-        GlStateManager.enableLighting();
+    	
+    	// Optionally render beam
+        // Copied from EnderCrystalRenderer
+    	EntityVengeanceSpirit target = tile.getTargetSpirit();
+    	if(target != null) {
+            float f = func_229051_a_(tile, partialTicks);
+            BlockPos blockpos = tile.getPos();
+            float f3 = (float)blockpos.getX() + 0.5F;
+            float f4 = (float)blockpos.getY() + 0.5F;
+            float f5 = (float)blockpos.getZ() + 0.5F;
+            float f6 = (float)((double)f3 - target.getPosX());
+            float f7 = (float)((double)f4 - target.getPosY());
+            float f8 = (float)((double)f5 - target.getPosZ());
+            matrixStackIn.translate((double)f6, (double)f7, (double)f8);
+            EnderDragonRenderer.func_229059_a_(-f6, -f7 + f, -f8, partialTicks, tile.innerRotation, matrixStackIn, bufferIn, combinedLightIn);
+        }
     }
 
-    private FloatBuffer func_147525_a(float p_147525_1_, float p_147525_2_, float p_147525_3_, float p_147525_4_)
-    {
-        this.field_147528_b.clear();
-        this.field_147528_b.put(p_147525_1_).put(p_147525_2_).put(p_147525_3_).put(p_147525_4_);
-        this.field_147528_b.flip();
-        return this.field_147528_b;
+    @Override
+    public boolean shouldRenderFace(Direction direction) {
+        return direction == Direction.UP;
+    }
+
+    public static float func_229051_a_(TileBoxOfEternalClosure p_229051_0_, float p_229051_1_) {
+        float f = (float)p_229051_0_.innerRotation + p_229051_1_;
+        float f1 = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
+        f1 = (f1 * f1 + f1) * 0.4F;
+        return f1 - 1.4F;
     }
     
 }

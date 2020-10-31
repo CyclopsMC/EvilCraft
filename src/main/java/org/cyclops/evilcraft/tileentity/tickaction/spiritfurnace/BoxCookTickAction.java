@@ -3,29 +3,39 @@ package org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootParameterSets;
+import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.apache.logging.log4j.Level;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
-import org.cyclops.evilcraft.block.BoxOfEternalClosure;
-import org.cyclops.evilcraft.block.SpiritFurnaceConfig;
+import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
+import org.cyclops.evilcraft.block.BlockSpiritFurnaceConfig;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
-import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
@@ -43,34 +53,29 @@ import java.util.UUID;
  */
 public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 
-    public static final Map<Class<? extends EntityLivingBase>, List<WeightedItemStack>> MOBDROP_OVERRIDES = Maps.newHashMap();
-    public static final Map<Class<? extends EntityLivingBase>, ResourceLocation> MOBDROPTABLES_OVERRIDES = Maps.newHashMap();
-    public static final Map<UUID, List<WeightedItemStack>> PLAYERDROP_OVERRIDES = Maps.newHashMap();
+    public static final Map<Class<? extends LivingEntity>, List<WeightedItemStack>> MOBDROP_OVERRIDES = Maps.newHashMap();
+    public static final Map<UUID, List<WeightedItemStack>> PLAYERDROP_OVERRIDES_INNER = Maps.newHashMap();
     static {
-        if(SpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
-            overrideMobDrop(EntityVillager.class, Sets.newHashSet(
+        if(BlockSpiritFurnaceConfig.villagerDropEmeraldChance > 0) {
+            overrideMobDrop(VillagerEntity.class, Sets.newHashSet(
                     new WeightedItemStack(new ItemStack(Items.EMERALD), 1),
-                    new WeightedItemStack(ItemStack.EMPTY, SpiritFurnaceConfig.villagerDropEmeraldChance - 1)
+                    new WeightedItemStack(ItemStack.EMPTY, BlockSpiritFurnaceConfig.villagerDropEmeraldChance - 1)
             ));
         }
-        overrideMobDrop(EntityWither.class, Sets.newHashSet(
+        overrideMobDrop(WitherEntity.class, Sets.newHashSet(
                 new WeightedItemStack(new ItemStack(Items.NETHER_STAR), 1)
         ));
-        overridePlayerDrop("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
-        overridePlayerDrop("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
-        overridePlayerDrop("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.DYE, 1, 3).setStackDisplayName("Lekkere Stront")); // Davivs69
-        overridePlayerDrop("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.QUARTZ)); // Jona
-        overridePlayerDrop("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
-        overridePlayerDrop("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setStackDisplayName("Fuurnas")); // _KillaH229_
-        overridePlayerDrop("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.GOLDEN_APPLE, 1, 1)); // Notch
-        NBTTagCompound sheepTag = new NBTTagCompound();
-        NBTTagCompound sheepIdTag = new NBTTagCompound();
-        sheepIdTag.setString("id", "minecraft:sheep");
-        sheepTag.setTag("EntityTag", sheepIdTag);
-        overridePlayerDrop("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SPAWN_EGG, 1, 0, sheepTag).setStackDisplayName("jeb_")); // jeb_
-        overridePlayerDrop("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SPAWN_EGG, 1, 0, sheepTag).setStackDisplayName("Dinnerbone")); // Dinnerbone
-        overridePlayerDrop("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setStackDisplayName("direwolf20")); // direwolf20
-        overridePlayerDrop("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.PORKCHOP)); // iChun
+        overridePlayerDropInner("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
+        overridePlayerDropInner("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
+        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.BROWN_DYE).setDisplayName(new StringTextComponent("Lekkere Stront"))); // Davivs69
+        overridePlayerDropInner("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.QUARTZ)); // Jona
+        overridePlayerDropInner("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
+        overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setDisplayName(new StringTextComponent("Fuurnas"))); // _KillaH229_
+        overridePlayerDropInner("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.ENCHANTED_GOLDEN_APPLE)); // Notch
+        overridePlayerDropInner("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SHEEP_SPAWN_EGG).setDisplayName(new StringTextComponent("jeb_"))); // jeb_
+        overridePlayerDropInner("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SHEEP_SPAWN_EGG).setDisplayName(new StringTextComponent("Dinnerbone"))); // Dinnerbone
+        overridePlayerDropInner("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setDisplayName(new StringTextComponent("direwolf20"))); // direwolf20
+        overridePlayerDropInner("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.PORKCHOP)); // iChun
     }
     public static final ItemStack[] PLAYERDROP_RANDOM = new ItemStack[] {
             new ItemStack(Items.BOOK),
@@ -82,11 +87,11 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
             new ItemStack(Items.ITEM_FRAME),
             new ItemStack(Items.MINECART),
             new ItemStack(Items.SHEARS),
-            new ItemStack(Items.REEDS),
+            new ItemStack(Items.SUGAR_CANE),
             new ItemStack(Items.PUMPKIN_PIE),
             new ItemStack(Items.MAGMA_CREAM),
             new ItemStack(Items.SADDLE),
-            new ItemStack(Items.SPECKLED_MELON),
+            new ItemStack(Items.GLISTERING_MELON_SLICE),
             new ItemStack(Items.IRON_HOE),
             new ItemStack(Items.CARROT_ON_A_STICK),
             new ItemStack(Items.REDSTONE),
@@ -103,17 +108,8 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
      * @param drops A map of drops to relative frequency, with the second pair of the map key representing the min-max
      *              amount of drops (both inclusive)
      */
-    public static void overrideMobDrop(Class<? extends EntityLivingBase> entity, Set<WeightedItemStack> drops) {
+    public static void overrideMobDrop(Class<? extends LivingEntity> entity, Set<WeightedItemStack> drops) {
         MOBDROP_OVERRIDES.put(entity, WeightedItemStack.createWeightedList(drops));
-    }
-
-    /**
-     * Override an entity's drops inside the spirit furnace.
-     * @param entity The entity class.
-     * @param drops A loot table
-     */
-    public static void overrideMobDrop(Class<? extends EntityLivingBase> entity, ResourceLocation drops) {
-        MOBDROPTABLES_OVERRIDES.put(entity, drops);
     }
 
     /**
@@ -121,15 +117,15 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
      * @param playerId The player id.
      * @param drop The drop
      */
-    public static void overridePlayerDrop(String playerId, ItemStack drop) {
-        PLAYERDROP_OVERRIDES.put(UUID.fromString(playerId), WeightedItemStack.createWeightedList(Sets.newHashSet(new WeightedItemStack(drop, 1))));
+    public static void overridePlayerDropInner(String playerId, ItemStack drop) {
+        PLAYERDROP_OVERRIDES_INNER.put(UUID.fromString(playerId), WeightedItemStack.createWeightedList(Sets.newHashSet(new WeightedItemStack(drop, 1))));
     }
     
     @Override
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
         if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork()
                 && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0)
-        		&& !getCookStack(tile).isEmpty() && tile.canConsume(getCookStack(tile))) {
+        		&& !getCookStack(tile).isEmpty() && tile.getTileWorkingMetadata().canConsume(getCookStack(tile), tile.getWorld())) {
         	for(int slotId : tile.getProduceSlots()) {
 	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);
 	            if(production == null || production.getCount() < production.getMaxStackSize()) {
@@ -145,9 +141,9 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     }
 
     protected ItemStack getPlayerSkull(String playerName) {
-        ItemStack itemStack = new ItemStack(Items.SKULL, 1, 3);
-        itemStack.setTagCompound(new NBTTagCompound());
-        itemStack.getTagCompound().setString("SkullOwner", playerName);
+        ItemStack itemStack = new ItemStack(Items.PLAYER_HEAD);
+        itemStack.setTag(new CompoundNBT());
+        itemStack.getTag().putString("SkullOwner", playerName);
         return itemStack;
     }
 
@@ -156,13 +152,14 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     }
     
     protected void doNextDrop(TileSpiritFurnace tile) {
-    	EntityLiving entity = tile.getEntity();
-    	if(entity != null) {
+    	Entity entityRaw = tile.getEntity();
+    	if(entityRaw instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) entityRaw;
             World world = tile.getWorld();
 			
 			// Send sound to client
-			SoundEvent deathSound = ObfuscationHelpers.getDeathSound(entity);
-            if(SpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
+			SoundEvent deathSound = entity.getDeathSound();
+            if(BlockSpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
                 BlockPos pos = tile.getPos();
                 world.playSound(null, pos, deathSound, entity.getSoundCategory(), 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
             }
@@ -171,11 +168,15 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                 UUID playerUuid = UUID.fromString(tile.getPlayerId());
                 List<WeightedItemStack> possibleDrops = Lists.newLinkedList();
                 possibleDrops.add(new WeightedItemStack(getPlayerDeterminedDrop(tile.getPlayerId()), 1));
-                List<WeightedItemStack> overridenDrops = PLAYERDROP_OVERRIDES.get(playerUuid);
+                List<WeightedItemStack> overridenDrops = PLAYERDROP_OVERRIDES_INNER.get(playerUuid);
+                if(overridenDrops == null) {
+                    Map<String, List<WeightedItemStack>> playerDropOverrides = getPlayerDropOverrides();
+                    overridenDrops = playerDropOverrides.get(playerUuid.toString());
+                }
                 if(overridenDrops != null) {
                     possibleDrops.addAll(overridenDrops);
                 }
-                if(!BoxOfEternalClosure.FORGOTTEN_PLAYER.equals(tile.getPlayerName())) {
+                if(!BlockBoxOfEternalClosure.FORGOTTEN_PLAYER.equals(tile.getPlayerName())) {
                     possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
                 }
                 WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
@@ -193,28 +194,28 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                     }
                 } else {
                     ResourceLocation deathLootTable;
-                    if (MOBDROPTABLES_OVERRIDES.containsKey(entity.getClass())) {
-                        deathLootTable = MOBDROPTABLES_OVERRIDES.get(entity.getClass());
+                    Map<EntityType<?>, ResourceLocation> mobDropTablesOverrides = getMobDropTablesOverrides();
+                    if (mobDropTablesOverrides.containsKey(entity.getClass())) {
+                        deathLootTable = mobDropTablesOverrides.get(entity.getClass());
                     } else {
-                        deathLootTable = ObfuscationHelpers.getLootTable(entity);
+                        deathLootTable = entity.getLootTableResourceLocation();
                     }
                     if(deathLootTable != null) {
-                        LootTable loottable = world.getLootTableManager().getLootTableFromLocation(deathLootTable);
-                        if (loottable == null) {
-                            throw new RuntimeException("Could not find the loot table " + deathLootTable
-                                    + ", an invalid loot table might have been configured as spirit furnace mob drop override.");
-                        }
-                        LootContext.Builder lootcontext$builder = (new LootContext.Builder((WorldServer) tile.getWorld()))
-                                .withLootedEntity(entity)
-                                .withPlayer(FakePlayerFactory.getMinecraft((WorldServer) tile.getWorld()))
-                                .withDamageSource(DamageSource.GENERIC);
+                        LootTable loottable = ServerLifecycleHooks.getCurrentServer().getLootTableManager().getLootTableFromLocation(deathLootTable);
+                        FakePlayer killerEntity = FakePlayerFactory.getMinecraft((ServerWorld) tile.getWorld());
+                        LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) tile.getWorld()))
+                                .withParameter(LootParameters.THIS_ENTITY, entity)
+                                .withParameter(LootParameters.POSITION, tile.getPos())
+                                .withParameter(LootParameters.KILLER_ENTITY, killerEntity)
+                                .withParameter(LootParameters.DIRECT_KILLER_ENTITY, killerEntity)
+                                .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC);
 
                         // If we want to do something with fortune later...
                         /*if (p_184610_1_ && this.attackingPlayer != null) {
                             lootcontext$builder = lootcontext$builder.withPlayer(this.attackingPlayer).withLuck(this.attackingPlayer.getLuck());
                         }*/
 
-                        for (ItemStack itemstack : loottable.generateLootForPools(world.rand, lootcontext$builder.build())) {
+                        for (ItemStack itemstack : loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY))) {
                             tile.onItemDrop(itemstack);
                         }
                     }
@@ -223,14 +224,70 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 		}
     }
 
+    private Map<String, List<WeightedItemStack>> getPlayerDropOverrides() {
+        Map<String, List<WeightedItemStack>> map = Maps.newIdentityHashMap();
+        for(String line : BlockSpiritFurnaceConfig.playerDrops) {
+            String[] split = line.split(BlockSpiritFurnaceConfig.DELIMITER);
+            if(split.length != 2) {
+                throw new IllegalArgumentException("Invalid line '" + line + "' found for "
+                        + "a Spirit Furnace player drop config.");
+            }
+            try {
+                String playerId = split[0];
+                boolean validId = true;
+                try {
+                    UUID.fromString(playerId);
+                } catch (IllegalArgumentException e) {
+                    validId = false;
+                }
+                if(!validId) {
+                    EvilCraft.clog("Invalid line '" + line + "' found for "
+                            + "a Spirit Furnace player drop config: " + split[0] + " does not refer to a valid player UUID; skipping.");
+                    continue;
+                }
+                try {
+                    ItemStack itemStack = ItemStackHelpers.parseItemStack(split[1]);
+                    map.put(playerId, Lists.newArrayList(new WeightedItemStack(itemStack, 1)));
+                } catch (IllegalArgumentException e) {
+                    EvilCraft.clog("Invalid item '" + split[1] + "' in "
+                            + "a Spirit Furnace player drop config; skipping:" + e.getMessage(), Level.ERROR);
+                }
+            } catch (NumberFormatException e) {
+                EvilCraft.clog("Invalid line '" + line + "' found for "
+                        + "a Spirit Furnace player drop config: " + split[0] + " is not a number; skipping.");
+            }
+        }
+        return map;
+    }
+
+    private Map<EntityType<?>, ResourceLocation> getMobDropTablesOverrides() {
+        Map<EntityType<?>, ResourceLocation> map = Maps.newIdentityHashMap();
+        for(String line : BlockSpiritFurnaceConfig.mobDrops) {
+            String[] split = line.split(BlockSpiritFurnaceConfig.DELIMITER);
+            if(split.length != 2) {
+                throw new IllegalArgumentException("Invalid line '" + line + "' found for "
+                        + "a Spirit Furnace mob drop config.");
+            }
+            ResourceLocation entityName = new ResourceLocation(split[0]);
+            if (!ForgeRegistries.ENTITIES.containsKey(entityName)) {
+                EvilCraft.clog("Invalid line '" + line + "' found for "
+                        + "a Spirit Furnace mob drop config: " + split[0] + " does not refer to a valid entity name; skipping.");
+                continue;
+            }
+            ResourceLocation resourceLocation = new ResourceLocation(split[1]);
+            map.put(ForgeRegistries.ENTITIES.getValue(entityName), resourceLocation);
+        }
+        return map;
+    }
+
     protected int getRequiredMb(TileSpiritFurnace tile, int tick) {
         int baseUsage;
         if(tile.isPlayer()) {
-            baseUsage = SpiritFurnaceConfig.playerMBPerTick;
+            baseUsage = BlockSpiritFurnaceConfig.playerMBPerTick;
         } else if (tile.getEntity() != null && !tile.getEntity().isNonBoss()) {
-            baseUsage = SpiritFurnaceConfig.bossMBPerTick;
+            baseUsage = BlockSpiritFurnaceConfig.bossMBPerTick;
         } else {
-            baseUsage = SpiritFurnaceConfig.mBPerTick;
+            baseUsage = BlockSpiritFurnaceConfig.mBPerTick;
         }
         MutableDouble drain = new MutableDouble(baseUsage);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritFurnace.UPGRADEEVENT_BLOODUSAGE));
@@ -241,7 +298,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 	public void onTick(TileSpiritFurnace tile, ItemStack itemStack, int slot,
 			int tick) {
 		// Drain the tank a bit.
-		tile.getTank().drain(getRequiredMb(tile, tick), true);
+		tile.getTank().drain(getRequiredMb(tile, tick), IFluidHandler.FluidAction.EXECUTE);
 		if(tick >= getRequiredTicks(tile, slot, tick)) {
 			doNextDrop(tile);
 		}
@@ -250,14 +307,15 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 	@Override
 	public float getRequiredTicks(TileSpiritFurnace tile, int slot, int tick) {
         int requiredTicksBase;
-		EntityLivingBase entity = tile.getEntity();
+		Entity entity = tile.getEntity();
 		if(entity == null) {
-            requiredTicksBase = SpiritFurnaceConfig.requiredTicksPerHp;
+            requiredTicksBase = BlockSpiritFurnaceConfig.requiredTicksPerHp;
 		} else {
             try {
-                requiredTicksBase = (int) ((entity.getHealth() + entity.getTotalArmorValue()) * SpiritFurnaceConfig.requiredTicksPerHp);
-            } catch (Exception e) {
-                requiredTicksBase = 40 * SpiritFurnaceConfig.requiredTicksPerHp;
+                LivingEntity livingEntity = (LivingEntity) entity;
+                requiredTicksBase = (int) ((livingEntity.getHealth() + livingEntity.getTotalArmorValue()) * BlockSpiritFurnaceConfig.requiredTicksPerHp);
+            } catch (RuntimeException e) {
+                requiredTicksBase = 40 * BlockSpiritFurnaceConfig.requiredTicksPerHp;
             }
         }
         MutableDouble duration = new MutableDouble(requiredTicksBase);

@@ -1,0 +1,29 @@
+package org.cyclops.evilcraft.item;
+
+import net.minecraft.item.Item;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.evilcraft.EvilCraft;
+
+/**
+ * Config for the {@link ItemDarkStick}.
+ * @author rubensworks
+ *
+ */
+public class ItemDarkStickConfig extends ItemConfig {
+
+    public ItemDarkStickConfig() {
+        super(
+                EvilCraft._instance,
+                "dark_stick",
+                eConfig -> new ItemDarkStick(new Item.Properties()
+                        .group(EvilCraft._instance.getDefaultItemGroup()))
+        );
+    }
+
+    /*
+    @Override
+    public String getOreDictionaryId() {
+        return Reference.DICT_WOODSTICK; TODO
+    }*/
+
+}

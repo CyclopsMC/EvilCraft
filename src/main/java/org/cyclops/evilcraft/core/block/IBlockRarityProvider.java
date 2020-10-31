@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.block;
 
-import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Rarity;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -13,6 +13,6 @@ public interface IBlockRarityProvider {
      * @param itemStack The itemstack with this blockState.
      * @return The rarity for this blockState.
      */
-    public EnumRarity getRarity(ItemStack itemStack);
+    public Rarity getRarity(ItemStack itemStack);
 
 }

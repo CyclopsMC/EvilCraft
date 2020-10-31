@@ -1,12 +1,10 @@
 package org.cyclops.evilcraft.core.client.render;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 
 /**
@@ -14,20 +12,11 @@ import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
  * @author rubensworks
  *
  */
-@SideOnly(Side.CLIENT)
-public class RenderThrowable extends RenderSnowball<EntityThrowable> {
+@OnlyIn(Dist.CLIENT)
+public class RenderThrowable extends SpriteRenderer<EntityThrowable> {
 
-    public RenderThrowable(RenderManager renderManager, Item item, RenderItem renderItem) {
-        super(renderManager, item, renderItem);
-    }
-
-    @Override
-    public ItemStack getStackToRender(EntityThrowable entity) {
-        return getItemStack(entity);
-    }
-
-    public ItemStack getItemStack(EntityThrowable entityItem) {
-        return entityItem.getItemStack();
+    public RenderThrowable(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        super(renderManager, renderItem);
     }
 
 }

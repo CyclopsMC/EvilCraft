@@ -1,14 +1,15 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.item.LightningGrenade;
 
 /**
  * Config for {@link EntityLightningGrenade}.
@@ -16,34 +17,19 @@ import org.cyclops.evilcraft.item.LightningGrenade;
  *
  */
 public class EntityLightningGrenadeConfig extends EntityConfig<EntityLightningGrenade> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityLightningGrenadeConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public EntityLightningGrenadeConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_lightning_grenade",
-            null,
-            EntityLightningGrenade.class
+            "lightning_grenade",
+                eConfig -> EntityType.Builder.<EntityLightningGrenade>create(EntityLightningGrenade::new, EntityClassification.MISC)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render<EntityLightningGrenade> getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderSnowball<EntityLightningGrenade>(renderManager, LightningGrenade.getInstance(), renderItem);
+    public EntityRenderer<EntityLightningGrenade> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        return new SpriteRenderer<>(renderManager, renderItem);
     }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
-    }
-    
 }

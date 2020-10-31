@@ -18,6 +18,10 @@ public class Upgrades {
 
     private static Map<String, Upgrade> upgradeMap = Maps.newHashMap();
 
+    public static Collection<Upgrade> getUpgrades() {
+        return upgradeMap.values();
+    }
+
     /**
      * Get or create the unique upgrade instance
      * @param upgradeId The unique id of the upgrade.

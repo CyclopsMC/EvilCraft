@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.broom;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 
@@ -13,23 +13,23 @@ import org.cyclops.evilcraft.entity.item.EntityBroom;
  */
 public class PotionEffectBroomCollision implements BroomModifier.ICollisionListener {
 
-    private final Potion potion;
+    private final Effect potion;
     private final int level;
 
-    public PotionEffectBroomCollision(Potion potion, int level) {
+    public PotionEffectBroomCollision(Effect potion, int level) {
         this.potion = potion;
         this.level = level;
     }
 
-    public PotionEffectBroomCollision(Potion potion) {
+    public PotionEffectBroomCollision(Effect potion) {
         this(potion, 1);
     }
 
     @Override
     public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
-        if (entity instanceof EntityLivingBase && modifierValue > 0) {
-            ((EntityLivingBase) entity).addPotionEffect(
-                    new PotionEffect(potion, (int) modifierValue, level));
+        if (entity instanceof LivingEntity && modifierValue > 0) {
+            ((LivingEntity) entity).addPotionEffect(
+                    new EffectInstance(potion, (int) modifierValue, level));
         }
     }
 }

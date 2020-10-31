@@ -1,15 +1,15 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
-import org.cyclops.evilcraft.item.ExaltedCrafter;
+import org.cyclops.evilcraft.item.ItemExaltedCrafter;
 
 /**
  * Packet for clearing the exalted crafting grid.
@@ -35,9 +35,9 @@ public class ExaltedCrafterOpenPacket extends PacketCodec {
 	 * @param itemIndex The index of the crafter in the player inventory.
 	 * @param hand The hand the item is in.
 	 */
-	public ExaltedCrafterOpenPacket(int itemIndex, EnumHand hand) {
+	public ExaltedCrafterOpenPacket(int itemIndex, Hand hand) {
 		this.itemIndex = itemIndex;
-		this.mainHand = EnumHand.MAIN_HAND.equals(hand);
+		this.mainHand = Hand.MAIN_HAND.equals(hand);
 	}
 
 	@Override
@@ -46,13 +46,13 @@ public class ExaltedCrafterOpenPacket extends PacketCodec {
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void actionClient(World world, EntityPlayer player) {
+	@OnlyIn(Dist.CLIENT)
+	public void actionClient(World world, PlayerEntity player) {
 		
 	}
 	
 	@Override
-	public void actionServer(World world, EntityPlayerMP player) {
+	public void actionServer(World world, ServerPlayerEntity player) {
 		if(itemIndex >= 0) {
 			ItemStack found;
 			if (mainHand) {
@@ -60,9 +60,9 @@ public class ExaltedCrafterOpenPacket extends PacketCodec {
 			} else {
 				found = player.getHeldItemOffhand();
 			}
-			if (!found.isEmpty() && found.getItem() == ExaltedCrafter.getInstance()) {
-				ExaltedCrafter.getInstance().openGuiForItemIndex(world, player, itemIndex, mainHand
-						? EnumHand.MAIN_HAND : EnumHand.OFF_HAND);
+			if (!found.isEmpty() && found.getItem() instanceof ItemExaltedCrafter) {
+				((ItemExaltedCrafter) found.getItem()).openGuiForItemIndex(world, player, itemIndex, mainHand
+						? Hand.MAIN_HAND : Hand.OFF_HAND);
 			}
 		}
 	}

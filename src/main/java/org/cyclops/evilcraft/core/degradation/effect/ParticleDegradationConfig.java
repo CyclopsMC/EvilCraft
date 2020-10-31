@@ -8,23 +8,13 @@ import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
  *
  */
 public class ParticleDegradationConfig extends DegradationEffectConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static ParticleDegradationConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public ParticleDegradationConfig() {
         super(
-            true,
-            "particle",
-            null,
-            ParticleDegradation.class,
-            10
+                "particle",
+                ParticleDegradation::new,
+                10
         );
     }
-    
+
 }

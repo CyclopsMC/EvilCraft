@@ -1,25 +1,27 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.Direction;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.evilcraft.block.DarkTank;
+import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
-import org.lwjgl.opengl.GL11;
 
 /**
- * Renderer for the {@link DarkTank}.
+ * Renderer for the {@link BlockDarkTank}.
  * @author rubensworks
  *
  */
-public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer<TileDarkTank> {
+public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
 	
 	private static final double OFFSET = 0.01D;
 	private static final double MINY = OFFSET;
@@ -64,18 +66,18 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer<TileDark
         }
     };
 
+	public RenderTileEntityDarkTank(TileEntityRendererDispatcher rendererDispatcherIn) {
+		super(rendererDispatcherIn);
+	}
+
 	@Override
-	public void render(final TileDarkTank tile, final double x, final double y, final double z, float f, int partialDamage, float alpha) {
-			FluidStack fluid = tile.getTank().getFluid();
-        RenderHelpers.renderTileFluidContext(fluid, x, y, z, tile, new RenderHelpers.IFluidContextRender() {
-
-            @Override
-            public void renderFluid(FluidStack fluid) {
-                double height = tile.getFillRatio() * 0.99D;
-                renderFluidSides(height, fluid, tile.getWorld().getCombinedLight(tile.getPos(), fluid.getFluid().getLuminosity(fluid)));
-            }
-
-        });
+	public void render(final TileDarkTank tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+		FluidStack fluid = tile.getTank().getFluid();
+		RenderHelpers.renderFluidContext(fluid, matrixStackIn, () -> {
+			float height = (float) (tile.getFillRatio() * 0.99F);
+			int brightness = Math.max(combinedLightIn, fluid.getFluid().getAttributes().getLuminosity(fluid));
+			renderFluidSides(height, tile.getTank().getFluid(), brightness, matrixStackIn, bufferIn);
+		});
 	}
 	
 	/**
@@ -84,7 +86,7 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer<TileDark
 	 * @param fluid The fluid.
      * @param brightness The brightness to render the fluid with.
 	 */
-	public static void renderFluidSides(double height, FluidStack fluid, int brightness) {
+	public static void renderFluidSides(float height, FluidStack fluid, int brightness, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn) {
         int l2 = brightness >> 0x10 & 0xFFFF;
         int i3 = brightness & 0xFFFF;
         Triple<Float, Float, Float> colorParts = RenderHelpers.getFluidVertexBufferColor(fluid);
@@ -92,26 +94,21 @@ public class RenderTileEntityDarkTank extends TileEntitySpecialRenderer<TileDark
         float g = colorParts.getMiddle();
         float b = colorParts.getRight();
         float a = 1.0F;
-		for(EnumFacing side : DirectionHelpers.DIRECTIONS) {
-			TextureAtlasSprite icon = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluid, side);
-
-            Tessellator t = Tessellator.getInstance();
-            BufferBuilder worldRenderer = t.getBuffer();
-            worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
-			
+		TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
+		IVertexBuilder vb = bufferIn.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
+		Matrix4f matrix = matrixStackIn.getLast().getMatrix();
+		for(Direction side : DirectionHelpers.DIRECTIONS) {
 			double[][] c = coordinates[side.ordinal()];
-			double replacedMaxV = (side == EnumFacing.UP || side == EnumFacing.DOWN) ?
+			float replacedMaxV = (side == Direction.UP || side == Direction.DOWN) ?
 					icon.getMaxV() : ((icon.getMaxV() - icon.getMinV()) * height + icon.getMinV());
-            worldRenderer.pos(c[0][0], getHeight(side, c[0][1], height), c[0][2]).tex(icon.getMinU(), replacedMaxV).lightmap(l2, i3).color(r, g, b, a).endVertex();
-            worldRenderer.pos(c[1][0], getHeight(side, c[1][1], height), c[1][2]).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).color(r, g, b, a).endVertex();
-            worldRenderer.pos(c[2][0], getHeight(side, c[2][1], height), c[2][2]).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).color(r, g, b, a).endVertex();
-            worldRenderer.pos(c[3][0], getHeight(side, c[3][1], height), c[3][2]).tex(icon.getMaxU(), replacedMaxV).lightmap(l2, i3).color(r, g, b, a).endVertex();
-			
-			t.draw();
+            vb.pos(c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).tex(icon.getMinU(), replacedMaxV).lightmap(l2, i3).endVertex();
+			vb.pos(c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).endVertex();
+			vb.pos(c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).endVertex();
+			vb.pos(c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).tex(icon.getMaxU(), replacedMaxV).lightmap(l2, i3).endVertex();
 		}
 	}
 	
-	private static double getHeight(EnumFacing side, double height, double replaceHeight) {
+	private static double getHeight(Direction side, double height, double replaceHeight) {
 		if(height == MAX) {
 			return replaceHeight;
 		}

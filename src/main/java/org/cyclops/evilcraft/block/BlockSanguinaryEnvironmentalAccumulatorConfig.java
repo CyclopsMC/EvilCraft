@@ -1,0 +1,50 @@
+package org.cyclops.evilcraft.block;
+
+import com.google.common.collect.Sets;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
+import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
+
+import java.util.Set;
+
+/**
+ * Config for the {@link BlockSanguinaryEnvironmentalAccumulator}.
+ * @author rubensworks
+ *
+ */
+public class BlockSanguinaryEnvironmentalAccumulatorConfig extends UpgradableBlockContainerConfig {
+
+    @ConfigurableProperty(category = "machine", isCommandable = true, comment = "The base blood usage in mB for recipes, this is multiplied with the cooldown time per recipe.")
+    public static int baseUsage = 50;
+
+    public BlockSanguinaryEnvironmentalAccumulatorConfig() {
+        super(
+                EvilCraft._instance,
+            "sanguinary_environmental_accumulator",
+                eConfig -> new BlockSanguinaryEnvironmentalAccumulator(Block.Properties.create(Material.ROCK)
+                        .hardnessAndResistance(5.0F)
+                        .sound(SoundType.STONE)),
+                getDefaultItemConstructor(EvilCraft._instance)
+        );
+    }
+
+    @Override
+    public Set<Upgrades.Upgrade> getUpgrades() {
+        return Sets.newHashSet(
+                TileWorking.UPGRADE_EFFICIENCY,
+                TileWorking.UPGRADE_SPEED,
+                TileWorking.UPGRADE_TIER1,
+                TileWorking.UPGRADE_TIER2,
+                TileWorking.UPGRADE_TIER3);
+    }
+
+    @Override
+    protected String getConfigPropertyPrefix(ConfigurableProperty annotation) {
+        return "sang_envir_acc";
+    }
+}

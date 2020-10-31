@@ -1,80 +1,69 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IRendersAsItem;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import net.minecraft.world.server.ServerWorld;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
-import org.cyclops.evilcraft.item.LightningGrenade;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.item.ItemLightningGrenade;
 
 /**
- * Entity for the {@link LightningGrenade}.
+ * Entity for the {@link ItemLightningGrenade}.
  * @author rubensworks
  *
  */
-public class EntityLightningGrenade extends EntityThrowable implements IConfigurable{
-    
-    /**
-     * Make a new instance in the given world.
-     * @param world The world to make it in.
-     */
-    public EntityLightningGrenade(World world) {
-        super(world);
+public class EntityLightningGrenade extends ThrowableEntity implements IRendersAsItem {
+
+    public EntityLightningGrenade(World world, LivingEntity entity) {
+        super(RegistryEntries.ENTITY_LIGHTNING_GRENADE, entity, world);
     }
 
-    /**
-     * Make a new instance in a world by a placer {@link EntityLivingBase}.
-     * @param world The world.
-     * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
-     */
-    public EntityLightningGrenade(World world, EntityLivingBase entity) {
-        super(world, entity);
-    }
-    
-    /**
-     * Make a new instance at the given location in a world.
-     * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
-     */
-    @SideOnly(Side.CLIENT)
-    public EntityLightningGrenade(World world, double x, double y, double z) {
-        super(world, x, y, z);
+    public EntityLightningGrenade(EntityType<? extends EntityLightningGrenade> type, World world) {
+        super(type, world);
     }
 
     @Override
     protected void onImpact(RayTraceResult par1MovingObjectPosition) {
-        if (par1MovingObjectPosition.entityHit != null) {
-            par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+        if (par1MovingObjectPosition.getType() == RayTraceResult.Type.ENTITY) {
+            ((EntityRayTraceResult) par1MovingObjectPosition).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
         }
 
         for (int i = 0; i < 32; ++i) {
-            this.world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, this.posX, this.posY + this.rand.nextDouble() * 2.0D, this.posZ, this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
+            Minecraft.getInstance().worldRenderer.addParticle(
+                    ParticleTypes.CRIT, false,
+                    this.getPosX(), this.getPosY() + this.rand.nextDouble() * 2.0D, this.getPosZ(),
+                    this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
         }
 
-        if (!this.world.isRemote) {
-            if (this.getThrower() != null && this.getThrower() instanceof EntityPlayerMP) {    
-                EntityHelpers.onEntityCollided(this.world, par1MovingObjectPosition.getBlockPos(), this);
-                this.world.addWeatherEffect(new EntityLightningBolt(this.world, this.posX, this.posY, this.posZ, false));
+        if (!this.world.isRemote()) {
+            if (this.getThrower() != null && this.getThrower() instanceof ServerPlayerEntity) {
+                EntityHelpers.onEntityCollided(this.world, new BlockPos(par1MovingObjectPosition.getHitVec()), this);
+                ((ServerWorld) this.world).addLightningBolt(new LightningBoltEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), false));
             }
 
-            this.setDead();
+            this.remove();
         }
     }
 
     @Override
-    public ExtendedConfig<?> getConfig() {
-        return null;
+    protected void registerData() {
+
     }
 
+    @Override
+    public ItemStack getItem() {
+        return new ItemStack(RegistryEntries.ITEM_LIGHTNING_GRENADE);
+    }
 }

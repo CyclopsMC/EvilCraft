@@ -4,11 +4,10 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.enchantment.EnchantmentVengeance;
-import org.cyclops.evilcraft.item.VengeancePickaxe;
+import org.cyclops.evilcraft.item.ItemVengeancePickaxe;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
@@ -43,9 +42,9 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
             }
 
             // Check bad enchant registry
-            for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
-                if (tile.getPurifyItem().getItem() != VengeancePickaxe.getInstance()
-                        || enchant != EnchantmentVengeance.getInstance()) {
+            for(Enchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
+                if (!(tile.getPurifyItem().getItem() instanceof ItemVengeancePickaxe)
+                        || (enchant instanceof EnchantmentVengeance)) {
                     int enchantmentListID = EnchantmentHelpers.doesEnchantApply(tile.getPurifyItem(), enchant);
                     if (enchantmentListID >= 0) {
                         return true;
@@ -60,14 +59,14 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         int enchantmentListID = EnchantmentHelpers.doesEnchantApply(purifyItem, enchant);
         if(enchantmentListID > -1) {
             if(tick >= PURIFY_DURATION) {
-                if(!world.isRemote) {
+                if(!world.isRemote()) {
                     int level = EnchantmentHelpers.getEnchantmentLevel(purifyItem, enchantmentListID);
                     EnchantmentHelpers.setEnchantmentLevel(purifyItem, enchantmentListID, level - 1);
                 }
                 tile.setBuckets(tile.getBucketsFloored() - 1, tile.getBucketsRest());
                 return true;
             }
-            if(world.isRemote) {
+            if(world.isRemote()) {
                 tile.showEffect();
             }
         }
@@ -90,10 +89,10 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         }
 
         // Try removing bad enchants.
-        for(ConfigurableEnchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
+        for(Enchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
             if(!done) {
-                if (tile.getPurifyItem().getItem() != VengeancePickaxe.getInstance()
-                        || enchant != EnchantmentVengeance.getInstance()) {
+                if (!(tile.getPurifyItem().getItem() instanceof ItemVengeancePickaxe)
+                        || (enchant instanceof EnchantmentVengeance)) {
                     done = removeEnchant(world, tile, purifyItem, tick, enchant);
                 }
             }

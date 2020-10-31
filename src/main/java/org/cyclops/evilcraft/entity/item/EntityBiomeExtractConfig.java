@@ -1,49 +1,37 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.client.render.RenderThrowable;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
-import org.cyclops.evilcraft.item.BiomeExtract;
 
 /**
  * Config for the {@link EntityWeatherContainer}.
  * @author rubensworks
  *
  */
-public class EntityBiomeExtractConfig extends EntityConfig<EntityThrowable> {
+public class EntityBiomeExtractConfig extends EntityConfig<EntityBiomeExtract> {
 
-    /**
-     * The unique instance.
-     */
-    public static EntityBiomeExtractConfig _instance;
-
-    /**
-     * Make a new instance.
-     */
     public EntityBiomeExtractConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_biome_extract",
-            null,
-            EntityBiomeExtract.class
+            "biome_extract",
+                eConfig -> EntityType.Builder.<EntityBiomeExtract>create(EntityBiomeExtract::new, EntityClassification.MISC)
+                        .size(0.6F, 1.8F)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
-    }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render<EntityThrowable> getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderThrowable(renderManager, BiomeExtract.getInstance(), renderItem);
+    public EntityRenderer<EntityThrowable> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        return new RenderThrowable(renderManager, renderItem);
     }
 }

@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
@@ -47,12 +49,12 @@ public class ItemPowerableHelpers {
      * @param onSneak If the action should be executed for a sneaking player.
      * @return If the power level was changed.
      */
-    public static boolean onPowerableItemItemRightClick(ItemStack itemStack, World world, EntityPlayer player, int powerLevels, boolean onSneak) {
-        if(onSneak == player.isSneaking()) {
-            if(!world.isRemote) {
+    public static boolean onPowerableItemItemRightClick(ItemStack itemStack, World world, PlayerEntity player, int powerLevels, boolean onSneak) {
+        if(onSneak == player.isCrouching()) {
+            if(!world.isRemote()) {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
-                player.sendMessage(new TextComponentString(TextFormatting.ITALIC
+                player.sendMessage(new StringTextComponent(TextFormatting.ITALIC
                         + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.set_power", newPower)));
             }
             return true;
@@ -65,7 +67,7 @@ public class ItemPowerableHelpers {
      * @param itemStack The itemstack with a power
      * @param lines The lines to add the information to.
      */
-    public static void addPreInformation(ItemStack itemStack, List<String> lines) {
+    public static void addPreInformation(ItemStack itemStack, List<ITextComponent> lines) {
         L10NHelpers.addOptionalInfo(lines, "item." + Reference.MOD_ID + ".powerable");
     }
 
@@ -74,8 +76,9 @@ public class ItemPowerableHelpers {
      * @param itemStack The itemstack with a power
      * @param lines The lines to add the information to.
      */
-    public static void addPostInformation(ItemStack itemStack, List<String> lines) {
-        lines.add(TextFormatting.BOLD + L10NHelpers.localize("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack)));
+    public static void addPostInformation(ItemStack itemStack, List<ITextComponent> lines) {
+        lines.add(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
+                .applyTextStyle(TextFormatting.BOLD));
     }
 	
 }

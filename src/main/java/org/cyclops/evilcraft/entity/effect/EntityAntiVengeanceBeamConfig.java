@@ -1,11 +1,13 @@
 package org.cyclops.evilcraft.entity.effect;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.client.render.RenderNull;
@@ -15,40 +17,21 @@ import org.cyclops.evilcraft.core.client.render.RenderNull;
  * @author rubensworks
  *
  */
-public class EntityAntiVengeanceBeamConfig extends EntityConfig<Entity> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityAntiVengeanceBeamConfig _instance;
+public class EntityAntiVengeanceBeamConfig extends EntityConfig<EntityAntiVengeanceBeam> {
 
-    /**
-     * Make a new instance.
-     */
     public EntityAntiVengeanceBeamConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_neutron_beam",
-            null,
-            EntityAntiVengeanceBeam.class
+                "neutron_beam",
+                eConfig -> EntityType.Builder.<EntityAntiVengeanceBeam>create(EntityAntiVengeanceBeam::new, EntityClassification.MISC)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
-    
-    @Override
-    public boolean isDisableable() {
-    	return false;
-    }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
+    public EntityRenderer<Entity> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
     	return new RenderNull(renderManager);
-    }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
     }
     
 }

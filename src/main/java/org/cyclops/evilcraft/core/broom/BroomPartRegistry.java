@@ -6,28 +6,33 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
-import org.cyclops.evilcraft.item.BroomConfig;
+import org.cyclops.evilcraft.item.ItemBroomConfig;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Default registry for broom parts.
@@ -41,7 +46,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private final Multimap<IBroomPart, ItemStack> partItems = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifiers = Maps.newHashMap();
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private Map<IBroomPart, ResourceLocation> partModels;
 
     public BroomPartRegistry() {
@@ -135,19 +140,19 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void registerPartModel(IBroomPart part, ResourceLocation modelLocation) {
         partModels.put(part, modelLocation);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public ResourceLocation getPartModel(IBroomPart part) {
         return partModels.get(part);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public Collection<ResourceLocation> getPartModels() {
         return Collections.unmodifiableCollection(partModels.values());
     }
@@ -156,10 +161,10 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     public Collection<IBroomPart> getBroomParts(ItemStack broomStack) {
         if(broomStack != null) {
             List<IBroomPart> parts = Lists.newArrayList();
-            if(broomStack.hasTagCompound()) {
-                NBTTagList tags = broomStack.getTagCompound().getTagList(NBT_TAG_NAME, MinecraftHelpers.NBTTag_Types.NBTTagString.ordinal());
-                for (int i = 0; i < tags.tagCount(); i++) {
-                    String id = tags.getStringTagAt(i);
+            if(broomStack.hasTag()) {
+                ListNBT tags = broomStack.getTag().getList(NBT_TAG_NAME, Constants.NBT.TAG_COMPOUND);
+                for (int i = 0; i < tags.size(); i++) {
+                    String id = tags.getString(i);
                     IBroomPart part = getPart(new ResourceLocation(id));
                     if (part == null) {
                         // TODO: fallback to default
@@ -181,31 +186,33 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public void setBroomParts(ItemStack broomStack, Collection<IBroomPart> broomParts) {
-        NBTTagList list = new NBTTagList();
+        ListNBT list = new ListNBT();
         for (IBroomPart broomPart : broomParts) {
-            list.appendTag(new NBTTagString(broomPart.getId().toString()));
+            list.add(StringNBT.valueOf(broomPart.getId().toString()));
         }
-        if(!broomStack.hasTagCompound()) {
-            broomStack.setTagCompound(new NBTTagCompound());
+        if(!broomStack.hasTag()) {
+            broomStack.setTag(new CompoundNBT());
         }
-        broomStack.getTagCompound().setTag(NBT_TAG_NAME, list);
+        broomStack.getTag().put(NBT_TAG_NAME, list);
     }
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void onTooltipEvent(ItemTooltipEvent event) {
-        if (BroomConfig.broomPartTooltips) {
+        if (ItemBroomConfig.broomPartTooltips) {
             IBroomPart part = getPartFromItem(event.getItemStack());
             if (part != null) {
                 Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
                 if (!modifiers.isEmpty()) {
                     if (MinecraftHelpers.isShifted()) {
-                        event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                        event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types.name")
+                                .applyTextStyle(TextFormatting.ITALIC));
                         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                             event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                         }
                     } else {
-                        event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.parts." + Reference.MOD_ID + ".shiftinfo"));
+                        event.getToolTip().add(new TranslationTextComponent("broom.parts." + Reference.MOD_ID + ".shiftinfo")
+                                .applyTextStyle(TextFormatting.ITALIC));
                     }
                 }
             }

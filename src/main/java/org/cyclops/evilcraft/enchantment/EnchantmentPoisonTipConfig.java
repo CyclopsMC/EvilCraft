@@ -10,23 +10,13 @@ import org.cyclops.evilcraft.Reference;
  *
  */
 public class EnchantmentPoisonTipConfig extends EnchantmentConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static EnchantmentPoisonTipConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public EnchantmentPoisonTipConfig() {
         super(
                 EvilCraft._instance,
-            Reference.ENCHANTMENT_POISON_TIP,
-            "poison_tip",
-            null,
-            EnchantmentPoisonTip.class
+                "poison_tip",
+                eConfig -> new EnchantmentPoisonTip()
         );
     }
-    
+
 }

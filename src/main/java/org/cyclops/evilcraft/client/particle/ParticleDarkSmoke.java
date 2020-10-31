@@ -1,79 +1,83 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.IAnimatedSprite;
+import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.SmokeParticle;
+import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 /**
  * Orbiting dark smoke effect.
  * @author rubensworks
- *
+ * @see SmokeParticle
  */
-public class ParticleDarkSmoke extends Particle {
-    
-    /**
-     * Make a new instance.
-     * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
-     */
-    public ParticleDarkSmoke(World world, double x, double y, double z) {
-        super(world, x, y, z);
-        setParticleSettings();
-    }
+public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
-    /**
-     * Make a new instance.
-     * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
-     * @param motionX X axis speed.
-     * @param motionY Y axis speed.
-     * @param motionZ Z axis speed.
-     */
-    public ParticleDarkSmoke(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    private final IAnimatedSprite sprite;
+
+    public ParticleDarkSmoke(World world, double x, double y, double z, double motionX, double motionY, double motionZ, IAnimatedSprite sprite, boolean entityDead) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.motionX = motionX;
         this.motionY = motionY;
         this.motionZ = motionZ;
-        setParticleSettings();
-    }
-    
-    private void setParticleSettings() {
+
         particleScale = 1;
         particleAlpha = rand.nextFloat() * 0.3F;
-        
+
         particleRed = rand.nextFloat() * 0.05F + 0.1F;
         particleGreen = rand.nextFloat() * 0.05F;
         particleBlue = rand.nextFloat() * 0.05F + 0.1F;
-        
+
         particleGravity = -0.001F;
-        
-        this.particleMaxAge = (int)(50.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
-    }
-    
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
-        particleScale = (1 - (float)particleAge / particleMaxAge) * 3;
-        this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
-    }
-    
-    @Override
-    public int getFXLayer() {
-        return 0;
+
+        this.maxAge = (int)(50.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
+
+        this.sprite = sprite;
+
+        if (entityDead) {
+            setDeathParticles();
+        }
     }
 
-    /**
-     * Set the visual living time.
-     * @param livingFraction The fraction of aliveness (dead=0, newly spawned=1)
-     */
-	public void setLiving(float livingFraction) {
-		// Temporarily ignore, fully opaque doesn't look pretty
-		/*particleAlpha += livingFraction;
-		if(particleAlpha > 1) particleAlpha = 1;*/
-	}
+    @Override
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    }
+
+    @Override
+    public float getScale(float p_217561_1_) {
+        return this.particleScale * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.maxAge * 32.0F, 0.0F, 1.0F);
+    }
+
+    @Override
+    public void tick() {
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
+        if (this.age++ >= this.maxAge) {
+            this.setExpired();
+        } else {
+            this.selectSpriteWithAge(this.sprite);
+            this.motionY += 0.004D;
+            this.move(this.motionX, this.motionY, this.motionZ);
+            if (this.posY == this.prevPosY) {
+                this.motionX *= 1.1D;
+                this.motionZ *= 1.1D;
+            }
+
+            this.motionX *= (double)0.96F;
+            this.motionY *= (double)0.96F;
+            this.motionZ *= (double)0.96F;
+            if (this.onGround) {
+                this.motionX *= (double)0.7F;
+                this.motionZ *= (double)0.7F;
+            }
+
+        }
+
+        particleScale = (1 - (float)age / maxAge) * 3;
+    }
 
 	/**
 	 * If the particles for this should be shown as death particles.

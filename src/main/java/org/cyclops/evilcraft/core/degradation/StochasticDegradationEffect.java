@@ -1,9 +1,7 @@
 package org.cyclops.evilcraft.core.degradation;
 
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
 import java.util.Random;
@@ -16,25 +14,15 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public abstract class StochasticDegradationEffect extends ConfigurableDegradationEffect {
+public abstract class StochasticDegradationEffect implements IDegradationEffect {
 
     private double chance;
-    
-    /**
-     * Make a new instance.
-     * @param eConfig The config.
-     * @param chance The chance on occuring. A value between 0 and 1.
-     */
-    public StochasticDegradationEffect(ExtendedConfig<DegradationEffectConfig> eConfig, double chance) {
-        super(eConfig);
+
+    public StochasticDegradationEffect(DegradationEffectConfig eConfig, double chance) {
         this.chance = chance;
     }
-    
-    /**
-     * Make a new instance.
-     * @param eConfig The config.
-     */
-    public StochasticDegradationEffect(ExtendedConfig<DegradationEffectConfig> eConfig) {
+
+    public StochasticDegradationEffect(DegradationEffectConfig eConfig) {
         this(eConfig, 1.0D);
     }
     

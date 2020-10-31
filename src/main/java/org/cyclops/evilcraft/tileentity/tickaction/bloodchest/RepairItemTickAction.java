@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.tileentity.tickaction.bloodchest;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
-import org.cyclops.evilcraft.block.BloodChestConfig;
+import org.cyclops.evilcraft.block.BlockBloodChestConfig;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.tileentity.TileBloodChest;
 
@@ -27,7 +29,7 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
     }
     
     private void drainTank(TileBloodChest tile, float usageMultiplier) {
-        tile.getTank().drain((int) Math.ceil((float) BloodChestConfig.mBPerDamage * usageMultiplier), true);
+        tile.getTank().drain((int) Math.ceil((float) BlockBloodChestConfig.mBPerDamage * usageMultiplier), IFluidHandler.FluidAction.EXECUTE);
     }
 
     @Override
@@ -40,20 +42,21 @@ public class RepairItemTickAction implements ITickAction<TileBloodChest> {
             			getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
-                    float simulateMultiplier = actions.repair(itemStack, tile.getWorld().rand, actionID, false, false);
-                    if(tile.getTank().getFluidAmount() >= BloodChestConfig.mBPerDamage * simulateMultiplier) {
-                        float multiplier = actions.repair(itemStack, tile.getWorld().rand, actionID, true, false);
-                        drainTank(tile, multiplier);
+                    float simulateMultiplier = actions.repair(itemStack, tile.getWorld().rand, actionID, false, false).getLeft();
+                    if(tile.getTank().getFluidAmount() >= BlockBloodChestConfig.mBPerDamage * simulateMultiplier) {
+                        Pair<Float, ItemStack> repairResult = actions.repair(itemStack, tile.getWorld().rand, actionID, true, false);
+                        itemStack = repairResult.getRight();
+                        drainTank(tile, repairResult.getLeft());
                     }
                 }
-                tile.setInventorySlotContents(slot, itemStack);
+                tile.getInventory().setInventorySlotContents(slot, itemStack);
             }
         }
     }
 
     @Override
     public float getRequiredTicks(TileBloodChest tile, int slot, int tick) {
-        return BloodChestConfig.ticksPerDamage;
+        return BlockBloodChestConfig.ticksPerDamage;
     }
     
 }

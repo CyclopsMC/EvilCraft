@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.tileentity.tickaction.purifier;
 
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
@@ -44,12 +44,12 @@ public class CollectPotionPurifyAction implements IPurifierAction {
         if(tile.getPurifyItem().isEmpty() && !tile.getAdditionalItem().isEmpty() &&
                 tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
-            List<EntityLivingBase> entities = tile.getWorld().getEntitiesWithinAABB(EntityLivingBase.class,
+            List<LivingEntity> entities = tile.getWorld().getEntitiesWithinAABB(LivingEntity.class,
                     new AxisAlignedBB(tile.getPos(), tile.getPos().add(1, 2, 1))
             );
-            for(EntityLivingBase entity : entities) {
-                for(PotionEffect potionEffect : (Collection<PotionEffect>) entity.getActivePotionEffects()) {
-                    if(!potionEffect.getIsAmbient()) {
+            for(LivingEntity entity : entities) {
+                for(EffectInstance potionEffect : (Collection<EffectInstance>) entity.getActivePotionEffects()) {
+                    if(!potionEffect.isAmbient()) {
                         return true;
                     }
                 }
@@ -68,28 +68,28 @@ public class CollectPotionPurifyAction implements IPurifierAction {
         if(tile.getPurifyItem().isEmpty() && !tile.getAdditionalItem().isEmpty()
                 && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
-            List<EntityLivingBase> entities = tile.getWorld().getEntitiesWithinAABB(EntityLivingBase.class,
+            List<LivingEntity> entities = tile.getWorld().getEntitiesWithinAABB(LivingEntity.class,
                     new AxisAlignedBB(tile.getPos(), tile.getPos().add(1, 2, 1))
             );
-            for(EntityLivingBase entity : entities) {
+            for(LivingEntity entity : entities) {
                 if(!entity.getActivePotionEffects().isEmpty()) {
                     if(tick >= PURIFY_DURATION) {
-                        if(!world.isRemote) {
-                            for(PotionEffect potionEffect : (Collection<PotionEffect>) entity.getActivePotionEffects()) {
-                                if(!potionEffect.getIsAmbient()) {
+                        if(!world.isRemote()) {
+                            for(EffectInstance potionEffect : (Collection<EffectInstance>) entity.getActivePotionEffects()) {
+                                if(!potionEffect.isAmbient()) {
                                     // Remove effect from entity
                                     entity.removePotionEffect(potionEffect.getPotion());
 
-                                    ItemStack itemStack = new ItemStack(Items.POTIONITEM);
+                                    ItemStack itemStack = new ItemStack(Items.POTION);
 
                                     // Add potion effects
-                                    NBTTagCompound tag = new NBTTagCompound();
-                                    NBTTagList tagList = new NBTTagList();
-                                    NBTTagCompound potionTag = new NBTTagCompound();
-                                    itemStack.setTagCompound(tag);
-                                    potionEffect.writeCustomPotionEffectToNBT(potionTag);
-                                    tagList.appendTag(potionTag);
-                                    tag.setTag("CustomPotionEffects", tagList);
+                                    CompoundNBT tag = new CompoundNBT();
+                                    ListNBT tagList = new ListNBT();
+                                    CompoundNBT potionTag = new CompoundNBT();
+                                    itemStack.setTag(tag);
+                                    potionEffect.write(potionTag);
+                                    tagList.add(potionTag);
+                                    tag.put("CustomPotionEffects", tagList);
 
                                     // Update purifier state
                                     tile.setBuckets(0, 0);
@@ -100,7 +100,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                         }
 
                     }
-                    if(world.isRemote) {
+                    if(world.isRemote()) {
                         tile.showEffect();
                     }
                 }

@@ -10,28 +10,13 @@ import org.cyclops.evilcraft.Reference;
  *
  */
 public class BiomeDegradedConfig extends BiomeConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static BiomeDegradedConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public BiomeDegradedConfig() {
         super(
                 EvilCraft._instance,
-            Reference.BIOME_DEGRADED,
-            "biome_degraded",
-            null,
-            BiomeDegraded.class
+                "degraded",
+                eConfig -> new BiomeDegraded()
         );
-    }
-    
-    @Override
-    public void registerBiomeDictionary() {
-        // Do not register this biome in the dictionary to avoid worldgen with this.
     }
     
 }

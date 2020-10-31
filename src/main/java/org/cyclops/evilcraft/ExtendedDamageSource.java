@@ -1,12 +1,11 @@
 package org.cyclops.evilcraft;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.WorldServer;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
 /**
@@ -29,7 +28,7 @@ public class ExtendedDamageSource extends DamageSource{
      * @param world The world.
      * @return A new damage source instance.
      */
-    public static ExtendedDamageSource spikedDamage(WorldServer world) {
+    public static ExtendedDamageSource spikedDamage(ServerWorld world) {
         return new ExtendedDamageSource("spiked", FakePlayerFactory.getMinecraft(world));
     }
     /**
@@ -41,20 +40,18 @@ public class ExtendedDamageSource extends DamageSource{
      */
     public static ExtendedDamageSource paling = (ExtendedDamageSource)((new ExtendedDamageSource("paling")));
 
-    public static ExtendedDamageSource broomDamage(final EntityLivingBase attacker) {
+    public static ExtendedDamageSource broomDamage(final LivingEntity attacker) {
         return new ExtendedDamageSource("broom", attacker) {
             @Override
-            public ITextComponent getDeathMessage(EntityLivingBase defender) {
+            public ITextComponent getDeathMessage(LivingEntity defender) {
                 String s = "death.attack." + this.damageType;
                 String s1 = s + ".player";
-                return attacker != null && I18n.canTranslate(s1)
-                        ? new TextComponentTranslation(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()})
-                        : new TextComponentTranslation(s, new Object[] {defender.getDisplayName()});
+                return new TranslationTextComponent(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()});
             }
         };
     }
 
-    public static ExtendedDamageSource vengeanceBeam(final EntityLivingBase attacker) {
+    public static ExtendedDamageSource vengeanceBeam(final LivingEntity attacker) {
         return new VengeanceBeamDamageSource("vengeance_beam", attacker);
     }
 

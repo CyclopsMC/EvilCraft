@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.modcompat.baubles;
 
+import org.cyclops.cyclopscore.modcompat.ICompatInitializer;
 import org.cyclops.cyclopscore.modcompat.IModCompat;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
@@ -14,19 +15,12 @@ public class BaublesModCompat implements IModCompat {
 	private static boolean canBeUsed = false;
 
 	@Override
-	public void onInit(Step initStep) {
-		if(initStep == Step.PREINIT) {
-			canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
-		}
-	}
-
-	@Override
-	public String getModID() {
+	public String getId() {
 		return Reference.MOD_BAUBLES;
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean isEnabledDefault() {
 		return true;
 	}
 
@@ -34,7 +28,12 @@ public class BaublesModCompat implements IModCompat {
 	public String getComment() {
 		return "Vengeance Ring, Invigorating Pendant and Effortless Ring baubles.";
 	}
-	
+
+	@Override
+	public ICompatInitializer createInitializer() {
+		return () -> canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
+	}
+
 	/**
 	 * @return If the baubles mod compat can be used.
 	 */

@@ -2,23 +2,25 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.cyclopscore.tileentity.InventoryTileEntity;
-import org.cyclops.evilcraft.block.DisplayStand;
-
-import java.util.Collections;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockDisplayStand;
 
 /**
  * A block that can display items.
  * @author rubensworks
  *
  */
-public class TileDisplayStand extends InventoryTileEntity implements CyclopsTileEntity.ITickingTile {
+public class TileDisplayStand extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
 
     @Delegate
     protected final ITickingTile tickingTileComponent = new TickingTileComponent(this);
@@ -27,20 +29,31 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
     private ItemStack displayStandType;
     @NBTPersist
     private boolean directionPositive = false;
+    private final SimpleInventory inventory;
 
     public TileDisplayStand() {
-        super(1, "displayStand", 1);
-        for (EnumFacing side : EnumFacing.values()) {
-            addSlotsToSide(side, Collections.singleton(0));
-        }
+        super(RegistryEntries.TILE_ENTITY_DISPLAY_STAND);
+        this.inventory = new SimpleInventory(1, 1);
+        addCapabilityInternal(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, LazyOptional.of(inventory::getItemHandler));
+        inventory.addDirtyMarkListener(this);
     }
 
-    public EnumFacing.AxisDirection getDirection() {
-        return directionPositive ? EnumFacing.AxisDirection.POSITIVE : EnumFacing.AxisDirection.NEGATIVE;
+    public SimpleInventory getInventory() {
+        return inventory;
     }
 
-    public void setDirection(EnumFacing.AxisDirection direction) {
-        this.directionPositive = direction == EnumFacing.AxisDirection.POSITIVE;
+    @Override
+    public void onDirty() {
+        super.onDirty();
+        sendUpdate();
+    }
+
+    public Direction.AxisDirection getDirection() {
+        return directionPositive ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE;
+    }
+
+    public void setDirection(Direction.AxisDirection direction) {
+        this.directionPositive = direction == Direction.AxisDirection.POSITIVE;
         sendUpdate();
     }
 
@@ -48,36 +61,28 @@ public class TileDisplayStand extends InventoryTileEntity implements CyclopsTile
         return this.displayStandType;
     }
 
-    @Override
-    public void setInventorySlotContents(int slotId, ItemStack itemstack) {
-        super.setInventorySlotContents(slotId, itemstack);
-        sendUpdate();
-    }
-
-    protected EnumFacing getFacing() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), DisplayStand.FACING, EnumFacing.NORTH);
+    protected Direction getFacing() {
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockDisplayStand.FACING, Direction.NORTH);
     }
 
     protected ItemStack getContents() {
-        return getStackInSlot(0);
+        return this.inventory.getStackInSlot(0);
     }
 
     @Override
-    protected boolean canAccess(int slot, EnumFacing side) {
-        return side == getFacing();
+    public void read(CompoundNBT tag) {
+        super.read(tag);
+        inventory.readFromNBT(tag, "inventory");
     }
 
     @Override
-    public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            capability = CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY;
-        }
-        return facing == getFacing() || facing == getFacing().getOpposite() || getContents().isEmpty()
-                ? super.hasCapability(capability, facing) : getContents().hasCapability(capability, null);
+    public CompoundNBT write(CompoundNBT tag) {
+        inventory.writeToNBT(tag, "inventory");
+        return super.write(tag);
     }
 
     @Override
-    public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+    public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             capability = (Capability<T>) CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY;
         }

@@ -1,44 +1,57 @@
 package org.cyclops.evilcraft.tileentity;
 
-import net.minecraft.entity.EntityList;
-import net.minecraft.init.Items;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.item.Items;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.Direction;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
+import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
-import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.block.BoxOfEternalClosure;
-import org.cyclops.evilcraft.block.BoxOfEternalClosureConfig;
-import org.cyclops.evilcraft.block.SpiritReanimator;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
+import org.cyclops.evilcraft.block.BlockSpiritReanimator;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimator;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.spiritreanimator.ReanimateTickAction;
 
+import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
  * @author rubensworks
  *
  */
-public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, MutableDouble> {
+public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, MutableDouble> implements INamedContainerProvider {
+
+    public static Metadata METADATA = new Metadata();
     
     /**
      * The id of the fluid container drainer slot.
@@ -61,33 +74,22 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      * The total amount of slots in this machine.
      */
     public static final int SLOTS = 4;
-    
-    /**
-     * The name of the tank, used for NBT storage.
-     */
-    public static String TANKNAME = "spiritReanimatorTank";
+
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
-    /**
-     * The amount of ticks per mB the tank can accept per tick.
-     */
-    public static final int TICKS_PER_LIQUID = 2;
-    /**
-     * The fluid that is accepted in the tank.
-     */
-    public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
+    public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
     
     private static final Map<Class<?>, ITickAction<TileSpiritReanimator>> REANIMATE_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritReanimator>>();
     static {
-    	REANIMATE_COOK_TICK_ACTIONS.put(BoxOfEternalClosure.class, new ReanimateTickAction());
+    	REANIMATE_COOK_TICK_ACTIONS.put(BlockBoxOfEternalClosure.class, new ReanimateTickAction());
     }
     
     private static final Map<Class<?>, ITickAction<TileSpiritReanimator>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileSpiritReanimator>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<TileSpiritReanimator>());
     }
+    public static int TICKERS = 2;
 
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
@@ -101,11 +103,11 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      */
     public TileSpiritReanimator() {
         super(
+                RegistryEntries.TILE_ENTITY_SPIRIT_REANIMATOR,
                 SLOTS,
-                SpiritReanimator.getInstance().getLocalizedName(),
+                64,
                 LIQUID_PER_SLOT,
-                TANKNAME,
-                ACCEPTED_FLUID);
+                RegistryEntries.FLUID_BLOOD);
         reanimateTicker = addTicker(
                 new TickComponent<
                     TileSpiritReanimator,
@@ -118,20 +120,6 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
                     ITickAction<TileSpiritReanimator>
                 >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
                 );
-        
-        // The slots side mapping
-        List<Integer> inSlots = new LinkedList<Integer>();
-        inSlots.add(SLOT_BOX);
-        inSlots.add(SLOT_EGG);
-        List<Integer> inSlotsTank = new LinkedList<Integer>();
-        inSlotsTank.add(SLOT_CONTAINER);
-        List<Integer> outSlots = new LinkedList<Integer>();
-        outSlots.add(SLOTS_OUTPUT);
-        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
-        addSlotsToSide(EnumFacing.UP, inSlots);
-        addSlotsToSide(EnumFacing.DOWN, outSlots);
-        addSlotsToSide(EnumFacing.SOUTH, outSlots);
-        addSlotsToSide(EnumFacing.WEST, outSlots);
 
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(1) {
@@ -164,13 +152,43 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     }
 
     @Override
-    public EnumFacing getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), SpiritReanimator.FACING, EnumFacing.NORTH).getOpposite();
+    protected void addItemHandlerCapabilities() {
+        LazyOptional<IItemHandler> itemHandlerInput = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_BOX));
+        LazyOptional<IItemHandler> itemHandlerOutput = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_OUTPUT));
+        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER, SLOT_EGG));
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerInput);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerOutput);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.NORTH, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.SOUTH, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.WEST, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.EAST, itemHandlerContainer);
+    }
+
+    @Override
+    protected SimpleInventory createInventory(int inventorySize, int stackSize) {
+        return new Inventory<TileSpiritReanimator>(inventorySize, stackSize, this) {
+            @Override
+            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+                if(slot == SLOT_BOX)
+                    return getTileWorkingMetadata().canConsume(itemStack, getWorld());
+                if(slot == SLOT_EGG)
+                    return itemStack.getItem() == Items.EGG
+                            /*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
+                if(slot == SLOT_CONTAINER)
+                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
+                return super.isItemValidForSlot(slot, itemStack);
+            }
+        };
+    }
+
+    @Override
+    public Direction getRotation() {
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockSpiritReanimator.FACING, Direction.NORTH).getOpposite();
     }
     
     @Override
-    protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
+    protected SingleUseTank createTank(int tankSize) {
+    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
     
     @Override
@@ -179,13 +197,14 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 	}
 
     /**
-     * Get the entity name that is contained in a box.
-     * @return The entity or null if no box or invalid box.
+     * Get the entity type that is contained in a box.
+     * @return The entity type or null if no box or invalid box.
      */
-    public ResourceLocation getEntityName() {
+    @Nullable
+    public EntityType<?> getEntityType() {
         ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
-        if(boxStack != null && boxStack.getItem() == getAllowedCookItem()) {
-            return BoxOfEternalClosure.getInstance().getSpiritNameOrNull(boxStack);
+        if(boxStack.getItem() == getAllowedCookItem()) {
+            return BlockBoxOfEternalClosure.getSpiritType(boxStack);
         }
         return null;
     }
@@ -195,16 +214,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      * @return The allowed item.
      */
     public static Item getAllowedCookItem() {
-    	Item allowedItem = Items.APPLE;
-        if(Configs.isEnabled(BoxOfEternalClosureConfig.class)) {
-        	allowedItem = Item.getItemFromBlock(BoxOfEternalClosure.getInstance());
-        }
-        return allowedItem;
-    }
-    
-    @Override
-    public boolean canConsume(ItemStack itemStack) {
-        return !itemStack.isEmpty() && getAllowedCookItem() == itemStack.getItem();
+        return RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE;
     }
     
     /**
@@ -214,34 +224,45 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     public int getConsumeSlot() {
         return SLOT_BOX;
     }
-    
+
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        if(slot == SLOT_BOX)
-            return canConsume(itemStack);
-        if(slot == SLOT_EGG)
-            return itemStack.getItem() == Items.EGG
-            	/*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
-        if(slot == SLOT_CONTAINER)
-            return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
-        return super.isItemValidForSlot(slot, itemStack);
+    public IMetadata getTileWorkingMetadata() {
+        return METADATA;
     }
 
-	@Override
+    @Override
 	public boolean canWork() {
-		ItemStack eggStack = getStackInSlot(SLOT_EGG);
-		ItemStack outputStack = getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
-        boolean validNameStack = getEntityName() != null && EntityList.ENTITY_EGGS.containsKey(getEntityName())
+		ItemStack eggStack = getInventory().getStackInSlot(SLOT_EGG);
+		ItemStack outputStack = getInventory().getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
+        EntityType<?> entityType = getEntityType();
+        boolean validNameStack = entityType != null
                 && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
-                        && getEntityName().equals(ItemMonsterPlacer.getNamedIdFrom(outputStack))));
-        return !eggStack.isEmpty() /*&& ResurgenceEgg.getInstance().isEmpty(eggStack)*/
-				&& validNameStack;
+                        && SpawnEggItem.getEgg(entityType) == outputStack.getItem()));
+        return !eggStack.isEmpty() && validNameStack;
 	}
 	
 	@Override
     public void onStateChanged() {
-        world.setBlockState(getPos(), world.getBlockState(getPos()).withProperty(SpiritReanimator.ON, isWorking()));
+        world.setBlockState(getPos(), world.getBlockState(getPos()).with(BlockSpiritReanimator.ON, isWorking()));
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        return new ContainerSpiritReanimator(id, playerInventory, this.getInventory(), Optional.of(this));
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent("block.evilcraft.spirit_reanimator");
+    }
+
+    private static class Metadata implements IMetadata {
+        @Override
+        public boolean canConsume(ItemStack itemStack, World world) {
+            return !itemStack.isEmpty() && getAllowedCookItem() == itemStack.getItem();
+        }
     }
 
 }

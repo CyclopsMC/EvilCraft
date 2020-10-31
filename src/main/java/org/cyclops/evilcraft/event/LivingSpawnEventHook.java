@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.event;
 
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.cyclops.evilcraft.entity.monster.PoisonousLibelle;
-import org.cyclops.evilcraft.entity.monster.PoisonousLibelleConfig;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelle;
+import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelleConfig;
 
 /**
  * Event hook for {@link net.minecraftforge.event.entity.living.LivingSpawnEvent}.
@@ -24,8 +24,8 @@ public class LivingSpawnEventHook {
     }
 
     private void checkLibelleSpawn(LivingSpawnEvent.CheckSpawn event) {
-        if(event.getEntityLiving() instanceof PoisonousLibelle) {
-            if(((PoisonousLibelle) event.getEntityLiving()).posY < PoisonousLibelleConfig.minY) {
+        if(event.getEntityLiving() instanceof EntityPoisonousLibelle) {
+            if(((EntityPoisonousLibelle) event.getEntityLiving()).getPosY() < EntityPoisonousLibelleConfig.minY) {
                 event.setResult(Event.Result.DENY);
             }
         }

@@ -3,32 +3,34 @@ package org.cyclops.evilcraft.core.item;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
-import org.cyclops.evilcraft.block.DarkTankConfig;
+import org.cyclops.evilcraft.block.BlockDarkTankConfig;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * {@link ItemBlock} that can be used for blocks that have a tile entity with a fluid container.
+ * {@link BlockItem} that can be used for blocks that have a tile entity with a fluid container.
  * The blockState must implement {@link IBlockTank}.
  * Instances of this will also keep it's tank capacity next to the contents.
  * @author rubensworks
@@ -37,47 +39,43 @@ import java.util.List;
 public class ItemBlockFluidContainer extends ItemBlockNBT {
     
 	private IBlockTank block;
-	
-    /**
-     * Make a new instance.
-     * @param block The blockState instance.
-     */
-    public ItemBlockFluidContainer(Block block) {
-        super(block);
-        this.setHasSubtypes(false);
+
+    public ItemBlockFluidContainer(Block block, Properties builder) {
+        super(block, builder);
         // Will crash if no valid instance of.
         this.block = (IBlockTank) block;
     }
 
 	@Override
-	protected void itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
+	protected boolean itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
         BlockTankHelpers.itemStackDataToTile(itemStack, tile);
+        return true;
 	}
 	
 	@Override
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         if(block.isActivatable()) {
-            return new ActionResult<ItemStack>(EnumActionResult.PASS, block.toggleActivation(player.getHeldItem(hand), world, player));
+            return new ActionResult<ItemStack>(ActionResultType.PASS, block.toggleActivation(player.getHeldItem(hand), world, player));
         }
         return super.onItemRightClick(world, player, hand);
     }
 
     protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
-        ItemHelpers.updateAutoFill(source, world, entity, DarkTankConfig.autoFillBuckets);
+        ItemHelpers.updateAutoFill(source, world, entity, BlockDarkTankConfig.autoFillBuckets);
     }
-	
-	@Override
-    public void onUpdate(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean par5) {
-    	if(block.isActivatable() && block.isActivated(itemStack, world)) {
-            autofill(itemSlot, FluidUtil.getFluidHandler(itemStack), world, entity);
-    	}
-        super.onUpdate(itemStack, world, entity, itemSlot, par5);
-    }
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-    @SideOnly(Side.CLIENT)
+
     @Override
-    public void addInformation(ItemStack itemStack, World world, List<String> list, ITooltipFlag flag) {
+    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        if(block.isActivatable() && block.isActivated(stack, worldIn)) {
+            FluidUtil.getFluidHandler(stack)
+                    .ifPresent(fluidHandler -> autofill(itemSlot, fluidHandler, worldIn, entityIn));
+        }
+        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack itemStack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         if(block.isActivatable()) {
 	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
@@ -87,11 +85,11 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        return oldStack.getItem() != newStack.getItem() || oldStack.getMetadata() != newStack.getMetadata() || slotChanged;
+        return oldStack.getItem() != newStack.getItem() || slotChanged;
     }
 
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
         return new FluidHandlerItemCapacity(stack, block.getDefaultCapacity());
     }
 }

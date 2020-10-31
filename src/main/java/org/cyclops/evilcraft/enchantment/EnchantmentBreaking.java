@@ -1,12 +1,15 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemArmor;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
-import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
@@ -17,21 +20,32 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class EnchantmentBreaking extends ConfigurableEnchantment {
-    
-    private static EnchantmentBreaking _instance = null;
-    
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static EnchantmentBreaking getInstance() {
-        return _instance;
+public class EnchantmentBreaking extends Enchantment {
+
+    public EnchantmentBreaking() {
+        super(Rarity.COMMON, EnchantmentType.BREAKABLE, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        DamageableItemRepairAction.BAD_ENCHANTS.add(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public EnchantmentBreaking(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, Rarity.COMMON, EnumEnchantmentType.BREAKABLE, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
-        DamageableItemRepairAction.BAD_ENCHANTS.add(this);
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    private void breakingEvent(LivingAttackEvent event) {
+        if(event.getSource().getTrueSource() instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
+            ItemStack itemStack = entity.getHeldItemMainhand();
+            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
+            if (enchantmentListID > -1) {
+                EnchantmentBreaking.amplifyDamage(itemStack, enchantmentListID, new Random());
+                return;
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    private void breakingEvent(PlayerInteractEvent.LeftClickBlock event) {
+        int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getHand()), this);
+        ItemStack itemStack = event.getPlayer().getHeldItem(event.getHand());
+        EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
     }
     
     @Override
@@ -76,10 +90,10 @@ public class EnchantmentBreaking extends ConfigurableEnchantment {
     public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random) {
         if(enchantmentListID > -1) {
             int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
-            int newDamage = itemStack.getItemDamage() + 2;
+            int newDamage = itemStack.getDamage() + 2;
             if(random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0
                     && newDamage <= itemStack.getMaxDamage()) {
-                itemStack.setItemDamage(newDamage);
+                itemStack.setDamage(newDamage);
             }
         }
     }

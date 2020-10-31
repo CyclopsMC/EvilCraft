@@ -5,24 +5,26 @@ import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.properties.Property;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerArrow;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
-import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
-import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.BipedRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.layers.ArrowLayer;
+import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
+import net.minecraft.client.renderer.entity.layers.HeadLayer;
+import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
+import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
+import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritConfig;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
@@ -34,26 +36,22 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
+public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit> {
 
 	private final RenderPlayerSpirit playerRenderer;
 	private final Map<GameProfile, GameProfile> checkedProfiles = Maps.newHashMap();
 
-	/**
-     * Make a new instance.
-	 * @param renderManager The render manager.
-     * @param config Then config.
-     */
-    public RenderVengeanceSpirit(RenderManager renderManager, ExtendedConfig<MobConfig<VengeanceSpirit>> config) {
+    public RenderVengeanceSpirit(EntityRendererManager renderManager, EntityVengeanceSpiritConfig config) {
         super(renderManager);
 		playerRenderer = new RenderPlayerSpirit(renderManager);
     }
 
 	@Override
-	public void doRender(VengeanceSpirit spirit, double x, double y, double z, float yaw, float partialTickTime) {
-		EntityLivingBase innerEntity = spirit.getInnerEntity();
+	public void render(EntityVengeanceSpirit spirit, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    	super.render(spirit, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+		MobEntity innerEntity = spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
-			Render render = (Render) renderManager.entityRenderMap.get(innerEntity.getClass());
+			EntityRenderer render = renderManager.renderers.get(innerEntity.getClass());
 			if(render != null && !spirit.isSwarm()) {
 				GlStateManager.enableBlend();
 				if(!spirit.isFrozen()) {
@@ -62,7 +60,7 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 					GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
 				}
                 float c = Math.min(1F - (float) (spirit.getBuildupDuration()) / 30, 0.65F);
-                GlStateManager.color(c, c, c);
+                GlStateManager.color4f(c, c, c, c);
 				//GL14.glBlendColor(0, 0, 0, 0);
 				//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
 				//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
@@ -71,13 +69,13 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 					if(spirit.isPlayer()) {
 						GameProfile gameProfile = new GameProfile(spirit.getPlayerUUID(), spirit.getPlayerName());
 						ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkinLegacy();
-						Minecraft minecraft = Minecraft.getMinecraft();
+						Minecraft minecraft = Minecraft.getInstance();
 						// Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
 						if(!checkedProfiles.containsKey(gameProfile)) {
 							Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
 							if (property == null) {
 								// The game profile enchanced with texture information.
-								GameProfile newGameProfile = Minecraft.getMinecraft().getSessionService().fillProfileProperties(gameProfile, true);
+								GameProfile newGameProfile = Minecraft.getInstance().getSessionService().fillProfileProperties(gameProfile, true);
 								checkedProfiles.put(gameProfile, newGameProfile);
 							}
 						} else {
@@ -87,9 +85,9 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 							}
 						}
 						playerRenderer.setPlayerTexture(resourcelocation);
-						playerRenderer.doRender((EntityLiving) innerEntity, x, y, z, yaw, 0);
+						playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 					} else {
-						render.doRender(innerEntity, x, y, z, yaw, 0);
+						render.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 					}
 				} catch (Exception e) {
 					// Invalid entity, so set as swarm.
@@ -102,22 +100,22 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(VengeanceSpirit entity) {
+	public ResourceLocation getEntityTexture(EntityVengeanceSpirit entity) {
 		return null;
 	}
 
-	public static class RenderPlayerSpirit extends RenderBiped {
+	public static class RenderPlayerSpirit extends BipedRenderer<MobEntity, PlayerModel<MobEntity>> {
 
 		@Setter
 		private ResourceLocation playerTexture;
 
-		public RenderPlayerSpirit(RenderManager renderManager) {
-			super(renderManager, new ModelPlayer(0.0F, false), 0.5F);
-			ModelPlayer modelPlayer = ((ModelPlayer) this.getMainModel());
-			this.addLayer(new LayerBipedArmor(this));
-			this.addLayer(new LayerHeldItem(this));
-			this.addLayer(new LayerArrow(this));
-			this.addLayer(new LayerCustomHead(modelPlayer.bipedHead));
+		public RenderPlayerSpirit(EntityRendererManager renderManager) {
+			super(renderManager, new PlayerModel<>(0.0F, false), 0.5F);
+			PlayerModel modelPlayer = this.getEntityModel();
+			this.addLayer(new BipedArmorLayer<>(this, new BipedModel(0.5F), new BipedModel(1.0F)));
+			this.addLayer(new HeldItemLayer(this));
+			this.addLayer(new ArrowLayer(this));
+			this.addLayer(new HeadLayer<>(this));
 
 			modelPlayer.setVisible(false);
 			Random rand = new Random();
@@ -129,7 +127,8 @@ public class RenderVengeanceSpirit extends Render<VengeanceSpirit> {
 			modelPlayer.bipedRightArmwear.showModel = rand.nextBoolean();
 		}
 
-		protected ResourceLocation getEntityTexture(EntityLiving entity) {
+		@Override
+		public ResourceLocation getEntityTexture(MobEntity entity) {
 			return playerTexture;
 		}
 

@@ -2,10 +2,10 @@ package org.cyclops.evilcraft.advancement.criterion;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.advancement.criterion.BaseCriterionTrigger;
 import org.cyclops.cyclopscore.advancement.criterion.ICriterionInstanceTestable;
@@ -25,7 +25,7 @@ public class BoxOfEternalClosureCaptureTrigger extends BaseCriterionTrigger<Enti
         return new Instance(getId(), EntityPredicate.deserialize(json.get("entity")));
     }
 
-    public static class Instance extends AbstractCriterionInstance implements ICriterionInstanceTestable<Entity> {
+    public static class Instance extends CriterionInstance implements ICriterionInstanceTestable<Entity> {
 
         private final EntityPredicate entityPredicate;
 
@@ -34,7 +34,7 @@ public class BoxOfEternalClosureCaptureTrigger extends BaseCriterionTrigger<Enti
             this.entityPredicate = entityPredicate;
         }
 
-        public boolean test(EntityPlayerMP player, Entity entity) {
+        public boolean test(ServerPlayerEntity player, Entity entity) {
             return this.entityPredicate.test(player, entity);
         }
     }

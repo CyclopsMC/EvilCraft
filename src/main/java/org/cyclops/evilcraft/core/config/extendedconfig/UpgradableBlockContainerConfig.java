@@ -1,30 +1,34 @@
 package org.cyclops.evilcraft.core.config.extendedconfig;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockContainerConfig;
+import net.minecraft.item.Item;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Config for upgradable blocks with tile entities.
  * @author rubensworks
  */
-public class UpgradableBlockContainerConfig extends BlockContainerConfig {
+public class UpgradableBlockContainerConfig extends BlockConfig {
 
-    /**
-     * Make a new instance.
-     *
-     * @param mod     The mod instance.
-     * @param enabled If this should is enabled.
-     * @param namedId The unique name ID for the configurable.
-     * @param comment The comment to add in the config file for this configurable.
-     * @param element The class of this configurable.
-     */
-    public UpgradableBlockContainerConfig(ModBase mod, boolean enabled, String namedId, String comment, Class<? extends Block> element) {
-        super(mod, enabled, namedId, comment, element);
+    public static final Map<Block, Set<Upgrades.Upgrade>> BLOCK_UPGRADES = Maps.newIdentityHashMap();
+
+    public UpgradableBlockContainerConfig(ModBase mod, String namedId, Function<BlockConfig, ? extends Block> blockConstructor, @Nullable BiFunction<BlockConfig, Block, ? extends Item> itemConstructor) {
+        super(mod, namedId, blockConstructor, itemConstructor);
+    }
+
+    public static Set<Upgrades.Upgrade> getBlockUpgrades(Block block) {
+        return BLOCK_UPGRADES.getOrDefault(block, Collections.emptySet());
     }
 
     /**
@@ -40,5 +44,6 @@ public class UpgradableBlockContainerConfig extends BlockContainerConfig {
         for (Upgrades.Upgrade upgrade : getUpgrades()) {
             upgrade.addUpgradableInfo(this);
         }
+        BLOCK_UPGRADES.put(getInstance(), getUpgrades());
     }
 }

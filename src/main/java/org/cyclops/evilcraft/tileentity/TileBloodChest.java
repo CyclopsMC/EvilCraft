@@ -1,35 +1,49 @@
 package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.tileentity.IChestLid;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
-import org.cyclops.evilcraft.block.BloodChest;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockBloodChest;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
-import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.RepairItemTickAction;
 
+import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A chest that is able to repair tools with the use of blood.
@@ -37,7 +51,7 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChest> {
+public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChest> implements INamedContainerProvider, IChestLid {
 	
 	private static final int TICK_MODULUS = 200;
     
@@ -53,38 +67,18 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
      * The id of the fluid container slot.
      */
     public static final int SLOT_CONTAINER = SLOTS - 1;
-    
-    /**
-     * The name of the tank, used for NBT storage.
-     */
-    public static String TANKNAME = "bloodChestTank";
+
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
-    /**
-     * The amount of ticks per mB the tank can accept per tick.
-     */
-    public static final int TICKS_PER_LIQUID = 2;
-    /**
-     * The fluid that is accepted in the tank.
-     */
-    public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
+    public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
 
     @Delegate
     private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
-    /**
-     * The previous angle of the lid.
-     */
     public float prevLidAngle;
-    /**
-     * The current angle of the lid.
-     */
     public float lidAngle;
     private int playersUsing;
-    
-    private Block block = BloodChest.getInstance();
     
     private static final Map<Class<?>, ITickAction<TileBloodChest>> REPAIR_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<TileBloodChest>>();
     static {
@@ -95,50 +89,30 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<TileBloodChest>());
     }
-    
-    /**
-     * Make a new instance.
-     */
+
     public TileBloodChest() {
-        super(
-                SLOTS,
-                BloodChest.getInstance().getLocalizedName(),
-                LIQUID_PER_SLOT,
-                TileBloodChest.TANKNAME,
-                ACCEPTED_FLUID);
+        super(RegistryEntries.TILE_ENTITY_BLOOD_CHEST, SLOTS, 64, LIQUID_PER_SLOT, RegistryEntries.FLUID_BLOOD);
         for(int i = 0; i < SLOTS_CHEST; i++) {
-            addTicker(
-                    new TickComponent<
-                            TileBloodChest,
-                            ITickAction<TileBloodChest>
-                            >(this, REPAIR_TICK_ACTIONS, i)
-            );
+            addTicker(new TickComponent<>(this, REPAIR_TICK_ACTIONS, i));
         }
-        addTicker(
-                new TickComponent<
-                        TileBloodChest,
-                        ITickAction<TileBloodChest>
-                        >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
-        );
-        
-        // The slots side mapping
-        List<Integer> inSlotsTank = new LinkedList<Integer>();
-        inSlotsTank.add(SLOT_CONTAINER);
-        List<Integer> inSlotsInventory = new LinkedList<Integer>();
-        for(int i = 0; i < SLOTS_CHEST; i++) {
-            inSlotsInventory.add(i);
-        }
-        inSlotsInventory.add(SLOT_CONTAINER);
-        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
-        addSlotsToSide(EnumFacing.UP, inSlotsInventory);
-        addSlotsToSide(EnumFacing.DOWN, inSlotsInventory);
-        addSlotsToSide(EnumFacing.SOUTH, inSlotsInventory);
-        addSlotsToSide(EnumFacing.WEST, inSlotsInventory);
+        addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
     }
 
     @Override
-    public EnumFacing getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BloodChest.FACING, EnumFacing.NORTH).getOpposite();
+    protected void addItemHandlerCapabilities() {
+        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_CHEST));
+        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerChest);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerChest);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.NORTH, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.SOUTH, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.WEST, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.EAST, itemHandlerContainer);
+    }
+
+    @Override
+    public Direction getRotation() {
+        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockBloodChest.FACING, Direction.NORTH).getOpposite();
     }
 
     @Override
@@ -147,17 +121,38 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
     
     @Override
-    protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
+    protected SingleUseTank createTank(int tankSize) {
+    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
-    
+
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        if(slot == SLOT_CONTAINER)
-            return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
-        else if(slot <= SLOTS_CHEST && slot >= 0)
-            return SlotRepairable.checkIsItemValid(itemStack);
-        return false;
+    protected SimpleInventory createInventory(int inventorySize, int stackSize) {
+        return new SimpleInventory(inventorySize, stackSize) {
+            @Override
+            public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
+                if(slot == SLOT_CONTAINER)
+                    return SlotFluidContainer.checkIsItemValid(itemstack, RegistryEntries.FLUID_BLOOD);
+                else if(slot <= SLOTS_CHEST && slot >= 0)
+                    return SlotRepairable.checkIsItemValid(itemstack);
+                return false;
+            }
+
+            @Override
+            public void openInventory(PlayerEntity entityPlayer) {
+                triggerPlayerUsageChange(1);
+            }
+
+            @Override
+            public void closeInventory(PlayerEntity entityPlayer) {
+                triggerPlayerUsageChange(-1);
+            }
+
+            @Override
+            public boolean isUsableByPlayer(PlayerEntity entityPlayer) {
+                return super.isUsableByPlayer(entityPlayer)
+                        && (world == null || world.getTileEntity(getPos()) != TileBloodChest.this);
+            }
+        };
     }
 
     @Override
@@ -179,15 +174,15 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
         if(world != null
-                && !this.world.isRemote
+                && !this.world.isRemote()
                 && this.playersUsing != 0
                 && WorldHelpers.efficientTick(world, TICK_MODULUS, this.getPos())/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
             this.playersUsing = 0;
             float range = 5.0F;
 
             @SuppressWarnings("unchecked")
-            List<EntityPlayer> entities = this.world.getEntitiesWithinAABB(
-                    EntityPlayer.class,
+            List<PlayerEntity> entities = this.world.getEntitiesWithinAABB(
+                    PlayerEntity.class,
                     new AxisAlignedBB(
                             (double)((float)x - range),
                             (double)((float)y - range),
@@ -198,13 +193,13 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                             )
                     );
 
-            for(EntityPlayer player : entities) {
+            for(PlayerEntity player : entities) {
                 if (player.openContainer instanceof ContainerBloodChest) {
                     ++this.playersUsing;
                 }
             }
             
-            world.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
@@ -257,28 +252,28 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         }
         return true;
     }
-
-    @Override
-    public void openInventory(EntityPlayer entityPlayer) {
-        triggerPlayerUsageChange(1);
-    }
-
-    @Override
-    public void closeInventory(EntityPlayer entityPlayer) {
-        triggerPlayerUsageChange(-1);
-    }
     
     private void triggerPlayerUsageChange(int change) {
         if (world != null) {
             playersUsing += change;
-            world.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
         }
     }
-    
+
+    @Nullable
     @Override
-    public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
-        return super.isUsableByPlayer(entityPlayer)
-                && (world == null || world.getTileEntity(getPos()) != this);
+    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        return new ContainerBloodChest(id, playerInventory, this.getInventory(), Optional.of(this));
     }
 
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent("block.evilcraft.blood_chest");
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public float getLidAngle(float partialTicks) {
+        return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
+    }
 }

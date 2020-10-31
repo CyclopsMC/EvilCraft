@@ -1,32 +1,54 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
-import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import net.minecraft.item.SwordItem;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 
 /**
  * Enchantment that stop your tool from being usable when it only has durability left.
  * @author rubensworks
  *
  */
-public class EnchantmentUnusing extends ConfigurableEnchantment {
-    
-    private static EnchantmentUnusing _instance = null;
-    
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static EnchantmentUnusing getInstance() {
-        return _instance;
+public class EnchantmentUnusing extends Enchantment {
+
+    public EnchantmentUnusing() {
+        super(Rarity.VERY_RARE, EnchantmentType.ALL, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public EnchantmentUnusing(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, Rarity.VERY_RARE, EnumEnchantmentType.ALL, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    private void unusingEvent(LivingAttackEvent event) {
+        if(event.getSource().getTrueSource() instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
+            ItemStack itemStack = entity.getHeldItemMainhand();
+            if (EnchantmentHelpers.doesEnchantApply(itemStack, this) > -1) {
+                if (EnchantmentUnusing.unuseTool(itemStack)) {
+                    event.setCanceled(true);
+                    //player.stopUsingItem();
+                    return;
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    private void unusingEvent(PlayerInteractEvent.LeftClickBlock event) {
+        if(EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getHand()), this) > -1) {
+            if(event.getPlayer() != null
+                    && EnchantmentUnusing.unuseTool(event.getPlayer().getHeldItem(event.getHand()))) {
+                event.setCanceled(true);
+                event.getPlayer().stopActiveHand();
+            }
+        }
     }
     
     @Override
@@ -46,7 +68,7 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
 
     @Override
     public boolean canApply(ItemStack itemStack) {
-        return !itemStack.isEmpty() && (!itemStack.getItem().getToolClasses(itemStack).isEmpty() || itemStack.getItem() instanceof ItemSword);
+        return !itemStack.isEmpty() && (!itemStack.getItem().getToolTypes(itemStack).isEmpty() || itemStack.getItem() instanceof SwordItem);
     }
     
     /**
@@ -56,8 +78,8 @@ public class EnchantmentUnusing extends ConfigurableEnchantment {
      */
     public static boolean unuseTool(ItemStack itemStack) {
         int damageBorder = itemStack.getMaxDamage() - 5;
-        if(itemStack.getItemDamage() >= damageBorder) {
-            itemStack.setItemDamage(damageBorder);
+        if(itemStack.getDamage() >= damageBorder) {
+            itemStack.setDamage(damageBorder);
             return true;
         }
         return false;

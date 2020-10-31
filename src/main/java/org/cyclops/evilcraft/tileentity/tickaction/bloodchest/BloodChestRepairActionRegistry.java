@@ -1,9 +1,7 @@
 package org.cyclops.evilcraft.tileentity.tickaction.bloodchest;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import org.cyclops.cyclopscore.config.IChangedCallback;
-import org.cyclops.evilcraft.EvilCraft;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 
@@ -18,7 +16,7 @@ import java.util.Random;
  */
 public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRegistry {
 
-    private String[] itemBlacklist = new String[0];
+    private String[] itemBlacklist = new String[0]; // TODO: lazily read from config param
 
     private final List<IBloodChestRepairAction> repairActions =
             new LinkedList<IBloodChestRepairAction>();
@@ -59,14 +57,14 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk) {
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk) {
         return repairActions.get(actionID).repair(itemStack, random, doAction, isBulk);
     }
 
     protected boolean isNotBlacklisted(ItemStack itemStack) {
         if(itemStack.isEmpty()) return false;
         for(String name : itemBlacklist) {
-            if(Item.REGISTRY.getNameForObject(itemStack.getItem()).toString().equals(name)) {
+            if(itemStack.getItem().getRegistryName().toString().equals(name)) {
                 return false;
             }
         }
@@ -76,30 +74,6 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     @Override
     public void setBlacklist(String[] blacklist) {
         itemBlacklist = blacklist;
-    }
-
-    /**
-     * The changed callback for the item blacklist.
-     * @author rubensworks
-     *
-     */
-    public static class ItemBlacklistChanged implements IChangedCallback {
-
-        private static boolean calledOnce = false;
-
-        @Override
-        public void onChanged(Object value) {
-            if(calledOnce) {
-                EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class).setBlacklist((String[]) value);
-            }
-            calledOnce = true;
-        }
-
-        @Override
-        public void onRegisteredPostInit(Object value) {
-            onChanged(value);
-        }
-
     }
     
 }

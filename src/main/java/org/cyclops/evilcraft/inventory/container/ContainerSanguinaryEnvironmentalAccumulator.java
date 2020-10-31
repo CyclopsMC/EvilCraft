@@ -1,13 +1,23 @@
 package org.cyclops.evilcraft.inventory.container;
 
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.util.math.BlockPos;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
+import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
-import net.minecraft.entity.player.InventoryPlayer;
-import org.cyclops.evilcraft.block.SanguinaryEnvironmentalAccumulator;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
- * Container for the {@link SanguinaryEnvironmentalAccumulator}.
+ * Container for the {@link BlockSanguinaryEnvironmentalAccumulator}.
  * @author rubensworks
  *
  */
@@ -37,21 +47,40 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
     private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
 
-    /**
-     * Make a new instance.
-     * @param inventory The inventory of the player.
-     * @param tile The tile entity that calls the GUI.
-     */
-    public ContainerSanguinaryEnvironmentalAccumulator(InventoryPlayer inventory, TileSanguinaryEnvironmentalAccumulator tile) {
-        super(inventory, tile);
+    private final Supplier<Boolean> variableCanWork;
+    private final Supplier<List<BlockPos>> variableInvalidLocations;
+
+    public ContainerSanguinaryEnvironmentalAccumulator(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new Inventory(TileSanguinaryEnvironmentalAccumulator.SLOTS + TileSanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES), Optional.empty());
+    }
+
+    public ContainerSanguinaryEnvironmentalAccumulator(int id, PlayerInventory playerInventory, IInventory inventory,
+                                                       Optional<TileSanguinaryEnvironmentalAccumulator> tileSupplier) {
+        super(RegistryEntries.CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR, id, playerInventory, inventory, tileSupplier,
+                TileSanguinaryEnvironmentalAccumulator.TICKERS, TileSanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES);
+
+        this.variableCanWork = registerSyncedVariable(Boolean.class, () -> getTileSupplier().get().canWork());
+        this.variableInvalidLocations = (Supplier) registerSyncedVariable(List.class, () -> getTileSupplier().get().getInvalidLocations());
 
         // Adding inventory
-        addSlotToContainer(new SlotWorking<TileSanguinaryEnvironmentalAccumulator>(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE, SLOT_ACCUMULATE_X, SLOT_ACCUMULATE_Y, tile)); // Accumulate slot
-        addSlotToContainer(new SlotRemoveOnly(tile, TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT, SLOT_ACCUMULATE_RESULT_X, SLOT_ACCUMULATE_RESULT_Y)); // Accumulate result slot
+        addSlot(new SlotWorking<>(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE, SLOT_ACCUMULATE_X, SLOT_ACCUMULATE_Y, this, playerInventory.player.world)); // Accumulate slot
+        addSlot(new SlotRemoveOnly(inventory, TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT, SLOT_ACCUMULATE_RESULT_X, SLOT_ACCUMULATE_RESULT_Y)); // Accumulate result slot
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES);
 
-        this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+        this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
-    
+
+    public boolean getTileCanWork() {
+        return variableCanWork.get();
+    }
+
+    public List<BlockPos> getInvalidLocations() {
+        return variableInvalidLocations.get();
+    }
+
+    @Override
+    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+        return TileSanguinaryEnvironmentalAccumulator.METADATA;
+    }
 }

@@ -2,40 +2,25 @@ package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
+import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.algorithm.OrganicSpread;
-import org.cyclops.evilcraft.core.algorithm.OrganicSpread.IOrganicSpreadable;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import org.cyclops.evilcraft.world.biome.BiomeDegraded;
 
 /**
  * Makes biomes darker.
  * @author rubensworks
  *
  */
-public class BiomeDegradation extends ConfigurableDegradationEffect implements IOrganicSpreadable {
+public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrganicSpreadable {
 
-    private static BiomeDegradation _instance = null;
-    
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static BiomeDegradation getInstance() {
-        return _instance;
-    }
-    
-    private static final Class<? extends Biome> BIOME_CLASS = BiomeDegraded.class;
-    private static final Biome BIOME = BiomeDegraded.getInstance();
     private static final int DIMENSIONS = 2;
     
-    public BiomeDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        super(eConfig);
+    public BiomeDegradation(DegradationEffectConfig eConfig) {
+
     }
 
     @Override
@@ -57,12 +42,12 @@ public class BiomeDegradation extends ConfigurableDegradationEffect implements I
 
     @Override
     public boolean isDone(World world, BlockPos location) {
-        return world.getBiome(location).getClass().equals(BIOME_CLASS);
+        return world.getBiome(location) == RegistryEntries.BIOME_DEGRADED;
     }
 
     @Override
     public void spreadTo(World world, BlockPos location) {
-        WorldHelpers.setBiome(world, location, BIOME);
+        WorldHelpers.setBiome(world, location, RegistryEntries.BIOME_DEGRADED);
     }
     
 }

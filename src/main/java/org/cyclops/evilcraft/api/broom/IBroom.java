@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.api.broom;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -34,7 +34,7 @@ public interface IBroom {
      * @param entityLiving The mounted entity.
      * @return If the given amount can be drained.
      */
-    public boolean canConsumeBroomEnergy(int amount, ItemStack itemStack, @Nullable EntityLivingBase entityLiving);
+    public boolean canConsumeBroomEnergy(int amount, ItemStack itemStack, @Nullable LivingEntity entityLiving);
 
     /**
      * Consume a given energy amount.
@@ -43,6 +43,6 @@ public interface IBroom {
      * @param entityLiving The mounted entity.
      * @return The energy amount that was drained.
      */
-    public int consumeBroom(int amount, ItemStack itemStack, @Nullable EntityLivingBase entityLiving);
+    public int consumeBroom(int amount, ItemStack itemStack, @Nullable LivingEntity entityLiving);
 
 }

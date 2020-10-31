@@ -3,20 +3,17 @@ package org.cyclops.evilcraft.infobook.pageelement;
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
-import org.cyclops.cyclopscore.infobook.GuiInfoBook;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
+import org.cyclops.cyclopscore.infobook.ScreenInfoBook;
 import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
-import org.cyclops.cyclopscore.recipe.custom.api.IRecipe;
-import org.cyclops.cyclopscore.recipe.custom.component.IngredientRecipeComponent;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
-import org.cyclops.evilcraft.core.recipe.custom.DurationXpRecipeProperties;
-import org.cyclops.evilcraft.core.recipe.custom.IngredientFluidStackAndTierRecipeComponent;
+import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +22,7 @@ import java.util.Map;
  * Broom modifier info.
  * @author rubensworks
  */
-public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<IngredientFluidStackAndTierRecipeComponent, IngredientRecipeComponent, DurationXpRecipeProperties>> {
+public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfuser> {
 
     private static final int START_X_RESULT = 68;
 
@@ -65,8 +62,8 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<Ingredie
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void drawElementInner(GuiInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
+    @OnlyIn(Dist.CLIENT)
+    public void drawElementInner(ScreenInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
         int tick = getTick(gui);
         Pair<ItemStack, Float> value = modifierValues.get(tick % modifierValues.size());
 
@@ -80,13 +77,13 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<IRecipe<Ingredie
         drawString(gui, line, x + SLOT_SIZE + 4, y + 3);
     }
 
-    @SideOnly(Side.CLIENT)
-    protected void drawString(GuiInfoBook gui, String string, int x, int y) {
+    @OnlyIn(Dist.CLIENT)
+    protected void drawString(ScreenInfoBook gui, String string, int x, int y) {
         FontRenderer fontRenderer = gui.getFontRenderer();
-        boolean oldUnicode = fontRenderer.getUnicodeFlag();
-        fontRenderer.setUnicodeFlag(true);
+        boolean oldUnicode = fontRenderer.getBidiFlag();
+        fontRenderer.setBidiFlag(true);
         fontRenderer.setBidiFlag(false);
         fontRenderer.drawSplitString(string, x, y, 200, 0);
-        fontRenderer.setUnicodeFlag(oldUnicode);
+        fontRenderer.setBidiFlag(oldUnicode);
     }
 }

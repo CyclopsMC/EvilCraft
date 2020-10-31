@@ -1,11 +1,13 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.Particle;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.RainParticle;
+import net.minecraft.client.particle.SplashParticle;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Random;
 
@@ -13,43 +15,32 @@ import java.util.Random;
 /**
  * A blood splashing FX.
  * @author rubensworks
- *
+ * @see SplashParticle
  */
-@SideOnly(Side.CLIENT)
-public class ParticleBloodSplash extends Particle {
+@OnlyIn(Dist.CLIENT)
+public class ParticleBloodSplash extends RainParticle {
 
-    /**
-     * Make a new instance.
-     * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
-     * @param speedX X axis speed.
-     * @param speedY Y axis speed.
-     * @param speedZ Z axis speed.
-     */
-    public ParticleBloodSplash(World world, double x, double y, double z, double speedX, double speedY, double speedZ) {
-        super(world, x, y, z, speedX, speedY, speedZ);
-        this.particleRed = 1.0F;
-        this.particleGreen = 0.0F;
-        this.particleBlue = 0.0F;
+    public ParticleBloodSplash(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+        super(worldIn, xCoordIn, yCoordIn, zCoordIn);
+        this.particleGravity = 0.04F;
+        if (ySpeedIn == 0.0D && (xSpeedIn != 0.0D || zSpeedIn != 0.0D)) {
+            this.motionX = xSpeedIn;
+            this.motionY = 0.1D;
+            this.motionZ = zSpeedIn;
+        }
     }
-    
-    /**
-     * Spawn particles.
-     * @param world The world.
-     * @param blockPos The position.
-     * @param velocity The velocity of the particle.
-     * @param amount The amount of particles to spawn.
-     */
+
     public static void spawnParticles(World world, BlockPos blockPos, int velocity, int amount) {
         Random random = new Random();
-        for(int i = 0; i < amount; i++) {
+        for (int i = 0; i < amount; i++) {
             float x_r = blockPos.getX() + random.nextFloat();
             float y_r = blockPos.getY() + random.nextFloat();
             float z_r = blockPos.getZ() + random.nextFloat();
-            Particle fx = new ParticleBloodSplash(world, x_r, y_r, z_r, velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity));
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(fx);
+
+            Minecraft.getInstance().worldRenderer.addParticle(
+                    RegistryEntries.PARTICLE_BLOOD_SPLASH, false,
+                    x_r, y_r, z_r,
+                    velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity));
         }
     }
 }

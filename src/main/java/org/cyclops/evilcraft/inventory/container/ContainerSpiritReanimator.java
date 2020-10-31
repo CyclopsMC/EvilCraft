@@ -1,16 +1,25 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Items;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
-import org.cyclops.evilcraft.block.SpiritReanimator;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockSpiritReanimator;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
+import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
+import java.util.function.Supplier;
+
 /**
- * Container for the {@link SpiritReanimator}.
+ * Container for the {@link BlockSpiritReanimator}.
  * @author rubensworks
  *
  */
@@ -58,25 +67,40 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
     private static final int UPGRADE_INVENTORY_OFFSET_X = -22;
     private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
 
-    /**
-     * Make a new instance.
-     * @param inventory The inventory of the player.
-     * @param tile The tile entity that calls the GUI.
-     */
-    public ContainerSpiritReanimator(InventoryPlayer inventory, TileSpiritReanimator tile) {
-        super(inventory, tile);
+    private final Supplier<String> variableEntityName;
+
+    public ContainerSpiritReanimator(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new Inventory(TileSpiritReanimator.SLOTS + TileSpiritReanimator.INVENTORY_SIZE_UPGRADES), Optional.empty());
+    }
+
+    public ContainerSpiritReanimator(int id, PlayerInventory playerInventory, IInventory inventory,
+                                  Optional<TileSpiritReanimator> tileSupplier) {
+        super(RegistryEntries.CONTAINER_SPIRIT_REANIMATOR, id, playerInventory, inventory, tileSupplier,
+                TileSpiritReanimator.TICKERS, TileSpiritReanimator.INVENTORY_SIZE_UPGRADES);
+
+        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType().getRegistryName().toString());
 
         // Adding inventory
-        addSlotToContainer(new SlotFluidContainer(tile, TileSpiritReanimator.SLOT_CONTAINER,
+        addSlot(new SlotFluidContainer(inventory, TileSpiritReanimator.SLOT_CONTAINER,
         		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
-        		tile.getTank())); // Container emptier
-        addSlotToContainer(new SlotWorking<TileSpiritReanimator>(TileSpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, tile)); // Box slot
-        addSlotToContainer(new SlotSingleItem(tile, TileSpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
-        addSlotToContainer(new SlotRemoveOnly(tile, TileSpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
+        		RegistryEntries.FLUID_BLOOD)); // Container emptier
+        addSlot(new SlotWorking<TileSpiritReanimator>(TileSpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.world)); // Box slot
+        addSlot(new SlotSingleItem(inventory, TileSpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
+        addSlot(new SlotRemoveOnly(inventory, TileSpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSpiritReanimator.INVENTORY_SIZE_UPGRADES);
 
-        this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+        this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+    }
+
+    @Nullable
+    public String getEntityName() {
+        return variableEntityName.get();
+    }
+
+    @Override
+    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+        return TileSpiritReanimator.METADATA;
     }
     
 }

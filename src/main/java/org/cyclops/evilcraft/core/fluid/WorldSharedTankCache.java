@@ -1,17 +1,15 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Type;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.LogicalSide;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
@@ -79,7 +77,7 @@ public class WorldSharedTankCache {
 	}
 	
 	protected static boolean shouldRefreshFluid(FluidStack old, FluidStack newF) {
-    	return !MinecraftHelpers.isFluidAndAmountEqual(old, newF);
+    	return old.getAmount() != newF.getAmount();
     }
 	
 	/**
@@ -90,7 +88,7 @@ public class WorldSharedTankCache {
 	public synchronized void setTankContent(String tankID, FluidStack fluidStack) {
         String key = getMapID(tankID);
 		boolean shouldRefresh = shouldRefreshFluid(tankCache.get(key), fluidStack);
-		if(fluidStack == null || fluidStack.amount == 0) {
+		if(fluidStack.isEmpty()) {
 			tankCache.remove(key);
 		} else if(shouldRefresh) {
             tankCache.put(key, fluidStack.copy());
@@ -118,9 +116,9 @@ public class WorldSharedTankCache {
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onTick(TickEvent event) {
-    	if(event.phase == Phase.START && (event.type == Type.CLIENT || event.type == Type.SERVER)) {
+    	if(event.phase == TickEvent.Phase.START && (event.type == TickEvent.Type.CLIENT || event.type == TickEvent.Type.SERVER)) {
             tick++;
-	    	if(event.side == Side.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
+	    	if(event.side == LogicalSide.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
 		    	Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
 		    	while(it.hasNext()) {
 					EvilCraft._instance.getPacketHandler().sendToAll(it.next().getValue());
@@ -136,7 +134,7 @@ public class WorldSharedTankCache {
         if(!MinecraftHelpers.isClientSide()) {
             for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
 				EvilCraft._instance.getPacketHandler().sendToPlayer(
-						new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (EntityPlayerMP) event.player);
+						new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (ServerPlayerEntity) event.getPlayer());
             }
         }
     }
@@ -145,13 +143,13 @@ public class WorldSharedTankCache {
      * Read the cache.
      * @param tag The tag to read from.
      */
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(CompoundNBT tag) {
         if(tag != null) {
-            NBTTagList list = tag.getTagList("tankCache", 10);
-            for (int i = 0; i < list.tagCount(); i++) {
-                NBTTagCompound subTag = list.getCompoundTagAt(i);
+            ListNBT list = tag.getList("tankCache", 10);
+            for (int i = 0; i < list.size(); i++) {
+                CompoundNBT subTag = list.getCompound(i);
                 setTankContent(subTag.getString("key"),
-                        FluidStack.loadFluidStackFromNBT(subTag.getCompoundTag("value")));
+                        FluidStack.loadFluidStackFromNBT(subTag.getCompound("value")));
             }
         }
     }
@@ -160,17 +158,17 @@ public class WorldSharedTankCache {
      * Write the cache.
      * @param tag The tag to write to.
      */
-    public void writeToNBT(NBTTagCompound tag) {
-        NBTTagList list = new NBTTagList();
+    public void writeToNBT(CompoundNBT tag) {
+        ListNBT list = new ListNBT();
         for(Map.Entry<String, FluidStack> entry : tankCache.entrySet()) {
-            NBTTagCompound subTag = new NBTTagCompound();
-            subTag.setString("key", removeMapID(entry.getKey()));
-            NBTTagCompound fluidTag = new NBTTagCompound();
+            CompoundNBT subTag = new CompoundNBT();
+            subTag.putString("key", removeMapID(entry.getKey()));
+            CompoundNBT fluidTag = new CompoundNBT();
             entry.getValue().writeToNBT(fluidTag);
-            subTag.setTag("value", fluidTag);
-            list.appendTag(subTag);
+            subTag.put("value", fluidTag);
+            list.add(subTag);
         }
-        tag.setTag("tankCache", list);
+        tag.put("tankCache", list);
     }
 	
 }

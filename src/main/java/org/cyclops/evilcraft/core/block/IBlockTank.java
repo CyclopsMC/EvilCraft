@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.block;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -26,7 +26,7 @@ public interface IBlockTank {
      * @param player The player holding the item.
      * @return The toggled item.
      */
-    public ItemStack toggleActivation(ItemStack itemStack, World world, EntityPlayer player);
+    public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player);
     /**
      * If the given item is activated.
      * @param itemStack The item.

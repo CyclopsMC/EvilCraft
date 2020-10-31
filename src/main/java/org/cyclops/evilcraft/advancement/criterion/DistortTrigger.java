@@ -3,11 +3,11 @@ package org.cyclops.evilcraft.advancement.criterion;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.JsonUtils;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.advancement.criterion.BaseCriterionTrigger;
 import org.cyclops.cyclopscore.advancement.criterion.ICriterionInstanceTestable;
@@ -29,12 +29,12 @@ public class DistortTrigger extends BaseCriterionTrigger<List<Entity>, DistortTr
         JsonElement jsonElement = json.get("min_entities");
         int minEntities = 0;
         if (jsonElement != null && !jsonElement.isJsonNull()) {
-            minEntities = JsonUtils.getInt(json, "min_entities");
+            minEntities = JSONUtils.getInt(json, "min_entities");
         }
         return new Instance(getId(), minEntities, EntityPredicate.deserialize(json.get("entity")));
     }
 
-    public static class Instance extends AbstractCriterionInstance implements ICriterionInstanceTestable<List<Entity>> {
+    public static class Instance extends CriterionInstance implements ICriterionInstanceTestable<List<Entity>> {
 
         private final int minEntities;
         private final EntityPredicate entityPredicate;
@@ -45,7 +45,7 @@ public class DistortTrigger extends BaseCriterionTrigger<List<Entity>, DistortTr
             this.entityPredicate = entityPredicate;
         }
 
-        public boolean test(EntityPlayerMP player, List<Entity> entities) {
+        public boolean test(ServerPlayerEntity player, List<Entity> entities) {
             int count = 0;
             for (Entity entity : entities) {
                 if (this.entityPredicate.test(player, entity)) {

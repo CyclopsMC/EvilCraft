@@ -1,217 +1,152 @@
 package org.cyclops.evilcraft.core.monster;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemAxe;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.ShootableItem;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+
+import java.util.Random;
+import java.util.function.Predicate;
 
 /**
  * A mob without the {@link net.minecraft.entity.monster.IMob} interface.
  * @author rubensworks
  */
-public class EntityNoMob extends EntityCreature {
+public class EntityNoMob extends CreatureEntity {
 
-    // Contents copied from {@link EntityMob}
+    // Contents copied from {@link MonsterEntity}
 
-    public EntityNoMob(World world) {
-        super(world);
+    public EntityNoMob(EntityType<? extends EntityNoMob> type, World world) {
+        super(type, world);
         this.experienceValue = 5;
     }
 
-    /* DIRECT COPY OF EntityMob contents below. */
+    /* DIRECT COPY OF MonsterEntity contents below. */
 
-    public SoundCategory getSoundCategory()
-    {
+    public SoundCategory getSoundCategory() {
         return SoundCategory.HOSTILE;
     }
 
-    /*
+    /**
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
-    public void onLivingUpdate()
-    {
+    public void livingTick() {
         this.updateArmSwingProgress();
-        float f = this.getBrightness();
+        this.func_213623_ec();
+        super.livingTick();
+    }
 
-        if (f > 0.5F)
-        {
+    protected void func_213623_ec() {
+        float f = this.getBrightness();
+        if (f > 0.5F) {
             this.idleTime += 2;
         }
 
-        super.onLivingUpdate();
     }
 
-    /*
-     * Called to update the entity's position/logic.
-     */
-    public void onUpdate()
-    {
-        super.onUpdate();
-
-        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL)
-        {
-            this.setDead();
-        }
+    protected boolean isDespawnPeaceful() {
+        return true;
     }
 
-    protected SoundEvent getSwimSound()
-    {
+    protected SoundEvent getSwimSound() {
         return SoundEvents.ENTITY_HOSTILE_SWIM;
     }
 
-    protected SoundEvent getSplashSound()
-    {
+    protected SoundEvent getSplashSound() {
         return SoundEvents.ENTITY_HOSTILE_SPLASH;
     }
 
-    /*
+    /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource source, float amount)
-    {
-        return this.isEntityInvulnerable(source) ? false : super.attackEntityFrom(source, amount);
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        return this.isInvulnerableTo(source) ? false : super.attackEntityFrom(source, amount);
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_HOSTILE_HURT;
     }
 
-    protected SoundEvent getDeathSound()
-    {
+    public SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_HOSTILE_DEATH;
     }
 
-    protected SoundEvent getFallSound(int heightIn)
-    {
+    protected SoundEvent getFallSound(int heightIn) {
         return heightIn > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
     }
 
-    public boolean attackEntityAsMob(Entity entityIn)
-    {
-        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-        int i = 0;
-
-        if (entityIn instanceof EntityLivingBase)
-        {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
-            i += EnchantmentHelper.getKnockbackModifier(this);
-        }
-
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
-
-        if (flag)
-        {
-            if (i > 0 && entityIn instanceof EntityLivingBase)
-            {
-                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
-            }
-
-            int j = EnchantmentHelper.getFireAspectModifier(this);
-
-            if (j > 0)
-            {
-                entityIn.setFire(j * 4);
-            }
-
-            if (entityIn instanceof EntityPlayer)
-            {
-                EntityPlayer entityplayer = (EntityPlayer)entityIn;
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
-
-                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem() instanceof ItemAxe && itemstack1.getItem() == Items.SHIELD)
-                {
-                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
-
-                    if (this.rand.nextFloat() < f1)
-                    {
-                        entityplayer.getCooldownTracker().setCooldown(Items.SHIELD, 100);
-                        this.world.setEntityState(entityplayer, (byte)30);
-                    }
-                }
-            }
-
-            this.applyEnchantments(this, entityIn);
-        }
-
-        return flag;
+    public float getBlockPathWeight(BlockPos pos, IWorldReader worldIn) {
+        return 0.5F - worldIn.getBrightness(pos);
     }
 
-    public float getBlockPathWeight(BlockPos pos)
-    {
-        return 0.5F - this.world.getLightBrightness(pos);
-    }
-
-    /*
-     * Checks to make sure the light is not too bright where the mob is spawning
+    /**
+     * Static predicate for determining if the current light level and environmental conditions allow for a monster to
+     * spawn.
      */
-    protected boolean isValidLightLevel()
-    {
-        BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-
-        if (this.world.getLightFor(EnumSkyBlock.SKY, blockpos) > this.rand.nextInt(32))
-        {
+    public static boolean isValidLightLevel(IWorld worldIn, BlockPos pos, Random randomIn) {
+        if (worldIn.getLightFor(LightType.SKY, pos) > randomIn.nextInt(32)) {
             return false;
-        }
-        else
-        {
-            int i = this.world.getLightFromNeighbors(blockpos);
-
-            if (this.world.isThundering())
-            {
-                int j = this.world.getSkylightSubtracted();
-                this.world.setSkylightSubtracted(10);
-                i = this.world.getLightFromNeighbors(blockpos);
-                this.world.setSkylightSubtracted(j);
-            }
-
-            return i <= this.rand.nextInt(8);
+        } else {
+            int i = worldIn.getWorld().isThundering() ? worldIn.getNeighborAwareLightSubtracted(pos, 10) : worldIn.getLight(pos);
+            return i <= randomIn.nextInt(8);
         }
     }
 
-    /*
-     * Checks if the entity's current position is a valid location to spawn this entity.
+    /**
+     * Static predicate for determining whether or not a monster can spawn at the provided location, incorporating a
+     * check of the current light level at the location.
      */
-    public boolean getCanSpawnHere()
-    {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();
+    public static boolean canMonsterSpawnInLight(EntityType<? extends MonsterEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(worldIn, pos, randomIn) && canSpawnOn(type, worldIn, reason, pos, randomIn);
     }
 
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+    /**
+     * Static predicate for determining whether or not a monster can spawn at the provided location.
+     */
+    public static boolean canMonsterSpawn(EntityType<? extends MonsterEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && canSpawnOn(type, worldIn, reason, pos, randomIn);
     }
 
-    /*
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+    }
+
+    /**
      * Entity won't drop items or experience points if this returns false
      */
-    protected boolean canDropLoot()
-    {
+    protected boolean canDropLoot() {
         return true;
     }
 
-    public boolean isPreventingPlayerRest(EntityPlayer playerIn)
-    {
+    public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
         return true;
+    }
+
+    public ItemStack findAmmo(ItemStack shootable) {
+        if (shootable.getItem() instanceof ShootableItem) {
+            Predicate<ItemStack> predicate = ((ShootableItem)shootable.getItem()).getAmmoPredicate();
+            ItemStack itemstack = ShootableItem.getHeldAmmo(this, predicate);
+            return itemstack.isEmpty() ? new ItemStack(Items.ARROW) : itemstack;
+        } else {
+            return ItemStack.EMPTY;
+        }
     }
 
 }

@@ -4,11 +4,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 
 import javax.annotation.Nullable;
@@ -28,7 +30,7 @@ public class BroomModifier {
     private final float tierValue;
     private final int maxTiers;
     private final boolean baseModifier;
-    private final String tooltipFormat;
+    private final List<TextFormatting> tooltipFormats;
     private final int modelColor;
     private final int bakedQuadModelColor;
 
@@ -37,22 +39,26 @@ public class BroomModifier {
 
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
-                         String tooltipFormat, int modelColor) {
+                         List<TextFormatting> tooltipFormats, int modelColor) {
         this.id = id;
         this.type = type;
         this.defaultValue = defaultValue;
         this.tierValue = tierValue;
         this.maxTiers = maxTiers;
         this.baseModifier = baseModifier;
-        this.tooltipFormat = tooltipFormat;
+        this.tooltipFormats = tooltipFormats;
         this.modelColor = modelColor;
         this.bakedQuadModelColor = prepareColor(modelColor, baseModifier);
+
+        if (isBaseModifier()) {
+            this.tooltipFormats.add(TextFormatting.ITALIC);
+        }
     }
 
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
                          TextFormatting singleFormat, int modelColor) {
-        this(id, type, defaultValue, tierValue, maxTiers, baseModifier, singleFormat.toString(), modelColor);
+        this(id, type, defaultValue, tierValue, maxTiers, baseModifier, Lists.newArrayList(singleFormat), modelColor);
     }
 
     protected static int prepareColor(int modelColor, boolean baseModifier) {
@@ -103,22 +109,26 @@ public class BroomModifier {
         return this != BroomModifiers.MODIFIER_COUNT;
     }
 
-    public String getTooltipLine(String prefix, float value, float bonusValue) {
+    public ITextComponent getTooltipLine(String prefix, float value, float bonusValue) {
         return getTooltipLine(prefix, value, bonusValue, true);
     }
 
-    public String getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
-        String suffix;
+    public ITextComponent getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
+        ITextComponent suffix = new TranslationTextComponent(getTranslationKey())
+                .appendText(": " + value);
         if (bonusValue > 0) {
-            suffix = String.format("%s: %s (+%s) / %s", L10NHelpers.localize(getTranslationKey()),
-                    value, bonusValue, getMaxTierValue());
-        } else if (showMaxValue) {
-            suffix = String.format("%s: %s / %s", L10NHelpers.localize(getTranslationKey()),
-                    value, getMaxTierValue());
-        } else {
-            suffix = String.format("%s: %s", L10NHelpers.localize(getTranslationKey()), value);
+            suffix = suffix.appendText(String.format(" (+%s)", bonusValue));
         }
-        return L10NHelpers.localize(prefix + getTooltipFormat() + suffix);
+        if (showMaxValue) {
+            suffix = suffix.appendText(String.format(" / %s", getMaxTierValue()));
+        }
+
+        ITextComponent ret = new StringTextComponent(prefix)
+                .appendSibling(suffix);
+        for (TextFormatting format : getTooltipFormats()) {
+            ret = ret.applyTextStyle(format);
+        }
+        return ret;
     }
 
     @Override
@@ -130,8 +140,8 @@ public class BroomModifier {
         return baseModifier;
     }
 
-    public String getTooltipFormat() {
-        return tooltipFormat + (isBaseModifier() ? "" : TextFormatting.ITALIC.toString());
+    public List<TextFormatting> getTooltipFormats() {
+        return tooltipFormats;
     }
 
     public int getModelColor() {

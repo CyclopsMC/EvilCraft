@@ -2,9 +2,11 @@ package org.cyclops.evilcraft.core.tileentity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.World;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradable;
 import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeBehaviour;
@@ -22,7 +24,7 @@ import java.util.Set;
  * @param <O> The type of upgrade behaviour object.
  * @see TickingTankInventoryTileEntity
  */
-public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> extends TickingTankInventoryTileEntity<T>
+public abstract class WorkingTileEntity<T extends WorkingTileEntity<T, O>, O> extends TickingTankInventoryTileEntity<T>
         implements IUpgradable<T, O> {
 
     /**
@@ -30,6 +32,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      */
     public static final int INVENTORY_SIZE_UPGRADES = 4;
 
+    public static final int TIERS = 3;
     public static final Upgrades.Upgrade UPGRADE_TIER1 = Upgrades.getUpgrade("tier", 1);
     public static final Upgrades.Upgrade UPGRADE_TIER2 = Upgrades.getUpgrade("tier", 2);
     public static final Upgrades.Upgrade UPGRADE_TIER3 = Upgrades.getUpgrade("tier", 3);
@@ -40,26 +43,12 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     private Map<Upgrades.Upgrade, Integer> levels = null;
     protected Map<Upgrades.Upgrade, IUpgradeBehaviour<T, O>> upgradeBehaviour = Maps.newHashMap();
 
-	/**
-     * Make a new instance.
-     * @param inventorySize Amount of slots in the inventory.
-     * @param inventoryName Internal name of the inventory.
-     * @param tankSize Size (mB) of the tank.
-     * @param tankName Internal name of the tank.
-     * @param acceptedFluid Type of Fluid to accept.
-     */
-	public WorkingTileEntity(int inventorySize, String inventoryName,
-			int tankSize, String tankName, Fluid acceptedFluid) {
-		super(inventorySize + INVENTORY_SIZE_UPGRADES, inventoryName, tankSize, tankName, acceptedFluid);
+	public WorkingTileEntity(TileEntityType<?> type, int inventorySize, int stackSize, int tankSize, Fluid acceptedFluid) {
+		super(type, inventorySize + INVENTORY_SIZE_UPGRADES, stackSize, tankSize, acceptedFluid);
         this.basicInventorySize = inventorySize;
 	}
 
-	 /**
-     * Check if the given item can be infused.
-     * @param itemStack The item to check.
-     * @return If it can be infused.
-     */
-    public abstract boolean canConsume(ItemStack itemStack);
+	public abstract IMetadata getTileWorkingMetadata();
     
     /**
      * Check if this tile is valid and can start working.
@@ -135,7 +124,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     protected List<ItemStack> getUpgradeItems() {
         List<ItemStack> itemStacks = Lists.newLinkedList();
         for(int i = getBasicInventorySize(); i < getBasicInventorySize() + INVENTORY_SIZE_UPGRADES; i++) {
-            ItemStack itemStack = getStackInSlot(i);
+            ItemStack itemStack = getInventory().getStackInSlot(i);
             if(!itemStack.isEmpty()) {
                 itemStacks.add(itemStack);
             }
@@ -175,24 +164,8 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     }
 
     @Override
-    public ItemStack decrStackSize(int slotId, int count) {
-        ItemStack itemStack = super.decrStackSize(slotId, count);
-        if(isUpgradeSlot(slotId)) {
-            ItemStack oldItemStack = itemStack.copy();
-            oldItemStack.grow(count);
-            onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
-        }
-        return itemStack;
-    }
-
-    @Override
-    public void setInventorySlotContents(int slotId, ItemStack itemStack) {
-        ItemStack oldItemStack = getStackInSlot(slotId);
-        if(!oldItemStack.isEmpty()) oldItemStack = oldItemStack.copy();
-        super.setInventorySlotContents(slotId, itemStack);
-        if(isUpgradeSlot(slotId)) {
-            onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
-        }
+    protected SimpleInventory createInventory(int inventorySize, int stackSize) {
+        return new Inventory<>(inventorySize, stackSize, this);
     }
 
     public Map<Upgrades.Upgrade, Integer> getUpgradeLevels() {
@@ -216,7 +189,7 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
     }
 
     public Set<Upgrades.Upgrade> getUpgrades() {
-        return ((UpgradableBlockContainerConfig) this.getBlock().getConfig()).getUpgrades();
+        return UpgradableBlockContainerConfig.getBlockUpgrades(getBlockState().getBlock());
     }
 
     /**
@@ -224,6 +197,46 @@ public abstract class WorkingTileEntity<T extends TankInventoryTileEntity, O> ex
      */
     public int getBasicInventorySize() {
         return this.basicInventorySize;
+    }
+
+    public static class Inventory<T extends WorkingTileEntity<?, ?>> extends SimpleInventory {
+        protected final T tile;
+
+        public Inventory(int size, int stackLimit, T tile) {
+            super(size, stackLimit);
+            this.tile = tile;
+        }
+
+        @Override
+        public ItemStack decrStackSize(int slotId, int count) {
+            ItemStack itemStack = super.decrStackSize(slotId, count);
+            if(this.tile.isUpgradeSlot(slotId)) {
+                ItemStack oldItemStack = itemStack.copy();
+                oldItemStack.grow(count);
+                this.tile.onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
+            }
+            return itemStack;
+        }
+
+        @Override
+        public void setInventorySlotContents(int slotId, ItemStack itemStack) {
+            ItemStack oldItemStack = getStackInSlot(slotId);
+            if(!oldItemStack.isEmpty()) oldItemStack = oldItemStack.copy();
+            super.setInventorySlotContents(slotId, itemStack);
+            if(this.tile.isUpgradeSlot(slotId)) {
+                this.tile.onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
+            }
+        }
+    }
+
+    public static interface IMetadata {
+        /**
+         * Check if the given item can be infused.
+         * @param itemStack The item to check.
+         * @param world
+         * @return If it can be infused.
+         */
+        public abstract boolean canConsume(ItemStack itemStack, World world);
     }
 
 }

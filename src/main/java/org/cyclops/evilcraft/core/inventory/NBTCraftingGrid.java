@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.core.inventory;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumHand;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Hand;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 
 /**
@@ -13,13 +13,13 @@ import org.cyclops.cyclopscore.helper.InventoryHelpers;
  * @author rubensworks
  *
  */
-public class NBTCraftingGrid extends InventoryCrafting {
+public class NBTCraftingGrid extends CraftingInventory {
 	
 	private static final String NBT_TAG_ROOT = "CraftingGridInventory";
 	
-	protected EntityPlayer player;
+	protected PlayerEntity player;
 	protected int itemIndex;
-	protected EnumHand hand;
+	protected Hand hand;
 	
 	/**
 	 * Make a new instance.
@@ -28,7 +28,7 @@ public class NBTCraftingGrid extends InventoryCrafting {
 	 * @param eventHandler The event handler if the grid changes.
 	 * @param hand The hand the player is using.
 	 */
-	public NBTCraftingGrid(EntityPlayer player, int itemIndex, EnumHand hand, Container eventHandler) {
+	public NBTCraftingGrid(PlayerEntity player, int itemIndex, Hand hand, Container eventHandler) {
 		super(eventHandler, 3, 3);
 		ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex, hand);
 		this.player = player;
@@ -42,19 +42,19 @@ public class NBTCraftingGrid extends InventoryCrafting {
 	 */
 	public void save() {
         ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex, hand);
-		NBTTagCompound tag = itemStack.getTagCompound();
+		CompoundNBT tag = itemStack.getTag();
         if(tag == null) {
-            tag = new NBTTagCompound();
+            tag = new CompoundNBT();
         }
 		writeToNBT(tag, NBT_TAG_ROOT);
-		itemStack.setTagCompound(tag);
+		itemStack.setTag(tag);
 	}
 	
-	protected void readFromNBT(NBTTagCompound data, String tagName) {
+	protected void readFromNBT(CompoundNBT data, String tagName) {
         InventoryHelpers.readFromNBT(this, data, tagName);
     }
 	
-	protected void writeToNBT(NBTTagCompound data, String tagName) {
+	protected void writeToNBT(CompoundNBT data, String tagName) {
         InventoryHelpers.writeToNBT(this, data, tagName);
     }
 

@@ -1,18 +1,17 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.packet.PlayerPositionPacket;
 import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
-import org.cyclops.evilcraft.client.particle.ParticleFart;
+import org.cyclops.evilcraft.client.particle.ParticleFartData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,26 +53,26 @@ public class FartPacket extends PlayerPositionPacket {
      * Creates a FartPacket which contains the player data.
      * @param player The player data.
      */
-    public FartPacket(EntityPlayer player) {
+    public FartPacket(PlayerEntity player) {
         super(player);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void actionClient(World world, EntityPlayer player) {
+    @OnlyIn(Dist.CLIENT)
+    public void actionClient(World world, PlayerEntity player) {
         if(GeneralConfig.farting)
             super.actionClient(world, player);
 
     }
 
     @Override
-    protected void performClientAction(World world, EntityPlayer player) {
+    protected void performClientAction(World world, PlayerEntity player) {
         spawnFartParticles(world, player, position, true);
     }
     
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private void spawnFartParticles(
-            World world, EntityPlayer player, 
+            World world, PlayerEntity player,
             Vec3d pos, boolean isRemotePlayer) {
         
         if (player == null)
@@ -101,8 +100,8 @@ public class FartPacket extends PlayerPositionPacket {
             float particleMotionX = -0.5F + rand.nextFloat();
             float particleMotionY = -0.5F + rand.nextFloat();
             float particleMotionZ = -0.5F + rand.nextFloat();
-            
-            Minecraft.getMinecraft().effectRenderer.addEffect(new ParticleFart(world, particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ, rainbow));
+
+            world.addParticle(new ParticleFartData(rainbow), particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
     
@@ -111,13 +110,13 @@ public class FartPacket extends PlayerPositionPacket {
      * @param player The player to check.
      * @return If that player has rainbow farts.
      */
-    public boolean hasRainbowFart(EntityPlayer player) {
+    public boolean hasRainbowFart(PlayerEntity player) {
         return player.getGameProfile() != null
                 && ALLOW_RAINBOW_FARTS.contains(player.getGameProfile().getId());
     }
 
     @Override
-    public void actionServer(World world, EntityPlayerMP player) {
+    public void actionServer(World world, ServerPlayerEntity player) {
         if(GeneralConfig.farting) {
             Advancements.FART.trigger(player, null);
             super.actionServer(world, player);
@@ -125,7 +124,7 @@ public class FartPacket extends PlayerPositionPacket {
     }
 
     @Override
-    protected PlayerPositionPacket create(EntityPlayer player, int range) {
+    protected PlayerPositionPacket create(PlayerEntity player, int range) {
         return new FartPacket(player);
     }
 

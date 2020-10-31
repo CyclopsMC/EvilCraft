@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.degradation;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
@@ -58,20 +58,20 @@ public class DegradationExecutor {
      * Reads the data for this executor from NBT.
      * @param compound The tag to read from.
      */
-    public void readFromNBT(NBTTagCompound compound) {
-        this.tickInterval = compound.getCompoundTag(ROOT_TAG).getInteger("tickInterval");
-        this.currentTick = compound.getCompoundTag(ROOT_TAG).getInteger("currentTick");
+    public void read(CompoundNBT compound) {
+        this.tickInterval = compound.getCompound(ROOT_TAG).getInt("tickInterval");
+        this.currentTick = compound.getCompound(ROOT_TAG).getInt("currentTick");
     }
     
     /**
      * Writes the data for this executor to NBT.
      * @param compound The tag to write to.
      */
-    public void writeToNBT(NBTTagCompound compound) {
-        NBTTagCompound content = new NBTTagCompound();
-        content.setInteger("tickInterval", tickInterval);
-        content.setInteger("currentTick", currentTick);
-        compound.setTag(ROOT_TAG, content);
+    public void write(CompoundNBT compound) {
+        CompoundNBT content = new CompoundNBT();
+        content.putInt("tickInterval", tickInterval);
+        content.putInt("currentTick", currentTick);
+        compound.put(ROOT_TAG, content);
     }
 
     /**

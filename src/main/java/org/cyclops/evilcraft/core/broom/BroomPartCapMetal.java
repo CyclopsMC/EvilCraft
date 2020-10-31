@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.broom;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
@@ -17,7 +17,7 @@ public class BroomPartCapMetal extends BroomPartBase {
         this.color = Helpers.rgbToBgr(color);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
                 new ResourceLocation(getId().getNamespace(), "broom_part/cap_metal"));

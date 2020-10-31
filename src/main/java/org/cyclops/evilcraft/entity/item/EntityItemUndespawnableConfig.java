@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderEntityItem;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -15,34 +16,20 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class EntityItemUndespawnableConfig extends EntityConfig<EntityItem> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityItemUndespawnableConfig _instance;
+public class EntityItemUndespawnableConfig extends EntityConfig<EntityItemUndespawnable> {
 
-    /**
-     * Make a new instance.
-     */
     public EntityItemUndespawnableConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_item_undespawnable",
-            null,
-            EntityItemUndespawnable.class
+                "item_undespawnable",
+                eConfig -> EntityType.Builder.<EntityItemUndespawnable>create(EntityItemUndespawnable::new, EntityClassification.MISC)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
-    }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
 	@Override
-	public Render<EntityItem> getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderEntityItem(renderManager, renderItem);
+	public EntityRenderer<ItemEntity> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        return new net.minecraft.client.renderer.entity.ItemRenderer(renderManager, renderItem);
 	}
 }

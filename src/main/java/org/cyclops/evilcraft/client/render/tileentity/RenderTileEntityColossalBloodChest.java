@@ -1,55 +1,80 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import net.minecraft.client.model.ModelChest;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.client.renderer.Atlases;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3i;
-import org.cyclops.cyclopscore.client.render.tileentity.RenderTileEntityModel;
-import org.cyclops.evilcraft.block.ColossalBloodChest;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
-import org.lwjgl.opengl.GL11;
 
 /**
- * Renderer for the {@link ColossalBloodChest}.
+ * Renderer for the {@link BlockColossalBloodChest}.
  * @author rubensworks
  *
  */
-public class RenderTileEntityColossalBloodChest extends RenderTileEntityModel<TileColossalBloodChest, ModelChest> {
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+public class RenderTileEntityColossalBloodChest extends RenderTileEntityChestBase<TileColossalBloodChest> {
 
-	/**
-     * Make a new instance.
-     * @param model The model to render.
-     * @param texture The texture to render the model with.
-     */
-    public RenderTileEntityColossalBloodChest(ModelChest model, ResourceLocation texture) {
-        super(model, texture);
-    }
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "colossal_blood_chest.png");
 
-    @Override
-    protected void preRotate(TileColossalBloodChest chestTile) {
-        if(chestTile.canWork()) {
-            Vec3i renderOffset = chestTile.getRenderOffset();
-            GlStateManager.translate(-renderOffset.getX(), renderOffset.getY(), renderOffset.getZ());
+    @SubscribeEvent
+    public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        if (event.getMap().getTextureLocation().equals(Atlases.CHEST_ATLAS)) {
+            event.addSprite(TEXTURE);
         }
-        GlStateManager.translate(0.5F, 0, 0.5F);
-        GlStateManager.scale(3, 3, 3);
+    }
+
+    public RenderTileEntityColossalBloodChest(TileEntityRendererDispatcher p_i226008_1_) {
+        super(p_i226008_1_);
     }
 
     @Override
-    protected void postRotate(TileColossalBloodChest tile) {
-        GL11.glTranslatef(-0.5F, 0, -0.5F);
+    protected Material getMaterial(TileColossalBloodChest tile) {
+        return new Material(Atlases.CHEST_ATLAS, TEXTURE);
     }
 
     @Override
-    protected void renderModel(TileColossalBloodChest chestTile, ModelChest model, float partialTick, int destroyStage) {
-        if(chestTile.canWork()) {
-            float lidangle = chestTile.prevLidAngle + (chestTile.lidAngle - chestTile.prevLidAngle) * partialTick;
-            lidangle = 1.0F - lidangle;
-            lidangle = 1.0F - lidangle * lidangle * lidangle;
-            model.chestLid.rotateAngleX = -(lidangle * (float) Math.PI / 2.0F);
-            GlStateManager.translate(0, -0.3333F, 0);
-            model.renderAll();
-            GlStateManager.scale(1 / 3, 1 / 3, 1 / 3);
+    public boolean isGlobalRenderer(TileColossalBloodChest tile) {
+        return true;
+    }
+
+    @Override
+    protected void handleRotation(TileColossalBloodChest tile, MatrixStack matrixStack) {
+        // Move origin to center of chest
+        if(tile.isStructureComplete()) {
+            Vec3i renderOffset = tile.getRenderOffset();
+            matrixStack.translate(-renderOffset.getX(), -renderOffset.getY(), -renderOffset.getZ());
         }
+
+        // Rotate
+        super.handleRotation(tile, matrixStack);
+
+        // Move chest slightly higher
+        matrixStack.translate(0F, tile.getSizeSingular() * 0.0625F, 0F);
+
+        // Scale
+        float size = tile.getSizeSingular() * 1.125F;
+        matrixStack.scale(size, size, size);
+    }
+
+    @Override
+    public void render(TileColossalBloodChest tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int combinedLightIn, int combinedOverlayIn) {
+        if (tile.isStructureComplete()) {
+            super.render(tile, partialTicks, matrixStack, renderTypeBuffer, combinedLightIn, combinedOverlayIn);
+        }
+    }
+
+    @Override
+    protected Direction getDirection(TileColossalBloodChest tileEntityIn) {
+        return tileEntityIn.getRotation().getOpposite();
     }
 }

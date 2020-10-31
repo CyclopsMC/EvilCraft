@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.entity.effect;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.entity.Entity;
-import net.minecraft.init.Items;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -16,35 +16,21 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class EntityNecromancersHeadConfig extends EntityConfig<Entity> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityNecromancersHeadConfig _instance;
+public class EntityNecromancersHeadConfig extends EntityConfig<EntityNecromancersHead> {
 
-    /**
-     * Make a new instance.
-     */
     public EntityNecromancersHeadConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_necromancers_head",
-            null,
-            EntityNecromancersHead.class
+                "necromancers_head",
+                eConfig -> EntityType.Builder.<EntityNecromancersHead>create(EntityNecromancersHead::new, EntityClassification.MISC)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderSnowball<Entity>(renderManager, Items.SKULL, renderItem);
-    }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
+    public EntityRenderer<EntityNecromancersHead> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        return new SpriteRenderer(renderManager, renderItem);
     }
     
 }

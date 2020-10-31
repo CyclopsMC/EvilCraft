@@ -3,23 +3,21 @@ package org.cyclops.evilcraft.tileentity;
 import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemBook;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.item.BookItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.particle.ParticleBlur;
+import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.evilcraft.Configs;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
-import org.cyclops.evilcraft.item.OriginsOfDarkness;
-import org.cyclops.evilcraft.item.OriginsOfDarknessConfig;
+import org.cyclops.evilcraft.RegistryEntries;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -35,15 +33,19 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
     @NBTPersist
     private Float progress = 0f;
 
-	@SuppressWarnings("unchecked")
+    public TileSpiritPortal() {
+        super(RegistryEntries.TILE_ENTITY_SPIRIT_PORTAL);
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
 	public void updateTileEntity() {
 		super.updateTileEntity();
         progress += 0.005f;
         if(progress > 1) {
-            world.setBlockToAir(getPos());
+            world.removeBlock(getPos(), false);
         }
-        if(world.isRemote) {
+        if(world.isRemote()) {
             int progressModifier = (int) (getProgress() * 40f) + 1;
             if(world.rand.nextInt(5) == 0) {
                 world.playSound(getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
@@ -56,25 +58,23 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
         }
 
         // transform book if thrown in.
-        if(!world.isRemote && Configs.isEnabled(OriginsOfDarknessConfig.class)) {
-            for (EntityItem entityItem : (List<EntityItem>) world.getEntitiesWithinAABB(EntityItem.class,
+        if(!world.isRemote()) {
+            for (ItemEntity entityItem : world.getEntitiesWithinAABB(ItemEntity.class,
                     new AxisAlignedBB(
                             this.getPos().getX() - 0.5D, this.getPos().getY() - 0.5D, this.getPos().getZ() - 0.5D,
                             this.getPos().getX() + 1.5D, this.getPos().getY() + 1.5D, this.getPos().getZ() + 1.5D))) {
-                if (entityItem.getItem().getItem() instanceof ItemBook) {
-                    Entity entity = new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ,
-                            new ItemStack(OriginsOfDarkness.getInstance(), entityItem.getItem().getCount()));
-                    entity.motionX = entityItem.motionX;
-                    entity.motionY = entityItem.motionY;
-                    entity.motionZ = entityItem.motionZ;
-                    entityItem.setDead();
-                    world.spawnEntity(entity);
+                if (entityItem.getItem().getItem() instanceof BookItem) {
+                    Entity entity = new ItemEntity(world, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(),
+                            new ItemStack(RegistryEntries.ITEM_ORIGINS_OF_DARKNESS, entityItem.getItem().getCount()));
+                    entity.setMotion(entityItem.getMotion());
+                    entityItem.remove();
+                    world.addEntity(entity);
                 }
             }
         }
 	}
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private void showNewBlurParticle() {
         Random rand = world.rand;
         float scale = 0.6F - rand.nextFloat() * 0.3F;
@@ -83,10 +83,10 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 10D);
 
-        ParticleBlur blur = new ParticleBlur(world, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F, scale,
-                rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F,
-                red, green, blue, ageMultiplier);
-        Minecraft.getMinecraft().effectRenderer.addEffect(blur);
+        Minecraft.getInstance().particles.addEffect(new ParticleBlur(
+                new ParticleBlurData(red, green, blue, scale, ageMultiplier),
+                world, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
+                rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F));
     }
 
     public float getProgress() {
@@ -94,7 +94,7 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
         return TileEntity.INFINITE_EXTENT_AABB;
     }

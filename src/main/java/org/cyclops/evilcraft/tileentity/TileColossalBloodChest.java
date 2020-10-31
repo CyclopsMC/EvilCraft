@@ -4,56 +4,73 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.tileentity.IChestLid;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.mutable.MutableFloat;
-import org.cyclops.cyclopscore.block.multi.*;
+import org.cyclops.cyclopscore.block.multi.AllowedBlock;
+import org.cyclops.cyclopscore.block.multi.CubeDetector;
+import org.cyclops.cyclopscore.block.multi.ExactBlockCountValidator;
+import org.cyclops.cyclopscore.block.multi.ExactSizeValidator;
+import org.cyclops.cyclopscore.block.multi.HollowCubeDetector;
+import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
-import org.cyclops.evilcraft.block.ColossalBloodChest;
-import org.cyclops.evilcraft.block.ColossalBloodChestConfig;
-import org.cyclops.evilcraft.block.ReinforcedUndeadPlank;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockColossalBloodChestConfig;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.fluid.Blood;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BulkRepairItemTickAction;
 
+import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * A machine that can infuse things with blood.
  * @author rubensworks
  *
  */
-public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, MutableFloat> {
+public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, MutableFloat> implements INamedContainerProvider, IChestLid {
+
+    public static Metadata METADATA = new Metadata();
 
     private static final int TICK_MODULUS = 200;
 
@@ -69,23 +86,10 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      * The id of the fluid container slot.
      */
     public static final int SLOT_CONTAINER = SLOTS - 1;
-
-    /**
-     * The name of the tank, used for NBT storage.
-     */
-    public static String TANKNAME = "colossalBloodChestTank";
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = Fluid.BUCKET_VOLUME * 10;
-    /**
-     * The amount of ticks per mB the tank can accept per tick.
-     */
-    public static final int TICKS_PER_LIQUID = 2;
-    /**
-     * The fluid that is accepted in the tank.
-     */
-    public static final Fluid ACCEPTED_FLUID = Blood.getInstance();
+    public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
 
     public static final int MAX_EFFICIENCY = 200;
 
@@ -97,6 +101,8 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     @Setter
     @NBTPersist
     private Integer efficiency = 0;
+    @NBTPersist
+    private int rotation = 0;
     private int repairTicker;
     /**
      * The previous angle of the lid.
@@ -110,8 +116,6 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     @Getter
     private final Map<Integer, Boolean> slotTickHistory;
 
-    private Block block = ColossalBloodChest.getInstance();
-
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
 
@@ -124,30 +128,22 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<TileColossalBloodChest>());
     }
+    public static int TICKERS = SLOTS_CHEST + 1;
 
     protected static final ExactSizeValidator exactSizeValidator = new ExactSizeValidator(new Vec3i(2, 2, 2));
-    /**
-     * The multiblock structure detector for this furnace.
-     */
-    @SuppressWarnings("unchecked")
-    public static CubeDetector detector = new HollowCubeDetector(
-            new AllowedBlock[]{
-                    new AllowedBlock(ReinforcedUndeadPlank.getInstance()),
-                    new AllowedBlock(ColossalBloodChest.getInstance()).addCountValidator(new ExactBlockCountValidator(1))
-            },
-            Lists.newArrayList(ColossalBloodChest.getInstance(), ReinforcedUndeadPlank.getInstance())
-    ).addSizeValidator(exactSizeValidator);
+
+    private static CubeDetector detector;
 
     /**
      * Make a new instance.
      */
     public TileColossalBloodChest() {
         super(
+                RegistryEntries.TILE_ENTITY_COLOSSAL_BLOOD_CHEST,
                 SLOTS,
-                ColossalBloodChest.getInstance().getLocalizedName(),
+                64,
                 LIQUID_PER_SLOT,
-                TileColossalBloodChest.TANKNAME,
-                ACCEPTED_FLUID);
+                RegistryEntries.FLUID_BLOOD);
         for(int i = 0; i < SLOTS_CHEST; i++) {
             addTicker(
                     new TickComponent<
@@ -162,19 +158,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                         ITickAction<TileColossalBloodChest>
                         >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
         );
-
-        // The slots side mapping
-        List<Integer> inSlotsTank = new LinkedList<Integer>();
-        inSlotsTank.add(SLOT_CONTAINER);
-        List<Integer> inSlotsInventory = new LinkedList<Integer>();
-        for(int i = 0; i < SLOTS_CHEST; i++) {
-            inSlotsInventory.add(i);
-        }
-        addSlotsToSide(EnumFacing.EAST, inSlotsTank);
-        addSlotsToSide(EnumFacing.UP, inSlotsInventory);
-        addSlotsToSide(EnumFacing.DOWN, inSlotsInventory);
-        addSlotsToSide(EnumFacing.SOUTH, inSlotsInventory);
-        addSlotsToSide(EnumFacing.WEST, inSlotsInventory);
+        assert getTickers().size() == TICKERS;
 
         // Upgrade behaviour
         upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(2) {
@@ -204,6 +188,31 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         resetSlotHistory();
     }
 
+    public static CubeDetector getCubeDetector() {
+        if (detector == null) {
+            detector = new HollowCubeDetector(
+                    new AllowedBlock[]{
+                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANK),
+                            new AllowedBlock(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST).addCountValidator(new ExactBlockCountValidator(1))
+                    },
+                    Lists.newArrayList(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST, RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANK)
+            ).addSizeValidator(exactSizeValidator);
+        }
+        return detector;
+    }
+
+    @Override
+    protected void addItemHandlerCapabilities() {
+        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_CHEST));
+        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerChest);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerChest);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.NORTH, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.SOUTH, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.WEST, itemHandlerContainer);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.EAST, itemHandlerContainer);
+    }
+
     protected void resetSlotHistory() {
         for(int i = 0; i < getBasicInventorySize(); i++) {
             slotTickHistory.put(i, false);
@@ -211,22 +220,19 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
     
     @Override
-    protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
+    protected SingleUseTank createTank(int tankSize) {
+    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
 
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        if(slot == SLOT_CONTAINER)
-            return SlotFluidContainer.checkIsItemValid(itemStack, getTank());
-        else if(slot <= SLOTS_CHEST && slot >= 0)
-            return SlotRepairable.checkIsItemValid(itemStack);
-        return super.isItemValidForSlot(slot, itemStack);
+    /**
+     * @return If the structure is valid.
+     */
+    public boolean isStructureComplete() {
+        return !getSize().equals(Vec3i.NULL_VECTOR);
     }
 
-    @Override
-    public boolean canConsume(ItemStack itemStack) {
-        return SlotRepairable.checkIsItemValid(itemStack);
+    public int getSizeSingular() {
+        return getSize().getX() + 1;
     }
 
     /**
@@ -245,6 +251,11 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     @Override
+    public IMetadata getTileWorkingMetadata() {
+        return METADATA;
+    }
+
+    @Override
     public boolean canWork() {
         Vec3i size = getSize();
         return size.compareTo(exactSizeValidator.getExactSize()) == 0;
@@ -257,8 +268,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      * @return If it is valid.
      */
     public static boolean canWork(World world, BlockPos location) {
-        TileColossalBloodChest tile = TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class);
-        return tile != null && tile.canWork();
+        return TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class)
+                .map(TileColossalBloodChest::canWork)
+                .orElse(false);
     }
 
     @Override
@@ -280,37 +292,37 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public void updateTileEntity() {
         resetSlotHistory();
         super.updateTileEntity();
-        if(world != null && !this.world.isRemote && this.world.getWorldTime() % ColossalBloodChestConfig.ticksPerDamage == 0) {
+        if (world != null && !this.world.isRemote() && this.world.getGameTime() % BlockColossalBloodChestConfig.ticksPerDamage == 0) {
             int oldEfficiency = efficiency;
-            efficiency = Math.max(0, efficiency - ColossalBloodChestConfig.baseConcurrentItems);
+            efficiency = Math.max(0, efficiency - BlockColossalBloodChestConfig.baseConcurrentItems);
             if(oldEfficiency != efficiency) {
                 markDirty();
             }
         }
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
-        if(world != null
-                && !this.world.isRemote
+        if (world != null
+                && !this.world.isRemote()
                 && this.playersUsing != 0
                 && WorldHelpers.efficientTick(world, TICK_MODULUS, getPos().hashCode())) {
             this.playersUsing = 0;
             float range = 5.0F;
             @SuppressWarnings("unchecked")
-            List<EntityPlayer> entities = this.world.getEntitiesWithinAABB(
-                    EntityPlayer.class,
+            List<PlayerEntity> entities = this.world.getEntitiesWithinAABB(
+                    PlayerEntity.class,
                     new AxisAlignedBB(
                             getPos().subtract(new Vec3i(range, range, range)),
                             getPos().add(new Vec3i(1 + range, 1 + range, 1 + range))
                     )
             );
 
-            for(EntityPlayer player : entities) {
+            for(PlayerEntity player : entities) {
                 if (player.openContainer instanceof ContainerColossalBloodChest) {
                     ++this.playersUsing;
                 }
             }
 
-            world.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
@@ -365,36 +377,50 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     @Override
-    public void openInventory(EntityPlayer entityPlayer) {
-        triggerPlayerUsageChange(1);
-    }
+    protected SimpleInventory createInventory(int inventorySize, int stackSize) {
+        return new Inventory<TileColossalBloodChest>(inventorySize, stackSize, this) {
+            @Override
+            public void openInventory(PlayerEntity entityPlayer) {
+                triggerPlayerUsageChange(1);
+            }
 
-    @Override
-    public void closeInventory(EntityPlayer entityPlayer) {
-        triggerPlayerUsageChange(-1);
+            @Override
+            public void closeInventory(PlayerEntity entityPlayer) {
+                triggerPlayerUsageChange(-1);
+            }
+
+            @Override
+            public boolean isUsableByPlayer(PlayerEntity entityPlayer) {
+                return super.isUsableByPlayer(entityPlayer)
+                        && (world == null || world.getTileEntity(getPos()) != tile);
+            }
+
+            @Override
+            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+                if(slot == SLOT_CONTAINER)
+                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
+                else if(slot <= SLOTS_CHEST && slot >= 0)
+                    return SlotRepairable.checkIsItemValid(itemStack);
+                return super.isItemValidForSlot(slot, itemStack);
+            }
+        };
     }
 
     private void triggerPlayerUsageChange(int change) {
         if (world != null) {
             playersUsing += change;
-            world.addBlockEvent(getPos(), block, 1, playersUsing);
+            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
         }
     }
 
     @Override
-    public boolean isUsableByPlayer(EntityPlayer entityPlayer) {
-        return super.isUsableByPlayer(entityPlayer)
-                && (world == null || world.getTileEntity(getPos()) != this);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(getPos().subtract(new Vec3i(3, 3, 3)), getPos().add(3, 6, 3));
     }
 
     public void setCenter(BlockPos center) {
-        EnumFacing rotation = EnumFacing.NORTH;
+        Direction rotation = Direction.NORTH;
         if(center.getX() != getPos().getX()) {
             rotation = DirectionHelpers.getEnumFacingFromXSign(center.getX() - getPos().getX());
         } else if(center.getZ() != getPos().getZ()) {
@@ -404,8 +430,23 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         this.renderOffset = getPos().subtract(center);
     }
 
+    public void setRotation(Direction rotation) {
+        this.rotation = rotation.ordinal();
+    }
+
+    @Override
+    public Direction getRotation() {
+        return Direction.byIndex(this.rotation);
+    }
+
     public Vec3i getRenderOffset() {
         return this.renderOffset;
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerEntity) {
+        return new ContainerColossalBloodChest(id, playerInventory, this.getInventory(), Optional.of(this));
     }
 
     /**
@@ -418,6 +459,24 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      */
     public static void detectStructure(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
 
+    }
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent("block.evilcraft.colossal_blood_chest");
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public float getLidAngle(float partialTicks) {
+        return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
+    }
+
+    private static class Metadata implements IMetadata {
+        @Override
+        public boolean canConsume(ItemStack itemStack, World world) {
+            return SlotRepairable.checkIsItemValid(itemStack);
+        }
     }
 
 }

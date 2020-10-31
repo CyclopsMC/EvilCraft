@@ -3,8 +3,7 @@ package org.cyclops.evilcraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 /**
@@ -30,8 +29,7 @@ public class EvilCraftSoundEvents {
     }
 
     @SubscribeEvent
-    public static void registerSoundEvents(RegistryEvent.Register event) {
-        if (event.getRegistry() == ForgeRegistries.SOUND_EVENTS) {
+    public static void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
             effect_vengeancebeam_base = getRegisteredSoundEvent(event.getRegistry(), "effect.vengeancebeam.base");
             effect_vengeancebeam_start = getRegisteredSoundEvent(event.getRegistry(), "effect.vengeancebeam.start");
             effect_vengeancebeam_stop = getRegisteredSoundEvent(event.getRegistry(), "effect.vengeancebeam.stop");
@@ -40,7 +38,6 @@ public class EvilCraftSoundEvents {
             effect_box_beam = getRegisteredSoundEvent(event.getRegistry(), "effect.box.beam");
             effect_page_flipsingle = getRegisteredSoundEvent(event.getRegistry(), "effect.page.flipsingle");
             effect_page_flipmultiple = getRegisteredSoundEvent(event.getRegistry(), "effect.page.flipmultiple");
-        }
     }
 
 }

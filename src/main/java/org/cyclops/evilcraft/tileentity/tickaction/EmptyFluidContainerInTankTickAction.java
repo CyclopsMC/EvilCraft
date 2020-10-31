@@ -2,14 +2,13 @@ package org.cyclops.evilcraft.tileentity.tickaction;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
+import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 
@@ -24,13 +23,13 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot).copy();
-        IFluidHandler container = FluidUtil.getFluidHandler(containerStack);
+        IFluidHandler container = FluidUtil.getFluidHandler(containerStack).orElse(null);
         if(container != null && FluidHelpers.hasFluid(container)) {
             FluidActionResult result;
             if (FluidUtil.tryEmptyContainer(containerStack, tile.getTank(), MB_PER_TICK, null, false).isSuccess()) {
-                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), MB_PER_TICK, null, true);
+                result = FluidUtil.tryEmptyContainer(containerStack.split(1), tile.getTank(), MB_PER_TICK, null, true);
             } else {
-                result = FluidUtil.tryEmptyContainer(containerStack.splitStack(1), tile.getTank(), Fluid.BUCKET_VOLUME, null, true);
+                result = FluidUtil.tryEmptyContainer(containerStack.split(1), tile.getTank(), FluidHelpers.BUCKET_VOLUME, null, true);
             }
             if (result.isSuccess()) {
                 ItemStack resultStack = result.getResult();
@@ -43,7 +42,7 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
                     if (containerStack.getCount() > 0) {
                         // In this case we have an "empty container", and a remaining container stack.
                         // Let's pop out the empty container in this case
-                        MinecraftHelpers.dropItems(tile.getWorld(), resultStack.copy(), tile.getPos());
+                        ItemStackHelpers.spawnItemStack(tile.getWorld(), tile.getPos(), resultStack.copy());
                         resultStack = containerStack;
                         // TODO: in the next major update, rewrite this so that we have a proper "empty container" slot.
                     }
@@ -65,9 +64,9 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
      * @return The required ticks.
      */
     public static int getRequiredTicks(TankInventoryTileEntity tile, ItemStack itemStack) {
-        IFluidHandler container = FluidUtil.getFluidHandler(itemStack);
+        IFluidHandler container = FluidUtil.getFluidHandler(itemStack).orElse(null);
         int amount = 0;
-        if(FluidHelpers.hasFluid(container))
+        if(container != null && FluidHelpers.hasFluid(container))
             amount = FluidHelpers.getAmount(FluidHelpers.getFluid(container));
         int capacity = Math.min(FluidHelpers.getCapacity(container), tile.getTank().getFluidAmount());
         return (capacity - amount) / MB_PER_TICK;
@@ -77,7 +76,7 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         boolean emptyContainer = false;
         ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
-        IFluidHandler container = FluidUtil.getFluidHandler(containerStack);
+        IFluidHandler container = FluidUtil.getFluidHandler(containerStack).orElse(null);
         if(container != null && FluidHelpers.hasFluid(container)) {
             FluidStack fluidStack = FluidHelpers.getFluid(container);
             if(FluidHelpers.getAmount(fluidStack) <= 0)

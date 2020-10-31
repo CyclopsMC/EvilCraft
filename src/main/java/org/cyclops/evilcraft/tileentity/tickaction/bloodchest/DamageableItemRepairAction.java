@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.tileentity.tickaction.bloodchest;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
-import org.cyclops.evilcraft.block.BloodChestConfig;
+import org.cyclops.evilcraft.block.BlockBloodChestConfig;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -20,29 +21,29 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
     /**
      * All the possible bad enchantments
      */
-    public static final LinkedList<ConfigurableEnchantment> BAD_ENCHANTS = new LinkedList<ConfigurableEnchantment>();
+    public static final LinkedList<Enchantment> BAD_ENCHANTS = new LinkedList<Enchantment>();
     
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
-        return itemStack.getItem().isRepairable();
+        return itemStack.isRepairable();
     }
 
     @Override
     public boolean canRepair(ItemStack itemStack, int tick) {
-        return itemStack.isItemDamaged() && itemStack.getItem().isRepairable();
+        return itemStack.isDamaged() && itemStack.isRepairable();
     }
 
     @Override
-    public float repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
         if(doAction) {
             // Repair the item
-            int newDamage = itemStack.getItemDamage() - 1;
-            itemStack.setItemDamage(newDamage);
+            int newDamage = itemStack.getDamage() - 1;
+            itemStack.setDamage(newDamage);
 
             // Add bad enchant with a certain chance
-            if (!isBulk && BloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0
+            if (!isBulk && BlockBloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0
                     && BAD_ENCHANTS.size() > 0) {
-                ConfigurableEnchantment enchantment = BAD_ENCHANTS.get(random.nextInt(BAD_ENCHANTS.size()));
+                Enchantment enchantment = BAD_ENCHANTS.get(random.nextInt(BAD_ENCHANTS.size()));
                 itemStack.addEnchantment(
                         enchantment,
                         enchantment.getMinLevel() + random.nextInt(
@@ -50,7 +51,7 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
                 );
             }
         }
-        return 1;
+        return Pair.of(1F, itemStack);
     }
 
 }

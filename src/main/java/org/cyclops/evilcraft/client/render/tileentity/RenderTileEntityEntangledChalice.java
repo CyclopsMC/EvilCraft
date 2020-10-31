@@ -1,31 +1,53 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.util.Direction;
 import net.minecraftforge.fluids.FluidStack;
+import org.apache.commons.lang3.tuple.Triple;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
-import org.lwjgl.opengl.GL11;
 
 /**
- * Renderer for the {@link org.cyclops.evilcraft.block.EntangledChalice}.
+ * Renderer for the {@link BlockEntangledChalice}.
  * @author rubensworks
  *
  */
-public class RenderTileEntityEntangledChalice extends TileEntitySpecialRenderer<TileEntangledChalice> implements RenderHelpers.IFluidContextRender {
+public class RenderTileEntityEntangledChalice extends TileEntityRenderer<TileEntangledChalice> {
 
-    private TileEntangledChalice lastTile = null;
+    public RenderTileEntityEntangledChalice(TileEntityRendererDispatcher rendererDispatcherIn) {
+        super(rendererDispatcherIn);
+    }
 
     @Override
-    public void render(final TileEntangledChalice tile, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
-        if(tile != null && tile.getTank().getFluid() != null && tile.getTank().getFluid().getFluid() != null) {
-            lastTile = tile;
+    public void render(final TileEntangledChalice tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int combinedLight, int combinedOverlayIn) {
+        if(tile != null && !tile.getTank().getFluid().isEmpty() && tile.getTank().getFluid().getFluid() != null) {
             try {
-                RenderHelpers.renderTileFluidContext(tile.getTank().getFluid(), x, y, z, tile, this);
+                FluidStack fluid = tile.getTank().getFluid();
+                RenderHelpers.renderFluidContext(tile.getTank().getFluid(), matrixStack, () -> {
+                    float height = Math.min(0.95F, ((float) fluid.getAmount() / (float) tile.getTank().getCapacity())) * 0.1875F + 0.8125F;
+                    int brightness = Math.max(combinedLight, fluid.getFluid().getAttributes().getLuminosity(fluid));
+                    int l2 = brightness >> 0x10 & 0xFFFF;
+                    int i3 = brightness & 0xFFFF;
+
+                    TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
+                    Triple<Float, Float, Float> color = Helpers.intToRGB(fluid.getFluid().getAttributes().getColor(tile.getWorld(), tile.getPos()));
+
+                    IVertexBuilder vb = renderTypeBuffer.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
+                    Matrix4f matrix = matrixStack.getLast().getMatrix();
+                    vb.pos(matrix, 0.0625F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMinU(), icon.getMaxV()).lightmap(l2, i3).endVertex();
+                    vb.pos(matrix, 0.0625F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).endVertex();
+                    vb.pos(matrix, 0.9375F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).endVertex();
+                    vb.pos(matrix, 0.9375F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMaxU(), icon.getMaxV()).lightmap(l2, i3).endVertex();
+                });
             } catch (NullPointerException e) {
                 // This can happen because worlds are multi-threaded, and the fluid suddenly may become null while out fluid context is being executed.
                 // Unfortunately we can't lock on worlds, so there isn't really a cleaner solution for this.
@@ -33,24 +55,4 @@ public class RenderTileEntityEntangledChalice extends TileEntitySpecialRenderer<
         }
     }
 
-    @Override
-    public void renderFluid(FluidStack fluid) {
-        float height = Math.min(0.95F, ((float) fluid.amount / (float) lastTile.getTank().getCapacity())) * 0.1875F + 0.8125F;
-        int brightness = lastTile.getWorld().getCombinedLight(lastTile.getPos(), fluid.getFluid().getLuminosity(fluid));
-        int l2 = brightness >> 0x10 & 0xFFFF;
-        int i3 = brightness & 0xFFFF;
-
-        TextureAtlasSprite icon = RenderHelpers.getFluidIcon(lastTile.getTank().getFluid(), EnumFacing.UP);
-
-        Tessellator t = Tessellator.getInstance();
-        BufferBuilder worldRenderer = t.getBuffer();
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
-
-        worldRenderer.pos(0.1875F, height, 0.1875F).tex(icon.getMinU(), icon.getMaxV()).lightmap(l2, i3).color(1F, 1, 1, 1).endVertex();
-        worldRenderer.pos(0.1875F, height, 0.8125F).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).color(1F, 1, 1, 1).endVertex();
-        worldRenderer.pos(0.8125F, height, 0.8125F).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).color(1F, 1, 1, 1).endVertex();
-        worldRenderer.pos(0.8125F, height, 0.1875F).tex(icon.getMaxU(), icon.getMaxV()).lightmap(l2, i3).color(1F, 1, 1, 1).endVertex();
-
-        t.draw();
-    }
 }

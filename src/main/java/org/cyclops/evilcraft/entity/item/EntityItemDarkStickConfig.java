@@ -1,10 +1,12 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.render.entity.RenderDarkStick;
@@ -15,28 +17,18 @@ import org.cyclops.evilcraft.client.render.entity.RenderDarkStick;
  *
  */
 public class EntityItemDarkStickConfig extends EntityConfig<EntityItemDarkStick> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityItemDarkStickConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public EntityItemDarkStickConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_item_dark_stick",
-            null,
-            EntityItemDarkStick.class
+                "item_dark_stick",
+                eConfig -> EntityType.Builder.<EntityItemDarkStick>create(EntityItemDarkStick::new, EntityClassification.MISC)
         );
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public Render<EntityItemDarkStick> getRender(RenderManager renderManager, RenderItem renderItem) {
+    @OnlyIn(Dist.CLIENT)
+    public EntityRenderer<EntityItemDarkStick> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
         return new RenderDarkStick(renderManager, this);
     }
 }

@@ -1,12 +1,14 @@
 package org.cyclops.evilcraft.core.broom;
 
 import lombok.Data;
-import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 
@@ -22,14 +24,14 @@ public class BroomPartBase implements IBroomPart {
     private final ResourceLocation id;
     private final BroomPartType type;
     private final float length;
-    private final EnumRarity rarity;
+    private final Rarity rarity;
     private final boolean effect;
 
     public BroomPartBase(ResourceLocation id, BroomPartType type, float length) {
-        this(id, type, length, EnumRarity.COMMON, false);
+        this(id, type, length, Rarity.COMMON, false);
     }
 
-    public BroomPartBase(ResourceLocation id, BroomPartType type, float length, EnumRarity rarity, boolean effect) {
+    public BroomPartBase(ResourceLocation id, BroomPartType type, float length, Rarity rarity, boolean effect) {
         this.id = id;
         this.type = type;
         this.length = length;
@@ -44,7 +46,7 @@ public class BroomPartBase implements IBroomPart {
         return this.id;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
                 new ResourceLocation(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase()));
@@ -55,9 +57,11 @@ public class BroomPartBase implements IBroomPart {
         return "broom.parts." + getId().getNamespace() + "." + getId().getPath();
     }
 
+    @Nullable
     @Override
-    public @Nullable String getTooltipLine(String prefix) {
-        return prefix + L10NHelpers.localize(getTranslationKey() + ".name");
+    public ITextComponent getTooltipLine(String prefix) {
+        return new StringTextComponent(prefix)
+                .appendSibling(new TranslationTextComponent(getTranslationKey() + ".name"));
     }
 
     @Override

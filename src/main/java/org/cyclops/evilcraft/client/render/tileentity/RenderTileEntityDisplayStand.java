@@ -1,96 +1,88 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemBlock;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
+import net.minecraft.util.Direction;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.api.broom.IBroom;
-import org.cyclops.evilcraft.block.DisplayStand;
+import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.tileentity.TileDisplayStand;
-import org.lwjgl.util.vector.Vector3f;
 
 import java.util.Map;
 
 /**
- * Renderer for the item inside the {@link org.cyclops.evilcraft.block.DisplayStand}.
+ * Renderer for the item inside the {@link BlockDisplayStand}.
  * 
  * @author rubensworks
  *
  */
-public class RenderTileEntityDisplayStand extends TileEntitySpecialRenderer<TileDisplayStand> {
+public class RenderTileEntityDisplayStand extends TileEntityRenderer<TileDisplayStand> {
 
-    private static final Map<EnumFacing, Vector3f> ROTATIONS = ImmutableMap.<EnumFacing, Vector3f>builder()
-            .put(EnumFacing.NORTH, new Vector3f(270, 0, 0))
-            .put(EnumFacing.SOUTH, new Vector3f(90, 0, 0))
-            .put(EnumFacing.WEST, new Vector3f(0, 90, 0))
-            .put(EnumFacing.EAST, new Vector3f(0, 90, 0))
-            .put(EnumFacing.UP, new Vector3f(180, 180, 0))
-            .put(EnumFacing.DOWN, new Vector3f(0, 0, 0))
+    private static final Map<Direction, Vector3f> ROTATIONS = ImmutableMap.<Direction, Vector3f>builder()
+            .put(Direction.NORTH, new Vector3f(270, 0, 0))
+            .put(Direction.SOUTH, new Vector3f(90, 0, 0))
+            .put(Direction.WEST, new Vector3f(0, 90, 0))
+            .put(Direction.EAST, new Vector3f(0, 90, 0))
+            .put(Direction.UP, new Vector3f(180, 180, 0))
+            .put(Direction.DOWN, new Vector3f(0, 0, 0))
             .build();
 
-	@Override
-	public void render(TileDisplayStand tile, double x, double y, double z, float partialTickTime, int partialDamage, float alpha) {
-	    GlStateManager.pushMatrix();
-	    float var10 = (float) (x - 0.5F);
-        float var11 = (float) (y - 0.5F);
-        float var12 = (float) (z - 0.5F);
-        GlStateManager.translate(var10, var11, var12);
-	    
-        if(tile != null) {
-            if(tile.getStackInSlot(0) != null) {
-                IBlockState blockState = tile.getWorld().getBlockState(tile.getPos());
-                renderItem(tile.getWorld(), tile.getStackInSlot(0),
-                        BlockHelpers.getSafeBlockStateProperty(blockState, DisplayStand.FACING, EnumFacing.NORTH),
-                        BlockHelpers.getSafeBlockStateProperty(blockState, DisplayStand.AXIS_X, true),
-                        tile.getDirection() == EnumFacing.AxisDirection.POSITIVE);
-            }
+    public RenderTileEntityDisplayStand(TileEntityRendererDispatcher rendererDispatcherIn) {
+        super(rendererDispatcherIn);
+    }
+
+    @Override
+	public void render(TileDisplayStand tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        if(!tile.getInventory().getStackInSlot(0).isEmpty()) {
+            BlockState blockState = tile.getWorld().getBlockState(tile.getPos());
+            renderItem(matrixStackIn, bufferIn, tile.getInventory().getStackInSlot(0),
+                    BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.FACING, Direction.NORTH),
+                    BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.AXIS_X, true),
+                    tile.getDirection() == Direction.AxisDirection.POSITIVE);
         }
-        
-        GlStateManager.popMatrix();
 	}
 	
-	private void renderItem(World world, ItemStack itemStack, EnumFacing facing, boolean axisX, boolean positiveDirection) {
-        GlStateManager.pushMatrix();
+	private void renderItem(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, ItemStack itemStack, Direction facing, boolean axisX, boolean positiveDirection) {
+        matrixStack.push();
 
-        GlStateManager.translate(1F, 1F, 1F);
-        if (itemStack.getItem() instanceof ItemBlock) {
-            GlStateManager.scale(0.6F, 0.6F, 0.6F);
-            GlStateManager.rotate(90F, 0, 1, 0);
+        matrixStack.translate(1F, 1F, 1F);
+        if (itemStack.getItem() instanceof BlockItem) {
+            matrixStack.scale(0.6F, 0.6F, 0.6F);
+            matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
         } else if(!(itemStack.getItem() instanceof IBroom)) {
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            GlStateManager.translate(0F, 0.25F, 0F);
-            GlStateManager.rotate(90F, 0, 1, 0);
+            matrixStack.scale(0.5F, 0.5F, 0.5F);
+            matrixStack.translate(0F, 0.25F, 0F);
+            matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
         }
 
         Vector3f vec = ROTATIONS.get(facing);
-        GlStateManager.rotate(vec.getX(), 1, 0, 0);
-        GlStateManager.rotate(vec.getY(), 0, 1, 0);
+        matrixStack.rotate(Vector3f.XP.rotationDegrees(vec.getX()));
+        matrixStack.rotate(Vector3f.YP.rotationDegrees(vec.getY()));
 
         if (!axisX) {
-            GlStateManager.rotate(90F, 0, 1, 0);
+            GlStateManager.rotatef(90F, 0, 1, 0);
             if (!positiveDirection) {
-                GlStateManager.rotate(180F, 0, 1, 0);
+                GlStateManager.rotatef(180F, 0, 1, 0);
             }
         } else {
             if (positiveDirection) {
-                GlStateManager.rotate(180F, 0, 1, 0);
+                GlStateManager.rotatef(180F, 0, 1, 0);
             }
         }
-        
-        GlStateManager.pushAttrib();
-        RenderHelper.enableStandardItemLighting();
-        RenderHelpers.renderItem(itemStack);
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.popAttrib();
-        GlStateManager.enableLighting();
-        GlStateManager.popMatrix();
+
+        Minecraft.getInstance().getItemRenderer().renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer);
+        matrixStack.pop();
     }
 
 }

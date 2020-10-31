@@ -9,22 +9,12 @@ import org.cyclops.evilcraft.world.biome.BiomeDegraded;
  *
  */
 public class SoundDegradationConfig extends DegradationEffectConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static SoundDegradationConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public SoundDegradationConfig() {
         super(
-            true,
-            "sound",
-            null,
-            SoundDegradation.class,
-            3
+                "sound",
+                SoundDegradation::new,
+                3
         );
     }
     

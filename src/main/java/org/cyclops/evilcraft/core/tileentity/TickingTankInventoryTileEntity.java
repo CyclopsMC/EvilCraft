@@ -1,15 +1,16 @@
 package org.cyclops.evilcraft.core.tileentity;
 
+import com.google.common.collect.Lists;
 import lombok.experimental.Delegate;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.tileentity.TileEntityType;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A TileEntity with Tank and Inventory that can tick.
@@ -27,36 +28,13 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     @Delegate
     protected final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
-    private LinkedList<TickComponent<T, ITickAction<T>>> tickers;
+    private List<TickComponent<T, ITickAction<T>>> tickers;
     private int currentState = -1;
     private int previousState = -1;
 
-    /**
-     * Make a new TickingTankInventoryTileEntity.
-     * @param inventorySize Amount of slots in the inventory.
-     * @param inventoryName Internal name of the inventory.
-     * @param tankSize Size (mB) of the tank.
-     * @param tankName Internal name of the tank.
-     * @param acceptedFluid Type of Fluid to accept.
-     * @param StackSize The maximum StackSize each slot can have.
-     */
-    public TickingTankInventoryTileEntity(int inventorySize,
-                                          String inventoryName, int tankSize, String tankName, Fluid acceptedFluid, int StackSize) {
-        super(inventorySize, inventoryName, StackSize, tankSize, tankName, acceptedFluid);
-        tickers = new LinkedList<TickComponent<T, ITickAction<T>>>();
-    }
-    
-    /**
-     * Make a new TickingTankInventoryTileEntity.
-     * @param inventorySize Amount of slots in the inventory.
-     * @param inventoryName Internal name of the inventory.
-     * @param tankSize Size (mB) of the tank.
-     * @param tankName Internal name of the tank.
-     * @param acceptedFluid Type of Fluid to accept.
-     */
-    public TickingTankInventoryTileEntity(int inventorySize,
-            String inventoryName, int tankSize, String tankName, Fluid acceptedFluid) {
-        this(inventorySize, inventoryName, tankSize, tankName, acceptedFluid, 64);
+    public TickingTankInventoryTileEntity(TileEntityType<?> type, int inventorySize, int stackSize, int tankSize, Fluid acceptedFluid) {
+        super(type, inventorySize, stackSize, tankSize, acceptedFluid);
+        tickers = Lists.newArrayList();
     }
     
     /**
@@ -73,39 +51,37 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
      * Get the tickers this TileEntity has.
      * @return List of added tickers.
      */
-    public LinkedList<TickComponent<T, ITickAction<T>>> getTickers() {
+    public List<TickComponent<T, ITickAction<T>>> getTickers() {
         return this.tickers;
     }
-    
+
     @Override
-    public void readFromNBT(NBTTagCompound data) {
-        super.readFromNBT(data);
-        currentState = data.getInteger("currentState");
-        NBTTagList tickerList = data.getTagList("tickers", 10);
+    public void read(CompoundNBT data) {
+        super.read(data);
+        currentState = data.getInt("currentState");
+        ListNBT tickerList = data.getList("tickers", 10);
         for(int i = 0; i < tickers.size(); i++) {
             TickComponent<T, ITickAction<T>> ticker = tickers.get(i);
-            if(tickerList.tagCount() > i) {
-                NBTTagCompound tag = tickerList.getCompoundTagAt(i);
-                if(tag != null) {
-                    ticker.setTick(tag.getInteger("tick"));
-                    ticker.setRequiredTicks(tag.getFloat("requiredTicks"));
-                }
+            if(tickerList.size() > i) {
+                CompoundNBT tag = tickerList.getCompound(i);
+                ticker.setTick(tag.getInt("tick"));
+                ticker.setRequiredTicks(tag.getFloat("requiredTicks"));
             }
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound data) {
-        data = super.writeToNBT(data);
-        data.setInteger("currentState", currentState);
-        NBTTagList tickerList = new NBTTagList();
+    public CompoundNBT write(CompoundNBT data) {
+        data = super.write(data);
+        data.putInt("currentState", currentState);
+        ListNBT tickerList = new ListNBT();
         for(TickComponent<T, ITickAction<T>> ticker : tickers) {
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setInteger("tick", ticker.getTick());
-            tag.setFloat("requiredTicks", ticker.getRequiredTicks());
-            tickerList.appendTag(tag);
+            CompoundNBT tag = new CompoundNBT();
+            tag.putInt("tick", ticker.getTick());
+            tag.putFloat("requiredTicks", ticker.getRequiredTicks());
+            tickerList.add(tag);
         }
-        data.setTag("tickers", tickerList);
+        data.put("tickers", tickerList);
         return data;
     }
     
@@ -114,16 +90,16 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         super.updateTileEntity();
         
         // Update tickers.
-        if(!world.isRemote) {
+        if(!world.isRemote()) {
             boolean redstone = world.isBlockPowered(getPos());
             for(TickComponent<T, ITickAction<T>> ticker : getTickers()) {
                 if(!(ticker.isRedstoneDisableable() && redstone)) {
-                    ticker.tick(inventory.getStackInSlot(ticker.getSlot()), ticker.getSlot());
+                    ticker.tick(getInventory().getStackInSlot(ticker.getSlot()), ticker.getSlot());
                 }
             }
         }
         
-        if(!world.isRemote) {
+        if(!world.isRemote()) {
             // Update state server->clients.
             int newState = getNewState();
             if(newState != currentState) {

@@ -1,8 +1,10 @@
 package org.cyclops.evilcraft.core.inventory.slot;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import net.minecraft.world.World;
+import org.cyclops.evilcraft.core.inventory.container.ContainerWorking;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 
 /**
  * Slot that is used for only accepting workable items.
@@ -10,21 +12,12 @@ import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
  * @param <T> The tile type.
  *
  */
-public class SlotWorkingRemoveOnly<T extends WorkingTileEntity<?, ?>> extends SlotWorking<T> {
+public class SlotWorkingRemoveOnly<T extends TileWorking<T, ?>> extends SlotWorking<T> {
    
 	private boolean shouldHardReset;
-	
-    /**
-     * Make a new instance.
-     * @param index The index of this slot.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param tile The tile this slot is in.
-     * @param shouldHardReset If the tick and required ticks for the tile should be reset.
-     */
-    public SlotWorkingRemoveOnly(int index, int x,
-            int y, T tile, boolean shouldHardReset) {
-        super(index, x, y, tile);
+
+    public SlotWorkingRemoveOnly(int index, int x, int y, ContainerWorking<T> container, boolean shouldHardReset, World world) {
+        super(index, x, y, container, world);
         this.shouldHardReset = shouldHardReset;
     }
     
@@ -34,14 +27,18 @@ public class SlotWorkingRemoveOnly<T extends WorkingTileEntity<?, ?>> extends Sl
     }
     
     @Override
-    public ItemStack onTake(EntityPlayer player, ItemStack itemStack) {
-        tile.resetWork(shouldHardReset);
+    public ItemStack onTake(PlayerEntity player, ItemStack itemStack) {
+        container.getTileSupplier().ifPresent(tile -> {
+            tile.resetWork(shouldHardReset);
+        });
         return super.onTake(player, itemStack);
     }
     
     @Override
     public void onSlotChanged() {
-    	tile.resetWork(shouldHardReset);
+        container.getTileSupplier().ifPresent(tile -> {
+            tile.resetWork(shouldHardReset);
+        });
     }
 	
 }

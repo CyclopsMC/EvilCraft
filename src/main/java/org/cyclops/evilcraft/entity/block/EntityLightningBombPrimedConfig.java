@@ -1,16 +1,17 @@
 package org.cyclops.evilcraft.entity.block;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.block.LightningBomb;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.client.render.block.RenderBombPrimed;
 
 /**
@@ -18,36 +19,23 @@ import org.cyclops.evilcraft.client.render.block.RenderBombPrimed;
  * @author rubensworks
  *
  */
-public class EntityLightningBombPrimedConfig extends EntityConfig<EntityTNTPrimed> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityLightningBombPrimedConfig _instance;
-    
-    /**
-     * The amount of ticks (on average), this bomb should tick before explosion.
-     */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, comment = "The amount of ticks (on average), this bomb should tick before explosion.")
-    public static int fuse = 100;    
+public class EntityLightningBombPrimedConfig extends EntityConfig<EntityLightningBombPrimed> {
 
-    /**
-     * Make a new instance.
-     */
+    @ConfigurableProperty(category = "entity", comment = "The amount of ticks (on average), this bomb should tick before explosion.")
+    public static int fuse = 100;
+
     public EntityLightningBombPrimedConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_lightning_bomb",
-            null,
-            EntityLightningBombPrimed.class
+                "lightning_bomb_primed",
+                eConfig -> EntityType.Builder.<EntityLightningBombPrimed>create(EntityLightningBombPrimed::new, EntityClassification.MISC)
         );
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render<EntityTNTPrimed> getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderBombPrimed(renderManager, LightningBomb.getInstance());
+    public EntityRenderer<TNTEntity> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        return new RenderBombPrimed(renderManager, RegistryEntries.BLOCK_LIGHTNING_BOMB_PRIMED);
     }
     
 }

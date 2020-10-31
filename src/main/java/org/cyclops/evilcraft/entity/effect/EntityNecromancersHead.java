@@ -1,88 +1,67 @@
 package org.cyclops.evilcraft.entity.effect;
 
 import com.google.common.collect.Lists;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.Advancements;
-import org.cyclops.evilcraft.entity.monster.ControlledZombie;
-import org.cyclops.evilcraft.item.NecromancerStaff;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.entity.monster.EntityControlledZombie;
+import org.cyclops.evilcraft.item.ItemNecromancerStaff;
 
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * Entity for the {@link NecromancerStaff}.
+ * Entity for the {@link ItemNecromancerStaff}.
  * @author rubensworks
  *
  */
-public class EntityNecromancersHead extends EntityThrowable implements IConfigurable {
+public class EntityNecromancersHead extends ThrowableEntity {
     
 	private static final int DURATION = 200;
 
 	protected boolean observing = false;
-	protected EntityLivingBase target = null;
-	protected List<ControlledZombie> observables = Lists.newLinkedList();
-	protected Class<? extends EntityLiving> mobType = ControlledZombie.class;
-	
-    /**
-     * Make a new instance in the given world.
-     * @param world The world to make it in.
-     */
-    public EntityNecromancersHead(World world) {
-        super(world);
-    }
+	protected LivingEntity target = null;
+	protected List<EntityControlledZombie> observables = Lists.newLinkedList();
+	protected Class<? extends MobEntity> mobType = EntityControlledZombie.class;
 
-    /**
-     * Make a new instance in a world by a placer {@link EntityLivingBase}.
-     * @param world The world.
-     * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
-     */
-    public EntityNecromancersHead(World world, EntityLivingBase entity) {
-        super(world, entity);
-    }
-    
-    /**
-     * Make a new instance at the given location in a world.
-     * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
-     */
-    @SideOnly(Side.CLIENT)
-    public EntityNecromancersHead(World world, double x, double y, double z) {
-        super(world, x, y, z);
-    }
+	public EntityNecromancersHead(EntityType<? extends EntityNecromancersHead> type, World world) {
+		super(type, world);
+	}
+
+	public EntityNecromancersHead(World world, LivingEntity entity) {
+		super(RegistryEntries.ENTITY_NECROMANCER_HEAD, entity, world);
+	}
     
     /**
      * Set the type of mob to be spawned. Should only be called server-side.
      * @param mobType The mob type.
      */
-    public void setMobType(Class<? extends EntityLiving> mobType) {
+    public void setMobType(Class<? extends MobEntity> mobType) {
     	this.mobType = mobType;
     }
     
-    protected void spawnSwarm(EntityLivingBase necromancer, EntityLivingBase target) {
+    protected void spawnSwarm(LivingEntity necromancer, LivingEntity target) {
     	World world = target.world;
     	int amount = world.rand.nextInt(2) + 3;
     	for(int i = 0; i < amount; i++) {
-			ControlledZombie mob = new ControlledZombie(world);
-			if(mob.canAttackClass(target.getClass())) {
+			EntityControlledZombie mob = new EntityControlledZombie(world);
+			if(mob.canAttack(target.getType())) {
 				mob.copyLocationAndAnglesFrom(necromancer);
-				mob.move(MoverType.SELF, world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10);
-				if(EntityHelpers.spawnEntity(world, mob)) {
+				mob.move(MoverType.SELF, new Vec3d(world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10));
+				if(EntityHelpers.spawnEntity(world, mob, SpawnReason.MOB_SUMMONED)) {
 					observables.add(mob);
 				}
 				mob.setAttackTarget(target);
@@ -92,22 +71,22 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     	this.target = target;
     	setObserverMode();
 
-		if (necromancer instanceof EntityPlayerMP) {
-			Advancements.NECROMANCE.trigger((EntityPlayerMP) necromancer, target);
+		if (necromancer instanceof ServerPlayerEntity) {
+			Advancements.NECROMANCE.trigger((ServerPlayerEntity) necromancer, target);
 		}
     }
     
     @Override
-    public void onUpdate() {
-    	super.onUpdate();
-    	if(observing && !world.isRemote && WorldHelpers.efficientTick(world, 10)) {
+    public void tick() {
+    	super.tick();
+    	if(observing && !world.isRemote() && WorldHelpers.efficientTick(world, 10)) {
     		if(!observables.isEmpty()) {
-    			Iterator<ControlledZombie> it = observables.iterator();
+    			Iterator<EntityControlledZombie> it = observables.iterator();
     			while(it.hasNext()) {
-    				ControlledZombie mob = it.next();
-    				if(!mob.isEntityAlive() || !target.isEntityAlive()) {
-    					if(mob.isEntityAlive()) {
-                            mob.setDead();
+    				EntityControlledZombie mob = it.next();
+    				if(!mob.isAlive() || !target.isAlive()) {
+    					if(mob.isAlive()) {
+                            mob.remove();
 						}
     					it.remove();
     				}
@@ -115,45 +94,41 @@ public class EntityNecromancersHead extends EntityThrowable implements IConfigur
     		}
     		if(observables.isEmpty()) {
     			observing = false;
-				this.setDead();
+				this.remove();
 			}
     	}
     }
-    
-    @Override
-    public void setDead() {
+
+	@Override
+	protected void registerData() {
+
+	}
+
+	@Override
+    public void remove() {
     	if(!observing) {
-    		super.setDead();
+    		super.remove();
     	}
     }
     
     protected void setObserverMode() {
     	observing = true;
-    	motionX = 0;
-    	motionY = 0;
-    	motionZ = 0;
+    	setMotion(0, 0, 0);
     	setInvisible(true);
     }
 
     @Override
     protected void onImpact(RayTraceResult position) {
-    	if(position.typeOfHit == RayTraceResult.Type.ENTITY && !observing && !getEntityWorld().isRemote) {
-	        if(position.entityHit != null) {
-	            position.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
-	        }
-	        if(getThrower() instanceof EntityPlayerMP
-					&& getThrower() != position.entityHit
-					&& position.entityHit instanceof EntityLivingBase) {
-	        	spawnSwarm(this.getThrower(), (EntityLivingBase) position.entityHit);
+    	if(position.getType() == RayTraceResult.Type.ENTITY && !observing && !getEntityWorld().isRemote()) {
+			((EntityRayTraceResult) position).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+	        if(getThrower() instanceof ServerPlayerEntity
+					&& getThrower() != ((EntityRayTraceResult) position).getEntity()
+					&& ((EntityRayTraceResult) position).getEntity() instanceof LivingEntity) {
+	        	spawnSwarm(this.getThrower(), (LivingEntity) ((EntityRayTraceResult) position).getEntity());
 	        } else {
-				this.setDead();
+				this.remove();
 	        }
     	}
-    }
-
-    @Override
-    public ExtendedConfig<?> getConfig() {
-        return null;
     }
 
 }

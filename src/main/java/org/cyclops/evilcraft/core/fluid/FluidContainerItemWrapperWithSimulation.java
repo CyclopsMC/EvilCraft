@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.fluid;
 
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 
@@ -21,55 +21,55 @@ public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCap
         super(container, capacity, fluid);
     }
 
-    protected boolean shouldDoFill(FluidStack resource, boolean doFill) {
-        if (!doFill) {
-            return false;
+    protected FluidAction shouldDoFill(FluidStack resource, FluidAction doFill) {
+        if (doFill.simulate()) {
+            return FluidAction.SIMULATE;
         }
         // Extremely nasty hack incoming, Forge supports no clean way of doing this cleanly unfortunately...
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[3];
         if (stackTraceElement.getClassName().equals("net.minecraftforge.fluids.FluidUtil")
                 && stackTraceElement.getMethodName().equals("tryFillContainer")) {
-            doFill = false;
+            doFill = FluidAction.SIMULATE;
         }
 
         if (resource instanceof SimulatedFluidStack) {
-            doFill = false;
+            doFill = FluidAction.SIMULATE;
         }
         return doFill;
     }
 
     @Override
-    public int fill(FluidStack resource, boolean doFill) {
+    public int fill(FluidStack resource, FluidAction doFill) {
         doFill = shouldDoFill(resource, doFill);
         return super.fill(resource, doFill);
     }
 
-    protected FluidStack wrapSimulatedDrained(FluidStack drained, boolean doDrain) {
-        if (doDrain || drained == null || drained.amount == 0) {
+    protected FluidStack wrapSimulatedDrained(FluidStack drained, FluidAction doDrain) {
+        if (doDrain.execute() || drained.isEmpty() || drained.getAmount() == 0) {
             return drained;
         } else {
-            return new SimulatedFluidStack(drained.getFluid(), drained.amount);
+            return new SimulatedFluidStack(drained.getFluid(), drained.getAmount());
         }
     }
 
     @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
+    public FluidStack drain(int maxDrain, FluidAction doDrain) {
         FluidStack drained = super.drain(maxDrain, doDrain);
         return wrapSimulatedDrained(drained, doDrain);
     }
 
-    protected boolean shouldDoDrain(FluidStack resource, boolean doDrain) {
-        if (!doDrain) {
-            return false;
+    protected FluidAction shouldDoDrain(FluidStack resource, FluidAction doDrain) {
+        if (doDrain.simulate()) {
+            return FluidAction.SIMULATE;
         }
         if (resource instanceof SimulatedFluidStack) {
-            doDrain = false;
+            doDrain = FluidAction.SIMULATE;
         }
         return doDrain;
     }
 
     @Override
-    public FluidStack drain(FluidStack resource, boolean doDrain) {
+    public FluidStack drain(FluidStack resource, FluidAction doDrain) {
         doDrain = shouldDoDrain(resource, doDrain);
         return wrapSimulatedDrained(super.drain(resource, doDrain), doDrain);
     }

@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.advancement.criterion;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.AbstractCriterionInstance;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.advancement.criterion.BaseCriterionTrigger;
 import org.cyclops.cyclopscore.advancement.criterion.ICriterionInstanceTestable;
@@ -23,12 +23,12 @@ public class FartTrigger extends BaseCriterionTrigger<Void, FartTrigger.Instance
         return new Instance(getId());
     }
 
-    public static class Instance extends AbstractCriterionInstance implements ICriterionInstanceTestable<Void> {
+    public static class Instance extends CriterionInstance implements ICriterionInstanceTestable<Void> {
         public Instance(ResourceLocation criterionIn) {
             super(criterionIn);
         }
 
-        public boolean test(EntityPlayerMP player, Void v) {
+        public boolean test(ServerPlayerEntity player, Void v) {
             return true;
         }
     }

@@ -1,80 +1,60 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IRendersAsItem;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.evilcraft.Configs;
-import org.cyclops.evilcraft.block.InvisibleRedstoneBlock;
-import org.cyclops.evilcraft.block.InvisibleRedstoneBlockConfig;
-import org.cyclops.evilcraft.item.RedstoneGrenade;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.item.ItemRedstoneGrenade;
 
 /**
- * Entity for the {@link RedstoneGrenade}.
+ * Entity for the {@link ItemRedstoneGrenade}.
  * @author immortaleeb
  *
  */
-public class EntityRedstoneGrenade extends EntityThrowable implements IConfigurable {
-    
-    /**
-     * Make a new instance in the given world.
-     * @param world The world to make it in.
-     */
-    public EntityRedstoneGrenade(World world) {
-        super(world);
+public class EntityRedstoneGrenade extends ThrowableEntity implements IRendersAsItem {
+
+    public EntityRedstoneGrenade(World world, LivingEntity entity) {
+        super(RegistryEntries.ENTITY_REDSTONE_GRENADE, entity, world);
     }
-    
-    /**
-     * Make a new instance in a world by a placer {@link EntityLivingBase}.
-     * @param world The world.
-     * @param entityLivingBase The {@link EntityLivingBase} that placed this {@link Entity}.
-     */
-    public EntityRedstoneGrenade(World world, EntityLivingBase entityLivingBase) {
-        super(world, entityLivingBase);
-    }
-    
-    /**
-     * Make a new instance at the given location in a world.
-     * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
-     */
-    @SideOnly(Side.CLIENT)
-    public EntityRedstoneGrenade(World world, double x, double y, double z) {
-        super(world, x, y, z);
+
+    public EntityRedstoneGrenade(EntityType<? extends EntityRedstoneGrenade> type, World world) {
+        super(type, world);
     }
 
     @Override
     protected void onImpact(RayTraceResult pos) {
-        BlockPos blockPos = pos.getBlockPos();
+        if (pos.getType() == RayTraceResult.Type.BLOCK) {
+            BlockPos blockPos = ((BlockRayTraceResult) pos).getPos();
 
-        if (pos.sideHit != null && world.isAirBlock(blockPos.add(pos.sideHit.getDirectionVec()))) {
-			if(Configs.isEnabled(InvisibleRedstoneBlockConfig.class)) {
-	            world.setBlockState(blockPos.add(pos.sideHit.getDirectionVec()), InvisibleRedstoneBlock.getInstance().getDefaultState());
-			}
-            
-            if (world.isRemote) {
-                world.spawnParticle(EnumParticleTypes.REDSTONE,
-                        blockPos.getX() + 0.5,
-                        blockPos.getY() + 0.5,
-                        blockPos.getZ() + 0.5, 1, 0, 0);
+            if (world.isAirBlock(blockPos.offset(((BlockRayTraceResult) pos).getFace()))) {
+                world.setBlockState(blockPos.add(((BlockRayTraceResult) pos).getFace().getDirectionVec()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.getDefaultState());
+
+                if (world.isRemote()) {
+                    Minecraft.getInstance().worldRenderer.addParticle(
+                            RedstoneParticleData.REDSTONE_DUST, false,
+                            blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 1, 0, 0);
+                }
             }
+
+            this.remove();
         }
-        
-        this.setDead();
     }
 
     @Override
-    public ExtendedConfig<?> getConfig() {
-        return null;
+    protected void registerData() {
+
     }
 
+    @Override
+    public ItemStack getItem() {
+        return new ItemStack(RegistryEntries.ITEM_REDSTONE_GRENADE);
+    }
 }

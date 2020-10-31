@@ -1,14 +1,13 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
-import org.cyclops.evilcraft.client.particle.ParticleDegrade;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableDegradationEffect;
+import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
 /**
@@ -16,20 +15,10 @@ import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
  * @author rubensworks
  *
  */
-public class ParticleDegradation extends ConfigurableDegradationEffect {
+public class ParticleDegradation implements IDegradationEffect {
+    
+    public ParticleDegradation(DegradationEffectConfig eConfig) {
 
-    private static ParticleDegradation _instance = null;
-    
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static ParticleDegradation getInstance() {
-        return _instance;
-    }
-    
-    public ParticleDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        super(eConfig);
     }
     
     @Override
@@ -38,7 +27,7 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void runClientSide(IDegradable degradable) {
         BlockPos center = degradable.getLocation();
         World world = degradable.getDegradationWorld();
@@ -55,10 +44,10 @@ public class ParticleDegradation extends ConfigurableDegradationEffect {
         float particleMotionX = world.rand.nextFloat() * 1.4F - 0.7F;
         float particleMotionY = -0.2F;
         float particleMotionZ = world.rand.nextFloat() * 1.4F - 0.7F;
-        FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                new ParticleDegrade(world, particleX, particleY, particleZ,
-                        particleMotionX, particleMotionY, particleMotionZ)
-                );
+        Minecraft.getInstance().worldRenderer.addParticle(
+                RegistryEntries.PARTICLE_DEGRADE, false,
+                particleX, particleY, particleZ,
+                particleMotionX, particleMotionY, particleMotionZ);
     }
 
     @Override

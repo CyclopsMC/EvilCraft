@@ -1,21 +1,20 @@
 package org.cyclops.evilcraft.enchantment;
 
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.enchantment.EnchantmentType;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
-import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.evilcraft.item.VengeanceRing;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.item.ItemVengeanceRing;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
 /**
@@ -23,20 +22,10 @@ import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepa
  * @author rubensworks
  *
  */
-public class EnchantmentVengeance extends ConfigurableEnchantment {
+public class EnchantmentVengeance extends Enchantment {
 
-    private static EnchantmentVengeance _instance = null;
-
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static EnchantmentVengeance getInstance() {
-        return _instance;
-    }
-
-    public EnchantmentVengeance(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, Rarity.COMMON, EnumEnchantmentType.ALL, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
+    public EnchantmentVengeance() {
+        super(Rarity.COMMON, EnchantmentType.ALL, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -74,8 +63,8 @@ public class EnchantmentVengeance extends ConfigurableEnchantment {
 
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
-        EntityPlayer player = event.getPlayer();
-        if (player != null && !player.world.isRemote) {
+        PlayerEntity player = event.getPlayer();
+        if (player != null && !player.world.isRemote()) {
             ItemStack heldItem = player.getHeldItem(player.getActiveHand());
             int level = getEnchantLevel(heldItem);
             if (level > 0) {
@@ -87,8 +76,8 @@ public class EnchantmentVengeance extends ConfigurableEnchantment {
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
         Entity entity = event.getSource().getTrueSource();
-        if (entity instanceof EntityPlayer && !entity.world.isRemote) {
-            EntityPlayer player = (EntityPlayer) entity;
+        if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
+            PlayerEntity player = (PlayerEntity) entity;
             ItemStack heldItem = player.getHeldItem(player.getActiveHand());
             int level = getEnchantLevel(heldItem);
             if (level > 0) {
@@ -101,15 +90,15 @@ public class EnchantmentVengeance extends ConfigurableEnchantment {
         if (itemStack.isEmpty()) {
             return 0;
         }
-        return EnchantmentHelper.getEnchantmentLevel(EnchantmentVengeance.getInstance(), itemStack);
+        return EnchantmentHelper.getEnchantmentLevel(RegistryEntries.ENCHANTMENT_VENGEANCE, itemStack);
     }
 
-    public static void apply(World world, int level, EntityLivingBase entity) {
+    public static void apply(World world, int level, LivingEntity entity) {
         if (level > 0) {
             int chance = Math.max(1, EnchantmentVengeanceConfig.vengeanceChance / level);
             if (chance > 0 && world.rand.nextInt(chance) == 0) {
                 int area = EnchantmentVengeanceConfig.areaOfEffect * level;
-                VengeanceRing.toggleVengeanceArea(world, entity, area, true, true, true);
+                ItemVengeanceRing.toggleVengeanceArea(world, entity, area, true, true, true);
             }
         }
     }

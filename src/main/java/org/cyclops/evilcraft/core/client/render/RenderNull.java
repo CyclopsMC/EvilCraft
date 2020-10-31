@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.core.client.render;
 
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.culling.ClippingHelperImpl;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 
@@ -11,19 +12,19 @@ import net.minecraft.util.ResourceLocation;
  * @author rubensworks
  *
  */
-public class RenderNull extends Render<Entity> {
+public class RenderNull extends EntityRenderer<Entity> {
 
-    public RenderNull(RenderManager renderManager) {
+    public RenderNull(EntityRendererManager renderManager) {
         super(renderManager);
     }
 
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime) { 	
-    	
+    public boolean shouldRender(Entity livingEntityIn, ClippingHelperImpl camera, double camX, double camY, double camZ) {
+        return false;
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    public ResourceLocation getEntityTexture(Entity entity) {
         return null;
     }
 

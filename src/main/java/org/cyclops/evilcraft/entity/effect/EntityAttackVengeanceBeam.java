@@ -2,14 +2,16 @@ package org.cyclops.evilcraft.entity.effect;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.client.particle.ParticleBlur;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.ExtendedDamageSource;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 /**
  * Entity for the anti-vengeance beams.
@@ -18,36 +20,28 @@ import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
  */
 public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
 
-    /**
-     * Make a new instance in the given world.
-     * @param world The world to make it in.
-     */
-    public EntityAttackVengeanceBeam(World world) {
-        super(world);
+    public EntityAttackVengeanceBeam(EntityType<? extends EntityAttackVengeanceBeam> type, World world) {
+        super(type, world);
     }
 
-    /**
-     * Make a new instance in a world by a placer {@link EntityLivingBase}.
-     * @param world The world.
-     * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
-     */
-    public EntityAttackVengeanceBeam(World world, EntityLivingBase entity) {
-        super(world, entity);
+    public EntityAttackVengeanceBeam(World world, LivingEntity entity) {
+        super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM, world, entity);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     protected void showNewBlurParticle() {
     	float scale = 0.6F - rand.nextFloat() * 0.3F;
     	float red = rand.nextFloat() * 0.03F + 0.1F;
         float green = rand.nextFloat() * 0.03F;
         float blue = rand.nextFloat() * 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 4.5D + 4D);
-        
-		ParticleBlur blur = new ParticleBlur(world, posX, posY, posZ, scale,
-				deriveMotion(motionX), deriveMotion(motionY), deriveMotion(motionZ),
-				red, green, blue, ageMultiplier);
-		Minecraft.getMinecraft().effectRenderer.addEffect(blur);
+        Vec3d motion = getMotion();
+
+        Minecraft.getInstance().worldRenderer.addParticle(
+                new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
+                getPosX(), getPosY(), getPosZ(),
+                deriveMotion(motion.x), deriveMotion(motion.y), deriveMotion(motion.z));
 	}
     
     private double deriveMotion(double motion) {
@@ -55,11 +49,11 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
     }
 
     protected void applyHitEffect(Entity entity) {
-        if (entity instanceof VengeanceSpirit) {
+        if (entity instanceof EntityVengeanceSpirit) {
             entity.attackEntityFrom(ExtendedDamageSource.vengeanceBeam(this.getThrower()), 1F);
-            ((VengeanceSpirit) entity).setRemainingLife(((VengeanceSpirit) entity).getRemainingLife() + 10);
-        } else if (entity instanceof EntityLivingBase) {
-            EntityLivingBase entityLiving = (EntityLivingBase) entity;
+            ((EntityVengeanceSpirit) entity).setRemainingLife(((EntityVengeanceSpirit) entity).getRemainingLife() + 10);
+        } else if (entity instanceof LivingEntity) {
+            LivingEntity entityLiving = (LivingEntity) entity;
             entityLiving.clearActivePotions();
         }
     }

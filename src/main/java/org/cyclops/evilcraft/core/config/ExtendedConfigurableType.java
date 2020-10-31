@@ -5,7 +5,7 @@ import org.cyclops.evilcraft.core.config.configurabletypeaction.DegradationEffec
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
 /**
- * The different types of {@link org.cyclops.cyclopscore.config.configurable.IConfigurable}.
+ * The different types of {@link net.minecraftforge.forgespi.language.IConfigurable}.
  * @author rubensworks
  *
  */
@@ -13,5 +13,5 @@ public class ExtendedConfigurableType {
     /**
      * Degradation effect type.
      */
-    public static final ConfigurableType DEGRADATIONEFFECT = new ConfigurableType(true, DegradationEffectConfig.class, new DegradationEffectAction(), "degradation effect");
+    public static final ConfigurableType DEGRADATIONEFFECT = new ConfigurableType(true, DegradationEffectConfig.class, new DegradationEffectAction(), "degradation_effect");
 }

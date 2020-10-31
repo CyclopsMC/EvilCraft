@@ -1,12 +1,11 @@
 package org.cyclops.evilcraft.client.render.entity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderManager;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.MobConfig;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import org.cyclops.evilcraft.core.client.render.entity.RenderModelLiving;
-import org.cyclops.evilcraft.entity.monster.PoisonousLibelle;
+import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelle;
+import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelleConfig;
 
 /**
  * Renderer for a libelle
@@ -14,28 +13,17 @@ import org.cyclops.evilcraft.entity.monster.PoisonousLibelle;
  * @author rubensworks
  *
  */
-public class RenderPoisonousLibelle extends RenderModelLiving<PoisonousLibelle, ModelBase> {
-    
-    /**
-     * Make a new instance
-     * @param renderManager The render manager.
-     * @param config The config.
-     * @param model The model.
-     * @param par2 No idea...
-     */
-	public RenderPoisonousLibelle(RenderManager renderManager, ExtendedConfig<MobConfig<PoisonousLibelle>> config, ModelBase model, float par2) {
+public class RenderPoisonousLibelle extends RenderModelLiving<EntityPoisonousLibelle, ModelPoisonousLibelle> {
+
+	public RenderPoisonousLibelle(EntityRendererManager renderManager, EntityPoisonousLibelleConfig config, ModelPoisonousLibelle model, float par2) {
 	    super(renderManager, config, model, par2);
 	}
 
     @Override
-    protected void preRenderCallback(PoisonousLibelle entity, float f){
-        GlStateManager.scale(-0.5F, 0.5F, -0.5F);
-        GlStateManager.translate(0, 0.5F, 0);
-    }
-
-	@Override
-    public void doRender(PoisonousLibelle libelle, double x, double y, double z, float yaw, float partialTickTime) {
-        super.doRender(libelle, x, y, z, yaw, partialTickTime);
+    protected void preRenderCallback(EntityPoisonousLibelle entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+        super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
+        GlStateManager.scalef(-0.5F, 0.5F, -0.5F);
+        GlStateManager.translatef(0, 0.5F, 0);
     }
 
 }

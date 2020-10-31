@@ -1,18 +1,17 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.particle.ParticleBloodBrick;
+import org.cyclops.evilcraft.client.particle.ParticleBloodBrickData;
 
 /**
  * Packet for telling clients if a structure has been formed for a blockState location.
@@ -70,23 +69,22 @@ public class DetectionListenerPacket extends PacketCodec {
 		return false;
 	}
 
-    @SideOnly(Side.CLIENT)
-    private void showActivatedParticle(World world, int x, int y, int z, EnumFacing side) {
-        ParticleBloodBrick burst = new ParticleBloodBrick(world, x, y, z, side);
-		Minecraft.getMinecraft().effectRenderer.addEffect(burst);
+    @OnlyIn(Dist.CLIENT)
+    private void showActivatedParticle(World world, int x, int y, int z, Direction side) {
+		world.addParticle(new ParticleBloodBrickData(side), x, y, z, 0, 0, 0);
 	}
     
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void actionClient(World world, EntityPlayer player) {
+	@OnlyIn(Dist.CLIENT)
+	public void actionClient(World world, PlayerEntity player) {
 		if(activation) {
-			for(EnumFacing side : EnumFacing.VALUES) {
+			for(Direction side : Direction.values()) {
 				showActivatedParticle(world, x, y, z, side);
 			}
 		}
 	}
 	@Override
-	public void actionServer(World world, EntityPlayerMP player) {
+	public void actionServer(World world, ServerPlayerEntity player) {
 		EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(x, y, z, activation),
 				LocationHelpers.createTargetPointFromEntity(player, RANGE));
 	}

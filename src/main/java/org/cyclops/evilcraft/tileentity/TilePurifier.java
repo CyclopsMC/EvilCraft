@@ -2,35 +2,28 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.Getter;
 import lombok.experimental.Delegate;
-import net.minecraft.client.particle.ParticleEnchantmentTable;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.DirectionHelpers;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
-import org.cyclops.evilcraft.block.Purifier;
-import org.cyclops.evilcraft.block.PurifierConfig;
-import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
-import org.cyclops.evilcraft.client.particle.ParticleMagicFinish;
+import org.cyclops.evilcraft.block.BlockPurifier;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
-import org.cyclops.evilcraft.fluid.Blood;
-
-import java.util.LinkedList;
-import java.util.List;
+import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 
 /**
- * Tile for the {@link Purifier}..
+ * Tile for the {@link BlockPurifier}..
  * @author rubensworks
  *
  */
@@ -62,11 +55,6 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
 
     @Getter
     private int tick = 0;
-    
-    /**
-     * The fluid it uses.
-     */
-    public static final Fluid FLUID = Blood.getInstance();
     
     private static final int MAX_BUCKETS = 3;
     
@@ -102,21 +90,27 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * Make a new instance.
      */
     public TilePurifier() {
-        super(SLOTS, PurifierConfig._instance.getNamedId(), 1, Fluid.BUCKET_VOLUME * MAX_BUCKETS, PurifierConfig._instance.getNamedId() + "tank", FLUID);
-        
-        List<Integer> slots = new LinkedList<Integer>();
-        slots.add(SLOT_ADDITIONAL);
-        slots.add(SLOT_PURIFY);
-        for(EnumFacing direction : DirectionHelpers.DIRECTIONS)
-            addSlotsToSide(direction, slots);
-        
-        this.setSendUpdateOnInventoryChanged(true);
-        this.setSendUpdateOnTankChanged(true);
+        super(RegistryEntries.TILE_ENTITY_PURIFIER, SLOTS, 1, FluidHelpers.BUCKET_VOLUME * MAX_BUCKETS, RegistryEntries.FLUID_BLOOD);
     }
-    
+
     @Override
-    protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new ImplicitFluidConversionTank(tankName, tankSize, this, BloodFluidConverter.getInstance());
+    protected SimpleInventory createInventory(int inventorySize, int stackSize) {
+        return new SimpleInventory(inventorySize, stackSize) {
+            @Override
+            public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+                if(i == 0) {
+                    return itemStack.getCount() == 1 && getActions().isItemValidForMainSlot(itemStack);
+                } else if(i == 1) {
+                    return itemStack.getCount() == 1 && getActions().isItemValidForAdditionalSlot(itemStack);
+                }
+                return false;
+            }
+        };
+    }
+
+    @Override
+    protected SingleUseTank createTank(int tankSize) {
+    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
 
     public IPurifierActionRegistry getActions() {
@@ -146,7 +140,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         // Animation tick/display.
         if(finishedAnimation > 0) {
             finishedAnimation--;
-            if(world.isRemote) {
+            if(world.isRemote()) {
                 showEnchantedEffect();
             }
         }
@@ -163,7 +157,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The amount of buckets.
      */
     public int getBucketsFloored() {
-        return (int) Math.floor(getTank().getFluidAmount() / (double) Fluid.BUCKET_VOLUME);
+        return (int) Math.floor(getTank().getFluidAmount() / (double) FluidHelpers.BUCKET_VOLUME);
     }
     
     /**
@@ -172,7 +166,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The rest of the fluid.
      */
     public int getBucketsRest() {
-        return getTank().getFluidAmount() % Fluid.BUCKET_VOLUME;
+        return getTank().getFluidAmount() % FluidHelpers.BUCKET_VOLUME;
     }
     
     /**
@@ -181,7 +175,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @param rest The rest of the fluid.
      */
     public void setBuckets(int buckets, int rest) {
-        getTank().setFluid(new FluidStack(FLUID, Fluid.BUCKET_VOLUME * buckets + rest));
+        getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, FluidHelpers.BUCKET_VOLUME * buckets + rest));
         sendUpdate();
     }
     
@@ -196,7 +190,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @Override
     protected void onSendUpdate() {
         super.onSendUpdate();
-        world.setBlockState(getPos(), Purifier.getInstance().getDefaultState().withProperty(Purifier.FILL, getBucketsFloored()), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+        world.setBlockState(getPos(), getBlockState().getBlock().getDefaultState().with(BlockPurifier.FILL, getBucketsFloored()), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
     
     private void updateAdditionalItem() {
@@ -238,7 +232,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The purify item.
      */
     public ItemStack getPurifyItem() {
-        return getStackInSlot(SLOT_PURIFY);
+        return getInventory().getStackInSlot(SLOT_PURIFY);
     }
     
     /**
@@ -247,7 +241,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      */
     public void setPurifyItem(ItemStack itemStack) {
         this.randomRotation = world.rand.nextFloat() * 360;
-        setInventorySlotContents(SLOT_PURIFY, itemStack);
+        getInventory().setInventorySlotContents(SLOT_PURIFY, itemStack);
     }
     
     /**
@@ -255,7 +249,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The book item.
      */
     public ItemStack getAdditionalItem() {
-        return getStackInSlot(SLOT_ADDITIONAL);
+        return getInventory().getStackInSlot(SLOT_ADDITIONAL);
     }
     
     /**
@@ -263,10 +257,10 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @param itemStack The book item.
      */
     public void setAdditionalItem(ItemStack itemStack) {
-        setInventorySlotContents(SLOT_ADDITIONAL, itemStack);
+        getInventory().setInventorySlotContents(SLOT_ADDITIONAL, itemStack);
     }
     
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void showEffect() {
         for (int i=0; i < 1; i++) {                
             double particleX = getPos().getX() + 0.2 + world.rand.nextDouble() * 0.6;
@@ -277,14 +271,13 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
             float particleMotionY = 0.01F;
             float particleMotionZ = -0.01F + world.rand.nextFloat() * 0.02F;
 
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new ParticleBloodBubble(world, particleX, particleY, particleZ,
-                            particleMotionX, particleMotionY, particleMotionZ)
-                    );
+            Minecraft.getInstance().worldRenderer.addParticle(
+                    RegistryEntries.PARTICLE_BLOOD_BUBBLE, false,
+                    particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
     
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void showEnchantingEffect() {
         if(world.rand.nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {                
@@ -295,16 +288,15 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
                 float particleMotionX = -0.4F + world.rand.nextFloat() * 0.8F;
                 float particleMotionY = -world.rand.nextFloat();
                 float particleMotionZ = -0.4F + world.rand.nextFloat() * 0.8F;
-    
-                FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                        new ParticleEnchantmentTable.EnchantmentTable().createParticle(0, world, particleX, particleY, particleZ,
-                                particleMotionX, particleMotionY, particleMotionZ)
-                        );
+
+                Minecraft.getInstance().worldRenderer.addParticle(
+                        ParticleTypes.ENCHANT, false,
+                        particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             }
         }
     }
     
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private void showEnchantedEffect() {
         for (int i=0; i < 100; i++) {                
             double particleX = getPos().getX() + 0.45 + world.rand.nextDouble() * 0.1;
@@ -315,10 +307,9 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
             float particleMotionY = -0.4F + world.rand.nextFloat() * 0.8F;
             float particleMotionZ = -0.4F + world.rand.nextFloat() * 0.8F;
 
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new ParticleMagicFinish(world, particleX, particleY, particleZ,
-                            particleMotionX, particleMotionY, particleMotionZ)
-                    );
+            Minecraft.getInstance().worldRenderer.addParticle(
+                    RegistryEntries.PARTICLE_MAGIC_FINISH, false,
+                    particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
 
@@ -328,16 +319,6 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      */
     public float getRandomRotation() {
         return randomRotation;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemStack) {
-        if(i == 0) {
-            return itemStack.getCount() == 1 && getActions().isItemValidForMainSlot(itemStack);
-        } else if(i == 1) {
-            return itemStack.getCount() == 1 && getActions().isItemValidForAdditionalSlot(itemStack);
-        }
-        return false;
     }
 
 }

@@ -3,24 +3,25 @@ package org.cyclops.evilcraft.core.broom;
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
-import org.cyclops.evilcraft.item.BroomConfig;
+import org.cyclops.evilcraft.item.ItemBroomConfig;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -121,10 +122,10 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             }
 
             // Hardcoded values
-            if(broomStack.hasTagCompound()) {
-                NBTTagList tags = broomStack.getTagCompound().getTagList(NBT_TAG_NAME, MinecraftHelpers.NBTTag_Types.NBTTagCompound.ordinal());
-                for (int i = 0; i < tags.tagCount(); i++) {
-                    NBTTagCompound tag = tags.getCompoundTagAt(i);
+            if(broomStack.hasTag()) {
+                ListNBT tags = broomStack.getTag().getList(NBT_TAG_NAME, Constants.NBT.TAG_COMPOUND);
+                for (int i = 0; i < tags.size(); i++) {
+                    CompoundNBT tag = tags.getCompound(i);
                     String id = tag.getString(NBT_TAG_KEY);
                     float value = tag.getFloat(NBT_TAG_VALUE);
                     BroomModifier modifier = broomModifiers.get(new ResourceLocation(id));
@@ -142,17 +143,17 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @Override
     public void setModifiers(ItemStack broomStack, Map<BroomModifier, Float> modifiers) {
         // Write modifiers
-        NBTTagList list = new NBTTagList();
+        ListNBT list = new ListNBT();
         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-            NBTTagCompound tag = new NBTTagCompound();
-            tag.setString(NBT_TAG_KEY, entry.getKey().getId().toString());
-            tag.setFloat(NBT_TAG_VALUE, entry.getValue());
-            list.appendTag(tag);
+            CompoundNBT tag = new CompoundNBT();
+            tag.putString(NBT_TAG_KEY, entry.getKey().getId().toString());
+            tag.putFloat(NBT_TAG_VALUE, entry.getValue());
+            list.add(tag);
         }
-        if(!broomStack.hasTagCompound()) {
-            broomStack.setTagCompound(new NBTTagCompound());
+        if(!broomStack.hasTag()) {
+            broomStack.setTag(new CompoundNBT());
         }
-        broomStack.getTagCompound().setTag(NBT_TAG_NAME, list);
+        broomStack.getTag().put(NBT_TAG_NAME, list);
 
         // Write corresponding modifier parts
         Collection<IBroomPart> parts = BroomParts.REGISTRY.getBroomParts(broomStack);
@@ -171,18 +172,20 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     }
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void onTooltipEvent(ItemTooltipEvent event) {
-        if (BroomConfig.broomModifierTooltips) {
+        if (ItemBroomConfig.broomModifierTooltips) {
             Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.getItemStack());
             if (modifiers != null) {
                 if (MinecraftHelpers.isShifted()) {
-                    event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".types.name"));
+                    event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types.name")
+                            .applyTextStyle(TextFormatting.ITALIC));
                     for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                         event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                     }
                 } else {
-                    event.getToolTip().add(TextFormatting.ITALIC + L10NHelpers.localize("broom.modifiers." + Reference.MOD_ID + ".shiftinfo"));
+                    event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".shiftinfo")
+                            .applyTextStyle(TextFormatting.ITALIC));
                 }
             }
         }

@@ -1,43 +1,36 @@
 package org.cyclops.evilcraft.inventory.container;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import invtweaks.api.container.ChestContainer;
-import invtweaks.api.container.ContainerSection;
-import invtweaks.api.container.ContainerSectionCallback;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCraftResult;
-import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotCrafting;
+import net.minecraft.inventory.container.CraftingResultSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.network.play.server.SPacketSetSlot;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.crafting.ICraftingRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.SSetSlotPacket;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
-import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.gui.container.GuiExaltedCrafter;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.inventory.NBTCraftingGrid;
-import org.cyclops.evilcraft.item.ExaltedCrafter;
-import org.cyclops.evilcraft.item.ExaltedCrafterConfig;
-import org.cyclops.evilcraft.network.packet.ExaltedCrafterButtonPacket;
+import org.cyclops.evilcraft.item.ItemExaltedCrafter;
+import org.cyclops.evilcraft.item.ItemExaltedCrafterConfig;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Container for the {@link ExaltedCrafter}.
+ * Container for the {@link ItemExaltedCrafter}.
  * @author rubensworks
  *
  */
-@ChestContainer
-public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCrafter> {
+public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedCrafter> {
     
 	private static final int GRID_OFFSET_X = 30;
     private static final int GRID_OFFSET_Y = 17;
@@ -51,47 +44,25 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 	
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 143;
+
+    public static final String BUTTON_CLEAR = "clear";
+    public static final String BUTTON_BALANCE = "balance";
+    public static final String BUTTON_TOGGLERETURN = "toggleReturn";
     
-    private World world;
-    private EntityPlayer player;
-    private NBTCraftingGrid craftingGrid;
-    private InventoryCraftResult result;
+    private final World world;
+    private final NBTCraftingGrid craftingGrid;
+    private final CraftResultInventory result;
     private boolean initialized;
 
-    private static final Map<Integer, IButtonAction> ACTIONS = Maps.newHashMap();
-    static {
-        ACTIONS.put(GuiExaltedCrafter.BUTTON_CLEAR, new IButtonAction() {
-            @Override
-            public void execute(ContainerExaltedCrafter container) {
-                container.clearGrid();
-            }
-        });
-        ACTIONS.put(GuiExaltedCrafter.BUTTON_BALANCE, new IButtonAction() {
-            @Override
-            public void execute(ContainerExaltedCrafter container) {
-                container.balanceGrid();
-            }
-        });
-        ACTIONS.put(GuiExaltedCrafter.BUTTON_TOGGLERETURN, new IButtonAction() {
-            @Override
-            public void execute(ContainerExaltedCrafter container) {
-                container.setReturnToInnerInventory(!container.isReturnToInnerInventory());
-            }
-        });
+    public ContainerExaltedCrafter(int id, PlayerInventory inventory, PacketBuffer packetBuffer) {
+        this(id, inventory, readItemIndex(packetBuffer), readHand(packetBuffer));
     }
 
-    /**
-     * Make a new instance.
-     * @param player The player.
-     * @param itemIndex The index of the item in use inside the player inventory.
-     * @param hand The hand the player is using.
-     */
-    public ContainerExaltedCrafter(EntityPlayer player, int itemIndex, EnumHand hand) {
-        super(player.inventory, ExaltedCrafter.getInstance(), itemIndex, hand);
+    public ContainerExaltedCrafter(int id, PlayerInventory inventory, int itemIndex, Hand hand) {
+        super(RegistryEntries.CONTAINER_EXALTED_CRAFTER, id, inventory, itemIndex, hand);
         initialized = false;
         this.world = player.world;
-        this.player = player;
-        this.result = new InventoryCraftResult();
+        this.result = new CraftResultInventory();
         this.craftingGrid = new NBTCraftingGrid(player, itemIndex, hand, this);
         
         this.addCraftingGrid(player, craftingGrid);
@@ -102,27 +73,10 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         
         initialized = true;
         this.onCraftMatrixChanged(craftingGrid);
-    }
 
-    /**
-     * Send a packet to the server for pressing a button.
-     * @param buttonId The id of the button.
-     */
-    public void sendPressButton(int buttonId) {
-        if(ACTIONS.containsKey(buttonId)) {
-            executePressButton(buttonId);
-            EvilCraft._instance.getPacketHandler().sendToServer(new ExaltedCrafterButtonPacket(buttonId));
-        }
-    }
-
-    /**
-     * Send a packet to the server for pressing a button.
-     * @param buttonId The id of the button.
-     */
-    public void executePressButton(int buttonId) {
-        if(ACTIONS.containsKey(buttonId)) {
-            ACTIONS.get(buttonId).execute(this);
-        }
+        putButtonAction(BUTTON_CLEAR, (buttonId, container) -> this.clearGrid());
+        putButtonAction(BUTTON_BALANCE, (buttonId, container) -> this.balanceGrid());
+        putButtonAction(BUTTON_TOGGLERETURN, (buttonId, container) -> ((ContainerExaltedCrafter)container).setReturnToInnerInventory(!((ContainerExaltedCrafter)container).isReturnToInnerInventory()));
     }
     
     /**
@@ -163,8 +117,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 
                 if(!addedToBin) {
                     itemStack.setCount(amount);
-                    bins.add(new MutablePair<ItemStack, List<Pair<Integer, Integer>>>(itemStack,
-                            Lists.newArrayList((Pair<Integer, Integer>) new MutablePair<Integer, Integer>(slot, 0))));
+                    bins.add(new MutablePair<>(itemStack, Lists.newArrayList(new MutablePair<>(slot, 0))));
                 }
             }
         }
@@ -190,19 +143,19 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 
     public boolean isReturnToInnerInventory() {
         ItemStack itemStack = getItemStack(player);
-        return !itemStack.isEmpty() && ExaltedCrafter.getInstance().isReturnToInner(itemStack);
+        return !itemStack.isEmpty() && ItemExaltedCrafter.isReturnToInner(itemStack);
     }
 
     protected void setReturnToInnerInventory(boolean returnToInner) {
         ItemStack itemStack = getItemStack(player);
         if(!itemStack.isEmpty()) {
-            ExaltedCrafter.getInstance().setReturnToInner(itemStack, returnToInner);
+            ItemExaltedCrafter.setReturnToInner(itemStack, returnToInner);
         }
     }
     
     @Override
     protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
-    	if(!reverse && !ExaltedCrafterConfig.shiftCraftingGrid) {
+    	if(!reverse && !ItemExaltedCrafterConfig.shiftCraftingGrid) {
     		// Avoid shift clicking with as target the crafting grid (+ result).
     		return 10;
     	} else if(reverse && originSlot < 10) {
@@ -226,9 +179,9 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
         }
     }
     
-    protected void addCraftingGrid(EntityPlayer player, NBTCraftingGrid grid) {
+    protected void addCraftingGrid(PlayerEntity player, NBTCraftingGrid grid) {
     	this.addInventory(grid, 0, GRID_OFFSET_X, GRID_OFFSET_Y, GRID_ROWS, GRID_COLUMNS);
-    	this.addSlotToContainer(new SlotCrafting(player, grid, result, 0, 124, 35));
+    	this.addSlot(new CraftingResultSlot(player, grid, result, 0, 124, 35));
     }
 
 	@Override
@@ -238,60 +191,19 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ExaltedCraft
 	
 	@Override
 	public void onCraftMatrixChanged(IInventory inventory) {
-        if(initialized && !this.world.isRemote) {
+        if(initialized && !this.world.isRemote()) {
             ItemStack itemstack = ItemStack.EMPTY;
 
             // Slightly altered logic from Container#slotChangedCraftingGrid
-            IRecipe irecipe = CraftingManager.findMatchingRecipe(craftingGrid, world);
-            if (irecipe != null && (irecipe.isDynamic()
-                    || !this.world.getGameRules().getBoolean("doLimitedCrafting")
-                    || ((EntityPlayerMP) this.player).getRecipeBook().isUnlocked(irecipe))) {
-                result.setRecipeUsed(irecipe);
+            ICraftingRecipe irecipe = world.getServer().getRecipeManager().getRecipe(IRecipeType.CRAFTING, craftingGrid, world).orElse(null);
+            if (irecipe != null && result.canUseRecipe(world, (ServerPlayerEntity) player, irecipe)) {
                 itemstack = irecipe.getCraftingResult(craftingGrid);
             }
             result.setInventorySlotContents(0, itemstack);
-            ((EntityPlayerMP) this.player).connection.sendPacket(new SPacketSetSlot(this.windowId, 9, itemstack));
+            ((ServerPlayerEntity) this.player).connection.sendPacket(new SSetSlotPacket(this.windowId, 9, itemstack));
 
             craftingGrid.save();
 		}
-    }
-
-    /**
-     * @return Container selection options for inventory tweaks.
-     */
-    @ContainerSectionCallback
-    public Map<ContainerSection, List<Slot>> getContainerSelection() {
-        Map<ContainerSection, List<Slot>> selection = Maps.newHashMap();
-        List<Slot> craftingInSlots = Lists.newLinkedList();
-        List<Slot> craftingOutSlots = Lists.newLinkedList();
-        List<Slot> craftingChest = Lists.newLinkedList();
-        List<Slot> playerInventory = Lists.newArrayList();
-        for(int i = 0; i < 9; i++) {
-            craftingInSlots.add(this.getSlot(i));
-        }
-        for(int i = 10; i < 10 + CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS; i++) {
-            craftingChest.add(this.getSlot(i));
-        }
-        for(int i = 10 + CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS; i < 10 + CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS + 4 * 9; i++) {
-            playerInventory.add(this.getSlot(i));
-        }
-        selection.put(ContainerSection.CRAFTING_IN_PERSISTENT, craftingInSlots);
-        selection.put(ContainerSection.CRAFTING_OUT, craftingOutSlots);
-        selection.put(ContainerSection.CHEST, craftingChest);
-        selection.put(ContainerSection.INVENTORY, playerInventory);
-        return selection;
-
-    }
-
-    /**
-     * Action for pressing buttons.
-     * Easily expandable for more containers.
-     * Might want to further abstract Gui logic related to buttons in that case as well.
-     */
-    private static interface IButtonAction {
-
-        public void execute(ContainerExaltedCrafter container);
-
     }
     
 }

@@ -1,12 +1,11 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
-import org.cyclops.evilcraft.core.config.configurable.ConfigurableDegradationEffect;
+import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
 import java.util.List;
@@ -16,23 +15,13 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class NauseateDegradation extends ConfigurableDegradationEffect {
-    
-    private static NauseateDegradation _instance = null;
-    
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static NauseateDegradation getInstance() {
-        return _instance;
-    }
+public class NauseateDegradation implements IDegradationEffect {
     
     private static final int MINIMUM_DEGRADATION = 5;
     private static final int NAUSEA_DURATION_MULTIPLIER = 20 * 4;
     
-    public NauseateDegradation(ExtendedConfig<DegradationEffectConfig> eConfig) {
-        super(eConfig);
+    public NauseateDegradation(DegradationEffectConfig eConfig) {
+
     }
 
     @Override
@@ -49,12 +38,10 @@ public class NauseateDegradation extends ConfigurableDegradationEffect {
     public void runServerSide(IDegradable degradable) {
         List<Entity> entities = degradable.getAreaEntities();
         for(Entity entity : entities) {
-            if(entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).addPotionEffect(
-                        new PotionEffect(
-                                MobEffects.NAUSEA,
-                                (int) degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1)
-                        );
+            if(entity instanceof LivingEntity) {
+                ((LivingEntity) entity).addPotionEffect(
+                        new EffectInstance(Effects.NAUSEA,
+                                (int) degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1));
             }
         }
     }

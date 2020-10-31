@@ -1,30 +1,39 @@
 package org.cyclops.evilcraft.core.helper;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fluids.FluidActionResult;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacityConfig;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.fluid.SimulatedFluidStack;
+import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 /**
  * Helpers related to blocks with tanks.
@@ -40,35 +49,22 @@ public class BlockTankHelpers {
 
     }
 
-    /**
-     * Called upon tank activation.
-     * @param world The world.
-     * @param blockPos The position.
-     * @param player Player
-     * @param hand The hand
-     * @param side Side integer
-     * @param motionX X motion
-     * @param motionY Y motion
-     * @param motionZ Z motion
-     * @return If the event should be halted.
-     */
-    public static boolean onBlockActivatedTank(World world, BlockPos blockPos, EntityPlayer player, EnumHand hand,
-                                               EnumFacing side, float motionX, float motionY, float motionZ) {
+    public static boolean onBlockActivatedTank(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         ItemStack itemStack = player.getHeldItem(hand);
         TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
         if(tile != null) {
             if(!itemStack.isEmpty()) {
                 SimulatableTankWrapper tank = new SimulatableTankWrapper(tile.getTank());
-                IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack);
-                if(!player.isSneaking() && !tank.isFull() && itemFluidHandler != null) { // Fill the tank.
-                    FluidActionResult result = FluidUtil.tryEmptyContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
-                    if (result.isSuccess() && !player.capabilities.isCreativeMode) {
+                IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
+                if(!player.isCrouching() && !tank.isFull() && itemFluidHandler != null) { // Fill the tank.
+                    FluidActionResult result = FluidUtil.tryEmptyContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, true);
+                    if (result.isSuccess() && !player.isCreative()) {
                         InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult(), hand);
                     }
                     return true;
-                } else if(player.isSneaking() && !tank.isEmpty()) { // Drain the tank.
-                    FluidActionResult result = FluidUtil.tryFillContainer(itemStack, tank, Fluid.BUCKET_VOLUME, player, true);
-                    if (result.isSuccess() && !player.capabilities.isCreativeMode) {
+                } else if(player.isCrouching() && !tank.isEmpty()) { // Drain the tank.
+                    FluidActionResult result = FluidUtil.tryFillContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, true);
+                    if (result.isSuccess() && !player.isCreative()) {
                         InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult(), hand);
                     }
                     return true;
@@ -83,12 +79,10 @@ public class BlockTankHelpers {
      * @param itemStack The itemStack that must be given information.
      * @return Information for that itemStack.
      */
-    public static String getInfoTank(ItemStack itemStack) {
-        int amount = 0;
-        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-        if(fluidStack != null) {
-            amount = fluidStack.amount;
-        }
+    @OnlyIn(Dist.CLIENT)
+    public static ITextComponent getInfoTank(ItemStack itemStack) {
+        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
+        int amount = fluidStack.getAmount();
         IFluidHandlerItemCapacity fluidHandlerItemCapacity = (IFluidHandlerItemCapacity) FluidUtil.getFluidHandler(itemStack);
         return DamageIndicatedItemComponent.getInfo(fluidStack, amount, fluidHandlerItemCapacity.getCapacity());
     }
@@ -100,23 +94,22 @@ public class BlockTankHelpers {
      * @return The resulting itemstack.
      */
     public static ItemStack tileDataToItemStack(TileEntity tile, ItemStack itemStack) {
-        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                && itemStack.hasCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null)) {
-            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            if (fluidHandlerTile instanceof IFluidTank) {
-                IFluidTank fluidTank = (IFluidTank) fluidHandlerTile;
-                IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null);
-                fluidHandlerItemCapacity.setCapacity(fluidTank.getCapacity());
-                itemStack = fluidHandlerItemCapacity.getContainer();
+        IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+        if (fluidHandlerTile != null) {
+            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY).orElse(null);
+            if (fluidHandlerItemCapacity != null) {
+                if (fluidHandlerTile instanceof IFluidTank) {
+                    IFluidTank fluidTank = (IFluidTank) fluidHandlerTile;
+                    fluidHandlerItemCapacity.setCapacity(fluidTank.getCapacity());
+                    itemStack = fluidHandlerItemCapacity.getContainer();
+                }
             }
-        }
-
-        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            FluidActionResult res = FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
-            if (res.isSuccess()) {
-                itemStack = res.getResult();
+            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
+            if (fluidHandlerItem != null) {
+                FluidActionResult res = FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
+                if (res.isSuccess()) {
+                    itemStack = res.getResult();
+                }
             }
         }
         return itemStack;
@@ -128,20 +121,20 @@ public class BlockTankHelpers {
      * @param tile The tile that has already been removed from the world.
      */
     public static void itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
-        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                && itemStack.hasCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null)) {
-            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            if (fluidHandlerTile instanceof FluidTank) {
-                FluidTank fluidTank = (FluidTank) fluidHandlerTile;
-                IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY, null);
-                fluidTank.setCapacity(fluidHandlerItemCapacity.getCapacity());
+        IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+        if (fluidHandlerTile != null) {
+            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY).orElse(null);
+            if (fluidHandlerItemCapacity != null) {
+                if (fluidHandlerTile instanceof FluidTank) {
+                    FluidTank fluidTank = (FluidTank) fluidHandlerTile;
+                    fluidTank.setCapacity(fluidHandlerItemCapacity.getCapacity());
+                }
             }
-        }
 
-        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
-                && itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-            IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            FluidUtil.tryEmptyContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
+            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
+            if (fluidHandlerItem != null) {
+                FluidUtil.tryEmptyContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
+            }
         }
     }
 
@@ -149,7 +142,7 @@ public class BlockTankHelpers {
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow shift-right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
-                && event.getItemStack().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)
+                && event.getItemStack().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
                 && event.getWorld().getBlockState(event.getPos()).getBlock() instanceof IBlockTank) {
             event.setUseBlock(Event.Result.ALLOW);
         }
@@ -164,27 +157,41 @@ public class BlockTankHelpers {
         }
 
         @Override
-        public IFluidTankProperties[] getTankProperties() {
-            return tank.getTankProperties();
+        public int getTanks() {
+            return this.tank.getTanks();
+        }
+
+        @Nonnull
+        @Override
+        public FluidStack getFluidInTank(int tank) {
+            return this.tank.getFluidInTank(tank);
         }
 
         @Override
-        public int fill(FluidStack resource, boolean doFill) {
-            return tank.fill(resource, doFill);
+        public int getTankCapacity(int tank) {
+            return this.tank.getTankCapacity(tank);
         }
 
-        @Nullable
         @Override
-        public FluidStack drain(FluidStack resource, boolean doDrain) {
-            FluidStack drained = tank.drain(resource, doDrain);
-            return doDrain ? drained : new SimulatedFluidStack(drained.getFluid(), drained.amount);
+        public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
+            return this.tank.isFluidValid(tank, stack);
         }
 
-        @Nullable
         @Override
-        public FluidStack drain(int maxDrain, boolean doDrain) {
-            FluidStack drained = tank.drain(maxDrain, doDrain);
-            return doDrain ? drained : new SimulatedFluidStack(drained.getFluid(), drained.amount);
+        public int fill(FluidStack resource, FluidAction action) {
+            return tank.fill(resource, action);
+        }
+
+        @Override
+        public FluidStack drain(FluidStack resource, FluidAction action) {
+            FluidStack drained = tank.drain(resource, action);
+            return action.execute() ? drained : new SimulatedFluidStack(drained.getFluid(), drained.getAmount());
+        }
+
+        @Override
+        public FluidStack drain(int maxDrain, FluidAction action) {
+            FluidStack drained = tank.drain(maxDrain, action);
+            return action.execute() ? drained : new SimulatedFluidStack(drained.getFluid(), drained.getAmount());
         }
 
         public boolean isFull() {

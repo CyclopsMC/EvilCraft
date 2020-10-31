@@ -1,11 +1,9 @@
 package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import net.minecraft.nbt.CompoundNBT;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 
@@ -14,43 +12,27 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
  * @author rubensworks
  *
  */
-public class TileEntangledChalice extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
+public class TileEntangledChalice extends CyclopsTileEntity implements CyclopsTileEntity.ITickingTile {
 	
 	/**
 	 * The base capacity of the tank.
 	 */
 	public static final int BASE_CAPACITY = 4000;
-	/**
-	 * The NBT tag name of the tank.
-	 */
-	public static final String NBT_TAG_TANK = "entangledChalice";
 
 	@Delegate
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
-	/**
-	 * Make a new instance.
-	 */
+	private final WorldSharedTank tank;
+
 	public TileEntangledChalice() {
-		super(0, "inventory", BASE_CAPACITY, NBT_TAG_TANK);
-		this.setSendUpdateOnTankChanged(true);
-	}
-	
-	@Override
-	protected SingleUseTank newTank(String tankName, int tankSize) {
-    	return new WorldSharedTank(tankName, tankSize, this);
-    }
-	
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack item) {
-		return false;
+		super(RegistryEntries.TILE_ENTITY_ENTANGLED_CHALICE);
+		tank = new WorldSharedTank(BASE_CAPACITY);
 	}
 
-	@Override
-    public int[] getSlotsForFace(EnumFacing side) {
-		return new int[0];
+	public WorldSharedTank getTank() {
+		return tank;
 	}
-	
+
 	/**
 	 * Get the filled ratio of this tank.
 	 * @return The ratio.
@@ -81,6 +63,18 @@ public class TileEntangledChalice extends TankInventoryTileEntity implements Cyc
 	 */
 	public void setWorldTankId(String tankId) {
 		((WorldSharedTank) getTank()).setTankID(tankId);
+	}
+
+	@Override
+	public void read(CompoundNBT tag) {
+		super.read(tag);
+		tank.readFromNBT(tag, "tank");
+	}
+
+	@Override
+	public CompoundNBT write(CompoundNBT tag) {
+		tank.writeToNBT(tag, "tank");
+		return super.write(tag);
 	}
 
 }

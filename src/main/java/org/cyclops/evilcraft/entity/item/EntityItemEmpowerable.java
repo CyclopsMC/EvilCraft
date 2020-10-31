@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.world.World;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.entity.item.EntityItemIndestructable;
 import org.cyclops.evilcraft.item.IItemEmpowerable;
 
@@ -13,49 +14,19 @@ import org.cyclops.evilcraft.item.IItemEmpowerable;
  */
 public class EntityItemEmpowerable extends EntityItemIndestructable {
 
-	/**
-     * New instance.
-     * @param world The world.
-     * @param original The original item entity
-     */
-	public EntityItemEmpowerable(World world, EntityItem original) {
-        super(world, original);
-    }
-	
-	/**
-	 * Make a new instance.
-	 * @param world The world.
-	 */
-	public EntityItemEmpowerable(World world) {
-        super(world);
-    }
+	public EntityItemEmpowerable(EntityType<? extends EntityItemEmpowerable> type, World world) {
+		super(type, world);
+	}
 
-	/**
-	 * Make a new instance.
-	 * @param world The world.
-	 * @param x X
-	 * @param y Y
-	 * @param z Z
-	 */
-    public EntityItemEmpowerable(World world, double x, double y, double z) {
-        super(world, x, y, z);
-    }
-    
-    /**
-	 * Make a new instance.
-	 * @param world The world.
-	 * @param x X
-	 * @param y Y
-	 * @param z Z
-     * @param itemStack The item stack.
-	 */
-    public EntityItemEmpowerable(World world, double x, double y, double z, ItemStack itemStack) {
-        super(world, x, y, z, itemStack);
-    }
+	public EntityItemEmpowerable(World world, ItemEntity original) {
+		super(RegistryEntries.ENTITY_ITEM_EMPOWERABLE, world, original);
+	}
 	
 	@Override
 	protected boolean isIndestructable() {
-        if(!(getItem().getItem() instanceof IItemEmpowerable)) return super.isIndestructable();
+        if (!(getItem().getItem() instanceof IItemEmpowerable)) {
+        	return super.isIndestructable();
+		}
 		return ((IItemEmpowerable) getItem().getItem()).isEmpowered(getItem());
 	}
 	

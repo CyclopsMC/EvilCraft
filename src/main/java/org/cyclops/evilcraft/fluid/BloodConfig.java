@@ -1,30 +1,33 @@
 package org.cyclops.evilcraft.fluid;
 
+import net.minecraft.item.Rarity;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import org.cyclops.cyclopscore.config.extendedconfig.FluidConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
- * Config for {@link Blood}.
+ * Config for blood.
  * @author rubensworks
  *
  */
 public class BloodConfig extends FluidConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static BloodConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public BloodConfig() {
         super(
                 EvilCraft._instance,
-                true,
-                "evilcraftblood",
-                null,
-                Blood.class
+                "blood",
+                fluidConfig -> new ForgeFlowingFluid.Source(
+                        getDefaultFluidProperties(EvilCraft._instance,
+                                "block/blood",
+                                builder -> builder
+                                        .density(1500)
+                                        .viscosity(3000)
+                                        .temperature(309)
+                                        .rarity(Rarity.COMMON)
+                                        .translationKey("block.evilcraft.blood"))
+                                .bucket(() -> RegistryEntries.ITEM_BUCKET_BLOOD)
+                                .block(() -> RegistryEntries.BLOCK_BLOOD))
         );
     }
     

@@ -1,28 +1,30 @@
 package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpirit;
-import org.cyclops.evilcraft.entity.monster.VengeanceSpiritData;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
+import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritData;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -62,15 +64,15 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	 */
 	public int innerRotation;
 	@NBTPersist
-	private NBTTagCompound spiritTag = new NBTTagCompound();
+	private CompoundNBT spiritTag = new CompoundNBT();
 	@NBTPersist
 	private String playerId = "";
 	@NBTPersist
 	private String playerName = "";
 
-	private VengeanceSpiritData spiritData = null;
+	private EntityVengeanceSpiritData spiritData = null;
 
-	private VengeanceSpirit targetSpirit = null;
+	private EntityVengeanceSpirit targetSpirit = null;
 
 	@NBTPersist(useDefaultValue = false)
 	private Integer targetSpiritId = NO_TARGET;
@@ -85,20 +87,22 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
      * Make a new instance.
      */
     public TileBoxOfEternalClosure() {
+    	super(RegistryEntries.TILE_ENTITY_BOX_OF_ETERNAL_CLOSURE);
     	innerRotation = new Random().nextInt(100000);
     }
-	
-	public static ResourceLocation getSpiritNameOrNullFromNBTTag(NBTTagCompound tag) {
+
+    @Nullable
+	public static EntityType<?> getSpiritType(@Nullable CompoundNBT tag) {
 		if(tag != null) {
-			NBTTagCompound spiritTag = tag.getCompoundTag(NBTKEY_SPIRIT);
-			return VengeanceSpiritData.getSpiritNameOrNullFromNBTTag(spiritTag);
+			CompoundNBT spiritTag = tag.getCompound(NBTKEY_SPIRIT);
+			return EntityVengeanceSpiritData.getSpiritType(spiritTag);
 		}
 		return null;
 	}
 
-	protected NBTTagCompound getSpiritTag() {
+	protected CompoundNBT getSpiritTag() {
 		if (this.spiritTag == null) {
-			this.spiritTag = new NBTTagCompound();
+			this.spiritTag = new CompoundNBT();
 		}
 		return this.spiritTag;
 	}
@@ -151,7 +155,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void onBoxOpened() {
-		if (!world.isRemote && hasSpirit())
+		if (!world.isRemote() && hasSpirit())
 			releaseSpirit();
 	}
 
@@ -160,12 +164,12 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void onBoxOpening() {
-		if (world.isRemote)
+		if (world.isRemote())
 			playOpenSound();
 	}
 
 	private void onBoxClosing() {
-		if (world.isRemote)
+		if (world.isRemote())
 			playCloseSound();
 	}
 
@@ -174,8 +178,8 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void releaseSpirit() {
-		VengeanceSpirit spirit = createNewVengeanceSpirit();
-		world.spawnEntity(spirit);
+		EntityVengeanceSpirit spirit = createNewVengeanceSpirit();
+		world.addEntity(spirit);
 		clearSpirit();
 	}
 
@@ -189,22 +193,22 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		playSound(SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5f, pitch);
 	}
 
-	private VengeanceSpirit createNewVengeanceSpirit() {
+	private EntityVengeanceSpirit createNewVengeanceSpirit() {
 		Random rand = world.rand;
 
-		VengeanceSpirit spirit = VengeanceSpirit.fromNBT(getWorld(), getSpiritTag());
+		EntityVengeanceSpirit spirit = EntityVengeanceSpirit.fromNBT(getWorld(), getSpiritTag());
 		spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
 				getPos().getZ() + rand.nextDouble());
 		spirit.setFrozenDuration(0);
 		spirit.setGlobalVengeance(true);
-		spirit.setRemainingLife(MathHelper.getInt(world.rand,
-				VengeanceSpirit.REMAININGLIFE_MIN, VengeanceSpirit.REMAININGLIFE_MAX));
+		spirit.setRemainingLife(MathHelper.nextInt(world.rand,
+				EntityVengeanceSpirit.REMAININGLIFE_MIN, EntityVengeanceSpirit.REMAININGLIFE_MAX));
 
 		return spirit;
 	}
 
 	private void clearSpirit() {
-		spiritTag = new NBTTagCompound();
+		spiritTag = new CompoundNBT();
 		spiritData = null;
 	}
 
@@ -239,7 +243,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		}
 	}
 
-	private void setSpirit(VengeanceSpirit spirit) {
+	private void setSpirit(EntityVengeanceSpirit spirit) {
 		spirit.getData().writeNBT(getSpiritTag());
 	}
 
@@ -249,7 +253,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
         innerRotation++;
 
-		if (!world.isRemote)
+		if (!world.isRemote())
 			updateTileEntityServer();
 		else
 			updateTileEntityClient();
@@ -276,22 +280,22 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void pullEntity() {
-		VengeanceSpirit target = getTargetSpirit();
+		EntityVengeanceSpirit target = getTargetSpirit();
 		if(target != null) {
-			double dx = targetSpirit.posX - getPos().getX() - 0.5D;
-			double dy = targetSpirit.posY - getPos().getY() - 0.5D;
-			double dz = targetSpirit.posZ - getPos().getZ() - 0.5D;
+			double dx = targetSpirit.getPosX() - getPos().getX() - 0.5D;
+			double dy = targetSpirit.getPosY() - getPos().getY() - 0.5D;
+			double dz = targetSpirit.getPosZ() - getPos().getZ() - 0.5D;
 			double distance = (double)MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
 
-			if(target.isDead || !target.isFrozen()) {
+			if (!target.isAlive() || !target.isFrozen()) {
 				setTargetSpirit(null);
 			} else {
 				BlockPos blockPos = getPos();
-				AxisAlignedBB boxBoundingBox = getBlock()
-						.getBoundingBox(world.getBlockState(blockPos), world, blockPos)
-						.offset(blockPos);
+				AxisAlignedBB boxBoundingBox = getBlockState()
+						.getCollisionShape(world, blockPos)
+						.getBoundingBox();
 				AxisAlignedBB spiritBoundingBox = target
-						.getEntityBoundingBox()
+						.getCollisionBoundingBox()
 						.grow(ABSORB_RADIUS);
 				boolean spiritTrapped = spiritBoundingBox.intersects(boxBoundingBox);
 
@@ -300,19 +304,17 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 					close();
 				} else {
 					double strength = (1D / (distance)) / 50D + 0.01D;
-					target.motionX -= dx * strength;
-					target.motionY -= dy * strength;
-					target.motionZ -= dz * strength;
+					target.setMotion(target.getMotion().subtract(dx * strength, dy * strength, dz * strength));
 				}
 			}
 		}
 	}
 
-	private void captureSpirit(VengeanceSpirit targetSpirit) {
-		for (EntityPlayerMP player : targetSpirit.getEntanglingPlayers()) {
+	private void captureSpirit(EntityVengeanceSpirit targetSpirit) {
+		for (ServerPlayerEntity player : targetSpirit.getEntanglingPlayers()) {
 			Advancements.BOX_OF_ETERNAL_CLOSURE_CAPTURE.trigger(player, targetSpirit.getInnerEntity());
 		}
-		world.removeEntity(targetSpirit);
+		targetSpirit.remove();
 		this.playerId = targetSpirit.getPlayerId();
 		this.playerName = targetSpirit.getPlayerName();
 		setSpirit(targetSpirit);
@@ -349,12 +351,12 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     	AxisAlignedBB box = new AxisAlignedBB(getPos().getX(), getPos().getY(), getPos().getZ(),
 				getPos().getX(), getPos().getY(), getPos().getZ()).grow(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
     	@SuppressWarnings("unchecked")
-		List<VengeanceSpirit> entities = world.getEntitiesWithinAABB(VengeanceSpirit.class, box);
+		List<EntityVengeanceSpirit> entities = world.getEntitiesWithinAABB(EntityVengeanceSpirit.class, box);
     	double minDistance = TARGET_RADIUS + 1;
-    	VengeanceSpirit closest = null;
-    	for(VengeanceSpirit spirit : entities) {
+    	EntityVengeanceSpirit closest = null;
+    	for(EntityVengeanceSpirit spirit : entities) {
     		if(spirit.isFrozen() && !spirit.isSwarm()) {
-	    		double distance = spirit.getDistance(getPos().getX(), getPos().getY(), getPos().getZ());
+	    		double distance = spirit.getDistanceSq(getPos().getX(), getPos().getY(), getPos().getZ());
 	    		if(distance < minDistance) {
 	    			minDistance = distance;
 	    			closest = spirit;
@@ -366,7 +368,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     }
     
     protected void updateLight() {
-		IBlockState blockState = getWorld().getBlockState(getPos());
+		BlockState blockState = getWorld().getBlockState(getPos());
 		world.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
 
@@ -396,18 +398,18 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		return previousLidAngle;
 	}
 
-	public VengeanceSpirit getTargetSpirit() {
+	public EntityVengeanceSpirit getTargetSpirit() {
 		// Make sure our target spirit is up-to-date with the server-synced target spirit ID.
-		if(getWorld().isRemote && targetSpiritId == NO_TARGET) {
+		if(getWorld().isRemote() && targetSpiritId == NO_TARGET) {
 			targetSpirit = null;
 		} else if(targetSpirit == null && targetSpiritId != NO_TARGET) {
-			setTargetSpirit((VengeanceSpirit) getWorld().getEntityByID(targetSpiritId));
+			setTargetSpirit((EntityVengeanceSpirit) getWorld().getEntityByID(targetSpiritId));
 		}
 		return targetSpirit;
 	}
 
-	private void setTargetSpirit(VengeanceSpirit targetSpirit) {
-		VengeanceSpirit old = this.targetSpirit;
+	private void setTargetSpirit(EntityVengeanceSpirit targetSpirit) {
+		EntityVengeanceSpirit old = this.targetSpirit;
 		this.targetSpirit = targetSpirit;
     	if(targetSpirit != null) {
     		targetSpiritId = targetSpirit.getEntityId();
@@ -420,19 +422,19 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     	}
 	}
 
-	public VengeanceSpiritData getSpiritData() {
+	public EntityVengeanceSpiritData getSpiritData() {
 		return hasSpirit() ? loadSpiritDataLazy() : null;
 	}
 
-	private VengeanceSpiritData loadSpiritDataLazy() {
+	private EntityVengeanceSpiritData loadSpiritDataLazy() {
 		if (spiritData == null) {
-			spiritData = VengeanceSpiritData.fromNBT(getSpiritTag());
+			spiritData = EntityVengeanceSpiritData.fromNBT(getSpiritTag());
 		}
 		return spiritData;
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
 		return TileEntity.INFINITE_EXTENT_AABB;
 	}
@@ -441,12 +443,12 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     protected void onSendUpdate() {
         super.onSendUpdate();
         // Trigger comparator update.
-        world.notifyNeighborsOfStateChange(getPos(), this.getBlock(), true);
+        world.notifyNeighborsOfStateChange(getPos(), this.getBlockState().getBlock());
     }
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
+	public void read(CompoundNBT tag) {
+		super.read(tag);
 		initializeState();
 		initializeLidAngle();
 	}

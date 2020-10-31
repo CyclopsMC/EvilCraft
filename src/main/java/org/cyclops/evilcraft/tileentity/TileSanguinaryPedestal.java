@@ -2,38 +2,32 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.block.BloodStainedBlock;
-import org.cyclops.evilcraft.block.PurifierConfig;
-import org.cyclops.evilcraft.block.SanguinaryPedestal;
-import org.cyclops.evilcraft.block.SanguinaryPedestalConfig;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockBloodStained;
+import org.cyclops.evilcraft.block.BlockSanguinaryPedestal;
+import org.cyclops.evilcraft.block.BlockSanguinaryPedestalConfig;
 import org.cyclops.evilcraft.core.algorithm.RegionIterator;
-import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 
 /**
- * Tile for the {@link SanguinaryPedestal}.
+ * Tile for the {@link BlockSanguinaryPedestal}.
  * @author rubensworks
  *
  */
 public class TileSanguinaryPedestal extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
-    
-    /**
-     * The fluid it uses.
-     */
-    public static final Fluid FLUID = Blood.getInstance();
     
     private static final int MB_RATE = 100;
     private static final int TANK_BUCKETS = 10;
@@ -45,28 +39,29 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
     
     private RegionIterator regionIterator;
-    
-    /**
-     * Make a new instance.
-     */
+
     public TileSanguinaryPedestal() {
-        super(0, PurifierConfig._instance.getNamedId(), 1, Fluid.BUCKET_VOLUME * TANK_BUCKETS,
-        		SanguinaryPedestalConfig._instance.getNamedId() + "tank", FLUID);
+        super(RegistryEntries.TILE_ENTITY_SANGUINARY_PEDESTAL, 0, 1, FluidHelpers.BUCKET_VOLUME * TANK_BUCKETS, RegistryEntries.FLUID_BLOOD);
     }
 
-    public void fillWithPotentialBonus(FluidStack fluidStack) {
-        if(hasEfficiency() && fluidStack != null) {
-            fluidStack.amount *= SanguinaryPedestalConfig.efficiencyBoost;
+	@Override
+	protected void addItemHandlerCapabilities() {
+		// Don't expose inventory
+	}
+
+	public void fillWithPotentialBonus(FluidStack fluidStack) {
+        if(hasEfficiency() && !fluidStack.isEmpty()) {
+			fluidStack.setAmount((int) (fluidStack.getAmount() * BlockSanguinaryPedestalConfig.efficiencyBoost));
         }
-        fill(fluidStack, true);
+        getTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
     }
     
-    protected void afterBlockReplace(World world, BlockPos location, Block block, int amount) {
+    protected void afterBlockReplace(World world, BlockPos location, BlockState block, int amount) {
     	// NOTE: this is only called server-side, so make sure to send packets where needed.
     	
     	// Fill tank
     	if(!getTank().isFull()) {
-			fillWithPotentialBonus(new FluidStack(FLUID, amount));
+			fillWithPotentialBonus(new FluidStack(RegistryEntries.FLUID_BLOOD, amount));
 		}
 
 		EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(location, block),
@@ -74,39 +69,40 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
     }
 
     protected boolean hasEfficiency() {
-        return getBlockMetadata() == 1;
+        return ((BlockSanguinaryPedestal) getBlockState().getBlock()).getTier() == 1;
     }
     
     @Override
     public void updateTileEntity() {
     	super.updateTileEntity();
 
-        if(!getWorld().isRemote) {
+        if(!getWorld().isRemote()) {
             int actions = hasEfficiency() ? ACTIONS_PER_TICK_EFFICIENCY : 1;
 	    	// Drain next blockState in tick
     		while(!getTank().isFull() && actions > 0) {
 		    	BlockPos location = getNextLocation();
 		    	Block block = getWorld().getBlockState(location).getBlock();
-		    	if(block == BloodStainedBlock.getInstance()) {
-		    		BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorld(),
+		    	if(block instanceof BlockBloodStained) {
+					// TODO: reimplement like redstone dust block
+		    		/*BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorld(),
 		    				location, getTank().getCapacity() - getTank().getFluidAmount());
 		    		if(result.amount > 0) {
 		    			afterBlockReplace(getWorld(), location, result.block.getBlock(), result.amount);
-		    		}
+		    		}*/
 		    	}
                 actions--;
     		}
 	    	
 	    	// Auto-drain the inner tank
 	    	if(!getTank().isEmpty()) {
-				for(EnumFacing direction : EnumFacing.VALUES) {
+				for(Direction direction : Direction.values()) {
 					IFluidHandler handler = TileHelpers.getCapability(getWorld(), getPos().offset(direction),
-							direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+							direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
 					if(!getTank().isEmpty() && handler != null) {
 						FluidStack fluidStack = new FluidStack(getTank().getFluid(), Math.min(MB_RATE, getTank().getFluidAmount()));
-						if(handler.fill(fluidStack, false) > 0) {
-							int filled = handler.fill(fluidStack, true);
-							drain(filled, true);
+						if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
+							int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+							getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
 						}
 					}
 				}
@@ -114,16 +110,6 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
     	}
     	
     }
-
-	@Override
-	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		return false;
-	}
-	
-	@Override
-    public int[] getSlotsForFace(EnumFacing side) {
-		return new int[0];
-	}
 	
 	private BlockPos getNextLocation() {
 		if(regionIterator == null) {

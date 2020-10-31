@@ -1,77 +1,62 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.client.particle.ParticleBlur;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.Configs;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.algorithm.OrganicSpread;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
-import org.cyclops.evilcraft.item.BiomeExtract;
-import org.cyclops.evilcraft.item.BiomeExtractConfig;
+import org.cyclops.evilcraft.item.ItemBiomeExtract;
 
 import java.util.Random;
 
 /**
- * Entity for the {@link BiomeExtract}.
+ * Entity for the {@link ItemBiomeExtract}.
  * @author rubensworks
  *
  */
-public class EntityBiomeExtract extends EntityThrowable implements IConfigurable {
+public class EntityBiomeExtract extends EntityThrowable {
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.ITEM_STACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.ITEMSTACK);
 
-    /**
-     * Make a new instance in the given world.
-     * @param world The world to make it in.
-     */
+    public EntityBiomeExtract(EntityType<? extends EntityThrowable> type, World world) {
+        super(type, world);
+    }
+
     public EntityBiomeExtract(World world) {
-        super(world);
+        this(RegistryEntries.ENTITY_BIOME_EXTRACT, world);
     }
 
-    /**
-     * Make a new instance in a world by a placer {@link EntityLivingBase}.
-     * @param world The world.
-     * @param entity The {@link EntityLivingBase} that placed this {@link Entity}.
-     * @param damage The damage value for the {@link BiomeExtract} to be rendered.
-     */
-    public EntityBiomeExtract(World world, EntityLivingBase entity, int damage) {
-        this(world, entity, new ItemStack(Configs.isEnabled(BiomeExtractConfig.class) ? BiomeExtract.getInstance() : Items.COAL, 1, damage));
+    public EntityBiomeExtract(World world, LivingEntity entity) {
+        this(world, entity, new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT));
     }
 
-    /**
-     * Make a new instance at the given location in a world.
-     * @param world The world.
-     * @param entity The entity
-     * @param stack The {@link ItemStack} inside this entity.
-     */
-    public EntityBiomeExtract(World world, EntityLivingBase entity, ItemStack stack) {
-        super(world, entity);
+    public EntityBiomeExtract(World world, LivingEntity entity, ItemStack stack) {
+        super(RegistryEntries.ENTITY_BIOME_EXTRACT, world, entity);
         setItemStack(stack);
     }
 
     @Override
     protected void onImpact(final RayTraceResult movingobjectposition) {
-        if (movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK) {
-            ItemStack itemStack = getItemStack();
+        if (movingobjectposition.getType() == RayTraceResult.Type.BLOCK) {
+            ItemStack itemStack = getItem();
 
-            final Biome biome = BiomeExtract.getInstance().getBiome(itemStack);
+            final Biome biome = ItemBiomeExtract.getBiome(itemStack);
             if (biome != null) {
                 OrganicSpread spread = new OrganicSpread(world, 2, 5, new OrganicSpread.IOrganicSpreadable() {
                     @Override
@@ -81,16 +66,14 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
 
                     @Override
                     public void spreadTo(World world, BlockPos location) {
-                        if (world.isRemote) {
-                            showChangedBiome(world, new BlockPos(location.getX(), movingobjectposition.getBlockPos().getY(),
-                                    location.getZ()), biome.getFoliageColorAtPos(new BlockPos(0, 0, 0)));
+                        if (world.isRemote()) {
+                            showChangedBiome(world, new BlockPos(location.getX(), ((BlockRayTraceResult) movingobjectposition).getPos().getY(),
+                                    location.getZ()), biome.getFoliageColor());
                         }
                         WorldHelpers.setBiome(world, location, biome);
                     }
                 });
-                BlockPos pos = movingobjectposition.typeOfHit == RayTraceResult.Type.BLOCK
-                        ? movingobjectposition.getBlockPos()
-                        : movingobjectposition.entityHit.getPosition();
+                BlockPos pos = new BlockPos(movingobjectposition.getHitVec());
                 for (int i = 0; i < 50; i++) {
                     spread.spreadTick(pos);
                 }
@@ -99,11 +82,11 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
             // Play sound and show particles of splash potion of harming
             this.world.playBroadcastSound(2002, getPosition(), 16428);
 
-            setDead();
+            remove();
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private void showChangedBiome(World world, BlockPos pos, int color) {
         Triple<Float, Float, Float> c = Helpers.intToRGB(color);
         Random rand = world.rand;
@@ -122,9 +105,9 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
             double motionY = 0.1F + rand.nextFloat() * 0.2F;
             double motionZ = -0.1F + rand.nextFloat() * 0.2F;
 
-            FMLClientHandler.instance().getClient().effectRenderer.addEffect(
-                    new ParticleBlur(world, x, y, z, scale, motionX, motionY, motionZ, red, green, blue, ageMultiplier)
-            );
+            Minecraft.getInstance().worldRenderer.addParticle(
+                    new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
+                    x, y, z, motionX, motionY, motionZ);
         }
     }
 
@@ -135,7 +118,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     }
 
     @Override
-    public ItemStack getItemStack() {
+    public ItemStack getItem() {
         return dataManager.get(ITEMSTACK_INDEX);
     }
     
@@ -144,14 +127,7 @@ public class EntityBiomeExtract extends EntityThrowable implements IConfigurable
     }
     
     @Override
-    protected void entityInit() {
-        super.entityInit();
-        
-        dataManager.register(ITEMSTACK_INDEX, BiomeExtract.getInstance().createItemStack(null, 1));
-    }
-
-    @Override
-    public ExtendedConfig<?> getConfig() {
-        return null;
+    protected void registerData() {
+        dataManager.register(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT));
     }
 }

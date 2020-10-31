@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.core.tileentity.tickaction;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
@@ -104,8 +104,8 @@ public class TickComponent<C extends CyclopsTileEntity, T extends ITickAction<C>
                 if (entry.getKey().isInstance(instance)) {
                     return entry.getValue();
                 } else {
-                    if (item instanceof ItemBlock) {
-                        instance = ((ItemBlock) item).getBlock();
+                    if (item instanceof BlockItem) {
+                        instance = ((BlockItem) item).getBlock();
                         if (entry.getKey().isInstance(instance)) {
                             return entry.getValue();
                         }

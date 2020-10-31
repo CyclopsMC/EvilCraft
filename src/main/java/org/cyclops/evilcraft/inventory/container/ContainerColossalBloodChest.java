@@ -1,19 +1,22 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Slot;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
-import org.cyclops.evilcraft.block.ColossalBloodChest;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockColossalBloodChest;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
+import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
- * Container for the {@link ColossalBloodChest}.
+ * Container for the {@link BlockColossalBloodChest}.
  * @author rubensworks
  *
  */
@@ -49,29 +52,27 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
 
     private final Supplier<Integer> variableEfficiency;
 
-    /**
-     * Make a new instance.
-     * @param inventory The inventory of the player.
-     * @param tile The tile entity that calls the GUI.
-     */
-    public ContainerColossalBloodChest(InventoryPlayer inventory, TileColossalBloodChest tile) {
-        super(inventory, tile);
+    public ContainerColossalBloodChest(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new Inventory(TileColossalBloodChest.SLOTS + TileColossalBloodChest.INVENTORY_SIZE_UPGRADES), Optional.empty());
+    }
 
-        tile.openInventory(inventory.player);
-
+    public ContainerColossalBloodChest(int id, PlayerInventory playerInventory,
+                                       IInventory inventory, Optional<TileColossalBloodChest> tileSupplier) {
+        super(RegistryEntries.CONTAINER_COLOSSAL_BLOOD_CHEST, id, playerInventory, inventory, tileSupplier,
+                TileColossalBloodChest.TICKERS, TileColossalBloodChest.INVENTORY_SIZE_UPGRADES);
         // Adding inventory
-        addSlotToContainer(new SlotFluidContainer(tile, TileColossalBloodChest.SLOT_CONTAINER,
+        addSlot(new SlotFluidContainer(inventory, TileColossalBloodChest.SLOT_CONTAINER,
         		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
-        		tile.getTank())); // Container emptier
+                RegistryEntries.FLUID_BLOOD)); // Container emptier
         
         addChestSlots(CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileColossalBloodChest.INVENTORY_SIZE_UPGRADES);
 
-        this.addPlayerInventory(inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
-        this.addPlayerArmorInventory(inventory, ARMOR_INVENTORY_OFFSET_X, ARMOR_INVENTORY_OFFSET_Y);
+        this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+        this.addPlayerArmorInventory(playerInventory, ARMOR_INVENTORY_OFFSET_X, ARMOR_INVENTORY_OFFSET_Y);
 
-        this.variableEfficiency = registerSyncedVariable(Integer.class, () -> getTile().getEfficiency());
+        this.variableEfficiency = registerSyncedVariable(Integer.class, () -> getTileSupplier().get().getEfficiency());
     }
 
     public int getEfficiency() {
@@ -81,7 +82,7 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
     protected void addChestSlots(int rows, int columns) {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
-                addSlotToContainer(makeSlot(tile, column + row * columns, CHEST_INVENTORY_OFFSET_X + column * 18, CHEST_INVENTORY_OFFSET_Y + row * 18));
+                addSlot(makeSlot(inventory, column + row * columns, CHEST_INVENTORY_OFFSET_X + column * 18, CHEST_INVENTORY_OFFSET_Y + row * 18));
             }
         }
     }
@@ -91,9 +92,7 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer entityplayer) {
-        super.onContainerClosed(entityplayer);
-        tile.closeInventory(entityplayer);
+    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+        return TileColossalBloodChest.METADATA;
     }
-    
 }

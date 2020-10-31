@@ -1,23 +1,17 @@
 package org.cyclops.evilcraft.proxy;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.proxy.CommonProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
-import org.cyclops.evilcraft.event.BlockBreakEventHook;
-import org.cyclops.evilcraft.event.BonemealEventHook;
 import org.cyclops.evilcraft.event.EntityStruckByLightningEventHook;
 import org.cyclops.evilcraft.event.FillBucketEventHook;
-import org.cyclops.evilcraft.event.LivingAttackEventHook;
 import org.cyclops.evilcraft.event.LivingDeathEventHook;
 import org.cyclops.evilcraft.event.LivingSpawnEventHook;
 import org.cyclops.evilcraft.event.LivingUpdateEventHook;
-import org.cyclops.evilcraft.event.PlayerInteractEventHook;
 import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
-import org.cyclops.evilcraft.network.packet.ExaltedCrafterButtonPacket;
 import org.cyclops.evilcraft.network.packet.ExaltedCrafterOpenPacket;
 import org.cyclops.evilcraft.network.packet.FartPacket;
 import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
@@ -43,7 +37,6 @@ public class CommonProxy extends CommonProxyComponent {
         packetHandler.register(FartPacket.class);
         packetHandler.register(DetectionListenerPacket.class);
         packetHandler.register(SanguinaryPedestalBlockReplacePacket.class);
-        packetHandler.register(ExaltedCrafterButtonPacket.class);
         packetHandler.register(ExaltedCrafterOpenPacket.class);
         packetHandler.register(UpdateWorldSharedTankClientCachePacket.class);
     	
@@ -54,16 +47,11 @@ public class CommonProxy extends CommonProxyComponent {
     public void registerEventHooks() {
         super.registerEventHooks();
         MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
-        MinecraftForge.EVENT_BUS.register(new PlayerInteractEventHook());
-        MinecraftForge.EVENT_BUS.register(new LivingAttackEventHook());
-        MinecraftForge.EVENT_BUS.register(new BonemealEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingSpawnEventHook());
         MinecraftForge.EVENT_BUS.register(new FillBucketEventHook());
-        MinecraftForge.EVENT_BUS.register(new BlockBreakEventHook());
-
-        FMLCommonHandler.instance().bus().register(WorldSharedTankCache.getInstance());
+        MinecraftForge.EVENT_BUS.register(WorldSharedTankCache.getInstance());
     }
 
 }

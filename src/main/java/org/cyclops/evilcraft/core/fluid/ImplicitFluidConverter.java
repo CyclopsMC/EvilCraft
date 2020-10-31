@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Level;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -54,8 +55,7 @@ public class ImplicitFluidConverter {
 	 */
 	public void addConverter(Fluid fluid, double rate) {
 		if(fluid != null) {
-			EvilCraft.clog("Register fluid conversion for " + fluid.getName()
-					+ " with ratio " + rate);
+			EvilCraft.clog("Register fluid conversion for " + fluid.getRegistryName() + " with ratio " + rate);
 			converters.put(fluid, rate);
 		}
 	}
@@ -75,11 +75,11 @@ public class ImplicitFluidConverter {
 	 * @return The converted fluid stack.
 	 */
 	public FluidStack convert(FluidStack fluid) {
-		if(fluid != null && canConvert(fluid.getFluid())) {
-			return new FluidStack(target, (int) Math.floor(fluid.amount
+		if(!fluid.isEmpty() && canConvert(fluid.getFluid())) {
+			return new FluidStack(target, (int) Math.floor(fluid.getAmount()
 					* converters.get(fluid.getFluid())));
 		}
-		return null;
+		return FluidStack.EMPTY;
 	}
 	
 	/**
@@ -89,12 +89,12 @@ public class ImplicitFluidConverter {
 	 * @return The converted fluid stack.
 	 */
 	public FluidStack convertReverse(Fluid target, FluidStack fluid) {
-		if(canConvert(target) && fluid != null && fluid.getFluid() == this.target) {
+		if(canConvert(target) && !fluid.isEmpty() && fluid.getFluid() == this.target) {
 			FluidStack ret = fluid.copy();
-			return new FluidStack(target, (int) Math.floor(ret.amount
+			return new FluidStack(target, (int) Math.floor(ret.getAmount()
 					/ converters.get(target)));
 		}
-		return null;
+		return FluidStack.EMPTY;
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class ImplicitFluidConverter {
 				throw new IllegalArgumentException("Invalid line '" + line + "' found for " 
 						+ "a fluid converter config.");
 			}
-			Fluid fluid = FluidRegistry.getFluid(split[0]);
+			Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(split[0]));
 			if(fluid == null) {
 				EvilCraft.clog("Could not find a fluid by name '" + split[0] + "' for "
 						+ "a fluid converter config.", Level.WARN);

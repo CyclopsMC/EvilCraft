@@ -1,35 +1,44 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.potion.PotionEffect;
-import org.cyclops.cyclopscore.config.configurable.ConfigurableEnchantment;
-import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 
 /**
  * Enchantment that poisons the attacked entity.
  * @author rubensworks
  *
  */
-public class EnchantmentPoisonTip extends ConfigurableEnchantment {
-    
-    private static EnchantmentPoisonTip _instance = null;
+public class EnchantmentPoisonTip extends Enchantment {
     
     private static final int POISON_BASE_DURATION = 2;
-    
-    /**
-     * Get the unique instance.
-     * @return The instance.
-     */
-    public static EnchantmentPoisonTip getInstance() {
-        return _instance;
+
+    public EnchantmentPoisonTip() {
+        super(Rarity.RARE, EnchantmentType.BOW, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public EnchantmentPoisonTip(ExtendedConfig<EnchantmentConfig> eConfig) {
-        super(eConfig, Rarity.RARE, EnumEnchantmentType.BOW, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    private void poisonTipEvent(LivingAttackEvent event) {
+        if(event.getSource().getTrueSource() instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
+            ItemStack itemStack = entity.getHeldItemMainhand();
+            int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
+            if (enchantmentListID > -1) {
+                int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
+                EnchantmentPoisonTip.poison((LivingEntity) event.getEntity(), level);
+                return;
+            }
+        }
     }
     
     @Override
@@ -52,8 +61,8 @@ public class EnchantmentPoisonTip extends ConfigurableEnchantment {
      * @param entity The entity was attacked.
      * @param level The level of the enchant.
      */
-    public static void poison(EntityLivingBase entity, int level) {
-        entity.addPotionEffect(new PotionEffect(MobEffects.POISON, POISON_BASE_DURATION * 20 * (level + 1), 1));
+    public static void poison(LivingEntity entity, int level) {
+        entity.addPotionEffect(new EffectInstance(Effects.POISON, POISON_BASE_DURATION * 20 * (level + 1), 1));
     }
 
 }

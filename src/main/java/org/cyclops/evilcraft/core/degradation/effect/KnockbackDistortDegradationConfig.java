@@ -8,22 +8,12 @@ import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
  *
  */
 public class KnockbackDistortDegradationConfig extends DegradationEffectConfig {
-    
-    /**
-     * The unique instance.
-     */
-    public static KnockbackDistortDegradationConfig _instance;
 
-    /**
-     * Make a new instance.
-     */
     public KnockbackDistortDegradationConfig() {
         super(
-            true,
-            "knockbackdistort",
-            null,
-            KnockbackDistortDegradation.class,
-            5
+                "knockbackdistort",
+                KnockbackDistortDegradation::new,
+                5
         );
     }
     

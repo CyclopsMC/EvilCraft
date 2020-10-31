@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.api.tileentity.bloodchest;
 
 import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.init.IRegistry;
 
 import java.util.Random;
@@ -39,9 +40,9 @@ public interface IBloodChestRepairActionRegistry extends IRegistry {
      * @param actionID the ID of the action to call.
      * @param doAction If the actual repair action should be performed, otherwise this is just a simulation.
      * @param isBulk If the repairing container repairs things in bulk.
-     * @return Blood usage multiplier
+     * @return Pair of blood usage multiplier and new itemstack.
      */
-    public float repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk);
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk);
 
     /**
      * Set the blacklist of item names.

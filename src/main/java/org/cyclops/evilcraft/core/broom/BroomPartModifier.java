@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.core.broom;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 
 import javax.annotation.Nullable;
@@ -19,14 +20,15 @@ public class BroomPartModifier extends BroomPartBase {
         this.modifier = modifier;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
                 new ResourceLocation(getId().getNamespace(), "broom_part/ring"));
     }
 
+    @Nullable
     @Override
-    public @Nullable String getTooltipLine(String prefix) {
+    public ITextComponent getTooltipLine(String prefix) {
         return null;
     }
 

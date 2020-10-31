@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import org.cyclops.cyclopscore.config.IChangedCallback;
-import org.cyclops.evilcraft.fluid.Blood;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
  * An implicit blood converter.
@@ -27,35 +26,11 @@ public class BloodFluidConverter extends ImplicitFluidConverter {
 	}
 	
 	private BloodFluidConverter() {
-		super(Blood.getInstance());
+		super(null);
 	}
 	
 	protected void resetTarget() {
-		setTarget(Blood.getInstance());
-	}
-	
-	/**
-	 * Callback for when the blood converters property is changed.
-	 * @author rubensworks
-	 *
-	 */
-	public static class BloodConvertersChanged implements IChangedCallback {
-
-		private static boolean calledOnce = false;
-		
-		@Override
-		public void onChanged(Object value) {
-			if(calledOnce) {
-				BloodFluidConverter.getInstance().registerFromConfig((String[]) value);
-			}
-			calledOnce = true;
-		}
-
-		@Override
-		public void onRegisteredPostInit(Object value) {
-			onChanged(value);
-		}
-		
+		setTarget(RegistryEntries.FLUID_BLOOD);
 	}
 
 }

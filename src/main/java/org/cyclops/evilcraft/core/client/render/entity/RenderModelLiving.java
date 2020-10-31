@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.client.render.entity;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Reference;
@@ -16,25 +16,17 @@ import org.cyclops.evilcraft.Reference;
  * @param <T> The type of entity.
  * @param <M> The model that will be rendered.
  */
-public abstract class RenderModelLiving<T extends EntityLiving, M extends ModelBase> extends RenderLiving<T> {
+public abstract class RenderModelLiving<T extends MobEntity, M extends EntityModel<T>> extends MobRenderer<T, M> {
 
     private ResourceLocation texture;
-    
-    /**
-     * Make a new instance.
-     * @param renderManager The render manager
-     * @param config The config.
-     * @param model The model that must be rendered.
-     * @param par2 No idea...
-     */
-    @SuppressWarnings("rawtypes")
-    public RenderModelLiving(RenderManager renderManager, ExtendedConfig config, ModelBase model, float par2) {
+
+    public RenderModelLiving(EntityRendererManager renderManager, ExtendedConfig<?, ?> config, M model, float par2) {
         super(renderManager, model, par2);
         texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(T entity) {
+    public ResourceLocation getEntityTexture(T entity) {
         return texture;
     }
     

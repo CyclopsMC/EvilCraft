@@ -1,13 +1,15 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
@@ -28,7 +30,7 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
     @CodecField
 	private double z = 0;
     @CodecField
-	private int blockID = 0;
+	private INBT blockState;
     
     /**
      * Empty packet.
@@ -42,40 +44,28 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
 		return false;
 	}
 
-	/**
-	 * Creates a packet with coordinates.
-     * @param x The X coordinate.
-     * @param y The Y coordinate.
-     * @param z The Z coordinate.
-     * @param blockID The blockState ID.
-	 */
-	public SanguinaryPedestalBlockReplacePacket(double x, double y, double z, int blockID) {
+	public SanguinaryPedestalBlockReplacePacket(double x, double y, double z, BlockState blockState) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.blockID = blockID;
+		this.blockState = BlockHelpers.serializeBlockState(blockState);
 	}
-	
-	/**
-	 * Creates a packet with coordinates.
-     * @param location The location data.
-     * @param block The blockState.
-	 */
-	public SanguinaryPedestalBlockReplacePacket(BlockPos location, Block block) {
-		this(location.getX(), location.getY(), location.getZ(), Block.getIdFromBlock(block));
+
+	public SanguinaryPedestalBlockReplacePacket(BlockPos location, BlockState blockState) {
+		this(location.getX(), location.getY(), location.getZ(), blockState);
 	}
     
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void actionClient(World world, EntityPlayer player) {
-		Block block = Block.getBlockById(blockID);
-		world.playSound(x, y, z, block.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.1F + world.rand.nextFloat() * 0.5F,
+	@OnlyIn(Dist.CLIENT)
+	public void actionClient(World world, PlayerEntity player) {
+		BlockState blockState = BlockHelpers.deserializeBlockState(this.blockState);
+		world.playSound(x, y, z, blockState.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.1F + world.rand.nextFloat() * 0.5F,
     			0.9F + world.rand.nextFloat() * 0.1F, false);
 		ParticleBloodSplash.spawnParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.rand.nextInt(2), 1 + world.rand.nextInt(2));
 	}
 
 	@Override
-	public void actionServer(World world, EntityPlayerMP player) {
+	public void actionServer(World world, ServerPlayerEntity player) {
 
 	}
 	

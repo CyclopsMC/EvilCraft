@@ -1,14 +1,11 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
@@ -24,11 +21,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 	@CodecField
 	private String tankID = null;
 	@CodecField
-	private String fluidName = null;
-	@CodecField
-	private NBTTagCompound fluidTag = null;
-	@CodecField
-	private int fluidAmount = 0;
+	private FluidStack fluidStack = null;
 
 	/**
 	 * Creates a packet with no content
@@ -42,37 +35,19 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 		return true;
 	}
 
-	/**
-	 * Creates a packet which contains the fluid stack.
-	 * @param tankID The id of the shared tank.
-	 * @param fluidStack The fluid stack.
-	 */
 	public UpdateWorldSharedTankClientCachePacket(String tankID, FluidStack fluidStack) {
 		this.tankID = tankID;
-		if(fluidStack == null) {
-			this.fluidName = "";
-			this.fluidTag = null;
-			this.fluidAmount = -1;
-		} else {
-			this.fluidName = fluidStack.getFluid().getName();
-			this.fluidTag = fluidStack.tag;
-			this.fluidAmount = fluidStack.amount;
-		}
+		this.fluidStack = fluidStack;
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void actionClient(World world, EntityPlayer player) {
-		FluidStack fluidStack = null;
-		Fluid fluid;
-		if(fluidAmount >= 0 && fluidName != null && (fluid = FluidRegistry.getFluid(fluidName)) != null) {
-			fluidStack = new FluidStack(fluid, fluidAmount, fluidTag);
-        }
+	@OnlyIn(Dist.CLIENT)
+	public void actionClient(World world, PlayerEntity player) {
 		WorldSharedTankCache.getInstance().setTankContent(tankID, fluidStack);
 	}    
 
 	@Override
-	public void actionServer(World world, EntityPlayerMP player) {
+	public void actionServer(World world, ServerPlayerEntity player) {
 		// Do nothing
 	}
 

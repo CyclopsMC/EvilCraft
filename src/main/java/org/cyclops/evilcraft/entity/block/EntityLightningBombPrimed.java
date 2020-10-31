@@ -1,97 +1,101 @@
 package org.cyclops.evilcraft.entity.block;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import org.cyclops.cyclopscore.config.configurable.IConfigurable;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
-import org.cyclops.evilcraft.block.LightningBomb;
+import net.minecraft.world.server.ServerWorld;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockLightningBomb;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
- * Entity for primed {@link LightningBomb}.
+ * Entity for primed {@link BlockLightningBomb}.
  * @author rubensworks
  *
  */
-public class EntityLightningBombPrimed extends EntityTNTPrimed implements IConfigurable {
+public class EntityLightningBombPrimed extends TNTEntity {
     
     private static final float EXPLOSION_STRENGTH = 1.0f;
 
-    /**
-     * Make a new instance in the given world.
-     * @param world The world to make it in.
-     */
-    public EntityLightningBombPrimed(World world) {
-        super(world);
+    @Nullable
+    private LivingEntity placer;
+
+    public EntityLightningBombPrimed(EntityType<? extends EntityLightningBombPrimed> type, World world) {
+        super(type, world);
         setFuse();
     }
-    
-    /**
-     * Make a new instance at the given location in a world by a placer {@link EntityLivingBase}.
-     * @param world The world.
-     * @param x X coordinate.
-     * @param y Y coordinate.
-     * @param z Z coordinate.
-     * @param placer The {@link EntityLivingBase} that placed this {@link Entity}.
-     */
-    public EntityLightningBombPrimed(World world, double x, double y, double z, EntityLivingBase placer) {
-        super(world, x, y, z, placer);
+
+    public EntityLightningBombPrimed(World world, double x, double y, double z, @Nullable LivingEntity placer) {
+        this(RegistryEntries.ENTITY_LIGHTNING_BOMB_PRIMED, world);
+        this.setPosition(x, y, z);
+        double d0 = world.rand.nextDouble() * (double)((float)Math.PI * 2F);
+        this.setMotion(-Math.sin(d0) * 0.02D, (double)0.2F, -Math.cos(d0) * 0.02D);
+        this.setFuse(80);
+        this.prevPosX = x;
+        this.prevPosY = y;
+        this.prevPosZ = z;
+        this.placer = placer;
         setFuse();
     }
-    
+
+    @Nullable
+    @Override
+    public LivingEntity getTntPlacedBy() {
+        return this.placer;
+    }
+
     protected void setFuse() {
         this.setFuse(EntityLightningBombPrimedConfig.fuse);
     }
     
     @Override
-    public void onUpdate() {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        this.motionY -= 0.03999999910593033D;
-        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9800000190734863D;
-        this.motionY *= 0.9800000190734863D;
-        this.motionZ *= 0.9800000190734863D;
+    public void tick() {
+        if (!this.hasNoGravity()) {
+            this.setMotion(this.getMotion().add(0.0D, -0.04D, 0.0D));
+        }
+
+        this.move(MoverType.SELF, this.getMotion());
+        this.setMotion(this.getMotion().scale(0.98D));
 
         if (this.onGround) {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
-            this.motionY *= -0.5D;
+            this.setMotion(this.getMotion().mul(0.7D, -0.5D, 0.7D));
         }
 
         if (this.getFuse() - 1 <= 0) {
-            this.setDead();
+            this.remove();
 
-            if (!this.world.isRemote) {
-                this.explode(this.world, this.posX, this.posY, this.posZ);
+            if (!this.world.isRemote()) {
+                this.explode(this.world, this.getPosX(), this.getPosY(), this.getPosZ());
             }
         } else {
             setFuse(getFuse() - 1);
             this.handleWaterMovement();
-            this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D);
+            world.addParticle(ParticleTypes.SMOKE,
+                    this.getPosX(), this.getPosY() + 0.5D, this.getPosZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     private void explode(World world, double x, double y, double z) {
         Random rand = new Random();
         for (int i = 0; i < 32; ++i) {
-            world.spawnParticle(EnumParticleTypes.CRIT_MAGIC, x, y + rand.nextDouble() * 2.0D, z, rand.nextGaussian(), 0.0D, rand.nextGaussian());
+            Minecraft.getInstance().worldRenderer.addParticle(
+                    ParticleTypes.CRIT, false,
+                    x, y + rand.nextDouble() * 2.0D, z,
+                    rand.nextGaussian(), 0.0D, rand.nextGaussian());
         }
 
-        if (!world.isRemote) {
-            this.world.createExplosion(this, this.posX, this.posY, this.posZ, EXPLOSION_STRENGTH, true);
-            world.addWeatherEffect(new EntityLightningBolt(world, x, y, z, false));
+        if (!world.isRemote()) {
+            this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), EXPLOSION_STRENGTH, Explosion.Mode.DESTROY);
+            ((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, x, y, z, false));
         }
     }
 
-    @Override
-    public ExtendedConfig<?> getConfig() {
-        return null;
-    }
 }

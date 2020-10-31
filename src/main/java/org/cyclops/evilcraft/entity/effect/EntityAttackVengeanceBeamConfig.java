@@ -1,13 +1,14 @@
 package org.cyclops.evilcraft.entity.effect;
 
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.ConfigurableTypeCategory;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.client.render.RenderNull;
@@ -17,46 +18,24 @@ import org.cyclops.evilcraft.core.client.render.RenderNull;
  * @author rubensworks
  *
  */
-public class EntityAttackVengeanceBeamConfig extends EntityConfig<Entity> {
+public class EntityAttackVengeanceBeamConfig extends EntityConfig<EntityAttackVengeanceBeam> {
 
-    /**
-     * The unique instance.
-     */
-    public static EntityAttackVengeanceBeamConfig _instance;
-
-    /**
-     * If crossed beams should cause explosions.
-     */
-    @ConfigurableProperty(category = ConfigurableTypeCategory.ENTITY, comment = "If crossed beams should cause explosions.", isCommandable = true)
+    @ConfigurableProperty(category = "entity", comment = "If crossed beams should cause explosions.", isCommandable = true)
     public static boolean crossBeamsExplosions = true;
 
-    /**
-     * Make a new instance.
-     */
     public EntityAttackVengeanceBeamConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_attack_vengeance_beam",
-            null,
-            EntityAttackVengeanceBeam.class
+                "attack_vengeance_beam",
+                eConfig -> EntityType.Builder.<EntityAttackVengeanceBeam>create(EntityAttackVengeanceBeam::new, EntityClassification.MISC)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
-    
-    @Override
-    public boolean isDisableable() {
-    	return false;
-    }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render<Entity> getRender(RenderManager renderManager, RenderItem renderItem) {
+    public EntityRenderer<Entity> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
     	return new RenderNull(renderManager);
-    }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
     }
     
 }

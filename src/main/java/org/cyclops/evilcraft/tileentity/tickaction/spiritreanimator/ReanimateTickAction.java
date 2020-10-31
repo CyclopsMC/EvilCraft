@@ -1,17 +1,17 @@
 package org.cyclops.evilcraft.tileentity.tickaction.spiritreanimator;
 
-import net.minecraft.item.Item;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
-import org.cyclops.evilcraft.block.SpiritReanimatorConfig;
+import org.cyclops.evilcraft.block.BlockSpiritReanimatorConfig;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
 import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
 
 /**
@@ -25,60 +25,40 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
     public boolean canTick(TileSpiritReanimator tile, ItemStack itemStack, int slot, int tick) {
         return tile.getTank().getFluidAmount() >= getRequiredMb(tile, tick) && tile.canWork();
     }
-    
-    protected ItemStack getCookStack(TileSpiritFurnace tile) {
-        return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
-    }
 
-	protected ItemStack getSpawnEgg(int entityId) {
-		return new ItemStack(Item.REGISTRY.getObject(new ResourceLocation("spawn_egg")), 1, entityId);
-	}
-
-	protected ItemStack getSpawnEgg(ResourceLocation entityName) {
-		ItemStack itemStack = new ItemStack((Item)Item.REGISTRY.getObject(new ResourceLocation("spawn_egg")));
-		applyEntityIdToItemStack(itemStack, entityName);
-		return itemStack;
-
-	}
-
-	// Copied from ItemMonsterPlacer, since its client-side only over there.
-	protected static void applyEntityIdToItemStack(ItemStack stack, ResourceLocation entityId) {
-		NBTTagCompound nbttagcompound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-		NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-		nbttagcompound1.setString("id", entityId.toString());
-		nbttagcompound.setTag("EntityTag", nbttagcompound1);
-		stack.setTagCompound(nbttagcompound);
+	protected ItemStack getSpawnEgg(EntityType<?> entityType) {
+		return new ItemStack(SpawnEggItem.getEgg(entityType));
 	}
 
 	@Override
 	public void onTick(TileSpiritReanimator tile, ItemStack itemStack, int slot,
 			int tick) {
 		// Drain the tank a bit.
-		tile.getTank().drain(getRequiredMb(tile, tick), true);
+		tile.getTank().drain(getRequiredMb(tile, tick), IFluidHandler.FluidAction.EXECUTE);
 		if(tick >= getRequiredTicks(tile, slot, tick)) {
 			ItemStack spawnEgg = ItemStack.EMPTY;
-			ResourceLocation entityName = tile.getEntityName();
-			if(entityName != null) {
-				spawnEgg = getSpawnEgg(entityName);
+			EntityType<?> entityType = tile.getEntityType();
+			if(entityType != null) {
+				spawnEgg = getSpawnEgg(entityType);
 			}
 			if(!spawnEgg.isEmpty() && addToProduceSlot(tile, spawnEgg)) {
 				tile.getInventory().decrStackSize(TileSpiritReanimator.SLOT_EGG, 1);
 			}
-			if(SpiritReanimatorConfig.clearBoxContents) {
-				itemStack.setTagCompound(new NBTTagCompound());
+			if(BlockSpiritReanimatorConfig.clearBoxContents) {
+				itemStack.setTag(new CompoundNBT());
 			}
 		}
 	}
 
     protected int getRequiredMb(TileSpiritReanimator tile, int tick) {
-        MutableDouble drain = new MutableDouble(SpiritReanimatorConfig.mBPerTick);
+        MutableDouble drain = new MutableDouble(BlockSpiritReanimatorConfig.mBPerTick);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritReanimator.UPGRADEEVENT_BLOODUSAGE));
         return MathHelpers.factorToBursts(drain.getValue(), tick);
     }
 
 	@Override
 	public float getRequiredTicks(TileSpiritReanimator tile, int slot, int tick) {
-        MutableDouble drain = new MutableDouble(SpiritReanimatorConfig.requiredTicks);
+        MutableDouble drain = new MutableDouble(BlockSpiritReanimatorConfig.requiredTicks);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(drain, TileSpiritReanimator.UPGRADEEVENT_SPEED));
         return (int) (double) drain.getValue();
 	}

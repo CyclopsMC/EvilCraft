@@ -2,11 +2,11 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
+import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -15,9 +15,10 @@ import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
-import org.cyclops.cyclopscore.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.GeneralConfig;
-import org.cyclops.evilcraft.block.DarkTank;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockDarkTank;
+import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 
 import java.util.List;
 
@@ -32,30 +33,12 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	 * The base capacity of the tank.
 	 */
 	public static final int BASE_CAPACITY = 16000;
-	/**
-	 * The NBT tag name of the tank.
-	 */
-	public static final String NBT_TAG_TANK = "darkTank";
 
 	@Delegate
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
 
-	/**
-	 * Make a new instance.
-	 */
 	public TileDarkTank() {
-		super(0, "inventory", BASE_CAPACITY, NBT_TAG_TANK);
-		this.setSendUpdateOnTankChanged(true);
-	}
-	
-	@Override
-	public boolean isItemValidForSlot(int index, ItemStack item) {
-		return false;
-	}
-
-	@Override
-    public int[] getSlotsForFace(EnumFacing side) {
-		return new int[0];
+		super(RegistryEntries.TILE_ENTITY_DARK_TANK, 0, 0, BASE_CAPACITY, null);
 	}
 	
 	/**
@@ -67,32 +50,32 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	}
 	
 	protected boolean shouldAutoDrain() {
-		return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(getPos()), DarkTank.DRAINING, false);
+		return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(getPos()), BlockDarkTank.DRAINING, false);
 	}
 	
 	@Override
 	protected void updateTileEntity() {
-		if(!getWorld().isRemote && !getTank().isEmpty() && shouldAutoDrain()) {
-			EnumFacing down = EnumFacing.DOWN;
+		if(!getWorld().isRemote() && !getTank().isEmpty() && shouldAutoDrain()) {
+			Direction down = Direction.DOWN;
 			IFluidHandler handler = TileHelpers.getCapability(world, getPos().offset(down), down.getOpposite(),
-					CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+					CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
 			if(handler != null) {
 				FluidStack fluidStack = new FluidStack(getTank().getFluid(),
                         Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
-				if(handler.fill(fluidStack, false) > 0) {
-					int filled = handler.fill(fluidStack, true);
-					drain(filled, true);
+				if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
+					int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+					getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
 				}
 			} else {
 				// Try to fill fluid container items below
 				List<Entity> entities = world.getEntitiesWithinAABB(Entity.class,
 						new AxisAlignedBB(getPos().offset(down), getPos().offset(down).add(1, 1, 1)),
-						EntitySelectors.IS_ALIVE);
+						EntityPredicates.IS_ALIVE);
 				for(Entity entity : entities) {
-					if(!getTank().isEmpty() && entity instanceof EntityItem) {
-						EntityItem item = (EntityItem) entity;
+					if(!getTank().isEmpty() && entity instanceof ItemEntity) {
+						ItemEntity item = (ItemEntity) entity;
 						if (item.getItem() != null
-								&& item.getItem().hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) &&
+								&& item.getItem().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent() &&
 								item.getItem().getCount() == 1) {
 							ItemStack itemStack = item.getItem().copy();
 							ItemStack fillItemStack;
@@ -100,14 +83,14 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 								item.setItem(fillItemStack);
 							}
 						}
-					} else if(entity instanceof EntityPlayer) {
-						EntityPlayer player = (EntityPlayer) entity;
+					} else if(entity instanceof PlayerEntity) {
+						PlayerEntity player = (PlayerEntity) entity;
 						PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
 						while(!getTank().isEmpty() && it.hasNext()) {
 							ItemStack itemStack = it.next();
 							ItemStack fillItemStack;
 							if(!itemStack.isEmpty()
-									&& itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)
+									&& itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
 									&& (fillItemStack = fill(itemStack)) != null) {
 								it.replace(fillItemStack);
 							}
@@ -120,19 +103,14 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 
 	protected ItemStack fill(ItemStack itemStack) {
 		ItemStack fillItemStack = itemStack.copy();
-		IFluidHandler container = fillItemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+		IFluidHandler container = fillItemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
 		FluidStack fluidStack = new FluidStack(getTank().getFluid(),
 				Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
-		if (container.fill(fluidStack, false) > 0) {
-			int filled = container.fill(fluidStack, true);
-			drain(filled, true);
+		if (container.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
+			int filled = container.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+			getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
 			return fillItemStack;
 		}
 		return null;
-	}
-
-	@Override
-	protected boolean isUpdateInventoryHashOnTankContentsChanged() {
-		return true;
 	}
 }

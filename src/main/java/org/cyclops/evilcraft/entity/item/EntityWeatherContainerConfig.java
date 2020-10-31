@@ -1,15 +1,16 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.client.render.RenderThrowable;
-import org.cyclops.evilcraft.item.WeatherContainer;
+import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 
 /**
  * Config for the {@link EntityWeatherContainer}.
@@ -17,33 +18,20 @@ import org.cyclops.evilcraft.item.WeatherContainer;
  *
  */
 public class EntityWeatherContainerConfig extends EntityConfig<EntityWeatherContainer> {
-    
-    /**
-     * The unique instance.
-     */
-    public static EntityWeatherContainerConfig _instance;
-    
-    /**
-     * Make a new instance.
-     */
+
     public EntityWeatherContainerConfig() {
         super(
                 EvilCraft._instance,
-        	true,
-            "entity_weather_container",
-            null,
-            EntityWeatherContainer.class
+            "weather_container",
+                eConfig -> EntityType.Builder.<EntityWeatherContainer>create(EntityWeatherContainer::new, EntityClassification.MISC)
+                        .setShouldReceiveVelocityUpdates(true)
         );
     }
     
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     @Override
-    public Render getRender(RenderManager renderManager, RenderItem renderItem) {
-        return new RenderThrowable(renderManager, WeatherContainer.getInstance(), Minecraft.getMinecraft().getRenderItem());
+    public EntityRenderer<EntityThrowable> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
+        return new RenderThrowable(renderManager, renderItem);
     }
-    
-    @Override
-    public boolean sendVelocityUpdates() {
-        return true;
-    }
+
 }

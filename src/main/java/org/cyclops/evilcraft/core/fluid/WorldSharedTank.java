@@ -1,13 +1,12 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.persist.world.WorldStorage;
-import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
 /**
  * A tank that has shared contents for a given ID.
@@ -24,16 +23,9 @@ public class WorldSharedTank extends SingleUseTank {
 	
 	protected String tankID = "";
 	private int previousAmount = 0;
-	
-	/**
-     * Make a new tank instance.
-     * @param name The name for the tank, will be used for NBT storage.
-     * @param capacity The capacity (mB) for the tank.
-     * @param tile The TileEntity that uses this tank.
-     */
-    public WorldSharedTank(String name, int capacity, CyclopsTileEntity tile) {
-        super(name, capacity, tile);
-        this.tile = tile;
+
+    public WorldSharedTank(int capacity) {
+        super(capacity);
     }
     
     /**
@@ -52,13 +44,13 @@ public class WorldSharedTank extends SingleUseTank {
     }
     
     @Override
-    public void writeTankToNBT(NBTTagCompound nbt) {
+    public void writeTankToNBT(CompoundNBT nbt) {
         super.writeTankToNBT(nbt);
-        nbt.setString(NBT_TANKID, tankID);
+        nbt.putString(NBT_TANKID, tankID);
     }
 
     @Override
-    public void readTankFromNBT(NBTTagCompound nbt) {
+    public void readTankFromNBT(CompoundNBT nbt) {
         super.readTankFromNBT(nbt);
         tankID = nbt.getString(NBT_TANKID);
     }
@@ -92,30 +84,30 @@ public class WorldSharedTank extends SingleUseTank {
     }
     
     @Override
-    public int fill(FluidStack resource, boolean doFill) {
+    public int fill(FluidStack resource, FluidAction action) {
     	readWorldFluid();
-    	int ret = super.fill(resource, doFill);
-    	if(ret > 0 && doFill) {
+    	int ret = super.fill(resource, action);
+    	if(ret > 0 && action.execute()) {
     		writeWorldFluid();
     	}
     	return ret;
     }
     
     @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
+    public FluidStack drain(int maxDrain, FluidAction action) {
     	readWorldFluid();
-    	FluidStack ret = super.drain(maxDrain, doDrain);
-    	if(ret != null && doDrain) {
+    	FluidStack ret = super.drain(maxDrain, action);
+    	if(ret != null && action.execute()) {
     		writeWorldFluid();
     	}
     	return ret;
     }
 
     @Override
-    public FluidStack drain(FluidStack resource, boolean doDrain) {
+    public FluidStack drain(FluidStack resource, FluidAction action) {
         readWorldFluid();
-        FluidStack ret = super.drain(resource, doDrain);
-        if(ret != null && doDrain) {
+        FluidStack ret = super.drain(resource, action);
+        if(ret != null && action.execute()) {
             writeWorldFluid();
         }
         return ret;
@@ -176,13 +168,13 @@ public class WorldSharedTank extends SingleUseTank {
         }
 
         @Override
-        public void readFromNBT(NBTTagCompound tag) {
+        public void readFromNBT(CompoundNBT tag) {
             super.readFromNBT(tag);
             WorldSharedTankCache.getInstance().readFromNBT(tag);
         }
 
         @Override
-        public void writeToNBT(NBTTagCompound tag) {
+        public void writeToNBT(CompoundNBT tag) {
             super.writeToNBT(tag);
             WorldSharedTankCache.getInstance().writeToNBT(tag);
         }

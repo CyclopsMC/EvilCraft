@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.proxy;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -10,11 +11,13 @@ import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
-import org.cyclops.evilcraft.core.client.model.BroomLoader;
-import org.cyclops.evilcraft.core.client.model.BroomPartLoader;
+import org.cyclops.evilcraft.core.client.model.ModelLoaderBoxOfEternalClosure;
+import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
+import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
 import org.cyclops.evilcraft.event.RenderOverlayEventHook;
 import org.cyclops.evilcraft.event.TextureStitchEventHook;
 
@@ -37,7 +40,7 @@ public class ClientProxy extends ClientProxyComponent {
 
 	@Override
 	public void registerKeyBindings(IKeyRegistry keyRegistry) {
-		GameSettings settings = Minecraft.getMinecraft().gameSettings;
+		GameSettings settings = Minecraft.getInstance().gameSettings;
 
 		for (KeyBinding key : Keys.KEYS)
 			ClientRegistry.registerKeyBinding(key);
@@ -56,8 +59,9 @@ public class ClientProxy extends ClientProxyComponent {
 	public void registerEventHooks() {
 		super.registerEventHooks();
 
-		ModelLoaderRegistry.registerLoader(new BroomLoader());
-		ModelLoaderRegistry.registerLoader(new BroomPartLoader());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 		MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
