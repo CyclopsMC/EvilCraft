@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -15,6 +16,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -48,6 +50,19 @@ public class BlockExcrementPile extends Block {
 
     public BlockExcrementPile(Block.Properties properties) {
         super(properties);
+
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(LAYERS, 1));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(LAYERS);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(LAYERS, 1);
     }
 
     @Override

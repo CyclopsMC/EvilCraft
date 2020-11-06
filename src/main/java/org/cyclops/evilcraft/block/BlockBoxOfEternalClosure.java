@@ -10,11 +10,13 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -74,8 +76,21 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IInformationP
 	public BlockBoxOfEternalClosure(Block.Properties properties) {
         super(properties, TileBoxOfEternalClosure::new);
 
+		this.setDefaultState(this.stateContainer.getBaseState()
+				.with(FACING, Direction.NORTH));
+
 		MinecraftForge.EVENT_BUS.register(this);
     }
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(FACING);
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {

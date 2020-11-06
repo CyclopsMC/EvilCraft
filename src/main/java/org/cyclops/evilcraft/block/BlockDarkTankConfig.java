@@ -36,13 +36,13 @@ public class BlockDarkTankConfig extends BlockConfig {
     @ConfigurableProperty(category = "item", comment = "If held buckets should be autofilled when enabled.", isCommandable = true)
     public static boolean autoFillBuckets = false;
 
-    public BlockDarkTankConfig(boolean enabled) {
+    public BlockDarkTankConfig() {
         super(
                 EvilCraft._instance,
-            "dark_tank" + (enabled ? "" : "_on"),
+            "dark_tank",
                 eConfig -> new BlockDarkTank(Block.Properties.create(Material.GLASS)
                         .hardnessAndResistance(0.5F)
-                        .sound(SoundType.GLASS), enabled),
+                        .sound(SoundType.GLASS)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
                         .group(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> () -> new RenderItemStackTileEntityDarkTank()))

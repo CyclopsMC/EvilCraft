@@ -58,6 +58,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public <P extends IBroomPart> P registerPart(P part) {
+        Objects.requireNonNull(part);
         parts.put(part.getId(), part);
         partsByType.put(part.getType(), part);
         return part;
@@ -159,7 +160,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public Collection<IBroomPart> getBroomParts(ItemStack broomStack) {
-        if(broomStack != null) {
+        if(!broomStack.isEmpty()) {
             List<IBroomPart> parts = Lists.newArrayList();
             if(broomStack.hasTag()) {
                 ListNBT tags = broomStack.getTag().getList(NBT_TAG_NAME, Constants.NBT.TAG_COMPOUND);
@@ -175,8 +176,11 @@ public class BroomPartRegistry implements IBroomPartRegistry {
             }
 
             if(parts.isEmpty()) {
-                return Lists.newArrayList(BroomParts.BRUSH_WHEAT,
-                        BroomParts.CAP_GEM_DARK != null ? BroomParts.CAP_GEM_DARK : BroomParts.CAP_GEM_QUARTZ, BroomParts.ROD_WOOD);
+                // BroomParts.BRUSH_WHEAT can be null during mod loading
+                if (BroomParts.BRUSH_WHEAT != null) {
+                    return Lists.newArrayList(BroomParts.BRUSH_WHEAT,
+                            BroomParts.CAP_GEM_DARK != null ? BroomParts.CAP_GEM_DARK : BroomParts.CAP_GEM_QUARTZ, BroomParts.ROD_WOOD);
+                }
             }
 
             return parts;

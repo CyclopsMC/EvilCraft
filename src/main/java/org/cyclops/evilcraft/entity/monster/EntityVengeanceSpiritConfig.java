@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -13,6 +14,8 @@ import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.entity.RenderVengeanceSpirit;
+
+import java.util.List;
 
 /**
  * Config for the {@link EntityNetherfish}.
@@ -28,12 +31,12 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
     public static int spawnLimitArea = 5;
 
     @ConfigurableProperty(category = "mob", comment = "The blacklisted entity spirits, by entity name.")
-    public static String[] entityBlacklist = new String[]{
+    public static List<String> entityBlacklist = Lists.newArrayList(
             "evilcraft:vengeance_spirit",
             "evilcraft:controlled_zombie",
             "evilcraft:werewolf",
-            "minecraft:ender_dragon",
-    };
+            "minecraft:ender_dragon"
+    );
 
     @ConfigurableProperty(category = "mob", comment = "Whether vengeance spirits should always be visible in creative mode.")
     public static boolean alwaysVisibleInCreative = false;

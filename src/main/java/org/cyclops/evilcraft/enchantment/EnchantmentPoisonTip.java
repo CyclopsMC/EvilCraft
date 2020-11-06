@@ -28,7 +28,7 @@ public class EnchantmentPoisonTip extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    private void poisonTipEvent(LivingAttackEvent event) {
+    public void poisonTipEvent(LivingAttackEvent event) {
         if(event.getSource().getTrueSource() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
             ItemStack itemStack = entity.getHeldItemMainhand();

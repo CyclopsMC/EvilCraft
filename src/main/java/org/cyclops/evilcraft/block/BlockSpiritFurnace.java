@@ -4,8 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -31,6 +33,19 @@ public class BlockSpiritFurnace extends BlockTileGuiTank implements CubeDetector
 
     public BlockSpiritFurnace(Block.Properties properties) {
         super(properties, TileSpiritFurnace::new);
+
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(ACTIVE, false));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(ACTIVE);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(ACTIVE, false);
     }
 
     @Override

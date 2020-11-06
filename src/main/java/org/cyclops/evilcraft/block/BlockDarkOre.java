@@ -5,9 +5,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -44,6 +46,19 @@ public class BlockDarkOre extends Block implements IInformationProvider {
 
     public BlockDarkOre(Block.Properties properties) {
         super(properties);
+
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(GLOWING, false));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(GLOWING);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(GLOWING, false);
     }
 
     /*

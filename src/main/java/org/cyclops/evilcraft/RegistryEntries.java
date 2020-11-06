@@ -89,8 +89,6 @@ public class RegistryEntries {
     public static final Item ITEM_DARK_POWER_GEM = null;
     @ObjectHolder("evilcraft:dark_tank")
     public static final Item ITEM_DARK_TANK = null;
-    @ObjectHolder("evilcraft:dark_tank_on")
-    public static final Item ITEM_DARK_TANK_ON = null;
     @ObjectHolder("evilcraft:dark_spike")
     public static final Item ITEM_DARK_SPIKE = null;
     @ObjectHolder("evilcraft:biome_extract")

@@ -5,9 +5,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -47,6 +49,8 @@ import java.util.List;
  */
 public class BlockDarkTank extends BlockTile implements IInformationProvider, IBlockTank {
 
+	public static final String NBT_KEY_DRAINING = "draining";
+
 	public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
 
 	// Model Properties
@@ -55,14 +59,24 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
 
 	public static final VoxelShape SHAPE = Block.makeCuboidShape(0.125F * 16F, 0.001F * 16F, 0.125F * 16F, 0.875F * 16F, 0.999F * 16F, 0.875F * 16F);
 
-    private final boolean enabled;
-
-    public BlockDarkTank(Block.Properties properties, boolean enabled) {
+    public BlockDarkTank(Block.Properties properties) {
         super(properties, TileDarkTank::new);
-        this.enabled = enabled;
+
+		this.setDefaultState(this.stateContainer.getBaseState()
+				.with(DRAINING, false));
 
         MinecraftForge.EVENT_BUS.register(this);
     }
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(DRAINING);
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(DRAINING, false);
+	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -137,11 +151,14 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
 	public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
 		if(player.isCrouching()) {
             if(!world.isRemote()) {
-            	ItemStack activated;
-            	if (itemStack.getItem() == RegistryEntries.ITEM_DARK_TANK) {
-					activated = new ItemStack(RegistryEntries.ITEM_DARK_TANK_ON, itemStack.getCount());
+            	ItemStack activated = itemStack.copy();
+            	if (isActivated(itemStack, world)) {
+					activated.getOrCreateTag().remove(NBT_KEY_DRAINING);
+					if (activated.getTag().isEmpty()) {
+						activated.setTag(null);
+					}
 				} else {
-					activated = new ItemStack(RegistryEntries.ITEM_DARK_TANK, itemStack.getCount());
+					activated.getOrCreateTag().putBoolean(NBT_KEY_DRAINING, !isActivated(itemStack, world));
 				}
 				activated.setTag(itemStack.getTag());
             	return activated;
@@ -153,15 +170,11 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
 
 	@Override
 	public boolean isActivated(ItemStack itemStack, World world) {
-		return this.enabled;
+		return itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_DRAINING);
 	}
 
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> list) {
-		if (enabled) {
-			return;
-		}
-
 		ItemStack itemStack = new ItemStack(this);
 
 		int capacityOriginal = TileDarkTank.BASE_CAPACITY;

@@ -79,20 +79,6 @@ public class BlockDisplayStand extends BlockTile implements IInformationProvider
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    /*
-    @Override
-    public BlockState getExtendedState(BlockState state, IBlockAccess world, BlockPos pos) {
-        IExtendedBlockState blockState = (IExtendedBlockState) state;
-        TileDisplayStand tile = TileHelpers.getSafeTile(world, pos, TileDisplayStand.class);
-        if (tile != null) {
-            blockState = blockState.with(DIRECTION, tile.getDirection());
-            if (tile.getDisplayStandType() != null) {
-                blockState = blockState.with(TYPE, tile.getDisplayStandType());
-            }
-        }
-        return blockState;
-    }TODO: model*/
-
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return FACING_BOUNDS.get(BlockHelpers.getSafeBlockStateProperty(state, FACING, Direction.DOWN));

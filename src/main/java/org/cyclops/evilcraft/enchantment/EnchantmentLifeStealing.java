@@ -26,7 +26,7 @@ public class EnchantmentLifeStealing extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    private void stealLife(LivingAttackEvent event) {
+    public void stealLife(LivingAttackEvent event) {
         if(event.getSource().getTrueSource() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
             ItemStack itemStack = player.getHeldItemMainhand();

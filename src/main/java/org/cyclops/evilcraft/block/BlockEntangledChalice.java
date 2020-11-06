@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.block.BlockTile;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
@@ -140,10 +141,13 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 			return;
 		}
 
-		ItemStack itemStack = new ItemStack(this);
-		ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
-		fluidHandler.setTankID("creativeTank0");
-		list.add(itemStack);
+		// Can be null during startup
+		if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null) {
+			ItemStack itemStack = new ItemStack(this);
+			ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
+			fluidHandler.setTankID("creativeTank0");
+			list.add(itemStack);
+		}
 	}
 
     @Override

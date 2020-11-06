@@ -6,6 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -40,12 +43,12 @@ public class ItemBiomeExtractConfig extends ItemConfig {
                 eConfig -> new ItemBiomeExtract(new Item.Properties()
                         .group(EvilCraft._instance.getDefaultItemGroup()))
         );
+        FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }
 
     @OnlyIn(Dist.CLIENT)
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
+    @SubscribeEvent
+    public void onModLoaded(FMLLoadCompleteEvent event) {
         Minecraft.getInstance().getItemColors().register(new ItemBiomeExtract.ItemColor(), getInstance());
     }
 

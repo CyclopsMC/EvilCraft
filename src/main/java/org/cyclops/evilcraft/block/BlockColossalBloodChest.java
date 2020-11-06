@@ -3,8 +3,11 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -30,6 +33,19 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
 
     public BlockColossalBloodChest(Block.Properties properties) {
         super(properties, TileColossalBloodChest::new);
+
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(ACTIVE, false));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(ACTIVE);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(ACTIVE, false);
     }
 
     @Override

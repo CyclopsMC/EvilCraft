@@ -6,8 +6,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Items;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -33,6 +35,19 @@ public class BlockLightningBomb extends Block {
 
     public BlockLightningBomb(Block.Properties properties) {
         super(properties);
+
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(PRIMED, false));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(PRIMED);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(PRIMED, false);
     }
 
     @Override

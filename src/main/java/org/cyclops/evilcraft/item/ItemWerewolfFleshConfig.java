@@ -4,8 +4,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -26,12 +30,12 @@ public class ItemWerewolfFleshConfig extends ItemConfig {
                         .group(EvilCraft._instance.getDefaultItemGroup())
                         .maxStackSize(16), humanoid)
         );
+        FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }
 
     @OnlyIn(Dist.CLIENT)
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
+    @SubscribeEvent
+    public void onModLoaded(FMLLoadCompleteEvent event) {
         Minecraft.getInstance().getItemColors().register(new ItemWerewolfFlesh.ItemColor(), getInstance());
     }
 

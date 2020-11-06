@@ -187,7 +187,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new ParticleBloodSplashConfig());
         configHandler.addConfigurable(new ParticleColoredSmokeConfig());
         configHandler.addConfigurable(new ParticleDarkSmokeConfig());
-        configHandler.addConfigurable(new ParticleDegradationConfig());
+        configHandler.addConfigurable(new ParticleDegradeConfig());
         configHandler.addConfigurable(new ParticleDistortConfig());
         configHandler.addConfigurable(new ParticleExplosionExtendedConfig());
         configHandler.addConfigurable(new ParticleFartConfig());
@@ -229,8 +229,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new BlockDarkBrickConfig());
         configHandler.addConfigurable(new BlockDarkBloodBrickConfig());
         configHandler.addConfigurable(new BlockSpiritFurnaceConfig());
-        configHandler.addConfigurable(new BlockDarkTankConfig(false));
-        configHandler.addConfigurable(new BlockDarkTankConfig(true));
+        configHandler.addConfigurable(new BlockDarkTankConfig());
         configHandler.addConfigurable(new BlockSanguinaryPedestalConfig(0));
         configHandler.addConfigurable(new BlockSanguinaryPedestalConfig(1));
         configHandler.addConfigurable(new BlockSpikedPlateConfig());

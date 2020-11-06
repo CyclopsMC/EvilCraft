@@ -17,7 +17,7 @@ public class BlockDarkPowerGemConfig extends BlockConfig {
     public BlockDarkPowerGemConfig() {
         super(
                 EvilCraft._instance,
-            "dark_power_gem",
+            "dark_power_gem_block",
                 eConfig -> new BlockDarkPowerGem(Block.Properties.create(Material.ROCK)
                         .hardnessAndResistance(5.0F)
                         .sound(SoundType.METAL)

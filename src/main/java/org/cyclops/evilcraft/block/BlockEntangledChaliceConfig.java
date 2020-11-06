@@ -44,7 +44,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
     public void onRegistered() {
         chaliceModel = new ResourceLocation(getMod().getModId() + ":block/chalice");
         gemsModel = new ResourceLocation(getMod().getModId() + ":block/gems");
-        ModelLoader.instance().getSpecialModels().add(chaliceModel);
-        ModelLoader.instance().getSpecialModels().add(gemsModel);
+        ModelLoader.addSpecialModel(chaliceModel);
+        ModelLoader.addSpecialModel(gemsModel);
     }
 }

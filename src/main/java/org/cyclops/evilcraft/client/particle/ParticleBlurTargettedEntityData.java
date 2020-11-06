@@ -49,7 +49,7 @@ public class ParticleBlurTargettedEntityData extends ParticleBlurData {
 
     @Override
     public ParticleType<?> getType() {
-        return RegistryEntries.PARTICLE_EXPLOSION_EXTENDED;
+        return RegistryEntries.PARTICLE_BLUR_TARGETTED_ENTITY;
     }
 
     @Override

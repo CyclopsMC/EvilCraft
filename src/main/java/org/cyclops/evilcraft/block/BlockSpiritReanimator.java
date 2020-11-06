@@ -2,8 +2,10 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -29,6 +31,22 @@ public class BlockSpiritReanimator extends BlockTileGuiTank {
 
     public BlockSpiritReanimator(Block.Properties properties) {
         super(properties, TileSpiritReanimator::new);
+
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(FACING, Direction.NORTH)
+                .with(ON, false));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING, ON);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState()
+                .with(FACING, context.getPlacementHorizontalFacing().getOpposite())
+                .with(ON, false);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class EnchantmentUnusing extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    private void unusingEvent(LivingAttackEvent event) {
+    public void unusingEvent(LivingAttackEvent event) {
         if(event.getSource().getTrueSource() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
             ItemStack itemStack = entity.getHeldItemMainhand();
@@ -41,7 +41,7 @@ public class EnchantmentUnusing extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    private void unusingEvent(PlayerInteractEvent.LeftClickBlock event) {
+    public void unusingEvent(PlayerInteractEvent.LeftClickBlock event) {
         if(EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getHand()), this) > -1) {
             if(event.getPlayer() != null
                     && EnchantmentUnusing.unuseTool(event.getPlayer().getHeldItem(event.getHand()))) {

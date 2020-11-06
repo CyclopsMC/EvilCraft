@@ -29,7 +29,7 @@ public class EnchantmentBreaking extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    private void breakingEvent(LivingAttackEvent event) {
+    public void breakingEvent(LivingAttackEvent event) {
         if(event.getSource().getTrueSource() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
             ItemStack itemStack = entity.getHeldItemMainhand();
@@ -42,7 +42,7 @@ public class EnchantmentBreaking extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    private void breakingEvent(PlayerInteractEvent.LeftClickBlock event) {
+    public void breakingEvent(PlayerInteractEvent.LeftClickBlock event) {
         int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getHand()), this);
         ItemStack itemStack = event.getPlayer().getHeldItem(event.getHand());
         EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
