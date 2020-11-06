@@ -23,7 +23,7 @@ public class ContainerScreenMainMenuEvilifier {
         Random random = new Random();
         if(random.nextInt(EVIL_MAINMENU_CHANCE) == 0) {
             ObfuscationHelpers.setPanoramaResources(new RenderSkyboxCube(
-                    new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUIBACKGROUNDS + "evil_panorama.png")));
+                    new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUIBACKGROUNDS + "evil_panorama")));
         }
     }
 
