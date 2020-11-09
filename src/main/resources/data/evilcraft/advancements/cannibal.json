@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "evilcraft:werewolf_flesh",
+      "item": "evilcraft:flesh_werewolf",
       "damage": 1
     },
     "title": {
@@ -21,7 +21,7 @@
       "trigger": "minecraft:consume_item",
       "conditions": {
         "item": {
-          "item": "evilcraft:werewolf_flesh",
+          "item": "evilcraft:flesh_werewolf",
           "damage": 1
         }
       }

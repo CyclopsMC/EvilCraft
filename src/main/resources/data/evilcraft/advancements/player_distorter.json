@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:skull",
+      "item": "minecraft:player_head",
       "damage": 3
     },
     "title": {

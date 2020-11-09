@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:fireworks"
+      "item": "minecraft:firework_rocket"
     },
     "title": {
       "translate": "advancement.evilcraft.fart"
