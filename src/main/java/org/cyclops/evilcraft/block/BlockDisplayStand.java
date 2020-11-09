@@ -15,6 +15,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -58,7 +59,7 @@ public class BlockDisplayStand extends BlockTile implements IInformationProvider
 
     private static final String NBT_TYPE = "displayStandType";
 
-    public static final DirectionProperty FACING = DirectionProperty.create("facing");
+    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final BooleanProperty AXIS_X = BooleanProperty.create("axis_x");
 
     // Model Properties
@@ -77,6 +78,15 @@ public class BlockDisplayStand extends BlockTile implements IInformationProvider
     public BlockDisplayStand(Block.Properties properties) {
         super(properties, TileDisplayStand::new);
         MinecraftForge.EVENT_BUS.register(this);
+
+        this.setDefaultState(this.stateContainer.getBaseState()
+                .with(FACING, Direction.NORTH)
+                .with(AXIS_X, false));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+        builder.add(FACING, AXIS_X);
     }
 
     @Override

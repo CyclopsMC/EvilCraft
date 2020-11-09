@@ -17,12 +17,12 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class ItemPromiseAcceptorConfig extends ItemConfig {
 
-    public ItemPromiseAcceptorConfig(int color) {
+    public ItemPromiseAcceptorConfig(int colorIndex) {
         super(
                 EvilCraft._instance,
-                "promise_acceptor_" + color,
+                "promise_acceptor_" + colorIndex,
                 eConfig -> new ItemPromiseAcceptor(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()), color)
+                        .group(EvilCraft._instance.getDefaultItemGroup()), colorIndex)
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }

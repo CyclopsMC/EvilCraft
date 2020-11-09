@@ -1,7 +1,7 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/vengeance_focus"
+    "layer0": "evilcraft:item/vengeance_focus"
   },
   "overrides": [
     {

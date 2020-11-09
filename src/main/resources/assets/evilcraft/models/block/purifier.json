@@ -1,0 +1,10 @@
+{
+  "parent": "block/cauldron",
+  "textures": {
+    "particle": "evilcraft:block/purifier_side",
+    "top": "evilcraft:block/purifier_top",
+    "bottom": "evilcraft:block/purifier_bottom",
+    "side": "evilcraft:block/purifier_side",
+    "inside": "evilcraft:block/purifier_inner"
+  }
+}

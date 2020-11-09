@@ -1,7 +1,7 @@
 {
   "textures": {
-    "texture": "evilcraft:models/blood_chest",
-    "particle": "evilcraft:blocks/blood_infuser_up"
+    "texture": "evilcraft:model/blood_chest",
+    "particle": "evilcraft:block/blood_infuser_up"
   },
   "elements": [
     {

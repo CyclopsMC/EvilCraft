@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/contained_flux"
+    "layer0": "evilcraft:item/contained_flux"
   }
 }

@@ -1,11 +1,6 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
-    "primed=false": { "model": "evilcraft:lightning_bomb" },
-    "primed=true": { "model": "evilcraft:lightning_bomb" },
-    "inventory": { "model": "evilcraft:lightning_bomb" }
+    "primed=false": { "model": "evilcraft:block/lightning_bomb" },
+    "primed=true": { "model": "evilcraft:block/lightning_bomb" }
   }
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "evilcraft:block/sanguinary_pedestal_0",
+  "textures": {
+    "particle": "evilcraft:block/sanguinary_pedestal_tier1",
+    "0": "evilcraft:block/sanguinary_pedestal_tier1"
+  }
+}

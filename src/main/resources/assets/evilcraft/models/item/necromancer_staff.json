@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "evilcraft:items/necromancer_staff"
+    "layer0": "evilcraft:item/necromancer_staff"
   }
 }

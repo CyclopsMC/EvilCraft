@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "evilcraft:block/eternal_water_block",
+    "down": "evilcraft:block/eternal_water_block_bottom",
+    "up": "evilcraft:block/eternal_water_block_top"
+  }
+}

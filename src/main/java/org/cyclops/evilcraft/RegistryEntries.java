@@ -103,8 +103,6 @@ public class RegistryEntries {
     public static final Item ITEM_BURNING_GEM_STONE = null;
     @ObjectHolder("evilcraft:entangled_chalice")
     public static final Item ITEM_ENTANGLED_CHALICE = null;
-    @ObjectHolder("evilcraft:entangled_chalice_on")
-    public static final Item ITEM_ENTANGLED_CHALICE_ON = null;
     @ObjectHolder("evilcraft:exalted_crafter")
     public static final Item ITEM_EXALTED_CRAFTER = null;
     @ObjectHolder("evilcraft:exalted_crafter_wooden")
@@ -178,6 +176,8 @@ public class RegistryEntries {
     public static final Block BLOCK_EXCREMENT_PILE = null;
     @ObjectHolder("evilcraft:gem_stone_torch")
     public static final Block BLOCK_GEM_STONE_TORCH = null;
+    @ObjectHolder("evilcraft:gem_stone_torch_wall")
+    public static final Block BLOCK_GEM_STONE_TORCH_WALL = null;
     @ObjectHolder("evilcraft:hardened_blood")
     public static final Block BLOCK_HARDENED_BLOOD = null;
     @ObjectHolder("evilcraft:invisible_redstone")

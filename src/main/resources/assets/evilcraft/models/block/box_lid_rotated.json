@@ -1,8 +1,8 @@
 {
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "evilcraft:blocks/box_of_eternal_closure",
-        "particle": "evilcraft:blocks/box_of_eternal_closure"
+        "0": "evilcraft:block/box_of_eternal_closure",
+        "particle": "evilcraft:block/box_of_eternal_closure"
     },
     "elements": [
         {

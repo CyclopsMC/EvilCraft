@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "active=false": { "model": "evilcraft:block/reinforced_undead_planks_on" },
+    "active=true": { "model": "evilcraft:block/reinforced_undead_planks_off" }
+  }
+}

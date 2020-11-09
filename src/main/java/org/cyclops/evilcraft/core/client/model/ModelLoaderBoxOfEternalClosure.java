@@ -9,7 +9,7 @@ import net.minecraftforge.resource.VanillaResourceType;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
 
 /**
- * Custom model loader for the broom item.
+ * Custom model loader for the box of eternal closure.
  * @author rubensworks
  */
 public class ModelLoaderBoxOfEternalClosure implements IModelLoader<ModelBoxOfEternalClosure> {
@@ -26,6 +26,7 @@ public class ModelLoaderBoxOfEternalClosure implements IModelLoader<ModelBoxOfEt
 
     @Override
     public ModelBoxOfEternalClosure read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
+        // TODO: rm?
         // modelContents.remove("loader");
         // BlockModel modelBlock = deserializationContext.deserialize(modelContents, BlockModel.class);
         ModelBoxOfEternalClosure model = new ModelBoxOfEternalClosure();

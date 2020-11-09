@@ -23,7 +23,7 @@ import org.cyclops.evilcraft.tileentity.TileBloodChest;
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RenderTileEntityBloodChest extends RenderTileEntityChestBase<TileBloodChest> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "blood_chest.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "model/blood_chest");
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {

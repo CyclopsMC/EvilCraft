@@ -534,7 +534,10 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             @Nullable
             @Override
             public Boolean apply(@Nullable Boolean input, World world, BlockPos blockPos) {
-                return (input == null ||input) && world.getBlockState(blockPos).getBlock() != RegistryEntries.BLOCK_GEM_STONE_TORCH;
+                // TODO: use block tags
+                return (input == null ||input)
+                        && world.getBlockState(blockPos).getBlock() != RegistryEntries.BLOCK_GEM_STONE_TORCH
+                        && world.getBlockState(blockPos).getBlock() != RegistryEntries.BLOCK_GEM_STONE_TORCH_WALL;
             }
 
         }, true);

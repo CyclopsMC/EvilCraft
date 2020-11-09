@@ -1,9 +1,9 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "evilcraft:blocks/blood_infuser_side",
-    "up": "evilcraft:blocks/blood_infuser_up",
-    "down": "evilcraft:blocks/blood_infuser_up",
-    "north": "evilcraft:blocks/blood_infuser_north_off"
+    "all": "evilcraft:block/blood_infuser_side",
+    "up": "evilcraft:block/blood_infuser_up",
+    "down": "evilcraft:block/blood_infuser_up",
+    "north": "evilcraft:block/blood_infuser_north_off"
   }
 }

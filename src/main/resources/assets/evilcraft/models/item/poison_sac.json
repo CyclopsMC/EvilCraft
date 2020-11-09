@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/poison_sac"
+    "layer0": "evilcraft:item/poison_sac"
   }
 }

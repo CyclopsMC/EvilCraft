@@ -1,10 +1,5 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
-    "normal": { "model": "evilcraft:entangled_chalice" },
-    "inventory": { "model": "evilcraft:entangled_chalice" }
+    "": { "model": "evilcraft:block/entangled_chalice" }
   }
 }

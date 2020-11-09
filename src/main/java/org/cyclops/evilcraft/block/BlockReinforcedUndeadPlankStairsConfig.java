@@ -19,7 +19,7 @@ public class BlockReinforcedUndeadPlankStairsConfig extends BlockConfig {
     public BlockReinforcedUndeadPlankStairsConfig() {
         super(
                 EvilCraft._instance,
-                "reinforced_undead_plank_stairs",
+                "reinforced_undead_planks_stairs",
                 eConfig -> new StairsBlock(() -> RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANK.getDefaultState(),
                         Block.Properties.create(Material.ROCK)
                                 .hardnessAndResistance(1.5F)

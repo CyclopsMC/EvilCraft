@@ -1,10 +1,8 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
-    "normal": { "model": "evilcraft:box_of_eternal_closure" },
-    "inventory": { "model": "evilcraft:models/item/box_of_eternal_closure" }
+    "facing=east": { "model": "evilcraft:block/box_of_eternal_closure" },
+    "facing=south": { "model": "evilcraft:block/box_of_eternal_closure", "y": 90 },
+    "facing=west": { "model": "evilcraft:block/box_of_eternal_closure", "y": 180 },
+    "facing=north": { "model": "evilcraft:block/box_of_eternal_closure", "y": 270 }
   }
 }

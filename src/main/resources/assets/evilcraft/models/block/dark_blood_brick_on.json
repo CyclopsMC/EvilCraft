@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "evilcraft:blocks/dark_blood_brick_on"
+    "all": "evilcraft:block/dark_blood_brick_on"
   }
 }

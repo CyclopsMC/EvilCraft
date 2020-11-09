@@ -1,6 +1,6 @@
 {
   "parent": "block/torch_wall",
   "textures": {
-    "torch": "evilcraft:blocks/gem_stone_torch"
+    "torch": "evilcraft:block/gem_stone_torch"
   }
 }

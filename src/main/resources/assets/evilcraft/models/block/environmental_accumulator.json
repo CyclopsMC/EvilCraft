@@ -1,10 +1,10 @@
 {
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "particle": "evilcraft:blocks/environmental_accumulator_side",
-        "0": "evilcraft:blocks/environmental_accumulator_side",
-        "1": "evilcraft:blocks/environmental_accumulator_bottom",
-        "2": "evilcraft:blocks/environmental_accumulator_top"
+        "particle": "evilcraft:block/environmental_accumulator_side",
+        "0": "evilcraft:block/environmental_accumulator_side",
+        "1": "evilcraft:block/environmental_accumulator_bottom",
+        "2": "evilcraft:block/environmental_accumulator_top"
     },
     "elements": [
         {
@@ -30,7 +30,7 @@
                 "south": { "texture": "#1", "uv": [ 0.0, 0.0, 16.0, 2.0 ] },
                 "west": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 2.0 ] },
                 "up": { "texture": "#2", "uv": [ 0.0, 0.0, 16.0, 5.0 ] },
-                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 16.0, 6.0 ] }
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 6.0 ] }
             }
         },
         {
@@ -43,7 +43,7 @@
                 "south": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 2.0 ] },
                 "west": { "texture": "#0", "uv": [ 10.0, 0.0, 16.0, 2.0 ] },
                 "up": { "texture": "#2", "uv": [ 0.0, 11.0, 16.0, 16.0 ] },
-                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 16.0, 6.0 ] }
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 16.0, 6.0 ] }
             }
         },
         {
@@ -51,12 +51,12 @@
             "from": [ 0.0, 14.0, 5.0 ], 
             "to": [ 5.0, 16.0, 10.0 ], 
             "faces": {
-                "north": { "texture": "#-1", "uv": [ 0.0, 0.0, 5.0, 2.0 ] },
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 2.0 ] },
                 "east": { "texture": "#1", "uv": [ 5.0, 0.0, 10.0, 2.0 ] },
-                "south": { "texture": "#-1", "uv": [ 0.0, 0.0, 5.0, 2.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 2.0 ] },
                 "west": { "texture": "#0", "uv": [ 5.0, 0.0, 10.0, 2.0 ] },
                 "up": { "texture": "#2", "uv": [ 0.0, 5.0, 5.0, 10.0 ] },
-                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 5.0, 5.0 ] }
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 5.0 ] }
             }
         },
         {
@@ -64,12 +64,12 @@
             "from": [ 11.0, 14.0, 5.0 ], 
             "to": [ 16.0, 16.0, 10.0 ], 
             "faces": {
-                "north": { "texture": "#-1", "uv": [ 0.0, 0.0, 5.0, 2.0 ] },
+                "north": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 2.0 ] },
                 "east": { "texture": "#0", "uv": [ 6.0, 0.0, 11.0, 2.0 ] },
-                "south": { "texture": "#-1", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
+                "south": { "texture": "#0", "uv": [ 0.0, 0.0, 4.0, 1.0 ] },
                 "west": { "texture": "#1", "uv": [ 5.0, 0.0, 10.0, 2.0 ] },
                 "up": { "texture": "#2", "uv": [ 11.0, 5.0, 16.0, 10.0 ] },
-                "down": { "texture": "#-1", "uv": [ 0.0, 0.0, 5.0, 5.0 ] }
+                "down": { "texture": "#0", "uv": [ 0.0, 0.0, 5.0, 5.0 ] }
             }
         }
     ]

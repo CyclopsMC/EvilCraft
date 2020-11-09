@@ -1,7 +1,7 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/weather_container_overlay",
-    "layer1": "evilcraft:items/weather_container"
+    "layer0": "evilcraft:item/weather_container_overlay",
+    "layer1": "evilcraft:item/weather_container"
   }
 }

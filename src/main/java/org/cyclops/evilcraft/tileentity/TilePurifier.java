@@ -187,12 +187,6 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         return MAX_BUCKETS;
     }
     
-    @Override
-    protected void onSendUpdate() {
-        super.onSendUpdate();
-        world.setBlockState(getPos(), getBlockState().getBlock().getDefaultState().with(BlockPurifier.FILL, getBucketsFloored()), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-    }
-    
     private void updateAdditionalItem() {
         this.additionalRotationPrev = this.additionalRotation2;
         

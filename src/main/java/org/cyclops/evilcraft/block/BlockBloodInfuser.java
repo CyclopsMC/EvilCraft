@@ -35,17 +35,20 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
         super(properties, TileBloodInfuser::new);
 
         this.setDefaultState(this.stateContainer.getBaseState()
-                .with(FACING, Direction.NORTH));
+                .with(FACING, Direction.NORTH)
+                .with(ON, false));
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, ON);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+        return this.getDefaultState()
+                .with(FACING, context.getPlacementHorizontalFacing().getOpposite())
+                .with(ON, false);
     }
 
     @Override
@@ -67,16 +70,4 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
                 .map(tile -> tile.isVisuallyWorking() ? 4 : super.getLightValue(state, world, pos))
                 .orElse(0);
     }
-
-    /*
-    @Override
-    public Class<? extends Container> getContainer() {
-        return ContainerBloodInfuser.class;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Class<? extends Screen> getGui() {
-        return GuiBloodInfuser.class;
-    }*/ // TODO
 }

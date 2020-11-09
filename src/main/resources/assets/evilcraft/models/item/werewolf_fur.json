@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/werewolf_fur"
+    "layer0": "evilcraft:item/werewolf_fur"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "evilcraft:block/sanguinary_environmental_accumulator_off",
   "textures": {
-    "up": "evilcraft:blocks/sanguinary_environmental_accumulator_up_on"
+    "up": "evilcraft:block/sanguinary_environmental_accumulator_up_on"
   }
 }

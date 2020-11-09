@@ -20,7 +20,7 @@ public class BlockUndeadPlankStairsConfig extends BlockConfig {
     public BlockUndeadPlankStairsConfig() {
         super(
                 EvilCraft._instance,
-                "undead_plank_stairs",
+                "undead_planks_stairs",
                 eConfig -> new StairsBlock(() -> RegistryEntries.BLOCK_DARK_BLOOD_BRICK.getDefaultState(),
                         Block.Properties.create(Material.WOOD)
                                 .hardnessAndResistance(2.0F)

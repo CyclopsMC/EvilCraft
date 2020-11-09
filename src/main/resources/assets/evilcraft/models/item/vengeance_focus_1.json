@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/vengeance_focus_1"
+    "layer0": "evilcraft:item/vengeance_focus_1"
   }
 }

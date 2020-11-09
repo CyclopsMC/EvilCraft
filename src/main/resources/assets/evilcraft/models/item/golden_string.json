@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/golden_string"
+    "layer0": "evilcraft:item/golden_string"
   }
 }

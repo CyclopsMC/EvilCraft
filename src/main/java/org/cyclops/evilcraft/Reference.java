@@ -19,12 +19,12 @@ public class Reference {
     
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
-    public static final String TEXTURE_PATH_SKINS = "textures/skins/";
-    public static final String TEXTURE_PATH_MODELS = "textures/models/";
-    public static final String TEXTURE_PATH_ENTITIES = "textures/entities/";
+    public static final String TEXTURE_PATH_SKINS = "textures/skin/";
+    public static final String TEXTURE_PATH_MODELS = "textures/model/";
+    public static final String TEXTURE_PATH_ENTITIES = "textures/entity/";
     public static final String TEXTURE_PATH_GUIBACKGROUNDS = "textures/gui/title/background/";
-    public static final String TEXTURE_PATH_ITEMS = "textures/items/";
-    public static final String TEXTURE_PATH_PARTICLES = "textures/particles/";
+    public static final String TEXTURE_PATH_ITEMS = "textures/item/";
+    public static final String TEXTURE_PATH_PARTICLES = "textures/particle/";
     public static final String MODEL_PATH = "models/";
     
     // MOD ID's

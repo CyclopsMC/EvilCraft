@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/darkened_apple"
+    "layer0": "evilcraft:item/darkened_apple"
   }
 }

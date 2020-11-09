@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/biome_extract"
+    "layer0": "evilcraft:item/biome_extract"
   }
 }

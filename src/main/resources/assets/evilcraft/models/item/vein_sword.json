@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "evilcraft:items/vein_sword"
+    "layer0": "evilcraft:item/vein_sword"
   }
 }

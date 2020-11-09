@@ -50,7 +50,6 @@ import java.util.List;
 public class BlockDarkTank extends BlockTile implements IInformationProvider, IBlockTank {
 
 	public static final String NBT_KEY_DRAINING = "draining";
-
 	public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
 
 	// Model Properties

@@ -1,17 +1,12 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
-    "layers=1" :  { "model": "evilcraft:excrement_pile_height2" },
-    "layers=2" :  { "model": "evilcraft:excrement_pile_height4" },
-    "layers=3" :  { "model": "evilcraft:excrement_pile_height6" },
-    "layers=4" :  { "model": "evilcraft:excrement_pile_height8" },
-    "layers=5" :  { "model": "evilcraft:excrement_pile_height10" },
-    "layers=6" :  { "model": "evilcraft:excrement_pile_height12" },
-    "layers=7" :  { "model": "evilcraft:excrement_pile_height14" },
-    "layers=8" :  { "model": "evilcraft:excrement_pile" },
-    "inventory":  { "model": "evilcraft:excrement_pile_height2" }
+    "layers=1" :  { "model": "evilcraft:block/excrement_pile_height2" },
+    "layers=2" :  { "model": "evilcraft:block/excrement_pile_height4" },
+    "layers=3" :  { "model": "evilcraft:block/excrement_pile_height6" },
+    "layers=4" :  { "model": "evilcraft:block/excrement_pile_height8" },
+    "layers=5" :  { "model": "evilcraft:block/excrement_pile_height10" },
+    "layers=6" :  { "model": "evilcraft:block/excrement_pile_height12" },
+    "layers=7" :  { "model": "evilcraft:block/excrement_pile_height14" },
+    "layers=8" :  { "model": "evilcraft:block/excrement_pile" }
   }
 }

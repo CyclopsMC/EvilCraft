@@ -1,3 +1,4 @@
 {
+  "loader": "evilcraft:broom",
   "parent": "block/cube_all"
 }

@@ -1,8 +1,8 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "down": "evilcraft:blocks/lightning_bomb_bottom",
-    "all": "evilcraft:blocks/lightning_bomb_side",
-    "up": "evilcraft:blocks/lightning_bomb_top"
+    "down": "evilcraft:block/lightning_bomb_bottom",
+    "all": "evilcraft:block/lightning_bomb_side",
+    "up": "evilcraft:block/lightning_bomb_top"
   }
 }

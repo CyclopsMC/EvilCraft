@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "evilcraft:items/vengeance_pickaxe"
+    "layer0": "evilcraft:item/vengeance_pickaxe"
   }
 }

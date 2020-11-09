@@ -1,9 +1,9 @@
 {
   "parent": "evilcraft:block/dark_tank_off",
   "textures": {
-    "particle": "evilcraft:blocks/dark_tank_side_on",
-    "side"    : "evilcraft:blocks/dark_tank_side_on",
-    "up"      : "evilcraft:blocks/dark_tank_up_on",
-    "down"    : "evilcraft:blocks/dark_tank_up_on"
+    "particle": "evilcraft:block/dark_tank_side_on",
+    "side"    : "evilcraft:block/dark_tank_side_on",
+    "up"      : "evilcraft:block/dark_tank_up_on",
+    "down"    : "evilcraft:block/dark_tank_up_on"
   }
 }

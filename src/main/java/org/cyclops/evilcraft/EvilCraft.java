@@ -234,10 +234,10 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new BlockSanguinaryPedestalConfig(1));
         configHandler.addConfigurable(new BlockSpikedPlateConfig());
         configHandler.addConfigurable(new BlockSpiritReanimatorConfig());
-        configHandler.addConfigurable(new BlockEntangledChaliceConfig(false));
-        configHandler.addConfigurable(new BlockEntangledChaliceConfig(true));
+        configHandler.addConfigurable(new BlockEntangledChaliceConfig());
         configHandler.addConfigurable(new BlockDarkPowerGemConfig());
         configHandler.addConfigurable(new BlockGemStoneTorchConfig());
+        configHandler.addConfigurable(new BlockGemStoneTorchWallConfig());
         configHandler.addConfigurable(new BlockEternalWaterConfig());
         configHandler.addConfigurable(new BlockBloodWaxedCoalConfig());
         configHandler.addConfigurable(new BlockSpiritPortalConfig());
@@ -294,8 +294,8 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         for (Upgrades.Upgrade upgrade : Upgrades.getUpgrades()) {
             configHandler.addConfigurable(new ItemPromiseConfig(upgrade));
         }
-        for (int color : ItemPromiseAcceptor.COLORS) {
-            configHandler.addConfigurable(new ItemPromiseAcceptorConfig(color));
+        for (int i = 0; i < ItemPromiseAcceptor.COLORS.size(); i++) {
+            configHandler.addConfigurable(new ItemPromiseAcceptorConfig(i));
         }
         for (ItemBowlOfPromises.Type type : ItemBowlOfPromises.Type.values()) {
             configHandler.addConfigurable(new ItemBowlOfPromisesConfig(type));

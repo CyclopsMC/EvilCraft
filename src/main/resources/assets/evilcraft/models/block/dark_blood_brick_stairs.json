@@ -1,0 +1,8 @@
+{
+  "parent": "block/stairs",
+  "textures": {
+    "bottom": "evilcraft:block/dark_blood_brick_off",
+    "top": "evilcraft:block/dark_blood_brick_off",
+    "side": "evilcraft:block/dark_blood_brick_off"
+  }
+}

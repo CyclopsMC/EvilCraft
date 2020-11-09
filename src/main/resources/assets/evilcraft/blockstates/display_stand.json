@@ -1,25 +1,16 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block",
-    "model": "evilcraft:display_stand"
-  },
   "variants": {
-    "normal": [{}],
-    "inventory": [{
-      "y": 0
-    }],
-    "facing": {
-      "north": {"x": 270},
-      "south": {"x": 90},
-      "west" : {"y": 90, "x": 90},
-      "east" : {"y": 90, "x": 270},
-      "up"   : {"x": 180},
-      "down" : {}
-    },
-    "axis_x": {
-      "true" : {},
-      "false": {"model": "evilcraft:display_stand_rotated"}
-    }
+    "axis_x=true,facing=south": { "model": "evilcraft:block/display_stand", "x": 90 },
+    "axis_x=true,facing=west" : { "model": "evilcraft:block/display_stand", "y": 90, "x": 90 },
+    "axis_x=true,facing=north": { "model": "evilcraft:block/display_stand", "x": 270 },
+    "axis_x=true,facing=east" : { "model": "evilcraft:block/display_stand", "y": 90, "x": 270 },
+    "axis_x=true,facing=up"   : { "model": "evilcraft:block/display_stand", "x": 180 },
+    "axis_x=true,facing=down" : { "model": "evilcraft:block/display_stand" },
+    "axis_x=false,facing=south": { "model": "evilcraft:block/display_stand_rotated", "x": 90 },
+    "axis_x=false,facing=west" : { "model": "evilcraft:block/display_stand_rotated", "y": 90, "x": 90 },
+    "axis_x=false,facing=north": { "model": "evilcraft:block/display_stand_rotated", "x": 270 },
+    "axis_x=false,facing=east" : { "model": "evilcraft:block/display_stand_rotated", "y": 90, "x": 270 },
+    "axis_x=false,facing=up"   : { "model": "evilcraft:block/display_stand_rotated", "x": 180 },
+    "axis_x=false,facing=down" : { "model": "evilcraft:block/display_stand_rotated" }
   }
 }

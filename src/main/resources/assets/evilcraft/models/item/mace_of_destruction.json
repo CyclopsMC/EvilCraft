@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "evilcraft:items/mace_of_destruction"
+    "layer0": "evilcraft:item/mace_of_destruction"
   }
 }

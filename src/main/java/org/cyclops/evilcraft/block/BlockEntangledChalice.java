@@ -4,9 +4,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -29,7 +32,6 @@ import org.cyclops.cyclopscore.block.BlockTile;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
-import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
@@ -46,18 +48,31 @@ import java.util.List;
  */
 public class BlockEntangledChalice extends BlockTile implements IInformationProvider, IBlockTank, IBlockRarityProvider {
 
+	public static final String NBT_KEY_DRAINING = "draining";
+	public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
+
 	// Model Properties
 	public static final ModelProperty<String> TANK_ID = new ModelProperty<>();
 	public static final ModelProperty<FluidStack> TANK_FLUID = new ModelProperty<>();
 
 	public static final VoxelShape SHAPE = Block.makeCuboidShape(0.125F * 16F, 0F, 0.125F * 16F, 0.875F * 16F, 1.0F * 16F, 0.875F * 16F);
 
-	private final boolean enabled;
-
-    public BlockEntangledChalice(Block.Properties properties, boolean enabled) {
+    public BlockEntangledChalice(Block.Properties properties) {
         super(properties, TileEntangledChalice::new);
-        this.enabled = enabled;
+
+		this.setDefaultState(this.stateContainer.getBaseState()
+				.with(DRAINING, false));
     }
+
+	@Override
+	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(DRAINING);
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(DRAINING, false);
+	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -104,11 +119,14 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
 		if(player.isCrouching()) {
             if(!world.isRemote()) {
-				ItemStack activated;
-				if (itemStack.getItem() == RegistryEntries.ITEM_ENTANGLED_CHALICE) {
-					activated = new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE_ON, itemStack.getCount());
+				ItemStack activated = itemStack.copy();
+				if (isActivated(itemStack, world)) {
+					activated.getOrCreateTag().remove(NBT_KEY_DRAINING);
+					if (activated.getTag().isEmpty()) {
+						activated.setTag(null);
+					}
 				} else {
-					activated = new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE, itemStack.getCount());
+					activated.getOrCreateTag().putBoolean(NBT_KEY_DRAINING, !isActivated(itemStack, world));
 				}
 				activated.setTag(itemStack.getTag());
 				return activated;
@@ -120,7 +138,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 
 	@Override
 	public boolean isActivated(ItemStack itemStack, World world) {
-		return enabled;
+		return itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_DRAINING);
 	}
 
 	@Override
@@ -137,10 +155,6 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 
 	@Override
 	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> list) {
-		if (enabled) {
-			return;
-		}
-
 		// Can be null during startup
 		if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null) {
 			ItemStack itemStack = new ItemStack(this);

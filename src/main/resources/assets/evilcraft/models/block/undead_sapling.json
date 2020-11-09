@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "evilcraft:blocks/undead_sapling"
+    "cross": "evilcraft:block/undead_sapling"
   }
 }

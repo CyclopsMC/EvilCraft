@@ -1,6 +1,6 @@
 {
   "parent": "cyclopscore:item/flat",
   "textures": {
-    "layer0": "evilcraft:items/potentia_sphere"
+    "layer0": "evilcraft:item/potentia_sphere"
   }
 }

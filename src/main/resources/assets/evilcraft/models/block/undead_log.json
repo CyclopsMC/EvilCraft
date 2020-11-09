@@ -1,7 +1,7 @@
 {
   "parent": "block/cube_column",
   "textures": {
-    "end": "evilcraft:blocks/undead_log_top",
-    "side": "evilcraft:blocks/undead_log"
+    "end": "evilcraft:block/undead_log_top",
+    "side": "evilcraft:block/undead_log"
   }
 }

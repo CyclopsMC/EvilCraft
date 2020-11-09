@@ -1,11 +1,6 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
-    "active=false": { "model": "evilcraft:spirit_furnace_off" },
-    "active=true": { "model": "evilcraft:spirit_furnace_on" },
-    "inventory": { "model": "evilcraft:spirit_furnace_off" }
+    "active=false": { "model": "evilcraft:block/spirit_furnace_off" },
+    "active=true": { "model": "evilcraft:block/spirit_furnace_on" }
   }
 }

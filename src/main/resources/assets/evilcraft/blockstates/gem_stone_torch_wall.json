@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east": { "model": "evilcraft:block/gem_stone_torch_wall" },
+    "facing=south": { "model": "evilcraft:block/gem_stone_torch_wall", "y": 90 },
+    "facing=west": { "model": "evilcraft:block/gem_stone_torch_wall", "y": 180 },
+    "facing=north": { "model": "evilcraft:block/gem_stone_torch_wall", "y": 270 }
+  }
+}

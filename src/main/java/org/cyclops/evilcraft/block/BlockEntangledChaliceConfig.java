@@ -28,11 +28,11 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
     @ConfigurableProperty(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.tab.", requiresMcRestart = true)
     public static boolean staticBlockRendering = false;
 
-    public BlockEntangledChaliceConfig(boolean enabled) {
+    public BlockEntangledChaliceConfig() {
         super(
                 EvilCraft._instance,
-            "entangled_chalice" + (enabled ? "" : "_on"),
-                eConfig -> new BlockEntangledChalice(Block.Properties.create(Material.IRON), enabled),
+                "entangled_chalice",
+                eConfig -> new BlockEntangledChalice(Block.Properties.create(Material.IRON)),
                 (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
                         .group(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> () -> new RenderItemStackTileEntityEntangledChalice()))

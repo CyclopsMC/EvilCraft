@@ -32,7 +32,6 @@ import org.cyclops.evilcraft.tileentity.TilePurifier;
  */
 public class BlockPurifier extends BlockTile {
 
-    public static final IntegerProperty FILL = IntegerProperty.create("fill", 0, 3);
     private static final VoxelShape INSIDE = makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
     protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
             VoxelShapes.fullCube(),
@@ -45,19 +44,6 @@ public class BlockPurifier extends BlockTile {
 
     public BlockPurifier(Block.Properties properties) {
         super(properties, TilePurifier::new);
-
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(FILL, 0));
-    }
-
-    @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FILL);
-    }
-
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FILL, 0);
     }
 
     @Override
@@ -127,7 +113,8 @@ public class BlockPurifier extends BlockTile {
 
     @Override
     public int getComparatorInputOverride(BlockState blockState, World world, BlockPos blockPos) {
-        return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), FILL, 3);
+        // TODO
+        return 0;
     }
 
 }

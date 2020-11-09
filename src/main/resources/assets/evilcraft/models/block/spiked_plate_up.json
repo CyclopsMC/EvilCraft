@@ -1,6 +1,6 @@
 {
   "parent": "block/pressure_plate_up",
   "textures": {
-    "texture": "evilcraft:blocks/spiked_plate"
+    "texture": "evilcraft:block/spiked_plate"
   }
 }

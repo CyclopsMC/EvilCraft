@@ -1,7 +1,7 @@
 {
   "parent": "cyclopscore:block/cube_double_layer_all",
   "textures": {
-    "all0": "blocks/stone",
-    "all1": "evilcraft:blocks/dark_ore"
+    "all0": "block/stone",
+    "all1": "evilcraft:block/dark_ore"
   }
 }

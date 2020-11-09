@@ -24,11 +24,11 @@ public class ItemPromiseAcceptor extends Item {
             Helpers.RGBToInt(150, 250, 200)
     );
 
-    private final int color;
+    private final int colorIndex;
 
-    public ItemPromiseAcceptor(Properties properties, int color) {
+    public ItemPromiseAcceptor(Properties properties, int colorIndex) {
         super(properties);
-        this.color = color;
+        this.colorIndex = colorIndex;
     }
 
     @Override
@@ -37,15 +37,15 @@ public class ItemPromiseAcceptor extends Item {
         return true;
     }
 
-    public int getColor() {
-        return this.color;
+    public int getColorIndex() {
+        return this.colorIndex;
     }
 
     @OnlyIn(Dist.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
-            return COLORS.get(((ItemPromiseAcceptor) itemStack.getItem()).getColor());
+            return COLORS.get(((ItemPromiseAcceptor) itemStack.getItem()).getColorIndex());
         }
     }
 

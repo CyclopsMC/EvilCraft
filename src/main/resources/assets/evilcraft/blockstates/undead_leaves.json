@@ -1,10 +1,5 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block"
-  },
   "variants": {
-    "normal": { "model": "evilcraft:undead_leaves" },
-    "inventory": { "model": "evilcraft:undead_leaves" }
+    "": { "model": "evilcraft:block/undead_leaves" }
   }
 }

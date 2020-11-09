@@ -1,0 +1,4 @@
+{
+    "loader": "evilcraft:entangled_chalice",
+    "parent": "block/block"
+}
