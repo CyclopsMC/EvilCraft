@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CIC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "tag": "forge:cobblestone"
+    },
+    "I": {
+      "item": "evilcraft:blood_infusion_core"
+    }
+  },
+  "result": {
+    "item": "evilcraft:blood_infuser"
+  }
+}

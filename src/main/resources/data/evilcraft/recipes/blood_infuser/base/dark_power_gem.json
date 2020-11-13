@@ -1,0 +1,13 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "evilcraft:dark_gem",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 250
+  },
+  "result": {
+    "item": "evilcraft:dark_power_gem"
+  },
+  "duration": 200,
+  "xp": 0.5
+}

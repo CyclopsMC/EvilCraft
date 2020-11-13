@@ -105,18 +105,8 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 
     public TileBloodInfuser() {
         super(RegistryEntries.TILE_ENTITY_BLOOD_INFUSER, SLOTS, 64, LIQUID_PER_SLOT, RegistryEntries.FLUID_BLOOD);
-        infuseTicker = addTicker(
-                new TickComponent<
-                    TileBloodInfuser,
-                    ITickAction<TileBloodInfuser>
-                >(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE)
-                );
-        addTicker(
-                new TickComponent<
-                    TileBloodInfuser,
-                    ITickAction<TileBloodInfuser>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
-                );
+        infuseTicker = addTicker(new TickComponent<>(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE));
+        addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
         assert getTickers().size() == TICKERS;
 
         // Upgrade behaviour
@@ -152,6 +142,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 new SingleCache.ICacheUpdater<Triple<ItemStack, Integer, Integer>, Optional<RecipeBloodInfuser>>() {
                     @Override
                     public Optional<RecipeBloodInfuser> getNewValue(Triple<ItemStack, Integer, Integer> key) {
+                        // TODO: make sure we always pick the highest tier when there are multiple matches
                         IInventoryFluidTier recipeInput = new InventoryFluidTier(
                                 NonNullList.from(ItemStack.EMPTY, key.getLeft()),
                                 NonNullList.from(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, key.getMiddle())),

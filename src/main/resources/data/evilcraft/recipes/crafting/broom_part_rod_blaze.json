@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:blaze_rod"
+    },
+    {
+      "item": "evilcraft:broom_part",
+      "nbt": {
+        "broom_parts_tag": [
+          "evilcraft:rod_bare"
+        ]
+      }
+    },
+    {
+      "item": "minecraft:blaze_rod"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:broom_part",
+    "nbt": {
+      "broom_parts_tag": [
+        "evilcraft:rod_blaze"
+      ]
+    }
+  }
+}

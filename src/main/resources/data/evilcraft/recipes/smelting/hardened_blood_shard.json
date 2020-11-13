@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "evilcraft:hardened_blood"
+  },
+  "result": {
+    "item": "evilcraft:hardened_blood_shard",
+    "count": 9
+  },
+  "experience": 20,
+  "cookingtime": 200
+}

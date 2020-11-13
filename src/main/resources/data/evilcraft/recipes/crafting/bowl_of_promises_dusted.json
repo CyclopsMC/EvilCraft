@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "evilcraft:bowl_of_promises_empty"
+    },
+    {
+      "item": "evilcraft:dark_gem_crushed"
+    },
+    {
+      "item": "evilcraft:dark_gem_crushed"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:bowl_of_promises_dusted"
+  }
+}

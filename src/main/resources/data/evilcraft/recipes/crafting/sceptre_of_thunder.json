@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " DO",
+    " BD",
+    "B  "
+  ],
+  "key": {
+    "D": {
+      "item": "evilcraft:dark_gem"
+    },
+    "O": {
+      "item": "evilcraft:blood_orb_filled"
+    },
+    "B": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "evilcraft:sceptre_of_thunder"
+  }
+}

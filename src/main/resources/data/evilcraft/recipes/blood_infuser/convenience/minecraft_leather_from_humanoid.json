@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "evilcraft:flesh_humanoid",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 375
+  },
+  "result": {
+    "item": "minecraft:leather"
+  },
+  "duration": 200,
+  "xp": 0.25,
+  "tier": 1
+}

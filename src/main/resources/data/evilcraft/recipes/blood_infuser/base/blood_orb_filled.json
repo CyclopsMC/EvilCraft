@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "evilcraft:blood_orb_empty",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 10000
+  },
+  "result": {
+    "item": "evilcraft:blood_orb_filled"
+  },
+  "duration": 3000,
+  "xp": 2.2,
+  "tier": 1
+}

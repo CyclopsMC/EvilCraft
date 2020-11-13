@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:dark_stick"
+    },
+    "C": {
+      "item": "evilcraft:dark_gem_crushed"
+    }
+  },
+  "result": {
+    "item": "evilcraft:broom_part",
+    "nbt": {
+      "broom_parts_tag": [
+        "evilcraft:brush_bare"
+      ]
+    }
+  }
+}

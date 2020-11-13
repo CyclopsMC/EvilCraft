@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "minecraft:leaves"
+    },
+    {
+      "item": "evilcraft:broom_part",
+      "nbt": {
+        "broom_parts_tag": [
+          "evilcraft:brush_bare"
+        ]
+      }
+    },
+    {
+      "tag": "minecraft:leaves"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:broom_part",
+    "nbt": {
+      "broom_parts_tag": [
+        "evilcraft:brush_sleaves"
+      ]
+    }
+  }
+}

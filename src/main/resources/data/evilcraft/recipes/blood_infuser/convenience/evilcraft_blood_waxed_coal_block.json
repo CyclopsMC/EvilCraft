@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:coal_block",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 3375
+  },
+  "result": {
+    "item": "evilcraft:blood_waxed_coal_block"
+  },
+  "duration": 900,
+  "xp": 2,
+  "tier": 1
+}

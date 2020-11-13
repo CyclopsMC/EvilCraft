@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:wheat_seeds",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 5000
+  },
+  "result": {
+    "item": "minecraft:nether_wart"
+  },
+  "duration": 1000,
+  "xp": 0.1,
+  "tier": 3
+}

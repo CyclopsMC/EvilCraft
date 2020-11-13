@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CEC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "evilcraft:dark_gem_crushed"
+    },
+    "E": {
+      "item": "evilcraft:vengeance_essence"
+    }
+  },
+  "result": {
+    "item": "evilcraft:vengeance_essence_materialized"
+  }
+}

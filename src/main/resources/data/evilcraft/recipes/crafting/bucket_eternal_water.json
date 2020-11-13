@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GWG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_gem"
+    },
+    "W": {
+      "item": "evilcraft:weather_container",
+      "nbt": {
+        "weather": "RAIN"
+      }
+    }
+  },
+  "result": {
+    "item": "evilcraft:bucket_eternal_water",
+    "count": 4
+  }
+}

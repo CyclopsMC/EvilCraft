@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "SGS",
+    "CIC"
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:golden_string"
+    },
+    "G": {
+      "item": "evilcraft:garmonbozia"
+    },
+    "C": {
+      "item": "evilcraft:dark_gem_crushed"
+    },
+    "I": {
+      "item": "evilcraft:blood_infusion_core"
+    }
+  },
+  "result": {
+    "item": "evilcraft:primed_pendant"
+  }
+}

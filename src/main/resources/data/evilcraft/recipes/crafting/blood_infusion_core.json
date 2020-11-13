@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SGS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:hardened_blood_shard"
+    },
+    "G": {
+      "item": "evilcraft:dark_power_gem"
+    }
+  },
+  "result": {
+    "item": "evilcraft:blood_infusion_core"
+  }
+}

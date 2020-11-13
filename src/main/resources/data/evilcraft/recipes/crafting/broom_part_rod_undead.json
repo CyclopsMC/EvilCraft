@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "evilcraft:undead_planks"
+    },
+    {
+      "item": "evilcraft:broom_part",
+      "nbt": {
+        "broom_parts_tag": [
+          "evilcraft:rod_bare"
+        ]
+      }
+    },
+    {
+      "item": "evilcraft:undead_planks"
+    },
+    {
+      "item": "evilcraft:undead_planks"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:broom_part",
+    "nbt": {
+      "broom_parts_tag": [
+        "evilcraft:rod_undead"
+      ]
+    }
+  }
+}

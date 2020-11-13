@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:dirt",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 350
+  },
+  "result": {
+    "item": "minecraft:grass"
+  },
+  "duration": 300,
+  "xp": 0.1,
+  "tier": 1
+}

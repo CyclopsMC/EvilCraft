@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:crops/potato"
+    },
+    {
+      "item": "evilcraft:bucket_poison"
+    }
+  ],
+  "result": {
+    "item": "minecraft:poisonous_potato"
+  }
+}

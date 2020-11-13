@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "evilcraft:ender_tear",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 3500
+  },
+  "result": {
+    "item": "minecraft:ghast_tear"
+  },
+  "duration": 500,
+  "xp": 1.5,
+  "tier": 3
+}

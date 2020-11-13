@@ -39,12 +39,17 @@ public class ItemVengeancePickaxe extends PickaxeItem {
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
-            ItemStack pickaxe = new ItemStack(this);
-            Map<Enchantment, Integer> enchantments = Maps.newHashMap();
-            enchantments.put(Enchantments.FORTUNE, ItemVengeancePickaxeConfig.fortuneLevel);
-            enchantments.put(RegistryEntries.ENCHANTMENT_VENGEANCE, ItemVengeancePickaxeConfig.vengeanceLevel);
-            EnchantmentHelper.setEnchantments(enchantments, pickaxe);
+            items.add(getEnchantedItemStack());
         }
+    }
+
+    public ItemStack getEnchantedItemStack() {
+        ItemStack pickaxe = new ItemStack(this);
+        Map<Enchantment, Integer> enchantments = Maps.newHashMap();
+        enchantments.put(Enchantments.FORTUNE, ItemVengeancePickaxeConfig.fortuneLevel);
+        enchantments.put(RegistryEntries.ENCHANTMENT_VENGEANCE, ItemVengeancePickaxeConfig.vengeanceLevel);
+        EnchantmentHelper.setEnchantments(enchantments, pickaxe);
+        return pickaxe;
     }
 
 }

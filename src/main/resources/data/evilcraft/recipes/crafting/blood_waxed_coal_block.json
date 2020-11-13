@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CCC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "evilcraft:blood_waxed_coal"
+    }
+  },
+  "result": {
+    "item": "evilcraft:blood_waxed_coal_block"
+  }
+}

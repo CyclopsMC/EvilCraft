@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "BDB",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:stone_bricks"
+    },
+    "D": {
+      "item": "evilcraft:dark_block"
+    }
+  },
+  "result": {
+    "item": "evilcraft:dark_brick",
+    "count": 4
+  }
+}

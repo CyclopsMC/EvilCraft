@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:cobblestone",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 500
+  },
+  "result": {
+    "item": "minecraft:netherrack"
+  },
+  "duration": 500,
+  "xp": 0.05,
+  "tier": 2
+}

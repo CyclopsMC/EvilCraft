@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:bone_meal",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 800
+  },
+  "result": {
+    "item": "evilcraft:blood_potash"
+  },
+  "duration": 50,
+  "xp": 0.05,
+  "tier": 1
+}

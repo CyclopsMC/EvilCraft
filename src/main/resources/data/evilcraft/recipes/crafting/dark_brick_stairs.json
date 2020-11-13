@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B  ",
+    "BB ",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "evilcraft:dark_brick"
+    }
+  },
+  "result": {
+    "item": "evilcraft:dark_brick_stairs",
+    "count": 4
+  }
+}

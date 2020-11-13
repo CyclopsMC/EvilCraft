@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:book",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 500
+  },
+  "result": {
+    "item": "evilcraft:blook"
+  },
+  "duration": 500,
+  "xp": 1,
+  "tier": 1
+}

@@ -1,14 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import com.google.common.collect.Lists;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
-
-import java.util.List;
 
 /**
  * Blood reactant.
@@ -18,17 +15,11 @@ import java.util.List;
  */
 public class ItemPromiseAcceptor extends Item {
 
-    public static final List<Integer> COLORS = Lists.newArrayList(
-            Helpers.RGBToInt(255, 255, 255),
-            Helpers.RGBToInt(230, 230, 160),
-            Helpers.RGBToInt(150, 250, 200)
-    );
+    private final Type type;
 
-    private final int colorIndex;
-
-    public ItemPromiseAcceptor(Properties properties, int colorIndex) {
+    public ItemPromiseAcceptor(Properties properties, Type type) {
         super(properties);
-        this.colorIndex = colorIndex;
+        this.type = type;
     }
 
     @Override
@@ -37,15 +28,37 @@ public class ItemPromiseAcceptor extends Item {
         return true;
     }
 
-    public int getColorIndex() {
-        return this.colorIndex;
+    public Type getType() {
+        return this.type;
     }
 
     @OnlyIn(Dist.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
-            return COLORS.get(((ItemPromiseAcceptor) itemStack.getItem()).getColorIndex());
+            return ((ItemPromiseAcceptor) itemStack.getItem()).getType().getColor();
+        }
+    }
+
+    public static enum Type {
+        IRON("iron", Helpers.RGBToInt(255, 255, 255)),
+        GOLD("gold", Helpers.RGBToInt(230, 230, 160)),
+        DIAMOND("diamond", Helpers.RGBToInt(150, 250, 200));
+
+        private final String name;
+        private final int color;
+
+        Type(String name, int color) {
+            this.name = name;
+            this.color = color;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getColor() {
+            return color;
         }
     }
 

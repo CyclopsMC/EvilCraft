@@ -1,0 +1,9 @@
+{
+  "type": "evilcraft:environmental_accumulator",
+  "item": "evilcraft:exalted_crafter_wooden",
+  "weather": "LIGHTNING",
+  "result": {
+    "item": "evilcraft:exalted_crafter_wooden_empowered",
+    "weather": "RAIN"
+  }
+}

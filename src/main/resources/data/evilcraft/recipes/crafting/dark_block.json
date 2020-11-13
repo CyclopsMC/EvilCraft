@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GGG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_gem"
+    }
+  },
+  "result": {
+    "item": "evilcraft:dark_block"
+  }
+}

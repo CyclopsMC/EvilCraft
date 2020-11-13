@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "evilcraft:blood_waxed_coal_block"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:blood_waxed_coal",
+    "count": 9
+  }
+}

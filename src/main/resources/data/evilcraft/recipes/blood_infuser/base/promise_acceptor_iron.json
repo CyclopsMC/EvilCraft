@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:iron_block",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 10000
+  },
+  "result": {
+    "item": "evilcraft:promise_acceptor_iron"
+  },
+  "duration": 500,
+  "xp": 5,
+  "tier": 0
+}

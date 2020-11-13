@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G  ",
+    "P  ",
+    "P  "
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_gem"
+    },
+    "P": {
+      "item": "evilcraft:undead_planks"
+    }
+  },
+  "result": {
+    "item": "evilcraft:dark_stick",
+    "count": 4
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "SIS",
+    " D "
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_power_gem"
+    },
+    "H": {
+      "tag": "forge:heads"
+    },
+    "S": {
+      "item": "evilcraft:dark_spike"
+    },
+    "I": {
+      "item": "evilcraft:inverted_potentia_empowered"
+    },
+    "D": {
+      "item": "evilcraft:dark_stick"
+    }
+  },
+  "result": {
+    "item": "evilcraft:necromancer_staff"
+  }
+}

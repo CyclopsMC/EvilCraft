@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:skeleton_skull",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 1000
+  },
+  "result": {
+    "item": "minecraft:zombie_head"
+  },
+  "duration": 500,
+  "xp": 1,
+  "tier": 1
+}

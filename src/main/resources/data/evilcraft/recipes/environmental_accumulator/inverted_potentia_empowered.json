@@ -1,0 +1,9 @@
+{
+  "type": "evilcraft:environmental_accumulator",
+  "item": "evilcraft:inverted_potentia",
+  "weather": "LIGHTNING",
+  "result": {
+    "item": "evilcraft:inverted_potentia_empowered",
+    "weather": "RAIN"
+  }
+}

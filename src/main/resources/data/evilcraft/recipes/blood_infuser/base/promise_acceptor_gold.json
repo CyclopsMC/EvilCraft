@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:gold_block",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 40000
+  },
+  "result": {
+    "item": "evilcraft:promise_acceptor_gold"
+  },
+  "duration": 2000,
+  "xp": 8,
+  "tier": 1
+}

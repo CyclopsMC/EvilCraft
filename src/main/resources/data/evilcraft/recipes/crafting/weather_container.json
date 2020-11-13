@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GBS"
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_gem"
+    },
+    "B": {
+      "item": "minecraft:glass_bottle"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "result": {
+    "item": "evilcraft:weather_container"
+  }
+}

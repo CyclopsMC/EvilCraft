@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PCP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:ender_pearls"
+    },
+    "C": {
+      "item": "evilcraft:weather_container",
+      "nbt": {
+        "weather": "LIGHTNING"
+      }
+    }
+  },
+  "result": {
+    "item": "evilcraft:lightning_grenade",
+    "count": 8
+  }
+}

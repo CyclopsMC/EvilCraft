@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "evilcraft:dark_brick",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 1000
+  },
+  "result": {
+    "item": "evilcraft:dark_blood_brick"
+  },
+  "duration": 250,
+  "xp": 1.2,
+  "tier": 2
+}

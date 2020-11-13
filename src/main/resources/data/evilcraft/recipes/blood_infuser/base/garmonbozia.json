@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "evilcraft:vengeance_essence_materialized",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 50000
+  },
+  "result": {
+    "item": "evilcraft:garmonbozia"
+  },
+  "duration": 1200,
+  "xp": 20,
+  "tier": 3
+}

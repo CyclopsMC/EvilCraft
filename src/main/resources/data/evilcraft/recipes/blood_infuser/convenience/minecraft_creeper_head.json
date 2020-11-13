@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:zombie_head",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 5000
+  },
+  "result": {
+    "item": "minecraft:creeper_head"
+  },
+  "duration": 1000,
+  "xp": 2,
+  "tier": 2
+}

@@ -65,6 +65,8 @@ import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnace;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimator;
 import org.cyclops.evilcraft.item.ItemBiomeExtract;
 import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
+import org.cyclops.evilcraft.item.ItemVeinSword;
+import org.cyclops.evilcraft.item.ItemVengeancePickaxe;
 import org.cyclops.evilcraft.tileentity.*;
 
 /**
@@ -77,6 +79,8 @@ public class RegistryEntries {
     public static final Item ITEM_BLOOD_PEARL_OF_TELEPORTATION = null;
     @ObjectHolder("evilcraft:broom")
     public static final Item ITEM_BROOM = null;
+    @ObjectHolder("evilcraft:broom_part")
+    public static final Item ITEM_BROOM_PART = null;
     @ObjectHolder("evilcraft:bucket_blood")
     public static final Item ITEM_BUCKET_BLOOD = null;
     @ObjectHolder("evilcraft:bucket_poison")
@@ -141,6 +145,10 @@ public class RegistryEntries {
     public static final Item ITEM_ORIGINS_OF_DARKNESS = null;
     @ObjectHolder("evilcraft:redstone_grenade")
     public static final Item ITEM_REDSTONE_GRENADE = null;
+    @ObjectHolder("evilcraft:vein_sword")
+    public static final ItemVeinSword ITEM_VEIN_SWORD = null;
+    @ObjectHolder("evilcraft:vengeance_pickaxe")
+    public static final ItemVengeancePickaxe ITEM_VENGEANCE_PICKAXE = null;
     @ObjectHolder("evilcraft:weather_container")
     public static final Item ITEM_WEATHER_CONTAINER = null;
 

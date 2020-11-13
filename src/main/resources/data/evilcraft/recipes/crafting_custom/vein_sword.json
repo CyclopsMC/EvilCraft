@@ -1,0 +1,19 @@
+{
+  "type": "evilcraft:crafting_shaped_custom_output_vein_sword",
+  "pattern": [
+    " G ",
+    " G ",
+    "STS"
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_power_gem"
+    },
+    "T": {
+      "tag": "evilcraft:dark_stick"
+    },
+    "S": {
+      "item": "evilcraft:dark_spike"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:rotten_flesh",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 375
+  },
+  "result": {
+    "item": {
+      "item": "minecraft:spider_eye",
+      "count": 8
+    }
+  },
+  "duration": 500,
+  "xp": 0.5,
+  "tier": 2
+}

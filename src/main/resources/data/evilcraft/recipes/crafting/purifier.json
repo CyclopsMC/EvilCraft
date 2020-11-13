@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S S",
+    "GIG",
+    "GBG"
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:hardened_blood_shard"
+    },
+    "G": {
+      "item": "evilcraft:dark_gem"
+    },
+    "I": {
+      "item": "evilcraft:blood_infusion_core"
+    },
+    "B": {
+      "item": "evilcraft:dark_block"
+    }
+  },
+  "result": {
+    "item": "evilcraft:purifier"
+  }
+}

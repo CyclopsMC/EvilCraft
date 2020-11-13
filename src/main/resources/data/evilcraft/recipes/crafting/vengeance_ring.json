@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CIC",
+    "I I",
+    "CIC"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/iron"
+    },
+    "C": {
+      "item": "evilcraft:dark_gem_crushed"
+    }
+  },
+  "result": {
+    "item": "evilcraft:vengeance_ring"
+  }
+}

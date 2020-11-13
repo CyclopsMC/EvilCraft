@@ -1,0 +1,19 @@
+{
+  "type": "evilcraft:crafting_shaped_custom_output_vengeance_pickaxe",
+  "pattern": [
+    "SGS",
+    "DTD",
+    " T "
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:hardened_blood_shard"
+    },
+    "G": {
+      "tag": "forge:gems/diamond"
+    },
+    "T": {
+      "item": "evilcraft:dark_stick"
+    }
+  }
+}

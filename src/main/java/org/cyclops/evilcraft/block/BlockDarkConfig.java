@@ -17,7 +17,7 @@ public class BlockDarkConfig extends BlockConfig {
     public BlockDarkConfig() {
         super(
                 EvilCraft._instance,
-            "dark",
+            "dark_block",
                 eConfig -> new BlockDark(Block.Properties.create(Material.ROCK)
                         .hardnessAndResistance(5.0F)
                         .sound(SoundType.METAL)

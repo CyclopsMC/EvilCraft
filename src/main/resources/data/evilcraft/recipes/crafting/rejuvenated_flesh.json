@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      {
+        "item": "evilcraft:humanoid_flesh"
+      },
+      {
+        "item": "evilcraft:werewolf_flesh"
+      }
+    ],
+    {
+      "item": "evilcraft:garmonbozia"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:rejuvenated_flesh"
+  }
+}

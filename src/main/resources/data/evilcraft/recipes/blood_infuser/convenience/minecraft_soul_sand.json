@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:sand",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 2500
+  },
+  "result": {
+    "item": "minecraft:soul_sand"
+  },
+  "duration": 1000,
+  "xp": 0.2,
+  "tier": 3
+}

@@ -159,7 +159,6 @@ public final class BroomParts {
 
         CAP_METAL_IRON = registerCapMetalOredict("iron", new ResourceLocation("forge:ingots/iron"), 216, 216, 216);
         CAP_METAL_GOLD = registerCapMetalOredict("gold", new ResourceLocation("forge:ingots/gold"), 255, 255, 139);
-        CAP_METAL_THAUMIUM = registerCapMetalOredict("thaumium", new ResourceLocation("thaumcraft:ingots/thaumium"), 98, 81, 151);
         CAP_METAL_COPPER = registerCapMetalOredict("copper", new ResourceLocation("forge:ingots/copper"), 167, 108, 68);
         CAP_METAL_SILVER = registerCapMetalOredict("silver", new ResourceLocation("forge:ingots/silver"), 123, 135, 120);
         CAP_METAL_BRASS = registerCapMetalOredict("alubrass", new ResourceLocation("tconstruct:ingots/alubrass"), 230, 195, 75);
@@ -173,7 +172,7 @@ public final class BroomParts {
 
         for (IBroomPart part : REGISTRY.getParts()) {
             if (part.shouldAutoRegisterMissingItem() && REGISTRY.getItemsFromPart(part).isEmpty()) {
-                ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BROOM);
+                ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BROOM_PART);
                 REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
                 REGISTRY.registerPartItem(part, itemStack);
             }

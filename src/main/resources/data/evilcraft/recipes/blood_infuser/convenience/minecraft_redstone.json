@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "evilcraft:dull_dust",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 500
+  },
+  "result": {
+    "item": "minecraft:redstone"
+  },
+  "duration": 100,
+  "xp": 0.2,
+  "tier": 2
+}

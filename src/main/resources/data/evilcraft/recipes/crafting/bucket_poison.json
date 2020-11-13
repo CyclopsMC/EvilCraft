@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "evilcraft:poisonous"
+    },
+    {
+      "tag": "evilcraft:poisonous"
+    },
+    {
+      "tag": "evilcraft:poisonous"
+    },
+    {
+      "tag": "evilcraft:poisonous"
+    },
+    {
+      "item": "minecraft:bucket"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:bucket_poison"
+  }
+}

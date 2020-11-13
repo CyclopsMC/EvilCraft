@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "S S",
+    "CIC"
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:golden_string"
+    },
+    "C": {
+      "item": "evilcraft:dark_gem_crushed"
+    },
+    "I": {
+      "item": "evilcraft:blood_infusion_core"
+    }
+  },
+  "result": {
+    "item": "evilcraft:invigorating_pendant"
+  }
+}

@@ -28,7 +28,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSeri
         // Input
         Ingredient inputIngredient = RecipeSerializerHelpers.getJsonIngredient(json, "item", false);
         FluidStack inputFluid = RecipeSerializerHelpers.getJsonFluidStack(json, "fluid", false);
-        int inputTier = JSONUtils.getInt(json, "tier");
+        int inputTier = JSONUtils.getInt(json, "tier", 0);
 
         // Output
         ItemStack outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);

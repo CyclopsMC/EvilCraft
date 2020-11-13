@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    " B ",
+    "GPG"
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_power_gem"
+    },
+    "B": {
+      "item": "evilcraft:dark_power_gem_block"
+    },
+    "P": {
+      "item": "evilcraft:sanguinary_pedestal_0"
+    }
+  },
+  "result": {
+    "item": "evilcraft:sanguinary_pedestal_1"
+  }
+}

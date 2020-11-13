@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RGR"
+  ],
+  "key": {
+    "R": {
+      "item": "evilcraft:vengeance_ring"
+    },
+    "G": {
+      "item": "evilcraft:garmonbozia"
+    }
+  },
+  "result": {
+    "item": "evilcraft:spectral_glasses"
+  }
+}

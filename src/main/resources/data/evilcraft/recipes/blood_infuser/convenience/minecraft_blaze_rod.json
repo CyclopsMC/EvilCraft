@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:bone",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 2500
+  },
+  "result": {
+    "item": "minecraft:blaze_rod"
+  },
+  "duration": 500,
+  "xp": 1.2,
+  "tier": 3
+}

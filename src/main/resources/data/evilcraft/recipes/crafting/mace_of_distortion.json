@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " GE",
+    " SG",
+    "S  "
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_power_gem"
+    },
+    "E": {
+      "item": "evilcraft:inverted_potentia_empowered"
+    },
+    "S": {
+      "item": "evilcraft:dark_stick"
+    }
+  },
+  "result": {
+    "item": "evilcraft:mace_of_distortion"
+  }
+}

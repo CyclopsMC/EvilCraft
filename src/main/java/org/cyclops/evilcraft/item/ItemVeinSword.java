@@ -32,10 +32,14 @@ public class ItemVeinSword extends SwordItem {
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
         if (this.isInGroup(group)) {
-            ItemStack sword = new ItemStack(this);
-            EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.LOOTING, LOOTING_LEVEL);
-            items.add(sword);
+            items.add(getEnchantedItemStack());
         }
+    }
+
+    public ItemStack getEnchantedItemStack() {
+        ItemStack sword = new ItemStack(this);
+        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.LOOTING, LOOTING_LEVEL);
+        return sword;
     }
 
 }

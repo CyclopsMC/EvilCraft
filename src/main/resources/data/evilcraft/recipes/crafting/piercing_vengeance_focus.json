@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OCO",
+    "CFC",
+    "PCP"
+  ],
+  "key": {
+    "O": {
+      "item": "evilcraft:blood_orb_filled"
+    },
+    "C": {
+      "item": "minecraft:end_crystal"
+    },
+    "F": {
+      "item": "evilcraft:vengeance_focus"
+    },
+    "P": {
+      "item": "minecraft:chorus_fruit_popped"
+    }
+  },
+  "result": {
+    "item": "evilcraft:piercing_vengeance_focus"
+  }
+}

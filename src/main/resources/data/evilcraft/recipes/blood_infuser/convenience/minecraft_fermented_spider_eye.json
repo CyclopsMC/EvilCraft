@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "item": "minecraft:spider_eye",
+  "fluid": {
+    "fluid": "evilcraft:blood",
+    "amount": 1500
+  },
+  "result": {
+    "item": "minecraft:fermented_spider_eye"
+  },
+  "duration": 500,
+  "xp": 0.3,
+  "tier": 2
+}

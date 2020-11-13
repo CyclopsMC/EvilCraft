@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    " G ",
+    " L "
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:dark_spike"
+    },
+    "P": {
+      "tag": "minecraft:glass"
+    },
+    "I": {
+      "item": "evilcraft:dark_gem"
+    }
+  },
+  "result": {
+    "item": "evilcraft:blood_extractor"
+  }
+}

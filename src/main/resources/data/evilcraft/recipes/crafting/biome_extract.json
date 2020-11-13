@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "GCG",
+    "GGG"
+  ],
+  "key": {
+    "D": {
+      "item": "evilcraft:dark_gem"
+    },
+    "G": {
+      "tag": "forge:glass"
+    },
+    "C": {
+      "item": "evilcraft:dark_gem_crushed"
+    }
+  },
+  "result": {
+    "item": "evilcraft:biome_extract",
+    "count": 3
+  }
+}
