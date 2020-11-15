@@ -20,12 +20,5 @@ public class ItemDarkPowerGemConfig extends ItemConfig {
                         .maxStackSize(16))
         );
     }
-
-    /*
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_GEMDARKPOWER;
-        // TODO
-    }*/
     
 }

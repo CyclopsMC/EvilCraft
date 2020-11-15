@@ -32,11 +32,5 @@ public class BlockObscuredGlassConfig extends BlockConfig {
     public void onClientSetup(FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
     }
-
-    /* TODO
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_BLOCKGLASS;
-    }*/
     
 }

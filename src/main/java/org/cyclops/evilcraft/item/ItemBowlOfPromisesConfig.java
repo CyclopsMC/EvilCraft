@@ -27,19 +27,6 @@ public class ItemBowlOfPromisesConfig extends ItemConfig {
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }
 
-    /*
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        for(int tier = 0; tier < getTiers(); tier++) {
-            for(int i = tier; i < getTiers(); i++) {
-                OreDictionary.registerOre(getBaseDictionaryName() + tier, new ItemStack(BowlOfPromises.getInstance(), 1, 2 + i));
-            }
-        }
-    }
-    TODO
-     */
-
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onModLoaded(FMLLoadCompleteEvent event) {

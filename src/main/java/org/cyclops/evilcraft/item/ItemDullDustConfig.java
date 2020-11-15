@@ -20,10 +20,4 @@ public class ItemDullDustConfig extends ItemConfig {
         );
     }
 
-    /*
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_DUSTDULL; TODO
-    }*/
-    
 }

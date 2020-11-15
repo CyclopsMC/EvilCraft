@@ -32,9 +32,4 @@ public class BlockUndeadLeavesConfig extends BlockConfig {
         ((FireBlock) Blocks.FIRE).setFireInfo(getInstance(), 30, 60);
     }
 
-    /* TODO
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_LEAVESTREE;
-    }*/
 }

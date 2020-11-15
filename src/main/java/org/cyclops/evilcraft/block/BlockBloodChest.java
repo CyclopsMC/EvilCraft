@@ -56,15 +56,4 @@ public class BlockBloodChest extends BlockTileGuiTank {
         return TileBloodChest.LIQUID_PER_SLOT;
     }
 
-    /*
-    @Override
-    public Class<? extends Container> getContainer() {
-        return ContainerBloodChest.class;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Class<? extends Screen> getGui() {
-        return GuiBloodChest.class;
-    }*/ // TODO
 }

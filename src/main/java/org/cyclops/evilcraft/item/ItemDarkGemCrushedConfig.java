@@ -23,13 +23,6 @@ public class ItemDarkGemCrushedConfig extends ItemConfig {
         MinecraftForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEventEvent);
     }
 
-    /*
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_GEMDARKCRUSHED;
-        TODO
-    }*/
-
     public void onFurnaceFuelBurnTimeEventEvent(FurnaceFuelBurnTimeEvent event) {
         if (event.getItemStack().getItem() == this.getInstance()) {
             event.setBurnTime(16000);

@@ -33,12 +33,4 @@ public class ItemPromiseAcceptorConfig extends ItemConfig {
         Minecraft.getInstance().getItemColors().register(new ItemPromiseAcceptor.ItemColor(), getInstance());
     }
 
-    /*
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        for(int tier = 0; tier < PromiseAcceptor.COLORS.size(); tier++) {
-            OreDictionary.registerOre("materialPromiseAcceptor", new ItemStack(PromiseAcceptor.getInstance(), 1, tier));
-        } // TODO
-    }*/
 }

@@ -61,18 +61,4 @@ public class BlockSpiritReanimator extends BlockTileGuiTank {
                 random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, Direction.NORTH));
         super.animateTick(blockState, world, blockPos, random);
     }
-
-    /*
-    @Override
-    public Class<? extends Container> getContainer() {
-        return ContainerSpiritReanimator.class;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Class<? extends Screen> getGui() {
-        return GuiSpiritReanimator.class;
-    }
-    TODO: gui
-    */
 }

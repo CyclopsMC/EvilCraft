@@ -98,20 +98,6 @@ public class BlockSpiritFurnace extends BlockTileGuiTank implements CubeDetector
         }
 	}
 
-	/*
-    @Override
-    public Class<? extends Container> getContainer() {
-        return ContainerSpiritFurnace.class;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Class<? extends Screen> getGui() {
-        return GuiSpiritFurnace.class;
-    }
-    TODO: gui
-	 */
-
     @Override
     public int getDefaultCapacity() {
         return TileSpiritFurnace.LIQUID_PER_SLOT;

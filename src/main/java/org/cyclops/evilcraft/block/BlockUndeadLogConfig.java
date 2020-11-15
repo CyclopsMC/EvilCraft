@@ -27,12 +27,6 @@ public class BlockUndeadLogConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-
-    /* TODO
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_WOODLOG;
-    } */
     
     @Override
     public void onForgeRegistered() {

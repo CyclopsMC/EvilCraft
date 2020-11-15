@@ -92,15 +92,4 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
         }
     }
 
-    /*
-    @Override
-    public Class<? extends Container> getContainer() {
-        return ContainerColossalBloodChest.class;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Class<? extends Screen> getGui() {
-        return GuiColossalBloodChest.class;
-    }*/ // TODO
 }

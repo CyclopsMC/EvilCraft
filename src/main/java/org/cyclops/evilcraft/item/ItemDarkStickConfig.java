@@ -20,10 +20,4 @@ public class ItemDarkStickConfig extends ItemConfig {
         );
     }
 
-    /*
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_WOODSTICK; TODO
-    }*/
-
 }

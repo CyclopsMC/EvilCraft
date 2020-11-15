@@ -369,6 +369,7 @@ public class BroomModifiers {
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
+        // TODO: delay me
         Tag<Item> tag = ItemTags.getCollection().get(name);
         if (tag != null) {
             for (Item item : tag.getAllElements()) {

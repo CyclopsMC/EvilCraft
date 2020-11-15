@@ -9,7 +9,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -39,9 +38,4 @@ public class ItemWerewolfFleshConfig extends ItemConfig {
         Minecraft.getInstance().getItemColors().register(new ItemWerewolfFlesh.ItemColor(), getInstance());
     }
 
-    /*
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_FLESH; TODO
-    }*/
 }

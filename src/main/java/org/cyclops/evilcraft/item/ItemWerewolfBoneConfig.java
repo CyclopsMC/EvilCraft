@@ -19,11 +19,5 @@ public class ItemWerewolfBoneConfig extends ItemConfig {
                         .group(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-
-    /*
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_MATERIALBONE; TODO
-    }*/
     
 }

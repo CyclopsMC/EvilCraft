@@ -25,12 +25,6 @@ public class BlockUndeadPlankConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-
-    /* TODO
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_WOODPLANK;
-    }*/
     
     @Override
     public void onForgeRegistered() {

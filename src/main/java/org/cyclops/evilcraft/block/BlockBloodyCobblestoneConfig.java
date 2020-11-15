@@ -26,11 +26,5 @@ public class BlockBloodyCobblestoneConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-
-    /* TODO
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_BLOCKSTONE;
-    }*/
     
 }

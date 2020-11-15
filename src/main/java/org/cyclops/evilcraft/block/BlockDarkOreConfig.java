@@ -64,11 +64,5 @@ public class BlockDarkOreConfig extends BlockConfig {
             }
         }
     }
-
-    /* TODO
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_OREDARK;
-    }*/
     
 }

@@ -46,17 +46,4 @@ public class BlockSanguinaryEnvironmentalAccumulator extends BlockTileGui {
                 .orElseGet(() -> super.getLightValue(state, world, pos));
     }
 
-    /*
-    @Override
-    public Class<? extends Container> getContainer() {
-        return ContainerSanguinaryEnvironmentalAccumulator.class;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public Class<? extends Screen> getGui() {
-        return GuiSanguinaryEnvironmentalAccumulator.class;
-    }
-    TODO: gui
-     */
 }

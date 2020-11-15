@@ -19,12 +19,5 @@ public class ItemDarkGemConfig extends ItemConfig {
                         .group(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-
-    /*
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_GEMDARK;
-    }*/
-    // TODO
     
 }

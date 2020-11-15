@@ -29,12 +29,6 @@ public class BlockUndeadPlankStairsConfig extends BlockConfig {
         );
     }
 
-    /* TODO
-    @Override
-    public String getOreDictionaryId() {
-        return Reference.DICT_STAIRWOOD;
-    }*/
-
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
