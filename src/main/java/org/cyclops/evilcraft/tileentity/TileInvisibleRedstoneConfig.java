@@ -16,7 +16,7 @@ public class TileInvisibleRedstoneConfig extends TileEntityConfig<TileInvisibleR
     public TileInvisibleRedstoneConfig() {
         super(
                 EvilCraft._instance,
-                "invisible_redstone_block",
+                "invisible_redstone",
                 (eConfig) -> new TileEntityType<>(TileInvisibleRedstone::new,
                         Sets.newHashSet(RegistryEntries.BLOCK_INVISIBLE_REDSTONE), null)
         );

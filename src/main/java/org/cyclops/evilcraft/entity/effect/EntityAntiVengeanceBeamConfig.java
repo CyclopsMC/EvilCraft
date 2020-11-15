@@ -22,7 +22,7 @@ public class EntityAntiVengeanceBeamConfig extends EntityConfig<EntityAntiVengea
     public EntityAntiVengeanceBeamConfig() {
         super(
                 EvilCraft._instance,
-                "neutron_beam",
+                "anti_vengeance_beam",
                 eConfig -> EntityType.Builder.<EntityAntiVengeanceBeam>create(EntityAntiVengeanceBeam::new, EntityClassification.MISC)
                         .setShouldReceiveVelocityUpdates(true)
         );

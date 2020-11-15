@@ -192,10 +192,10 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         if (detector == null) {
             detector = new HollowCubeDetector(
                     new AllowedBlock[]{
-                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANK),
+                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS),
                             new AllowedBlock(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST).addCountValidator(new ExactBlockCountValidator(1))
                     },
-                    Lists.newArrayList(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST, RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANK)
+                    Lists.newArrayList(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST, RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS)
             ).addSizeValidator(exactSizeValidator);
         }
         return detector;

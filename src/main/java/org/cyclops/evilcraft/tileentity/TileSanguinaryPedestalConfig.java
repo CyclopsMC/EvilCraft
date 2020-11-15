@@ -18,7 +18,7 @@ public class TileSanguinaryPedestalConfig extends TileEntityConfig<TileSanguinar
                 EvilCraft._instance,
                 "sanguinary_pedestal",
                 (eConfig) -> new TileEntityType<>(TileSanguinaryPedestal::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_SANGUINARY_PEDESTAL), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_SANGUINARY_PEDESTAL_0, RegistryEntries.BLOCK_SANGUINARY_PEDESTAL_1), null)
         );
     }
 

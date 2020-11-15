@@ -16,7 +16,7 @@ public class TileEternalWaterConfig extends TileEntityConfig<TileEternalWater> {
     public TileEternalWaterConfig() {
         super(
                 EvilCraft._instance,
-                "eternal_water_block",
+                "eternal_water",
                 (eConfig) -> new TileEntityType<>(TileEternalWater::new,
                         Sets.newHashSet(RegistryEntries.BLOCK_ETERNAL_WATER), null)
         );

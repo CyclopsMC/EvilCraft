@@ -192,22 +192,24 @@ public class RegistryEntries {
     public static final Block BLOCK_INVISIBLE_REDSTONE = null;
     @ObjectHolder("evilcraft:infested_nether_netherrack")
     public static final Block BLOCK_INFESTED_NETHER_NETHERRACK = null;
-    @ObjectHolder("evilcraft:infested_nether_nether_brick")
+    @ObjectHolder("evilcraft:infested_nether_nether_bricks")
     public static final Block BLOCK_INFESTED_NETHER_NETHER_BRICK = null;
-    @ObjectHolder("evilcraft:infested_nether_soulsand")
+    @ObjectHolder("evilcraft:infested_nether_soul_sand")
     public static final Block BLOCK_INFESTED_NETHER_SOUL_SAND = null;
-    @ObjectHolder("evilcraft:lightning_bomb_primed")
+    @ObjectHolder("evilcraft:lightning_bomb")
     public static final Block BLOCK_LIGHTNING_BOMB_PRIMED = null;
     @ObjectHolder("evilcraft:poison")
     public static final FlowingFluidBlock BLOCK_POISON = null;
     @ObjectHolder("evilcraft:purifier")
     public static final Block BLOCK_PURIFIER = null;
-    @ObjectHolder("evilcraft:reinforced_undead_plank")
-    public static final BlockReinforcedUndeadPlank BLOCK_REINFORCED_UNDEAD_PLANK = null;
+    @ObjectHolder("evilcraft:reinforced_undead_planks")
+    public static final BlockReinforcedUndeadPlank BLOCK_REINFORCED_UNDEAD_PLANKS = null;
     @ObjectHolder("evilcraft:sanguinary_environmental_accumulator")
     public static final Block BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
-    @ObjectHolder("evilcraft:sanguinary_pedestal")
-    public static final Block BLOCK_SANGUINARY_PEDESTAL = null;
+    @ObjectHolder("evilcraft:sanguinary_pedestal_0")
+    public static final Block BLOCK_SANGUINARY_PEDESTAL_0 = null;
+    @ObjectHolder("evilcraft:sanguinary_pedestal_1")
+    public static final Block BLOCK_SANGUINARY_PEDESTAL_1 = null;
     @ObjectHolder("evilcraft:spirit_furnace")
     public static final BlockSpiritFurnace BLOCK_SPIRIT_FURNACE = null;
     @ObjectHolder("evilcraft:spirit_portal")
@@ -218,7 +220,7 @@ public class RegistryEntries {
     public static final Block BLOCK_UNDEAD_LEAVES = null;
     @ObjectHolder("evilcraft:undead_log")
     public static final Block BLOCK_UNDEAD_LOG = null;
-    @ObjectHolder("evilcraft:undead_plank")
+    @ObjectHolder("evilcraft:undead_planks")
     public static final Block BLOCK_UNDEAD_PLANK = null;
     @ObjectHolder("evilcraft:undead_sapling")
     public static final Block BLOCK_UNDEAD_SAPLING = null;
@@ -266,7 +268,7 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:paling")
     public static final Effect POTION_PALING = null;
 
-    @ObjectHolder("evilcraft:vengance")
+    @ObjectHolder("evilcraft:vengeance")
     public static final Enchantment ENCHANTMENT_VENGEANCE = null;
     @ObjectHolder("evilcraft:life_stealing")
     public static final Enchantment ENCHANTMENT_LIFE_STEALING = null;
@@ -302,7 +304,7 @@ public class RegistryEntries {
     public static final IRecipeSerializer<RecipeBloodExtractorCombination> RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION = null;
     @ObjectHolder("evilcraft:crafting_special_fluidcontainer_combination")
     public static final IRecipeSerializer<RecipeFluidContainerCombination> RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION = null;
-    @ObjectHolder("evilcraft:crafting_display_stand")
+    @ObjectHolder("evilcraft:crafting_special_display_stand")
     public static final IRecipeSerializer<RecipeDisplayStand> RECIPESERIALIZER_DISPLAY_STAND = null;
     @ObjectHolder("evilcraft:crafting_special_dead_bush")
     public static final IRecipeSerializer<RecipeDeadBush> RECIPESERIALIZER_DEAD_BUSH = null;

@@ -168,7 +168,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         if (detector == null) {
             detector = new HollowCubeDetector(
                     new AllowedBlock[]{
-                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANK),
+                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS),
                             new AllowedBlock(RegistryEntries.BLOCK_SPIRIT_FURNACE).addCountValidator(new MaximumBlockCountValidator(1)),
                     },
                     Lists.newArrayList(RegistryEntries.BLOCK_SPIRIT_FURNACE, RegistryEntries.BLOCK_DARK_BLOOD_BRICK)
