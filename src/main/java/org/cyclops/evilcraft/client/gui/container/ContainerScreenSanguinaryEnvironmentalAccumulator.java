@@ -72,7 +72,7 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
 
     @Override
     protected ITextComponent getName() {
-        return new TranslationTextComponent("tile.blocks.evilcraft.sanguinary_environmental_accumulator.name");
+        return new TranslationTextComponent("block.evilcraft.sanguinary_environmental_accumulator");
     }
 
     @Override
@@ -101,6 +101,6 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.TEXTURE_PATH_GUI, "sanguinary_environmental_accumulator_gui.png");
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "sanguinary_environmental_accumulator_gui.png");
     }
 }

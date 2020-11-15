@@ -98,12 +98,12 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenWorking<Contain
 
     @Override
     protected ITextComponent getName() {
-        return new TranslationTextComponent("tile.blocks.evilcraft.spirit_furnace.name");
+        return new TranslationTextComponent("block.evilcraft.spirit_furnace");
     }
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.TEXTURE_PATH_GUI, "spirit_furnace_gui.png");
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png");
     }
     
     private String prettyPrintSize(Vec3i size) {

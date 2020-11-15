@@ -65,7 +65,7 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.TEXTURE_PATH_GUI, "exalted_crafter_gui.png");
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "exalted_crafter_gui.png");
     }
 
     @SuppressWarnings("unchecked")

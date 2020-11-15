@@ -100,12 +100,12 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenWorking<Cont
 
     @Override
     protected ITextComponent getName() {
-        return new TranslationTextComponent("tile.blocks.evilcraft.spirit_reanimator.name");
+        return new TranslationTextComponent("block.evilcraft.spirit_reanimator");
     }
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.TEXTURE_PATH_GUI, "spirit_reanimator_gui.png");
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_reanimator_gui.png");
     }
     
     @Override

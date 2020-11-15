@@ -84,7 +84,7 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenWorking<Co
 
     @Override
     protected ITextComponent getName() {
-        return new TranslationTextComponent("tile.blocks.evilcraft.colossal_blood_chest.name");
+        return new TranslationTextComponent("block.evilcraft.colossal_blood_chest");
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenWorking<Co
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.TEXTURE_PATH_GUI, "colossal_blood_chest_gui.png");
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "colossal_blood_chest_gui.png");
     }
 
     @Override

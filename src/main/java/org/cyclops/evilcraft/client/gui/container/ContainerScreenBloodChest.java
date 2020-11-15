@@ -34,12 +34,12 @@ public class ContainerScreenBloodChest extends ContainerScreenContainerTankInven
 
     @Override
     protected ITextComponent getName() {
-        return new TranslationTextComponent("tile.blocks.evilcraft.blood_chest.name");
+        return new TranslationTextComponent("block.evilcraft.blood_chest");
     }
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.TEXTURE_PATH_GUI, "blood_chest_gui.png");
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_chest_gui.png");
     }
 
     @Override

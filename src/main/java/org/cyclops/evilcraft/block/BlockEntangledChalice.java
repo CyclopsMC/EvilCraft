@@ -89,7 +89,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 					.map(TileEntangledChalice::getWorldTankId)
 					.orElse("null");
 			player.sendStatusMessage(new TranslationTextComponent(L10NHelpers.localize(
-					"tile.blocks.evilcraft.entangled_chalice.info.id", tankId)), true);
+					"block.evilcraft.entangled_chalice.info.id", tankId)), true);
 		}
 		return super.onBlockActivated(state, world, blockPos, player, hand, rayTraceResult);
 	}

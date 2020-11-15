@@ -84,11 +84,11 @@ public class ContainerScreenBloodInfuser extends ContainerScreenWorking<Containe
 
     @Override
     protected ITextComponent getName() {
-        return new TranslationTextComponent("tile.blocks.evilcraft.blood_infuser.name");
+        return new TranslationTextComponent("block.evilcraft.blood_infuser");
     }
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.TEXTURE_PATH_GUI, "blood_infuser_gui.png");
+        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_infuser_gui.png");
     }
 }

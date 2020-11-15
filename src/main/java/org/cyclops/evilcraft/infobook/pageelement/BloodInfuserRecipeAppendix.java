@@ -45,7 +45,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
 
     @Override
     protected String getUnlocalizedTitle() {
-        return "tile.blocks.evilcraft.blood_infuser.name";
+        return "block.evilcraft.blood_infuser";
     }
 
     @Override

@@ -81,7 +81,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
         super.addInformation(itemStack, worldIn, list, flagIn);
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
-        list.add(new TranslationTextComponent("tile.blocks.evilcraft.entangled_chalice.info.id", tankId));
+        list.add(new TranslationTextComponent("block.evilcraft.entangled_chalice.info.id", tankId));
     }
 
     public static class FluidHandler extends FluidContainerItemWrapperWithSimulation {
