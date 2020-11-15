@@ -12,9 +12,6 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class ItemPotentiaSphereConfig extends ItemConfig {
 
-    @ConfigurableProperty(category = "general", comment = "If crafting of the ender pearl should be enabled.", requiresMcRestart = true)
-    public static boolean enderPearlRecipe = true;
-
     public ItemPotentiaSphereConfig() {
         super(
                 EvilCraft._instance,

@@ -33,6 +33,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -54,7 +55,7 @@ public class BroomModifiers {
     public static final IBroomModifierRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomModifierRegistry.class);
 
     public static void init() {
-        MinecraftForge.EVENT_BUS.register(BroomModifiers.class);
+        FMLJavaModLoadingContext.get().getModEventBus().register(BroomModifiers.class);
     }
 
     public static BroomModifier MODIFIER_COUNT;

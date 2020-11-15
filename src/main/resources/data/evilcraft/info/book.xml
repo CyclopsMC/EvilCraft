@@ -21,15 +21,15 @@
                 <tag>dark_brick</tag>
                 <tag>dark_brick_stairs</tag>
                 <paragraph>info_book.evilcraft.first_age.new_world.dark_ore.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:dark_block</appendix>
-                <appendix type="crafting_recipe">evilcraft:dark_gem</appendix>
-                <appendix type="crafting_recipe">evilcraft:dark_brick</appendix>
-                <appendix type="crafting_recipe">evilcraft:dark_brick_stairs</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_block</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_gem</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_brick</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_brick_stairs</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.new_world.darkened_apple">
                 <tag>darkened_apple</tag>
                 <paragraph>info_book.evilcraft.first_age.new_world.darkened_apple.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:darkened_apple</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/darkened_apple</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.new_world.evil_dungeon">
                 <paragraph>info_book.evilcraft.first_age.new_world.evil_dungeon.text</paragraph>
@@ -41,33 +41,35 @@
                 <paragraph>info_book.evilcraft.first_age.new_world.dark_temple.text3</paragraph>
                 <paragraph>info_book.evilcraft.first_age.new_world.dark_temple.text4</paragraph>
                 <appendix type="image" width="100" height="133">evilcraft:textures/gui/infobook/dark_temple.png</appendix>
-                <appendix type="crafting_recipe">evilcraft:weather_container</appendix>
-                <appendix type="evilcraft:envir_acc_recipe" index="0">evilcraft:weather_container</appendix>
-                <appendix type="evilcraft:envir_acc_recipe" index="1">evilcraft:weather_container</appendix>
-                <appendix type="evilcraft:envir_acc_recipe" index="2">evilcraft:weather_container</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/weather_container</appendix>
+                <appendix type="evilcraft:environmental_accumulator">evilcraft:environmental_accumulator/weather_container_clear</appendix>
+                <appendix type="evilcraft:environmental_accumulator">evilcraft:environmental_accumulator/weather_container_rain</appendix>
+                <appendix type="evilcraft:environmental_accumulator">evilcraft:environmental_accumulator/weather_container_lightning</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.new_world.weather_container_benefits">
                 <tag>lightning_grenade</tag>
                 <tag>bucket_eternal_water</tag>
-                <tag>eternal_water_block</tag>
+                <tag>eternal_water</tag>
                 <paragraph>info_book.evilcraft.first_age.new_world.weather_container_benefits.text</paragraph>
-                <appendix_list type="crafting_recipe">weather_crafting</appendix_list>
+                <appendix type="minecraft:crafting">evilcraft:crafting/weather_container_rain</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/weather_container_lightning</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.new_world.biome_extract">
                 <tag>biome_extract</tag>
                 <paragraph>info_book.evilcraft.first_age.new_world.biome_extract.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.new_world.biome_extract.text2</paragraph>
                 <paragraph>info_book.evilcraft.first_age.new_world.biome_extract.text3</paragraph>
-                <appendix type="crafting_recipe">evilcraft:biome_extract</appendix>
-                <appendix type="evilcraft:envir_acc_recipe">evilcraft:biome_extract</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/biome_extract</appendix>
+                <appendix type="evilcraft:environmental_accumulator">evilcraft:environmental_accumulator/biome_extract</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.new_world.libelle">
                 <paragraph>info_book.evilcraft.first_age.new_world.libelle.text</paragraph>
-                <appendix type="crafting_recipe" predefined="true">evilcraft:bucket_poison</appendix>
-                <appendix type="crafting_recipe">minecraft:poisonous_potato</appendix>
-                <appendix type="crafting_recipe" predefined="true">minecraft:potion_poison</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/bucket_poison</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/minecraft_poisonous_potato</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/minecraft_potion_poison</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.new_world.werewolf">
+                <tag>flesh_werewolf</tag>
                 <paragraph>info_book.evilcraft.first_age.new_world.werewolf.text</paragraph>
                 <appendix type="image" width="100" height="123">evilcraft:textures/gui/infobook/werewolf_villager.png</appendix>
             </section>
@@ -77,6 +79,7 @@
         </section>
         <section name="info_book.evilcraft.first_age.relics">
             <section name="info_book.evilcraft.first_age.relics.humanoid_flesh">
+                <tag>flesh_humanoid</tag>
                 <paragraph>info_book.evilcraft.first_age.relics.humanoid_flesh.text</paragraph>
             </section>
             <section name="info_book.evilcraft.first_age.relics.enchantments">
@@ -94,57 +97,61 @@
                 <paragraph>info_book.evilcraft.first_age.items.dark_tank.text2</paragraph>
                 <paragraph>info_book.evilcraft.first_age.items.dark_tank.text3</paragraph>
                 <paragraph>info_book.evilcraft.first_age.items.dark_tank.text4</paragraph>
-                <appendix type="crafting_recipe" index="0">evilcraft:dark_tank</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_tank</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.dark_spike">
                 <tag>dark_spike</tag>
                 <paragraph>info_book.evilcraft.first_age.items.dark_spike.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:dark_spike</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_spike</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.spiked_plate">
                 <tag>spiked_plate</tag>
                 <paragraph>info_book.evilcraft.first_age.items.spiked_plate.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.items.spiked_plate.text2</paragraph>
-                <appendix type="crafting_recipe">evilcraft:spiked_plate</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/spiked_plate</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.spikey_claws">
                 <tag>spikey_claws</tag>
                 <paragraph>info_book.evilcraft.first_age.items.spikey_claws.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.items.spikey_claws.text2</paragraph>
-                <appendix type="crafting_recipe">evilcraft:spikey_claws</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/spikey_claws</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.potentia_sphere">
                 <tag>potentia_sphere</tag>
                 <tag>inverted_potentia</tag>
+                <tag>inverted_potentia_empowered</tag>
                 <paragraph>info_book.evilcraft.first_age.items.potentia_sphere.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:potentia_sphere</appendix>
-                <appendix type="crafting_recipe">evilcraft:inverted_potentia</appendix>
-                <appendix type="evilcraft:envir_acc_recipe">evilcraft:inverted_potentia</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/potentia_sphere</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/inverted_potentia</appendix>
+                <appendix type="evilcraft:environmental_accumulator">evilcraft:environmental_accumulator/inverted_potentia_empowered</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.dull_dust">
                 <tag>dull_dust</tag>
                 <paragraph>info_book.evilcraft.first_age.items.dull_dust.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:dull_dust</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dull_dust</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.obscured_glass">
                 <tag>obscured_glass</tag>
                 <paragraph>info_book.evilcraft.first_age.items.obscured_glass.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:obscured_glass</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/obscured_glass</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.exalted_crafter">
                 <tag>exalted_crafter</tag>
+                <tag>exalted_crafter_wooden</tag>
+                <tag>exalted_crafter_empowered</tag>
+                <tag>exalted_crafter_wooden_empowered</tag>
                 <paragraph>info_book.evilcraft.first_age.items.exalted_crafter.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.items.exalted_crafter.text2</paragraph>
-                <appendix type="crafting_recipe" index="0">evilcraft:exalted_crafter</appendix>
-                <appendix type="crafting_recipe" index="1">evilcraft:exalted_crafter</appendix>
-                <appendix type="evilcraft:envir_acc_recipe" index="0">evilcraft:exalted_crafter</appendix>
-                <appendix type="evilcraft:envir_acc_recipe" index="1">evilcraft:exalted_crafter</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/exalted_crafter</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/exalted_crafter_wooden</appendix>
+                <appendix type="evilcraft:environmental_accumulator">evilcraft:environmental_accumulator/exalted_crafter_empowered</appendix>
+                <appendix type="evilcraft:environmental_accumulator">evilcraft:environmental_accumulator/exalted_crafter_wooden_empowered</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.items.display_stand">
                 <tag>display_stand</tag>
                 <paragraph>info_book.evilcraft.first_age.items.display_stand.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.items.display_stand.text2</paragraph>
-                <appendix_list type="crafting_recipe">display_stands</appendix_list>
+                <appendix_list type="minecraft:crafting">evilcraft:crafting/display_stand_.*</appendix_list>
             </section>
         </section>
         <section name="info_book.evilcraft.first_age.vengeance_spirits">
@@ -154,7 +161,7 @@
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.introduction.text2</paragraph>
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.introduction.text3</paragraph>
                 <appendix type="image" width="100" height="115">evilcraft:textures/gui/infobook/vengeance_spirit.png</appendix>
-                <appendix type="crafting_recipe">evilcraft:vengeance_ring</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/vengeance_ring</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.vengeance_spirits.catching_spirits">
                 <tag>box_of_eternal_closure</tag>
@@ -162,16 +169,16 @@
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.catching_spirits.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.catching_spirits.text2</paragraph>
                 <appendix type="image" width="110" height="60">evilcraft:textures/gui/infobook/catch_spirits.png</appendix>
-                <appendix type="crafting_recipe" predefined="true">evilcraft:box_of_eternal_closure_filled</appendix>
-                <appendix type="crafting_recipe">evilcraft:vengeance_focus</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting_custom/box_of_eternal_closure</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/vengeance_focus</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.vengeance_spirits.spirit_protection">
                 <tag>burning_gem_stone</tag>
                 <tag>spectral_glasses</tag>
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.spirit_protection.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.spirit_protection.text2</paragraph>
-                <appendix type="furnace_recipe">evilcraft:burning_gem_stone</appendix>
-                <appendix type="crafting_recipe">evilcraft:spectral_glasses</appendix>
+                <appendix type="minecraft:smelting">evilcraft:smelting/burning_gem_stone</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/spectral_glasses</appendix>
             </section>
         </section>
     </section>
@@ -182,7 +189,7 @@
             <paragraph>info_book.evilcraft.second_age.blood_extraction.text2</paragraph>
             <paragraph>info_book.evilcraft.second_age.blood_extraction.text3</paragraph>
             <paragraph>info_book.evilcraft.second_age.blood_extraction.text4</paragraph>
-            <appendix type="crafting_recipe">evilcraft:blood_extractor</appendix>
+            <appendix type="minecraft:crafting">evilcraft:crafting/blood_extractor</appendix>
         </section>
         <section name="info_book.evilcraft.second_age.powers_of_blood">
             <tag>hardened_blood</tag>
@@ -192,83 +199,96 @@
             <paragraph>info_book.evilcraft.second_age.powers_of_blood.text1</paragraph>
             <paragraph>info_book.evilcraft.second_age.powers_of_blood.text2</paragraph>
             <paragraph>info_book.evilcraft.second_age.powers_of_blood.text3</paragraph>
-            <appendix type="furnace_recipe">evilcraft:hardened_blood_shard</appendix>
+            <appendix type="minecraft:smelting">evilcraft:smelting/hardened_blood_shard</appendix>
         </section>
         <section name="info_book.evilcraft.second_age.blood_infusion">
             <section name="info_book.evilcraft.second_age.blood_infusion.blood_infusion_core">
                 <tag>blood_infusion_core</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.blood_infusion_core.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:blood_infusion_core</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/blood_infusion_core</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.blood_infusion.blood_chest">
                 <tag>blood_chest</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.blood_chest.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:blood_chest</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/blood_chest</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.blood_infusion.blood_infuser">
                 <tag>blood_infuser</tag>
                 <tag>dark_power_gem_block</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.blood_infuser.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.blood_infuser.text2</paragraph>
-                <appendix type="crafting_recipe">evilcraft:blood_infuser</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:dark_power_gem</appendix>
-                <appendix type="crafting_recipe">evilcraft:dark_power_gem</appendix>
-                <appendix type="crafting_recipe">evilcraft:dark_power_gem_block</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:dark_power_gem_block</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/blood_infuser</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/dark_power_gem</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_power_gem</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_power_gem_block</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/dark_power_gem_block</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.blood_infusion.undead_tree">
                 <tag>undead_sapling</tag>
                 <tag>dark_stick</tag>
-                <tag>undead_plank_stairs</tag>
+                <tag>undead_planks_stairs</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text3</paragraph>
                 <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undead_tree.png</appendix>
-                <appendix_list type="crafting_recipe">deadbush</appendix_list>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:undead_sapling</appendix>
-                <appendix type="crafting_recipe">evilcraft:dark_stick</appendix>
-                <appendix type="crafting_recipe">evilcraft:undead_plank_stairs</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/minecraft_dead_bush</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/undead_sapling</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_stick</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/undead_plank_stairs</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion">
-                <tag>bowl_of_promises</tag>
-                <tag>promise</tag>
-                <tag>promise_acceptor</tag>
+                <tag>bowl_of_promises_empty</tag>
+                <tag>bowl_of_promises_dusted</tag>
+                <tag>bowl_of_promises_tier0</tag>
+                <tag>bowl_of_promises_tier1</tag>
+                <tag>bowl_of_promises_tier2</tag>
+                <tag>bowl_of_promises_tier3</tag>
+                <tag>promise_tier_1</tag>
+                <tag>promise_tier_2</tag>
+                <tag>promise_tier_3</tag>
+                <tag>promise_speed_0</tag>
+                <tag>promise_efficiency_0</tag>
+                <tag>promise_acceptor_iron</tag>
+                <tag>promise_acceptor_gold</tag>
+                <tag>promise_acceptor_diamond</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion.text2</paragraph>
-                <appendix type="crafting_recipe">evilcraft:bowl_of_promises</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe" index="0">evilcraft:bowl_of_promises</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe" index="1">evilcraft:bowl_of_promises</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe" index="2">evilcraft:bowl_of_promises</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe" index="3">evilcraft:bowl_of_promises</appendix>
-                <appendix type="crafting_recipe" index="0">evilcraft:promise</appendix>
-                <appendix type="crafting_recipe" index="1">evilcraft:promise</appendix>
-                <appendix type="crafting_recipe" index="2">evilcraft:promise</appendix>
-                <appendix type="crafting_recipe" index="3">evilcraft:promise</appendix>
-                <appendix type="crafting_recipe" index="4">evilcraft:promise</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe" index="0">evilcraft:promise_acceptor</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe" index="1">evilcraft:promise_acceptor</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe" index="2">evilcraft:promise_acceptor</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/bowl_of_promises</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/bowl_of_promises_tier0</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/bowl_of_promises_tier1</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/bowl_of_promises_tier2</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/bowl_of_promises_tier3</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/promise_tier_1</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/promise_tier_2</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/promise_tier_2</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/promise_speed_0</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/promise_efficiency_0</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/promise_acceptor_iron</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/promise_acceptor_gold</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/promise_acceptor_diamond</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion_recipes">
                 <tag>bloody_cobblestone</tag>
-                <tag>blood_orb</tag>
+                <tag>blood_orb_empty</tag>
+                <tag>blood_orb_filled</tag>
                 <tag>blood_waxed_coal</tag>
                 <tag>blood_waxed_coal_block</tag>
                 <tag>blood_potash</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion_recipes.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:blood_orb</appendix>
-                <appendix_list type="evilcraft:blood_infuser_recipe">other</appendix_list>
-                <appendix_list type="evilcraft:blood_infuser_recipe">convenience</appendix_list>
+                <appendix type="minecraft:crafting">evilcraft:crafting/blood_orb_empty</appendix>
+                <appendix_list type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/.*</appendix_list>
+                <appendix_list type="evilcraft:blood_infuser">evilcraft:blood_infuser/convenience/.*</appendix_list>
             </section>
         </section>
         <section name="info_book.evilcraft.second_age.evolved_blood_machinery">
             <section name="info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal">
-                <tag>sanguinary_pedestal</tag>
+                <tag>sanguinary_pedestal_0</tag>
+                <tag>sanguinary_pedestal_1</tag>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal.text2</paragraph>
                 <appendix type="image" width="120" height="72">evilcraft:textures/gui/infobook/sanguinary_pedestal.png</appendix>
-                <appendix type="crafting_recipe" index="0">evilcraft:sanguinary_pedestal</appendix>
-                <appendix type="crafting_recipe" index="1">evilcraft:sanguinary_pedestal</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/sanguinary_pedestal_0</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/sanguinary_pedestal_1</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.evolved_blood_machinery.purifier">
                 <tag>purifier</tag>
@@ -277,8 +297,8 @@
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text3</paragraph>
 
-                <appendix type="crafting_recipe">evilcraft:purifier</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:blook</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/purifier</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/blook</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice">
                 <tag>entangled_chalice</tag>
@@ -286,23 +306,23 @@
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text3</paragraph>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:corrupted_tear</appendix>
-                <appendix type="crafting_recipe" index="0">evilcraft:entangled_chalice</appendix>
-                <appendix type="crafting_recipe" index="1">evilcraft:entangled_chalice</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/corrupted_tear</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/entangled_chalice_0</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/entangled_chalice_1</appendix>
             </section>
             <section name="info_book.second_age.evolved_blood_machinery.colossal_blood_chest">
-                <tag>reinforced_undead_plank</tag>
+                <tag>reinforced_undead_planks</tag>
                 <tag>colossal_blood_chest</tag>
-                <tag>reinforced_undead_plank_stairs</tag>
+                <tag>reinforced_undead_planks_stairs</tag>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text1</paragraph>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text2</paragraph>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text3</paragraph>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text4</paragraph>
                 <paragraph>info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text5</paragraph>
                 <appendix type="image" width="120" height="118">evilcraft:textures/gui/infobook/colossal_blood_chest.png</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:reinforced_undead_plank</appendix>
-                <appendix type="crafting_recipe">evilcraft:colossal_blood_chest</appendix>
-                <appendix type="crafting_recipe">evilcraft:reinforced_undead_plank_stairs</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/reinforced_undead_planks</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/colossal_blood_chest</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/reinforced_undead_planks_stairs</appendix>
             </section>
             <section name="info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator">
                 <tag>sanguinary_environmental_accumulator</tag>
@@ -310,7 +330,7 @@
                 <paragraph>info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator.text2</paragraph>
                 <paragraph>info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator.text3</paragraph>
                 <appendix type="image" width="120" height="82">evilcraft:textures/gui/infobook/sanguinary_environmental_accumulator.png</appendix>
-                <appendix type="crafting_recipe">evilcraft:sanguinary_environmental_accumulator</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/sanguinary_environmental_accumulator</appendix>
             </section>
         </section>
         <section name="info_book.evilcraft.second_age.tools">
@@ -324,7 +344,9 @@
                     <paragraph>info_book.evilcraft.second_age.tools.broom.introduction.text2</paragraph>
                     <paragraph>info_book.evilcraft.second_age.tools.broom.introduction.text3</paragraph>
                     <paragraph>info_book.evilcraft.second_age.tools.broom.introduction.text4</paragraph>
-                    <appendix_list type="crafting_recipe">bare_broom_parts</appendix_list>
+                    <appendix type="minecraft:crafting">evilcraft:crafting/broom_part_rod_bare</appendix>
+                    <appendix type="minecraft:crafting">evilcraft:crafting/broom_part_brush_bare</appendix>
+                    <appendix type="minecraft:crafting">evilcraft:crafting/broom_part_cap_bare</appendix>
                 </section>
                 <section name="info_book.evilcraft.second_age.tools.broom.modifiers">
                     <paragraph>info_book.evilcraft.second_age.tools.broom.modifiers.text.intro</paragraph>
@@ -369,81 +391,82 @@
                 </section>
                 <section name="info_book.evilcraft.second_age.tools.broom.parts">
                     <paragraph>info_book.evilcraft.second_age.tools.broom.parts.text1</paragraph>
-                    <appendix_list type="crafting_recipe">broom_part_rod</appendix_list>
-                    <appendix_list type="crafting_recipe">broom_part_brush</appendix_list>
-                    <appendix_list type="crafting_recipe">broom_part_cap</appendix_list>
+                    <appendix_list type="minecraft:crafting">evilcraft:crafting/broom_part_rod_.*</appendix_list>
+                    <appendix_list type="minecraft:crafting">evilcraft:crafting/broom_part_brush_.*</appendix_list>
+                    <appendix_list type="minecraft:crafting">evilcraft:crafting/broom_part_cap_.*</appendix_list>
                 </section>
             </section>
             <section name="info_book.evilcraft.second_age.tools.blood_pearl_of_teleportation">
                 <tag>blood_pearl_of_teleportation</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.blood_pearl_of_teleportation.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:blood_pearl_of_teleportation</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/blood_pearl_of_teleportation</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.invigorating_pendant">
                 <tag>invigorating_pendant</tag>
                 <tag>golden_string</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.invigorating_pendant.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:golden_string</appendix>
-                <appendix type="crafting_recipe">evilcraft:invigorating_pendant</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/golden_string</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/invigorating_pendant</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.primed_pendant">
                 <tag>primed_pendant</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.primed_pendant.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:primed_pendant</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/primed_pendant</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.effortless_ring">
                 <tag>effortless_ring</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.effortless_ring.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:effortless_ring</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/effortless_ring</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.kineticator">
                 <tag>kineticator</tag>
+                <tag>kineticator_repelling</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.kineticator.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.tools.kineticator.text2</paragraph>
-                <appendix type="crafting_recipe" index="0">evilcraft:kineticator</appendix>
-                <appendix type="crafting_recipe" index="1">evilcraft:kineticator</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/kineticator</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/kineticator_repelling</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.sceptre_of_thunder">
                 <tag>sceptre_of_thunder</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.sceptre_of_thunder.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:sceptre_of_thunder</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/sceptre_of_thunder</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.vengeance_pickaxe">
                 <tag>vengeance_pickaxe</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.vengeance_pickaxe.text</paragraph>
-                <appendix type="crafting_recipe" predefined="true">evilcraft:vengeance_pickaxe_fortune</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting_custom/vengeance_pickaxe</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.gemstone_torch">
                 <tag>gem_stone_torch</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.gemstone_torch.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:gem_stone_torch</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/gem_stone_torch</appendix>
             </section>
             <section name="info_book.second_age.tools.rejuvenated_flesh">
-                <tag>rejuvenated_flesh</tag>
+                <tag>flesh_rejuvenated</tag>
                 <paragraph>info_book.second_age.tools.rejuvenated_flesh.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:rejuvenated_flesh</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/flesh_rejuvenated</appendix>
             </section>
         </section>
         <section name="info_book.evilcraft.second_age.weapons">
             <section name="info_book.evilcraft.second_age.weapons.vein_sword">
                 <tag>vein_sword</tag>
                 <paragraph>info_book.evilcraft.second_age.weapons.vein_sword.text</paragraph>
-                <appendix type="crafting_recipe" predefined="true">evilcraft:vein_sword_looting</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting_custom/vein_sword</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.weapons.mace_of_distortion">
                 <tag>mace_of_distortion</tag>
                 <paragraph>info_book.evilcraft.second_age.weapons.mace_of_distortion.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:mace_of_distortion</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/mace_of_distortion</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.weapons.necromancer_staff">
                 <tag>necromancer_staff</tag>
                 <paragraph>info_book.evilcraft.second_age.weapons.necromancer_staff.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:necromancer_staff</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/necromancer_staff</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.weapons.mace_of_destruction">
                 <tag>mace_of_destruction</tag>
                 <paragraph>info_book.evilcraft.second_age.weapons.mace_of_destruction.text</paragraph>
-                <appendix type="crafting_recipe">evilcraft:mace_of_destruction</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/mace_of_destruction</appendix>
             </section>
         </section>
         <section name="info_book.evilcraft.second_age.abusing_spirits">
@@ -458,16 +481,16 @@
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text3</paragraph>
                 <appendix type="image" width="120" height="135">evilcraft:textures/gui/infobook/spirit_furnace.png</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:dark_blood_brick</appendix>
-                <appendix type="crafting_recipe">evilcraft:spirit_furnace</appendix>
-                <appendix type="crafting_recipe">evilcraft:dark_blood_brick_stairs</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/dark_blood_brick</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/spirit_furnace</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/dark_blood_brick_stairs</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator">
                 <tag>spirit_reanimator</tag>
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text3</paragraph>
-                <appendix type="crafting_recipe">evilcraft:spirit_reanimator</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/spirit_reanimator</appendix>
             </section>
         </section>
         <section name="info_book.evilcraft.second_age.after_death">
@@ -477,15 +500,15 @@
                 <paragraph>info_book.evilcraft.second_age.after_death.spirit_killing101.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.after_death.spirit_killing101.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.after_death.spirit_killing101.text3</paragraph>
-                <appendix type="crafting_recipe">evilcraft:piercing_vengeance_focus</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/piercing_vengeance_focus</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.after_death.garmonbozia">
                 <tag>garmonbozia</tag>
                 <paragraph>info_book.evilcraft.second_age.after_death.garmonbozia.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.after_death.garmonbozia.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.after_death.garmonbozia.text3</paragraph>
-                <appendix type="crafting_recipe" meta="1">evilcraft:vengeance_essence</appendix>
-                <appendix type="evilcraft:blood_infuser_recipe">evilcraft:garmonbozia</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/vengeance_essence_materialized</appendix>
+                <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/garmonbozia</appendix>
             </section>
         </section>
     </section>

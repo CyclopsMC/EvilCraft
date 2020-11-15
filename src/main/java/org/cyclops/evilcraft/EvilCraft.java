@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -143,8 +144,11 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
 
         // Register sounds
         if (MinecraftHelpers.isClientSide()) {
-            MinecraftForge.EVENT_BUS.register(EvilCraftSoundEvents.class);
+            FMLJavaModLoadingContext.get().getModEventBus().register(EvilCraftSoundEvents.class);
         }
+
+        BroomParts.init();
+        BroomModifiers.init();
     }
 
     @Override
@@ -155,9 +159,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
 
     @Override
     protected void setup(FMLCommonSetupEvent event) {
-        BroomParts.init();
-        BroomModifiers.init();
-
         super.setup(event);
 
         Advancements.load();
