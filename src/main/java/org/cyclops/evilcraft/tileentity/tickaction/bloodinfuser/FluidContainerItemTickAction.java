@@ -22,7 +22,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 
     @Override
     public boolean canTick(TileBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
-        return super.canTick(tile, itemStack, slot, tick) && FluidUtil.getFluidHandler(itemStack) != null;
+        return super.canTick(tile, itemStack, slot, tick) && FluidUtil.getFluidHandler(itemStack).isPresent();
     }
 
     @Override
