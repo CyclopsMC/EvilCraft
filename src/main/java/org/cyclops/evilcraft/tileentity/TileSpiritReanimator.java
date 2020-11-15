@@ -122,7 +122,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
                 );
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(1) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(1) {
             @Override
             public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {
@@ -138,7 +138,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(2) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(2) {
             @Override
             public void applyUpgrade(TileSpiritReanimator upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {

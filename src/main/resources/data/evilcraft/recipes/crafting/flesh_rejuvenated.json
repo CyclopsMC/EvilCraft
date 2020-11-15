@@ -3,10 +3,10 @@
   "ingredients": [
     [
       {
-        "item": "evilcraft:humanoid_flesh"
+        "item": "evilcraft:flesh_humanoid"
       },
       {
-        "item": "evilcraft:werewolf_flesh"
+        "item": "evilcraft:flesh_werewolf"
       }
     ],
     {
@@ -14,6 +14,6 @@
     }
   ],
   "result": {
-    "item": "evilcraft:rejuvenated_flesh"
+    "item": "evilcraft:flesh_rejuvenated"
   }
 }

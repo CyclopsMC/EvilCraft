@@ -15,6 +15,9 @@
     "I": {
       "tag": "forge:storage_blocks/iron"
     },
+    "G": {
+      "item": "evilcraft:garmonbozia"
+    },
     "B": {
       "item": "evilcraft:blood_infusion_core"
     }

@@ -38,7 +38,6 @@ import org.cyclops.evilcraft.core.recipe.type.IInventoryFluidTier;
 import org.cyclops.evilcraft.core.recipe.type.InventoryFluidTier;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.core.tileentity.TileWorking;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.core.tileentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
@@ -110,7 +109,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         assert getTickers().size() == TICKERS;
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(2) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(2) {
             @Override
             public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableInt> event) {
@@ -121,7 +120,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(1) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_SPEED, new UpgradeBehaviour<TileBloodInfuser, MutableInt>(1) {
             @Override
             public void applyUpgrade(TileBloodInfuser upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableInt> event) {
@@ -268,7 +267,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
             IInventoryFluidTier recipeInput = new InventoryFluidTier(
                     NonNullList.from(ItemStack.EMPTY, itemStack),
                     NonNullList.from(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE)),
-                    WorkingTileEntity.TIERS);
+                    Upgrades.TIERS);
             return world.getRecipeManager()
                     .getRecipe(RegistryEntries.RECIPETYPE_BLOOD_INFUSER, recipeInput, world)
                     .isPresent();

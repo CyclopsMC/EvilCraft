@@ -11,7 +11,6 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
 
 import java.util.Set;
 
@@ -48,11 +47,11 @@ public class BlockSpiritReanimatorConfig extends UpgradableBlockContainerConfig 
     @Override
     public Set<Upgrades.Upgrade> getUpgrades() {
         return Sets.newHashSet(
-                TileWorking.UPGRADE_EFFICIENCY,
-                TileWorking.UPGRADE_SPEED,
-                TileWorking.UPGRADE_TIER1,
-                TileWorking.UPGRADE_TIER2,
-                TileWorking.UPGRADE_TIER3);
+                Upgrades.UPGRADE_EFFICIENCY,
+                Upgrades.UPGRADE_SPEED,
+                Upgrades.UPGRADE_TIER1,
+                Upgrades.UPGRADE_TIER2,
+                Upgrades.UPGRADE_TIER3);
     }
     
 }

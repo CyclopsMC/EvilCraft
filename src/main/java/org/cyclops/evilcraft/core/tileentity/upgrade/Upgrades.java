@@ -16,7 +16,14 @@ import java.util.Set;
  */
 public class Upgrades {
 
-    private static Map<String, Upgrade> upgradeMap = Maps.newHashMap();
+    private static final Map<String, Upgrade> upgradeMap = Maps.newHashMap();
+
+    public static final int TIERS = 3;
+    public static final Upgrade UPGRADE_TIER1 = getUpgrade("tier", 1);
+    public static final Upgrade UPGRADE_TIER2 = getUpgrade("tier", 2);
+    public static final Upgrade UPGRADE_TIER3 = getUpgrade("tier", 3);
+    public static final Upgrade UPGRADE_SPEED = getUpgrade("speed");
+    public static final Upgrade UPGRADE_EFFICIENCY = getUpgrade("efficiency");
 
     public static Collection<Upgrade> getUpgrades() {
         return upgradeMap.values();
@@ -119,7 +126,7 @@ public class Upgrades {
         }
 
         public String getId() {
-            return this.id + tier;
+            return this.id;
         }
 
         public int getTier() {

@@ -161,7 +161,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         assert getTickers().size() == TICKERS;
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(2) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(2) {
             @Override
             public void applyUpgrade(TileColossalBloodChest upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableFloat> event) {
@@ -172,7 +172,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(1) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_SPEED, new UpgradeBehaviour<TileColossalBloodChest, MutableFloat>(1) {
             @Override
             public void applyUpgrade(TileColossalBloodChest upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableFloat> event) {

@@ -20,7 +20,7 @@ public class ItemRejuvenatedFleshConfig extends ItemConfig {
     public ItemRejuvenatedFleshConfig() {
         super(
                 EvilCraft._instance,
-            "rejuvenated_flesh",
+            "flesh_rejuvenated",
                 eConfig -> new ItemRejuvenatedFlesh(new Item.Properties()
                         .group(EvilCraft._instance.getDefaultItemGroup())
                         .maxStackSize(1))

@@ -32,13 +32,6 @@ public abstract class WorkingTileEntity<T extends WorkingTileEntity<T, O>, O> ex
      */
     public static final int INVENTORY_SIZE_UPGRADES = 4;
 
-    public static final int TIERS = 3;
-    public static final Upgrades.Upgrade UPGRADE_TIER1 = Upgrades.getUpgrade("tier", 1);
-    public static final Upgrades.Upgrade UPGRADE_TIER2 = Upgrades.getUpgrade("tier", 2);
-    public static final Upgrades.Upgrade UPGRADE_TIER3 = Upgrades.getUpgrade("tier", 3);
-    public static final Upgrades.Upgrade UPGRADE_SPEED = Upgrades.getUpgrade("speed");
-    public static final Upgrades.Upgrade UPGRADE_EFFICIENCY = Upgrades.getUpgrade("efficiency");
-
     private int basicInventorySize;
     private Map<Upgrades.Upgrade, Integer> levels = null;
     protected Map<Upgrades.Upgrade, IUpgradeBehaviour<T, O>> upgradeBehaviour = Maps.newHashMap();

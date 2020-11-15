@@ -135,7 +135,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         assert getTickers().size() == TICKERS;
 
         // Upgrade behaviour
-        upgradeBehaviour.put(UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(1) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(1) {
             @Override
             public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {
@@ -151,7 +151,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
                 }
             }
         });
-        upgradeBehaviour.put(UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(2) {
+        upgradeBehaviour.put(Upgrades.UPGRADE_EFFICIENCY, new UpgradeBehaviour<TileSpiritFurnace, MutableDouble>(2) {
             @Override
             public void applyUpgrade(TileSpiritFurnace upgradable, Upgrades.Upgrade upgrade, int upgradeLevel,
                                      IUpgradeSensitiveEvent<MutableDouble> event) {

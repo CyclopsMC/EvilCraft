@@ -9,7 +9,7 @@
       "item": "evilcraft:dark_spike"
     },
     "P": {
-      "tag": "minecraft:heavy_weighted_pressure_plate"
+      "item": "minecraft:heavy_weighted_pressure_plate"
     }
   },
   "result": {

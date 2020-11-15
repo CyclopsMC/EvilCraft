@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped_custom_output_dark_tank_large",
+  "type": "evilcraft:crafting_shaped_custom_output_dark_tank_large",
   "pattern": [
     " D ",
     "IGI",

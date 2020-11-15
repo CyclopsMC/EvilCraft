@@ -10,11 +10,11 @@ import org.cyclops.evilcraft.RegistryEntries;
  * Config for vengeance pickaxe recipes.
  * @author rubensworks
  */
-public class RecipeSerializerCraftingShapedCustomOutputDarkTankConfig extends RecipeConfig<RecipeCraftingShapedCustomOutput> {
+public class RecipeSerializerCraftingShapedCustomOutputDarkTankLargeConfig extends RecipeConfig<RecipeCraftingShapedCustomOutput> {
 
-    public RecipeSerializerCraftingShapedCustomOutputDarkTankConfig() {
+    public RecipeSerializerCraftingShapedCustomOutputDarkTankLargeConfig() {
         super(EvilCraft._instance,
-                "crafting_shaped_custom_output_vengeance_pickaxe",
+                "crafting_shaped_custom_output_dark_tank_large",
                 eConfig -> new RecipeSerializerCraftingShapedCustomOutput(() -> {
                     ItemStack darkTankx9 = new ItemStack(RegistryEntries.ITEM_DARK_TANK);
                     FluidHelpers.getFluidHandlerItemCapacity(darkTankx9)

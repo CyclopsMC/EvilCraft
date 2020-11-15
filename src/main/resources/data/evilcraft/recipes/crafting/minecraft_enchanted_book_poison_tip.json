@@ -9,7 +9,7 @@
     }
   ],
   "result": {
-    "item": "evilcraft:enchanted_book",
+    "item": "minecraft:enchanted_book",
     "nbt": {
       "Enchantments": [
         {

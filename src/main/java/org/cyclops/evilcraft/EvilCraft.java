@@ -44,7 +44,7 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.recipe.RecipeSerializerBloodExtractorCombinationConfig;
 import org.cyclops.evilcraft.core.recipe.RecipeSerializerBroomPartCombinationConfig;
 import org.cyclops.evilcraft.core.recipe.RecipeSerializerCraftingShapedCustomOutputBoxOfEternalClosureConfig;
-import org.cyclops.evilcraft.core.recipe.RecipeSerializerCraftingShapedCustomOutputDarkTankConfig;
+import org.cyclops.evilcraft.core.recipe.RecipeSerializerCraftingShapedCustomOutputDarkTankLargeConfig;
 import org.cyclops.evilcraft.core.recipe.RecipeSerializerCraftingShapedCustomOutputVeinSwordConfig;
 import org.cyclops.evilcraft.core.recipe.RecipeSerializerCraftingShapedCustomOutputVengeancePickaxeConfig;
 import org.cyclops.evilcraft.core.recipe.RecipeSerializerDeadBushConfig;
@@ -423,7 +423,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputVengeancePickaxeConfig());
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputBoxOfEternalClosureConfig());
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputVeinSwordConfig());
-        configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputDarkTankConfig());
+        configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputDarkTankLargeConfig());
 
         // Features
         configHandler.addConfigurable(new WorldFeatureEvilDungeonConfig());

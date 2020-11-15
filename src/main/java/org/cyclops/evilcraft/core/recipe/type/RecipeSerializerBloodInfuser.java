@@ -35,7 +35,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSeri
 
         // Other stuff
         int duration = JSONUtils.getInt(json, "duration");
-        int xp = JSONUtils.getInt(json, "xp");
+        int xp = JSONUtils.getInt(json, "xp", 0);
 
         // Validation
         if (inputIngredient.hasNoMatchingItems() && inputFluid.isEmpty()) {

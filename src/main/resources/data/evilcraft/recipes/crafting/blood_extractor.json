@@ -3,16 +3,16 @@
   "pattern": [
     "SSS",
     " G ",
-    " L "
+    " D "
   ],
   "key": {
     "S": {
       "item": "evilcraft:dark_spike"
     },
-    "P": {
-      "tag": "minecraft:glass"
+    "G": {
+      "tag": "forge:glass"
     },
-    "I": {
+    "D": {
       "item": "evilcraft:dark_gem"
     }
   },

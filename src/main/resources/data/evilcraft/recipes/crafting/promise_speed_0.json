@@ -13,7 +13,7 @@
       "item": "evilcraft:promise_acceptor_iron"
     },
     {
-      "tag": "storage_blocks/redstone"
+      "tag": "forge:storage_blocks/redstone"
     }
   ],
   "result": {

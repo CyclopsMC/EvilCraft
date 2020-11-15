@@ -16,7 +16,7 @@
       "tag": "forge:ingots/gold"
     },
     "O": {
-      "item": "evilcraft:blood_orb"
+      "item": "evilcraft:blood_orb_filled"
     },
     "D": {
       "tag": "forge:gems/diamond"

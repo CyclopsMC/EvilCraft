@@ -16,7 +16,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 
 import java.util.List;
@@ -32,29 +31,29 @@ import java.util.Map;
 public class ItemPromise extends Item {
 
     public static final Upgrades.Upgrade[] UPGRADES = new Upgrades.Upgrade[]{
-            WorkingTileEntity.UPGRADE_TIER1,
-            WorkingTileEntity.UPGRADE_TIER2,
-            WorkingTileEntity.UPGRADE_TIER3,
-            WorkingTileEntity.UPGRADE_SPEED,
-            WorkingTileEntity.UPGRADE_EFFICIENCY
+            Upgrades.UPGRADE_TIER1,
+            Upgrades.UPGRADE_TIER2,
+            Upgrades.UPGRADE_TIER3,
+            Upgrades.UPGRADE_SPEED,
+            Upgrades.UPGRADE_EFFICIENCY
     };
     public static final Map<Upgrades.Upgrade, Integer> MAIN_COLORS = Maps.newHashMap();
     public static final Map<Upgrades.Upgrade, Integer> SECONDARY_COLORS = Maps.newHashMap();
     static {
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, Helpers.RGBToInt(220, 220, 220));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER1, Helpers.RGBToInt(255, 255, 255));
+        MAIN_COLORS.put(Upgrades.UPGRADE_TIER1, Helpers.RGBToInt(220, 220, 220));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER1, Helpers.RGBToInt(255, 255, 255));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER2, Helpers.RGBToInt(234, 238, 87));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER2, Helpers.RGBToInt(230, 230, 160));
+        MAIN_COLORS.put(Upgrades.UPGRADE_TIER2, Helpers.RGBToInt(234, 238, 87));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER2, Helpers.RGBToInt(230, 230, 160));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_TIER3, Helpers.RGBToInt(51, 235, 203));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_TIER3, Helpers.RGBToInt(150, 250, 200));
+        MAIN_COLORS.put(Upgrades.UPGRADE_TIER3, Helpers.RGBToInt(51, 235, 203));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER3, Helpers.RGBToInt(150, 250, 200));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, Helpers.RGBToInt(200, 90, 80));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_SPEED, Helpers.RGBToInt(240, 120, 110));
+        MAIN_COLORS.put(Upgrades.UPGRADE_SPEED, Helpers.RGBToInt(200, 90, 80));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_SPEED, Helpers.RGBToInt(240, 120, 110));
 
-        MAIN_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, Helpers.RGBToInt(80, 70, 200));
-        SECONDARY_COLORS.put(WorkingTileEntity.UPGRADE_EFFICIENCY, Helpers.RGBToInt(120, 120, 210));
+        MAIN_COLORS.put(Upgrades.UPGRADE_EFFICIENCY, Helpers.RGBToInt(80, 70, 200));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_EFFICIENCY, Helpers.RGBToInt(120, 120, 210));
     }
 
     private final Upgrades.Upgrade upgrade;
@@ -89,7 +88,7 @@ public class ItemPromise extends Item {
 
     @Override
     public String getTranslationKey(ItemStack itemStack) {
-        return super.getTranslationKey(itemStack) + "." + getUpgrade(itemStack).getId();
+        return super.getTranslationKey(itemStack) + "." + getUpgrade(itemStack).getId() + "." + getUpgrade(itemStack).getTier();
     }
 
     /**
@@ -103,26 +102,26 @@ public class ItemPromise extends Item {
 
     public static Item getItem(int tier) {
         if (tier == 1) {
-            return getItem(WorkingTileEntity.UPGRADE_TIER1);
+            return getItem(Upgrades.UPGRADE_TIER1);
         } else if (tier == 2) {
-            return getItem(WorkingTileEntity.UPGRADE_TIER2);
+            return getItem(Upgrades.UPGRADE_TIER2);
         } else if (tier == 3) {
-            return getItem(WorkingTileEntity.UPGRADE_TIER3);
+            return getItem(Upgrades.UPGRADE_TIER3);
         } else {
             throw new IllegalStateException("Could not find an item for tier " + tier);
         }
     }
 
     public static Item getItem(Upgrades.Upgrade upgrade) {
-        if (upgrade == WorkingTileEntity.UPGRADE_TIER1) {
+        if (upgrade == Upgrades.UPGRADE_TIER1) {
             return RegistryEntries.ITEM_PROMISE_TIER_1;
-        } else if (upgrade == WorkingTileEntity.UPGRADE_TIER2) {
+        } else if (upgrade == Upgrades.UPGRADE_TIER2) {
             return RegistryEntries.ITEM_PROMISE_TIER_2;
-        } else if (upgrade == WorkingTileEntity.UPGRADE_TIER3) {
+        } else if (upgrade == Upgrades.UPGRADE_TIER3) {
             return RegistryEntries.ITEM_PROMISE_TIER_3;
-        } else if (upgrade == WorkingTileEntity.UPGRADE_SPEED) {
+        } else if (upgrade == Upgrades.UPGRADE_SPEED) {
             return RegistryEntries.ITEM_PROMISE_SPEED;
-        } else if (upgrade == WorkingTileEntity.UPGRADE_EFFICIENCY) {
+        } else if (upgrade == Upgrades.UPGRADE_EFFICIENCY) {
             return RegistryEntries.ITEM_PROMISE_EFFICIENCY;
         } else {
             throw new IllegalStateException("Could not find an item for " + upgrade);
