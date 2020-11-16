@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerBossInfo;
@@ -102,7 +103,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     private int state = 0;
     private int tick = 0;
     
-    private SimpleInventory inventory;
+    private Inventory inventory;
     
     // The recipe we're currently working on
     @Nullable
@@ -116,7 +117,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    
 	    degradationExecutor = new DegradationExecutor(this);
 	    
-	    inventory = new SimpleInventory(1, 64);
+	    inventory = new Inventory(this);
         addCapabilityInternal(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, LazyOptional.of(inventory::getItemHandler));
         inventory.addDirtyMarkListener(this);
 	    
@@ -125,7 +126,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    }
 	}
 
-    public SimpleInventory getInventory() {
+    public Inventory getInventory() {
         return inventory;
     }
 
@@ -547,5 +548,24 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     public ServerBossInfo getBossInfo() {
         return bossInfo;
+    }
+
+    public static class Inventory extends SimpleInventory implements RecipeEnvironmentalAccumulator.Inventory {
+	    private final TileEnvironmentalAccumulator tile;
+
+        public Inventory(TileEnvironmentalAccumulator tile) {
+            super(1, 64);
+            this.tile = tile;
+        }
+
+        @Override
+        public World getWorld() {
+            return this.tile.getWorld();
+        }
+
+        @Override
+        public BlockPos getPos() {
+            return this.tile.getPos();
+        }
     }
 }

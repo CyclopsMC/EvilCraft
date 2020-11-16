@@ -1,4 +1,4 @@
-package org.cyclops.evilcraft.core.recipe;
+package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
 import net.minecraft.item.crafting.IRecipeSerializer;

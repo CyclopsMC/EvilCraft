@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:environmental_accumulator",
+  "item": "evilcraft:weather_container",
+  "weather": "LIGHTNING",
+  "result": {
+    "item": {
+      "item": "evilcraft:weather_container",
+      "nbt": {
+        "weather": "LIGHTNING"
+      }
+    },
+    "weather": "RAIN"
+  }
+}

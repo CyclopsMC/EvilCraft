@@ -1,0 +1,19 @@
+{
+  "type": "evilcraft:crafting_shaped_custom_output_entangled_chalice_new",
+  "pattern": [
+    "GTG",
+    "DGD",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "T": {
+      "item": "minecraft:ghast_tear"
+    },
+    "D": {
+      "item": "evilcraft:dark_gem"
+    }
+  }
+}

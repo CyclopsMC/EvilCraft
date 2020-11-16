@@ -1,6 +1,7 @@
-package org.cyclops.evilcraft.core.recipe;
+package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
+import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
@@ -11,6 +12,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -22,12 +24,24 @@ public class RecipeSerializerCraftingShapedCustomOutput extends ForgeRegistryEnt
         implements IRecipeSerializer<RecipeCraftingShapedCustomOutput> {
 
     private final Supplier<ItemStack> outputProvider;
+    @Nullable
+    private final IOutputTransformer outputTransformer;
 
-    public RecipeSerializerCraftingShapedCustomOutput(Supplier<ItemStack> outputProvider) {
+    public RecipeSerializerCraftingShapedCustomOutput(Supplier<ItemStack> outputProvider, @Nullable IOutputTransformer outputTransformer) {
         this.outputProvider = outputProvider;
+        this.outputTransformer = outputTransformer;
     }
 
-    // Partially copied from ShapedRecope.Serializer
+    public RecipeSerializerCraftingShapedCustomOutput(Supplier<ItemStack> outputProvider) {
+        this(outputProvider, null);
+    }
+
+    @Nullable
+    public IOutputTransformer getOutputTransformer() {
+        return outputTransformer;
+    }
+
+    // Partially copied from ShapedRecipe.Serializer
 
     @Override
     public RecipeCraftingShapedCustomOutput read(ResourceLocation recipeId, JsonObject json) {
@@ -67,5 +81,9 @@ public class RecipeSerializerCraftingShapedCustomOutput extends ForgeRegistryEnt
         }
 
         buffer.writeItemStack(recipe.getRecipeOutput());
+    }
+
+    public static interface IOutputTransformer {
+        public ItemStack transform(CraftingInventory inventory, ItemStack staticOutput);
     }
 }

@@ -169,7 +169,7 @@
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.catching_spirits.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.vengeance_spirits.catching_spirits.text2</paragraph>
                 <appendix type="image" width="110" height="60">evilcraft:textures/gui/infobook/catch_spirits.png</appendix>
-                <appendix type="minecraft:crafting">evilcraft:crafting_custom/box_of_eternal_closure</appendix>
+                <appendix type="minecraft:crafting">evilcraft:special/box_of_eternal_closure</appendix>
                 <appendix type="minecraft:crafting">evilcraft:crafting/vengeance_focus</appendix>
             </section>
             <section name="info_book.evilcraft.first_age.vengeance_spirits.spirit_protection">
@@ -307,8 +307,8 @@
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text3</paragraph>
                 <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/corrupted_tear</appendix>
-                <appendix type="minecraft:crafting">evilcraft:crafting/entangled_chalice_0</appendix>
-                <appendix type="minecraft:crafting">evilcraft:crafting/entangled_chalice_1</appendix>
+                <appendix type="minecraft:crafting">evilcraft:special/entangled_chalice_new</appendix>
+                <appendix type="minecraft:crafting">evilcraft:special/entangled_chalice_copy</appendix>
             </section>
             <section name="info_book.second_age.evolved_blood_machinery.colossal_blood_chest">
                 <tag>reinforced_undead_planks</tag>
@@ -434,7 +434,7 @@
             <section name="info_book.evilcraft.second_age.tools.vengeance_pickaxe">
                 <tag>vengeance_pickaxe</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.vengeance_pickaxe.text</paragraph>
-                <appendix type="minecraft:crafting">evilcraft:crafting_custom/vengeance_pickaxe</appendix>
+                <appendix type="minecraft:crafting">evilcraft:special/vengeance_pickaxe</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.gemstone_torch">
                 <tag>gem_stone_torch</tag>
@@ -451,7 +451,7 @@
             <section name="info_book.evilcraft.second_age.weapons.vein_sword">
                 <tag>vein_sword</tag>
                 <paragraph>info_book.evilcraft.second_age.weapons.vein_sword.text</paragraph>
-                <appendix type="minecraft:crafting">evilcraft:crafting_custom/vein_sword</appendix>
+                <appendix type="minecraft:crafting">evilcraft:special/vein_sword</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.weapons.mace_of_distortion">
                 <tag>mace_of_distortion</tag>

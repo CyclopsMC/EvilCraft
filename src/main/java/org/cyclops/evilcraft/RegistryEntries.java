@@ -32,12 +32,13 @@ import org.cyclops.evilcraft.client.particle.ParticleDarkSmokeData;
 import org.cyclops.evilcraft.client.particle.ParticleDistortData;
 import org.cyclops.evilcraft.client.particle.ParticleExplosionExtendedData;
 import org.cyclops.evilcraft.client.particle.ParticleFartData;
-import org.cyclops.evilcraft.core.recipe.RecipeBloodExtractorCombination;
-import org.cyclops.evilcraft.core.recipe.RecipeDeadBush;
-import org.cyclops.evilcraft.core.recipe.RecipeDisplayStand;
-import org.cyclops.evilcraft.core.recipe.RecipeFluidContainerCombination;
+import org.cyclops.evilcraft.core.recipe.type.RecipeBloodExtractorCombination;
+import org.cyclops.evilcraft.core.recipe.type.RecipeBroomPartCombination;
+import org.cyclops.evilcraft.core.recipe.type.RecipeDeadBush;
+import org.cyclops.evilcraft.core.recipe.type.RecipeFluidContainerCombination;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
+import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulatorBiomeExtract;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimed;
 import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeam;
 import org.cyclops.evilcraft.entity.effect.EntityNecromancersHead;
@@ -304,12 +305,12 @@ public class RegistryEntries {
     public static final IRecipeSerializer<RecipeBloodExtractorCombination> RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION = null;
     @ObjectHolder("evilcraft:crafting_special_fluidcontainer_combination")
     public static final IRecipeSerializer<RecipeFluidContainerCombination> RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION = null;
-    @ObjectHolder("evilcraft:crafting_special_display_stand")
-    public static final IRecipeSerializer<RecipeDisplayStand> RECIPESERIALIZER_DISPLAY_STAND = null;
     @ObjectHolder("evilcraft:crafting_special_dead_bush")
     public static final IRecipeSerializer<RecipeDeadBush> RECIPESERIALIZER_DEAD_BUSH = null;
     @ObjectHolder("evilcraft:crafting_special_broom_part_combination")
-    public static final IRecipeSerializer<RecipeDeadBush> RECIPESERIALIZER_BROOM_PART_COMBINATION = null;
+    public static final IRecipeSerializer<RecipeBroomPartCombination> RECIPESERIALIZER_BROOM_PART_COMBINATION = null;
+    @ObjectHolder("evilcraft:environmental_accumulator_biome_extract")
+    public static final IRecipeSerializer<RecipeEnvironmentalAccumulatorBiomeExtract> RECIPESERIALIZER_BIOME_EXTRACT = null;
 
     @ObjectHolder("cyclopscore:blur")
     public static final ParticleType<ParticleBlurData> PARTICLE_BLUR = null;

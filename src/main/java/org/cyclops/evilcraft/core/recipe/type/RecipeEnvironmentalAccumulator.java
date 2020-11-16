@@ -8,6 +8,8 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.weather.WeatherType;
@@ -16,7 +18,7 @@ import org.cyclops.evilcraft.core.weather.WeatherType;
  * Environmental Accumulator recipe
  * @author rubensworks
  */
-public class RecipeEnvironmentalAccumulator implements IRecipe<IInventory> {
+public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironmentalAccumulator.Inventory> {
 
     private final ResourceLocation id;
     private final Ingredient inputIngredient;
@@ -70,13 +72,13 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<IInventory> {
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(RecipeEnvironmentalAccumulator.Inventory inv, World worldIn) {
         return inputIngredient.test(inv.getStackInSlot(0))
                 && inputWeather.isActive(worldIn);
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack getCraftingResult(RecipeEnvironmentalAccumulator.Inventory inv) {
         ItemStack inputStack = inv.getStackInSlot(0);
         ItemStack itemStack = getRecipeOutput().copy();
         if (!inputStack.isEmpty() && inputStack.hasTag()) {
@@ -116,4 +118,10 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<IInventory> {
     public IRecipeType<?> getType() {
         return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR;
     }
+
+    public static interface Inventory extends IInventory {
+        public World getWorld();
+        public BlockPos getPos();
+    }
+
 }

@@ -1,4 +1,4 @@
-package org.cyclops.evilcraft.core.recipe;
+package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.BlockItem;

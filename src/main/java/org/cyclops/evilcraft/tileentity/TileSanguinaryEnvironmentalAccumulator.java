@@ -6,7 +6,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
@@ -152,7 +151,8 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                 new SingleCache.ICacheUpdater<Triple<ItemStack, FluidStack, WeatherType>, Optional<RecipeEnvironmentalAccumulator>>() {
                     @Override
                     public Optional<RecipeEnvironmentalAccumulator> getNewValue(Triple<ItemStack, FluidStack, WeatherType> key) {
-                        IInventory recipeInput = new net.minecraft.inventory.Inventory(key.getLeft());
+                        Inventory recipeInput = new Inventory(1, 64, TileSanguinaryEnvironmentalAccumulator.this);
+                        recipeInput.setInventorySlotContents(0, key.getLeft());
                         return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getWorld());
                     }
 
@@ -184,7 +184,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
     @Override
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
-        return new Inventory<TileSanguinaryEnvironmentalAccumulator>(inventorySize, stackSize, this) {
+        return new Inventory(inventorySize, stackSize, this) {
             @Override
             public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 if(slot == SLOT_ACCUMULATE) {
@@ -193,6 +193,11 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                 return super.isItemValidForSlot(slot, itemStack);
             }
         };
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return (Inventory) super.getInventory();
     }
 
     /**
@@ -374,6 +379,23 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     @Override
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent("block.evilcraft.sanguinary_environmental_accumulator");
+    }
+
+    public static class Inventory extends TileWorking.Inventory<TileSanguinaryEnvironmentalAccumulator> implements RecipeEnvironmentalAccumulator.Inventory {
+
+        public Inventory(int size, int stackLimit, TileSanguinaryEnvironmentalAccumulator tile) {
+            super(size, stackLimit, tile);
+        }
+
+        @Override
+        public World getWorld() {
+            return tile.getWorld();
+        }
+
+        @Override
+        public BlockPos getPos() {
+            return tile.getPos();
+        }
     }
 
     private static class Metadata implements IMetadata {

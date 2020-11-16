@@ -27,7 +27,7 @@ public class ItemBiomeExtractConfig extends ItemConfig {
 
     @ConfigurableProperty(category = "item",
             comment = "A list of biome names for which no Biome Extracts may be created.")
-    public static List<String> craftingBlacklist = Lists.newArrayList(); // TODO: implement
+    public static List<String> craftingBlacklist = Lists.newArrayList();
 
     /**
      * A list of biome ids for which no Biome Extracts may be used.

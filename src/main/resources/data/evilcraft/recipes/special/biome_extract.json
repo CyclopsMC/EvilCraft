@@ -1,0 +1,9 @@
+{
+  "type": "evilcraft:environmental_accumulator_biome_extract",
+  "item": "evilcraft:biome_extract",
+  "weather": "ANY",
+  "result": {
+    "item": "evilcraft:biome_extract",
+    "weather": "ANY"
+  }
+}

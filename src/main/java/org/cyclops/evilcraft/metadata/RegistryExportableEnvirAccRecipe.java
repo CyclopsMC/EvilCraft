@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumu
 /**
  * Environmental accumulator recipe exporter.
  */
-public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAbstract<IRecipeType<RecipeEnvironmentalAccumulator>, RecipeEnvironmentalAccumulator, IInventory> {
+public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAbstract<IRecipeType<RecipeEnvironmentalAccumulator>, RecipeEnvironmentalAccumulator, RecipeEnvironmentalAccumulator.Inventory> {
 
     public RegistryExportableEnvirAccRecipe() {
         super(() -> RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR);
