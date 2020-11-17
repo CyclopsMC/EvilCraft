@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "": [
+      { "model": "evilcraft:block/blood_stain_0", "weight": 1, "y": 0 },
+      { "model": "evilcraft:block/blood_stain_0", "weight": 1, "y": 90 },
+      { "model": "evilcraft:block/blood_stain_0", "weight": 1, "y": 180 },
+      { "model": "evilcraft:block/blood_stain_0", "weight": 1, "y": 270 },
+      { "model": "evilcraft:block/blood_stain_1", "weight": 1, "y": 0 },
+      { "model": "evilcraft:block/blood_stain_1", "weight": 1, "y": 90 },
+      { "model": "evilcraft:block/blood_stain_1", "weight": 1, "y": 180 },
+      { "model": "evilcraft:block/blood_stain_1", "weight": 1, "y": 270 },
+      { "model": "evilcraft:block/blood_stain_2", "weight": 1, "y": 0 },
+      { "model": "evilcraft:block/blood_stain_2", "weight": 1, "y": 90 },
+      { "model": "evilcraft:block/blood_stain_2", "weight": 1, "y": 180 },
+      { "model": "evilcraft:block/blood_stain_2", "weight": 1, "y": 270 }
+    ]
+  }
+}

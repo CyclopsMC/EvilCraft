@@ -15,7 +15,7 @@ import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.block.BlockBloodStained;
+import org.cyclops.evilcraft.block.BlockBloodStain;
 import org.cyclops.evilcraft.block.BlockSanguinaryPedestal;
 import org.cyclops.evilcraft.block.BlockSanguinaryPedestalConfig;
 import org.cyclops.evilcraft.core.algorithm.RegionIterator;
@@ -82,7 +82,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
     		while(!getTank().isFull() && actions > 0) {
 		    	BlockPos location = getNextLocation();
 		    	Block block = getWorld().getBlockState(location).getBlock();
-		    	if(block instanceof BlockBloodStained) {
+		    	if(block instanceof BlockBloodStain) {
 					// TODO: reimplement like redstone dust block
 		    		/*BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorld(),
 		    				location, getTank().getCapacity() - getTank().getFluidAmount());

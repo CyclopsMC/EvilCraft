@@ -41,7 +41,6 @@ public class LivingDeathEventHook {
 	@SubscribeEvent(priority = EventPriority.NORMAL)
     public void onLivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);
-        bloodStainedBlockEvent(event);
         vengeanceEvent(event);
         dropHumanoidFleshEvent(event);
         palingDeath(event);
@@ -63,39 +62,6 @@ public class LivingDeathEventHook {
             int maximumMB = MathHelper.floor(health * (float) ItemBloodExtractorConfig.maximumMobMultiplier * boost);
             ItemBloodExtractor.fillForAllBloodExtractors(player, minimumMB, maximumMB);
         }
-    }
-    
-    private void bloodStainedBlockEvent(LivingDeathEvent event) {
-	    // TODO: rewrite blood stained blocks
-	    /*
-        if(event.getSource() == DamageSource.FALL
-                && !(event.getEntity() instanceof EntityVengeanceSpirit)) {
-            int x = MathHelper.floor(event.getEntity().getPosX());
-            int y = MathHelper.floor(event.getEntity().getPosY() - (event.getEntity().height - 1));
-            int z = MathHelper.floor(event.getEntity().getPosZ());
-            BlockPos pos = new BlockPos(x, y, z);
-            Block block = event.getEntity().world.getBlockState(pos).getBlock();
-            if(BlockBloodStained.getInstance().canSetInnerBlock(event.getEntity().world.getBlockState(pos), block, event.getEntity().world, pos)
-            		|| block == BlockBloodStained.getInstance()) {
-                if (!event.getEntity().world.isRemote()) {
-                    // Transform blockState into blood stained version
-                    FMLCommonHandler.instance().getMinecraftServerInstance().futureTaskQueue.add(
-                            ListenableFutureTask.create(Executors.callable(() -> {
-                                // Only in the next tick, to resolve #601.
-                                // The problem is that Vanilla's logic for handling fall events caches the Block.
-                                // But Forge throws the living death event _after_ this block is determined,
-                                // after which vanilla can still perform operators with this block.
-                                // In some cases, this can result in inconsistencies, which can lead to crashes.
-                                BlockBloodStained.getInstance().stainBlock(event.getEntity().world, pos,
-                                        (int) (BlockBloodStainedConfig.bloodMBPerHP * event.getEntityLiving().getMaxHealth()));
-                            })));
-                } else {
-                    // Init particles
-                    Random random = new Random();
-                    ParticleBloodSplash.spawnParticles(event.getEntity().world, pos.add(0, 1, 0), ((int) event.getEntityLiving().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
-                }
-            }
-        }*/
     }
     
 	private void vengeanceEvent(LivingDeathEvent event) {

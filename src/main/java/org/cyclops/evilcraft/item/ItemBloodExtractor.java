@@ -25,7 +25,7 @@ import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.block.BlockBloodStained;
+import org.cyclops.evilcraft.block.BlockBloodStain;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Can extract blood from attacking mobs and {@link BlockBloodStained}.
+ * Can extract blood from attacking mobs and {@link BlockBloodStain}.
  * @author rubensworks
  *
  */
@@ -49,7 +49,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     public ActionResultType onItemUseFirst(ItemStack itemStack, ItemUseContext context) {
         Block block = context.getWorld().getBlockState(context.getPos()).getBlock();
         if(context.getPlayer().isCrouching()) {
-	        if(block instanceof BlockBloodStained) {
+	        if(block instanceof BlockBloodStain) {
 	            Random random = context.getWorld().rand;
 	            
 	            // Fill the extractor a bit

@@ -198,7 +198,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new BlockFluidBloodConfig());
         configHandler.addConfigurable(new BlockDarkOreConfig());
         configHandler.addConfigurable(new BlockDarkConfig());
-        configHandler.addConfigurable(new BlockBloodStainedConfig());
+        configHandler.addConfigurable(new BlockBloodStainConfig());
         configHandler.addConfigurable(new BlockLightningBombConfig());
         //configHandler.addConfigurable(new ContainedFluxConfig());
         configHandler.addConfigurable(new BlockBloodInfuserConfig());
@@ -322,7 +322,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         // Tile Entities
         configHandler.addConfigurable(new TileBloodChestConfig());
         configHandler.addConfigurable(new TileBloodInfuserConfig());
-        configHandler.addConfigurable(new TileBloodStainedConfig());
+        configHandler.addConfigurable(new TileBloodStainConfig());
         configHandler.addConfigurable(new TileBoxOfEternalClosureConfig());
         configHandler.addConfigurable(new TileColossalBloodChestConfig());
         configHandler.addConfigurable(new TileDarkTankConfig());

@@ -159,8 +159,8 @@ public class RegistryEntries {
     public static final Block BLOCK_BLOOD_CHEST = null;
     @ObjectHolder("evilcraft:blood_infuser")
     public static final Block BLOCK_BLOOD_INFUSER = null;
-    @ObjectHolder("evilcraft:blood_stained")
-    public static final Block BLOCK_BLOOD_STAINED = null;
+    @ObjectHolder("evilcraft:blood_stain")
+    public static final Block BLOCK_BLOOD_STAIN = null;
     @ObjectHolder("evilcraft:bloody_cobblestone")
     public static final Block BLOCK_BLOODY_COBBLESTONE = null;
     @ObjectHolder("evilcraft:box_of_eternal_closure")
@@ -230,8 +230,8 @@ public class RegistryEntries {
     public static final TileEntityType<TileBloodChest> TILE_ENTITY_BLOOD_CHEST = null;
     @ObjectHolder("evilcraft:blood_infuser")
     public static final TileEntityType<TileBloodInfuser> TILE_ENTITY_BLOOD_INFUSER = null;
-    @ObjectHolder("evilcraft:blood_stained")
-    public static final TileEntityType<TileBloodStained> TILE_ENTITY_BLOOD_STAINED = null;
+    @ObjectHolder("evilcraft:blood_stain")
+    public static final TileEntityType<TileBloodStain> TILE_ENTITY_BLOOD_STAIN = null;
     @ObjectHolder("evilcraft:box_of_eternal_closure")
     public static final TileEntityType<TileBoxOfEternalClosure> TILE_ENTITY_BOX_OF_ETERNAL_CLOSURE = null;
     @ObjectHolder("evilcraft:colossal_blood_chest")

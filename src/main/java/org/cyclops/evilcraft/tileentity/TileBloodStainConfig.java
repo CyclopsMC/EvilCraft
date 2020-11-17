@@ -7,18 +7,18 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
- * Config for the {@link TileBloodStained}.
+ * Config for the {@link TileBloodStain}.
  * @author rubensworks
  *
  */
-public class TileBloodStainedConfig extends TileEntityConfig<TileBloodStained> {
+public class TileBloodStainConfig extends TileEntityConfig<TileBloodStain> {
 
-    public TileBloodStainedConfig() {
+    public TileBloodStainConfig() {
         super(
                 EvilCraft._instance,
-                "blood_stained",
-                (eConfig) -> new TileEntityType<>(TileBloodStained::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_BLOOD_STAINED), null)
+                "blood_stain",
+                (eConfig) -> new TileEntityType<>(TileBloodStain::new,
+                        Sets.newHashSet(RegistryEntries.BLOCK_BLOOD_STAIN), null)
         );
     }
 

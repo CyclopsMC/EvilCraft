@@ -40,7 +40,9 @@ public class ParticleBloodSplash extends RainParticle {
             Minecraft.getInstance().worldRenderer.addParticle(
                     RegistryEntries.PARTICLE_BLOOD_SPLASH, false,
                     x_r, y_r, z_r,
-                    velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity), velocity == 0 ? 0 : random.nextInt(velocity));
+                    velocity == 0 ? 0 : random.nextInt(velocity),
+                    velocity == 0 ? 0 : random.nextInt(velocity),
+                    velocity == 0 ? 0 : random.nextInt(velocity));
         }
     }
 }

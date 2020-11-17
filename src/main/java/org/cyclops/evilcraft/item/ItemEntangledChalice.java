@@ -111,10 +111,13 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
          */
         public String getTankID() {
             CompoundNBT tag = getContainer().getTag();
-            if(tag != null && !tag.contains(WorldSharedTank.NBT_TANKID)) {
-                tag.putString(WorldSharedTank.NBT_TANKID, "");
+            if(tag != null) {
+                if (!tag.contains(WorldSharedTank.NBT_TANKID)) {
+                    tag.putString(WorldSharedTank.NBT_TANKID, "");
+                }
+                return tag.getString(WorldSharedTank.NBT_TANKID);
             }
-            return tag.getString(WorldSharedTank.NBT_TANKID);
+            return "";
         }
 
         /**

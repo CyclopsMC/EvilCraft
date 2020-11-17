@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.block.BlockBloodStained;
+import org.cyclops.evilcraft.block.BlockBloodStain;
 import org.cyclops.evilcraft.block.BlockDarkOre;
 
 import javax.annotation.Nullable;
@@ -66,7 +66,7 @@ public class ItemDarkGem extends Item {
                                 for(int restep = 0; restep < amount; restep++) {
                                     world.removeBlock(visited[restep], false);
                                     if (world.isRemote())
-                                        BlockBloodStained.splash(world, visited[restep].add(0, -1, 0));
+                                        BlockBloodStain.splash(world, visited[restep].add(0, -1, 0));
                                     world.notifyNeighborsOfStateChange(visited[restep], Blocks.AIR);
                                 }
                                 return -1;
