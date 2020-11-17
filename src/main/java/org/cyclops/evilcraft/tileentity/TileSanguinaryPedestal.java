@@ -7,8 +7,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.cyclops.cyclopscore.fluid.FluidHandlerWrapper;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
@@ -37,34 +39,38 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 
 	@Delegate
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
+	private final IFluidHandler bonusFluidHandler;
     
     private RegionIterator regionIterator;
 
     public TileSanguinaryPedestal() {
         super(RegistryEntries.TILE_ENTITY_SANGUINARY_PEDESTAL, 0, 1, FluidHelpers.BUCKET_VOLUME * TANK_BUCKETS, RegistryEntries.FLUID_BLOOD);
+        this.bonusFluidHandler = new FluidHandlerWrapper(getTank()) {
+			@Override
+			public int fill(FluidStack resource, FluidAction action) {
+				if (hasEfficiency() && !resource.isEmpty()) {
+					resource.setAmount((int) (resource.getAmount() * BlockSanguinaryPedestalConfig.efficiencyBoost));
+				}
+				return super.fill(resource, action);
+			}
+		};
     }
+
+	/**
+	 * @return The inner tank of this pedestal that when filled can have a bonus applied.
+	 */
+	public IFluidHandler getBonusFluidHandler() {
+		return bonusFluidHandler;
+	}
 
 	@Override
 	protected void addItemHandlerCapabilities() {
 		// Don't expose inventory
 	}
-
-	public void fillWithPotentialBonus(FluidStack fluidStack) {
-        if(hasEfficiency() && !fluidStack.isEmpty()) {
-			fluidStack.setAmount((int) (fluidStack.getAmount() * BlockSanguinaryPedestalConfig.efficiencyBoost));
-        }
-        getTank().fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-    }
     
-    protected void afterBlockReplace(World world, BlockPos location, BlockState block, int amount) {
+    protected void afterBlockReplace(World world, BlockPos location) {
     	// NOTE: this is only called server-side, so make sure to send packets where needed.
-    	
-    	// Fill tank
-    	if(!getTank().isFull()) {
-			fillWithPotentialBonus(new FluidStack(RegistryEntries.FLUID_BLOOD, amount));
-		}
-
-		EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(location, block),
+		EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(location.getX(), location.getY(), location.getZ()),
 				LocationHelpers.createTargetPointFromLocation(world, location, SanguinaryPedestalBlockReplacePacket.RANGE));
     }
 
@@ -83,12 +89,13 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 		    	BlockPos location = getNextLocation();
 		    	Block block = getWorld().getBlockState(location).getBlock();
 		    	if(block instanceof BlockBloodStain) {
-					// TODO: reimplement like redstone dust block
-		    		/*BloodStainedBlock.UnstainResult result = BloodStainedBlock.getInstance().unstainBlock(getWorld(),
-		    				location, getTank().getCapacity() - getTank().getFluidAmount());
-		    		if(result.amount > 0) {
-		    			afterBlockReplace(getWorld(), location, result.block.getBlock(), result.amount);
-		    		}*/
+					TileHelpers.getCapability(getWorld(), location, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+							.ifPresent((source) -> {
+								FluidStack moved = FluidUtil.tryFluidTransfer(getBonusFluidHandler(), source, Integer.MAX_VALUE, true);
+								if (!moved.isEmpty()) {
+									afterBlockReplace(getWorld(), location);
+								}
+							});
 		    	}
                 actions--;
     		}
@@ -96,15 +103,17 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 	    	// Auto-drain the inner tank
 	    	if(!getTank().isEmpty()) {
 				for(Direction direction : Direction.values()) {
-					IFluidHandler handler = TileHelpers.getCapability(getWorld(), getPos().offset(direction),
-							direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
-					if(!getTank().isEmpty() && handler != null) {
-						FluidStack fluidStack = new FluidStack(getTank().getFluid(), Math.min(MB_RATE, getTank().getFluidAmount()));
-						if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
-							int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-							getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
-						}
-					}
+					TileHelpers.getCapability(getWorld(), getPos().offset(direction),
+							direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+							.ifPresent(handler -> {
+								if(!getTank().isEmpty()) {
+									FluidStack fluidStack = new FluidStack(getTank().getFluid(), Math.min(MB_RATE, getTank().getFluidAmount()));
+									if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
+										int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+										getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
+									}
+								}
+							});
 				}
 			}
     	}

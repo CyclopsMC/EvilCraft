@@ -27,7 +27,8 @@ public class BlockSpikedPlateConfig extends BlockConfig {
             "spiked_plate",
                 eConfig -> new BlockSpikedPlate(Block.Properties.create(Material.ROCK)
                         .hardnessAndResistance(2.0F)
-                        .sound(SoundType.STONE)),
+                        .sound(SoundType.STONE)
+                        .doesNotBlockMovement()),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

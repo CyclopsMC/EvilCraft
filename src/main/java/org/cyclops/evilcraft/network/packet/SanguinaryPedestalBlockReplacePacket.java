@@ -12,6 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 
 /**
@@ -29,8 +30,6 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
 	private double y = 0;
     @CodecField
 	private double z = 0;
-    @CodecField
-	private INBT blockState;
     
     /**
      * Empty packet.
@@ -44,22 +43,16 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
 		return false;
 	}
 
-	public SanguinaryPedestalBlockReplacePacket(double x, double y, double z, BlockState blockState) {
+	public SanguinaryPedestalBlockReplacePacket(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.blockState = BlockHelpers.serializeBlockState(blockState);
-	}
-
-	public SanguinaryPedestalBlockReplacePacket(BlockPos location, BlockState blockState) {
-		this(location.getX(), location.getY(), location.getZ(), blockState);
 	}
     
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void actionClient(World world, PlayerEntity player) {
-		BlockState blockState = BlockHelpers.deserializeBlockState(this.blockState);
-		world.playSound(x, y, z, blockState.getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.1F + world.rand.nextFloat() * 0.5F,
+		world.playSound(x, y, z, RegistryEntries.BLOCK_BLOOD_STAIN.getDefaultState().getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.1F + world.rand.nextFloat() * 0.5F,
     			0.9F + world.rand.nextFloat() * 0.1F, false);
 		ParticleBloodSplash.spawnParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.rand.nextInt(2), 1 + world.rand.nextInt(2));
 	}

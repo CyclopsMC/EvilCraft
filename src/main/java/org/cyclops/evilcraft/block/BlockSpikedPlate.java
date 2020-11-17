@@ -18,7 +18,9 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.config.configurable.BlockPressurePlate;
@@ -73,7 +75,8 @@ public class BlockSpikedPlate extends BlockPressurePlate {
 	    		TileEntity tile = world.getTileEntity(blockPos.add(0, -1, 0));
 	    		if(tile != null && tile instanceof TileSanguinaryPedestal) {
 	    			int amount = MathHelper.floor(damage * (float) BlockSpikedPlateConfig.mobMultiplier);
-	    			((TileSanguinaryPedestal) tile).fillWithPotentialBonus(new FluidStack(RegistryEntries.FLUID_BLOOD, amount));
+	    			((TileSanguinaryPedestal) tile).getBonusFluidHandler()
+                            .fill(new FluidStack(RegistryEntries.FLUID_BLOOD, amount), IFluidHandler.FluidAction.EXECUTE);
 	    		}
 	    		return true;
     		}
@@ -81,17 +84,16 @@ public class BlockSpikedPlate extends BlockPressurePlate {
     	return false;
     }
 
-	@SuppressWarnings({"rawtypes", "unchecked"})
 	@Override
 	protected int computeRedstoneStrength(World world, BlockPos blockPos) {
         VoxelShape shape = this.getShape(world.getBlockState(blockPos), world, blockPos, ISelectionContext.dummy());
-		List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, shape.getBoundingBox().offset(blockPos));
+		List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, shape.getBoundingBox().expand(0, 1, 1).offset(blockPos));
 
         int ret = 0;
 
-		if(!world.isRemote() && list != null && !list.isEmpty()) {
-            for(LivingEntity entity : list) {
-                if(!entity.doesEntityNotTriggerPressurePlate() && damageEntity((ServerWorld) world, entity, blockPos)) {
+		if (!world.isRemote() && !list.isEmpty()) {
+            for (LivingEntity entity : list) {
+                    if (!entity.doesEntityNotTriggerPressurePlate() && damageEntity((ServerWorld) world, entity, blockPos)) {
                     ret = 15;
                 }
             }
@@ -106,25 +108,6 @@ public class BlockSpikedPlate extends BlockPressurePlate {
 
     protected BlockState setRedstoneStrength(BlockState blockState, int meta) {
         return blockState.with(POWERED, meta > 0);
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos blockPos, ISelectionContext context) {
-        BlockState blockState = world.getBlockState(blockPos);
-        boolean flag = this.getRedstoneStrength(blockState) > 0;
-        float offset = 0F;
-        float f = 0.0775F * 16F;
-
-        TileEntity tile = world.getTileEntity(blockPos.add(0, -1, 0));
-        if(tile != null && tile instanceof TileSanguinaryPedestal) {
-            offset = -0.025F * 16F;
-        }
-
-        if (flag) {
-            return Block.makeCuboidShape(f, offset, f, 16.0F - f, 0.03125F * 16F + offset, 16.0F - f);
-        } else {
-            return Block.makeCuboidShape(f, offset, f, 16.0F - f, 0.0625F * 16F + offset, 16.0F - f);
-        }
     }
 
     @Override

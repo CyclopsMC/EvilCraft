@@ -59,9 +59,10 @@
   "block.evilcraft.dark_tank": "Dark Tank",
   "block.evilcraft.dark_tank.info": "Place in crafting grid with other tanks to increase capacity. Shift + Right click to auto-supply.",
   "block.evilcraft.dark_tank.info.auto_supply": "Auto-supply: %s",
-  "block.evilcraft.sanguinary_pedestal": "Sanguinary Pedestal",
-  "block.evilcraft.sanguinary_pedestal.info": "Drains blood stained blocks in the area.",
-  "block.evilcraft.sanguinary_pedestal.boost": "Efficiency I",
+  "block.evilcraft.sanguinary_pedestal_0": "Sanguinary Pedestal",
+  "block.evilcraft.sanguinary_pedestal_0.info": "Drains blood from blood stains in the area.",
+  "block.evilcraft.sanguinary_pedestal_1": "Powered Sanguinary Pedestal",
+  "block.evilcraft.sanguinary_pedestal_1.info": "Drains more blood from blood stains in the area.",
   "block.evilcraft.spiked_plate": "Spiked Plate",
   "block.evilcraft.spiked_plate.info": "Damages mobs, place on Pedestal to drain blood.",
   "block.evilcraft.spirit_reanimator": "Spirit Reanimator",
@@ -593,7 +594,7 @@
   "info_book.evilcraft.second_age.evolved_blood_machinery": "Evolved Blood Machinery",
 
   "info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal": "Sanguinary Pedestal",
-  "info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal.text1": "I was getting tired of pushing mobs off of cliffs and extracting the &4Blood&0, that is why I constructed a device which is able to extract &4Blood&0 from nearby stained blocks and place it in any nearby tanks. Using some &1Dark Power Gems&0, the &4Blood&0 efficiency of this &4Blood&0 extraction can be increased.",
+  "info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal.text1": "I was getting tired of pushing mobs off of cliffs and extracting the &4Blood&0, that is why I constructed a device which is able to extract &4Blood&0 from nearby &1Blood Stains&0 and place it in any nearby tanks. Using some &1Dark Power Gems&0, the &4Blood&0 efficiency of this &4Blood&0 extraction can be increased.",
   "info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal.text2": "Placing a &1Spiked Plate&0 on top of it will enhance the capabilities of this plate to also absorb the &4Blood&0 of the beasts it kills and redirect it to the pedestal.",
 
   "info_book.evilcraft.second_age.evolved_blood_machinery.purifier": "Purifier",

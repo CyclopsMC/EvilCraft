@@ -5,6 +5,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -40,6 +42,16 @@ public class BlockBloodStain extends BlockTile {
     public BlockBloodStain(Block.Properties properties) {
         super(properties, TileBloodStain::new);
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    @Override
+    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+        return true;
+    }
+
+    @Override
+    public boolean isReplaceable(BlockState p_225541_1_, Fluid p_225541_2_) {
+        return true;
     }
 
     @Override

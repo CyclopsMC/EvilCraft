@@ -26,7 +26,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class BlockSanguinaryPedestal extends BlockTile implements IInformationProvider, IBlockRarityProvider {
+public class BlockSanguinaryPedestal extends BlockTile implements IBlockRarityProvider {
 
     private final int tier;
 
@@ -42,21 +42,6 @@ public class BlockSanguinaryPedestal extends BlockTile implements IInformationPr
     @Override
     public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return false;
-    }
-
-    @Override
-    public ITextComponent getInfo(ItemStack itemStack) {
-        if(tier == 1) {
-            return new TranslationTextComponent(this.getTranslationKey() + ".boost")
-                    .applyTextStyle(TextFormatting.GRAY);
-        }
-        return null;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void provideInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag iTooltipFlag) {
-
     }
 
     @Override
