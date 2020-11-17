@@ -19,10 +19,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
@@ -51,17 +53,15 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         if(context.getPlayer().isCrouching()) {
 	        if(block instanceof BlockBloodStain) {
 	            Random random = context.getWorld().rand;
-	            
-	            // Fill the extractor a bit
-	            int amount = 0;
-				// TODO: reimplement blood stained block
-                int filled = 0;
 
-	            // Transform bloody dirt into regular dirt if we used some of the blood
-	            if(filled > 0 && context.getWorld().isRemote()) {
-	                // Init particles
-	                ParticleBloodSplash.spawnParticles(context.getWorld(), context.getPos(), 5, 1 + random.nextInt(2));
-	            }
+                // Fill the extractor a bit
+                TileHelpers.getCapability(context.getWorld(), context.getPos(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                        .ifPresent((source) -> {
+                            FluidStack moved = FluidUtil.tryFluidTransfer(FluidUtil.getFluidHandler(itemStack).orElse(null), source, Integer.MAX_VALUE, true);
+                            if (!moved.isEmpty() && context.getWorld().isRemote()) {
+                                ParticleBloodSplash.spawnParticles(context.getWorld(), context.getPos(), 5, 1 + random.nextInt(2));
+                            }
+                        });
 	            return ActionResultType.PASS;
 	        }
         }
@@ -88,7 +88,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         if(!player.isCrouching()) {
             return super.onItemRightClick(world, player, hand);
         } else {
-            BlockRayTraceResult target = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.ANY);
+            RayTraceResult target = this.rayTrace(world, player, RayTraceContext.FluidMode.ANY);
             if(target == null || target.getType() == RayTraceResult.Type.MISS) {
         		if(!world.isRemote()) {
 		            ItemHelpers.toggleActivation(itemStack);
@@ -96,18 +96,6 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         	}
         }
         return MinecraftHelpers.successAction(itemStack);
-    }
-    
-    /**
-     * Fill a given Blood Extractor with a given amount of blood.
-     * @param itemStack The ItemStack that is a Blood Extractor to fill.
-     * @param amount The amount to fill.
-     * @param fluidAction The fluid action.
-     * @return The amount of blood that was filled with.
-     */
-    public int fillBloodExtractor(ItemStack itemStack, int amount, IFluidHandler.FluidAction fluidAction) {
-        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-        return fluidHandler.fill(new FluidStack(getFluid(), amount), fluidAction);
     }
     
     /**

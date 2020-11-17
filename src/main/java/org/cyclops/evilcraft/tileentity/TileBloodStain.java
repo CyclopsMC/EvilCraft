@@ -39,7 +39,10 @@ public class TileBloodStain extends CyclopsTileEntity {
 	 * @param amount the amount to add
 	 */
 	public void addAmount(int amount) {
-		this.amount = Math.min(CAPACITY, this.amount + amount);
+		this.amount = Math.min(CAPACITY, Math.max(0, this.amount + amount));
+		if (this.amount == 0) {
+			getWorld().removeBlock(getPos(), false);
+		}
 		markDirty();
 	}
 

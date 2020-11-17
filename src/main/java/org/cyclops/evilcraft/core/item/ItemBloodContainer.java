@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.item;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -48,12 +49,12 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
         FluidStack drained = fluidHandler.drain(FluidHelpers.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
 
-        boolean hasBucket = drained != null
+        boolean hasBucket = !drained.isEmpty()
                 && (drained.getAmount() == FluidHelpers.BUCKET_VOLUME);
-        boolean hasSpace = fluidStack == null
+        boolean hasSpace = fluidStack.isEmpty()
                 || (fluidStack.getAmount() + FluidHelpers.BUCKET_VOLUME <= fluidHandler.getCapacity());
-        BlockRayTraceResult movingobjectpositionDrain = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
-        BlockRayTraceResult movingobjectpositionFill = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.NONE);
+        BlockRayTraceResult movingobjectpositionDrain = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.NONE);
+        BlockRayTraceResult movingobjectpositionFill = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
 
         if (movingobjectpositionDrain != null && movingobjectpositionFill != null) {
             if (isPickupFluids() && movingobjectpositionFill.getType() == RayTraceResult.Type.BLOCK) {
@@ -63,15 +64,12 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
                     return MinecraftHelpers.successAction(itemStack);
                 }
 
-                /*if (!player.canPlayerEdit(blockPos, movingobjectpositionFill.sideHit, itemStack)) {
-                    return itemStack;
-                }*/
                 BlockState blockState = world.getBlockState(blockPos);
                 if (blockState.getBlock() instanceof FlowingFluidBlock
                         && ((FlowingFluidBlock) blockState.getBlock()).getFluid() == getFluid()
                         && blockState.get(FlowingFluidBlock.LEVEL) == 0) {
                     if(hasSpace) {
-                        world.removeBlock(blockPos, false);
+                        world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 3);
                         fluidHandler.fill(new FluidStack(getFluid(), FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
                     }
                     return MinecraftHelpers.successAction(itemStack);
@@ -87,10 +85,6 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
 
                 Direction direction = movingobjectpositionDrain.getFace();
                 blockPos = blockPos.add(direction.getDirectionVec());
-
-                /*if (!player.canPlayerEdit(blockPos, direction, itemStack)) {
-                    return itemStack;
-                }*/
 
                 if (this.tryPlaceContainedLiquid(world, blockPos, true)) {
                     fluidHandler.drain(FluidHelpers.BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);

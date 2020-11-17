@@ -56,13 +56,15 @@ public class BlockTankHelpers {
             if(!itemStack.isEmpty()) {
                 SimulatableTankWrapper tank = new SimulatableTankWrapper(tile.getTank());
                 IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-                if(!player.isCrouching() && !tank.isFull() && itemFluidHandler != null) { // Fill the tank.
+                if(!player.isCrouching() && !tank.isFull() && itemFluidHandler != null
+                        && FluidUtil.tryEmptyContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, false).isSuccess()) { // Fill the tank.
                     FluidActionResult result = FluidUtil.tryEmptyContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, true);
                     if (result.isSuccess() && !player.isCreative()) {
                         InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult(), hand);
                     }
                     return true;
-                } else if(player.isCrouching() && !tank.isEmpty()) { // Drain the tank.
+                } else if(player.isCrouching() && !tank.isEmpty()
+                        && FluidUtil.tryFillContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, false).isSuccess()) { // Drain the tank.
                     FluidActionResult result = FluidUtil.tryFillContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, true);
                     if (result.isSuccess() && !player.isCreative()) {
                         InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult(), hand);
