@@ -30,7 +30,7 @@ public class BlockDarkTankConfig extends BlockConfig {
     @ConfigurableProperty(category = "machine", comment = "If creative versions for all fluids should be added to the creative tab.")
     public static boolean creativeTabFluids = true;
 
-    @ConfigurableProperty(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.tab.", requiresMcRestart = true)
+    @ConfigurableProperty(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.", requiresMcRestart = true)
     public static boolean staticBlockRendering = false;
 
     @ConfigurableProperty(category = "item", comment = "If held buckets should be autofilled when enabled.", isCommandable = true)
@@ -51,7 +51,7 @@ public class BlockDarkTankConfig extends BlockConfig {
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getTranslucent());
     }
 
 }

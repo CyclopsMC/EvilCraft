@@ -97,7 +97,7 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -132,7 +132,10 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
 	@Override
 	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
 		return TileHelpers.getSafeTile(world, pos, TileDarkTank.class)
-				.map(tile -> (int) Math.min(15, tile.getFillRatio() * tile.getTank().getFluidType().getAttributes().getLuminosity(tile.getTank().getFluid()) * 15))
+				.map(tile -> tile.getTank().getFluidType() != null
+						? (int) Math.min(15, tile.getFillRatio() * tile.getTank().getFluidType()
+							.getAttributes().getLuminosity(tile.getTank().getFluid()) * 15)
+						: 0)
 				.orElse(0);
 	}
 

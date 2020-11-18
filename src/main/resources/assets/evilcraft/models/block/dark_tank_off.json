@@ -1,10 +1,33 @@
 {
+  "loader": "evilcraft:dark_tank",
   "elements": [{
-    "from": [ 2, 0.1, 2 ],
-    "to": [ 14, 15.9, 14 ],
+    "from": [ 2, 0, 2 ],
+    "to": [ 14, 0.5, 14 ],
     "faces": {
       "down":  { "texture": "#down", "cullface": "down" },
-      "up":    { "texture": "#up"  , "cullface": "up"   },
+      "up":    { "texture": "#down" },
+      "north": { "texture": "#side" },
+      "south": { "texture": "#side" },
+      "west":  { "texture": "#side" },
+      "east":  { "texture": "#side" }
+    }
+  },{
+    "from": [ 2, 0.5, 2 ],
+    "to": [ 14, 15.5, 14 ],
+    "faces": {
+      "down":  { "texture": "#down" },
+      "up":    { "texture": "#up"   },
+      "north": { "texture": "#side" },
+      "south": { "texture": "#side" },
+      "west":  { "texture": "#side" },
+      "east":  { "texture": "#side" }
+    }
+  },{
+    "from": [ 2, 15.5, 2 ],
+    "to": [ 14, 16, 14 ],
+    "faces": {
+      "down":  { "texture": "#up" },
+      "up":    { "texture": "#up", "cullface": "up" },
       "north": { "texture": "#side" },
       "south": { "texture": "#side" },
       "west":  { "texture": "#side" },

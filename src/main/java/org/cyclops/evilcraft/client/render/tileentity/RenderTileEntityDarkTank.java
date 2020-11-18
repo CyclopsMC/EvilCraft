@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
@@ -19,52 +20,53 @@ import org.cyclops.evilcraft.tileentity.TileDarkTank;
 /**
  * Renderer for the {@link BlockDarkTank}.
  * @author rubensworks
- *
  */
 public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
 	
-	private static final double OFFSET = 0.01D;
-	private static final double MINY = OFFSET;
-	private static final double MIN = 0.125D + OFFSET;
-	private static final double MAX = 0.875D - OFFSET;
-	private static double[][][] coordinates = {
-        { // DOWN
-            {MIN, MINY, MIN},
-            {MIN, MINY, MAX},
-            {MAX, MINY, MAX},
-            {MAX, MINY, MIN}
-        },
-        { // UP
-            {MIN, MAX, MIN},
-            {MIN, MAX, MAX},
-            {MAX, MAX, MAX},
-            {MAX, MAX, MIN}
-        },
-        { // NORTH
-            {MIN, MINY, MIN},
-            {MIN, MAX, MIN},
-            {MAX, MAX, MIN},
-            {MAX, MINY, MIN}
-        },
-        { // SOUTH
-            {MIN, MINY, MAX},
-            {MIN, MAX, MAX},
-            {MAX, MAX, MAX},
-            {MAX, MINY, MAX}
-        },
-        { // WEST
-            {MIN, MINY, MIN},
-            {MIN, MAX, MIN},
-            {MIN, MAX, MAX},
-            {MIN, MINY, MAX}
-        },
-        { // EAST
-            {MAX, MINY, MIN},
-            {MAX, MAX, MIN},
-            {MAX, MAX, MAX},
-            {MAX, MINY, MAX}
-        }
-    };
+	private static final float OFFSET = 0.01F;
+	private static final float MINY = OFFSET;
+	private static final float MIN = 0.125F + OFFSET;
+	private static final float MAX = 0.875F - OFFSET;
+	private static float[][][] coordinates = {
+			{ // DOWN
+					{MIN, MINY, MIN},
+					{MIN, MINY, MAX},
+					{MAX, MINY, MAX},
+					{MAX, MINY, MIN}
+			},
+			{ // UP
+					{MIN, MAX, MIN},
+					{MIN, MAX, MAX},
+					{MAX, MAX, MAX},
+					{MAX, MAX, MIN}
+			},
+			{ // NORTH
+					{MIN, MINY, MIN},
+					{MIN, MAX, MIN},
+					{MAX, MAX, MIN},
+					{MAX, MINY, MIN}
+			},
+			{ // SOUTH
+					{MIN, MAX, MAX},
+					{MIN, MINY, MAX},
+					{MAX, MINY, MAX},
+					{MAX, MAX, MAX}
+
+			},
+			{ // WEST
+					{MIN, MAX, MIN},
+					{MIN, MINY, MIN},
+					{MIN, MINY, MAX},
+					{MIN, MAX, MAX}
+
+			},
+			{ // EAST
+					{MAX, MINY, MIN},
+					{MAX, MAX, MIN},
+					{MAX, MAX, MAX},
+					{MAX, MINY, MAX}
+			}
+	};
 
 	public RenderTileEntityDarkTank(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn);
@@ -78,6 +80,7 @@ public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
 			int brightness = Math.max(combinedLightIn, fluid.getFluid().getAttributes().getLuminosity(fluid));
 			renderFluidSides(height, tile.getTank().getFluid(), brightness, matrixStackIn, bufferIn);
 		});
+		RenderSystem.disableLighting();
 	}
 	
 	/**
@@ -97,18 +100,18 @@ public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
 		TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
 		IVertexBuilder vb = bufferIn.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
 		Matrix4f matrix = matrixStackIn.getLast().getMatrix();
-		for(Direction side : DirectionHelpers.DIRECTIONS) {
-			double[][] c = coordinates[side.ordinal()];
+		for (Direction side : DirectionHelpers.DIRECTIONS) {
+			float[][] c = coordinates[side.ordinal()];
 			float replacedMaxV = (side == Direction.UP || side == Direction.DOWN) ?
 					icon.getMaxV() : ((icon.getMaxV() - icon.getMinV()) * height + icon.getMinV());
-            vb.pos(c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).tex(icon.getMinU(), replacedMaxV).lightmap(l2, i3).endVertex();
-			vb.pos(c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-			vb.pos(c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-			vb.pos(c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).tex(icon.getMaxU(), replacedMaxV).lightmap(l2, i3).endVertex();
+            vb.pos(matrix, c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).tex(icon.getMinU(), replacedMaxV).lightmap(l2, i3).endVertex();
+			vb.pos(matrix, c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).endVertex();
+			vb.pos(matrix, c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).endVertex();
+			vb.pos(matrix, c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).tex(icon.getMaxU(), replacedMaxV).lightmap(l2, i3).endVertex();
 		}
 	}
 	
-	private static double getHeight(Direction side, double height, double replaceHeight) {
+	private static float getHeight(Direction side, float height, float replaceHeight) {
 		if(height == MAX) {
 			return replaceHeight;
 		}

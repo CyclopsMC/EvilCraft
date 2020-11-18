@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -22,9 +23,11 @@ import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.block.BlockDarkTank;
+import org.cyclops.evilcraft.block.BlockDarkTankConfig;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -61,7 +64,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     @Override
     public List<BakedQuad> getGeneralQuads() {
         List<BakedQuad> combinedList = Lists.newArrayList();
-        if(fluidStack != null) {
+        if(fluidStack != null && BlockDarkTankConfig.staticBlockRendering) {
             combinedList.addAll(getFluidQuads(fluidStack, capacity));
         }
         combinedList.addAll(baseModel.getQuads(blockState, getRenderingSide(), rand));
@@ -110,8 +113,9 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
             } else if(side == Direction.DOWN) {
                 addBakedQuadRotated(quads, 0.13F, 0.87F, 0.13F, 0.87F, 0.95F, texture, side, ROTATION_FIX[side.ordinal()], true, color, ROTATION_UV);
             } else {
+                float width = 0.87F;
                 float x1 = 0.13F;
-                float x2 = 0.87F;
+                float x2 = width;
                 float z1 = 0.01F;
                 float z2 = height;
                 if(side == Direction.EAST || side == Direction.SOUTH) {
@@ -126,13 +130,35 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
                     z1 = tmp1;
                     z2 = tmp2;
                 }
-                float[][] uvs;
-                if(side == Direction.UP || side == Direction.DOWN) {
-                    uvs = new float[][]{{1, 0}, {1, 1}, {0, 1}, {0, 0}};
-                } else {
-                    uvs = new float[][]{{1, 0}, {1, height}, {0, height}, {0, 0}};
+
+                switch (side) {
+                    case DOWN:
+                        addBakedQuadRotated(quads, x1, x2, z1, z2, width, texture, side, 0  , true, color,
+                                new float[][]{{1, 0}, {1, 1}, {0, 1}, {0, 0}});
+                        break;
+                    case UP:
+                        addBakedQuadRotated(quads, x1, x2, z1, z2, width, texture, side, 0, true, color,
+                                new float[][]{{1, 0}, {1, 1}, {0, 1}, {0, 0}});
+                        break;
+                    case NORTH:
+                        addBakedQuadRotated(quads, x2, x1, z2, z1, width, texture, side, 0, true, color,
+                                new float[][]{{1, 0}, {1, height}, {0, height}, {0, 0}});
+                        break;
+                    case SOUTH:
+                        addBakedQuadRotated(quads, x1, x2, z1, z2, width, texture, side, 0, true, color,
+                                new float[][]{{1, 0}, {1, height}, {0, height}, {0, 0}});
+                        break;
+                    case WEST:
+                        // TODO: shadow not right yet
+                        addBakedQuadRotated(quads, x1, x2, z1, z2, 0.87F, texture, side, 0, true, color,
+                                new float[][]{{1, height}, {0, height}, {0, 0}, {1, 0}});
+                        break;
+                    case EAST:
+                        // TODO: shadow not right yet
+                        addBakedQuadRotated(quads, x1, x2, z1, z2, width, texture, side, 0, true, color,
+                                new float[][]{{0, 0}, {1, 0}, {1, height}, {0, height}});
+                        break;
                 }
-                addBakedQuadRotated(quads, x1, x2, z1, z2, 0.87F, texture, side, ROTATION_FIX[side.ordinal()], true, color, uvs);
             }
         }
         return quads;
@@ -145,6 +171,11 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
 
     @Override
     public boolean func_230044_c_() {
-        return false; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
+        return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
+    }
+
+    @Override
+    public ItemCameraTransforms getItemCameraTransforms() {
+        return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }
