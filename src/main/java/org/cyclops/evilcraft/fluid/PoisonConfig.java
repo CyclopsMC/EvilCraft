@@ -20,7 +20,7 @@ public class PoisonConfig extends FluidConfig {
                 "poison",
                 fluidConfig -> new ForgeFlowingFluid.Source(
                         getDefaultFluidProperties(EvilCraft._instance,
-                                "block/blood",
+                                "block/poison",
                                 builder -> builder
                                         .density(1000)
                                         .viscosity(1000)
