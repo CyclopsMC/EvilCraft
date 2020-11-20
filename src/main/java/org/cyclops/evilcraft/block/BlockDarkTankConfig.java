@@ -11,7 +11,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.render.tileentity.RenderItemStackTileEntityDarkTank;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
 /**
@@ -44,8 +43,7 @@ public class BlockDarkTankConfig extends BlockConfig {
                         .hardnessAndResistance(0.5F)
                         .sound(SoundType.GLASS)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .setISTER(() -> () -> new RenderItemStackTileEntityDarkTank()))
+                        .group(EvilCraft._instance.getDefaultItemGroup()))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }

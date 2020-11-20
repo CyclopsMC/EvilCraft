@@ -35,9 +35,9 @@
     }
   }],
   "textures": {
-    "particle": "evilcraft:block/dark_tank_side_off",
-    "side"    : "evilcraft:block/dark_tank_side_off",
-    "up"      : "evilcraft:block/dark_tank_up_off",
-    "down"    : "evilcraft:block/dark_tank_up_off"
+    "particle": "evilcraft:block/dark_tank_side",
+    "side"    : "evilcraft:block/dark_tank_side",
+    "up"      : "evilcraft:block/dark_tank_up",
+    "down"    : "evilcraft:block/dark_tank_up"
   }
 }

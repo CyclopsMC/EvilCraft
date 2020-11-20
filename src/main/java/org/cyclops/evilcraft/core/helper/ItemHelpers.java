@@ -23,6 +23,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 public class ItemHelpers {
 
 	private static final int MB_FILL_PERTICK = GeneralConfig.mbFlowRate;
+    public static final String NBT_KEY_ENABLED = "enabled";
     private static ItemStack bloodBucket = null;
 	
 	/**
@@ -31,7 +32,7 @@ public class ItemHelpers {
      * @return If it is an active container.
      */
     public static boolean isActivated(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.hasTag() && itemStack.getTag().getBoolean("enabled");
+        return !itemStack.isEmpty() && itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_ENABLED);
     }
     
     /**
@@ -44,7 +45,7 @@ public class ItemHelpers {
             tag = new CompoundNBT();
             itemStack.setTag(tag);
         }
-        tag.putBoolean("enabled", !isActivated(itemStack));
+        tag.putBoolean(NBT_KEY_ENABLED, !isActivated(itemStack));
     }
     
     /**

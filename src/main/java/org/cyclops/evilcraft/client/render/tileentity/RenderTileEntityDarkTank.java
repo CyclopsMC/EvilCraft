@@ -14,7 +14,9 @@ import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.evilcraft.block.BlockDark;
 import org.cyclops.evilcraft.block.BlockDarkTank;
+import org.cyclops.evilcraft.client.render.model.ModelDarkTankBaked;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
 
 /**
@@ -78,18 +80,12 @@ public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
 		RenderHelpers.renderFluidContext(fluid, matrixStackIn, () -> {
 			float height = (float) (tile.getFillRatio() * 0.99F);
 			int brightness = Math.max(combinedLightIn, fluid.getFluid().getAttributes().getLuminosity(fluid));
-			renderFluidSides(height, tile.getTank().getFluid(), brightness, matrixStackIn, bufferIn);
+			renderFluidSides(height, tile.getTank().getFluid(), tile.isEnabled(), brightness, matrixStackIn, bufferIn);
 		});
 		RenderSystem.disableLighting();
 	}
-	
-	/**
-	 * Render the fluid sides of the tank. (Not the tank itself!)
-	 * @param height The fluid level.
-	 * @param fluid The fluid.
-     * @param brightness The brightness to render the fluid with.
-	 */
-	public static void renderFluidSides(float height, FluidStack fluid, int brightness, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn) {
+
+	public static void renderFluidSides(float height, FluidStack fluid, boolean flowing, int brightness, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn) {
         int l2 = brightness >> 0x10 & 0xFFFF;
         int i3 = brightness & 0xFFFF;
         Triple<Float, Float, Float> colorParts = RenderHelpers.getFluidVertexBufferColor(fluid);
@@ -97,17 +93,27 @@ public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
         float g = colorParts.getMiddle();
         float b = colorParts.getRight();
         float a = 1.0F;
-		TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
-		IVertexBuilder vb = bufferIn.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
 		Matrix4f matrix = matrixStackIn.getLast().getMatrix();
 		for (Direction side : DirectionHelpers.DIRECTIONS) {
+			TextureAtlasSprite icon = ModelDarkTankBaked.getFluidIcon(fluid, flowing, side);
+			IVertexBuilder vb = bufferIn.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
 			float[][] c = coordinates[side.ordinal()];
-			float replacedMaxV = (side == Direction.UP || side == Direction.DOWN) ?
-					icon.getMaxV() : ((icon.getMaxV() - icon.getMinV()) * height + icon.getMinV());
-            vb.pos(matrix, c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).tex(icon.getMinU(), replacedMaxV).lightmap(l2, i3).endVertex();
-			vb.pos(matrix, c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-			vb.pos(matrix, c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-			vb.pos(matrix, c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).tex(icon.getMaxU(), replacedMaxV).lightmap(l2, i3).endVertex();
+			float minV = icon.getMinV();
+			float maxV = (icon.getMaxV() - icon.getMinV()) * height + icon.getMinV();
+			float minU = icon.getMinU();
+			float maxU = icon.getMaxU();
+			if (side == Direction.WEST || side == Direction.SOUTH) {
+				// Flip up-side down
+				float tmp = minV;
+				minV = maxV;
+				maxV = tmp;
+			} else if (side == Direction.UP || side == Direction.DOWN) {
+				maxV = icon.getMaxV();
+			}
+            vb.pos(matrix, c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).tex(minU, maxV).lightmap(l2, i3).endVertex();
+			vb.pos(matrix, c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).tex(minU, minV).lightmap(l2, i3).endVertex();
+			vb.pos(matrix, c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).tex(maxU, minV).lightmap(l2, i3).endVertex();
+			vb.pos(matrix, c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).tex(maxU, maxV).lightmap(l2, i3).endVertex();
 		}
 	}
 	

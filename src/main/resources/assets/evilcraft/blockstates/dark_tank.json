@@ -1,6 +1,5 @@
 {
   "variants": {
-    "draining=false": { "model": "evilcraft:block/dark_tank_off" },
-    "draining=true": { "model": "evilcraft:block/dark_tank_on" }
+    "": { "model": "evilcraft:block/dark_tank" }
   }
 }

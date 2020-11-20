@@ -20,6 +20,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.block.BlockDarkBloodBrick;
+import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.block.BlockReinforcedUndeadPlank;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
@@ -172,7 +173,7 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:dark_brick")
     public static final Block BLOCK_DARK_BRICK = null;
     @ObjectHolder("evilcraft:dark_tank")
-    public static final Block BLOCK_DARK_TANK = null;
+    public static final BlockDarkTank BLOCK_DARK_TANK = null;
     @ObjectHolder("evilcraft:display_stand")
     public static final BlockDisplayStand BLOCK_DISPLAY_STAND = null;
     @ObjectHolder("evilcraft:entangled_chalice")

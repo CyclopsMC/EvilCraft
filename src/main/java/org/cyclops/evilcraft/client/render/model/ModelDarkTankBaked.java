@@ -22,6 +22,7 @@ import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.block.BlockDarkTankConfig;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
@@ -64,8 +65,9 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     @Override
     public List<BakedQuad> getGeneralQuads() {
         List<BakedQuad> combinedList = Lists.newArrayList();
-        if(fluidStack != null && BlockDarkTankConfig.staticBlockRendering) {
-            combinedList.addAll(getFluidQuads(fluidStack, capacity));
+        if(fluidStack != null && (BlockDarkTankConfig.staticBlockRendering || isItemStack())) {
+            boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.isActivated(itemStack, world);
+            combinedList.addAll(getFluidQuads(fluidStack, capacity, flowing));
         }
         combinedList.addAll(baseModel.getQuads(blockState, getRenderingSide(), rand));
         return combinedList;
@@ -102,11 +104,17 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
         return new ModelDarkTankBaked(baseModel, 0, null, itemStack, world, entity);
     }
 
-    protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity) {
+    public static TextureAtlasSprite getFluidIcon(FluidStack fluid, boolean flowing, Direction side) {
+        return RenderHelpers.TEXTURE_GETTER.apply(flowing && side != Direction.UP && side != Direction.DOWN
+                ? fluid.getFluid().getAttributes().getFlowingTexture(fluid)
+                : fluid.getFluid().getAttributes().getStillTexture(fluid));
+    }
+
+    protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity, boolean flowing) {
         float height = Math.min(0.99F, ((float) fluidStack.getAmount() / (float) capacity)) / 1.01F;
         List<BakedQuad> quads = Lists.newArrayList();
         for(Direction side : Direction.values()) {
-            TextureAtlasSprite texture = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluidStack, side);
+            TextureAtlasSprite texture = getFluidIcon(fluidStack, flowing, side);
             int color = RenderHelpers.getFluidBakedQuadColor(fluidStack);
             if(side == Direction.UP) {
                 addBakedQuadRotated(quads, 0.13F, 0.87F, 0.13F, 0.87F, height, texture, side, ROTATION_FIX[side.ordinal()], true, color, ROTATION_UV);

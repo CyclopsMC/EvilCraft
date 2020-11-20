@@ -47,10 +47,9 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class BlockDarkTank extends BlockTile implements IInformationProvider, IBlockTank {
+public class BlockDarkTank extends BlockTile implements IBlockTank {
 
-	public static final String NBT_KEY_DRAINING = "draining";
-	public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
+	public static final String NBT_KEY_DRAINING = "enabled";
 
 	// Model Properties
 	public static final ModelProperty<FluidStack> TANK_FLUID = new ModelProperty<>();
@@ -61,21 +60,8 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
     public BlockDarkTank(Block.Properties properties) {
         super(properties, TileDarkTank::new);
 
-		this.setDefaultState(this.stateContainer.getBaseState()
-				.with(DRAINING, false));
-
         MinecraftForge.EVENT_BUS.register(this);
     }
-
-	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(DRAINING);
-	}
-
-	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(DRAINING, false);
-	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -105,21 +91,11 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
 		if(BlockTankHelpers.onBlockActivatedTank(state, worldIn, pos, player, handIn, p_225533_6_)) {
 			return ActionResultType.SUCCESS;
 		} else if (!player.isCrouching()) {
-			worldIn.setBlockState(pos, state.with(DRAINING, !state.get(DRAINING)), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+			TileHelpers.getSafeTile(worldIn, pos, TileDarkTank.class)
+					.ifPresent(tile -> tile.setEnabled(!tile.isEnabled()));
 			return ActionResultType.SUCCESS;
 		}
 		return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);
-	}
-    
-    @Override
-    public ITextComponent getInfo(ItemStack itemStack) {
-        return BlockTankHelpers.getInfoTank(itemStack);
-    }
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void provideInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag iTooltipFlag) {
-
 	}
 
 	/*
@@ -162,7 +138,6 @@ public class BlockDarkTank extends BlockTile implements IInformationProvider, IB
 				} else {
 					activated.getOrCreateTag().putBoolean(NBT_KEY_DRAINING, !isActivated(itemStack, world));
 				}
-				activated.setTag(itemStack.getTag());
             	return activated;
             }
             return itemStack;

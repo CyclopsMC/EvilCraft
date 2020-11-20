@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -36,6 +37,8 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 
 	@Delegate
 	private final ITickingTile tickingTileComponent = new TickingTileComponent(this);
+	@NBTPersist
+	private boolean enabled;
 
 	public TileDarkTank() {
 		super(RegistryEntries.TILE_ENTITY_DARK_TANK, 0, 0, BASE_CAPACITY, null);
@@ -48,14 +51,19 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	public double getFillRatio() {
 		return Math.min(1.0D, ((double) getTank().getFluidAmount()) / (double) getTank().getCapacity());
 	}
-	
-	protected boolean shouldAutoDrain() {
-		return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(getPos()), BlockDarkTank.DRAINING, false);
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+		sendUpdate();
+	}
+
+	public boolean isEnabled() {
+		return enabled;
 	}
 	
 	@Override
 	protected void updateTileEntity() {
-		if(!getWorld().isRemote() && !getTank().isEmpty() && shouldAutoDrain()) {
+		if(!getWorld().isRemote() && !getTank().isEmpty() && isEnabled()) {
 			Direction down = Direction.DOWN;
 			IFluidHandler handler = TileHelpers.getCapability(world, getPos().offset(down), down.getOpposite(),
 					CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
@@ -112,5 +120,11 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 			return fillItemStack;
 		}
 		return null;
+	}
+
+	@Override
+	public void onTankChanged() {
+		super.onTankChanged();
+		sendUpdate();
 	}
 }

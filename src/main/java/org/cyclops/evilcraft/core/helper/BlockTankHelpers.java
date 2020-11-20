@@ -29,6 +29,7 @@ import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
+import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.fluid.SimulatedFluidStack;
 import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
@@ -85,8 +86,11 @@ public class BlockTankHelpers {
     public static ITextComponent getInfoTank(ItemStack itemStack) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
         int amount = fluidStack.getAmount();
-        IFluidHandlerItemCapacity fluidHandlerItemCapacity = (IFluidHandlerItemCapacity) FluidUtil.getFluidHandler(itemStack);
-        return DamageIndicatedItemComponent.getInfo(fluidStack, amount, fluidHandlerItemCapacity.getCapacity());
+        int capacity = FluidUtil.getFluidHandler(itemStack)
+                .map(handler -> ((IFluidHandlerItemCapacity) handler).getCapacity())
+                .orElse(0);
+        return DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity)
+                .applyTextStyle(IInformationProvider.ITEM_PREFIX);
     }
 
     /**

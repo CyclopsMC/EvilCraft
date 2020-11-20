@@ -17,6 +17,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -44,6 +45,11 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         super(block, builder);
         // Will crash if no valid instance of.
         this.block = (IBlockTank) block;
+    }
+
+    @Override
+    public boolean hasEffect(ItemStack itemStack){
+        return ItemHelpers.isActivated(itemStack);
     }
 
 	@Override
@@ -77,6 +83,9 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack itemStack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
+        if (CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY != null) {
+            list.add(BlockTankHelpers.getInfoTank(itemStack));
+        }
         if(block.isActivatable()) {
 	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
                     getTranslationKey() + ".info.auto_supply");
