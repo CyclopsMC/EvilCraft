@@ -152,7 +152,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
-            list.add(new TranslationTextComponent("broom.parts." + Reference.MOD_ID + ".types.name")
+            list.add(new TranslationTextComponent("broom.parts." + Reference.MOD_ID + ".types")
                     .applyTextStyle(TextFormatting.ITALIC));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
             Map<BroomModifier, Float> modifiers = getBroomModifiers(itemStack);

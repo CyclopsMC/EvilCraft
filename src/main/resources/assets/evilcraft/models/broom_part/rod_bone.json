@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broom_part/rod",
     "textures": {
-        "base": "evilcraft:broom_parts/rod_bone"
+        "base": "evilcraft:broom_part/rod_bone"
     }
 }

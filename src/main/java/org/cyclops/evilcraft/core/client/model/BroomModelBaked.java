@@ -153,11 +153,11 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
             int[] vertexData = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
-            for(int i = 0; i < vertexData.length / 7; i++) {
-                float originalZ = Float.intBitsToFloat(vertexData[i * 7 + 2]);
+            for(int i = 0; i < vertexData.length / 8; i++) {
+                float originalZ = Float.intBitsToFloat(vertexData[i * 8 + 2]);
                 originalZ += offset;
-                vertexData[i * 7 + 2] = Float.floatToIntBits(originalZ);
-                vertexData[i * 7 + 3] = color;
+                vertexData[i * 8 + 2] = Float.floatToIntBits(originalZ);
+                vertexData[i * 8 + 3] = color;
             }
 
             offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.func_187508_a(), false));

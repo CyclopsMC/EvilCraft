@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broom_part/rod",
     "textures": {
-        "base": "blocks/planks_oak"
+        "base": "block/oak_planks"
     }
 }

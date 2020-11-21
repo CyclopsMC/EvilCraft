@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broom_part/rod",
     "textures": {
-        "base": "blocks/end_stone"
+        "base": "block/end_stone"
     }
 }

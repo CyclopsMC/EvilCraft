@@ -169,7 +169,9 @@ public final class BroomParts {
         CAP_SLIME = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "cap_slime"),
                 IBroomPart.BroomPartType.CAP, 0.0625F));
+    }
 
+    public static void loadPost() {
         for (IBroomPart part : REGISTRY.getParts()) {
             if (part.shouldAutoRegisterMissingItem() && REGISTRY.getItemsFromPart(part).isEmpty()) {
                 ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BROOM_PART);
@@ -177,9 +179,7 @@ public final class BroomParts {
                 REGISTRY.registerPartItem(part, itemStack);
             }
         }
-    }
 
-    public static void loadPost() {
         // ---------- Rod modifiers ----------
         REGISTRY.registerBaseModifiers(ROD_WOOD, ImmutableMap.of(
                 BroomModifiers.MODIFIER_COUNT, 4F,

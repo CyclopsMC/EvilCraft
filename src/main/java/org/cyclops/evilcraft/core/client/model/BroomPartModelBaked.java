@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
@@ -15,6 +16,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.IModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
+import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
@@ -89,11 +91,14 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
      * @return The colored quads
      */
     private Collection<? extends BakedQuad> color(List<BakedQuad> quads, int color) {
+        /*if (true) {
+            return quads;
+        }*/
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
             int[] vertexData = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
-            for(int i = 0; i < vertexData.length / 7; i++) {
-                vertexData[i * 7 + 3] = color;
+            for(int i = 0; i < vertexData.length / 8; i++) {
+                vertexData[i * 8 + 3] = color;
             }
             offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.func_187508_a(), false));
         }
@@ -103,5 +108,10 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
     @Override
     public TextureAtlasSprite getParticleTexture() {
         return null;
+    }
+
+    @Override
+    public ItemCameraTransforms getItemCameraTransforms() {
+        return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

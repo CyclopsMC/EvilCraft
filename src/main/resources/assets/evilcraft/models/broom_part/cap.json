@@ -1,7 +1,7 @@
 {
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "base": "evilcraft:broom_parts/cap_gem"
+        "particle": "#base"
     },
     "elements": [
         {

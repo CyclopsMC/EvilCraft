@@ -178,7 +178,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.getItemStack());
             if (modifiers != null) {
                 if (MinecraftHelpers.isShifted()) {
-                    event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types.name")
+                    event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types")
                             .applyTextStyle(TextFormatting.ITALIC));
                     for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                         event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));

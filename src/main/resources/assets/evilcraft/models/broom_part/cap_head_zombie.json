@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broom_part/head",
     "textures": {
-        "base": "evilcraft:broom_parts/cap_head_zombie"
+        "base": "evilcraft:broom_part/cap_head_zombie"
     }
 }

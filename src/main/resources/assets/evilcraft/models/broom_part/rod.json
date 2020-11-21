@@ -1,5 +1,8 @@
 {
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+    "textures": {
+        "particle": "#base"
+    },
     "elements": [
         {
             "name": "rod",

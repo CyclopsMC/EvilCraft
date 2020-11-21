@@ -4,9 +4,12 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.client.renderer.model.BlockModel;
 import net.minecraft.resources.IResourceManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelLoader;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.resource.IResourceType;
 import net.minecraftforge.resource.VanillaResourceType;
+import org.cyclops.evilcraft.core.broom.BroomParts;
 
 /**
  * Custom model loader for broom part items.
@@ -29,6 +32,9 @@ public class ModelLoaderBroomPart implements IModelLoader<BroomPartModel> {
         // modelContents.remove("loader");
         // BlockModel modelBlock = deserializationContext.deserialize(modelContents, BlockModel.class);
         BroomPartModel model = new BroomPartModel();
+        for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
+            ModelLoader.addSpecialModel(partModel);
+        }
         return model;
     }
 }

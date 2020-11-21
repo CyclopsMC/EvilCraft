@@ -61,7 +61,7 @@ public class BroomPartBase implements IBroomPart {
     @Override
     public ITextComponent getTooltipLine(String prefix) {
         return new StringTextComponent(prefix)
-                .appendSibling(new TranslationTextComponent(getTranslationKey() + ".name"));
+                .appendSibling(new TranslationTextComponent(getTranslationKey()));
     }
 
     @Override

@@ -1,7 +1,7 @@
 {
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "0": "evilcraft:broom_parts/brush_wheat"
+        "particle": "#base"
     },
     "elements": [
         {

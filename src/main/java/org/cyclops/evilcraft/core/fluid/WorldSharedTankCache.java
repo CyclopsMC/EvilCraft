@@ -73,7 +73,7 @@ public class WorldSharedTankCache {
 	 */
 	public synchronized FluidStack getTankContent(String tankID) {
 		FluidStack stack = tankCache.get(getMapID(tankID));
-        return (stack == null) ? null : stack.copy();
+        return (stack == null) ? FluidStack.EMPTY : stack.copy();
 	}
 	
 	protected static boolean shouldRefreshFluid(FluidStack old, FluidStack newF) {

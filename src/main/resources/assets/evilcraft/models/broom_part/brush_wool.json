@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broom_part/brush",
     "textures": {
-        "base": "blocks/wool_colored_white"
+        "base": "block/white_wool"
     }
 }

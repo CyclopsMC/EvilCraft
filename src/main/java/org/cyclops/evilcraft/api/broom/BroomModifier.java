@@ -102,7 +102,7 @@ public class BroomModifier {
     }
 
     public String getTranslationKey() {
-        return "broom.modifiers." + id.getNamespace() + ".type." + getName() + ".name";
+        return "broom.modifiers." + id.getNamespace() + ".type." + getName();
     }
 
     public boolean showTooltip() {

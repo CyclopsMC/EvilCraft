@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broom_part/cap",
     "textures": {
-        "base": "evilcraft:broom_parts/cap_gem"
+        "base": "evilcraft:broom_part/cap_gem"
     }
 }
