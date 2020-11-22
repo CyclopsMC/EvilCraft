@@ -163,7 +163,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         if(!broomStack.isEmpty()) {
             List<IBroomPart> parts = Lists.newArrayList();
             if(broomStack.hasTag()) {
-                ListNBT tags = broomStack.getTag().getList(NBT_TAG_NAME, Constants.NBT.TAG_COMPOUND);
+                ListNBT tags = broomStack.getTag().getList(NBT_TAG_NAME, Constants.NBT.TAG_STRING);
                 for (int i = 0; i < tags.size(); i++) {
                     String id = tags.getString(i);
                     IBroomPart part = getPart(new ResourceLocation(id));
