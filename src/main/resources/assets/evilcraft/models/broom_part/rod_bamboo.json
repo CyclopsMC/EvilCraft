@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broom_part/rod",
+    "textures": {
+        "base": "block/bamboo_stalk"
+    }
+}

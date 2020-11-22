@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.core.broom;
 
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -41,6 +40,7 @@ public final class BroomParts {
     public static IBroomPart ROD_SPONGE;
     public static IBroomPart ROD_ENDSTONE;
     public static IBroomPart ROD_PURPUR;
+    public static IBroomPart ROD_BAMBOO;
 
     public static IBroomPart BRUSH_BARE;
     public static IBroomPart BRUSH_WHEAT;
@@ -119,6 +119,9 @@ public final class BroomParts {
         ROD_PURPUR = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "rod_purpur"),
                 IBroomPart.BroomPartType.ROD, 1F));
+        ROD_BAMBOO = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "rod_bamboo"),
+                IBroomPart.BroomPartType.ROD, 1F));
 
         BRUSH_BARE = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "brush_bare"),
@@ -193,7 +196,7 @@ public final class BroomParts {
                 BroomModifiers.SPEED, 50F,
                 BroomModifiers.MANEUVERABILITY, 30F,
                 BroomModifiers.ACCELERATION, 10F,
-                BroomModifiers.STURDYNESS, 20F
+                BroomModifiers.STURDYNESS, 40F
         ));
         REGISTRY.registerBaseModifiers(ROD_BONE, ImmutableMap.of(
                 BroomModifiers.MODIFIER_COUNT, 4F,
@@ -275,6 +278,13 @@ public final class BroomParts {
                 BroomModifiers.MANEUVERABILITY, 75F,
                 BroomModifiers.ACCELERATION, 50F,
                 BroomModifiers.LEVITATION, 100F
+        ));
+        REGISTRY.registerBaseModifiers(ROD_BAMBOO, ImmutableMap.of(
+                BroomModifiers.MODIFIER_COUNT, 6F,
+                BroomModifiers.SPEED, 100F,
+                BroomModifiers.MANEUVERABILITY, 150F,
+                BroomModifiers.ACCELERATION, 50F,
+                BroomModifiers.STURDYNESS, 40F
         ));
 
         // ---------- Brushes ----------
