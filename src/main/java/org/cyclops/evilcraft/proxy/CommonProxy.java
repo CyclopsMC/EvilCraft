@@ -39,7 +39,7 @@ public class CommonProxy extends CommonProxyComponent {
         packetHandler.register(SanguinaryPedestalBlockReplacePacket.class);
         packetHandler.register(ExaltedCrafterOpenPacket.class);
         packetHandler.register(UpdateWorldSharedTankClientCachePacket.class);
-    	
+
         EvilCraft.clog("Registered packet handler.");
     }
     

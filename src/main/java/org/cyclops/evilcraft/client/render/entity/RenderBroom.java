@@ -4,8 +4,12 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -36,11 +40,13 @@ public class RenderBroom extends EntityRenderer<EntityBroom> {
         // In case this causes other problems, you can replace it by the yaw again
         float rotationYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
         float rotationPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
-        GlStateManager.rotatef(-rotationYaw, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotatef(rotationPitch, 1.0F, 0.0F, 0.0F);
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-rotationYaw));
+        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(rotationPitch));
 
-        ((EntityRenderer) Minecraft.getInstance().getRenderManager().renderers.get(EntityType.ITEM))
-                .render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        matrixStackIn.scale(2, 2, 2);
+        Minecraft.getInstance().getItemRenderer().renderItem(getItemStack(entity),
+                ItemCameraTransforms.TransformType.FIXED, 15728880,
+                OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
 	}
 
     @Override

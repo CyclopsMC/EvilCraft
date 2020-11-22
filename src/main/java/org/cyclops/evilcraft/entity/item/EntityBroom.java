@@ -26,6 +26,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -195,7 +196,7 @@ public class EntityBroom extends Entity {
 
     @Override
     public IPacket<?> createSpawnPacket() {
-        return null; // TODO
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

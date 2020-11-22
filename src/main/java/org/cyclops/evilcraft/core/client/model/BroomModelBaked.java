@@ -46,26 +46,26 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
             ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
                     ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND,
                     new ItemTransformVec3f(
-                            new Vector3f(0, 0, 0),
                             new Vector3f(90, 180, 90),
+                            new Vector3f(0, 0, 0),
                             new Vector3f(1, 1, 1)
                     ),
                     ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND,
                     new ItemTransformVec3f(
-                            new Vector3f(0, 0, 0),
                             new Vector3f(90, 180, 90),
+                            new Vector3f(0, 0, 0),
                             new Vector3f(1, 1, 1)
                     ),
                     ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND,
                     new ItemTransformVec3f(
-                            new Vector3f(0.25F, -0.025F, 0),
                             new Vector3f(10, 190, 100),
+                            new Vector3f(0.25F, -0.025F, 0),
                             new Vector3f(1, 1, 1)
                     ),
                     ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,
                     new ItemTransformVec3f(
-                            new Vector3f(0.25F, -0.025F, 0),
                             new Vector3f(10, 190, 100),
+                            new Vector3f(0.25F, -0.025F, 0),
                             new Vector3f(1, 1, 1)
                     )
             ));

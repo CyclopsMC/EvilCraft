@@ -100,7 +100,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
     	if (!context.getWorld().isRemote() && context.getPlayer().isCrouching()) {
             BlockPos blockPos = context.getPos();
-            if (TileHelpers.getCapability(context.getWorld(), blockPos, context.getFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) == null
+            if (!TileHelpers.getCapability(context.getWorld(), blockPos, context.getFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
                     && context.getWorld().isAirBlock(blockPos.add(0, Y_SPAWN_OFFSET, 0))) {
                 EntityBroom entityBroom = new EntityBroom(context.getWorld(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
                 entityBroom.setBroomStack(stack);
