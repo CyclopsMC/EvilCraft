@@ -48,6 +48,7 @@ public final class BroomParts {
     public static IBroomPart BRUSH_FEATHER;
     public static IBroomPart BRUSH_TWIG;
     public static IBroomPart BRUSH_LEAVES;
+    public static IBroomPart BRUSH_HONEY;
 
     public static IBroomPart CAP_BARE;
     public static IBroomPart CAP_GEM_DARK;
@@ -140,6 +141,9 @@ public final class BroomParts {
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_LEAVES = REGISTRY.registerPart(new BroomPartBase(
                 new ResourceLocation(Reference.MOD_ID, "brush_leaves"),
+                IBroomPart.BroomPartType.BRUSH, 0.4375F));
+        BRUSH_HONEY = REGISTRY.registerPart(new BroomPartBase(
+                new ResourceLocation(Reference.MOD_ID, "brush_honey"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
 
         CAP_BARE = REGISTRY.registerPart(new BroomPartBase(
@@ -296,6 +300,10 @@ public final class BroomParts {
         REGISTRY.registerBaseModifiers(BRUSH_FEATHER, BroomModifiers.LEVITATION, 200F);
         REGISTRY.registerBaseModifiers(BRUSH_TWIG, BroomModifiers.MANEUVERABILITY, 100F);
         REGISTRY.registerBaseModifiers(BRUSH_LEAVES, BroomModifiers.SPEED, 20F);
+        REGISTRY.registerBaseModifiers(BRUSH_HONEY, ImmutableMap.of(
+                BroomModifiers.STURDYNESS, 100F,
+                BroomModifiers.STICKY, 10F
+        ));
 
         // ---------- Caps ----------
         REGISTRY.registerBaseModifiers(CAP_GEM_DARK, ImmutableMap.of(

@@ -1,0 +1,6 @@
+{
+    "parent": "evilcraft:broom_part/brush",
+    "textures": {
+        "base": "block/honey_block_side"
+    }
+}

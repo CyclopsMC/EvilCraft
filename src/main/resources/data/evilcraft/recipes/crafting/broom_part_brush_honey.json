@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:honey_block"
+    },
+    {
+      "item": "evilcraft:broom_part",
+      "nbt": {
+        "broom_parts_tag": [
+          "evilcraft:brush_bare"
+        ]
+      }
+    },
+    {
+      "item": "minecraft:honey_block"
+    }
+  ],
+  "result": {
+    "item": "evilcraft:broom_part",
+    "nbt": {
+      "broom_parts_tag": [
+        "evilcraft:brush_wool"
+      ]
+    }
+  }
+}
