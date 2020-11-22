@@ -160,9 +160,9 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
         FluidStack drained = FluidStack.EMPTY;
         while(it.hasNext() && amount > 0) {
             ItemStack current = it.next();
-            if(!current.isEmpty() && current != itemStack && FluidUtil.getFluidHandler(current) != null) {
-                IFluidHandler containerItem = FluidUtil.getFluidHandler(current).orElse(null);
-                FluidStack totalFluid = FluidUtil.getFluidContained(current).orElse(null);
+            IFluidHandler containerItem = FluidUtil.getFluidHandler(current).orElse(null);
+            if(!current.isEmpty() && current != itemStack && containerItem != null) {
+                FluidStack totalFluid = FluidUtil.getFluidContained(current).orElse(FluidStack.EMPTY);
                 if(!totalFluid.isEmpty() && totalFluid.getFluid() == fluid) {
                     FluidStack thisDrained = containerItem.drain(amount, action);
                     if (!thisDrained.isEmpty() && thisDrained.getFluid() == fluid) {
