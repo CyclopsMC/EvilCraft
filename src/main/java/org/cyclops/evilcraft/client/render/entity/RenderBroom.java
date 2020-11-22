@@ -45,7 +45,7 @@ public class RenderBroom extends EntityRenderer<EntityBroom> {
 
         matrixStackIn.scale(2, 2, 2);
         Minecraft.getInstance().getItemRenderer().renderItem(getItemStack(entity),
-                ItemCameraTransforms.TransformType.FIXED, 15728880,
+                ItemCameraTransforms.TransformType.FIXED, packedLightIn,
                 OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
 	}
 
