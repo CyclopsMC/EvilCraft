@@ -115,6 +115,7 @@ public class EntityBroom extends Entity {
         super(type, world);
         setPosition(x, y, z);
         setMotion(0, 0, 0);
+        recalculateSize();
         this.prevPosX = x;
         this.prevPosY = y;
         this.prevPosZ = z;
