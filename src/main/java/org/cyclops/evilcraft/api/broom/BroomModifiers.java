@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -78,6 +79,7 @@ public class BroomModifiers {
     public static BroomModifier EFFICIENCY;
     public static BroomModifier SWIMMING;
     public static BroomModifier ICY;
+    public static BroomModifier STICKY;
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void afterItemsRegistered(RegistryEvent<Item> event) {
@@ -172,6 +174,10 @@ public class BroomModifiers {
                 new ResourceLocation(Reference.MOD_ID, "icy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
                 TextFormatting.WHITE, Helpers.RGBToInt(220, 220, 240)));
+        STICKY = REGISTRY.registerModifier(new BroomModifier(
+                new ResourceLocation(Reference.MOD_ID, "sticky"),
+                BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
+                TextFormatting.GOLD, Helpers.RGBToInt(78, 58, 12)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -311,6 +317,15 @@ public class BroomModifiers {
             }
         });
         ICY.addCollisionListener(new PotionEffectBroomCollision(Effects.SLOWNESS, 2));
+        STICKY.addCollisionListener(new BroomModifier.ICollisionListener() {
+            @Override
+            public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
+                if (!entity.world.isRemote() && !entity.isPassenger() && entity.canBeRidden(broom)) {
+                    // Will fail if max passenger count is exceeded
+                    entity.startRiding(broom);
+                }
+            }
+        });
     }
 
     protected static void loadPost() {
@@ -355,6 +370,11 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ICE));
         REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.PACKED_ICE));
         REGISTRY.registerModifiersItem(ICY, 10F, new ItemStack(Blocks.BLUE_ICE));
+
+        REGISTRY.registerModifiersItem(STICKY, 1F, new ItemStack(Items.SEAGRASS));
+        REGISTRY.registerModifiersItem(STICKY, 2F, new ItemStack(Items.KELP));
+        REGISTRY.registerModifiersItem(STICKY, 4F, new ItemStack(Items.HONEY_BOTTLE));
+        REGISTRY.registerModifiersItem(STICKY, 16F, new ItemStack(Items.HONEY_BLOCK));
 
         EvilCraft.clog(String.format("%s Broom modifiers can be applied!", REGISTRY.getModifiers().size()));
     }

@@ -388,6 +388,8 @@
                     <appendix type="evilcraft:broom_modifier">evilcraft:swimming</appendix>
                     <paragraph>info_book.evilcraft.second_age.tools.broom.modifiers.text.icy</paragraph>
                     <appendix type="evilcraft:broom_modifier">evilcraft:icy</appendix>
+                    <paragraph>info_book.evilcraft.second_age.tools.broom.modifiers.text.sticky</paragraph>
+                    <appendix type="evilcraft:broom_modifier">evilcraft:sticky</appendix>
                 </section>
                 <section name="info_book.evilcraft.second_age.tools.broom.parts">
                     <paragraph>info_book.evilcraft.second_age.tools.broom.parts.text1</paragraph>

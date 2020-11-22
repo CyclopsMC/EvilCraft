@@ -248,21 +248,7 @@ public class EntityBroom extends Entity {
 
         Entity rider = getControllingPassenger();
         if (!world.isRemote() && !isBeingRidden() && lastMounted != null) {
-    		// The player dismounted, give him his broom back if he's not in creative mode
-    		if (lastMounted instanceof PlayerEntity) {
-                stopAllowFlying(lastMounted);
-                PlayerEntity player = (PlayerEntity) lastMounted;
-                // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
-                if (player.isAlive() && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.isCreative())) {
-                    // Return to inventory if he's not in creative mode
-                    if (!player.isCreative()) {
-                        player.inventory.addItemStackToInventory(getBroomStack());
-                    }
-                    this.remove();
-                }
-    		}
-    		
-            lastMounted = null;
+            onDismount();
     		
     	} else if (rider instanceof LivingEntity) {
             /*
@@ -304,7 +290,7 @@ public class EntityBroom extends Entity {
                         entity.applyEntityCollision(this);
 
                         // Slow the broom down a bit
-                        float toughnessModifier = Math.min(1F, 0.5F + (getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
+                        float toughnessModifier = 0.5F + (getModifier(BroomModifiers.STURDYNESS) / BroomModifiers.STURDYNESS.getMaxTierValue()  / 2F);
                         setLastPlayerSpeed(getLastPlayerSpeed() * toughnessModifier);
                     }
                 }
@@ -321,6 +307,37 @@ public class EntityBroom extends Entity {
             }
     	    updateUnmounted();
     	}
+    }
+
+    private void onDismount() {
+        // The player dismounted, give him his broom back if he's not in creative mode
+        if (lastMounted instanceof PlayerEntity) {
+            stopAllowFlying(lastMounted);
+            PlayerEntity player = (PlayerEntity) lastMounted;
+            // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
+            if (player.isAlive() && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.isCreative())) {
+                // Return to inventory if he's not in creative mode
+                if (!player.isCreative()) {
+                    player.inventory.addItemStackToInventory(getBroomStack());
+                }
+                this.remove();
+            }
+        }
+
+        lastMounted = null;
+    }
+
+    @Override
+    protected boolean canFitPassenger(Entity passenger) {
+        return this.getPassengers().size() < (1 + (getModifier(BroomModifiers.STICKY) / BroomModifiers.STICKY.getMaxTierValue()) * 3);
+    }
+
+    @Override
+    protected void removePassenger(Entity passenger) {
+        if (!getEntityWorld().isRemote() && getControllingPassenger() == passenger) {
+            onDismount();
+        }
+        super.removePassenger(passenger);
     }
 
     @OnlyIn(Dist.CLIENT)

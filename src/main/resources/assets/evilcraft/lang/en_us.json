@@ -419,6 +419,7 @@
   "broom.modifiers.evilcraft.type.efficiency": "Efficiency",
   "broom.modifiers.evilcraft.type.swimming": "Swimming",
   "broom.modifiers.evilcraft.type.icy": "Icy",
+  "broom.modifiers.evilcraft.type.sticky": "Sticky",
 
   "_comment": "Subtitles",
   "subtitles.evilcraft.effect.vengeancebeam.base": "Vengeance Beam",
@@ -651,6 +652,7 @@
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.efficiency": "&l&nEfficiency&r&NA higher modifier value will result in a higher chance that nood &4Blood&0 needs to be consumed.",
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.swimming": "&l&nSwimming&r&NThis makes the &1Broom&0 better maneuverable in liquids.",
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.icy": "&l&nIcy&r&NSlows down colliding entities.",
+  "info_book.evilcraft.second_age.tools.broom.modifiers.text.sticky": "&l&nSticky&r&NOther entities can stick to you. The higher the modifier, the more entities can stick.",
 
   "info_book.evilcraft.second_age.tools.broom.parts": "Broom Parts",
   "info_book.evilcraft.second_age.tools.broom.parts.text1": "Various materials can be used to make broom parts. Their tooltip shows what base modifiers will be present on the resulting &1Broom&0 after crafting.",
