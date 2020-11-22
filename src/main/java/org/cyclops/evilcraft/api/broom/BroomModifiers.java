@@ -342,6 +342,7 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(MANEUVERABILITY, 8F, new ItemStack(Blocks.GLOWSTONE));
 
         REGISTRY.registerModifiersItem(LEVITATION, 1F, new ItemStack(Items.FEATHER));
+        REGISTRY.registerModifiersItem(LEVITATION, 50F, new ItemStack(Items.PHANTOM_MEMBRANE));
 
         REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(RegistryEntries.ITEM_DARK_SPIKE));
         REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.QUARTZ));
