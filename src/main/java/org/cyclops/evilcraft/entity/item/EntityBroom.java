@@ -37,6 +37,7 @@ import org.cyclops.evilcraft.client.particle.ParticleColoredSmokeData;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
+import org.lwjgl.system.MathUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -464,17 +465,21 @@ public class EntityBroom extends Entity {
             levitationModifier = Math.max(1.0F, levitationModifier);
         }
 
+        // Save last speed (don't take into account water modifier)
+        lastPlayerSpeed = playerSpeed;
+
+        // Apply water speed
+        if (this.inWater) {
+            // Apply a log-scale
+            float waterMovementFactor = MathHelper.clamp(
+                    getModifier(BroomModifiers.SWIMMING) / BroomModifiers.SWIMMING.getMaxTierValue(), 0F, 1F);
+            waterMovementFactor = (float) Math.log10(1 + waterMovementFactor * 9);
+            playerSpeed *= waterMovementFactor;
+        }
+
         setMotion(getMotion()
                 .mul(0.1, 0.1, 0.1)
                 .add(x * SPEED * playerSpeed, y * SPEED * playerSpeed * levitationModifier, z * SPEED * playerSpeed));
-        if (this.inWater) {
-            // (1 -> 0) Lower is better
-            float waterMovementFactor = 1F - MathHelper.clamp(
-                    getModifier(BroomModifiers.SWIMMING) / (BroomModifiers.SWIMMING.getMaxTierValue() * 1.1F), 0F, 1F);
-            setMotion(getMotion()
-                    .mul(1D / 1 + 4 * waterMovementFactor, 1D / 1 + 4 * waterMovementFactor, 1D / 1 + 4 * waterMovementFactor));
-        }
-        lastPlayerSpeed = playerSpeed;
         
         // Update motion on client side to provide a hovering effect
         if (world.isRemote()) {
@@ -513,6 +518,11 @@ public class EntityBroom extends Entity {
     public boolean onLivingFall(float distance, float damageMultiplier) {
         // Makes sure the player doesn't get any fall damage when on the broom
         return false;
+    }
+
+    @Override
+    public boolean canBeRiddenInWater(Entity rider) {
+        return getModifier(BroomModifiers.SWIMMING) > 0;
     }
 
     @Override

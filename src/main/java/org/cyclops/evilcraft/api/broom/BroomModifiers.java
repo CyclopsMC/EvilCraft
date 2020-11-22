@@ -349,6 +349,8 @@ public class BroomModifiers {
         REGISTRY.registerModifiersItem(SWIMMING, 1F, new ItemStack(Items.PRISMARINE_SHARD));
         REGISTRY.registerModifiersItem(SWIMMING, 4F, new ItemStack(Blocks.PRISMARINE));
         REGISTRY.registerModifiersItem(SWIMMING, 9F, new ItemStack(Blocks.DARK_PRISMARINE));
+        REGISTRY.registerModifiersItem(SWIMMING, 20F, new ItemStack(Items.NAUTILUS_SHELL));
+        REGISTRY.registerModifiersItem(SWIMMING, 25F, new ItemStack(Items.TURTLE_HELMET));
 
         REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ICE));
         REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.PACKED_ICE));
