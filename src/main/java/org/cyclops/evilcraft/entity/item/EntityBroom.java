@@ -51,7 +51,7 @@ import java.util.Set;
  */
 public class EntityBroom extends Entity {
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityBroom.class, DataSerializers.ITEMSTACK);
 
     /**
      * Speed for the broom (in all directions)
