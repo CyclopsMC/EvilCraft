@@ -69,6 +69,11 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     }
 
     @Override
+    public void clearModifierItems() {
+        broomItems.clear();
+    }
+
+    @Override
     public void registerModifiersItem(Map<BroomModifier, Float> modifiers, ItemStack item) {
         Objects.requireNonNull(item.getItem());
         broomItems.put(item, modifiers);

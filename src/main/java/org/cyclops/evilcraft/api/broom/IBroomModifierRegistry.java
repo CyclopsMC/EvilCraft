@@ -35,6 +35,11 @@ public interface IBroomModifierRegistry extends IRegistry {
     public @Nullable IBroomPart getModifierPart(BroomModifier modifier);
 
     /**
+     * Clear the registry of all modifier item registrations.
+     */
+    public void clearModifierItems();
+
+    /**
      * Assign an item to the given modifiers.
      * @param modifiers The modifiers.
      * @param item The item-form of this modifiers.

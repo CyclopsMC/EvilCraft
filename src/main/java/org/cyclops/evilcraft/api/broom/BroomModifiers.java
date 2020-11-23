@@ -31,6 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -57,6 +58,7 @@ public class BroomModifiers {
 
     public static void init() {
         FMLJavaModLoadingContext.get().getModEventBus().register(BroomModifiers.class);
+        MinecraftForge.EVENT_BUS.register(BroomModifiers.class);
     }
 
     public static BroomModifier MODIFIER_COUNT;
@@ -90,6 +92,10 @@ public class BroomModifiers {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void afterAfterItemsRegistered(RegistryEvent<Effect> event) {
         BroomParts.loadPost();
+    }
+
+    @SubscribeEvent
+    public static void onTagsUpdated(TagsUpdatedEvent event) {
         loadPost();
     }
 
@@ -329,6 +335,9 @@ public class BroomModifiers {
     }
 
     protected static void loadPost() {
+        // Clear the registry, as this can be called multiple times
+        REGISTRY.clearModifierItems();
+
         REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(Items.NETHER_STAR));
         REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(RegistryEntries.ITEM_GARMONBOZIA));
 
@@ -393,7 +402,6 @@ public class BroomModifiers {
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
-        // TODO: delay me
         Tag<Item> tag = ItemTags.getCollection().get(name);
         if (tag != null) {
             for (Item item : tag.getAllElements()) {
