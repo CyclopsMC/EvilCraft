@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -28,6 +29,7 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -94,15 +96,15 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         // Colored gems
         int color = getColorSeed(this.id);
         for(BakedQuad quad : gemsModel.getQuads(blockState, facing, rand)) {
-            int[] data = quad.getVertexData();
-            for(int i = 0; i < data.length / 7; i++) {
-                data[i * 7 + 3] = color;
+            int[] data = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
+            for(int i = 0; i < data.length / 8; i++) {
+                data[i * 8 + 3] = color;
             }
-            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.func_187508_a()));
+            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.func_187508_a(), false));
         }
 
         // Fluid
-        if(fluidStack != null) {
+        if(!fluidStack.isEmpty()) {
             quads.addAll(getFluidQuads(fluidStack, TileEntangledChalice.BASE_CAPACITY));
         }
 
@@ -127,7 +129,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         String tankId = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_ID, "");
         FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
         if(!BlockEntangledChaliceConfig.staticBlockRendering) {
-            fluidStack = null;
+            fluidStack = FluidStack.EMPTY;
         }
         return new ModelEntangledChaliceBaked(tankId, fluidStack, state, side, rand, modelData);
     }
@@ -156,5 +158,10 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     @Override
     public boolean func_230044_c_() {
         return false; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
+    }
+
+    @Override
+    public ItemCameraTransforms getItemCameraTransforms() {
+        return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

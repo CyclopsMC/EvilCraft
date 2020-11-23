@@ -1,3 +1,6 @@
 {
-  "parent": "evilcraft:block/spirit_portal"
+  "parent": "cyclopscore:item/flat",
+  "textures": {
+    "layer0": "evilcraft:block/spirit_portal"
+  }
 }
