@@ -14,6 +14,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -76,8 +77,8 @@ public class WorldSharedTankCache {
         return (stack == null) ? FluidStack.EMPTY : stack.copy();
 	}
 	
-	protected static boolean shouldRefreshFluid(FluidStack old, FluidStack newF) {
-    	return old.getAmount() != newF.getAmount();
+	protected static boolean shouldRefreshFluid(@Nullable FluidStack old, FluidStack newF) {
+    	return (old == null ? 0 : old.getAmount()) != newF.getAmount();
     }
 	
 	/**

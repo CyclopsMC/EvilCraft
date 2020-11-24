@@ -82,7 +82,6 @@ public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
 			int brightness = Math.max(combinedLightIn, fluid.getFluid().getAttributes().getLuminosity(fluid));
 			renderFluidSides(height, tile.getTank().getFluid(), tile.isEnabled(), brightness, matrixStackIn, bufferIn);
 		});
-		RenderSystem.disableLighting();
 	}
 
 	public static void renderFluidSides(float height, FluidStack fluid, boolean flowing, int brightness, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn) {

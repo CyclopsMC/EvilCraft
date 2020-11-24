@@ -55,7 +55,8 @@ public class ContainerInventoryTickingTank<T extends TickingTankInventoryTileEnt
     }
 
     public FluidStack getFluidStack() {
-        return variableFluidStack.get();
+        FluidStack fluidStack = variableFluidStack.get();
+        return fluidStack == null ? FluidStack.EMPTY : fluidStack;
     }
 
     public int getFluidCapacity() {

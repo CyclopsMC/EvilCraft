@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -60,11 +61,11 @@ public class WorldSharedTank extends SingleUseTank {
     }
     
     protected void writeWorldFluid() {
-        if(!MinecraftHelpers.isClientSide()) {
+        if (!MinecraftHelpers.isClientSideThread()) {
             WorldSharedTankCache.getInstance().setTankContent(tankID, this.fluid);
         }
     }
-    
+
     @Override
     public void setFluid(FluidStack fluid) {
     	super.setFluid(fluid);
@@ -82,12 +83,18 @@ public class WorldSharedTank extends SingleUseTank {
     	readWorldFluid();
     	return super.getFluidAmount();
     }
-    
+
+    @Override
+    public int getSpace() {
+        readWorldFluid();
+        return super.getSpace();
+    }
+
     @Override
     public int fill(FluidStack resource, FluidAction action) {
     	readWorldFluid();
     	int ret = super.fill(resource, action);
-    	if(ret > 0 && action.execute()) {
+    	if (ret > 0 && action.execute()) {
     		writeWorldFluid();
     	}
     	return ret;
@@ -97,7 +104,7 @@ public class WorldSharedTank extends SingleUseTank {
     public FluidStack drain(int maxDrain, FluidAction action) {
     	readWorldFluid();
     	FluidStack ret = super.drain(maxDrain, action);
-    	if(ret != null && action.execute()) {
+    	if (!ret.isEmpty() && action.execute()) {
     		writeWorldFluid();
     	}
     	return ret;
@@ -107,7 +114,7 @@ public class WorldSharedTank extends SingleUseTank {
     public FluidStack drain(FluidStack resource, FluidAction action) {
         readWorldFluid();
         FluidStack ret = super.drain(resource, action);
-        if(ret != null && action.execute()) {
+        if ( !ret.isEmpty() && action.execute()) {
             writeWorldFluid();
         }
         return ret;
@@ -129,8 +136,10 @@ public class WorldSharedTank extends SingleUseTank {
         this.tankID = tankID;
     }
 
+    @Override
     public Fluid getAcceptedFluid() {
-        return this.getFluidType();
+        Fluid fluid = this.getFluidType();
+        return fluid == null ? Fluids.EMPTY : fluid;
     }
 
     @Override

@@ -25,13 +25,6 @@ public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCap
         if (doFill.simulate()) {
             return FluidAction.SIMULATE;
         }
-        // Extremely nasty hack incoming, Forge supports no clean way of doing this cleanly unfortunately...
-        StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[3];
-        if (stackTraceElement.getClassName().equals("net.minecraftforge.fluids.FluidUtil")
-                && stackTraceElement.getMethodName().equals("tryFillContainer")) {
-            doFill = FluidAction.SIMULATE;
-        }
-
         if (resource instanceof SimulatedFluidStack) {
             doFill = FluidAction.SIMULATE;
         }

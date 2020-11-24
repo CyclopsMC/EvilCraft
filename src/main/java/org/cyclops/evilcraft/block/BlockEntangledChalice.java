@@ -36,6 +36,7 @@ import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
+import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 
@@ -49,7 +50,6 @@ import java.util.List;
  */
 public class BlockEntangledChalice extends BlockTile implements IInformationProvider, IBlockTank, IBlockRarityProvider {
 
-	public static final String NBT_KEY_DRAINING = "draining";
 	public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
 
 	// Model Properties
@@ -122,14 +122,13 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
             if(!world.isRemote()) {
 				ItemStack activated = itemStack.copy();
 				if (isActivated(itemStack, world)) {
-					activated.getOrCreateTag().remove(NBT_KEY_DRAINING);
+					activated.getOrCreateTag().remove(ItemHelpers.NBT_KEY_ENABLED);
 					if (activated.getTag().isEmpty()) {
 						activated.setTag(null);
 					}
 				} else {
-					activated.getOrCreateTag().putBoolean(NBT_KEY_DRAINING, !isActivated(itemStack, world));
+					activated.getOrCreateTag().putBoolean(ItemHelpers.NBT_KEY_ENABLED, !isActivated(itemStack, world));
 				}
-				activated.setTag(itemStack.getTag());
 				return activated;
             }
             return itemStack;
@@ -139,7 +138,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 
 	@Override
 	public boolean isActivated(ItemStack itemStack, World world) {
-		return itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_DRAINING);
+		return ItemHelpers.isActivated(itemStack);
 	}
 
 	@Override

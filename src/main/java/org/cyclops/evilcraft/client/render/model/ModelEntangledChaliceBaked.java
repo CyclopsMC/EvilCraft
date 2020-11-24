@@ -157,7 +157,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Override
     public boolean func_230044_c_() {
-        return false; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
+        return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override

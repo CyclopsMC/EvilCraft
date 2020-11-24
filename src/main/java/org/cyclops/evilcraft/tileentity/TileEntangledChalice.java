@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.tileentity;
 
 import lombok.experimental.Delegate;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
@@ -27,6 +29,7 @@ public class TileEntangledChalice extends CyclopsTileEntity implements CyclopsTi
 	public TileEntangledChalice() {
 		super(RegistryEntries.TILE_ENTITY_ENTANGLED_CHALICE);
 		tank = new WorldSharedTank(BASE_CAPACITY);
+		addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, LazyOptional.of(this::getTank));
 	}
 
 	public WorldSharedTank getTank() {

@@ -41,6 +41,11 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
     }
 
     @Override
+    public boolean hasEffect(ItemStack itemStack){
+        return ItemHelpers.isActivated(itemStack);
+    }
+
+    @Override
     protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
         if(entity instanceof PlayerEntity && !world.isRemote()) {
             PlayerEntity player = (PlayerEntity) entity;
@@ -102,7 +107,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
 
         @Override
         protected void setContainerToEmpty() {
-            setFluid(null);
+            setFluid(FluidStack.EMPTY);
         }
 
         /**
