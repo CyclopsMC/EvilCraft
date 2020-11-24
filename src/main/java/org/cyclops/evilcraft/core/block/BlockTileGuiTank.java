@@ -5,6 +5,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -12,6 +13,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.BlockTileGui;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
@@ -47,7 +49,7 @@ public abstract class BlockTileGuiTank extends BlockTileGui implements IInformat
     
     @Override
     public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        if (BlockTankHelpers.onBlockActivatedTank(blockState, world, blockPos, player, hand, rayTraceResult)) {
+        if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
             return ActionResultType.SUCCESS;
         }
     	return super.onBlockActivated(blockState, world, blockPos, player, hand, rayTraceResult);

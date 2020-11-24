@@ -28,6 +28,7 @@ import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
@@ -48,33 +49,6 @@ public class BlockTankHelpers {
 
     private BlockTankHelpers() {
 
-    }
-
-    public static boolean onBlockActivatedTank(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
-        if(tile != null) {
-            if(!itemStack.isEmpty()) {
-                SimulatableTankWrapper tank = new SimulatableTankWrapper(tile.getTank());
-                IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-                if(!player.isCrouching() && !tank.isFull() && itemFluidHandler != null
-                        && FluidUtil.tryEmptyContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, false).isSuccess()) { // Fill the tank.
-                    FluidActionResult result = FluidUtil.tryEmptyContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, true);
-                    if (result.isSuccess() && !player.isCreative()) {
-                        InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult(), hand);
-                    }
-                    return true;
-                } else if(player.isCrouching() && !tank.isEmpty()
-                        && FluidUtil.tryFillContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, false).isSuccess()) { // Drain the tank.
-                    FluidActionResult result = FluidUtil.tryFillContainer(itemStack, tank, FluidHelpers.BUCKET_VOLUME, player, true);
-                    if (result.isSuccess() && !player.isCreative()) {
-                        InventoryHelpers.tryReAddToStack(player, itemStack, result.getResult(), hand);
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**
@@ -156,9 +130,9 @@ public class BlockTankHelpers {
 
     public static class SimulatableTankWrapper implements IFluidHandler {
 
-        private final SingleUseTank tank;
+        private final IFluidHandler tank;
 
-        public SimulatableTankWrapper(SingleUseTank tank) {
+        public SimulatableTankWrapper(IFluidHandler tank) {
             this.tank = tank;
         }
 
@@ -201,11 +175,21 @@ public class BlockTankHelpers {
         }
 
         public boolean isFull() {
-            return tank.isFull();
+            for (int i = 0; i < tank.getTanks(); i++) {
+                if (tank.getFluidInTank(i).getAmount() < tank.getTankCapacity(i)) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public boolean isEmpty() {
-            return tank.isEmpty();
+            for (int i = 0; i < tank.getTanks(); i++) {
+                if (!tank.getFluidInTank(i).isEmpty()) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 

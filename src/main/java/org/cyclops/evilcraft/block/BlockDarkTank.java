@@ -26,6 +26,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.block.BlockTile;
@@ -88,7 +89,7 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
-		if(BlockTankHelpers.onBlockActivatedTank(state, worldIn, pos, player, handIn, p_225533_6_)) {
+		if (FluidUtil.interactWithFluidHandler(player, handIn, worldIn, pos, Direction.UP)) {
 			return ActionResultType.SUCCESS;
 		} else if (!player.isCrouching()) {
 			TileHelpers.getSafeTile(worldIn, pos, TileDarkTank.class)

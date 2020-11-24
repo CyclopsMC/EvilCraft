@@ -12,6 +12,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -81,7 +82,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-		if (BlockTankHelpers.onBlockActivatedTank(state, world, blockPos, player, hand, rayTraceResult)) {
+		if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
 			return ActionResultType.SUCCESS;
 		}
 		if (world.isRemote()) {
