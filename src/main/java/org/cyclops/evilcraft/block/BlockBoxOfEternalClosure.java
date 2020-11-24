@@ -89,7 +89,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IInformationP
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
 	}
 
 	@Override

@@ -47,7 +47,7 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState()
-                .with(FACING, context.getPlacementHorizontalFacing().getOpposite())
+                .with(FACING, context.getPlacementHorizontalFacing())
                 .with(ON, false);
     }
 
