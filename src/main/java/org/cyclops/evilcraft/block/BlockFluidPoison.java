@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -24,13 +25,12 @@ public class BlockFluidPoison extends FlowingFluidBlock {
     public BlockFluidPoison(Block.Properties builder) {
         super(() -> RegistryEntries.FLUID_POISON, builder);
     }
-    
+
     @Override
-    public void onEntityWalk(World world, BlockPos blockPos, Entity entity) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if(entity instanceof LivingEntity && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
             ((LivingEntity)entity).addPotionEffect(new EffectInstance(Effects.POISON, POISON_DURATION * 20, 1));
         }
-        super.onEntityWalk(world, blockPos, entity);
+        super.onEntityCollision(state, world, pos, entity);
     }
-
 }

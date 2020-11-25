@@ -21,35 +21,25 @@ import java.util.Random;
  */
 public class BlockFluidBlood extends FlowingFluidBlock {
     
-    private static final int CHANCE_HARDEN = 20;
+    private static final int CHANCE_HARDEN = 3;
 
     public BlockFluidBlood(Block.Properties builder) {
         super(() -> RegistryEntries.FLUID_BLOOD, builder);
     }
 
     @Override
-    public void tick(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random) {
-        if(random.nextInt(CHANCE_HARDEN) == 0 &&
-                blockState.get(LEVEL) == 0 &&
-                (!(world.isRaining() && world.getBiome(blockPos).getDownfall() > 0)
-                        || !world.canBlockSeeSky(blockPos))
+    public void randomTick(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random) {
+        if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.get(LEVEL) == 0
+                && (!(world.isRaining() && world.getBiome(blockPos).getDownfall() > 0) || !world.canBlockSeeSky(blockPos))
                 && !isWaterInArea(world, blockPos)) {
             world.setBlockState(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-        } else {
-            super.tick(blockState, world, blockPos, random);
         }
+        super.randomTick(blockState, world, blockPos, random);
     }
 
     protected boolean isWaterInArea(World world, BlockPos blockPos) {
-        return WorldHelpers.foldArea(world, 4, blockPos, new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
-
-            @Nullable
-            @Override
-            public Boolean apply(@Nullable Boolean input, World world, BlockPos blockPos) {
-                return (input == null || input) || world.getBlockState(blockPos).getBlock() == Blocks.WATER;
-            }
-
-        }, false);
+        return WorldHelpers.foldArea(world, 4, blockPos,
+                (input, world1, blockPos1) -> input || world1.getBlockState(blockPos1).getBlock() == Blocks.WATER, false);
     }
 
 }

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CauldronBlock;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BucketItem;
@@ -51,18 +52,20 @@ public class ItemBucketEternalWater extends BucketItem {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getHeldItem(hand);
-        RayTraceResult position = this.rayTrace(world, player, RayTraceContext.FluidMode.NONE);
+        RayTraceResult position = this.rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
         if(position != null && position.getType() == RayTraceResult.Type.BLOCK) {
             BlockPos pos = new BlockPos(position.getHitVec());
-            Block block = world.getBlockState(pos).getBlock();
-            if(block == Blocks.WATER) {
-                world.removeBlock(pos, false);
+            BlockState blockState = world.getBlockState(pos);
+            if(blockState.getBlock() == Blocks.WATER && blockState.get(FlowingFluidBlock.LEVEL) == 0) {
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
                 return MinecraftHelpers.successAction(itemStack);
             }
         }
 
         ActionResult<ItemStack> result = super.onItemRightClick(world, player, hand);
-        if(result.getResult() != null && result.getResult().getItem() == Items.BUCKET) return MinecraftHelpers.successAction(itemStack);
+        if(!result.getResult().isEmpty() && result.getResult().getItem() == Items.BUCKET) {
+            return MinecraftHelpers.successAction(itemStack);
+        }
 
         return result;
     }
