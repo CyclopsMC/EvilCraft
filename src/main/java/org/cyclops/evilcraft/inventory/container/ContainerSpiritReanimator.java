@@ -78,7 +78,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
         super(RegistryEntries.CONTAINER_SPIRIT_REANIMATOR, id, playerInventory, inventory, tileSupplier,
                 TileSpiritReanimator.TICKERS, TileSpiritReanimator.INVENTORY_SIZE_UPGRADES);
 
-        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType().getRegistryName().toString());
+        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : getTileSupplier().get().getEntityType().getRegistryName().toString());
 
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, TileSpiritReanimator.SLOT_CONTAINER,

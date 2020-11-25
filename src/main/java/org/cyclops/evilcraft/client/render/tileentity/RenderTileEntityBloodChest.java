@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
@@ -46,13 +44,4 @@ public class RenderTileEntityBloodChest extends RenderTileEntityChestBase<TileBl
         return tile.getRotation();
     }
 
-    @Override
-    public void render(TileBloodChest tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, int combinedLightIn, int combinedOverlayIn) {
-        matrixStack.push();
-        matrixStack.translate(0.325F, 0F, 0.325F);
-        float size = 0.3F * 1.125F;
-        matrixStack.scale(size, size, size);
-        super.render(tile, partialTicks, matrixStack, renderTypeBuffer, combinedLightIn, combinedOverlayIn);
-        matrixStack.pop();
-    }
 }

@@ -112,7 +112,11 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
 
     @Override
     public Direction getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockBloodChest.FACING, Direction.NORTH).getOpposite();
+        // World can be null during world loading
+        if (getWorld() == null) {
+            return Direction.SOUTH;
+        }
+        return BlockHelpers.getSafeBlockStateProperty(getBlockState(), BlockBloodChest.FACING, Direction.SOUTH).getOpposite();
     }
 
     @Override
@@ -150,7 +154,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             @Override
             public boolean isUsableByPlayer(PlayerEntity entityPlayer) {
                 return super.isUsableByPlayer(entityPlayer)
-                        && (world == null || world.getTileEntity(getPos()) != TileBloodChest.this);
+                        && !(world == null || world.getTileEntity(getPos()) != TileBloodChest.this);
             }
         };
     }
