@@ -206,7 +206,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         for (BlockInfestedNether.Type type : BlockInfestedNether.Type.values()) {
             configHandler.addConfigurable(new BlockInfestedNetherConfig(type));
         }
-        configHandler.addConfigurable(new BlockExcrementPileConfig());
         configHandler.addConfigurable(new BlockHardenedBloodConfig());
         configHandler.addConfigurable(new BlockObscuredGlassConfig());
         configHandler.addConfigurable(new BlockBloodChestConfig());
