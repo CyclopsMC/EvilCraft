@@ -6,12 +6,14 @@ import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -23,8 +25,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.evilcraft.Reference;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -52,18 +57,13 @@ public class ItemWerewolfFlesh extends Item {
                         .setAlwaysEdible()
                         .build()));
         this.humanoid = humanoid;
-    }
-
-    @Override
-    public String getTranslationKey(ItemStack itemStack) {
-        if(isHumanFlesh(itemStack)) {
-            return "item." + Reference.MOD_ID + ".human_flesh";
+        if (this.humanoid) {
+            MinecraftForge.EVENT_BUS.register(this);
         }
-        return super.getTranslationKey(itemStack);
     }
     
-    private boolean isPower() {
-        return power;
+    private boolean isPower(World world) {
+        return world == null ? power : (power = !world.isDaytime());
     }
     
     @Override
@@ -74,12 +74,12 @@ public class ItemWerewolfFlesh extends Item {
     
     @Override
     public boolean hasEffect(ItemStack itemStack){
-        return isPower();
+        return isPower(null);
     }
     
     @Override
     public void inventoryTick(ItemStack itemStack, World world, Entity player, int par4, boolean par5) {
-        power = !world.isDaytime();
+        isPower(world);
     }
     
     private int getPowerDuration(ItemStack itemStack) {
@@ -118,7 +118,7 @@ public class ItemWerewolfFlesh extends Item {
                 }
                 world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
                         world.rand.nextFloat() * 0.1F + 0.9F);
-            } else if (isPower()) {
+            } else if (isPower(world)) {
                 int foodLevel = getFood().getHealing();
                 float saturationLevel = getFood().getSaturation();
                 player.getFoodStats().addStats(foodLevel, saturationLevel);
@@ -174,6 +174,23 @@ public class ItemWerewolfFlesh extends Item {
                 return Helpers.RGBToInt(255, 200, 180);
             }
             return -1;
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void dropHumanoidFleshEvent(LivingDeathEvent event) {
+        if(event.getEntityLiving() instanceof ServerPlayerEntity
+                && !event.getEntityLiving().world.isRemote()
+                && event.getEntityLiving().world.rand.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
+            ItemStack itemStack = new ItemStack(this);
+            CompoundNBT tag = itemStack.getOrCreateTag();
+            NBTUtil.writeGameProfile(tag, player.getGameProfile());
+            double x = player.getPosX();
+            double y = player.getPosY();
+            double z = player.getPosZ();
+            ItemEntity entity = new ItemEntity(player.world, x, y, z, itemStack);
+            player.world.addEntity(entity);
         }
     }
 

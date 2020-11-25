@@ -45,8 +45,8 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
     }
 
     protected boolean canEat(ItemStack itemStack) {
-        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(null);
-        return fluidStack != null && fluidStack.getAmount() >= ItemRejuvenatedFleshConfig.biteUsage;
+        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
+        return !fluidStack.isEmpty() && fluidStack.getAmount() >= ItemRejuvenatedFleshConfig.biteUsage;
     }
 
     @Override
@@ -56,12 +56,13 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
             player.setActiveHand(hand);
             return MinecraftHelpers.successAction(itemStack);
         }
-        return new ActionResult<ItemStack>(ActionResultType.FAIL, itemStack);
+        return new ActionResult<>(ActionResultType.FAIL, itemStack);
     }
 
     @Override
     public ItemStack onItemUseFinish(ItemStack itemStack, World world, LivingEntity entity) {
-        FluidUtil.getFluidHandler(itemStack).orElseGet(null).drain(ItemRejuvenatedFleshConfig.biteUsage, IFluidHandler.FluidAction.EXECUTE);
+        FluidUtil.getFluidHandler(itemStack).orElseGet(null)
+                .drain(ItemRejuvenatedFleshConfig.biteUsage, IFluidHandler.FluidAction.EXECUTE);
         if(entity instanceof PlayerEntity) {
             ((PlayerEntity) entity).getFoodStats().addStats(3, 0.5F);
         }

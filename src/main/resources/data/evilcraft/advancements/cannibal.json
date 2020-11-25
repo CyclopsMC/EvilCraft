@@ -21,8 +21,7 @@
       "trigger": "minecraft:consume_item",
       "conditions": {
         "item": {
-          "item": "evilcraft:flesh_werewolf",
-          "damage": 1
+          "item": "evilcraft:flesh_humanoid"
         }
       }
     }

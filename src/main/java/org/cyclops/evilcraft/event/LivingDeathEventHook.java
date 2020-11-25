@@ -1,12 +1,9 @@
 package org.cyclops.evilcraft.event;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
@@ -17,7 +14,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.evilcraft.ExtendedDamageSource;
-import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritPortal;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.item.ItemBloodExtractor;
@@ -25,7 +21,6 @@ import org.cyclops.evilcraft.item.ItemBloodExtractorConfig;
 import org.cyclops.evilcraft.item.ItemVeinSword;
 import org.cyclops.evilcraft.item.ItemVeinSwordConfig;
 import org.cyclops.evilcraft.item.ItemVengeanceRing;
-import org.cyclops.evilcraft.item.ItemWerewolfFleshConfig;
 
 /**
  * Event for {@link LivingDeathEvent}.
@@ -42,7 +37,6 @@ public class LivingDeathEventHook {
     public void onLivingDeath(LivingDeathEvent event) {
         bloodObtainEvent(event);
         vengeanceEvent(event);
-        dropHumanoidFleshEvent(event);
         palingDeath(event);
     }
 
@@ -98,26 +92,6 @@ public class LivingDeathEventHook {
         }
         return false;
     }
-	
-	private void dropHumanoidFleshEvent(LivingDeathEvent event) {
-		if(event.getEntityLiving() instanceof ServerPlayerEntity
-				&& !event.getEntityLiving().world.isRemote()
-                && event.getEntityLiving().world.rand.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
-			ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
-			ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_FLESH_HUMANOID);
-			CompoundNBT tag = itemStack.getTag();
-			if(tag == null) {
-				tag = new CompoundNBT();
-				itemStack.setTag(tag);
-			}
-            NBTUtil.writeGameProfile(tag, player.getGameProfile());
-			double x = player.getPosX();
-			double y = player.getPosY();
-			double z = player.getPosZ();
-			ItemEntity entity = new ItemEntity(player.world, x, y, z, itemStack);
-			player.world.addEntity(entity);
-		}
-	}
 
     private void palingDeath(LivingDeathEvent event) {
         if(event.getSource() == ExtendedDamageSource.paling) {
