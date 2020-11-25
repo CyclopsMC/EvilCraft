@@ -19,6 +19,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.List;
@@ -29,6 +34,10 @@ import java.util.List;
  *
  */
 public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
+
+    static {
+        MinecraftForge.EVENT_BUS.register(EntityPoisonousLibelle.class);
+    }
     
     private static final int POISON_DURATION = 2;
 
@@ -72,6 +81,15 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
 
     public EntityPoisonousLibelle(World world) {
         this(RegistryEntries.ENTITY_POISONOUS_LIBELLE, world);
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void checkLibelleSpawn(LivingSpawnEvent.CheckSpawn event) {
+        if(event.getEntityLiving() instanceof EntityPoisonousLibelle) {
+            if(((EntityPoisonousLibelle) event.getEntityLiving()).getPosY() < EntityPoisonousLibelleConfig.minY) {
+                event.setResult(Event.Result.DENY);
+            }
+        }
     }
 
     @Override

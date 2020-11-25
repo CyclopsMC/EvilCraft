@@ -7,9 +7,6 @@ import org.cyclops.cyclopscore.proxy.CommonProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.event.EntityStruckByLightningEventHook;
-import org.cyclops.evilcraft.event.FillBucketEventHook;
-import org.cyclops.evilcraft.event.LivingDeathEventHook;
-import org.cyclops.evilcraft.event.LivingSpawnEventHook;
 import org.cyclops.evilcraft.event.LivingUpdateEventHook;
 import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
 import org.cyclops.evilcraft.network.packet.ExaltedCrafterOpenPacket;
@@ -46,11 +43,8 @@ public class CommonProxy extends CommonProxyComponent {
     @Override
     public void registerEventHooks() {
         super.registerEventHooks();
-        MinecraftForge.EVENT_BUS.register(new LivingDeathEventHook());
         MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
         MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
-        MinecraftForge.EVENT_BUS.register(new LivingSpawnEventHook());
-        MinecraftForge.EVENT_BUS.register(new FillBucketEventHook());
         MinecraftForge.EVENT_BUS.register(WorldSharedTankCache.getInstance());
     }
 

@@ -4,19 +4,24 @@ import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -45,6 +50,8 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     public ItemBloodExtractor(Item.Properties properties) {
         super(properties, ItemBloodExtractorConfig.containerSize);
         setPlaceFluids(true);
+        MinecraftForge.EVENT_BUS.register(this);
+
     }
     
     @Override
@@ -130,6 +137,25 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return oldStack.getItem() != newStack.getItem();
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void bloodObtainEvent(LivingDeathEvent event) {
+        Entity e = event.getSource().getTrueSource();
+        if(e != null && e instanceof ServerPlayerEntity && !e.world.isRemote()
+                && event.getEntityLiving() != null) {
+            float boost = 1.0F;
+            ServerPlayerEntity player = (ServerPlayerEntity) e;
+            Hand hand = player.getActiveHand();
+            if(player.getHeldItem(hand) != null
+                    && player.getHeldItem(hand).getItem() instanceof ItemVeinSword) {
+                boost = (float) ItemVeinSwordConfig.extractionBoost;
+            }
+            float health = event.getEntityLiving().getMaxHealth();
+            int minimumMB = MathHelper.floor(health * (float) ItemBloodExtractorConfig.minimumMobMultiplier * boost);
+            int maximumMB = MathHelper.floor(health * (float) ItemBloodExtractorConfig.maximumMobMultiplier * boost);
+            ItemBloodExtractor.fillForAllBloodExtractors(player, minimumMB, maximumMB);
+        }
     }
 
 }

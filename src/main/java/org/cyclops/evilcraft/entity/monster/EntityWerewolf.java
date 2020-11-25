@@ -22,7 +22,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -34,6 +39,10 @@ import java.util.Random;
  *
  */
 public class EntityWerewolf extends MonsterEntity {
+
+    static {
+        MinecraftForge.EVENT_BUS.register(EntityWerewolf.class);
+    }
     
     private CompoundNBT villagerNBTTagCompound = new CompoundNBT();
     private boolean fromVillager = false;
@@ -61,6 +70,18 @@ public class EntityWerewolf extends MonsterEntity {
     
         // This sets the default villager profession ID.
         this.villagerNBTTagCompound.putString("ProfessionName", RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.getRegistryName().toString());
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void transformWerewolfVillager(LivingEvent.LivingUpdateEvent event) {
+        if(event.getEntity() instanceof VillagerEntity && !event.getEntity().world.isRemote()) {
+            VillagerEntity villager = (VillagerEntity) event.getEntity();
+            if(EntityWerewolf.isWerewolfTime(event.getEntity().world)
+                    && villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF
+                    && villager.world.getLightFor(LightType.SKY, villager.getPosition()) > 0) {
+                EntityWerewolf.replaceVillager(villager);
+            }
+        }
     }
     
     @Override

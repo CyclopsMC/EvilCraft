@@ -9,8 +9,13 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.block.BlockTile;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.algorithm.RegionIterator;
 import org.cyclops.evilcraft.tileentity.TileSpiritPortal;
@@ -26,6 +31,7 @@ public class BlockSpiritPortal extends BlockTile {
 
 	public BlockSpiritPortal(Block.Properties properties) {
 		super(properties, TileSpiritPortal::new);
+        MinecraftForge.EVENT_BUS.register(this);
 	}
 
     @Override
@@ -47,7 +53,14 @@ public class BlockSpiritPortal extends BlockTile {
         return blockState != null && (blockState.getBlock().isAir(blockState, world, pos)|| blockState.getMaterial().isReplaceable());
     }
 
-    public static boolean tryPlacePortal(World world, BlockPos blockPos) {
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void palingDeath(LivingDeathEvent event) {
+        if(event.getSource() == ExtendedDamageSource.paling) {
+            tryPlacePortal(event.getEntityLiving().world, event.getEntityLiving().getPosition().add(0, 1, 0));
+        }
+    }
+
+    public boolean tryPlacePortal(World world, BlockPos blockPos) {
         int attempts = 9;
         for(RegionIterator it = new RegionIterator(blockPos, 1, true); it.hasNext() && attempts >= 0;) {
             BlockPos location = it.next();

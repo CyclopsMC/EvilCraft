@@ -34,6 +34,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootContext;
@@ -42,11 +43,17 @@ import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.ExtendedDamageSource;
@@ -57,6 +64,7 @@ import org.cyclops.evilcraft.client.particle.ParticleDarkSmokeData;
 import org.cyclops.evilcraft.core.monster.EntityNoMob;
 import org.cyclops.evilcraft.item.ItemBurningGemStone;
 import org.cyclops.evilcraft.item.ItemSpectralGlasses;
+import org.cyclops.evilcraft.item.ItemVengeanceRing;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -68,6 +76,10 @@ import java.util.Set;
  *
  */
 public class EntityVengeanceSpirit extends EntityNoMob {
+
+    static {
+        MinecraftForge.EVENT_BUS.register(EntityVengeanceSpirit.class);
+    }
 
     private static final Set<String> IMC_BLACKLIST = Sets.newHashSet();
     
@@ -138,6 +150,42 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void vengeanceEvent(LivingDeathEvent event) {
+        if (event.getEntityLiving() != null) {
+            World world = event.getEntityLiving().world;
+            boolean directToPlayer = shouldDirectSpiritToPlayer(event);
+            if (!world.isRemote()
+                    && world.getDifficulty() != Difficulty.PEACEFUL
+                    && EntityVengeanceSpirit.canSustain(event.getEntityLiving())
+                    && (directToPlayer || EntityVengeanceSpirit.canSpawnNew(world, event.getEntityLiving().getPosition()))) {
+                EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(world);
+                spirit.setInnerEntity(event.getEntityLiving());
+                spirit.copyLocationAndAnglesFrom(event.getEntityLiving());
+                world.addEntity(spirit);
+                if(directToPlayer) {
+                    PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+                    spirit.setBuildupDuration(3 * MinecraftHelpers.SECOND_IN_TICKS);
+                    spirit.setGlobalVengeance(true);
+                    spirit.setAttackTarget(player);
+                }
+            }
+        }
+    }
+
+    private static boolean shouldDirectSpiritToPlayer(LivingDeathEvent event) {
+        if(event.getSource().getTrueSource() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+            for(PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player); it.hasNext();) {
+                ItemStack itemStack = it.next();
+                if(!itemStack.isEmpty() && itemStack.getItem() instanceof ItemVengeanceRing) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     @Override

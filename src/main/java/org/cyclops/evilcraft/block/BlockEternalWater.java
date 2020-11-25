@@ -11,8 +11,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.BlockTile;
@@ -26,6 +31,7 @@ public class BlockEternalWater extends BlockTile {
 
     public BlockEternalWater(Block.Properties properties) {
         super(properties, TileEternalWater::new);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -60,6 +66,16 @@ public class BlockEternalWater extends BlockTile {
             return ActionResultType.SUCCESS;
         }
         return ActionResultType.PASS;
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void stopFillWithEternalWaterBlock(FillBucketEvent event) {
+        if (event.getTarget() != null && event.getTarget().getType() == RayTraceResult.Type.BLOCK) {
+            Block block = event.getWorld().getBlockState(((BlockRayTraceResult) event.getTarget()).getPos()).getBlock();
+            if (block instanceof BlockEternalWater) {
+                event.setCanceled(true);
+            }
+        }
     }
 
 }
