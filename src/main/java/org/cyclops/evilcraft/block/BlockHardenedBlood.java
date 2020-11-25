@@ -61,10 +61,12 @@ public class BlockHardenedBlood extends Block {
         world.setBlockState(blockPos, RegistryEntries.BLOCK_BLOOD.getDefaultState());
     }
 
+    // TODO: loot tables
+    /*
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
         ItemStack heldItem = player.getHeldItem(hand);
-        if (!world.isRemote() && heldItem != null && heldItem.getItem() == Items.FLINT_AND_STEEL
+        if (!world.isRemote() && !heldItem.isEmpty() && heldItem.getItem() == Items.FLINT_AND_STEEL
                 && (player.isCreative() || !heldItem.attemptDamageItem(1, world.rand, (ServerPlayerEntity) player))) {
             splitBlock(world, blockPos);
             return ActionResultType.SUCCESS;
@@ -77,7 +79,7 @@ public class BlockHardenedBlood extends Block {
         		+ (int) (Math.random() * (double) ItemHardenedBloodShardConfig.additionalDropped));
         spawnAsEntity(world, blockPos, itemStack);
         world.removeBlock(blockPos, false);
-    }
+    }*/
 
     @Override
     public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
