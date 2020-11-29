@@ -182,8 +182,6 @@ public class RegistryEntries {
     public static final Block BLOCK_ENVIRONMENTAL_ACCUMULATOR = null;
     @ObjectHolder("evilcraft:eternal_water")
     public static final Block BLOCK_ETERNAL_WATER = null;
-    @ObjectHolder("evilcraft:excrement_pile")
-    public static final Block BLOCK_EXCREMENT_PILE = null;
     @ObjectHolder("evilcraft:gem_stone_torch")
     public static final Block BLOCK_GEM_STONE_TORCH = null;
     @ObjectHolder("evilcraft:gem_stone_torch_wall")

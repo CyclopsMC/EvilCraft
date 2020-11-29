@@ -82,13 +82,8 @@ public class WorldFeatureDarkTemple extends WorldFeatureQuarterSymmetrical {
     }
 
     private boolean canPlaceStructure(IWorld world, BlockPos blockPos) {
-        return WorldHelpers.foldArea((World) world, new int[]{3, 0, 3}, new int[]{3, 9, 3}, blockPos, new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
-            @Nullable
-            @Override
-            public Boolean apply(@Nullable Boolean from, World world, BlockPos blockPos) {
-                return from && !isSolidBlock(world, blockPos);
-            }
-        }, true);
+        return WorldHelpers.foldArea(world, new int[]{3, 0, 3}, new int[]{3, 9, 3}, blockPos,
+                (from, world1, blockPos1) -> from && !isSolidBlock(world1, blockPos1), true);
     }
 
     private boolean isValidSpot(IWorld world, BlockPos blockPos) {

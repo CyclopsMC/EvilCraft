@@ -8,6 +8,7 @@ import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -15,15 +16,21 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemLightningGrenade;
+
+import javax.annotation.Nonnull;
 
 /**
  * Entity for the {@link ItemLightningGrenade}.
  * @author rubensworks
  *
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class EntityLightningGrenade extends ThrowableEntity implements IRendersAsItem {
 
     public EntityLightningGrenade(World world, LivingEntity entity) {
@@ -32,6 +39,12 @@ public class EntityLightningGrenade extends ThrowableEntity implements IRendersA
 
     public EntityLightningGrenade(EntityType<? extends EntityLightningGrenade> type, World world) {
         super(type, world);
+    }
+
+    @Nonnull
+    @Override
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

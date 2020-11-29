@@ -6,6 +6,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * An extension of {@link ThrowableEntity} that now
@@ -13,6 +15,7 @@ import net.minecraft.world.World;
  * @author rubensworks
  *
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public abstract class EntityThrowable extends ThrowableEntity implements IRendersAsItem {
 
     public EntityThrowable(EntityType<? extends EntityThrowable> type, World world) {

@@ -11,6 +11,7 @@ import org.cyclops.evilcraft.event.LivingUpdateEventHook;
 import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
 import org.cyclops.evilcraft.network.packet.ExaltedCrafterOpenPacket;
 import org.cyclops.evilcraft.network.packet.FartPacket;
+import org.cyclops.evilcraft.network.packet.ResetChunkColorsPacket;
 import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 import org.cyclops.evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 
@@ -36,6 +37,7 @@ public class CommonProxy extends CommonProxyComponent {
         packetHandler.register(SanguinaryPedestalBlockReplacePacket.class);
         packetHandler.register(ExaltedCrafterOpenPacket.class);
         packetHandler.register(UpdateWorldSharedTankClientCachePacket.class);
+        packetHandler.register(ResetChunkColorsPacket.class);
 
         EvilCraft.clog("Registered packet handler.");
     }

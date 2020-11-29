@@ -6,19 +6,26 @@ import net.minecraft.entity.IRendersAsItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.IPacket;
 import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemRedstoneGrenade;
+
+import javax.annotation.Nonnull;
 
 /**
  * Entity for the {@link ItemRedstoneGrenade}.
  * @author immortaleeb
  *
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class EntityRedstoneGrenade extends ThrowableEntity implements IRendersAsItem {
 
     public EntityRedstoneGrenade(World world, LivingEntity entity) {
@@ -27,6 +34,12 @@ public class EntityRedstoneGrenade extends ThrowableEntity implements IRendersAs
 
     public EntityRedstoneGrenade(EntityType<? extends EntityRedstoneGrenade> type, World world) {
         super(type, world);
+    }
+
+    @Nonnull
+    @Override
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

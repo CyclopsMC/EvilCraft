@@ -39,6 +39,7 @@ import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
 import org.lwjgl.system.MathUtil;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -127,6 +128,12 @@ public class EntityBroom extends Entity {
         this(RegistryEntries.ENTITY_BROOM, world, x, y, z);
     }
 
+    @Nonnull
+    @Override
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
     @Override
     public EntitySize getSize(Pose poseIn) {
         return EntitySize.flexible(1.5f, 0.6f);
@@ -194,11 +201,6 @@ public class EntityBroom extends Entity {
     public Entity getControllingPassenger() {
         List<Entity> list = this.getPassengers();
         return list.isEmpty() ? null : list.get(0);
-    }
-
-    @Override
-    public IPacket<?> createSpawnPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

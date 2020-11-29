@@ -4,16 +4,21 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 import org.cyclops.evilcraft.item.ItemWeatherContainer;
+
+import javax.annotation.Nonnull;
 
 /**
  * Entity for the {@link ItemWeatherContainer}.
@@ -35,6 +40,12 @@ public class EntityWeatherContainer extends EntityThrowable {
     public EntityWeatherContainer(World world, LivingEntity entity, ItemStack stack) {
         this(world, entity);
         setItem(stack);
+    }
+
+    @Nonnull
+    @Override
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     public static void playImpactSounds(World world) {
@@ -59,8 +70,10 @@ public class EntityWeatherContainer extends EntityThrowable {
             playImpactSounds(world);
 
             // Play sound and show particles of splash potion of harming
-            // TODO: make custom particles for this
-            this.world.playBroadcastSound(2002, getPosition(), 16428);
+            world.playSound(getPosX(), getPosY(), getPosZ(), SoundEvents.ENTITY_SPLASH_POTION_BREAK, SoundCategory.AMBIENT, 0.5F, 0.4F, false);
+            for (int i = 0; i < 3; i++) {
+                world.addParticle(ParticleTypes.EFFECT, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+            }
 
             remove();
         }
