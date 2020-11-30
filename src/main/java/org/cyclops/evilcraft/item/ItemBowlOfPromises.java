@@ -41,18 +41,6 @@ public class ItemBowlOfPromises extends Item {
         return type.isActive();
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
-        if (type.isActive()) {
-            int tier = type.getTier();
-            list.add(new TranslationTextComponent(super.getTranslationKey(itemStack) + ".strength",
-                    (tier == 0 ? 0 : new TranslationTextComponent("enchantment.level." + tier))));
-        }
-    }
-
     @OnlyIn(Dist.CLIENT)
     public static class ItemColor implements IItemColor {
         @Override

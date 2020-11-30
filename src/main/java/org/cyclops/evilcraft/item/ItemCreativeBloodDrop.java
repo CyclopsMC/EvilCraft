@@ -59,7 +59,7 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getTranslationKey() + ".info.autoSupply");
+                getTranslationKey() + ".info.auto_supply");
     }
     
     @Override

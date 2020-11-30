@@ -79,7 +79,7 @@ public class ItemKineticator extends ItemBloodContainer {
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getTranslationKey() + ".info" + (isRepelling(itemStack) ? ".repelling" : "") + ".attraction");
+                getTranslationKey() + ".info.attraction");
         list.add(new TranslationTextComponent(getTranslationKey() + ".info.area", getArea(itemStack))
                 .applyTextStyle(TextFormatting.BOLD));
     }
@@ -228,11 +228,6 @@ public class ItemKineticator extends ItemBloodContainer {
     @Override
     public Entity createEntity(World world, Entity location, ItemStack itemStack) {
     	return new EntityItemUndespawnable(world, (ItemEntity) location);
-    }
-    
-    @Override
-    public String getTranslationKey(ItemStack itemStack) {
-        return super.getTranslationKey() + (isRepelling(itemStack) ? ".repelling" : "");
     }
 
 }

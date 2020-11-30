@@ -81,11 +81,6 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
         return newStack;
     }
     
-    @Override
-    public String getTranslationKey(ItemStack itemStack) {
-        return super.getTranslationKey() + (this.wooden ? ".wood" : "");
-    }
-    
     /**
      * Get the supplementary inventory of the given crafter.
      * @param player The player using the crafter.
@@ -99,15 +94,6 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     		return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
     	}
     	return player.getInventoryEnderChest();
-    }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
-        if(isEmpowered(itemStack))
-            list.add(new StringTextComponent("Empowered").applyTextStyle(TextFormatting.RED));
     }
     
     @Override

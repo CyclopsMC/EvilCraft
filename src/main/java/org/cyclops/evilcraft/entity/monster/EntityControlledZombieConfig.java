@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
+import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.render.entity.RenderControlledZombie;
 
@@ -24,7 +25,7 @@ public class EntityControlledZombieConfig extends EntityConfig<EntityControlledZ
             "controlled_zombie",
                 eConfig -> EntityType.Builder.<EntityControlledZombie>create(EntityControlledZombie::new, EntityClassification.MONSTER)
                         .size(0.6F, 1.8F),
-                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "controlled_zombie_spawn_egg", 0, 0)
+                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "controlled_zombie_spawn_egg", Helpers.RGBToInt(10, 10, 10), Helpers.RGBToInt(114, 80, 129))
         );
     }
 

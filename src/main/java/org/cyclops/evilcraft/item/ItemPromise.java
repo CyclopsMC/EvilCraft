@@ -77,18 +77,13 @@ public class ItemPromise extends Item {
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
-            list.add(new TranslationTextComponent(super.getTranslationKey(itemStack) + ".use_in")
+            list.add(new TranslationTextComponent("item.evilcraft.promise.use_ins")
                     .applyTextStyle(TextFormatting.DARK_GREEN));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
-                list.add(new TranslationTextComponent("tile." + upgradable.getTranslationKey() + ".name")
+                list.add(new TranslationTextComponent(upgradable.getTranslationKey())
                         .applyTextStyle(TextFormatting.ITALIC));
             }
         }
-    }
-
-    @Override
-    public String getTranslationKey(ItemStack itemStack) {
-        return super.getTranslationKey(itemStack) + "." + getUpgrade(itemStack).getId() + "." + getUpgrade(itemStack).getTier();
     }
 
     /**
