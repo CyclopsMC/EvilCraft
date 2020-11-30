@@ -33,7 +33,7 @@ public class ParticleExplosionExtendedConfig extends ParticleConfig<ParticleExpl
     public ParticleManager.IParticleMetaFactory<ParticleExplosionExtendedData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleExplosionExtendedData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleExplosionExtended particle = new ParticleExplosionExtended(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,
-                    particleData.getR(), particleData.getG(), particleData.getB(), particleData.getScale(), sprite);
+                    particleData.getR(), particleData.getG(), particleData.getB(), particleData.getAlpha(), sprite);
             particle.selectSpriteRandomly(sprite);
             return particle;
         };

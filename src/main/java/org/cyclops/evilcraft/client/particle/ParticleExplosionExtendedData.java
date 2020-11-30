@@ -36,13 +36,13 @@ public class ParticleExplosionExtendedData implements IParticleData {
     private final float r;
     private final float g;
     private final float b;
-    private final float scale;
+    private final float alpha;
 
-    public ParticleExplosionExtendedData(float r, float g, float b, float scale) {
+    public ParticleExplosionExtendedData(float r, float g, float b, float alpha) {
         this.r = r;
         this.g = g;
         this.b = b;
-        this.scale = scale;
+        this.alpha = alpha;
     }
 
     public float getR() {
@@ -57,8 +57,8 @@ public class ParticleExplosionExtendedData implements IParticleData {
         return b;
     }
 
-    public float getScale() {
-        return scale;
+    public float getAlpha() {
+        return alpha;
     }
 
     @Override
@@ -71,13 +71,13 @@ public class ParticleExplosionExtendedData implements IParticleData {
         buffer.writeFloat(r);
         buffer.writeFloat(g);
         buffer.writeFloat(b);
-        buffer.writeFloat(scale);
+        buffer.writeFloat(alpha);
     }
 
     @Override
     public String getParameters() {
         return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f",
                 ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
-                this.r, this.g, this.b, this.scale);
+                this.r, this.g, this.b, this.alpha);
     }
 }

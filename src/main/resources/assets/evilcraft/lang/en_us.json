@@ -260,7 +260,7 @@
 
   "item.evilcraft.powerable.set_power": "Set power to %s",
   "item.evilcraft.powerable.info.power": "Power: %s",
-  "item.evilcraft.powerable.info": "Shift + nRight click to change power level.",
+  "item.evilcraft.powerable.info": "Shift + Right click to change power level.",
 
   "_comment": "Fluids",
   "fluid.evilcraft.blood": "Blood",
