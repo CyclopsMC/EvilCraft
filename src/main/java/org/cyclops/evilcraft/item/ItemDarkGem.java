@@ -10,6 +10,7 @@ import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
 import org.cyclops.evilcraft.block.BlockDarkOre;
+import org.cyclops.evilcraft.block.BlockFluidBlood;
 
 import javax.annotation.Nullable;
 
@@ -47,7 +48,7 @@ public class ItemDarkGem extends Item {
                 amount++;
 
                 // Search in neighbourhood
-                WorldHelpers.foldArea(world, 3, blockPos, new WorldHelpers.WorldFoldingFunction<Integer, Integer>() {
+                WorldHelpers.foldArea(world, 3, blockPos, new WorldHelpers.WorldFoldingFunction<Integer, Integer, World>() {
                     @Nullable
                     @Override
                     public Integer apply(@Nullable Integer amount, World world, BlockPos pos) {
@@ -64,7 +65,7 @@ public class ItemDarkGem extends Item {
 
                                 // Retrace coordinate steps and remove all those blocks + spawn particles
                                 for(int restep = 0; restep < amount; restep++) {
-                                    world.removeBlock(visited[restep], false);
+                                    world.setBlockState(visited[restep], Blocks.AIR.getDefaultState());
                                     if (world.isRemote())
                                         BlockBloodStain.splash(world, visited[restep].add(0, -1, 0));
                                     world.notifyNeighborsOfStateChange(visited[restep], Blocks.AIR);
@@ -81,7 +82,8 @@ public class ItemDarkGem extends Item {
     }
     
     private boolean isValidBlock(World world, BlockPos blockPos) {
-        return world.getFluidState(blockPos).getFluid() == RegistryEntries.FLUID_BLOOD
+        // Not working: world.getFluidState(blockPos).getFluid() == RegistryEntries.FLUID_BLOOD
+        return world.getBlockState(blockPos).getBlock() instanceof BlockFluidBlood
                 && world.getFluidState(blockPos).isSource();
     }
 
