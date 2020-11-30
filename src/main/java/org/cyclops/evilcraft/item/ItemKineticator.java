@@ -120,7 +120,7 @@ public class ItemKineticator extends ItemBloodContainer {
     private void kineticate(ItemStack itemStack, World world, Entity entity) {
         if(ItemHelpers.isActivated(itemStack) &&(FluidUtil.getFluidContained(itemStack) != null ||
                 (entity instanceof PlayerEntity && canConsume(1, itemStack, (PlayerEntity) entity))) &&
-                (entity != null || !entity.isCrouching())) {
+                (entity != null && !entity.isCrouching())) {
             IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
         	boolean repelling = isRepelling(itemStack);
             boolean isPlayer = entity instanceof PlayerEntity;
