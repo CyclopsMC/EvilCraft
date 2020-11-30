@@ -11,6 +11,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
@@ -21,6 +22,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -83,7 +85,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 					if(!getTank().isEmpty() && entity instanceof ItemEntity) {
 						ItemEntity item = (ItemEntity) entity;
 						if (item.getItem() != null
-								&& item.getItem().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent() &&
+								&& item.getItem().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent() &&
 								item.getItem().getCount() == 1) {
 							ItemStack itemStack = item.getItem().copy();
 							ItemStack fillItemStack;
@@ -98,7 +100,7 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 							ItemStack itemStack = it.next();
 							ItemStack fillItemStack;
 							if(!itemStack.isEmpty()
-									&& itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
+									&& itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
 									&& (fillItemStack = fill(itemStack)) != null) {
 								it.replace(fillItemStack);
 							}
@@ -109,15 +111,15 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 		}
 	}
 
+	@Nullable
 	protected ItemStack fill(ItemStack itemStack) {
-		ItemStack fillItemStack = itemStack.copy();
-		IFluidHandler container = fillItemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+		IFluidHandlerItem container = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
 		FluidStack fluidStack = new FluidStack(getTank().getFluid(),
 				Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
 		if (container.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
 			int filled = container.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
 			getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
-			return fillItemStack;
+			return container.getContainer();
 		}
 		return null;
 	}
