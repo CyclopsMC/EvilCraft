@@ -32,7 +32,8 @@ public class ParticleDarkSmokeConfig extends ParticleConfig<ParticleDarkSmokeDat
     @Override
     public ParticleManager.IParticleMetaFactory<ParticleDarkSmokeData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleDarkSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleDarkSmoke particle = new ParticleDarkSmoke(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, sprite, particleData.isEntityDead());
+            ParticleDarkSmoke particle = new ParticleDarkSmoke(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.isEntityDead());
+            particle.selectSpriteRandomly(sprite);
             return particle;
         };
     }

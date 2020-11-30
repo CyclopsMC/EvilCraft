@@ -33,6 +33,7 @@ public class ParticleDistortConfig extends ParticleConfig<ParticleDistortData> {
     public ParticleManager.IParticleMetaFactory<ParticleDistortData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleDistortData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleDistort particle = new ParticleDistort(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getScale(), sprite);
+            particle.selectSpriteRandomly(sprite);
             return particle;
         };
     }

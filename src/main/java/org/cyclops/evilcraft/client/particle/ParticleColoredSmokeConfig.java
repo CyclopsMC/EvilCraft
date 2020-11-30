@@ -34,7 +34,7 @@ public class ParticleColoredSmokeConfig extends ParticleConfig<ParticleColoredSm
         return sprite -> (IParticleFactory<ParticleColoredSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleColoredSmoke particle = new ParticleColoredSmoke(worldIn, x, y, z,
                     particleData.getR(), particleData.getG(), particleData.getB(),
-                    xSpeed, ySpeed, zSpeed, sprite);
+                    xSpeed, ySpeed, zSpeed);
             particle.selectSpriteRandomly(sprite);
             return particle;
         };

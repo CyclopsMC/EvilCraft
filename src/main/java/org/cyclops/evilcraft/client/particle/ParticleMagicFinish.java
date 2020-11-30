@@ -14,15 +14,11 @@ import net.minecraft.world.World;
  */
 public class ParticleMagicFinish extends SpriteTexturedParticle {
 
-    private final IAnimatedSprite sprite;
-
-    public ParticleMagicFinish(World world, double x, double y, double z, double motionX, double motionY, double motionZ, IAnimatedSprite sprite) {
+    public ParticleMagicFinish(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         particleRed = 0.78F + rand.nextFloat() * 0.5F;
         particleGreen = 0.09F + rand.nextFloat() * 0.5F;
         particleBlue = 0.65F + rand.nextFloat() * 0.5F;
-
-        this.sprite = sprite;
     }
 
     @Override
@@ -45,7 +41,6 @@ public class ParticleMagicFinish extends SpriteTexturedParticle {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
         } else {
-            this.selectSpriteWithAge(this.sprite);
             this.motionY += 0.004D;
             this.move(this.motionX, this.motionY, this.motionZ);
             if (this.posY == this.prevPosY) {

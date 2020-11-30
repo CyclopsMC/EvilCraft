@@ -15,10 +15,8 @@ import net.minecraft.world.World;
  */
 public class ParticleColoredSmoke extends SpriteTexturedParticle {
 
-    private final IAnimatedSprite sprite;
-
     public ParticleColoredSmoke(World world, double x, double y, double z, float r, float g, float b,
-                                double motionX, double motionY, double motionZ, IAnimatedSprite sprite) {
+                                double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.particleRed = r;
         this.particleGreen = g;
@@ -31,14 +29,11 @@ public class ParticleColoredSmoke extends SpriteTexturedParticle {
         particleAlpha = rand.nextFloat() * 0.3F;
         particleGravity = -0.001F;
         this.maxAge = (int)(50.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
-
-        this.sprite = sprite;
-        this.selectSpriteWithAge(sprite);
     }
 
     @Override
     public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
@@ -54,7 +49,6 @@ public class ParticleColoredSmoke extends SpriteTexturedParticle {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
         } else {
-            this.selectSpriteWithAge(this.sprite);
             this.motionY += 0.004D;
             this.move(this.motionX, this.motionY, this.motionZ);
             if (this.posY == this.prevPosY) {

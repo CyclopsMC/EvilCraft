@@ -32,7 +32,8 @@ public class ParticleDegradeConfig extends ParticleConfig<BasicParticleType> {
     @Override
     public ParticleManager.IParticleMetaFactory<BasicParticleType> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<BasicParticleType>) (typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleDegrade particle = new ParticleDegrade(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, sprite);
+            ParticleDegrade particle = new ParticleDegrade(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
+            particle.selectSpriteRandomly(sprite);
             return particle;
         };
     }

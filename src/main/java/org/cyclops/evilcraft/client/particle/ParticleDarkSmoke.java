@@ -14,9 +14,7 @@ import net.minecraft.world.World;
  */
 public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
-    private final IAnimatedSprite sprite;
-
-    public ParticleDarkSmoke(World world, double x, double y, double z, double motionX, double motionY, double motionZ, IAnimatedSprite sprite, boolean entityDead) {
+    public ParticleDarkSmoke(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.motionX = motionX;
         this.motionY = motionY;
@@ -33,8 +31,6 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
         this.maxAge = (int)(50.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
 
-        this.sprite = sprite;
-
         if (entityDead) {
             setDeathParticles();
         }
@@ -42,7 +38,7 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
     @Override
     public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
@@ -58,7 +54,6 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
         } else {
-            this.selectSpriteWithAge(this.sprite);
             this.motionY += 0.004D;
             this.move(this.motionX, this.motionY, this.motionZ);
             if (this.posY == this.prevPosY) {

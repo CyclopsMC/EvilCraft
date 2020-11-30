@@ -14,8 +14,6 @@ import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
  */
 public class ParticleDistort extends SpriteTexturedParticle {
 
-    private final IAnimatedSprite sprite;
-
     public ParticleDistort(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale, IAnimatedSprite sprite) {
         super(world, x, y, z, motionX, motionY, motionZ);
         
@@ -26,13 +24,11 @@ public class ParticleDistort extends SpriteTexturedParticle {
         particleRed = 1.0F * rand.nextFloat();
         particleGreen = 0.01F * rand.nextFloat();
         particleBlue = 0.5F * rand.nextFloat();
-
-        this.sprite = sprite;
     }
 
     @Override
     public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
@@ -50,7 +46,6 @@ public class ParticleDistort extends SpriteTexturedParticle {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
         } else {
-            this.selectSpriteWithAge(this.sprite);
             this.motionY += 0.004D;
             this.move(this.motionX, this.motionY, this.motionZ);
             if (this.posY == this.prevPosY) {

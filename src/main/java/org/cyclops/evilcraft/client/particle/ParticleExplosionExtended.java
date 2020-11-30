@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.particle.IAnimatedSprite;
+import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.PoofParticle;
 import net.minecraft.world.World;
 
@@ -20,6 +21,11 @@ public class ParticleExplosionExtended extends PoofParticle {
 		this.particleGreen = green;
 		this.particleBlue = blue;
 		this.particleAlpha = alpha;
+	}
+
+	@Override
+	public IParticleRenderType getRenderType() {
+		return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
 
 }

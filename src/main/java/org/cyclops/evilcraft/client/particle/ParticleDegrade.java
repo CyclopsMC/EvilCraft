@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -14,22 +12,18 @@ import net.minecraft.world.World;
  */
 public class ParticleDegrade extends SpriteTexturedParticle {
 
-    private final IAnimatedSprite sprite;
-
-    public ParticleDegrade(World world, double x, double y, double z, double motionX, double motionY, double motionZ, IAnimatedSprite sprite) {
+    public ParticleDegrade(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.maxAge = 40;
         this.particleAlpha = 0.4F;
         particleRed = 0.3F + rand.nextFloat() * 0.2F;
         particleGreen = 0.2F + rand.nextFloat() * 0.1F;
         particleBlue = 0.25F + rand.nextFloat() * 0.45F;
-
-        this.sprite = sprite;
     }
 
     @Override
     public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
@@ -47,7 +41,6 @@ public class ParticleDegrade extends SpriteTexturedParticle {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
         } else {
-            this.selectSpriteWithAge(this.sprite);
             this.motionY += 0.004D;
             this.move(this.motionX, this.motionY, this.motionZ);
             if (this.posY == this.prevPosY) {

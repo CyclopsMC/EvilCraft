@@ -32,7 +32,7 @@ public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
     @Override
     public ParticleManager.IParticleMetaFactory<ParticleFartData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleFartData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleFart particle = new ParticleFart(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getRainbow(), sprite);
+            ParticleFart particle = new ParticleFart(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getRainbow());
             particle.selectSpriteRandomly(sprite);
             return particle;
         };

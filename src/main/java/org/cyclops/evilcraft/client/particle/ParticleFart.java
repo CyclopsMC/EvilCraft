@@ -14,9 +14,7 @@ import net.minecraft.world.World;
  */
 public class ParticleFart extends SpriteTexturedParticle {
 
-    private final IAnimatedSprite sprite;
-
-    public ParticleFart(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow, IAnimatedSprite sprite) {
+    public ParticleFart(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
         super(world, x, y, z, motionX, motionY, motionZ);
 
         particleScale = 3;
@@ -31,8 +29,6 @@ public class ParticleFart extends SpriteTexturedParticle {
             particleGreen = rand.nextFloat();
             particleBlue = rand.nextFloat();
         }
-
-        this.sprite = sprite;
     }
     
     @Override
@@ -45,7 +41,6 @@ public class ParticleFart extends SpriteTexturedParticle {
         if (this.age++ >= this.maxAge) {
             this.setExpired();
         } else {
-            this.selectSpriteWithAge(this.sprite);
             this.motionY += 0.004D;
             this.move(this.motionX, this.motionY, this.motionZ);
             if (this.posY == this.prevPosY) {
@@ -63,12 +58,12 @@ public class ParticleFart extends SpriteTexturedParticle {
 
         }
         
-        particleScale = (1 - (float)age / maxAge) * 3;
+        particleScale = (1 - (float)age / maxAge) * 1;
     }
 
     @Override
     public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
