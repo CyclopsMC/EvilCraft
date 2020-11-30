@@ -5,6 +5,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.key.IKeyHandler;
@@ -32,9 +34,11 @@ public class FartKeyHandler implements IKeyHandler {
 			fartingEnabled = !fartingEnabled;
 			
 			if (fartingEnabled)
-				player.sendMessage(new StringTextComponent(L10NHelpers.localize("chat.evilcraft.command.farting_enabled")));
+				player.sendStatusMessage(new TranslationTextComponent("chat.evilcraft.command.farting_enabled")
+						.applyTextStyle(TextFormatting.DARK_RED), true);
 			else
-				player.sendMessage(new StringTextComponent(L10NHelpers.localize("chat.evilcraft.command.farting_disabled")));
+				player.sendStatusMessage(new TranslationTextComponent("chat.evilcraft.command.farting_disabled")
+						.applyTextStyle(TextFormatting.DARK_RED), true);
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {
