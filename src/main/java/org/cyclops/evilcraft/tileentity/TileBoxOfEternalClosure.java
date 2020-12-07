@@ -293,6 +293,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 				BlockPos blockPos = getPos();
 				AxisAlignedBB boxBoundingBox = getBlockState()
 						.getCollisionShape(world, blockPos)
+						.withOffset(blockPos.getX(), blockPos.getY(), blockPos.getZ())
 						.getBoundingBox();
 				AxisAlignedBB spiritBoundingBox = target
 						.getCollisionBoundingBox()
@@ -350,15 +351,14 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	private boolean findNextEntity() {
     	AxisAlignedBB box = new AxisAlignedBB(getPos().getX(), getPos().getY(), getPos().getZ(),
 				getPos().getX(), getPos().getY(), getPos().getZ()).grow(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
-    	@SuppressWarnings("unchecked")
 		List<EntityVengeanceSpirit> entities = world.getEntitiesWithinAABB(EntityVengeanceSpirit.class, box);
-    	double minDistance = TARGET_RADIUS + 1;
+    	double minDistanceSquared = Math.pow(TARGET_RADIUS + 1, 2);
     	EntityVengeanceSpirit closest = null;
     	for(EntityVengeanceSpirit spirit : entities) {
     		if(spirit.isFrozen() && !spirit.isSwarm()) {
 	    		double distance = spirit.getDistanceSq(getPos().getX(), getPos().getY(), getPos().getZ());
-	    		if(distance < minDistance) {
-	    			minDistance = distance;
+	    		if(distance < minDistanceSquared) {
+					minDistanceSquared = distance;
 	    			closest = spirit;
 	    		}
     		}

@@ -26,6 +26,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -65,12 +66,18 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
         return 0.0F;
     }
 
+    @Nullable
+    protected EntityRayTraceResult rayTraceEntities(Vec3d startVec, Vec3d endVec) {
+        return ProjectileHelper.rayTraceEntities(this.world, this, startVec, endVec, this.getBoundingBox().expand(this.getMotion()).grow(1.0D),
+                (entity) -> !entity.isSpectator() && entity.isAlive() && entity.canBeCollidedWith() && (entity != this.getThrower()));
+    }
+
 	@Override
     public void tick() {
         Vec3d motion = getMotion();
     	Vec3d vec3 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ());
         Vec3d vec31 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ()).add(motion);
-        RayTraceResult movingobjectposition = this.world.rayTraceBlocks(new RayTraceContext(vec3, vec31, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
+        EntityRayTraceResult entityRayTraceResult = this.rayTraceEntities(vec3, vec31);
         vec3 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ());
         vec31 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ()).add(motion);
         
@@ -103,7 +110,7 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
             }
 
             if (entity != null) {
-                movingobjectposition = new EntityRayTraceResult(entity);
+                entityRayTraceResult = new EntityRayTraceResult(entity);
             }
         } else {
         	for(int i = 0; i < world.rand.nextInt(5) + 5; i++) {
@@ -117,12 +124,12 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
         	}
         }
     	
-    	if (movingobjectposition != null) {
-            if (movingobjectposition.getType() == RayTraceResult.Type.BLOCK
-                    && this.world.getBlockState(((BlockRayTraceResult) movingobjectposition).getPos()).getBlock() instanceof NetherPortalBlock) {
+    	if (entityRayTraceResult != null) {
+    	    this.onImpact(entityRayTraceResult);
+        } else {
+            BlockRayTraceResult blockRayTraceResult = this.world.rayTraceBlocks(new RayTraceContext(vec3, vec31, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
+            if (this.world.getBlockState(blockRayTraceResult.getPos()).getBlock() instanceof NetherPortalBlock) {
                 this.inPortal = true;
-            } else {
-                this.onImpact(movingobjectposition);
             }
         }
     	

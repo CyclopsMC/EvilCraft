@@ -46,8 +46,7 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
 
     @Override
     public void setInnerEntityType(EntityType<?> innerEntityType) {
-        EntityType<?> innerEntity = super.getInnerEntityType();
-        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : innerEntity.getRegistryName().toString());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntityType == null ? "" : innerEntityType.getRegistryName().toString());
     }
 
     @Override

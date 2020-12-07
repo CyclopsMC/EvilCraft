@@ -29,7 +29,7 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
         particleGravity = -0.001F;
 
-        this.maxAge = (int)(50.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
+        this.maxAge = (int)(10.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
 
         if (entityDead) {
             setDeathParticles();
@@ -71,7 +71,7 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
         }
 
-        particleScale = (1 - (float)age / maxAge) * 3;
+        particleScale = (1 - (float)age / maxAge) * 2;
     }
 
 	/**

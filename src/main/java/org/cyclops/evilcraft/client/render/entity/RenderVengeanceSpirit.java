@@ -7,9 +7,12 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.properties.Property;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.entity.BipedRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -51,19 +54,14 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
     	super.render(spirit, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 		MobEntity innerEntity = spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
-			EntityRenderer render = renderManager.renderers.get(innerEntity.getClass());
+			EntityRenderer render = renderManager.renderers.get(innerEntity.getType());
 			if(render != null && !spirit.isSwarm()) {
-				GlStateManager.enableBlend();
-				if(!spirit.isFrozen()) {
-					GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
-				} else {
-					GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
-				}
-                float c = Math.min(1F - (float) (spirit.getBuildupDuration()) / 30, 0.65F);
-                GlStateManager.color4f(c, c, c, c);
-				//GL14.glBlendColor(0, 0, 0, 0);
-				//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_CONSTANT_COLOR);
-				//GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
+				// Override the render type buffer so that it always returns buffers with alpha blend
+				IRenderTypeBuffer bufferSub = renderType -> {
+					float uv = spirit.isFrozen() ? ((float)spirit.ticksExisted + partialTicks) * 0.01F : 1;
+					renderType = RenderType.getEnergySwirl(render.getEntityTexture(innerEntity), uv, uv);
+					return bufferIn.getBuffer(renderType);
+				};
 				
 				try {
 					if(spirit.isPlayer()) {
@@ -85,16 +83,15 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 							}
 						}
 						playerRenderer.setPlayerTexture(resourcelocation);
-						playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+						playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
 					} else {
-						render.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+						render.render(innerEntity, entityYaw, 0, matrixStackIn, bufferSub, packedLightIn);
 					}
 				} catch (Exception e) {
 					// Invalid entity, so set as swarm.
 					spirit.setSwarm(true);
 					spirit.setPlayerId(""); // Just in case the crash was caused by a player spirit.
 				}
-				GlStateManager.disableBlend();
 			}
 		}
 	}

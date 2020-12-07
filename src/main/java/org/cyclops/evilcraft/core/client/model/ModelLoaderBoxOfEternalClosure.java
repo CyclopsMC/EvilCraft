@@ -4,6 +4,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.IResourceManager;
 import net.minecraftforge.client.model.IModelLoader;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.resource.IResourceType;
 import net.minecraftforge.resource.VanillaResourceType;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
@@ -30,6 +31,9 @@ public class ModelLoaderBoxOfEternalClosure implements IModelLoader<ModelBoxOfEt
         // modelContents.remove("loader");
         // BlockModel modelBlock = deserializationContext.deserialize(modelContents, BlockModel.class);
         ModelBoxOfEternalClosure model = new ModelBoxOfEternalClosure();
+        ModelLoader.addSpecialModel(ModelBoxOfEternalClosure.boxModel);
+        ModelLoader.addSpecialModel(ModelBoxOfEternalClosure.boxLidModel);
+        ModelLoader.addSpecialModel(ModelBoxOfEternalClosure.boxLidRotatedModel);
         return model;
     }
 }

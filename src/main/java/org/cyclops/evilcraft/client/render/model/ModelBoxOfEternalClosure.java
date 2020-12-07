@@ -29,15 +29,16 @@ import java.util.function.Function;
  */
 public class ModelBoxOfEternalClosure implements IUnbakedModel, IModelGeometry<ModelBoxOfEternalClosure> {
 
-    private static ResourceLocation boxModel = new ResourceLocation(Reference.MOD_ID, "block/box");
-    private static ResourceLocation boxLidModel = new ResourceLocation(Reference.MOD_ID, "block/box_lid");
-    private static ResourceLocation boxLidRotatedModel = new ResourceLocation(Reference.MOD_ID, "block/box_lid_rotated");
+    public static ResourceLocation boxModel = new ResourceLocation(Reference.MOD_ID, "block/box");
+    public static ResourceLocation boxLidModel = new ResourceLocation(Reference.MOD_ID, "block/box_lid");
+    public static ResourceLocation boxLidRotatedModel = new ResourceLocation(Reference.MOD_ID, "block/box_lid_rotated");
 
     @Override
     public Collection<ResourceLocation> getDependencies() {
         ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
         builder.add(boxModel);
         builder.add(boxLidModel);
+        builder.add(boxLidRotatedModel);
         return builder.build();
     }
 

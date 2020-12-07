@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.entity.monster;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
@@ -12,6 +13,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -59,7 +61,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public void addFrozenDuration(int amount) {
-        setFrozenDuration(frozenDuration + amount);
+        setFrozenDuration(getFrozenDuration() + amount);
     }
 
     public boolean containsPlayer() {
@@ -106,9 +108,10 @@ public class EntityVengeanceSpiritData {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static EntityType<?> getRandomInnerEntity(Random rand) {
-        List<EntityType<?>> entities = Lists.newArrayList(ForgeRegistries.ENTITIES.getValues());
+        List<EntityType<?>> entities = ForgeRegistries.ENTITIES.getValues().stream()
+                .filter(e -> e.getClassification() == EntityClassification.MONSTER)
+                .collect(Collectors.toList());
         return entities.get(rand.nextInt(entities.size()));
     }
 

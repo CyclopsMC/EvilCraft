@@ -20,6 +20,7 @@ import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -34,8 +35,8 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     // Default perspective transforms
     protected static final ItemCameraTransforms TRANSFORMS = ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
             ItemCameraTransforms.TransformType.GUI, new ItemTransformVec3f(
-                    new Vector3f(0, 45, 0),
-                    new Vector3f(30, 45, 0),
+                    new Vector3f(30, 135, 0),
+                    new Vector3f(0, 0, 0),
                     new Vector3f(0.625f, 0.625f, 0.625f))
     ));
 
@@ -57,6 +58,10 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
+        if (!isItemStack()) {
+            return Collections.emptyList();
+        }
+
         List<BakedQuad> quads = Lists.newLinkedList();
 
         quads.addAll(boxModel.getQuads(blockState, facing, rand));

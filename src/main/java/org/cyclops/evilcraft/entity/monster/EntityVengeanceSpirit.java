@@ -25,9 +25,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -47,6 +49,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.network.NetworkHooks;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -54,6 +57,7 @@ import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
+import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.ExtendedDamageSource;
@@ -66,6 +70,7 @@ import org.cyclops.evilcraft.item.ItemBurningGemStone;
 import org.cyclops.evilcraft.item.ItemSpectralGlasses;
 import org.cyclops.evilcraft.item.ItemVengeanceRing;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
@@ -109,20 +114,21 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
 	private MobEntity innerEntity = null;
 
+	@Nullable
     private EntityType<?> preferredInnerEntity;
 
     private final Set<ServerPlayerEntity> entanglingPlayers = Sets.newHashSet();
 
     public EntityVengeanceSpirit(EntityType<? extends EntityVengeanceSpirit> type, World world) {
-        super(type, world);
+        this(type, world, null);
     }
 
     public EntityVengeanceSpirit(World world) {
-        this(world, null);
+        this(RegistryEntries.ENTITY_VENGEANCE_SPIRIT, world, null);
     }
 
-    public EntityVengeanceSpirit(World world, EntityType<?> preferredInnerEntity) {
-        this(RegistryEntries.ENTITY_VENGEANCE_SPIRIT, world);
+    public EntityVengeanceSpirit(EntityType<? extends EntityVengeanceSpirit> type, World world, @Nullable EntityType<?> preferredInnerEntity) {
+        super(type, world);
         this.preferredInnerEntity = preferredInnerEntity;
 
         this.stepHeight = 5.0F;
@@ -187,7 +193,13 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         }
         return false;
     }
-    
+
+    @Nullable
+    @Override
+    public AxisAlignedBB getCollisionBoundingBox() {
+        return getBoundingBox();
+    }
+
     @Override
 	public void registerData() {
         super.registerData();
@@ -198,14 +210,14 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-	public void writeAdditional(CompoundNBT tag) {
-    	super.writeAdditional(tag);
-    	data.writeNBT(tag);
+    public void writeAdditional(CompoundNBT tag) {
+        super.writeAdditional(tag);
+        data.writeNBT(tag);
     }
-    
+
     @Override
-	public void readAdditional(CompoundNBT tag) {
-    	super.readAdditional(tag);
+    public void readAdditional(CompoundNBT tag) {
+        super.readAdditional(tag);
         data.readNBT(tag);
     }
 
@@ -415,7 +427,9 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     	if (isEnabledVengeance(Minecraft.getInstance().player)) {
             return true;
         }
-        for (ItemStack itemStack : Minecraft.getInstance().player.getArmorInventoryList()) {
+        PlayerInventoryIterator it = new PlayerInventoryIterator(Minecraft.getInstance().player);
+    	while (it.hasNext()) {
+    	    ItemStack itemStack = it.next();
             if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemSpectralGlasses) {
                 return true;
             }
@@ -498,29 +512,29 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     /**
      * Get the inner entity.
-     * @return inner entity
+     * @return inner entity, null if it is a swarm
      */
     @Nullable
 	public MobEntity getInnerEntity() {
     	if(isSwarm()) {
     		return null;
     	}
-    	if(innerEntity != null)
-    		return innerEntity;
+        EntityType<?> entityType = data.getInnerEntityType();
+    	if(innerEntity != null) {
+    	    if (entityType != null && entityType == innerEntity.getType()) {
+                return innerEntity;
+            }
+        }
     	try {
-            EntityType<?> entityType = data.getInnerEntityType();
             if (entityType != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
                 Entity entity = entityType.create(world);
                 if (canSustain((MobEntity) entity)) {
-                    return (MobEntity) entity;
+                    return innerEntity = (MobEntity) entity;
                 }
             }
 		} catch (NullPointerException | ClassCastException e) {
-			EvilCraft.clog("Tried to spirit invalid entity, removing it now.", Level.ERROR);
+			// If we have an invalid entity, spirit becomes a swarm
  		}
-        if(!this.world.isRemote()) {
-            this.remove();
-        }
     	return null;
     }
     
@@ -577,18 +591,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         }
 
         return WorldHelpers.foldArea(world, BlockGemStoneTorchConfig.area, blockPos,
-                new WorldHelpers.WorldFoldingFunction<Boolean, Boolean>() {
-
-            @Nullable
-            @Override
-            public Boolean apply(@Nullable Boolean input, World world, BlockPos blockPos) {
-                // TODO: use block tags
-                return (input == null ||input)
-                        && world.getBlockState(blockPos).getBlock() != RegistryEntries.BLOCK_GEM_STONE_TORCH
-                        && world.getBlockState(blockPos).getBlock() != RegistryEntries.BLOCK_GEM_STONE_TORCH_WALL;
-            }
-
-        }, true);
+                (input, world1, blockPos1) -> input
+                        && !BlockTags.getCollection().get(new ResourceLocation("evilcraft:vengeance_spirit_blocker")).contains(world1.getBlockState(blockPos1).getBlock()), true);
 	}
 	
 	/**
