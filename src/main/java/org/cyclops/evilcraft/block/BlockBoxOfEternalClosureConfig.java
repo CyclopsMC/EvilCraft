@@ -7,16 +7,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTables;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelLoader;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.client.render.tileentity.RenderItemStackTileEntityBoxOfEternalClosure;
 
 /**
  * Config for the {@link BlockBoxOfEternalClosure}.
@@ -36,8 +32,7 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfig {
                         .hardnessAndResistance(2.5F)
                         .sound(SoundType.METAL)),
                 (eConfig, block) -> new ItemBlockNBT(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .setISTER(() -> () -> new RenderItemStackTileEntityBoxOfEternalClosure()))
+                        .group(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 
