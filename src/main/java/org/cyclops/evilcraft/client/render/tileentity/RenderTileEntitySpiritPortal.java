@@ -73,14 +73,13 @@ public class RenderTileEntitySpiritPortal extends TileEntityRenderer<TileSpiritP
             matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F + progress * 90.0F));
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
-            IVertexBuilder vb = bufferIn.getBuffer(RenderType.getCutout());
+            IVertexBuilder vb = bufferIn.getBuffer(RenderType.getLightning());
             Matrix4f matrix = matrixStackIn.getLast().getMatrix();
             vb.pos(matrix, 0, 0, 0).color(171, 97, 210, (int)(MAX_OPACITY * (1.0F - f2))).endVertex();
             vb.pos(matrix, -0.866F * f4, f3, (-0.5F * f4)).color(175, 100, 215, 0).endVertex();
             vb.pos(matrix, 0.866F * f4, f3, (-0.5F * f4)).color(175, 100, 215, 0).endVertex();
             vb.pos(matrix, 0.0F, f3, (1.0F * f4)).color(175, 100, 215, 0).endVertex();
             vb.pos(matrix, -0.866F * f4, f3, (-0.5F * f4)).color(175, 100, 215, 0).endVertex();
-            tessellator.draw();
         }
     }
 
@@ -88,9 +87,8 @@ public class RenderTileEntitySpiritPortal extends TileEntityRenderer<TileSpiritP
         matrixStackIn.push();
 
         EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
-        float r = 180.0F - renderManager.getCameraOrientation().getY();
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(r));
-        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(-renderManager.getCameraOrientation().getX()));
+        matrixStackIn.rotate(renderManager.getCameraOrientation());
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180.0F));
         renderIconForProgress(matrixStackIn, bufferIn, ((int) (progress * 100)) % 4, progress);
 
         matrixStackIn.pop();
@@ -114,10 +112,10 @@ public class RenderTileEntitySpiritPortal extends TileEntityRenderer<TileSpiritP
         int k = 150;
         IVertexBuilder vb = bufferIn.getBuffer(RenderType.getText(PORTALBASE));
         Matrix4f matrix = matrixStackIn.getLast().getMatrix();
-        vb.pos(matrix, 0, 1, 0).tex(u1, v2).color(0.72F, 0.5f, 0.23F, 0.9F).lightmap(j, k).endVertex();
-        vb.pos(matrix, 0, 0, 0).tex(u1, v1).color(0.72F, 0.5f, 0.83F, 0.9F).lightmap(j, k).endVertex();
-        vb.pos(matrix, 1, 0, 0).tex(u2, v1).color(0.72F, 0.5f, 0.83F, 0.9F).lightmap(j, k).endVertex();
-        vb.pos(matrix, 1, 1, 0).tex(u2, v2).color(0.72F, 0.5f, 0.83F, 0.9F).lightmap(j, k).endVertex();
+        vb.pos(matrix, 0, 1, 0).color(0.72F, 0.5f, 0.23F, 0.9F).tex(u1, v2).lightmap(j, k).endVertex();
+        vb.pos(matrix, 0, 0, 0).color(0.72F, 0.5f, 0.83F, 0.9F).tex(u1, v1).lightmap(j, k).endVertex();
+        vb.pos(matrix, 1, 0, 0).color(0.72F, 0.5f, 0.83F, 0.9F).tex(u2, v1).lightmap(j, k).endVertex();
+        vb.pos(matrix, 1, 1, 0).color(0.72F, 0.5f, 0.83F, 0.9F).tex(u2, v2).lightmap(j, k).endVertex();
 
         matrixStackIn.pop();
     }

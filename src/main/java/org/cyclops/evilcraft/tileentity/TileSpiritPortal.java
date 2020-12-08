@@ -83,10 +83,10 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 10D);
 
-        Minecraft.getInstance().particles.addEffect(new ParticleBlur(
-                new ParticleBlurData(red, green, blue, scale, ageMultiplier),
-                world, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
-                rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F));
+        Minecraft.getInstance().worldRenderer.addParticle(
+                new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
+                getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
+                rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F);
     }
 
     public float getProgress() {

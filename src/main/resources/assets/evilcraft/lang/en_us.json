@@ -316,8 +316,8 @@
   "biomes.evilcraft.biome_degraded": "Degraded",
 
   "_comment": "Potion Effects",
-  "potions.evilcraft.paling": "Paling",
-  "potions.evilcraft.paling.postfix": "Potion of Paling",
+  "effect.evilcraft.paling": "Paling",
+  "effect.evilcraft.paling.postfix": "Potion of Paling",
   "potion.potency.2": "III",
   "potion.potency.3": "IV",
   "potion.potency.4": "V",
