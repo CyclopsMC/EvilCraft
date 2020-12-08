@@ -19,6 +19,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -58,12 +59,14 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         if(!potionStack.isEmpty()) {
             List<EffectInstance> potionEffects = PotionUtils.getEffectsFromStack(potionStack);
             for(EffectInstance potionEffect : potionEffects) {
-                Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getPotion());
-                String striked = multiplier != null && multiplier < 0 ? "§m" : "";
-                list.add(new TranslationTextComponent(super.getTranslationKey(itemStack) + ".potion",
-                        new StringTextComponent(striked),
+                TranslationTextComponent textComponent = new TranslationTextComponent(super.getTranslationKey(itemStack) + ".potion",
                         new TranslationTextComponent(potionEffect.getEffectName()),
-                        new TranslationTextComponent("enchantment.level." + (potionEffect.getAmplifier() + 1))));
+                        new TranslationTextComponent("enchantment.level." + (potionEffect.getAmplifier() + 1)));
+                Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getPotion());
+                if (multiplier != null && multiplier < 0) {
+                    textComponent.applyTextStyle(TextFormatting.STRIKETHROUGH);
+                }
+                list.add(textComponent);
             }
         }
     }
@@ -157,15 +160,15 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     // TODO
 
     /**
-     * Get the supplementary inventory of the given crafter.
-     * @param player The player using the crafter.
+     * Get the supplementary inventory of the item.
+     * @param player The player using the item.
      * @param itemStack The item stack.
      * @param itemIndex The item index.
      * @param hand The hand the item is in.
      * @return The inventory.
      */
     public IInventory getSupplementaryInventory(PlayerEntity player, ItemStack itemStack, int itemIndex, Hand hand) {
-        return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 1, 64, "inventoryCrafter");
+        return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 1, 64, "inventoryItem");
     }
 
     /**

@@ -231,7 +231,7 @@
   "item.evilcraft.condensed_blood.info": "Insert into any machine for extra Blood.",
   "item.evilcraft.primed_pendant": "Primed Pendant",
   "item.evilcraft.primed_pendant.info": "Applies the chosen potion effect.",
-  "item.evilcraft.primed_pendant.potion": "§7_effect: %s (%s)",
+  "item.evilcraft.primed_pendant.potion": "§7Effect: %s (%s)",
   "item.evilcraft.golden_string": "Golden String",
   "item.evilcraft.biome_extract": "Biome Extract",
   "item.evilcraft.biome_extract.empty": "Biome Extract Bottle",
