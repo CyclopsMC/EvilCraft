@@ -2,12 +2,15 @@ package org.cyclops.evilcraft.entity.effect;
 
 import com.google.common.collect.Lists;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IRendersAsItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -31,9 +34,10 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class EntityNecromancersHead extends ThrowableEntity {
+public class EntityNecromancersHead extends ThrowableEntity implements IRendersAsItem {
     
 	private static final int DURATION = 200;
+	private static final ItemStack RENDER_ITEM = new ItemStack(Items.SKELETON_SKULL);
 
 	protected boolean observing = false;
 	protected LivingEntity target = null;
@@ -140,4 +144,8 @@ public class EntityNecromancersHead extends ThrowableEntity {
     	}
     }
 
+	@Override
+	public ItemStack getItem() {
+		return RENDER_ITEM;
+	}
 }

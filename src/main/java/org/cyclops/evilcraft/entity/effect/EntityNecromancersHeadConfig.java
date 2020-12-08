@@ -30,7 +30,7 @@ public class EntityNecromancersHeadConfig extends EntityConfig<EntityNecromancer
     @OnlyIn(Dist.CLIENT)
     @Override
     public EntityRenderer<EntityNecromancersHead> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
-        return new SpriteRenderer(renderManager, renderItem);
+        return new SpriteRenderer<>(renderManager, renderItem);
     }
     
 }
