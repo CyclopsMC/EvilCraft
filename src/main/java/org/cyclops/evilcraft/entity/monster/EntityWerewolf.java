@@ -43,7 +43,7 @@ public class EntityWerewolf extends MonsterEntity {
     static {
         MinecraftForge.EVENT_BUS.register(EntityWerewolf.class);
     }
-    
+
     private CompoundNBT villagerNBTTagCompound = new CompoundNBT();
     private boolean fromVillager = false;
     
@@ -59,17 +59,22 @@ public class EntityWerewolf extends MonsterEntity {
         super(RegistryEntries.ENTITY_WEREWOLF, world);
 
         this.stepHeight = 1.0F;
-        
-        this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(2, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
 
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, PlayerEntity.class, true));
-    
         // This sets the default villager profession ID.
         this.villagerNBTTagCompound.putString("ProfessionName", RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.getRegistryName().toString());
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+
+        this.goalSelector.addGoal(2, new SwimGoal(this));
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.6D));
+        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
@@ -138,7 +143,7 @@ public class EntityWerewolf extends MonsterEntity {
      */
     public void replaceWithVillager() {
         VillagerEntity villager = new VillagerEntity(EntityType.VILLAGER, this.world, IVillagerType.byBiome(this.world.getBiome(getPosition())));
-        villager.setVillagerData(villager.getVillagerData().withProfession(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF));
+        initializeWerewolfVillagerData(villager);
         replaceEntity(this, villager, this.world);
         try {
             villager.readAdditional(villagerNBTTagCompound);
@@ -146,7 +151,14 @@ public class EntityWerewolf extends MonsterEntity {
             e.printStackTrace();
         }
     }
-    
+
+    public static void initializeWerewolfVillagerData(VillagerEntity villager) {
+        villager.setVillagerData(villager
+                .getVillagerData()
+                .withLevel(2)
+                .withProfession(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF));
+    }
+
     /**
      * Replace the given villager with a werewolf and store the data of that villager.
      * @param villager The villager to replace.
@@ -225,7 +237,7 @@ public class EntityWerewolf extends MonsterEntity {
     public boolean canDespawn(double distanceToClosestPlayer) {
         return super.canDespawn(distanceToClosestPlayer) && !isFromVillager();
     }
-    
+
     /**
      * Get the villager data.
      * @return Villager data.

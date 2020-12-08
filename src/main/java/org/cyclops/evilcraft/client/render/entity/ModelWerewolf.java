@@ -92,7 +92,14 @@ public class ModelWerewolf extends BipedModel<EntityWerewolf> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        // Not sure why, but we need to redefine the body to be in its correct position
+        bipedBody = new ModelRenderer(this, 12, 20);
+        bipedBody.addBox(-7F, 0F, -6F, 14, 19, 12);
+        bipedBody.setRotationPoint(0F, -13F, 0F);
+        bipedBody.setTextureSize(64, 135);
+        bipedBody.mirror = true;
+        setRotation(bipedBody, 0F, 0F, 0F);
+
         bipedHead.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         bipedEar1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         bipedEar2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);

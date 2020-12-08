@@ -7,6 +7,7 @@ import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.entity.monster.EntityWerewolf;
 import org.cyclops.evilcraft.item.IItemEmpowerable;
 
 import java.util.HashSet;
@@ -59,9 +60,7 @@ public class EntityStruckByLightningEventHook {
                 return;
             }
             if(entity.getVillagerData().getProfession() != RegistryEntries.VILLAGER_PROFESSION_WEREWOLF) {
-            	entity.setVillagerData(entity
-                        .getVillagerData()
-                        .withProfession(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF));
+                EntityWerewolf.initializeWerewolfVillagerData(entity);
             }
             if(entity.getWorld().rand.nextBoolean())
                 event.setCanceled(true); // 50% chance that they become a witch like vanilla does
