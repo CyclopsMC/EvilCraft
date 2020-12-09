@@ -10,7 +10,7 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
- * Config for {@link RecipeDisplayStand}.
+ * Config for display stands.
  * @author rubensworks
  */
 public class RecipeSerializerCraftingShapedCustomOutputDisplayStandConfig extends RecipeConfig<RecipeCraftingShapedCustomOutput> {

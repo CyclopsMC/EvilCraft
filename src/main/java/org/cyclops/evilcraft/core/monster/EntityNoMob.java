@@ -42,10 +42,6 @@ public class EntityNoMob extends CreatureEntity {
         return SoundCategory.HOSTILE;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
     public void livingTick() {
         this.updateArmSwingProgress();
         this.func_213623_ec();
@@ -72,9 +68,6 @@ public class EntityNoMob extends CreatureEntity {
         return SoundEvents.ENTITY_HOSTILE_SPLASH;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     public boolean attackEntityFrom(DamageSource source, float amount) {
         return this.isInvulnerableTo(source) ? false : super.attackEntityFrom(source, amount);
     }
@@ -95,10 +88,6 @@ public class EntityNoMob extends CreatureEntity {
         return 0.5F - worldIn.getBrightness(pos);
     }
 
-    /**
-     * Static predicate for determining if the current light level and environmental conditions allow for a monster to
-     * spawn.
-     */
     public static boolean isValidLightLevel(IWorld worldIn, BlockPos pos, Random randomIn) {
         if (worldIn.getLightFor(LightType.SKY, pos) > randomIn.nextInt(32)) {
             return false;
@@ -108,17 +97,10 @@ public class EntityNoMob extends CreatureEntity {
         }
     }
 
-    /**
-     * Static predicate for determining whether or not a monster can spawn at the provided location, incorporating a
-     * check of the current light level at the location.
-     */
     public static boolean canMonsterSpawnInLight(EntityType<? extends MonsterEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(worldIn, pos, randomIn) && canSpawnOn(type, worldIn, reason, pos, randomIn);
     }
 
-    /**
-     * Static predicate for determining whether or not a monster can spawn at the provided location.
-     */
     public static boolean canMonsterSpawn(EntityType<? extends MonsterEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && canSpawnOn(type, worldIn, reason, pos, randomIn);
     }
@@ -128,9 +110,6 @@ public class EntityNoMob extends CreatureEntity {
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
     }
 
-    /**
-     * Entity won't drop items or experience points if this returns false
-     */
     protected boolean canDropLoot() {
         return true;
     }

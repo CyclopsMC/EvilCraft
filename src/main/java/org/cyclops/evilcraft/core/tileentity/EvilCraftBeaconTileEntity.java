@@ -19,10 +19,7 @@ public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implem
 	private Vector4f beamColor;
 	
 	private boolean isActive;
-	
-	/**
-	 * Make a new instance.
-	 */
+
 	public EvilCraftBeaconTileEntity(TileEntityType<?> type) {
 		super(type);
 	    isActive = true;

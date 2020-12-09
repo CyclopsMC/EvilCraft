@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 /**
  * A component used in {@link TickingTankInventoryTileEntity} to support handling of ITickActions.
  * A new instance can be created with a dictionary of (an extension of) {@link ITickAction}.
- * It must be used like {@link TickingTankInventoryTileEntity#update()}.
+ * It must be used like {@link TickingTankInventoryTileEntity#updateTileEntity()}.
  * It will then tick for the given tile and slot and check the current item inside
  * the given slot. It will then take the class of that item and lookup the item class inside
  * that map to get the correct {@link ITickAction} on which it will call the methods.

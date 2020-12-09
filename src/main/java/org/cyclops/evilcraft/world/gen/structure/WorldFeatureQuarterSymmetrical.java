@@ -29,11 +29,6 @@ public abstract class WorldFeatureQuarterSymmetrical extends Feature<NoFeatureCo
 	protected int quarterWidth;
 	protected int quarterHeight;
 
-	/**
-	 * Make a new instance with the given dimensions (only one height layer).
-	 * @param quarterWidth Width of the quarter.
-	 * @param quarterHeight Height of the quarter.
-	 */
 	public WorldFeatureQuarterSymmetrical(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn, int quarterWidth, int quarterHeight) {
 		super(configFactoryIn);
 		layerHeights = new ArrayList<Integer>();
