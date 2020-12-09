@@ -10,7 +10,7 @@ import org.cyclops.evilcraft.block.BlockSpiritFurnace;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorkingRemoveOnly;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
 
 import java.util.Optional;
@@ -131,7 +131,7 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
     }
 
     @Override
-    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+    public TileWorking.Metadata getTileWorkingMetadata() {
         return TileSpiritFurnace.METADATA;
     }
 }

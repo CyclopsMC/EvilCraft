@@ -2,10 +2,12 @@ package org.cyclops.evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
 import lombok.Getter;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
@@ -289,27 +291,6 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         }
     }
 
-    /**
-     * Get the id of the accumulate slot.
-     * @return id of the accumulate slot.
-     */
-    public int getConsumeSlot() {
-        return SLOT_ACCUMULATE;
-    }
-
-    /**
-     * Get the id of the result slot.
-     * @return id of the result slot.
-     */
-    public int getProduceSlot() {
-        return SLOT_ACCUMULATE_RESULT;
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack) {
-        return slot != getProduceSlot() && super.canInsertItem(slot, itemStack);
-    }
-
     @Override
     public void onStateChanged() {
         BlockState blockState = world.getBlockState(getPos()).with(BlockSanguinaryEnvironmentalAccumulator.ON, isWorking());
@@ -318,7 +299,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     }
 
     @Override
-    public IMetadata getTileWorkingMetadata() {
+    public Metadata getTileWorkingMetadata() {
         return METADATA;
     }
 
@@ -398,7 +379,16 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         }
     }
 
-    private static class Metadata implements IMetadata {
+    public static class Metadata extends TileWorking.Metadata {
+        private Metadata() {
+            super(SLOTS);
+        }
+
+        @Override
+        public boolean canInsertItem(IInventory inventory, int slot, ItemStack itemStack) {
+            return slot != getProduceSlot() && super.canInsertItem(inventory, slot, itemStack);
+        }
+
         @Override
         public boolean canConsume(ItemStack itemStack, World world) {
             /*
@@ -412,6 +402,27 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
             // In all other cases: false
             return false;
+        }
+
+        @Override
+        protected Block getBlock() {
+            return RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR;
+        }
+
+        /**
+         * Get the id of the accumulate slot.
+         * @return id of the accumulate slot.
+         */
+        public int getConsumeSlot() {
+            return SLOT_ACCUMULATE;
+        }
+
+        /**
+         * Get the id of the result slot.
+         * @return id of the result slot.
+         */
+        public int getProduceSlot() {
+            return SLOT_ACCUMULATE_RESULT;
         }
     }
 

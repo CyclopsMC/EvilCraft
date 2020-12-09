@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
-import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenWorking;
+import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimator;
 import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class ContainerScreenSpiritReanimator extends ContainerScreenWorking<ContainerSpiritReanimator, TileSpiritReanimator> {
+public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<ContainerSpiritReanimator, TileSpiritReanimator> {
     
     /**
      * Texture width.

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -251,7 +252,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     @Override
-    public IMetadata getTileWorkingMetadata() {
+    public Metadata getTileWorkingMetadata() {
         return METADATA;
     }
 
@@ -472,10 +473,19 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 
-    private static class Metadata implements IMetadata {
+    private static class Metadata extends TileWorking.Metadata {
+        private Metadata() {
+            super(SLOTS);
+        }
+
         @Override
         public boolean canConsume(ItemStack itemStack, World world) {
             return SlotRepairable.checkIsItemValid(itemStack);
+        }
+
+        @Override
+        protected Block getBlock() {
+            return RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST;
         }
     }
 

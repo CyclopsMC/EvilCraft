@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
 import org.cyclops.evilcraft.core.block.BlockTileGuiTank;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
 
 import java.util.Random;
@@ -57,7 +57,7 @@ public class BlockSpiritReanimator extends BlockTileGuiTank {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState blockState, World world, BlockPos blockPos, Random random) {
-        ParticleBloodBubble.randomDisplayTick((WorkingTileEntity) world.getTileEntity(blockPos), world, blockPos,
+        ParticleBloodBubble.randomDisplayTick((TileWorking) world.getTileEntity(blockPos), world, blockPos,
                 random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, Direction.NORTH));
         super.animateTick(blockState, world, blockPos, random);
     }

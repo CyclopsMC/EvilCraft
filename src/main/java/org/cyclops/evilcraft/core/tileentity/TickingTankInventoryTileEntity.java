@@ -98,21 +98,27 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
                 }
             }
         }
-        
-        if(!world.isRemote()) {
-            // Update state server->clients.
-            int newState = getNewState();
-            if(newState != currentState) {
-                currentState = newState;
-                onStateChanged();
-            }
-        } else {
-            // Update internal state for client.
-            if(previousState != currentState) {
-                previousState = currentState;
-                onStateChanged();
+
+        if (!this.hasJustWorked()) {
+            if (!world.isRemote()) {
+                // Update state server->clients.
+                int newState = getNewState();
+                if (newState != currentState) {
+                    currentState = newState;
+                    onStateChanged();
+                }
+            } else {
+                // Update internal state for client.
+                if (previousState != currentState) {
+                    previousState = currentState;
+                    onStateChanged();
+                }
             }
         }
+    }
+
+    protected boolean hasJustWorked() {
+        return false;
     }
 
     /**

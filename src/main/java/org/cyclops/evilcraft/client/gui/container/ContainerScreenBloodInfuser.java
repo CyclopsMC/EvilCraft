@@ -6,7 +6,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockBloodInfuser;
-import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenWorking;
+import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodInfuser;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 
@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
  * @author rubensworks
  *
  */
-public class ContainerScreenBloodInfuser extends ContainerScreenWorking<ContainerBloodInfuser, TileBloodInfuser> {
+public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<ContainerBloodInfuser, TileBloodInfuser> {
     
     /**
      * Texture width.

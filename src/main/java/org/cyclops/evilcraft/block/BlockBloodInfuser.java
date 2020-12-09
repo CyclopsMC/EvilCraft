@@ -16,7 +16,7 @@ import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
 import org.cyclops.evilcraft.core.block.BlockTileGuiTank;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 
 import java.util.Random;
@@ -59,7 +59,7 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        ParticleBloodBubble.randomDisplayTick((WorkingTileEntity) worldIn.getTileEntity(pos), worldIn, pos,
+        ParticleBloodBubble.randomDisplayTick((TileWorking) worldIn.getTileEntity(pos), worldIn, pos,
                 rand, BlockHelpers.getSafeBlockStateProperty(stateIn, FACING, Direction.NORTH));
         super.animateTick(stateIn, worldIn, pos, rand);
     }

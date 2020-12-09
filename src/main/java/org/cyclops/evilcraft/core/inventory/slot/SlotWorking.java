@@ -4,9 +4,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import org.cyclops.evilcraft.core.inventory.container.ContainerWorking;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.tileentity.TileWorking;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
 
 /**
  * Slot that is used for only accepting workable items.
@@ -16,11 +15,11 @@ import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
  */
 public class SlotWorking<T extends TileWorking<T, ?>> extends Slot {
 
-	protected ContainerWorking<T> container;
+	protected ContainerTileWorking<T> container;
     private ItemStack lastSlotContents = null;
     private final World world;
 
-    public SlotWorking(int index, int x, int y, ContainerWorking<T> container, World world) {
+    public SlotWorking(int index, int x, int y, ContainerTileWorking<T> container, World world) {
         super(container.getContainerInventory(), index, x, y);
         this.container = container;
         this.lastSlotContents = getStack();

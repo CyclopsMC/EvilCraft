@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.tileentity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -226,7 +227,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     }
 
     @Override
-    public IMetadata getTileWorkingMetadata() {
+    public Metadata getTileWorkingMetadata() {
         return METADATA;
     }
 
@@ -258,10 +259,19 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         return new TranslationTextComponent("block.evilcraft.spirit_reanimator");
     }
 
-    private static class Metadata implements IMetadata {
+    private static class Metadata extends TileWorking.Metadata {
+        private Metadata() {
+            super(SLOTS);
+        }
+
         @Override
         public boolean canConsume(ItemStack itemStack, World world) {
             return !itemStack.isEmpty() && getAllowedCookItem() == itemStack.getItem();
+        }
+
+        @Override
+        protected Block getBlock() {
+            return RegistryEntries.BLOCK_SPIRIT_REANIMATOR;
         }
     }
 

@@ -9,7 +9,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
-import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenWorking;
+import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnace;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class ContainerScreenSpiritFurnace extends ContainerScreenWorking<ContainerSpiritFurnace, TileSpiritFurnace> {
+public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<ContainerSpiritFurnace, TileSpiritFurnace> {
     
     /**
      * Texture width.

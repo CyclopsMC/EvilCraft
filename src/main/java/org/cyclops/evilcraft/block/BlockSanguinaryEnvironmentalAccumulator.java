@@ -9,7 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import org.cyclops.cyclopscore.block.BlockTileGui;
 import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 
 /**
@@ -41,7 +41,7 @@ public class BlockSanguinaryEnvironmentalAccumulator extends BlockTileGui {
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         return TileHelpers.getSafeTile(world, pos, TileSanguinaryEnvironmentalAccumulator.class)
-                .filter(WorkingTileEntity::isVisuallyWorking)
+                .filter(TileWorking::isVisuallyWorking)
                 .map(tile -> 4)
                 .orElseGet(() -> super.getLightValue(state, world, pos));
     }

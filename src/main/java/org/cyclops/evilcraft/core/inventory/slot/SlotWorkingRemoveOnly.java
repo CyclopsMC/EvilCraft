@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.inventory.slot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import org.cyclops.evilcraft.core.inventory.container.ContainerWorking;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.tileentity.TileWorking;
 
 /**
@@ -16,7 +16,7 @@ public class SlotWorkingRemoveOnly<T extends TileWorking<T, ?>> extends SlotWork
    
 	private boolean shouldHardReset;
 
-    public SlotWorkingRemoveOnly(int index, int x, int y, ContainerWorking<T> container, boolean shouldHardReset, World world) {
+    public SlotWorkingRemoveOnly(int index, int x, int y, ContainerTileWorking<T> container, boolean shouldHardReset, World world) {
         super(index, x, y, container, world);
         this.shouldHardReset = shouldHardReset;
     }

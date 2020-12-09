@@ -2,8 +2,10 @@ package org.cyclops.evilcraft.tileentity;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
@@ -191,28 +193,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         return recipeCache.get(Triple.of(
                 itemStack.isEmpty() ? ItemStack.EMPTY : itemStack.copy(),
                 getTank().getFluidAmount(),
-                getTier()));
-    }
-    
-    /**
-     * Get the id of the infusion slot.
-     * @return id of the infusion slot.
-     */
-    public int getConsumeSlot() {
-        return SLOT_INFUSE;
-    }
-
-    /**
-     * Get the id of the result slot.
-     * @return id of the result slot.
-     */
-    public int getProduceSlot() {
-        return SLOT_INFUSE_RESULT;
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack) {
-        return slot != getProduceSlot() && super.canInsertItem(slot, itemStack);
+                getTileWorkingMetadata().getTier(getInventory())));
     }
 
     @Override
@@ -223,7 +204,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     }
 
     @Override
-    public IMetadata getTileWorkingMetadata() {
+    public Metadata getTileWorkingMetadata() {
         return METADATA;
     }
 
@@ -252,7 +233,11 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         return new TranslationTextComponent("block.evilcraft.blood_infuser");
     }
 
-    private static class Metadata implements IMetadata {
+    public static class Metadata extends TileWorking.Metadata {
+        private Metadata() {
+            super(SLOTS);
+        }
+
         @Override
         public boolean canConsume(ItemStack itemStack, World world) {
             // Valid fluid handler
@@ -271,6 +256,32 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
             return world.getRecipeManager()
                     .getRecipe(RegistryEntries.RECIPETYPE_BLOOD_INFUSER, recipeInput, world)
                     .isPresent();
+        }
+
+        @Override
+        public boolean canInsertItem(IInventory inventory, int slot, ItemStack itemStack) {
+            return slot != getProduceSlot() && super.canInsertItem(inventory, slot, itemStack);
+        }
+
+        @Override
+        protected Block getBlock() {
+            return RegistryEntries.BLOCK_BLOOD_INFUSER;
+        }
+
+        /**
+         * Get the id of the infusion slot.
+         * @return id of the infusion slot.
+         */
+        public int getConsumeSlot() {
+            return SLOT_INFUSE;
+        }
+
+        /**
+         * Get the id of the result slot.
+         * @return id of the result slot.
+         */
+        public int getProduceSlot() {
+            return SLOT_INFUSE_RESULT;
         }
     }
 

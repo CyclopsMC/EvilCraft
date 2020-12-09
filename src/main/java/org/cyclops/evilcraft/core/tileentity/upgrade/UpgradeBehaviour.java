@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.core.tileentity.upgrade;
 
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 
 /**
  * Behaviour for upgrade events that have a simple integer value to change.
  * @author rubensworks
  */
-public abstract class UpgradeBehaviour<T extends WorkingTileEntity, O> implements IUpgradeBehaviour<T, O> {
+public abstract class UpgradeBehaviour<T extends TileWorking<T, O>, O> implements IUpgradeBehaviour<T, O> {
 
     protected double valueFactor;
 

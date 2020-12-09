@@ -9,7 +9,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodInfuser;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 
 import java.util.Optional;
@@ -91,7 +91,7 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
     }
 
     @Override
-    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+    public TileWorking.Metadata getTileWorkingMetadata() {
         return TileBloodInfuser.METADATA;
     }
 }

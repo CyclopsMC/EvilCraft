@@ -9,7 +9,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenWorking;
+import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class ContainerScreenSanguinaryEnvironmentalAccumulator extends ContainerScreenWorking<ContainerSanguinaryEnvironmentalAccumulator, TileSanguinaryEnvironmentalAccumulator> {
+public class ContainerScreenSanguinaryEnvironmentalAccumulator extends ContainerScreenTileWorking<ContainerSanguinaryEnvironmentalAccumulator, TileSanguinaryEnvironmentalAccumulator> {
 
     /**
      * Texture width.

@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -57,7 +57,7 @@ public class ParticleBloodBubble extends RainParticle {
      * @param rotatedDirection The direction to emit the particles at.
      */
     @OnlyIn(Dist.CLIENT)
-    public static void randomDisplayTick(@Nullable WorkingTileEntity tile, World world, BlockPos blockPos, Random random, Direction rotatedDirection) {
+    public static void randomDisplayTick(@Nullable TileWorking tile, World world, BlockPos blockPos, Random random, Direction rotatedDirection) {
         if(tile != null && random.nextInt(10) == 0) {
             if (tile.isVisuallyWorking()) {
                 for(int i = 0; i < 1 + random.nextInt(5); i++) {

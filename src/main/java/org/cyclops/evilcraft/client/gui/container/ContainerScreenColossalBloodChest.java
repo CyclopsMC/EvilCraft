@@ -7,7 +7,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
-import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenWorking;
+import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 
@@ -16,7 +16,7 @@ import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
  * @author rubensworks
  *
  */
-public class ContainerScreenColossalBloodChest extends ContainerScreenWorking<ContainerColossalBloodChest, TileColossalBloodChest> {
+public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorking<ContainerColossalBloodChest, TileColossalBloodChest> {
 
     /**
      * Texture width.

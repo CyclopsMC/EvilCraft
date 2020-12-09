@@ -43,17 +43,17 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         if (filled > 0) {
             // Everything ok, filling the container bit by bit
             tile.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
-            tile.getInventory().setInventorySlotContents(tile.getConsumeSlot(), infuseStack);
+            tile.getInventory().setInventorySlotContents(tile.getTileWorkingMetadata().getConsumeSlot(), infuseStack);
             if (!FluidHelpers.getFluid(container).isEmpty() && FluidHelpers.getAmount(FluidHelpers.getFluid(container)) == FluidHelpers.getCapacity(container)) {
                 if (addToProduceSlot(tile, infuseStack)) {
-                    tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
+                    tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                 }
             }
         } else {
             // We might be dealing with a bucket
             ItemStack result = FluidUtil.tryFillContainer(infuseStack, tile.getTank(), Integer.MAX_VALUE, null, true).getResult();
             if (addToProduceSlot(tile, result)) {
-                tile.getInventory().decrStackSize(tile.getConsumeSlot(), 1);
+                tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
             }
         }
     }
@@ -65,7 +65,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 
     @Override
     public ItemStack willProduceItem(TileBloodInfuser tile) {
-        ItemStack itemStack = tile.getInventory().getStackInSlot(tile.getConsumeSlot());
+        ItemStack itemStack = tile.getInventory().getStackInSlot(tile.getTileWorkingMetadata().getConsumeSlot());
         if (itemStack.isEmpty()) {
             return ItemStack.EMPTY;
         }

@@ -9,7 +9,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
     }
 
     @Override
-    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+    public TileWorking.Metadata getTileWorkingMetadata() {
         return TileSanguinaryEnvironmentalAccumulator.METADATA;
     }
 }

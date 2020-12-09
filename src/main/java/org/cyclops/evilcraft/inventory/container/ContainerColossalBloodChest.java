@@ -8,7 +8,7 @@ import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
 
@@ -92,7 +92,7 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
     }
 
     @Override
-    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+    public TileWorking.Metadata getTileWorkingMetadata() {
         return TileColossalBloodChest.METADATA;
     }
 }

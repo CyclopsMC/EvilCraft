@@ -11,7 +11,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritReanimator;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.tileentity.WorkingTileEntity;
+import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
 
 import javax.annotation.Nullable;
@@ -99,7 +99,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
     }
 
     @Override
-    public WorkingTileEntity.IMetadata getTileWorkingMetadata() {
+    public TileWorking.Metadata getTileWorkingMetadata() {
         return TileSpiritReanimator.METADATA;
     }
     

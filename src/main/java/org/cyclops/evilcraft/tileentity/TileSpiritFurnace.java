@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.tileentity;
 
 import com.google.common.collect.Lists;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -292,7 +293,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     }
 
     @Override
-    public IMetadata getTileWorkingMetadata() {
+    public Metadata getTileWorkingMetadata() {
         return METADATA;
     }
 
@@ -445,10 +446,19 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         return new TranslationTextComponent("block.evilcraft.spirit_furnace");
     }
 
-    private static class Metadata implements IMetadata {
+    public static class Metadata extends TileWorking.Metadata {
+        private Metadata() {
+            super(SLOTS);
+        }
+
         @Override
         public boolean canConsume(ItemStack itemStack, World world) {
             return !itemStack.isEmpty() && getAllowedCookItem() == itemStack.getItem();
+        }
+
+        @Override
+        protected Block getBlock() {
+            return RegistryEntries.BLOCK_SPIRIT_FURNACE;
         }
     }
 }

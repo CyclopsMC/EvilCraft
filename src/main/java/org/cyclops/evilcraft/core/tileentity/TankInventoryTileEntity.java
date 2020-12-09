@@ -20,11 +20,13 @@ public class TankInventoryTileEntity extends CyclopsTileEntity {
 
     private final SimpleInventory inventory;
     private final SingleUseTank tank;
+    protected final int tankSize;
 
     public TankInventoryTileEntity(TileEntityType<?> type, int inventorySize, int stackSize, int tankSize, @Nullable Fluid acceptedFluid) {
         super(type);
         inventory = createInventory(inventorySize, stackSize);
         tank = createTank(tankSize);
+        this.tankSize = tankSize;
         if (acceptedFluid != null) {
             tank.setAcceptedFluid(acceptedFluid);
         }

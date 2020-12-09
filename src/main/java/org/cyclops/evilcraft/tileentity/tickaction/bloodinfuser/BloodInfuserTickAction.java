@@ -22,7 +22,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
         // Only allow ticking if production slot is empty or if the producing item is the same and
         // there is at least one spot left in the stack.
         if(!tile.getTank().isEmpty() && getInfuseStack(tile) != null && tile.getTileWorkingMetadata().canConsume(getInfuseStack(tile), tile.getWorld())) {
-            ItemStack production = tile.getInventory().getStackInSlot(tile.getProduceSlot());
+            ItemStack production = tile.getInventory().getStackInSlot(tile.getTileWorkingMetadata().getProduceSlot());
             ItemStack willProduce = willProduceItem(tile);
             if(production.isEmpty()) {
                 return true;
@@ -40,7 +40,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
      * @return The item in that slot.
      */
     public ItemStack getInfuseStack(TileBloodInfuser tile) {
-        return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
+        return tile.getInventory().getStackInSlot(tile.getTileWorkingMetadata().getConsumeSlot());
     }
     
     /**
@@ -57,7 +57,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<TileBloodInf
      * @return If the item could be added or joined in the production slot.
      */
     public boolean addToProduceSlot(TileBloodInfuser tile, ItemStack itemStack) {
-    	return InventoryHelpers.addToSlot(tile.getInventory(), tile.getProduceSlot(), itemStack);
+    	return InventoryHelpers.addToSlot(tile.getInventory(), tile.getTileWorkingMetadata().getProduceSlot(), itemStack);
     }
 
     /**
