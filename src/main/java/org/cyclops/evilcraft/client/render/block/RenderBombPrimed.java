@@ -41,7 +41,7 @@ public class RenderBombPrimed extends TNTRenderer {
         matrixStackIn.rotate(Vector3f.YP.rotationDegrees(90.0F));
         TNTMinecartRenderer.renderTntFlash(this.block.getDefaultState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
         matrixStackIn.pop();
-        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        //super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
     
 }
