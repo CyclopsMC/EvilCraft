@@ -73,6 +73,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
     private boolean wingGoUp = true;
     
     private static final int MAXHEIGHT = 80;
+    private float randomYawVelocity;
 
     public EntityPoisonousLibelle(EntityType<? extends EntityPoisonousLibelle> typeIn, World worldIn) {
         super(typeIn, worldIn);
@@ -256,7 +257,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 dynamicMotionMultiplier = 0.0F;
             }
 
-            this.renderYawOffset *= 0.8F;
+            this.randomYawVelocity *= 0.8F;
             float motionDistanceHeightPlaneFloat = MathHelper.sqrt(m.x * m.x + m.z * m.z) * 1.0F + 1.0F;
             double motionDistanceHeightPlane = Math.sqrt(m.x * m.x + m.z * m.z) * 1.0D + 1.0D;
 
@@ -264,19 +265,17 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 motionDistanceHeightPlane = 40.0D;
             }
 
-            this.renderYawOffset = (float)((double)this.renderYawOffset + differenceYaw * (0.7D / motionDistanceHeightPlane / (double)motionDistanceHeightPlaneFloat));
-            this.rotationYaw += this.renderYawOffset * 0.1F;
+            this.randomYawVelocity = (float)((double)this.randomYawVelocity + differenceYaw * (0.7D / motionDistanceHeightPlane / (double)motionDistanceHeightPlaneFloat));
+            this.rotationYaw += this.randomYawVelocity * 0.1F;
             float scaledMotionDistanceHeightPlane = (float)(2.0D / (motionDistanceHeightPlane + 1.0D));
-            float staticMotionMultiplier = 0.06F;
-            this.moveRelative(0.0F, new Vec3d(-1.0F, staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), 1.0F));
+            float staticMotionMultiplier = 0.03F;
+            this.moveRelative(staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), new Vec3d(0.0D, 0.0D, -1.0D));
 
             this.move(MoverType.SELF, getMotion());
 
-            Vec3d motionVector = getMotion().normalize();
-            float motionRotation = (float)(motionVector.dotProduct(rotationVector) + 1.0D) / 2.0F;
-            motionRotation = 0.8F + 0.15F * motionRotation;
-            setMotion(getMotion().mul(motionRotation, motionRotation, 0.9D));
-            setMotion(getMotion().mul(1 / 1.5, 1 / 1.2, 1 / 1.5));
+            Vec3d vec3d3 = this.getMotion().normalize();
+            double d6 = 0.8D + 0.15D * (vec3d3.dotProduct(rotationVector) + 1.0D) / 2.0D;
+            this.setMotion(this.getMotion().mul(d6, 0.91F, d6));
         }
 
         this.renderYawOffset = this.rotationYaw;
