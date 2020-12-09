@@ -9,9 +9,9 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 /**
@@ -60,14 +60,26 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironment
     }
 
     public int getDuration() {
+        // Note: we need to do this because defaultProcessItemTickCount is set AFTER the recipes are created
+        if (duration < 0)
+            return BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
+
         return duration;
     }
 
     public int getCooldownTime() {
+        // Note: we need to do this because defaultProcessItemTickCount is set AFTER the recipes are created
+        if (cooldownTime < 0)
+            return BlockEnvironmentalAccumulatorConfig.defaultTickCooldown;
+
         return cooldownTime;
     }
 
     public float getProcessingSpeed() {
+        // Note: we need to do this because defaultProcessItemSpeed is set AFTER the recipes are created
+        if (processingSpeed < 0)
+            return (float) BlockEnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
+
         return processingSpeed;
     }
 

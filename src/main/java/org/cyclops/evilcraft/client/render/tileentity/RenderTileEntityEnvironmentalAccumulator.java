@@ -34,13 +34,19 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         // Render the an item moving up if we're currently processing one
         if (tile.getMovingItemY() != -1.0f) {
             matrixStack.push();
+            matrixStack.translate(-0.5f, -0.5f + tile.getMovingItemY(), -0.5f);
             renderProcessingItem(matrixStack, bufferIn, tile.getRecipe(), tile.getDegradationWorld(), partialTicks);
             matrixStack.pop();
         }
 
         super.renderBeacon(tile, partialTicks, matrixStack, bufferIn, combinedLightIn, combinedOverlayIn);
     }
-    
+
+    @Override
+    protected boolean isInnerBeam(TileEnvironmentalAccumulator tile) {
+        return tile.getMovingItemY() >= 0;
+    }
+
     private void renderProcessingItem(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, RecipeEnvironmentalAccumulator recipe, World world, float partialTickTime) {
         if (recipe == null)
             return;

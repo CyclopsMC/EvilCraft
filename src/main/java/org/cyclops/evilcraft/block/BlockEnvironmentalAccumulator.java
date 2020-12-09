@@ -7,6 +7,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
@@ -66,5 +67,17 @@ public class BlockEnvironmentalAccumulator extends BlockTile {
 				EvilCraft.darkTempleData.addFailedLocation(world.getDimension(), closest.getX() / WorldHelpers.CHUNK_SIZE, closest.getZ() / WorldHelpers.CHUNK_SIZE);
 			}
 		}
+	}
+
+	@Override
+	public boolean hasComparatorInputOverride(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
+		return TileHelpers.getSafeTile(worldIn, pos, TileEnvironmentalAccumulator.class)
+				.map(tile -> tile.getState() == STATE_IDLE ? 15 : 0)
+				.orElse(0);
 	}
 }

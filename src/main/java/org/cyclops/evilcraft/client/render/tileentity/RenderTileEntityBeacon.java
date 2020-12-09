@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
  * @author immortaleeb
  *
  */
-public class RenderTileEntityBeacon<T extends EvilCraftBeaconTileEntity> extends TileEntityRenderer<T> {
+public abstract class RenderTileEntityBeacon<T extends EvilCraftBeaconTileEntity> extends TileEntityRenderer<T> {
 	
 	private static final ResourceLocation BEACON_TEXTURE = new ResourceLocation("textures/entity/beacon_beam.png");
 
@@ -31,19 +31,23 @@ public class RenderTileEntityBeacon<T extends EvilCraftBeaconTileEntity> extends
 		renderBeacon(tileentity, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
 	}
 	
-	protected void renderBeacon(T tileentity, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+	protected void renderBeacon(T tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
 		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
         GlStateManager.disableFog();
 		
-        if (tileentity.isBeamActive())
+        if (tile.isBeamActive())
         {
-        	Vector4f beamColor = tileentity.getBeamColor();
-            BeaconTileEntityRenderer.renderBeamSegment(matrixStackIn, bufferIn, BEACON_TEXTURE, 1.0F, partialTicks, tileentity.getWorld().getGameTime(), 0, 256, new float[]{beamColor.getX(), beamColor.getY(), beamColor.getZ()}, 0.2F, 0.25F);
+        	Vector4f beamColor = tile.getBeamColor();
+            BeaconTileEntityRenderer.renderBeamSegment(matrixStackIn, bufferIn, BEACON_TEXTURE, partialTicks, 1.0F,
+                    tile.getWorld().getGameTime(), 0, 256,
+                    new float[]{beamColor.getX(), beamColor.getY(), beamColor.getZ()}, isInnerBeam(tile) ? 0 : 0.2F, 0.25F);
         }
 
         GlStateManager.enableFog();
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.5F);
 	}
+
+    protected abstract boolean isInnerBeam(T tile);
 
     @Override
     public boolean isGlobalRenderer(T te) {

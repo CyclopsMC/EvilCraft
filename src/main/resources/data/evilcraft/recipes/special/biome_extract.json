@@ -5,5 +5,7 @@
   "result": {
     "item": "evilcraft:biome_extract",
     "weather": "ANY"
-  }
+  },
+  "duration": 1000,
+  "cooldownTime": 500
 }

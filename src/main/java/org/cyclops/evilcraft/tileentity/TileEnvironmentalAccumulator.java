@@ -88,11 +88,7 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             new BlockPos( 2, -1, -2),
             new BlockPos( 2, -1,  2),
     };
-    private final ServerBossInfo bossInfo = (ServerBossInfo)(new ServerBossInfo(
-            new TranslationTextComponent("chat.evilcraft.boss_display.charge"),
-            BossInfo.Color.PURPLE,
-            BossInfo.Overlay.PROGRESS))
-            .setDarkenSky(false);
+    private ServerBossInfo bossInfo = null;
 
     /**
      * Holds the state of the environmental accumulator.
@@ -108,12 +104,14 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     // The recipe we're currently working on
     @Nullable
     private RecipeEnvironmentalAccumulator recipe;
-    
+    private String recipeId;
+
     /**
      * Make a new instance.
      */
 	public TileEnvironmentalAccumulator() {
 	    super(RegistryEntries.TILE_ENTITY_ENVIRONMENTAL_ACCUMULATOR);
+	    recreateBossInfo();
 	    
 	    degradationExecutor = new DegradationExecutor(this);
 	    
@@ -128,6 +126,14 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    protected void recreateBossInfo() {
+        this.bossInfo = (ServerBossInfo)(new ServerBossInfo(
+                new TranslationTextComponent("chat.evilcraft.boss_display.charge"),
+                BossInfo.Color.PURPLE,
+                BossInfo.Overlay.PROGRESS))
+                .setDarkenSky(false);
     }
 
     protected Triple<Float, Float, Float> getBaseBeamColor() {
@@ -192,73 +198,96 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    else
 	        return (float) recipe.getProcessingSpeed();
 	}
-	
-	@Override
+
+    @Override
 	public void updateTileEntity() {
 		super.updateTileEntity();
-		
-	    // Keep ticking if necessary
-	    if (tick > 0)
-	        tick--;
-	    
-	    if (state == BlockEnvironmentalAccumulator.STATE_IDLE) {
-            updateEnvironmentalAccumulatorIdle();
-        } // Are we processing an item?
-        else if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
-            if(world.isRemote()) {
-                showWaterBeams();
-                if(tick > MAX_AGE) {
-                    showAccumulatingParticles();
+
+		// Delayed loading of recipe when world is set
+		if (recipeId != null && getWorld() != null) {
+            recipe = (RecipeEnvironmentalAccumulator) world.getRecipeManager().getRecipe(new ResourceLocation(recipeId)).orElse(null);
+            recipeId = null;
+        }
+
+		if (!getWorld().isRemote()) {
+            // Keep ticking if necessary
+            if (tick > 0)
+                tick--;
+
+            if (state == BlockEnvironmentalAccumulator.STATE_IDLE) {
+                updateEnvironmentalAccumulatorIdle();
+            } // Are we processing an item?
+            else if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
+                if (world.isRemote()) {
+                    showWaterBeams();
+                    if (tick > MAX_AGE) {
+                        showAccumulatingParticles();
+                    }
+                }
+                // Are we done moving the item?
+                if (tick == 0) {
+                    dropItemStack();
+                    activateFinishedProcessingItemState();
+                    getBossInfo().removeAllPlayers();
+                    recreateBossInfo(); // Needed to allow clients to show bar increase instead of reduce
+                } else {
+                    sendUpdate();
+                }
+            } // Have we just finished processing an item?
+            else if (state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
+                // We stay in this state for a while so the client gets some time to
+                // show the corresponding effect when an item is finished processing
+
+                // Are we done waiting for the client to update?
+                if (tick == 0) {
+                    activateCooldownState();
+
+                    // Remove the items in our inventory
+                    this.getInventory().decrStackSize(0, this.getInventory().getInventoryStackLimit());
+                } else {
+                    sendUpdate();
+                }
+            } // Are we cooling down?
+            else if (state == BlockEnvironmentalAccumulator.STATE_COOLING_DOWN) {
+                setBeamColor(state);
+                // TODO: in the rewrite of this tile entity, it should be ensured that the
+                // random effect is equal on client and server side?
+                degradationExecutor.runRandomEffect(world.isRemote());
+
+                // Are we done cooling down?
+                if (tick == 0) {
+                    activateIdleState();
+                } else {
+                    sendUpdate();
                 }
             }
-            // Are we done moving the item?
-            if (tick == 0) {
-                dropItemStack();
-                activateFinishedProcessingItemState();
-            }
-        } // Have we just finished processing an item?
-        else if (state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
-            // We stay in this state for a while so the client gets some time to 
-            // show the corresponding effect when an item is finished processing
-            
-            // Are we done waiting for the client to update?
-            if (tick == 0) {
-                activateCooldownState();
-                
-                // Remove the items in our inventory
-                this.getInventory().decrStackSize(0, this.getInventory().getInventoryStackLimit());
-            }
-        } // Are we cooling down?
-        else if (state == BlockEnvironmentalAccumulator.STATE_COOLING_DOWN) {
-            setBeamColor(state);
-	        // TODO: in the rewrite of this tile entity, it should be ensured that the
-	        // random effect is equal on client and server side?
-	        degradationExecutor.runRandomEffect(world.isRemote());
-	        
-	        // Are we done cooling down?
-	        if (tick == 0)
-	            activateIdleState();
-	    }
 
-        if (!getWorld().isRemote()) {
-            // Update boss bars for nearby players
-            getBossInfo().setPercent(this.getHealth() / this.getMaxHealth());
-            Set<Integer> playerIds = Sets.newHashSet();
-            if (getHealth() != getMaxHealth()) {
-                for (PlayerEntity player : getWorld().getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(getPos()).grow(32D))) {
-                    getBossInfo().addPlayer((ServerPlayerEntity) player);
-                    playerIds.add(player.getEntityId());
+            if (!getWorld().isRemote()) {
+                // Update boss bars for nearby players
+                getBossInfo().setPercent(this.getHealth() / this.getMaxHealth());
+                Set<Integer> playerIds = Sets.newHashSet();
+                if (getHealth() != getMaxHealth()) {
+                    for (PlayerEntity player : getWorld().getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(getPos()).grow(32D))) {
+                        getBossInfo().addPlayer((ServerPlayerEntity) player);
+                        playerIds.add(player.getEntityId());
+                    }
                 }
-            }
 
-            // Remove players that aren't in the range for this tick
-            Collection<ServerPlayerEntity> players = Lists.newArrayList(getBossInfo().getPlayers());
-            for (ServerPlayerEntity playerMP : players) {
-                if (!playerIds.contains(playerMP.getEntityId()) || this.getHealth() == 0) {
-                    getBossInfo().removePlayer(playerMP);
+                // Remove players that aren't in the range for this tick
+                Collection<ServerPlayerEntity> players = Lists.newArrayList(getBossInfo().getPlayers());
+                for (ServerPlayerEntity playerMP : players) {
+                    if (!playerIds.contains(playerMP.getEntityId()) || this.getHealth() == 0) {
+                        getBossInfo().removePlayer(playerMP);
+                    }
                 }
             }
         }
+    }
+
+    @Override
+    public void remove() {
+        super.remove();
+        getBossInfo().removeAllPlayers();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -401,8 +430,10 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
         tick = 0;
         state = BlockEnvironmentalAccumulator.STATE_IDLE;
         
-        if (!world.isRemote())
+        if (!world.isRemote()) {
             sendUpdate();
+            markDirty();
+        }
     }
 	
 	private void activateProcessingItemState() {
@@ -413,17 +444,21 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	        tick = recipe.getDuration();
 	    
 	    state = BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM;
-	    
-	    if (!world.isRemote())
-	        sendUpdate();
+
+        if (!world.isRemote()) {
+            sendUpdate();
+            markDirty();
+        }
 	}
 	
 	private void activateFinishedProcessingItemState() {
 	    tick = ITEM_MOVE_COOLDOWN_DURATION;
 	    state = BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM;
-	    
-	    if (!world.isRemote())
-	        sendUpdate();
+
+        if (!world.isRemote()) {
+            sendUpdate();
+            markDirty();
+        }
 	}
 	
 	private void activateCooldownState() {
@@ -434,9 +469,11 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    state = BlockEnvironmentalAccumulator.STATE_COOLING_DOWN;
 
         recipe = null;
-	    
-	    if (!world.isRemote())
-	        sendUpdate();
+
+        if (!world.isRemote()) {
+            sendUpdate();
+            markDirty();
+        }
 	}
 	
 	@Override
@@ -461,8 +498,12 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
     	    setBeamColor(getOuterColorByState(state));
         }
 	}
-	
-	@Override
+
+    public int getState() {
+        return state;
+    }
+
+    @Override
 	public void read(CompoundNBT compound) {
 	    super.read(compound);
 
@@ -471,10 +512,9 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    degradation = compound.getInt("degradation");
 	    tick = compound.getInt("tick");
 	    state = compound.getInt("state");
-	    
-	    String recipeId = compound.getString("recipe");
-	    if (!recipeId.isEmpty())
-	        recipe = (RecipeEnvironmentalAccumulator) world.getRecipeManager().getRecipe(new ResourceLocation(recipeId)).orElse(null);
+
+        // Delay loading of recipe when world is set during ticking
+	    this.recipeId = compound.getString("recipe");
 	    
 	    degradationExecutor.read(compound);
 
@@ -493,9 +533,8 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	    tag.putInt("tick", tick);
 	    tag.putInt("state", state);
 	    
-	    String recipeId = (recipe == null) ? null : recipe.getId().toString();
-	    if (recipeId != null)
-	        tag.putString("recipe", recipeId);
+	    if (recipe != null)
+	        tag.putString("recipe", recipe.getId().toString());
 	    
 	    degradationExecutor.write(tag);
         return tag;
