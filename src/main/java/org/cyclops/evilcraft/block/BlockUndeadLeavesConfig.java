@@ -5,6 +5,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.FireBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -14,6 +15,9 @@ import org.cyclops.evilcraft.EvilCraft;
  *
  */
 public class BlockUndeadLeavesConfig extends BlockConfig {
+
+    @ConfigurableProperty(category = "block", comment = "How much Blood (mB) can be produced at most as a Blood Stain on each random tick.")
+    public static int maxBloodStainAmount = 10;
 
     public BlockUndeadLeavesConfig() {
         super(

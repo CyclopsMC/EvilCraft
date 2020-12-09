@@ -24,7 +24,8 @@ public class BlockSanguinaryPedestalConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "sanguinary_pedestal_" + tier,
-                eConfig -> new BlockSanguinaryPedestal(Block.Properties.create(Material.IRON), tier),
+                eConfig -> new BlockSanguinaryPedestal(Block.Properties.create(Material.IRON)
+                        .notSolid(), tier),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
