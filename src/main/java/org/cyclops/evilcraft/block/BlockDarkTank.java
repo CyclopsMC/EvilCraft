@@ -19,6 +19,8 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -93,7 +95,13 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 			return ActionResultType.SUCCESS;
 		} else if (!player.isCrouching()) {
 			TileHelpers.getSafeTile(worldIn, pos, TileDarkTank.class)
-					.ifPresent(tile -> tile.setEnabled(!tile.isEnabled()));
+					.ifPresent(tile -> {
+						tile.setEnabled(!tile.isEnabled());
+						player.sendStatusMessage(new StringTextComponent(String.format("%,d", tile.getTank().getFluidAmount()))
+								.appendText(" / ")
+								.appendText(String.format("%,d", tile.getTank().getCapacity()))
+								.appendText(" mB"), true);
+					});
 			return ActionResultType.SUCCESS;
 		}
 		return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);

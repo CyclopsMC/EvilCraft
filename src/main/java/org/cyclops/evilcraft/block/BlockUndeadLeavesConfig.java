@@ -17,7 +17,7 @@ import org.cyclops.evilcraft.EvilCraft;
 public class BlockUndeadLeavesConfig extends BlockConfig {
 
     @ConfigurableProperty(category = "block", comment = "How much Blood (mB) can be produced at most as a Blood Stain on each random tick.")
-    public static int maxBloodStainAmount = 10;
+    public static int maxBloodStainAmount = 25;
 
     public BlockUndeadLeavesConfig() {
         super(
