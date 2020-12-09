@@ -9,6 +9,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.block.component.IEntityDropParticleFXBlock;
 import org.cyclops.cyclopscore.block.component.ParticleDropBlockComponent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -20,7 +22,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class BlockUndeadLeaves extends LeavesBlock implements IEntityDropParticleFXBlock {
+public class BlockUndeadLeaves extends LeavesBlock {
     
     private ParticleDropBlockComponent particleDropBlockComponent;
 
@@ -48,8 +50,10 @@ public class BlockUndeadLeaves extends LeavesBlock implements IEntityDropParticl
      */
 
     @Override
-    public void randomDisplayTick(BlockState blockState, World world, BlockPos blockPos, Random rand) {
-        particleDropBlockComponent.randomDisplayTick(blockState, world, blockPos, rand);
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        super.animateTick(stateIn, worldIn, pos, rand);
+        particleDropBlockComponent.randomDisplayTick(stateIn, worldIn, pos, rand);
     }
 
     @Override

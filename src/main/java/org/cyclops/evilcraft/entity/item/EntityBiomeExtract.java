@@ -107,11 +107,7 @@ public class EntityBiomeExtract extends EntityThrowable {
                 // Send chunk biome data to all players, and reset their grass colors
                 if (!world.isRemote()) {
                     for (ChunkPos chunkPos : updatedChunks) {
-                        Chunk chunkSafe = world.getChunkProvider().getChunk(chunkPos.x, chunkPos.z, false);
-                        ((ServerChunkProvider) world.getChunkProvider()).chunkManager.getTrackingPlayers(chunkPos, false).forEach((player) -> {
-                            player.connection.sendPacket(new SChunkDataPacket(chunkSafe, 65535));
-                            EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
-                        });
+                        updateChunkAfterBiomeChange(world, chunkPos);
                     }
                 }
             }
@@ -125,7 +121,7 @@ public class EntityBiomeExtract extends EntityThrowable {
 
     /**
      * Set the biome for the given coordinates.
-     * Make sure to send updates to clients after calling this. (See method above)
+     * Make sure to send updates to clients after calling this using {@link EntityBiomeExtract#updateChunkAfterBiomeChange(World, ChunkPos)}.
      * @param world The world.
      * @param posIn The position.
      * @param biome The biome to change to.
@@ -157,6 +153,20 @@ public class EntityBiomeExtract extends EntityThrowable {
         } else {
             CyclopsCore.clog(Level.WARN, "Tried changing biome at non-existing chunk for position " + noisePos);
         }
+    }
+
+    /**
+     * This should be called after {@link EntityBiomeExtract#setBiome(World, BlockPos, Biome)}
+     * to notify players of biome change.
+     * @param world The world.
+     * @param chunkPos The chunk position in which one or more biome positions were changed.
+     */
+    public static void updateChunkAfterBiomeChange(World world, ChunkPos chunkPos) {
+        Chunk chunkSafe = world.getChunkProvider().getChunk(chunkPos.x, chunkPos.z, false);
+        ((ServerChunkProvider) world.getChunkProvider()).chunkManager.getTrackingPlayers(chunkPos, false).forEach((player) -> {
+            player.connection.sendPacket(new SChunkDataPacket(chunkSafe, 65535));
+            EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
+        });
     }
 
     private void showChangedBiome(ServerWorld world, BlockPos pos, int color) {

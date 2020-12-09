@@ -21,7 +21,8 @@ public class BlockUndeadLeavesConfig extends BlockConfig {
             "undead_leaves",
                 eConfig -> new BlockUndeadLeaves(Block.Properties.create(Material.LEAVES)
                         .hardnessAndResistance(0.5F)
-                        .sound(SoundType.GROUND)),
+                        .sound(SoundType.GROUND)
+                        .notSolid()),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

@@ -1,3 +1,6 @@
 {
-  "parent": "evilcraft:block/undead_sapling"
+  "parent": "cyclopscore:item/flat",
+  "textures": {
+    "layer0": "evilcraft:block/undead_sapling"
+  }
 }

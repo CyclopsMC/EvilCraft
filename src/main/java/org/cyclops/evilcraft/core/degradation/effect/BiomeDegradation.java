@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -9,6 +10,7 @@ import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.algorithm.OrganicSpread;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
+import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
 /**
  * Makes biomes darker.
@@ -47,7 +49,8 @@ public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrga
 
     @Override
     public void spreadTo(World world, BlockPos location) {
-        WorldHelpers.setBiome(world, location, RegistryEntries.BIOME_DEGRADED);
+        EntityBiomeExtract.setBiome(world, location, RegistryEntries.BIOME_DEGRADED);
+        EntityBiomeExtract.updateChunkAfterBiomeChange(world, new ChunkPos(location));
     }
     
 }
