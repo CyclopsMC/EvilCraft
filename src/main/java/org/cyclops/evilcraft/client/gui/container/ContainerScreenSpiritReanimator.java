@@ -116,13 +116,13 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
         String entityName = getContainer().getEntityName();
         if (entityName == null) {
         	lines.add(new TranslationTextComponent(prefix + ".no_entity"));
-        } else if (ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName)) != null) {
+        } else if (entityName.isEmpty()) {
             lines.add(new TranslationTextComponent(prefix + ".invalid_entity"));
         }
         else {
         	ItemStack outputStack = getContainer().getContainerInventory().getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
         	if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
-                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) == ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName))) {
+                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName))) {
         		lines.add(new TranslationTextComponent(prefix + ".different_egg"));
         	}
         }

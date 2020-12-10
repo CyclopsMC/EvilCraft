@@ -31,8 +31,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 	}
 
 	@Override
-	public void onTick(TileSpiritReanimator tile, ItemStack itemStack, int slot,
-			int tick) {
+	public void onTick(TileSpiritReanimator tile, ItemStack itemStack, int slot, int tick) {
 		// Drain the tank a bit.
 		tile.getTank().drain(getRequiredMb(tile, tick), IFluidHandler.FluidAction.EXECUTE);
 		if(tick >= getRequiredTicks(tile, slot, tick)) {
@@ -46,6 +45,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 			}
 			if(BlockSpiritReanimatorConfig.clearBoxContents) {
 				itemStack.setTag(new CompoundNBT());
+				tile.getInventory().setInventorySlotContents(TileSpiritReanimator.SLOT_BOX, itemStack);
 			}
 		}
 	}

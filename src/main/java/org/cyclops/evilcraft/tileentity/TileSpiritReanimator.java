@@ -109,18 +109,8 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
                 64,
                 LIQUID_PER_SLOT,
                 RegistryEntries.FLUID_BLOOD);
-        reanimateTicker = addTicker(
-                new TickComponent<
-                    TileSpiritReanimator,
-                    ITickAction<TileSpiritReanimator>
-                >(this, REANIMATE_COOK_TICK_ACTIONS, SLOT_BOX, true, false)
-                );
-        addTicker(
-                new TickComponent<
-                    TileSpiritReanimator,
-                    ITickAction<TileSpiritReanimator>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
-                );
+        reanimateTicker = addTicker(new TickComponent<>(this, REANIMATE_COOK_TICK_ACTIONS, SLOT_BOX, true, false));
+        addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
 
         // Upgrade behaviour
         upgradeBehaviour.put(Upgrades.UPGRADE_SPEED, new UpgradeBehaviour<TileSpiritReanimator, MutableDouble>(1) {
@@ -154,9 +144,9 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 
     @Override
     protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerInput = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_BOX));
+        LazyOptional<IItemHandler> itemHandlerInput = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_EGG));
         LazyOptional<IItemHandler> itemHandlerOutput = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_OUTPUT));
-        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER, SLOT_EGG));
+        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER, SLOT_BOX));
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerInput);
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerOutput);
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.NORTH, itemHandlerContainer);
@@ -205,7 +195,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     public EntityType<?> getEntityType() {
         ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
         if(boxStack.getItem() == getAllowedCookItem()) {
-            return BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(boxStack);
+            return BlockBoxOfEternalClosure.getSpiritTypeRaw(boxStack.getTag());
         }
         return null;
     }
