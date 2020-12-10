@@ -23,7 +23,6 @@ public class ParticleBlurTargetted extends ParticleBlur {
 	
 	@Override
 	public void tick() {
-		super.tick();
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;

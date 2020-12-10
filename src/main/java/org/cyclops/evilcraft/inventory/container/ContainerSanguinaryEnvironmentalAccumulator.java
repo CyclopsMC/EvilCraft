@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulator;
@@ -48,7 +49,7 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
     private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
 
     private final Supplier<Boolean> variableCanWork;
-    private final Supplier<List<BlockPos>> variableInvalidLocations;
+    private final Supplier<List<Vec3i>> variableInvalidLocations;
 
     public ContainerSanguinaryEnvironmentalAccumulator(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, new Inventory(TileSanguinaryEnvironmentalAccumulator.SLOTS + TileSanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES), Optional.empty());
@@ -75,7 +76,7 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
         return variableCanWork.get();
     }
 
-    public List<BlockPos> getInvalidLocations() {
+    public List<Vec3i> getInvalidLocations() {
         return variableInvalidLocations.get();
     }
 

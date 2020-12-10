@@ -116,7 +116,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         super(
                 RegistryEntries.TILE_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR,
                 SLOTS,
-                0,
+                64,
                 0,
                 RegistryEntries.FLUID_BLOOD);
         accumulateTicker = addTicker(
@@ -177,6 +177,10 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         LazyOptional<IItemHandler> itemHandlerAccumulateResult = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_ACCUMULATE_RESULT));
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerAccumulate);
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerAccumulateResult);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.NORTH, itemHandlerAccumulate);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.SOUTH, itemHandlerAccumulate);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.WEST, itemHandlerAccumulate);
+        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.EAST, itemHandlerAccumulate);
     }
 
     @Override
@@ -208,7 +212,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
      * @return The recipe.
      */
     public Optional<RecipeEnvironmentalAccumulator> getRecipe(ItemStack itemStack) {
-        return recipeCache.get(new ImmutableTriple<ItemStack, FluidStack, WeatherType>(
+        return recipeCache.get(new ImmutableTriple<>(
                 itemStack.isEmpty() ? ItemStack.EMPTY : itemStack.copy(),
                 getTank().getFluid().copy(),
                 WeatherType.getActiveWeather(world)));
@@ -391,17 +395,11 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
         @Override
         public boolean canConsume(ItemStack itemStack, World world) {
-            /*
             // Valid custom recipe
-            IRecipe<EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeComponent, EnvironmentalAccumulatorRecipeProperties> recipe =
-                    getRecipe(itemStack);
-            if(recipe != null)
-                return true;
-                TODO: recipes
-             */
-
-            // In all other cases: false
-            return false;
+            RecipeEnvironmentalAccumulator.Inventory recipeInput = new RecipeEnvironmentalAccumulator.InventoryDummy(itemStack);
+            return world.getRecipeManager()
+                    .getRecipe(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR, recipeInput, world)
+                    .isPresent();
         }
 
         @Override

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -83,8 +84,8 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
         lines.add(new TranslationTextComponent(prefix));
         if (!getContainer().getTileCanWork()){
             lines.add(new TranslationTextComponent(prefix + ".invalid_locations"));
-            for(BlockPos location : getContainer().getInvalidLocations()) {
-                lines.add(new StringTextComponent("  " + location));
+            for(Vec3i location : getContainer().getInvalidLocations()) {
+                lines.add(new StringTextComponent(String.format("  X=%s Y=%s Z=%s", location.getX(), location.getY(), location.getZ())));
             }
         }
         if (lines.size() > 1) {

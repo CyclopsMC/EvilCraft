@@ -25,7 +25,7 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
     public boolean canTick(TileSanguinaryEnvironmentalAccumulator tile, ItemStack itemStack, int slot, int tick) {
         // Only allow ticking if production slot is empty or if the producing item is the same and
         // there is at least one spot left in the stack.
-        if(tile.getInventory().getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE) != null
+        if (!tile.getInventory().getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE).isEmpty()
                 && tile.getTileWorkingMetadata().canConsume(tile.getInventory()
                 .getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE), tile.getWorld())) {
             ItemStack production = tile.getInventory().getStackInSlot(tile.getTileWorkingMetadata().getProduceSlot());

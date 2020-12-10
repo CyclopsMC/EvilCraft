@@ -7,6 +7,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -134,6 +135,22 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironment
     public static interface Inventory extends IInventory {
         public World getWorld();
         public BlockPos getPos();
+    }
+
+    public static class InventoryDummy extends net.minecraft.inventory.Inventory implements Inventory {
+        public InventoryDummy(ItemStack... stacksIn) {
+            super(stacksIn);
+        }
+
+        @Override
+        public World getWorld() {
+            return null;
+        }
+
+        @Override
+        public BlockPos getPos() {
+            return null;
+        }
     }
 
 }
