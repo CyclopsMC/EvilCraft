@@ -21,6 +21,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
@@ -81,14 +82,14 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     @Override
     public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
         super.onPlayerDestroy(worldIn, pos, state);
-        if(state.get(ACTIVE)) triggerDetector(worldIn, pos, false);
+        if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) triggerDetector(worldIn, pos, false);
     }
 
     @Override
     public void onDetect(IWorldReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
-            boolean change = !world.getBlockState(location).get(ACTIVE);
+            boolean change = !BlockHelpers.getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
             ((World) world).setBlockState(location, world.getBlockState(location).with(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
                 TileColossalBloodChest.detectStructure((World) world, location, size, valid, originCorner);
@@ -98,7 +99,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
 
     @Override
     public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
-        if(blockState.get(ACTIVE)) {
+        if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             TileColossalBloodChest.getCubeDetector().detect(world, blockPos, null, new CubeDetector.IValidationAction() {
 

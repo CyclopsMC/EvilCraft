@@ -20,6 +20,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
@@ -79,7 +80,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
 
     @Override
     public void onPlayerDestroy(IWorld world, BlockPos blockPos, BlockState blockState) {
-        if(blockState.get(ACTIVE)) triggerDetector(world, blockPos, false);
+        if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) triggerDetector(world, blockPos, false);
         super.onPlayerDestroy(world, blockPos, blockState);
     }
     
@@ -87,7 +88,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
     public void onDetect(IWorldReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
 		Block block = world.getBlockState(location).getBlock();
         if(block == this) {
-            boolean change = !world.getBlockState(location).get(ACTIVE);
+            boolean change = !BlockHelpers.getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
             ((World) world).setBlockState(location, world.getBlockState(location).with(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
                 TileSpiritFurnace.detectStructure(world, location, size, valid, originCorner);
@@ -97,7 +98,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
 
     @Override
     public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        if(blockState.get(ACTIVE)) {
+        if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             TileSpiritFurnace.getCubeDetector().detect(world, blockPos, null, (location, blockState1) -> {
                 if(blockState1.getBlock() instanceof BlockSpiritFurnace) {
