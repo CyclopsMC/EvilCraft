@@ -26,7 +26,8 @@ public class BlockReinforcedUndeadPlankConfig extends BlockConfig {
                         .hardnessAndResistance(5.0F)
                         .sound(SoundType.WOOD)
                         .harvestTool(ToolType.AXE)
-                        .harvestLevel(2)),
+                        .harvestLevel(2)
+                        .notSolid()),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);

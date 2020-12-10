@@ -98,6 +98,11 @@
   "block.evilcraft.infested_nether_nether_bricks": "Infested Nether Bricks",
   "block.evilcraft.infested_nether_soul_sand": "Infested Soul Sand",
 
+  "_comment": "Multiblock",
+  "multiblock.evilcraft.colossalbloodchest.error.prefix": "EvilCraft",
+  "multiblock.evilcraft.colossalbloodchest.error.prefix.info": "Colossal Blood Chest multiblock structure error",
+  "multiblock.evilcraft.colossalbloodchest.error.unexpected": "Unexpected Colossal Blood Chest structure error.",
+
   "_comment": "Items",
   "item.evilcraft.werewolf_bone": "Werewolf Bone",
   "item.evilcraft.flesh_werewolf": "Werewolf Flesh",

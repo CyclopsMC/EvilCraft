@@ -393,7 +393,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             @Override
             public boolean isUsableByPlayer(PlayerEntity entityPlayer) {
                 return super.isUsableByPlayer(entityPlayer)
-                        && (world == null || world.getTileEntity(getPos()) != tile);
+                        && !(world == null || world.getTileEntity(getPos()) != tile);
             }
 
             @Override

@@ -27,13 +27,13 @@ import java.util.Set;
 public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfig {
 
     @ConfigurableProperty(category = "machine", comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
-    public static int baseMBPerDamage = 10;
+    public static int baseMBPerDamage = 5;
 
     @ConfigurableProperty(category = "machine", comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
     public static int ticksPerDamage = 2;
 
     @ConfigurableProperty(category = "machine", comment = "The base amount of concurrent items that need to be available before efficiency can rise.", isCommandable = true)
-    public static int baseConcurrentItems = 4;
+    public static int baseConcurrentItems = 1;
 
     public BlockColossalBloodChestConfig() {
         super(
@@ -43,7 +43,8 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
                         .hardnessAndResistance(5.0F)
                         .sound(SoundType.WOOD)
                         .harvestTool(ToolType.AXE)
-                        .harvestLevel(2)),
+                        .harvestLevel(2)
+                        .notSolid()),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
                         .group(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> RenderItemStackTileEntityBloodChest::new))

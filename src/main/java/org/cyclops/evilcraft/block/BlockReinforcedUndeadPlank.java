@@ -1,11 +1,14 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -16,7 +19,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -55,34 +60,54 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType) {
+    public BlockRenderType getRenderType(BlockState blockState) {
+        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false) ? BlockRenderType.ENTITYBLOCK_ANIMATED : super.getRenderType(blockState);
+    }
+
+    @Override
+    public boolean propagatesSkylightDown(BlockState blockState, IBlockReader blockReader, BlockPos blockPos) {
+        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false);
+    }
+
+    @Override
+    public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos,
+                                    EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType) {
         return false;
     }
 
-    private void triggerDetector(IWorld world, BlockPos blockPos, boolean valid) {
-        TileColossalBloodChest.getCubeDetector().detect(world, blockPos, valid ? null : blockPos, true);
+    @Override
+    public boolean shouldDisplayFluidOverlay(BlockState blockState, ILightReader world, BlockPos pos, IFluidState fluidState) {
+        return true;
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         if(!world.captureBlockSnapshots) {
-            triggerDetector(world, pos, true);
+            BlockColossalBloodChest.triggerDetector(world, pos, true);
         }
     }
 
     @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos blockPos, BlockState oldState, boolean isMoving) {
-        super.onBlockAdded(state, world, blockPos, oldState, isMoving);
-        if(!world.captureBlockSnapshots) {
-            triggerDetector(world, blockPos, true);
+    public void onBlockAdded(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
+        super.onBlockAdded(blockStateNew, world, blockPos, blockStateOld, isMoving);
+        if(!world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock() && !blockStateNew.get(ACTIVE)) {
+            BlockColossalBloodChest.triggerDetector(world, blockPos, true);
         }
     }
 
     @Override
     public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
         super.onPlayerDestroy(worldIn, pos, state);
-        if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) triggerDetector(worldIn, pos, false);
+        if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) BlockColossalBloodChest.triggerDetector(worldIn, pos, false);
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
+        if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) BlockColossalBloodChest.triggerDetector(world, pos, false);
+        // IForgeBlock.super.onBlockExploded(state, world, pos, explosion);
+        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+        getBlock().onExplosionDestroy(world, pos, explosion);
     }
 
     @Override
@@ -117,8 +142,11 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
                 return world.getBlockState(tileLocation).getBlock()
                         .onBlockActivated(world.getBlockState(tileLocation), world, tileLocation, player, hand, p_225533_6_);
             }
+            return super.onBlockActivated(blockState, world, blockPos, player, hand, p_225533_6_);
+        } else {
+            BlockColossalBloodChest.addPlayerChatError(world, blockPos, player, hand);
+            return ActionResultType.FAIL;
         }
-        return super.onBlockActivated(blockState, world, blockPos, player, hand, p_225533_6_);
     }
 
 }
