@@ -67,7 +67,7 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
         
         addChestSlots(CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileColossalBloodChest.INVENTORY_SIZE_UPGRADES);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileColossalBloodChest.SLOTS);
 
         this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         this.addPlayerArmorInventory(playerInventory, ARMOR_INVENTORY_OFFSET_X, ARMOR_INVENTORY_OFFSET_Y);

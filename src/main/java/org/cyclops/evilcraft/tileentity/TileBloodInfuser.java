@@ -61,8 +61,6 @@ import java.util.Optional;
  *
  */
 public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> implements INamedContainerProvider {
-
-    public static Metadata METADATA = new Metadata();
     
     /**
      * The total amount of slots in this machine.
@@ -84,6 +82,8 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
      * The capacity of the tank.
      */
     public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
+
+    public static Metadata METADATA = new Metadata();
     
     private int infuseTicker;
     private SingleCache<Triple<ItemStack, Integer, Integer>, Optional<RecipeBloodInfuser>> recipeCache;

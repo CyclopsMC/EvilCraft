@@ -66,7 +66,7 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
         addSlot(new SlotWorking<>(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE, SLOT_ACCUMULATE_X, SLOT_ACCUMULATE_Y, this, playerInventory.player.world)); // Accumulate slot
         addSlot(new SlotRemoveOnly(inventory, TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT, SLOT_ACCUMULATE_RESULT_X, SLOT_ACCUMULATE_RESULT_Y)); // Accumulate result slot
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSanguinaryEnvironmentalAccumulator.SLOTS);
 
         this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

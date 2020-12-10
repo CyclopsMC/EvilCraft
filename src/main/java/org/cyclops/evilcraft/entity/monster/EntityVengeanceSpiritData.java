@@ -119,10 +119,13 @@ public class EntityVengeanceSpiritData {
         return rand.nextInt(SWARM_TIERS);
     }
 
+    @Nullable
     public static EntityType<?> getSpiritType(@Nullable CompoundNBT tag) {
         if(tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
-            return ForgeRegistries.ENTITIES.getValue(new ResourceLocation(innerEntity));
+            if (!innerEntity.isEmpty()) {
+                return ForgeRegistries.ENTITIES.getValue(new ResourceLocation(innerEntity));
+            }
         }
         return null;
     }

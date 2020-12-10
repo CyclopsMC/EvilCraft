@@ -77,7 +77,7 @@ public class ItemPromise extends Item {
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
         super.addInformation(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
-            list.add(new TranslationTextComponent("item.evilcraft.promise.use_ins")
+            list.add(new TranslationTextComponent("item.evilcraft.promise.use_in")
                     .applyTextStyle(TextFormatting.DARK_GREEN));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
                 list.add(new TranslationTextComponent(upgradable.getTranslationKey())

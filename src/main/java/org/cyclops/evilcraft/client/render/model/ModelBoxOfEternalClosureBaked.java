@@ -81,7 +81,7 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
 
     @Override
     public IBakedModel handleItemState(ItemStack itemStack, World world, LivingEntity entity) {
-        return new ModelBoxOfEternalClosureBaked(BlockBoxOfEternalClosure.getSpiritTypeOrNull(itemStack.getTag()) == null,
+        return new ModelBoxOfEternalClosureBaked(BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack) == null,
                 itemStack, world, entity);
     }
 

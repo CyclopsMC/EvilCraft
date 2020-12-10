@@ -51,8 +51,6 @@ import java.util.Optional;
  *
  */
 public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, MutableDouble> implements INamedContainerProvider {
-
-    public static Metadata METADATA = new Metadata();
     
     /**
      * The id of the fluid container drainer slot.
@@ -75,6 +73,8 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      * The total amount of slots in this machine.
      */
     public static final int SLOTS = 4;
+
+    public static Metadata METADATA = new Metadata();
 
     /**
      * The capacity of the tank.
@@ -205,7 +205,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     public EntityType<?> getEntityType() {
         ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
         if(boxStack.getItem() == getAllowedCookItem()) {
-            return BlockBoxOfEternalClosure.getSpiritType(boxStack);
+            return BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(boxStack);
         }
         return null;
     }

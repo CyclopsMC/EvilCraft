@@ -71,8 +71,6 @@ import java.util.Optional;
  */
 public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, MutableFloat> implements INamedContainerProvider, IChestLid {
 
-    public static Metadata METADATA = new Metadata();
-
     private static final int TICK_MODULUS = 200;
 
     /**
@@ -93,6 +91,8 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
 
     public static final int MAX_EFFICIENCY = 200;
+
+    public static Metadata METADATA = new Metadata();
 
     @NBTPersist(useDefaultValue = false)
     private Vec3i size = LocationHelpers.copyLocation(Vec3i.NULL_VECTOR);

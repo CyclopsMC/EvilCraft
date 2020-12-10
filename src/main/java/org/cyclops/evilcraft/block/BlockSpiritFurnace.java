@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
@@ -14,6 +15,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -80,6 +82,14 @@ public class BlockSpiritFurnace extends BlockTileGuiTank implements CubeDetector
     public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
         super.onPlayerDestroy(worldIn, pos, state);
         if(state.get(ACTIVE)) triggerDetector(worldIn, pos, false);
+    }
+
+    @Override
+    public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
+        if(world.getBlockState(pos).get(ACTIVE)) triggerDetector(world, pos, false);
+        // IForgeBlock.super.onBlockExploded(state, world, pos, explosion);
+        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+        getBlock().onExplosionDestroy(world, pos, explosion);
     }
 
 	@Override

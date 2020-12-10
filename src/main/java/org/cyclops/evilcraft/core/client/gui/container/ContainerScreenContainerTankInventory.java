@@ -103,7 +103,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         FluidStack fluidStack = getContainer().getFluidStack();
         if(shouldRenderTank(fluidStack) && getContainer().getFluidCapacity() > 0) {
-            int tankSize = Math.min(getContainer().getFluidCapacity(), fluidStack.getAmount() * tankHeight / getContainer().getFluidCapacity());
+            int tankSize = Math.min(getContainer().getFluidCapacity(), Math.min(getContainer().getFluidCapacity(), fluidStack.getAmount()) * tankHeight / getContainer().getFluidCapacity());
             drawTank(tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
         }
         drawAdditionalForeground(mouseX, mouseY);

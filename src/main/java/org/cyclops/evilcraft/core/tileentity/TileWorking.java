@@ -37,7 +37,6 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
     private Map<Upgrades.Upgrade, Integer> levels = null;
     protected Map<Upgrades.Upgrade, IUpgradeBehaviour<T, O>> upgradeBehaviour = Maps.newHashMap();
 
-    private int currentTier = -1;
     private boolean hasJustWorked;
 
     public TileWorking(TileEntityType<?> type, int inventorySize, int stackSize, int tankSize, Fluid acceptedFluid) {
@@ -211,7 +210,6 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
         if(!ItemStack.areItemStacksEqual(oldItemStack, itemStack)) {
             resetUpgradeLevels();
             resetWork();
-            resetTier();
             if (!world.isRemote()) {
                 getTank().setCapacity(getTankTierMultiplier(getTileWorkingMetadata().getTier(getInventory())) * tankSize);
             }
@@ -228,10 +226,6 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
      */
     public static int getTankTierMultiplier(int tier) {
         return 1 << (tier * 2);
-    }
-
-    protected void resetTier() {
-        this.currentTier = -1;
     }
 
     public static class Inventory<T extends TileWorking<T, ?>> extends SimpleInventory {

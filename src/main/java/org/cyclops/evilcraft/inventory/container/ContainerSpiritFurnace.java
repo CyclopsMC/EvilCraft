@@ -101,7 +101,7 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
             }
         }
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSpiritFurnace.INVENTORY_SIZE_UPGRADES);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSpiritFurnace.SLOTS);
 
         this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }

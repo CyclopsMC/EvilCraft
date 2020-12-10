@@ -21,7 +21,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -40,13 +39,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.block.BlockTile;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritData;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
@@ -55,6 +54,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+
+import static org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure.NBTKEY_SPIRIT;
 
 /**
  * A box that can hold beings from higher dimensions.
@@ -103,12 +104,20 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IInformationP
     	return BlockRenderType.MODEL;
     }
 
-    public static EntityType<?> getSpiritType(ItemStack itemStack) {
-		return hasPlayer(itemStack) ? EntityType.ZOMBIE : getSpiritTypeOrNull(itemStack.getTag());
+	@Nullable
+    public static EntityType<?> getSpiritTypeWithFallbackSpirit(ItemStack itemStack) {
+		if (hasPlayer(itemStack)) {
+			return EntityType.ZOMBIE;
+		}
+		EntityType<?> spiritType = getSpiritTypeRaw(itemStack.getTag());
+		if (spiritType == null && itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
+			return RegistryEntries.ENTITY_VENGEANCE_SPIRIT;
+		}
+		return spiritType;
     }
 
     @Nullable
-	public static EntityType<?> getSpiritTypeOrNull(@Nullable CompoundNBT tag) {
+	public static EntityType<?> getSpiritTypeRaw(@Nullable CompoundNBT tag) {
 		return TileBoxOfEternalClosure.getSpiritType(tag);
 	}
     
@@ -125,7 +134,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IInformationP
 		spiritData.setRandomSwarmTier(new Random());
 		spiritData.writeNBT(spiritTag);
 
-		tag.put(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+		tag.put(NBTKEY_SPIRIT, spiritTag);
 		itemStack.setTag(tag);
     }
 
@@ -145,7 +154,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IInformationP
 		tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
 		spiritData.writeNBT(spiritTag);
 
-		tag.put(TileBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+		tag.put(NBTKEY_SPIRIT, spiritTag);
 		itemStack.setTag(tag);
 	}
 
@@ -174,7 +183,10 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IInformationP
 		if(hasPlayer(itemStack)) {
 			content = new StringTextComponent(getPlayerName(itemStack));
 		} else {
-			content = getSpiritType(itemStack).getName();
+			EntityType<?> spiritType = getSpiritTypeWithFallbackSpirit(itemStack);
+			if (spiritType != null) {
+				content = spiritType.getName();
+			}
 		}
 		return new TranslationTextComponent(getTranslationKey() + ".info.content")
 				.applyTextStyle(TextFormatting.BOLD)

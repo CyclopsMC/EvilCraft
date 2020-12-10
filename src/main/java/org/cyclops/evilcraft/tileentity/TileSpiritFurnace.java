@@ -62,8 +62,6 @@ import java.util.Optional;
  *
  */
 public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDouble> implements INamedContainerProvider {
-
-    public static Metadata METADATA = new Metadata();
     
     /**
      * The id of the fluid container drainer slot.
@@ -81,6 +79,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * The total amount of slots in this machine.
      */
     public static final int SLOTS = 2 + SLOTS_DROP.length;
+
+    public static Metadata METADATA = new Metadata();
 
     /**
      * The capacity of the tank.
@@ -121,18 +121,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
                 64,
                 LIQUID_PER_SLOT,
                 RegistryEntries.FLUID_BLOOD);
-        cookTicker = addTicker(
-                new TickComponent<
-                    TileSpiritFurnace,
-                    ITickAction<TileSpiritFurnace>
-                >(this, BOX_COOK_TICK_ACTIONS, SLOT_BOX, true, false)
-                );
-        addTicker(
-                new TickComponent<
-                    TileSpiritFurnace,
-                    ITickAction<TileSpiritFurnace>
-                >(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true)
-                );
+        cookTicker = addTicker(new TickComponent<>(this, BOX_COOK_TICK_ACTIONS, SLOT_BOX, true, false));
+        addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
         assert getTickers().size() == TICKERS;
 
         // Upgrade behaviour
@@ -169,7 +159,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
         if (detector == null) {
             detector = new HollowCubeDetector(
                     new AllowedBlock[]{
-                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS),
+                            new AllowedBlock(RegistryEntries.BLOCK_DARK_BLOOD_BRICK),
                             new AllowedBlock(RegistryEntries.BLOCK_SPIRIT_FURNACE).addCountValidator(new MaximumBlockCountValidator(1)),
                     },
                     Lists.newArrayList(RegistryEntries.BLOCK_SPIRIT_FURNACE, RegistryEntries.BLOCK_DARK_BLOOD_BRICK)
@@ -180,8 +170,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 
     @Override
     protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerBox = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_BOX));
-        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
+        LazyOptional<IItemHandler> itemHandlerBox = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_DROP));
+        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_BOX, SLOT_CONTAINER));
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerBox);
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerBox);
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.NORTH, itemHandlerContainer);
@@ -231,8 +221,8 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public Entity getEntity() {
     	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
         if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
-            EntityType<?> id = BlockBoxOfEternalClosure.getSpiritType(boxStack);
-            if(id != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
+            EntityType<?> id = BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(boxStack);
+            if(id != null && id != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
     			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
                 if(boxEntityCache != null && id == boxEntityCache.getType()) {
         			return boxEntityCache;

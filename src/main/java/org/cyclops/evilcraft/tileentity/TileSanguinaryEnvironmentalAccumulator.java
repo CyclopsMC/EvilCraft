@@ -68,8 +68,6 @@ import java.util.Random;
 public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSanguinaryEnvironmentalAccumulator, MutableInt>
         implements VirtualTank.ITankProvider, INamedContainerProvider {
 
-    public static Metadata METADATA = new Metadata();
-
     /**
      * The total amount of slots in this machine.
      */
@@ -82,6 +80,8 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
      * The id of the accumulation result slot.
      */
     public static final int SLOT_ACCUMULATE_RESULT = 1;
+
+    public static Metadata METADATA = new Metadata();
 
     private static final int TANK_CHECK_TICK_OFFSET = 60;
 

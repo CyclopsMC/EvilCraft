@@ -107,7 +107,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
             }, false);
             BlockPos tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
-                return world.getBlockState(tileLocation).getBlock().onBlockActivated(blockState, world, blockPos, player, hand, rayTraceResult);
+                return world.getBlockState(tileLocation).getBlock().onBlockActivated(blockState, world, tileLocation, player, hand, rayTraceResult);
             }
         }
         return super.onBlockActivated(blockState, world, blockPos, player, hand, rayTraceResult);

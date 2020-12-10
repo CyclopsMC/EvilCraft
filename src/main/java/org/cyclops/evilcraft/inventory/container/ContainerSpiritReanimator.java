@@ -88,7 +88,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
         addSlot(new SlotSingleItem(inventory, TileSpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
         addSlot(new SlotRemoveOnly(inventory, TileSpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSpiritReanimator.INVENTORY_SIZE_UPGRADES);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSpiritReanimator.SLOTS);
 
         this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
