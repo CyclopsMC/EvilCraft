@@ -3,11 +3,9 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -20,8 +18,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.BlockTile;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
@@ -54,8 +52,6 @@ public class BlockPurifier extends BlockTile {
             ItemStack itemStack = player.inventory.getCurrentItem();
             TilePurifier tile = (TilePurifier) world.getTileEntity(blockPos);
             if(tile != null) {
-                IFluidHandler itemFluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-                BlockTankHelpers.SimulatableTankWrapper tank = new BlockTankHelpers.SimulatableTankWrapper(tile.getTank());
                 if (itemStack.isEmpty() && !tile.getPurifyItem().isEmpty()) {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
                     tile.setPurifyItem(ItemStack.EMPTY);
@@ -64,16 +60,7 @@ public class BlockPurifier extends BlockTile {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
                     return ActionResultType.SUCCESS;
-                } else if (itemFluidHandler != null && !tank.isFull()
-                        && FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, false).isSuccess()) {
-                    ItemStack newItemStack = FluidUtil.tryEmptyContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
-                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack, hand);
-                    tile.sendUpdate();
-                    return ActionResultType.SUCCESS;
-                } else if (itemFluidHandler != null && !tank.isEmpty() &&
-                        FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, false).isSuccess()) {
-                    ItemStack newItemStack = FluidUtil.tryFillContainer(itemStack, tank, Integer.MAX_VALUE, player, true).getResult();
-                    InventoryHelpers.tryReAddToStack(player, itemStack, newItemStack, hand);
+                } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
                     return ActionResultType.SUCCESS;
                 }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
@@ -113,8 +100,9 @@ public class BlockPurifier extends BlockTile {
 
     @Override
     public int getComparatorInputOverride(BlockState blockState, World world, BlockPos blockPos) {
-        // TODO
-        return 0;
+        TilePurifier tile = (TilePurifier) world.getTileEntity(blockPos);
+        float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
+        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
 }

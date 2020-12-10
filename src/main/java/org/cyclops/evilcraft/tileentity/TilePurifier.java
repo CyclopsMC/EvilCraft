@@ -5,6 +5,8 @@ import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.tileentity.EnchantingTableTileEntity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
@@ -85,12 +87,27 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @NBTPersist
     @Getter
     private Integer currentAction = -1;
+
+    /* Copied from EnchantingTableTileEntity */
+    public int field_195522_a;
+    public float field_195523_f;
+    public float field_195524_g;
+    public float field_195525_h;
+    public float field_195526_i;
+    public float field_195527_j;
+    public float field_195528_k;
+    public float field_195529_l;
+    public float field_195530_m;
+    public float field_195531_n;
     
     /**
      * Make a new instance.
      */
     public TilePurifier() {
         super(RegistryEntries.TILE_ENTITY_PURIFIER, SLOTS, 1, FluidHelpers.BUCKET_VOLUME * MAX_BUCKETS, RegistryEntries.FLUID_BLOOD);
+
+        // Trigger render update client-side
+        getInventory().addDirtyMarkListener(this::sendUpdate);
     }
 
     @Override
@@ -219,6 +236,26 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         this.additionalRotation2 += baseNextRotation * 0.4F;
 
         ++this.tickCount;
+
+        /* Copied from EnchantingTableTileEntity */
+        float f2;
+        for(f2 = this.field_195531_n - this.field_195529_l; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)) {
+            ;
+        }
+
+        while(f2 < -(float)Math.PI) {
+            f2 += ((float)Math.PI * 2F);
+        }
+
+        this.field_195529_l += f2 * 0.4F;
+        this.field_195527_j = MathHelper.clamp(this.field_195527_j, 0.0F, 1.0F);
+        ++this.field_195522_a;
+        this.field_195524_g = this.field_195523_f;
+        float f = (this.field_195525_h - this.field_195523_f) * 0.4F;
+        float f3 = 0.2F;
+        f = MathHelper.clamp(f, -0.2F, 0.2F);
+        this.field_195526_i += (f - this.field_195526_i) * 0.9F;
+        this.field_195523_f += this.field_195526_i;
     }
     
     /**
@@ -315,4 +352,9 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         return randomRotation;
     }
 
+    @Override
+    public void onTankChanged() {
+        super.onTankChanged();
+        sendUpdate();
+    }
 }

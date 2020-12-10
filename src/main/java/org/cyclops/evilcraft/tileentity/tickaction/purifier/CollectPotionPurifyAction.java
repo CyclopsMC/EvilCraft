@@ -48,7 +48,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                     new AxisAlignedBB(tile.getPos(), tile.getPos().add(1, 2, 1))
             );
             for(LivingEntity entity : entities) {
-                for(EffectInstance potionEffect : (Collection<EffectInstance>) entity.getActivePotionEffects()) {
+                for(EffectInstance potionEffect : entity.getActivePotionEffects()) {
                     if(!potionEffect.isAmbient()) {
                         return true;
                     }
@@ -75,7 +75,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                 if(!entity.getActivePotionEffects().isEmpty()) {
                     if(tick >= PURIFY_DURATION) {
                         if(!world.isRemote()) {
-                            for(EffectInstance potionEffect : (Collection<EffectInstance>) entity.getActivePotionEffects()) {
+                            for(EffectInstance potionEffect : entity.getActivePotionEffects()) {
                                 if(!potionEffect.isAmbient()) {
                                     // Remove effect from entity
                                     entity.removePotionEffect(potionEffect.getPotion());

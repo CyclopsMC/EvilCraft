@@ -2,11 +2,14 @@ package org.cyclops.evilcraft.proxy;
 
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
@@ -15,6 +18,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
+import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityPurifier;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBoxOfEternalClosure;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
@@ -33,6 +37,7 @@ public class ClientProxy extends ClientProxyComponent {
 
 	public ClientProxy() {
 		super(new CommonProxy());
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onPreTextureStitch);
 	}
 
 	@Override
@@ -69,6 +74,12 @@ public class ClientProxy extends ClientProxyComponent {
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 		MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
+	}
+
+	public void onPreTextureStitch(TextureStitchEvent.Pre event) {
+		if (event.getMap().getTextureLocation().equals(RenderTileEntityPurifier.TEXTURE_BLOOK.getAtlasLocation())) {
+			event.addSprite(RenderTileEntityPurifier.TEXTURE_BLOOK.getTextureLocation());
+		}
 	}
     
 }
