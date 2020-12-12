@@ -57,6 +57,11 @@ public class TileDisplayStand extends CyclopsTileEntity implements CyclopsTileEn
         sendUpdate();
     }
 
+    public void setDisplayStandType(ItemStack displayStandType) {
+        this.displayStandType = displayStandType;
+        sendUpdate();
+    }
+
     public ItemStack getDisplayStandType() {
         return this.displayStandType;
     }
@@ -89,5 +94,11 @@ public class TileDisplayStand extends CyclopsTileEntity implements CyclopsTileEn
         return facing == getFacing() || facing == getFacing().getOpposite() || getContents().isEmpty()
                 ? super.getCapability(capability, facing)
                 : getContents().getCapability(capability, null);
+    }
+
+    @Override
+    public void onUpdateReceived() {
+        super.onUpdateReceived();
+        BlockHelpers.markForUpdate(world, pos);
     }
 }

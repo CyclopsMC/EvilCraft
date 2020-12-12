@@ -21,8 +21,7 @@ public class BlockDisplayStandConfig extends BlockConfig {
             "display_stand",
                 eConfig -> new BlockDisplayStand(Block.Properties.create(Material.WOOD)),
                 (eConfig, block) -> new BlockItem(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .setISTER(() -> RenderItemStackTileEntityBloodChest::new))
+                        .group(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

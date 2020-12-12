@@ -23,6 +23,7 @@ import org.cyclops.evilcraft.core.client.model.ModelLoaderBoxOfEternalClosure;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderDarkTank;
+import org.cyclops.evilcraft.core.client.model.ModelLoaderDisplayStand;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderEntangledChalice;
 import org.cyclops.evilcraft.event.RenderOverlayEventHook;
 import org.cyclops.evilcraft.event.TextureStitchEventHook;
@@ -71,6 +72,7 @@ public class ClientProxy extends ClientProxyComponent {
 		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
 		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
 		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
 
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 		MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());

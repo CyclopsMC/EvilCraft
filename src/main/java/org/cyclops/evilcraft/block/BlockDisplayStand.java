@@ -27,35 +27,35 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.block.BlockTile;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.tileentity.TileDisplayStand;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * A stand for displaying items.
  * @author rubensworks
  *
  */
-public class BlockDisplayStand extends BlockTile implements IInformationProvider {
+public class BlockDisplayStand extends BlockTile {
 
     private static final String NBT_TYPE = "displayStandType";
 
@@ -125,8 +125,13 @@ public class BlockDisplayStand extends BlockTile implements IInformationProvider
     @Override
     public void onBlockPlacedBy(World world, BlockPos blockPos, BlockState blockState, LivingEntity entity, ItemStack stack) {
         super.onBlockPlacedBy(world, blockPos, blockState, entity, stack);
-        TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
-                .ifPresent(tile -> tile.setDirection(entity.getHorizontalFacing().getAxisDirection()));
+        if (!world.isRemote()) {
+            TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
+                    .ifPresent(tile -> {
+                        tile.setDisplayStandType(getDisplayStandType(stack));
+                        tile.setDirection(entity.getHorizontalFacing().getAxisDirection());
+                    });
+        }
     }
 
     @Override
@@ -220,48 +225,35 @@ public class BlockDisplayStand extends BlockTile implements IInformationProvider
         return ActionResultType.PASS;
     }
 
-    /* TODO: model
-    @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void onModelBakeEvent(ModelBakeEvent event) {
-        for (Direction facing : DisplayStand.FACING.getAllowedValues()) {
-            for (Boolean axisX : DisplayStand.AXIS_X.getAllowedValues()) {
-                String blockVariant = String.format("%s=%s,%s=%s",
-                        DisplayStand.AXIS_X.getName(), DisplayStand.AXIS_X.getName(axisX),
-                        DisplayStand.FACING.getName(), DisplayStand.FACING.getName(facing));
-                bakeVariantModel(event, blockVariant, !axisX);
-            }
-        }
-        bakeVariantModel(event, "inventory", false);
-    }
-
-    protected void bakeVariantModel(ModelBakeEvent event, String variant, boolean rotated) {
-        ModelResourceLocation modelVariantLocation = new ModelResourceLocation(Reference.MOD_ID + ":display_stand", variant);
-        try {
-            ResourceLocation modelLocation = new ResourceLocation(Reference.MOD_ID, "block/display_stand" + (rotated ? "_rotated" : ""));
-            IBakedModel originalBakedModel = event.getModelRegistry().getObject(modelVariantLocation);
-            // We actually need to retrieve modelVariantLocation, but that seems to make it a non-IRetexturableModel
-            // So instead, we manually apply model rotation in ModelDisplayStand when baking.
-            IModel model = ModelLoaderRegistry.getModel(modelLocation);
-            event.getModelRegistry().putObject(modelVariantLocation,
-                    new ModelDisplayStand(originalBakedModel, model));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
     @Override
-    public ITextComponent getInfo(ItemStack itemStack) {
-        ItemStack blockType = getDisplayStandType(itemStack);
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+        ItemStack blockType = getDisplayStandType(stack);
         if (blockType != null) {
-            return blockType.getDisplayName();
+            tooltip.add(blockType.getDisplayName()
+                    .applyTextStyle(TextFormatting.GRAY));
         }
-        return new StringTextComponent("");
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void provideInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag iTooltipFlag) {
+    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
+    }
 
+    @Override
+    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+        if (!worldIn.isAreaLoaded(pos, 1))
+            return;
+        if (!state.isValidPosition(worldIn, pos)) {
+            worldIn.destroyBlock(pos, true);
+        }
+    }
+
+    @Override
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (!stateIn.isValidPosition(worldIn, currentPos)) {
+            worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
+        }
+        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 }

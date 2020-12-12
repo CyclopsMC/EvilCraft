@@ -56,11 +56,13 @@ public class RenderTileEntityDisplayStand extends TileEntityRenderer<TileDisplay
 	private void renderItem(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, ItemStack itemStack, Direction facing, boolean axisX, boolean positiveDirection) {
         matrixStack.push();
 
-        matrixStack.translate(1F, 1F, 1F);
+        matrixStack.translate(0.5F, 0.5F, 0.5F);
         if (itemStack.getItem() instanceof BlockItem) {
             matrixStack.scale(0.6F, 0.6F, 0.6F);
             matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
-        } else if(!(itemStack.getItem() instanceof IBroom)) {
+        } else if (itemStack.getItem() instanceof IBroom) {
+            matrixStack.scale(2F, 2F, 2F);
+        } else if (!(itemStack.getItem() instanceof IBroom)) {
             matrixStack.scale(0.5F, 0.5F, 0.5F);
             matrixStack.translate(0F, 0.25F, 0F);
             matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
@@ -71,13 +73,13 @@ public class RenderTileEntityDisplayStand extends TileEntityRenderer<TileDisplay
         matrixStack.rotate(Vector3f.YP.rotationDegrees(vec.getY()));
 
         if (!axisX) {
-            GlStateManager.rotatef(90F, 0, 1, 0);
+            matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
             if (!positiveDirection) {
-                GlStateManager.rotatef(180F, 0, 1, 0);
+                matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
             }
         } else {
             if (positiveDirection) {
-                GlStateManager.rotatef(180F, 0, 1, 0);
+                matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
             }
         }
 

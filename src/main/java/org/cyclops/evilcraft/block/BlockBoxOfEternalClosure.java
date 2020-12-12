@@ -204,6 +204,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IInformationP
 		return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
 	}
 
+	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		if (!worldIn.isAreaLoaded(pos, 1))
 			return;
