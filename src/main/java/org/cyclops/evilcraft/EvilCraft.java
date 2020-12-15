@@ -80,6 +80,7 @@ import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmenta
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnaceConfig;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimatorConfig;
 import org.cyclops.evilcraft.item.*;
+import org.cyclops.evilcraft.loot.functions.LootFunctions;
 import org.cyclops.evilcraft.metadata.RegistryExportables;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.potion.PotionPalingConfig;
@@ -149,6 +150,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         super.setup(event);
 
         Advancements.load();
+        LootFunctions.load();
         RegistryExportables.load();
 
         // Initialize info book

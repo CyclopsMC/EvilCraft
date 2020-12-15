@@ -32,6 +32,7 @@ public class BlockBloodInfuserConfig extends UpgradableBlockContainerConfig {
             EvilCraft._instance,
             "blood_infuser",
                 eConfig -> new BlockBloodInfuser(Block.Properties.create(Material.ROCK)
+                        .hardnessAndResistance(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
                         .group(EvilCraft._instance.getDefaultItemGroup()))

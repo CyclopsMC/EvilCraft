@@ -36,11 +36,7 @@ import java.util.Random;
  */
 public class BlockDarkOre extends Block implements IInformationProvider {
 
-    private static final Random RAND = new Random();
-    private static final int MINIMUM_DROPS = 1; // Minimum amount of drops when mining this blockState
-    private static final int INCREASE_DROPS = 3; // Amount that can be increased at random for drops
     private static final int INCREASE_XP = 5; // Amount of XP that can be gained from mining this blockState
-    private static final int CRUSHEDCHANCE = 4; // The chance on a crushed dark gem with no fortune.
 
     public static final BooleanProperty GLOWING = BooleanProperty.create("glowing");
 
@@ -103,6 +99,10 @@ public class BlockDarkOre extends Block implements IInformationProvider {
 
     */ // TODO: loot tables
 
+    @Override
+    public int getExpDrop(BlockState state, net.minecraft.world.IWorldReader world, BlockPos pos, int fortune, int silktouch) {
+        return silktouch == 0 ? 1 + RANDOM.nextInt(INCREASE_XP) : 0;
+    }
 
     @Override
     public int tickRate(IWorldReader worldIn) {

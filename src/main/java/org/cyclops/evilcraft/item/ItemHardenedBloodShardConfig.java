@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.item.Item;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -11,12 +10,6 @@ import org.cyclops.evilcraft.EvilCraft;
  *
  */
 public class ItemHardenedBloodShardConfig extends ItemConfig {
-
-    @ConfigurableProperty(category = "item", comment = "The minimum amount of shards from when using flint 'n steel on Hardened Blood.", isCommandable = true)
-    public static int minimumDropped = 5;
-
-    @ConfigurableProperty(category = "item", comment = "The additional random amount of shards from when using flint 'n steel on Hardened Blood.", isCommandable = true)
-    public static int additionalDropped = 4;
 
     public ItemHardenedBloodShardConfig() {
         super(

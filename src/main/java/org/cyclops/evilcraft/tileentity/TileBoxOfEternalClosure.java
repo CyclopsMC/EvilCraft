@@ -100,11 +100,37 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		return null;
 	}
 
-	protected CompoundNBT getSpiritTag() {
+	public CompoundNBT getSpiritTag() {
 		if (this.spiritTag == null) {
 			this.spiritTag = new CompoundNBT();
 		}
 		return this.spiritTag;
+	}
+
+	public String getPlayerId() {
+		return playerId;
+	}
+
+	public void setPlayerId(String playerId) {
+		this.playerId = playerId;
+		markDirty();
+		sendUpdate();
+	}
+
+	public String getPlayerName() {
+		return playerName;
+	}
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+		markDirty();
+		sendUpdate();
+	}
+
+	public void setSpiritTag(CompoundNBT tag) {
+		this.spiritTag = tag;
+		markDirty();
+		sendUpdate();
 	}
 
 	public boolean isClosed() {
@@ -228,7 +254,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		setState(State.CLOSING);
 	}
 
-	private void initializeState() {
+	public void initializeState() {
 		if (hasSpirit())
 			setState(State.CLOSED);
 		else

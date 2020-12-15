@@ -40,14 +40,6 @@ public class EntityNetherfish extends SilverfishEntity {
         super.registerGoals();
         this.goalSelector.addGoal(5, new EntityNetherfish.AIHideInStone());
     }
-
-    /*
-    @Override
-    protected Item getDropItem() {
-        return Items.GUNPOWDER;
-    }
-    TODO: loot tables
-    */
     
     @Override
     protected void registerAttributes() {

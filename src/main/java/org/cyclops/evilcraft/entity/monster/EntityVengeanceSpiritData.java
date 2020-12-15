@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.entity.EntityClassification;

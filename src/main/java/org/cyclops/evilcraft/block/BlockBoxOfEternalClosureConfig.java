@@ -10,9 +10,9 @@ import net.minecraft.world.storage.loot.LootTables;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;
-import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.item.ItemBlockBoxOfEternalClosure;
 
 /**
  * Config for the {@link BlockBoxOfEternalClosure}.
@@ -31,7 +31,7 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfig {
                 eConfig -> new BlockBoxOfEternalClosure(Block.Properties.create(Material.IRON)
                         .hardnessAndResistance(2.5F)
                         .sound(SoundType.METAL)),
-                (eConfig, block) -> new ItemBlockNBT(block, (new Item.Properties())
+                (eConfig, block) -> new ItemBlockBoxOfEternalClosure(block, (new Item.Properties())
                         .group(EvilCraft._instance.getDefaultItemGroup()))
         );
     }

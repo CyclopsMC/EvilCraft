@@ -100,17 +100,6 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.625D);
     }
 
-    /*
-    @Override
-    protected Item getDropItem() {
-        if(Configs.isEnabled(ItemPoisonSacConfig.class))
-            return ItemPoisonSacConfig._instance.getItemInstance();
-        else
-            return super.getDropItem();
-    }
-    TODO: loot tables
-     */
-
     @Override
     public SoundEvent getAmbientSound() {
         return null;

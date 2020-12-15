@@ -32,7 +32,7 @@ import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket
 public class TileSanguinaryPedestal extends TankInventoryTileEntity implements CyclopsTileEntity.ITickingTile {
     
     private static final int MB_RATE = 100;
-    private static final int TANK_BUCKETS = 10;
+    public static final int TANK_BUCKETS = 10;
     private static final int OFFSET = 2;
     private static final int OFFSET_EFFICIENCY = 4;
     private static final int ACTIONS_PER_TICK_EFFICIENCY = 5;

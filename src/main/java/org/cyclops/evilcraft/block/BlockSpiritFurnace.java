@@ -65,15 +65,13 @@ public class BlockSpiritFurnace extends BlockTileGuiTank implements CubeDetector
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
-        if(!world.isRemote()) {
-            triggerDetector(world, pos, true);
-        }
+        triggerDetector(world, pos, true);
     }
 
     @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos blockPos, BlockState oldState, boolean isMoving) {
-        super.onBlockAdded(state, world, blockPos, oldState, isMoving);
-        if(!world.isRemote()) {
+    public void onBlockAdded(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
+        super.onBlockAdded(blockStateNew, world, blockPos, blockStateOld, isMoving);
+        if(!world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock() && !blockStateNew.get(ACTIVE)) {
             triggerDetector(world, blockPos, true);
         }
     }

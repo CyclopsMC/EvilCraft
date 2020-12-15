@@ -20,6 +20,8 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.block.BlockDarkTankConfig;
@@ -54,7 +56,18 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
 	@Override
 	protected boolean itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
-        BlockTankHelpers.itemStackDataToTile(itemStack, tile);
+        tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                .ifPresent(fluidHandlerTile -> {
+                    itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
+                            .ifPresent(fluidHandlerItem -> {
+                                if (fluidHandlerTile instanceof IFluidHandlerMutable) {
+                                    ((IFluidHandlerMutable) fluidHandlerTile).setFluidInTank(0, fluidHandlerItem.getFluidInTank(0));
+                                }
+                                if (fluidHandlerTile instanceof IFluidHandlerCapacity) {
+                                    ((IFluidHandlerCapacity) fluidHandlerTile).setTankCapacity(0, fluidHandlerItem.getTankCapacity(0));
+                                }
+                            });
+                });
         return true;
 	}
 	

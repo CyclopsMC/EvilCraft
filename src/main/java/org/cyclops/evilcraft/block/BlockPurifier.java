@@ -16,11 +16,12 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
 /**
@@ -28,7 +29,7 @@ import org.cyclops.evilcraft.tileentity.TilePurifier;
  * @author rubensworks
  *
  */
-public class BlockPurifier extends BlockTile {
+public class BlockPurifier extends BlockTile implements IBlockTank {
 
     private static final VoxelShape INSIDE = makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
     protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
@@ -105,4 +106,32 @@ public class BlockPurifier extends BlockTile {
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
+    @Override
+    public void onReplaced(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        if (!world.isRemote() && oldState.getBlock() != newState.getBlock()) {
+            TileHelpers.getSafeTile(world, blockPos, TilePurifier.class)
+                    .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
+        }
+        super.onReplaced(oldState, world, blockPos, newState, isMoving);
+    }
+
+    @Override
+    public int getDefaultCapacity() {
+        return FluidHelpers.BUCKET_VOLUME * TilePurifier.MAX_BUCKETS;
+    }
+
+    @Override
+    public boolean isActivatable() {
+        return false;
+    }
+
+    @Override
+    public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
+        return itemStack;
+    }
+
+    @Override
+    public boolean isActivated(ItemStack itemStack, World world) {
+        return false;
+    }
 }

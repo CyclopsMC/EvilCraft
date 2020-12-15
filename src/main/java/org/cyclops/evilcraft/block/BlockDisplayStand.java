@@ -35,13 +35,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.block.BlockTile;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.tileentity.TileDisplayStand;
 
@@ -186,6 +186,11 @@ public class BlockDisplayStand extends BlockTile {
         return null;
     }
 
+    public static void setDisplayStandType(ItemStack displayStandStack, ItemStack type) {
+        CompoundNBT tag = displayStandStack.getOrCreateTag();
+        tag.put(NBT_TYPE, BlockHelpers.serializeBlockState(BlockHelpers.getBlockStateFromItemStack(type)));
+    }
+
     @SubscribeEvent
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow right clicking with a fluid container passing through to this block
@@ -255,5 +260,14 @@ public class BlockDisplayStand extends BlockTile {
             worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
         }
         return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    }
+
+    @Override
+    public void onReplaced(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        if (!world.isRemote() && oldState.getBlock() != newState.getBlock()) {
+            TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
+                    .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
+        }
+        super.onReplaced(oldState, world, blockPos, newState, isMoving);
     }
 }

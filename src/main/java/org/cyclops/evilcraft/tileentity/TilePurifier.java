@@ -58,7 +58,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @Getter
     private int tick = 0;
     
-    private static final int MAX_BUCKETS = 3;
+    public static final int MAX_BUCKETS = 3;
     
     /**
      * Book bounce tick count.

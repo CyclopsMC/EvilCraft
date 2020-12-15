@@ -1,14 +1,17 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
 /**
  * Config for the {@link BlockSanguinaryPedestal}.
@@ -25,8 +28,11 @@ public class BlockSanguinaryPedestalConfig extends BlockConfig {
                 EvilCraft._instance,
             "sanguinary_pedestal_" + tier,
                 eConfig -> new BlockSanguinaryPedestal(Block.Properties.create(Material.IRON)
+                        .hardnessAndResistance(2.5F)
+                        .sound(SoundType.STONE)
                         .notSolid(), tier),
-                getDefaultItemConstructor(EvilCraft._instance)
+                (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
+                        .group(EvilCraft._instance.getDefaultItemGroup()))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }

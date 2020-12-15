@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -32,7 +33,9 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "entangled_chalice",
-                eConfig -> new BlockEntangledChalice(Block.Properties.create(Material.IRON)),
+                eConfig -> new BlockEntangledChalice(Block.Properties.create(Material.IRON)
+                        .hardnessAndResistance(2.5F)
+                        .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
                         .group(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> () -> new RenderItemStackTileEntityEntangledChalice()))

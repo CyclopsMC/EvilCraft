@@ -2,23 +2,23 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.block.BlockTile;
-import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
+import org.cyclops.evilcraft.core.block.IBlockTank;
+import org.cyclops.evilcraft.tileentity.TileDarkTank;
 import org.cyclops.evilcraft.tileentity.TileSanguinaryPedestal;
-
-import java.util.List;
 
 /**
  * Pedestal that can obtain blood from blood stained blocks and can optionally extract blood from mobs
@@ -26,7 +26,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class BlockSanguinaryPedestal extends BlockTile implements IBlockRarityProvider {
+public class BlockSanguinaryPedestal extends BlockTile implements IBlockRarityProvider, IBlockTank {
 
     private final int tier;
 
@@ -47,5 +47,37 @@ public class BlockSanguinaryPedestal extends BlockTile implements IBlockRarityPr
     @Override
     public Rarity getRarity(ItemStack itemStack) {
         return tier == 1 ? Rarity.UNCOMMON : Rarity.COMMON;
+    }
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+        TileHelpers.getSafeTile(worldIn, pos, TileSanguinaryPedestal.class)
+                .ifPresent(tile -> {
+                    player.sendStatusMessage(new StringTextComponent(String.format("%,d", tile.getTank().getFluidAmount()))
+                            .appendText(" / ")
+                            .appendText(String.format("%,d", tile.getTank().getCapacity()))
+                            .appendText(" mB"), true);
+                });
+        return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);
+    }
+
+    @Override
+    public int getDefaultCapacity() {
+        return FluidHelpers.BUCKET_VOLUME * TileSanguinaryPedestal.TANK_BUCKETS;
+    }
+
+    @Override
+    public boolean isActivatable() {
+        return false;
+    }
+
+    @Override
+    public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
+        return itemStack;
+    }
+
+    @Override
+    public boolean isActivated(ItemStack itemStack, World world) {
+        return false;
     }
 }

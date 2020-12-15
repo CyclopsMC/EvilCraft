@@ -15,7 +15,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.BlockTileGui;
+import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
@@ -81,10 +83,12 @@ public abstract class BlockTileGuiTank extends BlockTileGui implements IInformat
 		return false;
 	}
 
-	// TODO
-    /*@Override
-    protected ItemStack tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
-        return BlockTankHelpers.tileDataToItemStack(tile, itemStack);
-    }*/
-
+    @Override
+    public void onReplaced(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        if (!world.isRemote() && oldState.getBlock() != newState.getBlock()) {
+            TileHelpers.getSafeTile(world, blockPos, TankInventoryTileEntity.class)
+                    .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
+        }
+        super.onReplaced(oldState, world, blockPos, newState, isMoving);
+    }
 }
