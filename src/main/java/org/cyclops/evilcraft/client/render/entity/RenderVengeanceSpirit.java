@@ -32,6 +32,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Renderer for a vengeance spirit
@@ -59,7 +60,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 				// Override the render type buffer so that it always returns buffers with alpha blend
 				IRenderTypeBuffer bufferSub = renderType -> {
 					float uv = spirit.isFrozen() ? ((float)spirit.ticksExisted + partialTicks) * 0.01F : 1;
-					renderType = RenderType.getEnergySwirl(render.getEntityTexture(innerEntity), uv, uv);
+					renderType = RenderType.getEnergySwirl((spirit.isPlayer() ? playerRenderer : render).getEntityTexture(innerEntity), uv, uv);
 					return bufferIn.getBuffer(renderType);
 				};
 				
@@ -72,7 +73,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 						if(!checkedProfiles.containsKey(gameProfile)) {
 							Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
 							if (property == null) {
-								// The game profile enchanced with texture information.
+								// The game profile enhanced with texture information.
 								GameProfile newGameProfile = Minecraft.getInstance().getSessionService().fillProfileProperties(gameProfile, true);
 								checkedProfiles.put(gameProfile, newGameProfile);
 							}
@@ -108,20 +109,10 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 
 		public RenderPlayerSpirit(EntityRendererManager renderManager) {
 			super(renderManager, new PlayerModel<>(0.0F, false), 0.5F);
-			PlayerModel modelPlayer = this.getEntityModel();
 			this.addLayer(new BipedArmorLayer<>(this, new BipedModel(0.5F), new BipedModel(1.0F)));
 			this.addLayer(new HeldItemLayer(this));
 			this.addLayer(new ArrowLayer(this));
 			this.addLayer(new HeadLayer<>(this));
-
-			modelPlayer.setVisible(false);
-			Random rand = new Random();
-			modelPlayer.bipedHeadwear.showModel = rand.nextBoolean();
-			modelPlayer.bipedBodyWear.showModel = rand.nextBoolean();
-			modelPlayer.bipedLeftLegwear.showModel = rand.nextBoolean();
-			modelPlayer.bipedRightLegwear.showModel = rand.nextBoolean();
-			modelPlayer.bipedLeftArmwear.showModel = rand.nextBoolean();
-			modelPlayer.bipedRightArmwear.showModel = rand.nextBoolean();
 		}
 
 		@Override
