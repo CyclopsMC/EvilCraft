@@ -5,6 +5,7 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.SpecialRecipe;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.NonNullList;
@@ -41,7 +42,17 @@ public class RecipeDeadBush extends SpecialRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(CraftingInventory inv) {
+		return getRecipeOutput();
+	}
+
+	@Override
+	public ItemStack getRecipeOutput() {
 		return new ItemStack(Items.DEAD_BUSH);
+	}
+
+	@Override
+	public NonNullList<Ingredient> getIngredients() {
+		return NonNullList.from(Ingredient.EMPTY, Ingredient.fromTag(ItemTags.SAPLINGS), Ingredient.fromItems(Items.SHEARS));
 	}
 
 	@Override

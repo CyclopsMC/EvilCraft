@@ -52,7 +52,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
 
     @Override
     protected String getUnlocalizedTitle() {
-        return "broom.modifiers.evilcraft.type.name";
+        return "broom.modifiers.evilcraft.type";
     }
 
     @Override

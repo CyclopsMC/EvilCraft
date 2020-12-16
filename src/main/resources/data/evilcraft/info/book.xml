@@ -231,10 +231,10 @@
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.undead_tree.text3</paragraph>
                 <appendix type="image" width="70" height="130">evilcraft:textures/gui/infobook/undead_tree.png</appendix>
-                <appendix type="minecraft:crafting">evilcraft:crafting/minecraft_dead_bush</appendix>
+                <appendix type="minecraft:crafting">evilcraft:special/minecraft_dead_bush</appendix>
                 <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/undead_sapling</appendix>
                 <appendix type="minecraft:crafting">evilcraft:crafting/dark_stick</appendix>
-                <appendix type="minecraft:crafting">evilcraft:crafting/undead_plank_stairs</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/undead_planks_stairs</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion">
                 <tag>bowl_of_promises_empty</tag>
@@ -253,7 +253,8 @@
                 <tag>promise_acceptor_diamond</tag>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion.text2</paragraph>
-                <appendix type="minecraft:crafting">evilcraft:crafting/bowl_of_promises</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/bowl_of_promises_empty</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/bowl_of_promises_dusted</appendix>
                 <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/bowl_of_promises_tier0</appendix>
                 <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/bowl_of_promises_tier1</appendix>
                 <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/core/bowl_of_promises_tier2</appendix>

@@ -6,7 +6,7 @@
     "amount": 350
   },
   "result": {
-    "item": "minecraft:grass"
+    "item": "minecraft:grass_block"
   },
   "duration": 300,
   "xp": 0.1,
