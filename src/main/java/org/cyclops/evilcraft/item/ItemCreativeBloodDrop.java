@@ -13,6 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult.Type;
@@ -25,11 +26,15 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
+import org.cyclops.evilcraft.tileentity.TileBloodStain;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -108,13 +113,23 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-        Block block = context.getWorld().getBlockState(context.getPos()).getBlock();
-        if(context.getPlayer().isCrouching()) {
-	        if(true) {
-	            // TODO: reimplement blood stained block
-		        if(context.getWorld().isRemote()) {
-		        	ParticleBloodSplash.spawnParticles(context.getWorld(), context.getPos().add(0, 1, 0), 5, 1 + context.getWorld().rand.nextInt(2));
-		        }
+        if (context.getPlayer().isCrouching()) {
+            BlockPos pos = context.getPos().add(0, 1, 0);
+	        if (RegistryEntries.BLOCK_BLOOD_STAIN
+                    .isValidPosition(RegistryEntries.BLOCK_BLOOD_STAIN.getDefaultState(), context.getWorld(), pos)) {
+		        if (context.getWorld().isRemote()) {
+		        	ParticleBloodSplash.spawnParticles(context.getWorld(), pos, 5, 1 + context.getWorld().rand.nextInt(2));
+		        } else {
+		            if (context.getWorld().isAirBlock(pos)) {
+		                // Add new stain
+		                context.getWorld().setBlockState(pos, RegistryEntries.BLOCK_BLOOD_STAIN.getDefaultState());
+                    }
+		            if (context.getWorld().getBlockState(pos).getBlock() == RegistryEntries.BLOCK_BLOOD_STAIN) {
+                        // Add blood to existing block
+                        TileHelpers.getSafeTile(context.getWorld(), pos, TileBloodStain.class)
+                                .ifPresent(tile -> tile.addAmount(FluidHelpers.BUCKET_VOLUME));
+                    }
+                }
 		        return ActionResultType.PASS;
 	        }
 	    }

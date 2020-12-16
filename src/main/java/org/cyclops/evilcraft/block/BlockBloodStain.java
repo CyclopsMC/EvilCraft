@@ -132,7 +132,7 @@ public class BlockBloodStain extends BlockTile {
                         pos = pos.add(0, 1, 0);
 
                         // Add a new blood stain block
-                        if (isValidPosition(getDefaultState(), event.getEntity().getEntityWorld(), pos)) {
+                        if (event.getEntity().getEntityWorld().isAirBlock(pos) && isValidPosition(getDefaultState(), event.getEntity().getEntityWorld(), pos)) {
                             event.getEntity().getEntityWorld().setBlockState(pos, getDefaultState());
                         }
                     }
