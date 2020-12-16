@@ -90,7 +90,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 					.map(TileEntangledChalice::getWorldTankId)
 					.orElse("null");
 			player.sendStatusMessage(new TranslationTextComponent(L10NHelpers.localize(
-					"block.evilcraft.entangled_chalice.info.id", tankId)), true);
+					"block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
 		}
 		return super.onBlockActivated(state, world, blockPos, player, hand, rayTraceResult);
 	}
@@ -159,7 +159,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 		if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null) {
 			ItemStack itemStack = new ItemStack(this);
 			ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
-			fluidHandler.setTankID("creativeTank0");
+			fluidHandler.setTankID("creative");
 			list.add(itemStack);
 		}
 	}

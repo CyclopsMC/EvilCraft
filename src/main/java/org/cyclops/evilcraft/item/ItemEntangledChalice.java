@@ -36,6 +36,8 @@ import java.util.List;
  */
 public class ItemEntangledChalice extends ItemBlockFluidContainer {
 
+    public static String[] namePartsArray = "the elder scrolls klaatu berata niktu xyzzy bless curse light darkness fire air earth water hot dry cold wet ignite snuff embiggen twist shorten stretch fiddle destroy imbue galvanize enchant free limited range of towards inside sphere cube self other ball mental physical grow shrink demon elemental spirit animal creature beast humanoid undead fresh stale phnglui mglwnafh cthulhu rlyeh wgahnagl fhtagnbaguette".split(" ");
+
     public ItemEntangledChalice(Block block, Properties properties) {
         super(block, properties);
     }
@@ -86,7 +88,19 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
         super.addInformation(itemStack, worldIn, list, flagIn);
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
-        list.add(new TranslationTextComponent("block.evilcraft.entangled_chalice.info.id", tankId));
+        list.add(new TranslationTextComponent("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
+    }
+
+    public static String tankIdToNameParts(String tankId) {
+        try {
+            int i = Integer.parseInt(tankId);
+            String a = namePartsArray[(i + 3) % namePartsArray.length];
+            String b = namePartsArray[(i * 3 + 5) % namePartsArray.length];
+            String c = namePartsArray[(i * 13 + 7) % namePartsArray.length];
+            return String.format("%s %s %s", a, b, c);
+        } catch (NumberFormatException e) {
+            return tankId;
+        }
     }
 
     public static class FluidHandler extends FluidContainerItemWrapperWithSimulation {

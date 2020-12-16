@@ -74,7 +74,7 @@
   "block.evilcraft.entangled_chalice": "Entangled Chalice",
   "block.evilcraft.entangled_chalice.info": "Contents of entangled chalices are omnipresent.\\nShift + Right click to omni-supply.",
   "block.evilcraft.entangled_chalice.info.auto_supply": "Omni-supply: %s",
-  "block.evilcraft.entangled_chalice.info.id": "Group ID: %s",
+  "block.evilcraft.entangled_chalice.info.id": "Group: %s",
   "block.evilcraft.dark_power_gem_block": "Dark Power Gem Block",
   "block.evilcraft.gem_stone_torch": "Gemstone Torch",
   "block.evilcraft.gem_stone_torch.info": "Blocks Vengeance Spirit spawning in a radius of 15 blocks.",
