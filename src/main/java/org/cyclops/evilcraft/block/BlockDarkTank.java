@@ -107,13 +107,6 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 		return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);
 	}
 
-	/*
-	@Override
-	protected ItemStack tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
-		return BlockTankHelpers.tileDataToItemStack(tile, itemStack);
-	}*/ // TODO: loot tables
-
-
 	@Override
 	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
 		return TileHelpers.getSafeTile(world, pos, TileDarkTank.class)
@@ -193,52 +186,5 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 			}
 		}
 	}
-
-    // TODO: handle model
-	/*@OnlyIn(Dist.CLIENT)
-	@SubscribeEvent
-	public void onModelRegistryEvent(ModelRegistryEvent event) {
-		// Handle additional type of dark tank item rendering
-		for (int meta = 0; meta < 2; meta++) {
-			Item item = Item.getItemFromBlock(this);
-			String modId = getConfig().getMod().getModId();
-			String itemName = getConfig().getModelName(new ItemStack(item, 1, meta));
-			ModelResourceLocation modelResourceLocation = new ModelResourceLocation(modId + ":" + itemName, "inventory");
-			ModelBakery.registerItemVariants(item, modelResourceLocation);
-		}
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	@SubscribeEvent
-	public void onModelBakeEvent(ModelBakeEvent event) {
-        // Take the original item tank model and replace it with a dynamic one but pass this original one to it as parent.
-        for(ModelResourceLocation itemModel : itemModels) {
-			IBakedModel baseModel = Objects.requireNonNull(event.getModelRegistry().getObject(itemModel), "Could not find the item model for " + itemModel);
-            ModelDarkTank newModel = new ModelDarkTank(baseModel);
-            event.getModelRegistry().putObject(itemModel, newModel);
-        }
-
-		// Do the same for block models
-		if(DarkTankConfig.staticBlockRendering) {
-			ModelResourceLocation blockDrainingOf = new ModelResourceLocation(Reference.MOD_ID + ":darkTank", "draining=false");
-			ModelResourceLocation blockDrainingOn = new ModelResourceLocation(Reference.MOD_ID + ":darkTank", "draining=true");
-			event.getModelRegistry().putObject(blockDrainingOf, new ModelDarkTank(event.getModelRegistry().getObject(blockDrainingOf)));
-			event.getModelRegistry().putObject(blockDrainingOn, new ModelDarkTank(event.getModelRegistry().getObject(blockDrainingOn)));
-		}
-    }
-
-	@Override
-	public BlockState getExtendedState(BlockState state, IBlockAccess world, BlockPos pos) {
-		IExtendedBlockState extendedBlockState = (IExtendedBlockState) super.getExtendedState(state, world, pos);
-		TileDarkTank tile = TileHelpers.getSafeTile(world, pos, TileDarkTank.class);
-		if(tile != null) {
-			FluidStack fluidStack = tile.getTank().getFluid();
-			if(fluidStack != null) {
-				extendedBlockState = extendedBlockState.with(TANK_FLUID, fluidStack);
-			}
-			extendedBlockState = extendedBlockState.with(TANK_CAPACITY, tile.getTank().getCapacity());
-		}
-		return extendedBlockState;
-	}*/
 
 }

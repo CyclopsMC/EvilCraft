@@ -250,8 +250,6 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             } // Are we cooling down?
             else if (state == BlockEnvironmentalAccumulator.STATE_COOLING_DOWN) {
                 setBeamColor(state);
-                // TODO: in the rewrite of this tile entity, it should be ensured that the
-                // random effect is equal on client and server side?
                 degradationExecutor.runRandomEffect(world.isRemote());
 
                 // Are we done cooling down?

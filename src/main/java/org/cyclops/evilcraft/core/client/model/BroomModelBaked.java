@@ -118,13 +118,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
         for (IBroomPart part : parts) {
             if (part.getType() == IBroomPart.BroomPartType.ROD && rod == null) {
                 rod = part;
-            } else {
-                // TODO: invalid broom
             }
-        }
-
-        if (rod == null) {
-            // TODO: invalid broom
         }
 
         AtomicLongMap<IBroomPart.BroomPartType> partTypeOccurences = AtomicLongMap.create();

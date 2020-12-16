@@ -35,7 +35,6 @@ import java.util.List;
  * @author rubensworks
  *
  */
-//@Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true) TODO
 public class ItemVengeanceRing extends Item {
 
 	private static final int BONUS_TICK_MODULUS = 5;
@@ -63,22 +62,6 @@ public class ItemVengeanceRing extends Item {
         }
         return super.onItemRightClick(world, player, hand);
     }
-
-    /*
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    private void equipBauble(ItemStack itemStack, PlayerEntity player) {
-    	IInventory inventory = BaublesApi.getBaubles(player);
-		for(int i = 0; i < inventory.getSizeInventory(); i++) {
-			if(inventory.getStackInSlot(i) == null && inventory.isItemValidForSlot(i, itemStack)) {
-				inventory.setInventorySlotContents(i, itemStack.copy());
-				if(!player.isCreative()){
-					player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-				}
-				onEquipped(itemStack, player);
-				break;
-			}
-		} TODO
-	}*/
 
 	@Override
     public boolean hasEffect(ItemStack itemStack){
@@ -174,51 +157,5 @@ public class ItemVengeanceRing extends Item {
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
 				getTranslationKey() + ".info.status");
     }
-
-    // TODO
-    /*
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public boolean canEquip(ItemStack itemStack, LivingEntity entity) {
-		return BaublesModCompat.canUse();
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public boolean canUnequip(ItemStack itemStack, LivingEntity entity) {
-		return true;
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public boolean willAutoSync(ItemStack itemstack, LivingEntity player) {
-		return false;
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public BaubleType getBaubleType(ItemStack itemStack) {
-		return BaubleType.RING;
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public void onEquipped(ItemStack itemStack, LivingEntity entity) {
-		
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public void onUnequipped(ItemStack itemStack, LivingEntity entity) {
-		
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public void onWornTick(ItemStack itemStack, LivingEntity entity) {
-		if(BaublesModCompat.canUse()) {
-			this.onUpdate(itemStack, entity.world, entity, 0, false);
-		}
-	}*/
 
 }

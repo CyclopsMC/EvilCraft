@@ -350,7 +350,6 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         if(isFrozen()) {
             this.setMotion(0, 0, 0);
         	addFrozenDuration(-1);
-        	// TODO: render entangled particles
         } else {
             setRemainingLife(getRemainingLife() - 1);
 	        if(getRemainingLife() <= 0) {

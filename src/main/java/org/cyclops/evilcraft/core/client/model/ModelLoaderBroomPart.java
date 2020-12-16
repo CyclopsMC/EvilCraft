@@ -28,9 +28,6 @@ public class ModelLoaderBroomPart implements IModelLoader<BroomPartModel> {
 
     @Override
     public BroomPartModel read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
-        // TODO: rm?
-        // modelContents.remove("loader");
-        // BlockModel modelBlock = deserializationContext.deserialize(modelContents, BlockModel.class);
         BroomPartModel model = new BroomPartModel();
         for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
             ModelLoader.addSpecialModel(partModel);

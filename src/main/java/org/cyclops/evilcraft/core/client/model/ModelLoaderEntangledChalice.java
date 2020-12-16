@@ -26,9 +26,6 @@ public class ModelLoaderEntangledChalice implements IModelLoader<ModelEntangledC
 
     @Override
     public ModelEntangledChalice read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
-        // TODO: rm?
-        // modelContents.remove("loader");
-        // BlockModel modelBlock = deserializationContext.deserialize(modelContents, BlockModel.class);
         ModelEntangledChalice model = new ModelEntangledChalice();
         return model;
     }

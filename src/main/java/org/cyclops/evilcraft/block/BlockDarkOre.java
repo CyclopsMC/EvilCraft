@@ -57,48 +57,6 @@ public class BlockDarkOre extends Block implements IInformationProvider {
         return this.getDefaultState().with(GLOWING, false);
     }
 
-    /*
-    @Override
-    public int quantityDroppedWithBonus(int amount, Random random) {
-        return this.quantityDropped(random) + random.nextInt(amount / 4 + 1);
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return MINIMUM_DROPS + random.nextInt(INCREASE_DROPS);
-    }
-
-    @Override
-    public int getExpDrop(BlockState state, IBlockAccess world, BlockPos pos, int fortune) {
-        if (this.getItemDropped(state, RAND, fortune) != Item.getItemFromBlock(this)) {
-            return 1 + RAND.nextInt(INCREASE_XP);
-        }
-        return super.getExpDrop(state, world, pos, fortune);
-    }
-    
-    @Override
-    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos blockPos, BlockState blockState, int fortune) {
-        super.getDrops(drops, world, blockPos, blockState, fortune);
-        Random rand = new Random();
-    	if((fortune > 0 || rand.nextInt(CRUSHEDCHANCE) == 0)
-    			&& Configs.isEnabled(DarkGemCrushedConfig.class)) {
-    		drops.add(new ItemStack(DarkGemCrushedConfig._instance.getItemInstance(),
-    				rand.nextInt(fortune / 3 + 1) + 1));
-    	}
-    }
-
-    @Override
-    public ItemStack getSilkTouchDrop(BlockState state) {
-        return new ItemStack(DarkOre._instance);
-    }
-
-    @Override
-    public boolean canSilkHarvest(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        return true;
-    }
-
-    */ // TODO: loot tables
-
     @Override
     public int getExpDrop(BlockState state, net.minecraft.world.IWorldReader world, BlockPos pos, int fortune, int silktouch) {
         return silktouch == 0 ? 1 + RANDOM.nextInt(INCREASE_XP) : 0;

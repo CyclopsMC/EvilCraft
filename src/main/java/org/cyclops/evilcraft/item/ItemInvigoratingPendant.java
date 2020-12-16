@@ -10,7 +10,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 
 import java.util.Iterator;
@@ -20,7 +19,6 @@ import java.util.Iterator;
  * @author rubensworks
  *
  */
-//@Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true) // TODO
 public class ItemInvigoratingPendant extends ItemBloodContainer {
 
 	private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
@@ -93,51 +91,5 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);
     }
-
-    // TODO
-    /*
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public boolean canEquip(ItemStack itemStack, LivingEntity entity) {
-		return BaublesModCompat.canUse();
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public boolean canUnequip(ItemStack itemStack, LivingEntity entity) {
-		return true;
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public boolean willAutoSync(ItemStack itemstack, LivingEntity player) {
-		return false;
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public BaubleType getBaubleType(ItemStack itemStack) {
-		return BaubleType.AMULET;
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public void onEquipped(ItemStack itemStack, LivingEntity entity) {
-		
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public void onUnequipped(ItemStack itemStack, LivingEntity entity) {
-		
-	}
-
-	@Optional.Method(modid = Reference.MOD_BAUBLES)
-	@Override
-	public void onWornTick(ItemStack itemStack, LivingEntity entity) {
-		if(BaublesModCompat.canUse()) {
-			this.onUpdate(itemStack, entity.world, entity, 0, false);
-		}
-	}*/
 
 }

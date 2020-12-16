@@ -18,7 +18,6 @@ import org.cyclops.evilcraft.Reference;
  * @author rubensworks
  *
  */
-// @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true) // TODO
 public class ItemEffortlessRing extends Item {
 
     private static final int TICK_MODULUS = 1;
@@ -99,51 +98,5 @@ public class ItemEffortlessRing extends Item {
         }
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
     }
-
-    /*
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public boolean canEquip(ItemStack itemStack, LivingEntity entity) {
-        return BaublesModCompat.canUse();
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public boolean canUnequip(ItemStack itemStack, LivingEntity entity) {
-        return true;
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public boolean willAutoSync(ItemStack itemstack, LivingEntity player) {
-        return false;
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public BaubleType getBaubleType(ItemStack itemStack) {
-        return BaubleType.RING;
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public void onEquipped(ItemStack itemStack, LivingEntity entity) {
-
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public void onUnequipped(ItemStack itemStack, LivingEntity entity) {
-
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public void onWornTick(ItemStack itemStack, LivingEntity entity) {
-        if(BaublesModCompat.canUse()) {
-            this.onUpdate(itemStack, entity.world, entity, 0, false);
-        }
-    }*/
-    // TODO
 
 }

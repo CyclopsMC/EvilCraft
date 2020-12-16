@@ -15,9 +15,6 @@ import org.cyclops.evilcraft.Reference;
  */
 public class ItemEnderTearConfig extends ItemConfig {
 
-    @ConfigurableProperty(category = "item", comment = "The amount of liquid ender produced when TE or TCon is available.", requiresMcRestart = true)
-    public static int mbLiquidEnder = 2000;
-
     @ConfigurableProperty(category = "item", comment = "If this item should be injected in loot tables..", requiresMcRestart = true)
     public static boolean injectLootTables = true;
 

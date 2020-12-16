@@ -129,8 +129,6 @@ public class EntityWerewolf extends MonsterEntity {
     }
     
     private static void replaceEntity(MobEntity old, MobEntity neww, World world) {
-        // TODO: A nice update effect?
-        // Maybe something like this: https://github.com/iChun/Morph/blob/master/morph/client/model/ModelMorphAcquisition.java
         neww.copyLocationAndAnglesFrom(old);
         old.remove();
 

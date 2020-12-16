@@ -10,7 +10,6 @@ import org.cyclops.evilcraft.item.ItemRedstoneGrenadeConfig;
 
 /**
  * Tile for the {@link BlockInvisibleRedstone}.
- * TODO: remove TE and implement with metadata with altered blockState ticktime (see pressure plate)
  * @author rubensworks
  *
  */

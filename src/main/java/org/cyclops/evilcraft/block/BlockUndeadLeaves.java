@@ -45,14 +45,6 @@ public class BlockUndeadLeaves extends LeavesBlock {
         return 1;
     }
 
-    /*
-    @Override
-    public Item getItemDropped(BlockState blockState, Random random, int zero) {
-        return Item.getItemFromBlock(Blocks.DEADBUSH);
-    }
-    TODO: loot table
-     */
-
     @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
@@ -64,14 +56,6 @@ public class BlockUndeadLeaves extends LeavesBlock {
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return new ItemStack(this);
     }
-
-    /*
-    @Override
-    protected ItemStack getSilkTouchDrop(BlockState state) {
-        return new ItemStack(this);
-    }
-    TODO: loot tables
-     */
 
     protected boolean canFormBloodStains(BlockState state) {
         return BlockUndeadLeavesConfig.maxBloodStainAmount > 0 && !state.get(PERSISTENT) && state.get(DISTANCE) == 2;

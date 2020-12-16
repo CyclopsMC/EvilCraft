@@ -41,7 +41,6 @@ import java.util.List;
  * @author rubensworks
  *
  */
-// @Optional.Interface(iface = "baubles.api.IBauble", modid = Reference.MOD_BAUBLES, striprefs = true) // TODO
 public class ItemPrimedPendant extends ItemBloodContainer {
 
     private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
@@ -112,52 +111,6 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     public boolean hasEffect(ItemStack itemStack) {
         return hasPotionStack(itemStack);
     }
-
-    /*
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public boolean canEquip(ItemStack itemStack, LivingEntity entity) {
-        return BaublesModCompat.canUse();
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public boolean canUnequip(ItemStack itemStack, LivingEntity entity) {
-        return true;
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public boolean willAutoSync(ItemStack itemstack, LivingEntity player) {
-        return false;
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public BaubleType getBaubleType(ItemStack itemStack) {
-        return BaubleType.AMULET;
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public void onEquipped(ItemStack itemStack, LivingEntity entity) {
-
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public void onUnequipped(ItemStack itemStack, LivingEntity entity) {
-
-    }
-
-    @Optional.Method(modid = Reference.MOD_BAUBLES)
-    @Override
-    public void onWornTick(ItemStack itemStack, LivingEntity entity) {
-        if(BaublesModCompat.canUse()) {
-            this.onUpdate(itemStack, entity.world, entity, 0, false);
-        }
-    }*/
-    // TODO
 
     /**
      * Get the supplementary inventory of the item.

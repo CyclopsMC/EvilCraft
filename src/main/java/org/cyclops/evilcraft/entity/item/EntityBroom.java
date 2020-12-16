@@ -254,7 +254,7 @@ public class EntityBroom extends Entity {
     		
     	} else if (rider instanceof LivingEntity) {
             /*
-             * TODO: if we ever have the problem that a player can dismount without
+             * If we ever have the problem that a player can dismount without
              * getting the broom back in his inventory and removing the entity from the world
              * its probably because of this next line of code because onUpdate() is called AFTER
              * the player is dismounted, thus lastMounted is not updated before the player dismounts

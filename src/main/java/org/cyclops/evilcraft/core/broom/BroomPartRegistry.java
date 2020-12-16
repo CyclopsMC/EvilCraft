@@ -167,9 +167,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
                 for (int i = 0; i < tags.size(); i++) {
                     String id = tags.getString(i);
                     IBroomPart part = getPart(new ResourceLocation(id));
-                    if (part == null) {
-                        // TODO: fallback to default
-                    } else {
+                    if (part != null) {
                         parts.add(part);
                     }
                 }

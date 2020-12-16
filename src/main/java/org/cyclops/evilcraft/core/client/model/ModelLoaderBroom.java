@@ -25,10 +25,6 @@ public class ModelLoaderBroom implements IModelLoader<BroomModel> {
 
     @Override
     public BroomModel read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
-        // TODO: rm?
-        // modelContents.remove("loader");
-        // BlockModel modelBlock = deserializationContext.deserialize(modelContents, BlockModel.class);
-        BroomModel model = new BroomModel();
-        return model;
+        return new BroomModel();
     }
 }

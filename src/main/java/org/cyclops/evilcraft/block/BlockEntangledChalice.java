@@ -169,33 +169,4 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
         return Rarity.RARE;
     }
 
-    /*
-	@Override
-	public BlockState getExtendedState(BlockState state, IBlockAccess world, BlockPos pos) {
-		IExtendedBlockState extendedBlockState = (IExtendedBlockState) super.getExtendedState(state, world, pos);
-		TileEntangledChalice tile = TileHelpers.getSafeTile(world, pos, TileEntangledChalice.class);
-		if(tile != null) {
-			FluidStack fluidStack = tile.getTank().getFluid();
-			extendedBlockState = extendedBlockState.with(TANK_ID, ((WorldSharedTank) tile.getTank()).getTankID());
-			if(fluidStack != null) {
-				extendedBlockState = extendedBlockState.with(TANK_FLUID, fluidStack);
-			}
-		}
-		return extendedBlockState;
-	}
-	TODO: models
-     */
-
-	/*
-	@Override
-	protected ItemStack tileDataToItemStack(CyclopsTileEntity tile, ItemStack itemStack) {
-		itemStack = super.tileDataToItemStack(tile, itemStack);
-		// Convert tank id
-		String tankId = ((TileEntangledChalice) tile).getWorldTankId();
-		EntangledChaliceItem.FluidHandler fluidHandler = (EntangledChaliceItem.FluidHandler) FluidUtil.getFluidHandler(itemStack);
-		fluidHandler.setTankID(tankId);
-
-		return itemStack;
-		TODO: loot tables
-	}*/
 }
