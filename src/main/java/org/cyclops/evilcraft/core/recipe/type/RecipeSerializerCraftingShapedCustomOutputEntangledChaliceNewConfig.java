@@ -17,13 +17,15 @@ public class RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig
     public RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig() {
         super(EvilCraft._instance,
                 "crafting_shaped_custom_output_entangled_chalice_new",
-                eConfig -> new RecipeSerializerCraftingShapedCustomOutput(() -> {
+                eConfig -> new RecipeSerializerCraftingShapedCustomOutput(() -> new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE, 2), (inventory, staticOutput) -> {
                     ItemStack newStack = new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE);
                     ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(newStack).orElse(null);
-                    if (!MinecraftHelpers.isClientSide()) {
+                    if (!MinecraftHelpers.isClientSideThread()) {
                         fluidHandler.setNextTankID();
                     }
-                    return fluidHandler.getContainer();
+                    ItemStack output = fluidHandler.getContainer();
+                    output.setCount(2);
+                    return output;
                 }));
     }
 

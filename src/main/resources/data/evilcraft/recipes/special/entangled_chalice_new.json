@@ -10,7 +10,7 @@
       "tag": "forge:ingots/gold"
     },
     "T": {
-      "item": "minecraft:ghast_tear"
+      "item": "evilcraft:corrupted_tear"
     },
     "D": {
       "item": "evilcraft:dark_gem"
