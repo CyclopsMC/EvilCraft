@@ -1,14 +1,20 @@
 package org.cyclops.evilcraft.inventory.container;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.api.gameevent.BloodInfuserRemoveEvent;
 import org.cyclops.evilcraft.block.BlockBloodInfuser;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
+import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.core.tileentity.TileWorking;
 import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
 
@@ -67,22 +73,15 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
         addSlot(new SlotFluidContainer(inventory, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, RegistryEntries.FLUID_BLOOD)); // Container emptier
         addSlot(new SlotWorking<>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, this, playerInventory.player.world)); // Infuse slot
         addSlot(new SlotRemoveOnly(inventory, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
-/*
             @Override
-            public ItemStack onTake(PlayerEntity player, ItemStack itemStack) {
-
-                Optional<RecipeBloodInfuser>
-                        recipe = BloodInfuser.getInstance().getRecipeRegistry().
-                        findRecipeByOutput(new IngredientRecipeComponent(itemStack));
-                if(recipe != null) {
-                    EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(recipe.getProperties().getXp() * itemStack.getCount()));
-                    MinecraftForge.EVENT_BUS.post(new BloodInfuserRemoveEvent(player, itemStack));
-                }
-                TODO: reimplement recipes
-
-                return super.onTake(player, itemStack);
+            public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
+                tileSupplier.ifPresent(tile -> {
+                    EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(tile.getXp()));
+                    tile.resetXp();
+                    MinecraftForge.EVENT_BUS.post(new BloodInfuserRemoveEvent(player, stack));
+                });
+                return super.onTake(thePlayer, stack);
             }
-            */
         }); // Infuse result slot
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileBloodInfuser.SLOTS);

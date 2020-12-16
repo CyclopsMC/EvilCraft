@@ -35,7 +35,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSeri
 
         // Other stuff
         int duration = JSONUtils.getInt(json, "duration");
-        int xp = JSONUtils.getInt(json, "xp", 0);
+        float xp = JSONUtils.getFloat(json, "xp", 0);
 
         // Validation
         if (inputIngredient.hasNoMatchingItems() && inputFluid.isEmpty()) {
@@ -70,7 +70,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSeri
 
         // Other stuff
         int duration = buffer.readVarInt();
-        int xp = buffer.readVarInt();
+        float xp = buffer.readFloat();
 
         return new RecipeBloodInfuser(recipeId, inputIngredient, inputFluid, inputTier, outputItemStack, duration, xp);
     }
@@ -87,6 +87,6 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSeri
 
         // Other stuff
         buffer.writeVarInt(recipe.getDuration());
-        buffer.writeVarInt(recipe.getXp());
+        buffer.writeFloat(recipe.getXp());
     }
 }

@@ -22,11 +22,11 @@ public class RecipeBloodInfuser implements IRecipe<IInventoryFluidTier> {
     private final int inputTier;
     private final ItemStack outputItem;
     private final int duration;
-    private final int xp;
+    private final float xp;
 
     public RecipeBloodInfuser(ResourceLocation id,
                               Ingredient inputIngredient, FluidStack inputFluid, int inputTier,
-                              ItemStack outputItem, int duration, int xp) {
+                              ItemStack outputItem, int duration, float xp) {
         this.id = id;
         this.inputIngredient = inputIngredient;
         this.inputFluid = inputFluid;
@@ -56,7 +56,7 @@ public class RecipeBloodInfuser implements IRecipe<IInventoryFluidTier> {
         return duration;
     }
 
-    public int getXp() {
+    public float getXp() {
         return xp;
     }
 

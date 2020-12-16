@@ -11,6 +11,7 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
@@ -29,6 +30,7 @@ import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.CraftingHelpers;
+import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
@@ -89,6 +91,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     
     private int infuseTicker;
     private SingleCache<Triple<ItemStack, Integer, Integer>, Optional<RecipeBloodInfuser>> recipeCache;
+    private float xp;
     
     private static final Multimap<Class<?>, ITickAction<TileBloodInfuser>> INFUSE_TICK_ACTIONS = LinkedListMultimap.create();
     static {
@@ -184,6 +187,18 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     }
 
     @Override
+    public CompoundNBT write(CompoundNBT data) {
+        data.putFloat("xp", xp);
+        return super.write(data);
+    }
+
+    @Override
+    public void read(CompoundNBT data) {
+        this.xp = data.getFloat("xp");
+        super.read(data);
+    }
+
+    @Override
     public Direction getRotation() {
         return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
     }
@@ -228,13 +243,30 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         return new ContainerBloodInfuser(id, playerInventory, this.getInventory(), Optional.of(this));
     }
 
-    protected IRecipeType<RecipeBloodInfuser> getRegistry() {
+    public IRecipeType<RecipeBloodInfuser> getRegistry() {
         return RegistryEntries.RECIPETYPE_BLOOD_INFUSER;
     }
 
     @Override
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent("block.evilcraft.blood_infuser");
+    }
+
+    public void setXp(float xp) {
+        this.xp = xp;
+        markDirty();
+    }
+
+    public float getXp() {
+        return xp;
+    }
+
+    public void addXp(float xp) {
+        setXp(getXp() + xp);
+    }
+
+    public void resetXp() {
+        setXp(0);
     }
 
     public static class Metadata extends TileWorking.Metadata {
