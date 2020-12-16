@@ -22,6 +22,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
@@ -151,7 +152,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         float height = Math.min(0.95F, ((float) fluidStack.getAmount() / (float) capacity)) * 0.1875F + 0.8125F;
         List<BakedQuad> quads = Lists.newArrayList();
         TextureAtlasSprite texture = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluidStack, Direction.UP);
-        addBakedQuadRotated(quads, 0.1875F, 0.8125F, 0.1875F, 0.8125F, height, texture, Direction.UP, ROTATION_FIX[Direction.UP.ordinal()]);
+        int color = RenderHelpers.getFluidBakedQuadColor(fluidStack);
+        addBakedQuadRotated(quads, 0.1875F, 0.8125F, 0.1875F, 0.8125F, height, texture, Direction.UP, ROTATION_FIX[Direction.UP.ordinal()], true, color, ROTATION_UV);
         return quads;
     }
 
