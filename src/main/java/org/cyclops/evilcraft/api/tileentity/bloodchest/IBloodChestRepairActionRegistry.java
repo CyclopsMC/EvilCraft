@@ -43,11 +43,5 @@ public interface IBloodChestRepairActionRegistry extends IRegistry {
      * @return Pair of blood usage multiplier and new itemstack.
      */
     public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk);
-
-    /**
-     * Set the blacklist of item names.
-     * @param blacklist The names of items that are not allowed into the blood chest.
-     */
-    public void setBlacklist(String[] blacklist);
     
 }

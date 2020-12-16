@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -13,6 +14,8 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.render.tileentity.RenderItemStackTileEntityBloodChest;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
+
+import java.util.List;
 
 /**
  * Config for the {@link BlockBloodChest}.
@@ -30,8 +33,10 @@ public class BlockBloodChestConfig extends BlockConfig {
     @ConfigurableProperty(category = "machine", comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
     public static int ticksPerDamage = 2;
 
-    @ConfigurableProperty(category = "machine", comment = "If the Blood Chest should be able to repair tools from Tinkers' Construct", isCommandable = true)
-    public static boolean repairTConstructTools = true;
+    @ConfigurableProperty(category = "machine", comment = "Item names that can not be repaired", isCommandable = true)
+    public static List<String> itemBlacklist = Lists.newArrayList(
+            "minecraft:stick"
+    );
 
     public BlockBloodChestConfig() {
         super(

@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
+import org.cyclops.evilcraft.block.BlockBloodChestConfig;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,8 +16,6 @@ import java.util.Random;
  *
  */
 public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRegistry {
-
-    private String[] itemBlacklist = new String[0]; // TODO: lazily read from config param
 
     private final List<IBloodChestRepairAction> repairActions =
             new LinkedList<IBloodChestRepairAction>();
@@ -63,17 +62,12 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
 
     protected boolean isNotBlacklisted(ItemStack itemStack) {
         if(itemStack.isEmpty()) return false;
-        for(String name : itemBlacklist) {
+        for(String name : BlockBloodChestConfig.itemBlacklist) {
             if(itemStack.getItem().getRegistryName().toString().equals(name)) {
                 return false;
             }
         }
         return true;
-    }
-
-    @Override
-    public void setBlacklist(String[] blacklist) {
-        itemBlacklist = blacklist;
     }
     
 }
