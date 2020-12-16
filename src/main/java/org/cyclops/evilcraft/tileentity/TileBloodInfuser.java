@@ -51,7 +51,9 @@ import org.cyclops.evilcraft.tileentity.tickaction.bloodinfuser.FluidContainerIt
 import org.cyclops.evilcraft.tileentity.tickaction.bloodinfuser.InfuseItemTickAction;
 
 import javax.annotation.Nullable;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -143,12 +145,14 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                 new SingleCache.ICacheUpdater<Triple<ItemStack, Integer, Integer>, Optional<RecipeBloodInfuser>>() {
                     @Override
                     public Optional<RecipeBloodInfuser> getNewValue(Triple<ItemStack, Integer, Integer> key) {
-                        // TODO: make sure we always pick the highest tier when there are multiple matches
                         IInventoryFluidTier recipeInput = new InventoryFluidTier(
                                 NonNullList.from(ItemStack.EMPTY, key.getLeft()),
                                 NonNullList.from(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, key.getMiddle())),
                                 key.getRight());
-                        return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getWorld());
+
+                        // Make sure we always pick the highest tier when there are multiple matches
+                        return world.getRecipeManager().getRecipes(getRegistry(), recipeInput, getWorld()).stream()
+                                .max(Comparator.comparingInt(RecipeBloodInfuser::getInputTier));
                     }
 
                     @Override
