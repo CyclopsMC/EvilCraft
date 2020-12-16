@@ -79,6 +79,8 @@ public class RegistryEntries {
 
     @ObjectHolder("evilcraft:blood_pearl_of_teleportation")
     public static final Item ITEM_BLOOD_PEARL_OF_TELEPORTATION = null;
+    @ObjectHolder("evilcraft:blood_infusion_core")
+    public static final Item ITEM_BLOOD_INFUSION_CORE = null;
     @ObjectHolder("evilcraft:broom")
     public static final Item ITEM_BROOM = null;
     @ObjectHolder("evilcraft:broom_part")
@@ -87,6 +89,8 @@ public class RegistryEntries {
     public static final Item ITEM_BUCKET_BLOOD = null;
     @ObjectHolder("evilcraft:bucket_poison")
     public static final Item ITEM_BUCKET_POISON = null;
+    @ObjectHolder("evilcraft:blook")
+    public static final Item ITEM_BLOOK = null;
     @ObjectHolder("evilcraft:dark_gem")
     public static final Item ITEM_DARK_GEM = null;
     @ObjectHolder("evilcraft:dark_gem_crushed")
@@ -145,14 +149,24 @@ public class RegistryEntries {
     public static final Item ITEM_LIGHTNING_GRENADE = null;
     @ObjectHolder("evilcraft:origins_of_darkness")
     public static final Item ITEM_ORIGINS_OF_DARKNESS = null;
+    @ObjectHolder("evilcraft:poison_sac")
+    public static final Item ITEM_POISON_SAC = null;
     @ObjectHolder("evilcraft:redstone_grenade")
     public static final Item ITEM_REDSTONE_GRENADE = null;
     @ObjectHolder("evilcraft:vein_sword")
     public static final ItemVeinSword ITEM_VEIN_SWORD = null;
+    @ObjectHolder("evilcraft:undead_sapling")
+    public static final Item ITEM_UNDEAD_SAPLING = null;
+    @ObjectHolder("evilcraft:vengeance_focus")
+    public static final Item ITEM_VENGEANCE_FOCUS = null;
     @ObjectHolder("evilcraft:vengeance_pickaxe")
     public static final ItemVengeancePickaxe ITEM_VENGEANCE_PICKAXE = null;
     @ObjectHolder("evilcraft:weather_container")
     public static final Item ITEM_WEATHER_CONTAINER = null;
+    @ObjectHolder("evilcraft:werewolf_bone")
+    public static final Item ITEM_WEREWOLF_BONE = null;
+    @ObjectHolder("evilcraft:werewolf_fur")
+    public static final Item ITEM_WEREWOLF_FUR = null;
 
     @ObjectHolder("evilcraft:blood")
     public static final FlowingFluidBlock BLOCK_BLOOD = null;

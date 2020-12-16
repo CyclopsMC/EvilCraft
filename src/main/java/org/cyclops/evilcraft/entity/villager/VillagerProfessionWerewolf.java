@@ -5,8 +5,11 @@ import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.village.PointOfInterestType;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.village.VillagerTradesEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
  * Villager with specific evil trades.
@@ -15,53 +18,31 @@ import org.cyclops.evilcraft.Reference;
  */
 public class VillagerProfessionWerewolf extends VillagerProfession {
 
-    /*private static final Random RANDOM = new Random();
-    private static final List<VillagerTrades.ITrade> IN = Lists.newArrayList();
-    private static final List<VillagerTrades.ITrade> OUT = Lists.newArrayList();
-    static {
-        IN.add(new VillagerTrades.EmeraldForItems(ItemDarkGem.getInstance(), new VillagerTrades.PriceInfo(2, 5)));
-        IN.add(new VillagerTrades.EmeraldForItems(ItemHardenedBloodShardConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(10, 15)));
-        IN.add(new VillagerTrades.EmeraldForItems(ItemBlookConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(5, 9)));
-        IN.add(new VillagerTrades.EmeraldForItems(ItemInvertedPotentia.getInstance(), new VillagerTrades.PriceInfo(1, 5)));
-        IN.add(new VillagerTrades.EmeraldForItems(ItemPoisonSacConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(10, 15)));
-
-        OUT.add(new VillagerTrades.ListItemForEmeralds(ItemWerewolfBoneConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(5, 10)));
-        OUT.add(new VillagerTrades.ListItemForEmeralds(ItemWerewolfFurConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(5, 10)));
-        OUT.add(new VillagerTrades.ListItemForEmeralds(ItemBloodInfusionCoreConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(10, 15)));
-        OUT.add(new VillagerTrades.ListItemForEmeralds(Item.getItemFromBlock(BlockBoxOfEternalClosure.getInstance()), new VillagerTrades.PriceInfo(1, 2)));
-        OUT.add(new VillagerTrades.ListItemForEmeralds(ItemDarkGemCrushedConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(3, 5)));
-        OUT.add(new VillagerTrades.ListItemForEmeralds(ItemVengeanceFocus.getInstance(), new VillagerTrades.PriceInfo(12, 18)));
-        OUT.add(new VillagerTrades.ListItemForEmeralds(Item.getItemFromBlock(BlockUndeadSaplingConfig._instance.getBlockInstance()), new VillagerTrades.PriceInfo(15, 25)));
-        OUT.add(new VillagerTrades.ListItemForEmeralds(ItemGarmonboziaConfig._instance.getItemInstance(), new VillagerTrades.PriceInfo(50, 64)));
-    }*/
-
     public VillagerProfessionWerewolf(VillagerConfig eConfig) {
         super(new ResourceLocation(Reference.MOD_ID, eConfig.getNamedId()).toString(), PointOfInterestType.BUTCHER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_BUTCHER);
-
-        // TODO: rewrite trades
-        /*VillagerTrades.VILLAGER_DEFAULT_TRADES.put(this, new Int2ObjectOpenHashMap<>(ImmutableMap.of(1, new VillagerTrades.ITrade[]{
-                new VillagerTrades.EmeraldForItemsTrade(Items.WHEAT, 20, 16, 2),
-        })));
-
-        VillagerRegistry.VillagerCareer career = new VillagerRegistry.VillagerCareer(this, eConfig.getNamedId());
-        int level = 1;
-        level = tryAddTrades(level, career, IN);
-        level = tryAddTrades(level, career, OUT);
-        level = tryAddTrades(level, career, OUT);
-        level = tryAddTrades(level, career, IN);
-        level = tryAddTrades(level, career, OUT);*/
+        MinecraftForge.EVENT_BUS.addListener(this::onTrades);
     }
 
-    /*protected static int tryAddTrades(int level, VillagerRegistry.VillagerCareer career, List<VillagerTrades.ITrade> trades) {
-        Optional<VillagerTrades.ITrade> trade = random(trades);
-        if (trade.isPresent()) {
-            career.addTrade(level, trade.get());
-            return level + 1;
+    public void onTrades(VillagerTradesEvent event) {
+        if (event.getType() == this) {
+            // Villager accepts these for emeralds
+            event.getTrades().get(1).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_DARK_GEM, 10, 50, 2));
+            event.getTrades().get(1).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_HARDENED_BLOOD_SHARD, 20, 50, 2));
+            event.getTrades().get(1).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_POISON_SAC, 3, 50, 2));
+            event.getTrades().get(2).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_BLOOK, 2, 30, 5));
+            event.getTrades().get(2).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_INVERTED_POTENTIA, 2, 30, 6));
+            event.getTrades().get(3).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_INVERTED_POTENTIA_EMPOWERED, 1, 25, 10));
+            event.getTrades().get(4).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_BLOOD_INFUSION_CORE, 3, 20, 10));
+            event.getTrades().get(4).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_WEREWOLF_BONE, 2, 20, 20));
+            event.getTrades().get(4).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_WEREWOLF_FUR, 1, 20, 20));
+
+            // Villager offers these for emeralds
+            // Args: output item, emeralds, items, xp
+            event.getTrades().get(1).add(new ItemsForEmeraldsTrade(RegistryEntries.ITEM_DARK_GEM_CRUSHED, 1, 5, 10));
+            event.getTrades().get(2).add(new ItemsForEmeraldsTrade(RegistryEntries.ITEM_UNDEAD_SAPLING, 1, 3, 10));
+            event.getTrades().get(3).add(new ItemsForEmeraldsTrade(RegistryEntries.ITEM_VENGEANCE_FOCUS, 3, 2, 10));
+            event.getTrades().get(3).add(new ItemsForEmeraldsTrade(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE, 7, 1, 10));
+            event.getTrades().get(5).add(new ItemsForEmeraldsTrade(RegistryEntries.ITEM_GARMONBOZIA, 10, 1, 30));
         }
-        return level;
     }
-
-    protected static <T> Optional<T> random(List<T> list) {
-        return list.size() > 0 ? Optional.of(list.get(RANDOM.nextInt(list.size()))) : Optional.<T>absent();
-    }*/
 }
