@@ -55,7 +55,6 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                 	BlockPos loopPos = new BlockPos(xr, yr, zr);
 
                 	// Skip invalid chunk generation positions.
-                    // chunkExists does not exist in 1.9 anymore
                 	if(!world.getChunkProvider().chunkExists(xr / 16, yr / 16)) {
                 		return false;
                 	}

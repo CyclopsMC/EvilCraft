@@ -33,7 +33,7 @@ public class WorldFeatureEvilDungeonConfig extends WorldFeatureConfig {
             if (biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NETHER) {
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, ((WorldFeatureEvilDungeon) getInstance())
                         .withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)
-                        .withPlacement(RegistryEntries.DECORATOR_EVIL_DUNGEON.configure(new ChanceConfig(8))));
+                        .withPlacement(RegistryEntries.DECORATOR_EVIL_DUNGEON.configure(new ChanceConfig(4))));
             }
         }
     }
