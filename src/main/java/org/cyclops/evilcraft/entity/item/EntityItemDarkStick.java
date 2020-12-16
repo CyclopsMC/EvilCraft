@@ -7,10 +7,13 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorDarkTemple;
+
+import javax.annotation.Nullable;
 
 /**
  * Entity for the dark stick item.
@@ -53,19 +56,20 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	@Override
 	public void tick() {
         super.tick();
-		if(!MinecraftHelpers.isClientSide() && hasMoved()) {
+		if (!getEntityWorld().isRemote() && hasMoved()) {
             Float angle = loadRotation();
             setValid(angle != null);
 			setAngle(angle == null ? 0 : angle);
 		}
 	}
-	
+
+	@Nullable
 	private Float loadRotation() {
 		BlockPos closest = WorldDecoratorDarkTemple.getClosestForCoords(world, (int) getPosX(), (int) getPosZ());
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
 			double d = closest.distanceSq(new BlockPos((int) getPosX(), 0, (int) getPosZ()));
-            if(d <= WorldHelpers.CHUNK_SIZE * 2) {
+            if(d <= WorldHelpers.CHUNK_SIZE * WorldHelpers.CHUNK_SIZE * 4) {
                 return null;
             }
 			BlockPos normalized = new BlockPos(closest.getX() - (int) getPosX(), 0,

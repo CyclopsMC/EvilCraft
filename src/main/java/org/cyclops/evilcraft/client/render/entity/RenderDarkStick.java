@@ -37,7 +37,7 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
         matrixStackIn.rotate(Vector3f.XP.rotationDegrees(25));
 
         ((EntityRenderer) Minecraft.getInstance().getRenderManager().renderers.get(EntityType.ITEM))
-                .render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+                .render(entity, 0, -entity.hoverStart * 20/* to undo hoverstart in ItemRenderer */, matrixStackIn, bufferIn, packedLightIn);
 	}
 
     @Override

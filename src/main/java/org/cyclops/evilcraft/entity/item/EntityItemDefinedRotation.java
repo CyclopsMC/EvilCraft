@@ -23,5 +23,9 @@ public abstract class EntityItemDefinedRotation extends EntityItemExtended {
 	protected boolean hasCustomRotation() {
 		return true;
 	}
-	
+
+	@Override
+	public int getAge() {
+		return hasCustomRotation() ? 0 : super.getAge();
+	}
 }
