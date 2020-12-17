@@ -98,8 +98,7 @@ public class ItemWeatherContainer extends Item {
     public void onFill(World world, ItemStack itemStack) {
         getWeatherType(itemStack).onFill(world, itemStack);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {

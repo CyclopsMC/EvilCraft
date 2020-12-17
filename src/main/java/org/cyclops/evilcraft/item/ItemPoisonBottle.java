@@ -35,10 +35,9 @@ public class ItemPoisonBottle extends Item {
 
     public ItemPoisonBottle(Item.Properties properties) {
         super(properties);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onPoisonRightClick);
     }
 
-    @SubscribeEvent
     public void onPoisonRightClick(PlayerInteractEvent.RightClickBlock event) {
         Hand hand = event.getPlayer().getActiveHand();
         // Return poison bottle instead of water bottle when right clicking poison fluid source with empty bottle.

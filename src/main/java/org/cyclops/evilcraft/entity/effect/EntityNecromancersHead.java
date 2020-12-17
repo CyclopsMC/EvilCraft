@@ -17,6 +17,8 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -34,6 +36,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
 public class EntityNecromancersHead extends ThrowableEntity implements IRendersAsItem {
     
 	private static final int DURATION = 200;

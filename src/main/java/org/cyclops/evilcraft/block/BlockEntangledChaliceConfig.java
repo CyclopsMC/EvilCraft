@@ -26,7 +26,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
     @OnlyIn(Dist.CLIENT)
     public static ResourceLocation gemsModel;
 
-    @ConfigurableProperty(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.tab.", requiresMcRestart = true)
+    @ConfigurableProperty(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.", requiresMcRestart = true)
     public static boolean staticBlockRendering = false;
 
     public BlockEntangledChaliceConfig() {
@@ -38,7 +38,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
                         .group(EvilCraft._instance.getDefaultItemGroup())
-                        .setISTER(() -> () -> new RenderItemStackTileEntityEntangledChalice()))
+                        .setISTER(() -> RenderItemStackTileEntityEntangledChalice::new))
         );
     }
     

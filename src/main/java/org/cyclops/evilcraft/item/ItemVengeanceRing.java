@@ -149,7 +149,6 @@ public class ItemVengeanceRing extends Item {
         super.inventoryTick(itemStack, world, entity, par4, par5);
     }
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
     @OnlyIn(Dist.CLIENT)
     @Override
 	public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {

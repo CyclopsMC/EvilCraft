@@ -17,6 +17,7 @@ import net.minecraft.network.play.client.CPlayerDiggingPacket;
 import net.minecraft.network.play.server.SChangeBlockPacket;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.Effects;
+import net.minecraft.potion.Potion;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
@@ -90,7 +91,7 @@ public class BroomModifiers {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void afterAfterItemsRegistered(RegistryEvent<Effect> event) {
+    public static void afterAfterItemsRegistered(RegistryEvent<Potion> event) {
         BroomParts.loadPost();
     }
 

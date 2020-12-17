@@ -64,7 +64,10 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     public ItemBroom(Item.Properties properties) {
         super(properties, 10 * FluidHelpers.BUCKET_VOLUME);
-        MinecraftForge.EVENT_BUS.register(this);
+        if (MinecraftHelpers.isClientSide()) {
+            MinecraftForge.EVENT_BUS.addListener(this::onFovEvent);
+            MinecraftForge.EVENT_BUS.addListener(this::onRenderOverlayEvent);
+        }
     }
 
     @Override
@@ -207,7 +210,6 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     }
 
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
     public void onFovEvent(FOVUpdateEvent event) {
         if(event.getEntity().getRidingEntity() instanceof EntityBroom) {
             EntityBroom broom = (EntityBroom) event.getEntity().getRidingEntity();
@@ -217,7 +219,6 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     }
 
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
     public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player.getRidingEntity() instanceof EntityBroom

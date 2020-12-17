@@ -50,7 +50,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     public ItemBloodExtractor(Item.Properties properties) {
         super(properties, ItemBloodExtractorConfig.containerSize);
         setPlaceFluids(true);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::bloodObtainEvent);
 
     }
     
@@ -79,8 +79,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     public boolean hasEffect(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
@@ -139,7 +138,6 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         return oldStack.getItem() != newStack.getItem();
     }
 
-    @SubscribeEvent(priority = EventPriority.NORMAL)
     public void bloodObtainEvent(LivingDeathEvent event) {
         Entity e = event.getSource().getTrueSource();
         if(e != null && e instanceof ServerPlayerEntity && !e.world.isRemote()

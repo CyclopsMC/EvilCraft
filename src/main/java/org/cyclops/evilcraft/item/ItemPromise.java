@@ -70,8 +70,7 @@ public class ItemPromise extends Item {
         }
         return super.getItemStackLimit(itemStack);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {

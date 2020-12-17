@@ -57,8 +57,7 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     public boolean hasEffect(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {

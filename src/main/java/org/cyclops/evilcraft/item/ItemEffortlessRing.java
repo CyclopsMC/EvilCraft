@@ -31,7 +31,9 @@ public class ItemEffortlessRing extends Item {
 
     public ItemEffortlessRing(Properties properties) {
         super(properties);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::onPlayerFall);
+        MinecraftForge.EVENT_BUS.addListener(this::onPlayerJump);
+        MinecraftForge.EVENT_BUS.addListener(this::onPlayerUpdate);
     }
 
     /**
@@ -57,7 +59,6 @@ public class ItemEffortlessRing extends Item {
         }
     }
 
-    @SubscribeEvent
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if(event.getEntityLiving() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getEntityLiving();
@@ -67,7 +68,6 @@ public class ItemEffortlessRing extends Item {
         }
     }
 
-    @SubscribeEvent
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         // Reset the step height.
         if(event.getEntityLiving() instanceof PlayerEntity) {
@@ -81,7 +81,6 @@ public class ItemEffortlessRing extends Item {
         }
     }
 
-    @SubscribeEvent
     public void onPlayerFall(LivingFallEvent event) {
         if(event.getEntityLiving() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getEntityLiving();

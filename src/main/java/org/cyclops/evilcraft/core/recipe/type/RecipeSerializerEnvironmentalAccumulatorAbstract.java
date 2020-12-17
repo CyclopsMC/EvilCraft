@@ -13,6 +13,7 @@ import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 import javax.annotation.Nullable;
+import java.util.Locale;
 
 /**
  * Recipe serializer for abstract environmental accumulator recipes
@@ -77,11 +78,11 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
     public void write(PacketBuffer buffer, RecipeEnvironmentalAccumulator recipe) {
         // Input
         recipe.getInputIngredient().write(buffer);
-        buffer.writeString(recipe.getInputWeather().toString());
+        buffer.writeString(recipe.getInputWeather().toString().toUpperCase(Locale.ENGLISH));
 
         // Output
         buffer.writeItemStack(recipe.getOutputItem());
-        buffer.writeString(recipe.getOutputWeather().toString());
+        buffer.writeString(recipe.getOutputWeather().toString().toUpperCase(Locale.ENGLISH));
 
         // Other stuff
         buffer.writeVarInt(recipe.getDuration());

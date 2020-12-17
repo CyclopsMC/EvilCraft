@@ -58,7 +58,7 @@ public class ItemWerewolfFlesh extends Item {
                         .build()));
         this.humanoid = humanoid;
         if (this.humanoid) {
-            MinecraftForge.EVENT_BUS.register(this);
+            MinecraftForge.EVENT_BUS.addListener(this::dropHumanoidFleshEvent);
         }
     }
     
@@ -146,8 +146,7 @@ public class ItemWerewolfFlesh extends Item {
         }
         return itemStack;
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
@@ -177,7 +176,6 @@ public class ItemWerewolfFlesh extends Item {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.NORMAL)
     public void dropHumanoidFleshEvent(LivingDeathEvent event) {
         if(event.getEntityLiving() instanceof ServerPlayerEntity
                 && !event.getEntityLiving().world.isRemote()
