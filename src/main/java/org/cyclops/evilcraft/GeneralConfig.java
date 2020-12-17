@@ -28,7 +28,7 @@ public class GeneralConfig extends DummyConfig {
     @ConfigurableProperty(category = "general", comment = "If farting is enabled on this server; Client-side: If farting can be seen at your client.", isCommandable = true, configLocation = ModConfig.Type.SERVER)
     public static boolean farting = true;
 
-    @ConfigurableProperty(category = "fluid",
+    /*@ConfigurableProperty(category = "fluid",
     		comment = "The allowed blood conversions with their ratio. (ratio 2 means that this "
     				+ "fluid is 1mB of this fluid can be converted into 2mB of EvilCraft Blood.",
             configLocation = ModConfig.Type.SERVER)
@@ -36,7 +36,7 @@ public class GeneralConfig extends DummyConfig {
             "blood:1.0",
             "lifeessence:1.0",
             "hell_blood:1.0"
-    );
+    );*/
 
     @ConfigurableProperty(category = "worldgeneration", comment = "Spawn extra netherfish blocks in all biomes.", configLocation = ModConfig.Type.SERVER)
     public static boolean extraSilverfish = false;
