@@ -24,6 +24,7 @@ import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -92,8 +93,8 @@ public class ItemMaceOfDistortion extends ItemMace {
      * @param itemUsedCount The distortion usage power.
      * @param power The current power.
      */
-    public void distortEntity(World world, LivingEntity initiator, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
-        double inverseStrength = entity.getDistance(initiator) / (itemUsedCount + 1);
+    public void distortEntity(World world, @Nullable LivingEntity initiator, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
+        double inverseStrength = initiator != null ? entity.getDistance(initiator) / (itemUsedCount + 1) : 0.1;
         double knock = power + itemUsedCount / 200 + 1.0D;
 
         double dx = entity.getPosX() - x;

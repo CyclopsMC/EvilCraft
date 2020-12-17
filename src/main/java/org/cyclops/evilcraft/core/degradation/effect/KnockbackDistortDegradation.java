@@ -32,7 +32,7 @@ public class KnockbackDistortDegradation implements IDegradationEffect {
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
+        runServerSide(degradable);
     }
 
     @Override

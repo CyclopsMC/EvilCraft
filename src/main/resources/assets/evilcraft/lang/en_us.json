@@ -318,7 +318,7 @@
   "death.attack.evilcraft.vengeance_beam": "%1$s was evaporated by a Vengeance Beam.",
 
   "_comment": "Biomes",
-  "biomes.evilcraft.biome_degraded": "Degraded",
+  "biomes.evilcraft.degraded": "Degraded",
 
   "_comment": "Potion Effects",
   "effect.evilcraft.paling": "Paling",
