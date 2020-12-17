@@ -12,6 +12,7 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -420,7 +421,11 @@ public class EntityBroom extends Entity {
             lastRotationPitch = rotationPitch;
         }
 
-        if (!(lastMounted instanceof PlayerEntity)) {
+        if (lastMounted instanceof PlayerEntity) {
+            if (lastMounted instanceof ServerPlayerEntity) {
+                ((ServerPlayerEntity) lastMounted).connection.vehicleFloatingTickCount = 0;
+            }
+        } else {
             lastMounted.rotationYaw = lastMounted.rotationYawHead;
             // We have to hardcode this speed because the entity may already have ticked,
             // so we can't count on it having a predictable speed
