@@ -25,7 +25,6 @@ import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.block.BlockReinforcedUndeadPlank;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
-import org.cyclops.evilcraft.client.particle.ParticleBloodBrickData;
 import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedData;
 import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedEntityData;
 import org.cyclops.evilcraft.client.particle.ParticleBubbleExtendedData;
@@ -35,12 +34,12 @@ import org.cyclops.evilcraft.client.particle.ParticleDistortData;
 import org.cyclops.evilcraft.client.particle.ParticleExplosionExtendedData;
 import org.cyclops.evilcraft.client.particle.ParticleFartData;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBloodExtractorCombination;
+import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBroomPartCombination;
 import org.cyclops.evilcraft.core.recipe.type.RecipeDeadBush;
-import org.cyclops.evilcraft.core.recipe.type.RecipeFluidContainerCombination;
-import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulatorBiomeExtract;
+import org.cyclops.evilcraft.core.recipe.type.RecipeFluidContainerCombination;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimed;
 import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeam;
 import org.cyclops.evilcraft.entity.effect.EntityNecromancersHead;
@@ -332,8 +331,6 @@ public class RegistryEntries {
     public static final ParticleType<ParticleBlurTargettedData> PARTICLE_BLUR_TARGETTED = null;
     @ObjectHolder("evilcraft:blur_targetted_entity")
     public static final ParticleType<ParticleBlurTargettedEntityData> PARTICLE_BLUR_TARGETTED_ENTITY = null;
-    @ObjectHolder("evilcraft:blood_brick")
-    public static final ParticleType<ParticleBloodBrickData> PARTICLE_BLOOD_BRICK = null;
     @ObjectHolder("evilcraft:blood_bubble")
     public static final BasicParticleType PARTICLE_BLOOD_BUBBLE = null;
     @ObjectHolder("evilcraft:blood_splash")

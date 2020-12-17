@@ -35,7 +35,6 @@ import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
@@ -47,7 +46,6 @@ import org.cyclops.evilcraft.core.tileentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.tileentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnace;
-import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
 import org.cyclops.evilcraft.tileentity.tickaction.EmptyFluidContainerInTankTickAction;
 import org.cyclops.evilcraft.tileentity.tickaction.spiritfurnace.BoxCookTickAction;
 
@@ -324,8 +322,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @param originCorner The origin corner
      */
     public static void detectStructure(IWorldReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
-		EvilCraft._instance.getPacketHandler().sendToAllAround(new DetectionListenerPacket(location, valid),
-                LocationHelpers.createTargetPointFromLocation(world, location, 50));
+
     }
     
     /**

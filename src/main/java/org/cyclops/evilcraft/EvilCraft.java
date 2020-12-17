@@ -175,7 +175,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
 
         // Particles
         configHandler.addConfigurable(new ParticleBubbleExtendedConfig());
-        configHandler.addConfigurable(new ParticleBloodBrickConfig());
         configHandler.addConfigurable(new ParticleBloodBubbleConfig());
         configHandler.addConfigurable(new ParticleBloodSplashConfig());
         configHandler.addConfigurable(new ParticleColoredSmokeConfig());

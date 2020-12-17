@@ -8,7 +8,6 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.event.EntityStruckByLightningEventHook;
 import org.cyclops.evilcraft.event.LivingUpdateEventHook;
-import org.cyclops.evilcraft.network.packet.DetectionListenerPacket;
 import org.cyclops.evilcraft.network.packet.ExaltedCrafterOpenPacket;
 import org.cyclops.evilcraft.network.packet.FartPacket;
 import org.cyclops.evilcraft.network.packet.ResetChunkColorsPacket;
@@ -33,7 +32,6 @@ public class CommonProxy extends CommonProxyComponent {
     	
     	// Register packets.
         packetHandler.register(FartPacket.class);
-        packetHandler.register(DetectionListenerPacket.class);
         packetHandler.register(SanguinaryPedestalBlockReplacePacket.class);
         packetHandler.register(ExaltedCrafterOpenPacket.class);
         packetHandler.register(UpdateWorldSharedTankClientCachePacket.class);
