@@ -113,7 +113,7 @@ public class BlockBloodStain extends BlockTile {
         if(event.getSource() == DamageSource.FALL
                 && !(event.getEntity() instanceof EntityVengeanceSpirit)) {
             int x = MathHelper.floor(event.getEntity().getPosX());
-            int y = MathHelper.floor(event.getEntity().getPosY() - (event.getEntity().getHeight() - 1));
+            int y = MathHelper.floor(event.getEntity().getPosY());
             int z = MathHelper.floor(event.getEntity().getPosZ());
 
             if (!event.getEntity().world.isRemote()) {
@@ -123,7 +123,7 @@ public class BlockBloodStain extends BlockTile {
                     // But Forge throws the living death event _after_ this block is determined,
                     // after which vanilla can still perform operators with this block.
                     // In some cases, this can result in inconsistencies, which can lead to crashes.
-                    BlockPos pos = new BlockPos(x, y, z);
+                    BlockPos pos = new BlockPos(x, y - 1, z);
                     Block block = event.getEntity().world.getBlockState(pos).getBlock();
 
                     int amount = (int) (BlockBloodStainConfig.bloodMBPerHP * event.getEntityLiving().getMaxHealth());
