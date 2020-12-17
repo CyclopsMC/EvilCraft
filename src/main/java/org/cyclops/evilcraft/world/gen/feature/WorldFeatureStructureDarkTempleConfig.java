@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.world.gen.feature;
 
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.fml.config.ModConfig;
@@ -27,6 +29,8 @@ public class WorldFeatureStructureDarkTempleConfig extends WorldFeatureConfig {
     public static int darkTempleSpacing = 40;
     @ConfigurableProperty(category = "worldgeneration", comment = "Minimum distance between dark temples in chunks, must be smaller than spacing.", configLocation = ModConfig.Type.SERVER)
     public static int darkTempleSeparation = 16;
+
+    public static final IStructurePieceType PIECE_TYPE = Registry.register(Registry.STRUCTURE_PIECE, "evilcraft:dark_temple_piece", WorldFeatureStructureDarkTemple.Piece::new);
 
     public WorldFeatureStructureDarkTempleConfig() {
         super(

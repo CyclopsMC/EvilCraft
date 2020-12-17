@@ -97,14 +97,12 @@ public class WorldFeatureStructureDarkTemple extends ScatteredStructure<NoFeatur
     }
 
     public static class Piece extends WorldFeaturePieceQuarterSymmetrical {
-        public static final IStructurePieceType TYPE = Registry.register(Registry.STRUCTURE_PIECE, "evilcraft:dark_temple_piece", Piece::new);
-
         public Piece(Random random, int x, int z) {
-            super(TYPE, random, x, 9 + WorldFeatureStructureDarkTempleConfig.darkTempleMinHeight + random.nextInt(WorldFeatureStructureDarkTempleConfig.darkTempleMaxHeight - WorldFeatureStructureDarkTempleConfig.darkTempleMinHeight), z, 9, 9, 9);
+            super(WorldFeatureStructureDarkTempleConfig.PIECE_TYPE, random, x, 9 + WorldFeatureStructureDarkTempleConfig.darkTempleMinHeight + random.nextInt(WorldFeatureStructureDarkTempleConfig.darkTempleMaxHeight - WorldFeatureStructureDarkTempleConfig.darkTempleMinHeight), z, 9, 9, 9);
         }
 
         public Piece(TemplateManager templateManager, CompoundNBT tag) {
-            super(TYPE, tag);
+            super(WorldFeatureStructureDarkTempleConfig.PIECE_TYPE, tag);
         }
 
         @Override
