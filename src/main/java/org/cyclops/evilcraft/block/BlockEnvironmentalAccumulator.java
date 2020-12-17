@@ -3,15 +3,10 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.BlockTile;
 import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
-import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorDarkTemple;
 
 /**
  * Block that can collect the weather and stuff.
@@ -46,27 +41,6 @@ public class BlockEnvironmentalAccumulator extends BlockTile {
 
 	public BlockEnvironmentalAccumulator(Block.Properties properties) {
 		super(properties, TileEnvironmentalAccumulator::new);
-	}
-
-	@Override
-	public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
-		super.onPlayerDestroy(worldIn, pos, state);
-		remove(worldIn, pos);
-	}
-
-	@Override
-	public void onExplosionDestroy(World worldIn, BlockPos pos, Explosion explosionIn) {
-		super.onExplosionDestroy(worldIn, pos, explosionIn);
-		remove(worldIn, pos);
-	}
-
-	protected void remove(IWorld world, BlockPos blockPos) {
-		if(!world.isRemote()) {
-			BlockPos closest = WorldDecoratorDarkTemple.getClosestForCoords(world, blockPos.getX(), blockPos.getZ());
-			if(closest != null) {
-				EvilCraft.darkTempleData.addFailedLocation(world.getDimension(), closest.getX() / WorldHelpers.CHUNK_SIZE, closest.getZ() / WorldHelpers.CHUNK_SIZE);
-			}
-		}
 	}
 
 	@Override

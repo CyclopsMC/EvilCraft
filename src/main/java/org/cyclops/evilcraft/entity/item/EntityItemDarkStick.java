@@ -11,7 +11,6 @@ import net.minecraft.world.server.ServerWorld;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorDarkTemple;
 
 import javax.annotation.Nullable;
 
@@ -65,11 +64,12 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 
 	@Nullable
 	private Float loadRotation() {
-		BlockPos closest = WorldDecoratorDarkTemple.getClosestForCoords(world, (int) getPosX(), (int) getPosZ());
+		BlockPos closest = ((ServerWorld)world).getChunkProvider().getChunkGenerator()
+				.findNearestStructure(world, RegistryEntries.STRUCTURE_DARK_TEMPLE.getStructureName(), new BlockPos(getPosX(), getPosY(), getPosZ()), 100, false);
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
 			double d = closest.distanceSq(new BlockPos((int) getPosX(), 0, (int) getPosZ()));
-            if(d <= WorldHelpers.CHUNK_SIZE * WorldHelpers.CHUNK_SIZE * 4) {
+            if(d <= WorldHelpers.CHUNK_SIZE * WorldHelpers.CHUNK_SIZE) {
                 return null;
             }
 			BlockPos normalized = new BlockPos(closest.getX() - (int) getPosX(), 0,
@@ -81,7 +81,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	
 	@Override
 	protected boolean hasCustomRotation() {
-		return isValid() && WorldDecoratorDarkTemple.canGenerate(getEntityWorld());
+		return isValid();
 	}
 
 	public float getAngle() {

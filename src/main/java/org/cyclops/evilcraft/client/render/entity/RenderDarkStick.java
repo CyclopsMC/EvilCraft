@@ -26,7 +26,7 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
 	@Override
 	public void render(EntityItemDarkStick entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         float rotation;
-        if(entity.isValid()) {
+        if (entity.isValid()) {
             rotation = entity.getAngle();
         } else {
             rotation = (((float)entity.getAge()) / 20.0F + entity.hoverStart) * (180F / (float)Math.PI);
@@ -37,7 +37,7 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
         matrixStackIn.rotate(Vector3f.XP.rotationDegrees(25));
 
         ((EntityRenderer) Minecraft.getInstance().getRenderManager().renderers.get(EntityType.ITEM))
-                .render(entity, 0, -entity.hoverStart * 20/* to undo hoverstart in ItemRenderer */, matrixStackIn, bufferIn, packedLightIn);
+                .render(entity, 0, entity.isValid() ? -entity.hoverStart * 20/* to undo hoverstart in ItemRenderer */ : partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
     @Override

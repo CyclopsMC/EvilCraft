@@ -15,6 +15,7 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.potion.Effect;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ObjectHolder;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -400,5 +401,5 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:evil_dungeon")
     public static final Placement DECORATOR_EVIL_DUNGEON = null;
     @ObjectHolder("evilcraft:dark_temple")
-    public static final Placement DECORATOR_DARK_TEMPLE = null;
+    public static final Structure<?> STRUCTURE_DARK_TEMPLE = null;
 }

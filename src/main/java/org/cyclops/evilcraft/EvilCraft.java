@@ -90,10 +90,9 @@ import org.cyclops.evilcraft.tileentity.*;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.world.biome.BiomeDegradedConfig;
-import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorDarkTempleConfig;
 import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorEvilDungeonConfig;
-import org.cyclops.evilcraft.world.gen.feature.WorldFeatureDarkTempleConfig;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatureEvilDungeonConfig;
+import org.cyclops.evilcraft.world.gen.feature.WorldFeatureStructureDarkTempleConfig;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatureTreeUndeadConfig;
 import org.cyclops.evilcraft.world.gen.nbt.DarkTempleData;
 
@@ -420,11 +419,10 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         // Features
         configHandler.addConfigurable(new WorldFeatureEvilDungeonConfig());
         configHandler.addConfigurable(new WorldFeatureTreeUndeadConfig());
-        configHandler.addConfigurable(new WorldFeatureDarkTempleConfig());
+        configHandler.addConfigurable(new WorldFeatureStructureDarkTempleConfig());
 
         // Decorators
         configHandler.addConfigurable(new WorldDecoratorEvilDungeonConfig());
-        configHandler.addConfigurable(new WorldDecoratorDarkTempleConfig());
     }
 
     @OnlyIn(Dist.CLIENT)

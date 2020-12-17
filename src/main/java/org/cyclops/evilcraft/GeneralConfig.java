@@ -38,31 +38,8 @@ public class GeneralConfig extends DummyConfig {
             "hell_blood:1.0"
     );
 
-    @ConfigurableProperty(category = "general", comment = "If retro-generation of ores should be enabled. WARNING: This could cause lag if permanently enabled.", isCommandable = true, configLocation = ModConfig.Type.SERVER)
-    public static boolean retrogen = false;
-
     @ConfigurableProperty(category = "worldgeneration", comment = "Spawn extra netherfish blocks in all biomes.", configLocation = ModConfig.Type.SERVER)
     public static boolean extraSilverfish = false;
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "Minimum block height at which a dark temple can spawn.", configLocation = ModConfig.Type.SERVER)
-    public static int darkTempleMinHeight = 60;
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "Maximum blockState height at which a dark temple can spawn.", configLocation = ModConfig.Type.SERVER)
-    public static int darkTempleMaxHeight = 256;
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "Frequency at which dark temples should occur. 1 means every chunk, 100 means every 100th chunk.", configLocation = ModConfig.Type.SERVER)
-    public static int darkTempleFrequency = 250;
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "Maximal length of the pillars of a dark temple.", configLocation = ModConfig.Type.SERVER)
-    public static int darkTempleMaxPillarLength = 20;
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "Whitelisted dimensions in which dark temples can generate.", configLocation = ModConfig.Type.SERVER)
-    public static List<String> darkTempleDimensions = Lists.newArrayList(
-            "minecraft:overworld"
-    );
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "The minimum distance in chunks between dark temples, higher values will slow down worldgen.", configLocation = ModConfig.Type.SERVER)
-    public static int darkTempleMinimumChunkDistance = 40;
 
     @ConfigurableProperty(category = "general", comment = "The amount of mB that can flow per tick out of machines and items.", requiresMcRestart = true, configLocation = ModConfig.Type.SERVER)
     public static int mbFlowRate = 100;

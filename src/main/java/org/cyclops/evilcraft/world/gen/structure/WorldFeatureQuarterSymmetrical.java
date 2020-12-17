@@ -31,8 +31,8 @@ public abstract class WorldFeatureQuarterSymmetrical extends Feature<NoFeatureCo
 
 	public WorldFeatureQuarterSymmetrical(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn, int quarterWidth, int quarterHeight) {
 		super(configFactoryIn);
-		layerHeights = new ArrayList<Integer>();
-		layers = new ArrayList<BlockWrapper[]>();
+		layerHeights = new ArrayList<>();
+		layers = new ArrayList<>();
 
 		this.quarterWidth = quarterWidth;
 		this.quarterHeight = quarterHeight;
@@ -70,7 +70,7 @@ public abstract class WorldFeatureQuarterSymmetrical extends Feature<NoFeatureCo
 				}
 			}
 		}
-		
+
 		postBuildCorner(world, blockPos, incX, incZ);
 	}
 
@@ -96,15 +96,15 @@ public abstract class WorldFeatureQuarterSymmetrical extends Feature<NoFeatureCo
 		}
 	}
 
+	@Override
 	public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos blockPos, NoFeatureConfig config) {
 		buildCorner(world, blockPos, 1, 1);
 		buildCorner(world, blockPos, -1, 1);
 		buildCorner(world, blockPos, 1, -1);
 		buildCorner(world, blockPos, -1, -1);
-
 		return true;
 	}
-	
+
 	/**
 	 * This is a wrapper class, which wraps around a {@link Block} and
 	 * pairs with it the metadata for that specific blockState instance.
@@ -154,9 +154,7 @@ public abstract class WorldFeatureQuarterSymmetrical extends Feature<NoFeatureCo
 	}
 
 	public static interface IBlockAction {
-
 		public void run(IWorld world, BlockPos pos);
-
 	}
 
 }
