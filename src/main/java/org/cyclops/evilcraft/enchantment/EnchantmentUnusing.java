@@ -9,6 +9,7 @@ import net.minecraft.item.SwordItem;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
@@ -27,7 +28,7 @@ public class EnchantmentUnusing extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void unusingEvent(LivingAttackEvent event) {
-        if(event.getSource().getTrueSource() instanceof LivingEntity) {
+        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
             ItemStack itemStack = entity.getHeldItemMainhand();
             if (EnchantmentHelpers.doesEnchantApply(itemStack, this) > -1) {
@@ -41,10 +42,10 @@ public class EnchantmentUnusing extends Enchantment {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void unusingEvent(PlayerInteractEvent.LeftClickBlock event) {
-        if(EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getHand()), this) > -1) {
+    public void unusingEvent(BlockEvent.BreakEvent event) {
+        if(EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()), this) > -1) {
             if(event.getPlayer() != null
-                    && EnchantmentUnusing.unuseTool(event.getPlayer().getHeldItem(event.getHand()))) {
+                    && EnchantmentUnusing.unuseTool(event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()))) {
                 event.setCanceled(true);
                 event.getPlayer().stopActiveHand();
             }

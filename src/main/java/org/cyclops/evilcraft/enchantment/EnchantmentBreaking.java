@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
@@ -30,22 +31,26 @@ public class EnchantmentBreaking extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void breakingEvent(LivingAttackEvent event) {
-        if(event.getSource().getTrueSource() instanceof LivingEntity) {
+        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
-            ItemStack itemStack = entity.getHeldItemMainhand();
+            ItemStack itemStack = entity.getHeldItem(entity.getActiveHand());
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
             if (enchantmentListID > -1) {
                 EnchantmentBreaking.amplifyDamage(itemStack, enchantmentListID, new Random());
+                entity.setHeldItem(entity.getActiveHand(), itemStack);
                 return;
             }
         }
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void breakingEvent(PlayerInteractEvent.LeftClickBlock event) {
-        int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getHand()), this);
-        ItemStack itemStack = event.getPlayer().getHeldItem(event.getHand());
-        EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
+    public void breakingEvent(BlockEvent.BreakEvent event) {
+        if (!event.getPlayer().world.isRemote()) {
+            int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()), this);
+            ItemStack itemStack = event.getPlayer().getHeldItem(event.getPlayer().getActiveHand());
+            EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
+            event.getPlayer().setHeldItem(event.getPlayer().getActiveHand(), itemStack);
+        }
     }
     
     @Override

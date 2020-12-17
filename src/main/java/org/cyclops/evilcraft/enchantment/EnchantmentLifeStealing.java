@@ -27,7 +27,7 @@ public class EnchantmentLifeStealing extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void stealLife(LivingAttackEvent event) {
-        if(event.getSource().getTrueSource() instanceof PlayerEntity) {
+        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
             ItemStack itemStack = player.getHeldItemMainhand();
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);

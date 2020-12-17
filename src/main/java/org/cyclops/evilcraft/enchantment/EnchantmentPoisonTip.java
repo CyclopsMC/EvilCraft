@@ -29,7 +29,7 @@ public class EnchantmentPoisonTip extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void poisonTipEvent(LivingAttackEvent event) {
-        if(event.getSource().getTrueSource() instanceof LivingEntity) {
+        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
             ItemStack itemStack = entity.getHeldItemMainhand();
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
