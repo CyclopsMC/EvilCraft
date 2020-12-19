@@ -14,7 +14,7 @@ An evil mod for Minecraft.
 [[dependencies.evilcraft]]
     modId="cyclopscore"
     mandatory=true
-    versionRange="[1.8.3,)"
+    versionRange="[1.9.0,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.evilcraft]]
