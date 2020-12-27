@@ -72,8 +72,8 @@ public class RenderOverlayEventHook {
                 GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderHelpers.bindTexture(BLOOD_OVERLAY);
 
-                Minecraft.getInstance().ingameGUI.blit(x, y, 0, 0, WIDTH, HEIGHT);
-                Minecraft.getInstance().ingameGUI.blit(x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
+                Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), x, y, 0, 0, WIDTH, HEIGHT);
+                Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
 
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();

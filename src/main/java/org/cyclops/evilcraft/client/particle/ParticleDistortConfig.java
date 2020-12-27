@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.particles.ParticleType;
@@ -17,7 +18,13 @@ import javax.annotation.Nullable;
 public class ParticleDistortConfig extends ParticleConfig<ParticleDistortData> {
 
     public ParticleDistortConfig() {
-        super(EvilCraft._instance, "distort", eConfig -> new ParticleType<>(false, ParticleDistortData.DESERIALIZER));
+        super(EvilCraft._instance, "distort", eConfig -> new ParticleType<ParticleDistortData>(false, ParticleDistortData.DESERIALIZER) {
+
+            @Override
+            public Codec<ParticleDistortData> func_230522_e_() {
+                return ParticleDistortData.CODEC;
+            }
+        });
     }
 
     @OnlyIn(Dist.CLIENT)

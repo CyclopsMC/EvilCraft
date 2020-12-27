@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
  */
 public class ParticleDegrade extends SpriteTexturedParticle {
 
-    public ParticleDegrade(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    public ParticleDegrade(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.maxAge = 40;
         this.particleAlpha = 0.4F;

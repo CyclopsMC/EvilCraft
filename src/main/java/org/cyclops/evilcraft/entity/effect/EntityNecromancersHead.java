@@ -15,7 +15,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -76,7 +76,7 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
 			EntityControlledZombie mob = new EntityControlledZombie(world);
 			if(mob.canAttack(target.getType())) {
 				mob.copyLocationAndAnglesFrom(necromancer);
-				mob.move(MoverType.SELF, new Vec3d(world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10));
+				mob.move(MoverType.SELF, new Vector3d(world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10));
 				if(EntityHelpers.spawnEntity(world, mob, SpawnReason.MOB_SUMMONED)) {
 					observables.add(mob);
 				}
@@ -88,7 +88,7 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
     	setObserverMode();
 
 		if (necromancer instanceof ServerPlayerEntity) {
-			Advancements.NECROMANCE.trigger((ServerPlayerEntity) necromancer, target);
+			Advancements.NECROMANCE.test((ServerPlayerEntity) necromancer, target);
 		}
     }
     
@@ -136,11 +136,11 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
     @Override
     protected void onImpact(RayTraceResult position) {
     	if(position.getType() == RayTraceResult.Type.ENTITY && !observing && !getEntityWorld().isRemote()) {
-			((EntityRayTraceResult) position).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
-	        if(getThrower() instanceof ServerPlayerEntity
-					&& getThrower() != ((EntityRayTraceResult) position).getEntity()
+			((EntityRayTraceResult) position).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 0.0F);
+	        if(func_234616_v_() instanceof ServerPlayerEntity
+					&& func_234616_v_() != ((EntityRayTraceResult) position).getEntity()
 					&& ((EntityRayTraceResult) position).getEntity() instanceof LivingEntity) {
-	        	spawnSwarm(this.getThrower(), (LivingEntity) ((EntityRayTraceResult) position).getEntity());
+	        	spawnSwarm((LivingEntity) this.func_234616_v_(), (LivingEntity) ((EntityRayTraceResult) position).getEntity());
 	        } else {
 				this.remove();
 	        }

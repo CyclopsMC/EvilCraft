@@ -160,8 +160,8 @@ public class ItemWerewolfFlesh extends Item {
                 }
     		}
     		list.add(new StringTextComponent("Player: ")
-                    .applyTextStyle(TextFormatting.WHITE)
-                    .appendText(player));
+                    .mergeStyle(TextFormatting.WHITE)
+                    .appendString(player));
         }
     }
 

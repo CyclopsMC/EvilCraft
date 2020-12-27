@@ -50,7 +50,7 @@ public class EntityLightningGrenade extends ThrowableEntity implements IRendersA
     @Override
     protected void onImpact(RayTraceResult par1MovingObjectPosition) {
         if (par1MovingObjectPosition.getType() == RayTraceResult.Type.ENTITY) {
-            ((EntityRayTraceResult) par1MovingObjectPosition).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+            ((EntityRayTraceResult) par1MovingObjectPosition).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 0.0F);
         }
 
         for (int i = 0; i < 32; ++i) {
@@ -61,9 +61,10 @@ public class EntityLightningGrenade extends ThrowableEntity implements IRendersA
         }
 
         if (!this.world.isRemote()) {
-            if (this.getThrower() != null && this.getThrower() instanceof ServerPlayerEntity) {
+            if (this.func_234616_v_() != null && this.func_234616_v_() instanceof ServerPlayerEntity) {
                 EntityHelpers.onEntityCollided(this.world, new BlockPos(par1MovingObjectPosition.getHitVec()), this);
-                ((ServerWorld) this.world).addLightningBolt(new LightningBoltEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), false));
+                LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+                bolt.moveForced(this.getPosX(), this.getPosY(), this.getPosZ());
             }
 
             this.remove();

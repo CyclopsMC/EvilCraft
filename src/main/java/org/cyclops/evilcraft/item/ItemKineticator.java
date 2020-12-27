@@ -12,7 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -80,7 +80,7 @@ public class ItemKineticator extends ItemBloodContainer {
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getTranslationKey() + ".info.attraction");
         list.add(new TranslationTextComponent(getTranslationKey() + ".info.area", getArea(itemStack))
-                .applyTextStyle(TextFormatting.BOLD));
+                .mergeStyle(TextFormatting.BOLD));
     }
 
     /**
@@ -178,10 +178,10 @@ public class ItemKineticator extends ItemBloodContainer {
                                 if (moveEntity instanceof ItemEntity && d < 5.0D) {
                                     ((ItemEntity) moveEntity).setPickupDelay(repelling ? 5 : 0);
                                 }
-                                moveEntity.setMotion(new Vec3d(dx, dy, dz)
+                                moveEntity.setMotion(new Vector3d(dx, dy, dz)
                                         .mul(strength, strength, strength));
                                 if(moveEntity.collidedHorizontally) {
-                                    moveEntity.setMotion(new Vec3d(moveEntity.getMotion().x, 0.3, moveEntity.getMotion().z));
+                                    moveEntity.setMotion(new Vector3d(moveEntity.getMotion().x, 0.3, moveEntity.getMotion().z));
                                 }
                             }
                             // Not ticking every tick.

@@ -98,9 +98,9 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 					.ifPresent(tile -> {
 						tile.setEnabled(!tile.isEnabled());
 						player.sendStatusMessage(new StringTextComponent(String.format("%,d", tile.getTank().getFluidAmount()))
-								.appendText(" / ")
-								.appendText(String.format("%,d", tile.getTank().getCapacity()))
-								.appendText(" mB"), true);
+								.appendString(" / ")
+								.appendString(String.format("%,d", tile.getTank().getCapacity()))
+								.appendString(" mB"), true);
 					});
 			return ActionResultType.SUCCESS;
 		}

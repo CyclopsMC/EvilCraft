@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ILightReader;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
@@ -28,7 +28,6 @@ import org.cyclops.evilcraft.block.BlockDarkTankConfig;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -75,7 +74,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull IBlockDisplayReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         return TileHelpers.getSafeTile(world, pos, TileDarkTank.class)
                 .map(tile -> {
                     ModelDataMap.Builder builder = new ModelDataMap.Builder();
@@ -178,7 +177,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     @Override
-    public boolean func_230044_c_() {
+    public boolean isSideLit() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 

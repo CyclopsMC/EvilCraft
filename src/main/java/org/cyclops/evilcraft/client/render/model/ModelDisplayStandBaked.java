@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ILightReader;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.ModelLoader;
@@ -106,7 +106,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
     // Inspired by TCon's TableModel, SimpleBlockModel and RetexturedModel
     public static IBakedModel bakeModel(IModelConfiguration modelConfiguration, List<BlockPart> blockParts, IModelTransform transform,
-                                        ItemOverrideList overrides, Function<Material, TextureAtlasSprite> spriteGetter,
+                                        ItemOverrideList overrides, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
                                         ResourceLocation modelName) {
         TextureAtlasSprite particle = spriteGetter.apply(modelConfiguration.resolveTexture("particle"));
         SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(modelConfiguration, overrides).setTexture(particle);
@@ -134,7 +134,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull IBlockDisplayReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         return TileHelpers.getSafeTile(world, pos, TileDisplayStand.class)
                 .map(tile -> {
                     ModelDataMap.Builder builder = new ModelDataMap.Builder();
@@ -159,12 +159,12 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     public List<BakedQuad> getGeneralQuads() {
         return this.untexturedBakedModel.getQuads(null, null, null)
                 .stream()
-                .map(quad -> new BakedQuad(quad.getVertexData(), quad.getTintIndex(), quad.getFace(), this.texture, quad.shouldApplyDiffuseLighting()))
+                .map(quad -> new BakedQuad(quad.getVertexData(), quad.getTintIndex(), quad.getFace(), this.texture, quad.applyDiffuseLighting()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public boolean func_230044_c_() {
+    public boolean isSideLit() {
         return true ; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 

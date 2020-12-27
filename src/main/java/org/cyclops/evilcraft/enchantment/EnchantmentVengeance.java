@@ -25,7 +25,7 @@ import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepa
 public class EnchantmentVengeance extends Enchantment {
 
     public EnchantmentVengeance() {
-        super(Rarity.COMMON, EnchantmentType.ALL, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        super(Rarity.COMMON, EnchantmentType.BREAKABLE, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
         MinecraftForge.EVENT_BUS.register(this);
     }

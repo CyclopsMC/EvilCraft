@@ -1,13 +1,12 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FireBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -32,7 +31,7 @@ public class BlockBloodWaxedCoalConfig extends BlockConfig {
     @Override
     public void onRegistered() {
         super.onRegistered();
-        ((FireBlock) Blocks.FIRE).setFireInfo(getInstance(), 5, 5);
+        BlockHelpers.setFireInfo(getInstance(), 5, 5);
     }
 
     public void onFurnaceFuelBurnTimeEvent(FurnaceFuelBurnTimeEvent event) {

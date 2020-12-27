@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.particles.ParticleType;
@@ -17,7 +18,13 @@ import javax.annotation.Nullable;
 public class ParticleBlurTargettedConfig extends ParticleConfig<ParticleBlurTargettedData> {
 
     public ParticleBlurTargettedConfig() {
-        super(EvilCraft._instance, "blur_targetted", eConfig -> new ParticleType<>(false, ParticleBlurTargettedData.DESERIALIZER));
+        super(EvilCraft._instance, "blur_targetted", eConfig -> new ParticleType<ParticleBlurTargettedData>(false, ParticleBlurTargettedData.DESERIALIZER) {
+
+            @Override
+            public Codec<ParticleBlurTargettedData> func_230522_e_() {
+                return ParticleBlurTargettedData.CODEC;
+            }
+        });
     }
 
     @OnlyIn(Dist.CLIENT)

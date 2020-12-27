@@ -77,10 +77,10 @@ public class ItemPromise extends Item {
         super.addInformation(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
             list.add(new TranslationTextComponent("item.evilcraft.promise.use_in")
-                    .applyTextStyle(TextFormatting.DARK_GREEN));
+                    .mergeStyle(TextFormatting.DARK_GREEN));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
                 list.add(new TranslationTextComponent(upgradable.getTranslationKey())
-                        .applyTextStyle(TextFormatting.ITALIC));
+                        .mergeStyle(TextFormatting.ITALIC));
             }
         }
     }

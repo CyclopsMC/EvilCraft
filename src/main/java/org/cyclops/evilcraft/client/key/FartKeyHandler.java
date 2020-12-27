@@ -35,10 +35,10 @@ public class FartKeyHandler implements IKeyHandler {
 			
 			if (fartingEnabled)
 				player.sendStatusMessage(new TranslationTextComponent("chat.evilcraft.command.farting_enabled")
-						.applyTextStyle(TextFormatting.DARK_RED), true);
+						.mergeStyle(TextFormatting.DARK_RED), true);
 			else
 				player.sendStatusMessage(new TranslationTextComponent("chat.evilcraft.command.farting_disabled")
-						.applyTextStyle(TextFormatting.DARK_RED), true);
+						.mergeStyle(TextFormatting.DARK_RED), true);
 		}
 		
 		if (fartingEnabled && kb == settings.keyBindSneak) {

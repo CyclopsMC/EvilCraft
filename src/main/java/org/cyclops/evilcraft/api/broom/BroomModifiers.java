@@ -5,37 +5,35 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.play.client.CPlayerDiggingPacket;
 import net.minecraft.network.play.server.SChangeBlockPacket;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.Effects;
 import net.minecraft.potion.Potion;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -58,8 +56,10 @@ public class BroomModifiers {
     public static final IBroomModifierRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomModifierRegistry.class);
 
     public static void init() {
-        FMLJavaModLoadingContext.get().getModEventBus().register(BroomModifiers.class);
-        MinecraftForge.EVENT_BUS.register(BroomModifiers.class);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, EventPriority.LOWEST, BroomModifiers::afterItemsRegistered);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Potion.class, EventPriority.HIGHEST, BroomModifiers::afterAfterItemsRegistered);
+        MinecraftForge.EVENT_BUS.addListener(BroomModifiers::onTagsUpdated);
+        MinecraftForge.EVENT_BUS.addListener(BroomModifiers::onLivingHurt);
     }
 
     public static BroomModifier MODIFIER_COUNT;
@@ -84,18 +84,15 @@ public class BroomModifiers {
     public static BroomModifier ICY;
     public static BroomModifier STICKY;
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void afterItemsRegistered(RegistryEvent<Item> event) {
         BroomParts.loadPre();
         loadPre();
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void afterAfterItemsRegistered(RegistryEvent<Potion> event) {
         BroomParts.loadPost();
     }
 
-    @SubscribeEvent
     public static void onTagsUpdated(TagsUpdatedEvent event) {
         loadPost();
     }
@@ -234,7 +231,7 @@ public class BroomModifiers {
                             for (int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
                                 BlockPos pos = new BlockPos(i, j, k);
                                 BlockState blockState = world.getBlockState(pos);
-                                IFluidState fluidState = world.getFluidState(pos);
+                                FluidState fluidState = world.getFluidState(pos);
                                 Block block = blockState.getBlock();
                                 if (!blockState.getBlock().isAir(blockState, world, pos) && broom.canConsume(ItemBroomConfig.bloodUsageBlockBreak, ridingEntity)) {
                                     float hardness = blockState.getBlockHardness(world, pos);
@@ -257,7 +254,7 @@ public class BroomModifiers {
                                                     if(block.removedByPlayer(blockState, world, pos, player, true, fluidState)) {
                                                         block.onPlayerDestroy(world, pos, blockState);
                                                         block.harvestBlock(world, player, pos, blockState, world.getTileEntity(pos), ItemStack.EMPTY);
-                                                        block.dropXpOnBlockBreak(world, pos, expToDrop);
+                                                        block.dropXpOnBlockBreak((ServerWorld) world, pos, expToDrop);
                                                     }
 
                                                     // Send block change packet to the client
@@ -390,10 +387,9 @@ public class BroomModifiers {
         EvilCraft.clog(String.format("%s Broom modifiers can be applied!", REGISTRY.getModifiers().size()));
     }
 
-    @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntityLiving() != null && event.getEntityLiving().getRidingEntity() instanceof EntityBroom
-                && event.getSource().getImmediateSource() instanceof IProjectile) {
+                && event.getSource().getImmediateSource() instanceof ProjectileEntity) {
             EntityBroom broom = (EntityBroom) event.getEntityLiving().getRidingEntity();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
             if (modifierValue > 0 && modifierValue > broom.world.rand.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
@@ -403,7 +399,7 @@ public class BroomModifiers {
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
-        Tag<Item> tag = ItemTags.getCollection().get(name);
+        ITag<Item> tag = ItemTags.getCollection().get(name);
         if (tag != null) {
             for (Item item : tag.getAllElements()) {
                 REGISTRY.registerModifiersItem(modifier, value, new ItemStack(item));

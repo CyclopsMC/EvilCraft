@@ -14,9 +14,9 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -63,11 +63,6 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    public int tickRate(IWorldReader worldIn) {
-        return 30;
-    }
-
-    @Override
     public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
         this.glow(worldIn, pos);
         super.onBlockClicked(state, worldIn, pos, player);
@@ -96,6 +91,11 @@ public class BlockDarkOre extends Block implements IInformationProvider {
         if (!isGlowing(world, blockPos)) {
             world.setBlockState(blockPos, getDefaultState().with(GLOWING, true), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
+    }
+
+    @Override
+    public boolean ticksRandomly(BlockState state) {
+        return state.get(GLOWING);
     }
 
     @Override
@@ -159,10 +159,10 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    public ITextComponent getInfo(ItemStack itemStack) {
+    public IFormattableTextComponent getInfo(ItemStack itemStack) {
     	return new TranslationTextComponent(this.getTranslationKey()
                 + ".info.custom", BlockDarkOreConfig.endY)
-                .applyTextStyles(INFO_PREFIX_STYLES);
+                .mergeStyle(INFO_PREFIX_STYLES);
     }
 
     @Override

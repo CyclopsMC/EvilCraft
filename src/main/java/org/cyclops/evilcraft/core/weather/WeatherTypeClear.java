@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.weather;
 
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 /**
  * Clear weather type.
@@ -18,7 +19,7 @@ public class WeatherTypeClear extends WeatherType {
     }
 
     @Override
-    public void activate(World world) {
+    public void activate(ServerWorld world) {
         if (LIGHTNING.isActive(world))
             LIGHTNING.deactivate(world);
         
@@ -27,7 +28,7 @@ public class WeatherTypeClear extends WeatherType {
     }
 
     @Override
-    public void deactivate(World world) {
+    public void deactivate(ServerWorld world) {
         RAIN.activate(world);
     }
 

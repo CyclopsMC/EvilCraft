@@ -322,7 +322,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 						.withOffset(blockPos.getX(), blockPos.getY(), blockPos.getZ())
 						.getBoundingBox();
 				AxisAlignedBB spiritBoundingBox = target
-						.getCollisionBoundingBox()
+						.getBoundingBox()
 						.grow(ABSORB_RADIUS);
 				boolean spiritTrapped = spiritBoundingBox.intersects(boxBoundingBox);
 
@@ -339,7 +339,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private void captureSpirit(EntityVengeanceSpirit targetSpirit) {
 		for (ServerPlayerEntity player : targetSpirit.getEntanglingPlayers()) {
-			Advancements.BOX_OF_ETERNAL_CLOSURE_CAPTURE.trigger(player, targetSpirit.getInnerEntity());
+			Advancements.BOX_OF_ETERNAL_CLOSURE_CAPTURE.test(player, targetSpirit.getInnerEntity());
 		}
 		targetSpirit.remove();
 		this.playerId = targetSpirit.getPlayerId();

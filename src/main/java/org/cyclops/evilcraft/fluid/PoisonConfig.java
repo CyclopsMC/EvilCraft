@@ -18,17 +18,16 @@ public class PoisonConfig extends FluidConfig {
         super(
                 EvilCraft._instance,
                 "poison",
-                fluidConfig -> new ForgeFlowingFluid.Source(
-                        getDefaultFluidProperties(EvilCraft._instance,
-                                "block/poison",
-                                builder -> builder
-                                        .density(1000)
-                                        .viscosity(1000)
-                                        .temperature(290)
-                                        .rarity(Rarity.UNCOMMON)
-                                        .translationKey("block.evilcraft.poison"))
-                                .bucket(() -> RegistryEntries.ITEM_BUCKET_POISON)
-                                .block(() -> RegistryEntries.BLOCK_POISON))
+                fluidConfig -> getDefaultFluidProperties(EvilCraft._instance,
+                        "block/poison",
+                        builder -> builder
+                                .density(1000)
+                                .viscosity(1000)
+                                .temperature(290)
+                                .rarity(Rarity.UNCOMMON)
+                                .translationKey("block.evilcraft.poison"))
+                        .bucket(() -> RegistryEntries.ITEM_BUCKET_POISON)
+                        .block(() -> RegistryEntries.BLOCK_POISON)
         );
     }
     

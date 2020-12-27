@@ -1,10 +1,11 @@
 package org.cyclops.evilcraft.item;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -78,7 +79,7 @@ public class ItemMaceOfDistortion extends ItemMace {
         }
 
         if (initiator instanceof ServerPlayerEntity) {
-            Advancements.DISTORT.trigger((ServerPlayerEntity) initiator, entities);
+            Advancements.DISTORT.test((ServerPlayerEntity) initiator, entities);
         }
     }
     
@@ -167,11 +168,11 @@ public class ItemMaceOfDistortion extends ItemMace {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     public Multimap getAttributeModifiers(EquipmentSlotType slot, ItemStack itemStack) {
-        Multimap multimap = super.getAttributeModifiers(slot, itemStack);
         if (slot == EquipmentSlotType.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", (double) MELEE_DAMAGE, AttributeModifier.Operation.ADDITION));
+            return ImmutableMultimap.of(Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", MELEE_DAMAGE, AttributeModifier.Operation.ADDITION));
         }
-        return multimap;
+        return super.getAttributeModifiers(slot, itemStack);
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })

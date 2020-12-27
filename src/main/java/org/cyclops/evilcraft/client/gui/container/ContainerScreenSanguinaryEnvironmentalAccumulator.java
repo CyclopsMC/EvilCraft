@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -77,19 +77,19 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
     }
 
     @Override
-    protected void drawAdditionalForeground(int mouseX, int mouseY) {
-        super.drawAdditionalForeground(mouseX, mouseY);
+    protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
+        super.drawAdditionalForeground(matrixStack, mouseX, mouseY);
         String prefix = RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.getTranslationKey() + ".help.invalid";
         List<ITextComponent> lines = Lists.newArrayList();
         lines.add(new TranslationTextComponent(prefix));
         if (!getContainer().getTileCanWork()){
             lines.add(new TranslationTextComponent(prefix + ".invalid_locations"));
-            for(Vec3i location : getContainer().getInvalidLocations()) {
+            for(Vector3i location : getContainer().getInvalidLocations()) {
                 lines.add(new StringTextComponent(String.format("  X=%s Y=%s Z=%s", location.getX(), location.getY(), location.getZ())));
             }
         }
         if (lines.size() > 1) {
-            this.blit(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+            this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
             if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {

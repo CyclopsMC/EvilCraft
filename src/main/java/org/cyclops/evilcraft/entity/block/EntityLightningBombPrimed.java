@@ -86,7 +86,7 @@ public class EntityLightningBombPrimed extends TNTEntity {
             }
         } else {
             setFuse(getFuse() - 1);
-            this.handleWaterMovement();
+            this.doWaterSplashEffect();
             world.addParticle(ParticleTypes.SMOKE,
                     this.getPosX(), this.getPosY() + 0.5D, this.getPosZ(), 0.0D, 0.0D, 0.0D);
         }
@@ -103,7 +103,8 @@ public class EntityLightningBombPrimed extends TNTEntity {
 
         if (!world.isRemote()) {
             this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), EXPLOSION_STRENGTH, Explosion.Mode.DESTROY);
-            ((ServerWorld) world).addLightningBolt(new LightningBoltEntity(world, x, y, z, false));
+            LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+            bolt.moveForced(x, y, z);
         }
     }
 

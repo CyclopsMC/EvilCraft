@@ -7,6 +7,7 @@ import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -35,11 +36,11 @@ public class ItemDarkenedApple extends Item {
         return 64;
     }
 
-    public boolean itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity entity, Hand hand) {
+    public ActionResultType itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity entity, Hand hand) {
         if(entity instanceof AnimalEntity && entity.getMaxHealth() <= 10) {
             entity.addPotionEffect(new EffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER));
             itemStack.shrink(1);
-            return true;
+            return ActionResultType.CONSUME;
         }
         return super.itemInteractionForEntity(itemStack, player, entity, hand);
     }

@@ -1,9 +1,12 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.IBidiRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
@@ -71,10 +74,10 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, MatrixStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
         boolean sanguinary = (getTick(gui) % 2) == 1;
         int middle = (width - SLOT_SIZE) / 2;
-        gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
+        gui.drawArrowRight(matrixStack, x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
         // Prepare items
         int tick = getTick(gui);
@@ -82,10 +85,10 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
         ItemStack result = prepareItemStack(recipe.getOutputItem(), tick);
 
         // Items
-        renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
-        renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
+        renderItem(gui, matrixStack, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
+        renderItem(gui, matrixStack, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
-        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
+        renderItem(gui, matrixStack, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
                 ? RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR
                 : RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR), mx, my, false, null);
 
@@ -93,27 +96,24 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
         Integer inputX = X_ICON_OFFSETS.get(recipe.getInputWeather());
         if(inputX != null) {
             Minecraft.getInstance().getTextureManager().bindTexture(WEATHERS);
-            gui.blit(x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
-            gui.drawOuterBorder(x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+            gui.blit(matrixStack, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
+            gui.drawOuterBorder(matrixStack, x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
             Integer outputX = X_ICON_OFFSETS.get(recipe.getOutputWeather());
             Minecraft.getInstance().getTextureManager().bindTexture(WEATHERS);
-            gui.blit(x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
-            gui.drawOuterBorder(x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+            gui.blit(matrixStack, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
+            gui.drawOuterBorder(matrixStack, x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
         }
         if(sanguinary) {
             // Draw blood usage
-            renderItem(gui, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
+            renderItem(gui, matrixStack, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
 
             // Blood amount text
             FontRenderer fontRenderer = gui.getFontRenderer();
-            boolean oldUnicode = fontRenderer.getBidiFlag();
-            fontRenderer.setBidiFlag(true);
-            fontRenderer.setBidiFlag(false);
             int amount = AccumulateItemTickAction.getUsage(recipe.getCooldownTime());
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
-            fontRenderer.drawSplitString(line, x + middle - 5, y + SLOT_SIZE, 200, 0);
-            fontRenderer.setBidiFlag(oldUnicode);
+            IBidiRenderer.func_243258_a(fontRenderer, new StringTextComponent(line), 200)
+                    .func_241866_c(matrixStack, x + middle - 5, y + SLOT_SIZE, 9, 0);
         }
     }
 }

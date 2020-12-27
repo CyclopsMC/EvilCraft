@@ -6,6 +6,7 @@ import net.minecraft.block.FireBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -29,7 +30,7 @@ public class BlockUndeadPlankConfig extends BlockConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        ((FireBlock) Blocks.FIRE).setFireInfo(getInstance(), 5, 20);
+        BlockHelpers.setFireInfo(getInstance(), 5, 20);
     }
     
 }

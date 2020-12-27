@@ -1,8 +1,7 @@
 package org.cyclops.evilcraft.client.render.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import org.cyclops.evilcraft.core.client.render.entity.RenderModelLiving;
 import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelle;

@@ -62,7 +62,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public boolean func_230044_c_() {
+    public boolean isSideLit() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
@@ -100,7 +100,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
             for(int i = 0; i < vertexData.length / 8; i++) {
                 vertexData[i * 8 + 3] = color;
             }
-            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.func_187508_a(), false));
+            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.getSprite(), false));
         }
         return offsetQuads;
     }

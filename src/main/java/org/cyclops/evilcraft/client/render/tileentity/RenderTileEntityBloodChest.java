@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.render.tileentity;
 
 import net.minecraft.client.renderer.Atlases;
-import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -35,8 +35,8 @@ public class RenderTileEntityBloodChest extends RenderTileEntityChestBase<TileBl
     }
 
     @Override
-    protected Material getMaterial(TileBloodChest tile) {
-        return new Material(Atlases.CHEST_ATLAS, TEXTURE);
+    protected RenderMaterial getMaterial(TileBloodChest tile) {
+        return new RenderMaterial(Atlases.CHEST_ATLAS, TEXTURE);
     }
 
     @Override

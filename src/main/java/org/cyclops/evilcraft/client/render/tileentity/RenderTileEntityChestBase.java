@@ -5,8 +5,8 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
-import net.minecraft.client.renderer.model.Material;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -76,7 +76,7 @@ public abstract class RenderTileEntityChestBase<T extends TileEntity & IChestLid
 
     protected abstract Direction getDirection(T tileEntityIn);
 
-    protected Material getMaterial(T tileEntity) {
+    protected RenderMaterial getMaterial(T tileEntity) {
         return Atlases.getChestMaterial(tileEntity, ChestType.SINGLE, this.isChristmas);
     }
 
@@ -94,7 +94,7 @@ public abstract class RenderTileEntityChestBase<T extends TileEntity & IChestLid
         float f1 = tileEntityIn.getLidAngle(partialTicks);
         f1 = 1.0F - f1;
         f1 = 1.0F - f1 * f1 * f1;
-        Material material = this.getMaterial(tileEntityIn);
+        RenderMaterial material = this.getMaterial(tileEntityIn);
         IVertexBuilder ivertexbuilder = material.getBuffer(bufferIn, RenderType::getEntityCutout);
         this.func_228871_a_(matrixStackIn, ivertexbuilder, this.field_228862_a_, this.field_228864_d_, this.field_228863_c_, f1, combinedLightIn, combinedOverlayIn);
 

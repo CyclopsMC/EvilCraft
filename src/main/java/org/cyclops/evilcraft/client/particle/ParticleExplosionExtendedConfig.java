@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.particles.ParticleType;
@@ -17,7 +18,13 @@ import javax.annotation.Nullable;
 public class ParticleExplosionExtendedConfig extends ParticleConfig<ParticleExplosionExtendedData> {
 
     public ParticleExplosionExtendedConfig() {
-        super(EvilCraft._instance, "explosion_extended", eConfig -> new ParticleType<>(false, ParticleExplosionExtendedData.DESERIALIZER));
+        super(EvilCraft._instance, "explosion_extended", eConfig -> new ParticleType<ParticleExplosionExtendedData>(false, ParticleExplosionExtendedData.DESERIALIZER) {
+
+            @Override
+            public Codec<ParticleExplosionExtendedData> func_230522_e_() {
+                return ParticleExplosionExtendedData.CODEC;
+            }
+        });
     }
 
     @OnlyIn(Dist.CLIENT)

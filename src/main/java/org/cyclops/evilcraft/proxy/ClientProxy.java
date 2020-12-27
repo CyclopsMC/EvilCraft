@@ -2,9 +2,9 @@ package org.cyclops.evilcraft.proxy;
 
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
@@ -39,6 +39,7 @@ public class ClientProxy extends ClientProxyComponent {
 	public ClientProxy() {
 		super(new CommonProxy());
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onPreTextureStitch);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelLoad);
 	}
 
 	@Override
@@ -67,13 +68,6 @@ public class ClientProxy extends ClientProxyComponent {
 	public void registerEventHooks() {
 		super.registerEventHooks();
 
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
-
 		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
 		MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
 	}
@@ -82,6 +76,15 @@ public class ClientProxy extends ClientProxyComponent {
 		if (event.getMap().getTextureLocation().equals(RenderTileEntityPurifier.TEXTURE_BLOOK.getAtlasLocation())) {
 			event.addSprite(RenderTileEntityPurifier.TEXTURE_BLOOK.getTextureLocation());
 		}
+	}
+
+	public void onModelLoad(ModelRegistryEvent event) {
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
+		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
 	}
     
 }

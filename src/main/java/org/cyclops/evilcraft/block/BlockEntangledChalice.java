@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
@@ -96,7 +97,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	}
     
     @Override
-    public ITextComponent getInfo(ItemStack itemStack) {
+    public IFormattableTextComponent getInfo(ItemStack itemStack) {
         return BlockTankHelpers.getInfoTank(itemStack);
     }
 

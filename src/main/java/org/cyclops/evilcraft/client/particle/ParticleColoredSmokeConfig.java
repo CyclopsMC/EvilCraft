@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.particles.ParticleType;
@@ -17,7 +18,13 @@ import javax.annotation.Nullable;
 public class ParticleColoredSmokeConfig extends ParticleConfig<ParticleColoredSmokeData> {
 
     public ParticleColoredSmokeConfig() {
-        super(EvilCraft._instance, "colored_smoke", eConfig -> new ParticleType<>(false, ParticleColoredSmokeData.DESERIALIZER));
+        super(EvilCraft._instance, "colored_smoke", eConfig -> new ParticleType<ParticleColoredSmokeData>(false, ParticleColoredSmokeData.DESERIALIZER) {
+
+            @Override
+            public Codec<ParticleColoredSmokeData> func_230522_e_() {
+                return ParticleColoredSmokeData.CODEC;
+            }
+        });
     }
 
     @OnlyIn(Dist.CLIENT)

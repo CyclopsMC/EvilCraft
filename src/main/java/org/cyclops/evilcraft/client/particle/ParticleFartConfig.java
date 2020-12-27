@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.particles.ParticleType;
@@ -17,7 +18,13 @@ import javax.annotation.Nullable;
 public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
 
     public ParticleFartConfig() {
-        super(EvilCraft._instance, "fart", eConfig -> new ParticleType<>(false, ParticleFartData.DESERIALIZER));
+        super(EvilCraft._instance, "fart", eConfig -> new ParticleType<ParticleFartData>(false, ParticleFartData.DESERIALIZER) {
+
+            @Override
+            public Codec<ParticleFartData> func_230522_e_() {
+                return ParticleFartData.CODEC;
+            }
+        });
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -241,7 +241,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	@OnlyIn(Dist.CLIENT)
 	public boolean addHitEffects(BlockState blockState, World world, RayTraceResult target, ParticleManager particleManager) {
 		if(target != null) {
-			RenderHelpers.addBlockHitEffects(particleManager, world, Blocks.OBSIDIAN.getDefaultState(), ((BlockRayTraceResult) target).getPos(), ((BlockRayTraceResult) target).getFace());
+			RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.getDefaultState(), ((BlockRayTraceResult) target).getPos(), ((BlockRayTraceResult) target).getFace());
 		}
 		return true;
 	}
@@ -249,14 +249,14 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager particleManager) {
-		RenderHelpers.addBlockHitEffects(particleManager, world, Blocks.OBSIDIAN.getDefaultState(), pos, Direction.UP);
+		RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.getDefaultState(), pos, Direction.UP);
 		return true;
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean addLandingEffects(BlockState blockState, ServerWorld world, BlockPos blockPosition, BlockState iblockstate, LivingEntity entity, int numberOfParticles) {
-		RenderHelpers.addBlockHitEffects(Minecraft.getInstance().particles, world, Blocks.OBSIDIAN.getDefaultState(), blockPosition, Direction.UP);
+		//RenderHelpers.addBlockHitEffects(Minecraft.getInstance().particles, world, Blocks.OBSIDIAN.getDefaultState(), blockPosition, Direction.UP);
 		return true;
 	}
 }

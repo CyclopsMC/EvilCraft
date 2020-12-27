@@ -5,6 +5,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -33,5 +36,15 @@ public class EntityControlledZombieConfig extends EntityConfig<EntityControlledZ
     @Override
     public EntityRenderer<? super EntityControlledZombie> getRender(EntityRendererManager entityRendererManager, ItemRenderer itemRenderer) {
         return new RenderControlledZombie(this, entityRendererManager);
+    }
+
+    @Override
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 12.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23F)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D)
+                .create());
     }
 }

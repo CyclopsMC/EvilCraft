@@ -90,11 +90,9 @@ import org.cyclops.evilcraft.tileentity.*;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.world.biome.BiomeDegradedConfig;
-import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorEvilDungeonConfig;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatureEvilDungeonConfig;
-import org.cyclops.evilcraft.world.gen.feature.WorldFeatureStructureDarkTempleConfig;
-import org.cyclops.evilcraft.world.gen.feature.WorldFeatureTreeUndeadConfig;
-import org.cyclops.evilcraft.world.gen.nbt.DarkTempleData;
+import org.cyclops.evilcraft.world.gen.feature.WorldFeatures;
+import org.cyclops.evilcraft.world.gen.structure.WorldStructureDarkTempleConfig;
 
 /**
  * The main mod class of EvilCraft.
@@ -110,7 +108,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
     public static EvilCraft _instance;
 
     public static GlobalCounters globalCounters = null;
-    public static DarkTempleData darkTempleData = null;
 
     public EvilCraft() {
         super(Reference.MOD_ID, (instance) -> _instance = instance);
@@ -118,7 +115,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         // Register world storages
         registerWorldStorage(new WorldSharedTank.TankData(this));
         registerWorldStorage(globalCounters = new GlobalCounters(this));
-        registerWorldStorage(darkTempleData = new DarkTempleData(this));
 
         // Create registries
         getRegistryManager().addRegistry(IDegradationRegistry.class, new DegradationRegistry());
@@ -151,6 +147,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         Advancements.load();
         LootFunctions.load();
         RegistryExportables.load();
+        WorldFeatures.load();
 
         // Initialize info book
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
@@ -417,11 +414,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
 
         // Features
         configHandler.addConfigurable(new WorldFeatureEvilDungeonConfig());
-        configHandler.addConfigurable(new WorldFeatureTreeUndeadConfig());
-        configHandler.addConfigurable(new WorldFeatureStructureDarkTempleConfig());
-
-        // Decorators
-        configHandler.addConfigurable(new WorldDecoratorEvilDungeonConfig());
+        configHandler.addConfigurable(new WorldStructureDarkTempleConfig());
     }
 
     @OnlyIn(Dist.CLIENT)

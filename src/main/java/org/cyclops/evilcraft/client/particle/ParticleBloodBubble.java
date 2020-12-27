@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.particle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.RainParticle;
 import net.minecraft.client.particle.SplashParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -23,7 +24,7 @@ import java.util.Random;
 @OnlyIn(Dist.CLIENT)
 public class ParticleBloodBubble extends RainParticle {
 
-    public ParticleBloodBubble(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+    public ParticleBloodBubble(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn);
         this.particleGravity = 0.04F;
         if (ySpeedIn == 0.0D && (xSpeedIn != 0.0D || zSpeedIn != 0.0D)) {

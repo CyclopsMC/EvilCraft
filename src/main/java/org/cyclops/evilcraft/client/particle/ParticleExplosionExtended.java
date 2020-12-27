@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.particle;
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.PoofParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.World;
 
 /**
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
  */
 public class ParticleExplosionExtended extends PoofParticle {
 
-	public ParticleExplosionExtended(World world, double x, double y, double z,
+	public ParticleExplosionExtended(ClientWorld world, double x, double y, double z,
 									 double motionX, double motionY, double motionZ,
 									 float red, float green, float blue, float alpha,
 									 IAnimatedSprite sprite) {

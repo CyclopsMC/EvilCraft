@@ -1,108 +1,90 @@
-package org.cyclops.evilcraft.world.gen.feature;
+package org.cyclops.evilcraft.world.gen.structure;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.VineBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.loot.LootTables;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.state.properties.StairsShape;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.structure.IStructurePieceType;
-import net.minecraft.world.gen.feature.structure.ScatteredStructure;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.storage.loot.LootTables;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Random;
-import java.util.function.Function;
 
 /**
  * Structure that generates Dark Temples.
  * @author immortaleeb
  * @author rubensworks
  */
-public class WorldFeatureStructureDarkTemple extends ScatteredStructure<NoFeatureConfig> {
+public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
 
-    public WorldFeatureStructureDarkTemple(Function<Dynamic<?>, ? extends NoFeatureConfig> configFactoryIn) {
+    public WorldStructureDarkTemple(Codec<NoFeatureConfig> configFactoryIn) {
         super(configFactoryIn);
     }
 
     @Override
-    public boolean func_225558_a_(BiomeManager biomeManager, ChunkGenerator<?> chunkGenerator, Random rand, int chunkX, int chunkY, Biome biome) {
-        if (biome.getTempCategory() == Biome.TempCategory.OCEAN) {
+    protected boolean func_230363_a_(ChunkGenerator p_230363_1_, BiomeProvider p_230363_2_, long p_230363_3_, SharedSeedRandom p_230363_5_, int p_230363_6_, int p_230363_7_, Biome biome, ChunkPos p_230363_9_, NoFeatureConfig p_230363_10_) {
+        if (biome.getCategory() == Biome.Category.OCEAN) {
             return false;
         }
-        return super.func_225558_a_(biomeManager, chunkGenerator, rand, chunkX, chunkY, biome);
+        return super.func_230363_a_(p_230363_1_, p_230363_2_, p_230363_3_, p_230363_5_, p_230363_6_, p_230363_7_, biome, p_230363_9_, p_230363_10_);
     }
 
     @Override
-    public IStartFactory getStartFactory() {
+    public IStartFactory<NoFeatureConfig> getStartFactory() {
         return Start::new;
     }
 
     @Override
-    public String getStructureName() {
-        return getRegistryName().toString();
+    public GenerationStage.Decoration getDecorationStage() {
+        return GenerationStage.Decoration.SURFACE_STRUCTURES;
     }
 
-    @Override
-    public int getSize() {
-        return 9;
-    }
-
-    @Override
-    protected int getSeedModifier() {
-        return 370458167;
-    }
-
-    @Override
-    protected int getBiomeFeatureDistance(ChunkGenerator<?> chunkGenerator) {
-        return WorldFeatureStructureDarkTempleConfig.darkTempleSpacing;
-    }
-
-    @Override
-    protected int getBiomeFeatureSeparation(ChunkGenerator<?> chunkGenerator) {
-        return WorldFeatureStructureDarkTempleConfig.darkTempleSeparation;
-    }
-
-    public static class Start extends StructureStart {
-        public Start(Structure<?> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox bounds, int references, long seed) {
+    public static class Start extends StructureStart<NoFeatureConfig> {
+        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox bounds, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, bounds, references, seed);
         }
 
-        public void init(ChunkGenerator<?> generator, TemplateManager templateManagerIn, int chunkX, int chunkZ, Biome biomeIn) {
-            Piece piece = new Piece(this.rand, chunkX * 16, chunkZ * 16);
+        // MCP: init
+        @Override
+        public void func_230364_a_(DynamicRegistries p_230364_1_, ChunkGenerator p_230364_2_, TemplateManager p_230364_3_, int chunkX, int chunkY, Biome p_230364_6_, NoFeatureConfig p_230364_7_) {
+            Piece piece = new Piece(this.rand, chunkX * 16, chunkY * 16);
             this.components.add(piece);
             this.recalculateStructureSize();
         }
     }
 
-    public static class Piece extends WorldFeaturePieceQuarterSymmetrical {
+    public static class Piece extends WorldStructurePieceQuarterSymmetrical {
         public Piece(Random random, int x, int z) {
-            super(WorldFeatureStructureDarkTempleConfig.PIECE_TYPE, random, x, 9 + WorldFeatureStructureDarkTempleConfig.darkTempleMinHeight + random.nextInt(WorldFeatureStructureDarkTempleConfig.darkTempleMaxHeight - WorldFeatureStructureDarkTempleConfig.darkTempleMinHeight), z, 9, 9, 9);
+            super(WorldStructureDarkTempleConfig.PIECE_TYPE, random, x, 9 + WorldStructureDarkTempleConfig.darkTempleMinHeight + random.nextInt(WorldStructureDarkTempleConfig.darkTempleMaxHeight - WorldStructureDarkTempleConfig.darkTempleMinHeight), z, 9, 9, 9);
         }
 
         public Piece(TemplateManager templateManager, CompoundNBT tag) {
-            super(WorldFeatureStructureDarkTempleConfig.PIECE_TYPE, tag);
+            super(WorldStructureDarkTempleConfig.PIECE_TYPE, tag);
         }
 
         @Override

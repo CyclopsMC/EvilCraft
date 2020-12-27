@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -91,7 +91,7 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     }
 
     @Override
-    public boolean func_230044_c_() {
+    public boolean isSideLit() {
         return false; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 

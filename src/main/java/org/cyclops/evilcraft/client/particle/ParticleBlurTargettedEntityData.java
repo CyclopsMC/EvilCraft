@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleType;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -35,6 +37,16 @@ public class ParticleBlurTargettedEntityData extends ParticleBlurData {
             return new ParticleBlurTargettedEntityData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readInt());
         }
     };
+    public static final Codec<ParticleBlurTargettedEntityData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.FLOAT.fieldOf("r").forGetter(ParticleBlurTargettedEntityData::getRed),
+                    Codec.FLOAT.fieldOf("g").forGetter(ParticleBlurTargettedEntityData::getGreen),
+                    Codec.FLOAT.fieldOf("b").forGetter(ParticleBlurTargettedEntityData::getBlue),
+                    Codec.FLOAT.fieldOf("scale").forGetter(ParticleBlurTargettedEntityData::getScale),
+                    Codec.FLOAT.fieldOf("age").forGetter(ParticleBlurTargettedEntityData::getAgeMultiplier),
+                    Codec.INT.fieldOf("entity").forGetter(ParticleBlurTargettedEntityData::getEntityId)
+            )
+            .apply(builder, ParticleBlurTargettedEntityData::new));
 
     private final int entityId;
 

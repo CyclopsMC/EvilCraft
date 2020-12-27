@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -26,6 +28,11 @@ public class ParticleFartData implements IParticleData {
             return new ParticleFartData(buffer.readBoolean());
         }
     };
+    public static final Codec<ParticleFartData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.BOOL.fieldOf("rainbow").forGetter(ParticleFartData::getRainbow)
+            )
+            .apply(builder, ParticleFartData::new));
 
     private final boolean rainbow;
 

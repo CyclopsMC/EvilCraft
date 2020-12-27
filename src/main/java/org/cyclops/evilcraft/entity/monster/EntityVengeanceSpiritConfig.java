@@ -6,6 +6,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -72,6 +75,17 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
             }
             return false;
         });
+    }
+
+    @Override
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 10.0D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 10.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3125D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
+                .create());
     }
     
 }

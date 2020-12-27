@@ -4,15 +4,13 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.placement.ChanceConfig;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.WorldFeatureConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.world.gen.decorator.WorldDecoratorEvilDungeon;
 
 /**
- * Config for the {@link WorldDecoratorEvilDungeon}.
+ * Config for the evil dungeon.
  * @author rubensworks
  *
  */
@@ -22,19 +20,16 @@ public class WorldFeatureEvilDungeonConfig extends WorldFeatureConfig {
         super(
                 EvilCraft._instance,
                 "evil_dungeon",
-                eConfig -> new WorldFeatureEvilDungeon(NoFeatureConfig::deserialize)
+                eConfig -> new WorldFeatureEvilDungeon(NoFeatureConfig.field_236558_a_)
         );
+        MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
 
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        for (Biome biome : ForgeRegistries.BIOMES) {
-            if (biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NETHER) {
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_STRUCTURES, ((WorldFeatureEvilDungeon) getInstance())
-                        .withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)
-                        .withPlacement(RegistryEntries.DECORATOR_EVIL_DUNGEON.configure(new ChanceConfig(4))));
-            }
+    public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
+        if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+            event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_STRUCTURES).add(() -> ((WorldFeatureEvilDungeon) getInstance())
+                    .withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)
+                    .range(256).square().func_242731_b(10));
         }
     }
 }

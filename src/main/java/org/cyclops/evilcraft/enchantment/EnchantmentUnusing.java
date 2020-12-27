@@ -22,7 +22,7 @@ import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 public class EnchantmentUnusing extends Enchantment {
 
     public EnchantmentUnusing() {
-        super(Rarity.VERY_RARE, EnchantmentType.ALL, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        super(Rarity.VERY_RARE, EnchantmentType.BREAKABLE, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
         MinecraftForge.EVENT_BUS.register(this);
     }
 

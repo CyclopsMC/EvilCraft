@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.weather;
 
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 /**
  * Rain weather type.
@@ -19,12 +20,12 @@ public class WeatherTypeRain extends WeatherType {
     }
 
     @Override
-    public void activate(World world) {
+    public void activate(ServerWorld world) {
         world.getWorldInfo().setRaining(true);
     }
 
     @Override
-    public void deactivate(World world) {
+    public void deactivate(ServerWorld world) {
         world.getWorldInfo().setRaining(false);
     }
 

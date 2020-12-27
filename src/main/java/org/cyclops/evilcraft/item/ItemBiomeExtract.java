@@ -66,7 +66,8 @@ public class ItemBiomeExtract extends Item {
         if(!world.isRemote() && getBiome(itemStack) != null && !ItemBiomeExtractConfig.isUsageBlacklisted(getBiome(itemStack))) {
             world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
-            entity.shoot(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            // MCP: shoot
+            entity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
             world.addEntity(entity);
             itemStack.shrink(1);
         }
@@ -80,7 +81,9 @@ public class ItemBiomeExtract extends Item {
         super.addInformation(itemStack, world, list, flag);
         Biome biome = getBiome(itemStack);
         if(biome != null) {
-            list.add(new TranslationTextComponent(getTranslationKey() + ".info.content", biome.getDisplayName()));
+            // Biome name generation based on CreateBuffetWorldScreen
+            list.add(new TranslationTextComponent(getTranslationKey() + ".info.content",
+                    new TranslationTextComponent("biome." + biome.getRegistryName().getNamespace() + "." + biome.getRegistryName().getPath())));
         }
     }
 
@@ -150,7 +153,9 @@ public class ItemBiomeExtract extends Item {
         if(biome == null) {
             return Rarity.COMMON;
         } else {
-            return biome.getSpawningChance() <= 0.05F ? Rarity.EPIC : (biome.getSpawningChance() <= 0.1F ? Rarity.RARE : Rarity.UNCOMMON);
+            return biome.getMobSpawnInfo().getCreatureSpawnProbability() <= 0.05F
+                    ? Rarity.EPIC
+                    : (biome.getMobSpawnInfo().getCreatureSpawnProbability() <= 0.1F ? Rarity.RARE : Rarity.UNCOMMON);
         }
     }
 

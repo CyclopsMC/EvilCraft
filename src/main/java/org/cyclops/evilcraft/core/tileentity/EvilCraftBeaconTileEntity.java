@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.tileentity;
 
-import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;

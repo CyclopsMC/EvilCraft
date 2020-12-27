@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -67,19 +67,19 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
     }
 
     @Nullable
-    protected EntityRayTraceResult rayTraceEntities(Vec3d startVec, Vec3d endVec) {
+    protected EntityRayTraceResult rayTraceEntities(Vector3d startVec, Vector3d endVec) {
         return ProjectileHelper.rayTraceEntities(this.world, this, startVec, endVec, this.getBoundingBox().expand(this.getMotion()).grow(1.0D),
-                (entity) -> !entity.isSpectator() && entity.isAlive() && entity.canBeCollidedWith() && (entity != this.getThrower()));
+                (entity) -> !entity.isSpectator() && entity.isAlive() && entity.canBeCollidedWith() && (entity != this.func_234616_v_()));
     }
 
 	@Override
     public void tick() {
-        Vec3d motion = getMotion();
-    	Vec3d vec3 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ());
-        Vec3d vec31 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ()).add(motion);
+        Vector3d motion = getMotion();
+    	Vector3d vec3 = new Vector3d(this.getPosX(), this.getPosY(), this.getPosZ());
+        Vector3d vec31 = new Vector3d(this.getPosX(), this.getPosY(), this.getPosZ()).add(motion);
         EntityRayTraceResult entityRayTraceResult = this.rayTraceEntities(vec3, vec31);
-        vec3 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ());
-        vec31 = new Vec3d(this.getPosX(), this.getPosY(), this.getPosZ()).add(motion);
+        vec3 = new Vector3d(this.getPosX(), this.getPosY(), this.getPosZ());
+        vec31 = new Vector3d(this.getPosX(), this.getPosY(), this.getPosZ()).add(motion);
         
         soundTick++;
         if(soundTick > 3 && this.getEntityId() % 10 == 0) {
@@ -147,7 +147,7 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
         float green = rand.nextFloat() * 0.03F;
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 4D);
-        Vec3d motion = getMotion();
+        Vector3d motion = getMotion();
 
         Minecraft.getInstance().worldRenderer.addParticle(
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
@@ -161,10 +161,10 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
 
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof EntityVengeanceSpirit) {
-            Vec3d motion = getMotion();
+            Vector3d motion = getMotion();
             ((EntityVengeanceSpirit) entity).onHit(getPosX(), getPosY(), getPosZ(), motion.x, motion.y, motion.z);
-            if (getThrower() instanceof ServerPlayerEntity) {
-                ((EntityVengeanceSpirit) entity).addEntanglingPlayer((ServerPlayerEntity) getThrower());
+            if (func_234616_v_() instanceof ServerPlayerEntity) {
+                ((EntityVengeanceSpirit) entity).addEntanglingPlayer((ServerPlayerEntity) func_234616_v_());
             }
         }
     }
@@ -172,7 +172,7 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
 	@Override
     protected void onImpact(RayTraceResult position) {
         if (!this.world.isRemote()) {
-            if (position.getType() == RayTraceResult.Type.ENTITY && this.getThrower() != null && this.getThrower() instanceof ServerPlayerEntity) {
+            if (position.getType() == RayTraceResult.Type.ENTITY && this.func_234616_v_() != null && this.func_234616_v_() instanceof ServerPlayerEntity) {
                 applyHitEffect(((EntityRayTraceResult) position).getEntity());
             }
         }

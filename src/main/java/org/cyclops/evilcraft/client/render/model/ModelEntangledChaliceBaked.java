@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ILightReader;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
@@ -101,7 +101,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
             for(int i = 0; i < data.length / 8; i++) {
                 data[i * 8 + 3] = color;
             }
-            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.func_187508_a(), false));
+            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.getSprite(), false));
         }
 
         // Fluid
@@ -114,7 +114,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull IBlockDisplayReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         return TileHelpers.getSafeTile(world, pos, TileEntangledChalice.class)
                 .map(tile -> {
                     ModelDataMap.Builder builder = new ModelDataMap.Builder();
@@ -158,7 +158,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public boolean func_230044_c_() {
+    public boolean isSideLit() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 

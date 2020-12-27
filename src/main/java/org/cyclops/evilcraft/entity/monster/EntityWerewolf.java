@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -14,7 +13,7 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.villager.IVillagerType;
+import net.minecraft.entity.villager.VillagerType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -95,15 +94,6 @@ public class EntityWerewolf extends MonsterEntity {
     }
     
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(35.0D);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(7.0D);
-    }
-    
-    @Override
     public void writeAdditional(CompoundNBT NBTTagCompound) {
         super.writeAdditional(NBTTagCompound);
         NBTTagCompound.put("villager", villagerNBTTagCompound);
@@ -123,7 +113,7 @@ public class EntityWerewolf extends MonsterEntity {
      * @return If it is werewolf party time.
      */
     public static boolean isWerewolfTime(World world) {
-        return world.getCurrentMoonPhaseFactor() == 1.0
+        return world.getMoonFactor() == 1.0
                 && !world.isDaytime()
                 && world.getDifficulty() != Difficulty.PEACEFUL;
     }
@@ -140,7 +130,8 @@ public class EntityWerewolf extends MonsterEntity {
      * Replace this entity with the stored villager.
      */
     public void replaceWithVillager() {
-        VillagerEntity villager = new VillagerEntity(EntityType.VILLAGER, this.world, IVillagerType.byBiome(this.world.getBiome(getPosition())));
+        // MCP: byBiome
+        VillagerEntity villager = new VillagerEntity(EntityType.VILLAGER, this.world, VillagerType.func_242371_a(world.func_242406_i(this.getPosition())));
         initializeWerewolfVillagerData(villager);
         replaceEntity(this, villager, this.world);
         try {

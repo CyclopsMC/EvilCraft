@@ -26,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
@@ -163,11 +164,15 @@ public class BlockDisplayStand extends BlockTile {
 
     @Override
     public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> list) {
-        for (Item item : ItemTags.PLANKS.getAllElements()) {
-            if (item instanceof BlockItem) {
-                BlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(new ItemStack(item));
-                list.add(getTypedDisplayStandItem(plankWoodBlockState));
+        try {
+            for (Item item : ItemTags.PLANKS.getAllElements()) {
+                if (item instanceof BlockItem) {
+                    BlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(new ItemStack(item));
+                    list.add(getTypedDisplayStandItem(plankWoodBlockState));
+                }
             }
+        } catch (IllegalStateException e) {
+            // Can occur during mod loading when the tag has not been set yet
         }
     }
 
@@ -182,7 +187,7 @@ public class BlockDisplayStand extends BlockTile {
     public ItemStack getDisplayStandType(ItemStack displayStandStack) {
         CompoundNBT tag = displayStandStack.getTag();
         if (tag != null && tag.contains(NBT_TYPE)) {
-            BlockState blockState = BlockHelpers.deserializeBlockState(tag.get(NBT_TYPE));
+            BlockState blockState = BlockHelpers.deserializeBlockState(tag.getCompound(NBT_TYPE));
             return BlockHelpers.getItemStackFromBlockState(blockState);
         }
         return null;
@@ -238,8 +243,8 @@ public class BlockDisplayStand extends BlockTile {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         ItemStack blockType = getDisplayStandType(stack);
         if (blockType != null) {
-            tooltip.add(blockType.getDisplayName()
-                    .applyTextStyle(TextFormatting.GRAY));
+            tooltip.add(((IFormattableTextComponent) blockType.getDisplayName())
+                    .mergeStyle(TextFormatting.GRAY));
         }
     }
 

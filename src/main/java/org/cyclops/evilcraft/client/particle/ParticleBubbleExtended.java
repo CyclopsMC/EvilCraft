@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.particle;
 import net.minecraft.client.particle.BubbleParticle;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,7 +18,7 @@ public class ParticleBubbleExtended extends SpriteTexturedParticle {
 
     private final float gravity;
 
-    public ParticleBubbleExtended(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float gravity) {
+    public ParticleBubbleExtended(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, float gravity) {
         super(world, x, y, z);
         this.setSize(0.02F, 0.02F);
         this.particleScale *= this.rand.nextFloat() * 0.6F + 0.2F;

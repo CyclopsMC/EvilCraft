@@ -6,6 +6,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.server.ServerWorld;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
@@ -41,11 +42,11 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         float x = spawn.getX() + 0.5F;
         float y = spawn.getY();
         float z = spawn.getZ() + 0.5F;
-        Biome.SpawnListEntry spawnlistentry = WeightedRandom.getRandomItem(new Random(), world.getBiome(spawn).getSpawns(EntityClassification.MONSTER));
+        MobSpawnInfo.Spawners spawnlistentry = WeightedRandom.getRandomItem(new Random(), world.getBiome(spawn).getMobSpawnInfo().getSpawners(EntityClassification.MONSTER));
         MobEntity entityliving;
 
         try {
-            entityliving = (MobEntity)spawnlistentry.entityType.create(world);
+            entityliving = (MobEntity)spawnlistentry.type.create(world);
         } catch (Exception exception) {
             exception.printStackTrace();
             return;

@@ -13,6 +13,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
@@ -65,7 +66,9 @@ public class EntityWeatherContainer extends EntityThrowable {
         if (movingobjectposition.getType() == RayTraceResult.Type.BLOCK) {
             ItemStack stack = getItem();
             ItemWeatherContainer.WeatherContainerType containerType = ItemWeatherContainer.getWeatherType(stack);
-            containerType.onUse(world, stack);
+            if (world instanceof ServerWorld) {
+                containerType.onUse((ServerWorld) world, stack);
+            }
 
             playImpactSounds(world);
 

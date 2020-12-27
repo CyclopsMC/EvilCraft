@@ -4,6 +4,7 @@ import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
  */
 public class ParticleMagicFinish extends SpriteTexturedParticle {
 
-    public ParticleMagicFinish(World world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    public ParticleMagicFinish(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         particleRed = 0.78F + rand.nextFloat() * 0.5F;
         particleGreen = 0.09F + rand.nextFloat() * 0.5F;

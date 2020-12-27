@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -19,11 +19,12 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityPredicates;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,7 +39,6 @@ import org.cyclops.evilcraft.client.particle.ParticleColoredSmokeData;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
-import org.lwjgl.system.MathUtil;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -160,12 +160,12 @@ public class EntityBroom extends Entity {
 	}
     
     @Override
-    public boolean processInitialInteract(PlayerEntity player, Hand hand) {
+    public ActionResultType processInitialInteract(PlayerEntity player, Hand hand) {
         if (!this.world.isRemote() && !isBeingRidden() && !player.isCrouching()) {
             player.startRiding(this);
             lastMounted = player;
         }
-    	return true;
+    	return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -354,7 +354,7 @@ public class EntityBroom extends Entity {
                 float r = color.getLeft();
                 float g = color.getMiddle();
                 float b = color.getRight();
-                Vec3d motion = broom.getMotion();
+                Vector3d motion = broom.getMotion();
                 Minecraft.getInstance().worldRenderer.addParticle(
                         new ParticleColoredSmokeData(r, g, b), false,
                         broom.getPosX() - motion.x * 1.5D + Math.random() * 0.4D - 0.2D,
@@ -391,7 +391,7 @@ public class EntityBroom extends Entity {
             setRotation(rotationYaw, rotationPitch);
         }
         
-        move(MoverType.SELF, new Vec3d(0, getHoverOffset(), 0));
+        move(MoverType.SELF, new Vector3d(0, getHoverOffset(), 0));
     }
 
     public boolean canConsume(int amount, LivingEntity entityLiving) {
@@ -467,7 +467,7 @@ public class EntityBroom extends Entity {
         double y = Math.cos(pitch);
 
         // Apply speed modifier
-        double playerSpeed = lastMounted.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+        double playerSpeed = lastMounted.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
         playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
         int amount = ItemBroomConfig.bloodUsage;
         LivingEntity currentRidingEntity = getControllingPassenger() instanceof LivingEntity ? (LivingEntity) getControllingPassenger() : null;
@@ -523,7 +523,7 @@ public class EntityBroom extends Entity {
 
     protected void updateUnmounted() {
         if (world.isRemote()) {
-            move(MoverType.SELF, new Vec3d(0, getHoverOffset(), 0));
+            move(MoverType.SELF, new Vector3d(0, getHoverOffset(), 0));
         }
     }
 

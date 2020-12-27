@@ -34,7 +34,7 @@ public class RenderControlledZombie extends BipedRenderer<EntityControlledZombie
         }
 
         @Override
-        public boolean func_212850_a_(EntityControlledZombie p_212850_1_) {
+        public boolean isAggressive(EntityControlledZombie p_212850_1_) {
             return p_212850_1_.isAggressive();
         }
     }

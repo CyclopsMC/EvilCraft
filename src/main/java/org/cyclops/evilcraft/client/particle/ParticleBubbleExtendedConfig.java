@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
@@ -19,7 +20,13 @@ import javax.annotation.Nullable;
 public class ParticleBubbleExtendedConfig extends ParticleConfig<ParticleBubbleExtendedData> {
 
     public ParticleBubbleExtendedConfig() {
-        super(EvilCraft._instance, "bubble_extended", eConfig -> new ParticleType<>(false, ParticleBubbleExtendedData.DESERIALIZER));
+        super(EvilCraft._instance, "bubble_extended", eConfig -> new ParticleType<ParticleBubbleExtendedData>(false, ParticleBubbleExtendedData.DESERIALIZER) {
+
+            @Override
+            public Codec<ParticleBubbleExtendedData> func_230522_e_() {
+                return ParticleBubbleExtendedData.CODEC;
+            }
+        });
     }
 
     @OnlyIn(Dist.CLIENT)

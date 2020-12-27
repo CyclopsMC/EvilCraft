@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.cyclops.evilcraft.Reference;
@@ -106,12 +107,12 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
         return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png");
     }
     
-    private String prettyPrintSize(Vec3i size) {
+    private String prettyPrintSize(Vector3i size) {
         return size.getX() + "x" + size.getY() + "x" + size.getZ();
     }
     
     @Override
-	protected void drawAdditionalForeground(int mouseX, int mouseY) {
+	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
     	String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getTranslationKey() + ".help.invalid";
     	List<ITextComponent> lines = Lists.newArrayList();
     	lines.add(new TranslationTextComponent(prefix));
@@ -127,7 +128,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
         	lines.add(new TranslationTextComponent(prefix + ".caught_error"));
         }
         if (lines.size() > 1) {
-        	this.blit(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+        	this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
             		PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
             if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {

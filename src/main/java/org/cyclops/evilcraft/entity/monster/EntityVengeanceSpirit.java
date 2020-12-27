@@ -12,7 +12,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
@@ -23,33 +24,34 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.LootTable;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameterSets;
-import net.minecraft.world.storage.loot.LootParameters;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.NetworkHooks;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -70,7 +72,6 @@ import org.cyclops.evilcraft.item.ItemBurningGemStone;
 import org.cyclops.evilcraft.item.ItemSpectralGlasses;
 import org.cyclops.evilcraft.item.ItemVengeanceRing;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
@@ -134,16 +135,12 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         this.stepHeight = 5.0F;
         this.preventEntitySpawning = false;
 
-        double speed = 0.25D;
         float damage = 0.5F;
         int remainingLife = MathHelper.nextInt(world.rand, REMAININGLIFE_MIN, REMAININGLIFE_MAX);
         if(isSwarm()) {
-        	speed += 0.125D * getSwarmTier();
         	damage += 0.5D * getSwarmTier();
         	remainingLife += (REMAININGLIFE_MAX - REMAININGLIFE_MIN) * getSwarmTier();
         }
-
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(speed);
 
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 0.6D));
@@ -156,6 +153,18 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
+    }
+
+    @Override
+    public double getBaseAttributeValue(Attribute attribute) {
+        if (attribute == Attributes.MOVEMENT_SPEED) {
+            double speed = 0.25D;
+            if(isSwarm()) {
+                speed += 0.125D * getSwarmTier();
+            }
+            return speed;
+        }
+        return super.getBaseAttributeValue(attribute);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
@@ -194,12 +203,6 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         return false;
     }
 
-    @Nullable
-    @Override
-    public AxisAlignedBB getCollisionBoundingBox() {
-        return getBoundingBox();
-    }
-
     @Override
 	public void registerData() {
         super.registerData();
@@ -219,15 +222,6 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     public void readAdditional(CompoundNBT tag) {
         super.readAdditional(tag);
         data.readNBT(tag);
-    }
-
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3125D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
 
     @Override
@@ -283,7 +277,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                 LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) getEntityWorld()))
                         .withRandom(this.rand)
                         .withParameter(LootParameters.THIS_ENTITY, innerEntity)
-                        .withParameter(LootParameters.POSITION, new BlockPos(this))
+                        .withParameter(LootParameters.field_237457_g_, new Vector3d(getPosX(), getPosY(), getPosZ()))
                         .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC)
                         .withNullableParameter(LootParameters.KILLER_ENTITY, null)
                         .withNullableParameter(LootParameters.DIRECT_KILLER_ENTITY, null);
@@ -455,9 +449,10 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     public boolean canBeCollidedWith() {
         return false;
     }
-    
+
+    // MCP: onStruckByLightning
     @Override
-    public void onStruckByLightning(LightningBoltEntity lightning) {
+    public void func_241841_a(ServerWorld world, LightningBoltEntity lightning) {
     	setGlobalVengeance(true);
     }
     
@@ -651,7 +646,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             
             if(BlockHelpers.doesBlockHaveSolidTopSurface(world, spawnPos.add(0, -1, 0))) {
                 spirit.setPosition((double) spawnPos.getX() + 0.5, (double) spawnPos.getY() + 0.5, (double) spawnPos.getZ() + 0.5);
-                if(!world.checkBlockCollision(spirit.getBoundingBox())
+                if(!world.hasNoCollisions(spirit)
                 		&& spirit.isNotColliding(world)
                 		&& !world.containsAnyLiquid(spirit.getBoundingBox())) {
                     world.addEntity(spirit);
@@ -692,7 +687,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public boolean handleWaterMovement() {
+    public boolean handleFluidAcceleration(ITag<Fluid> fluidTag, double p_210500_2_) {
         // Ignore water movement and particles
         return this.inWater;
     }

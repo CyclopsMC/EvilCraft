@@ -24,7 +24,7 @@ public class BlockSpiritPortalConfig extends BlockConfig {
 				eConfig -> new BlockSpiritPortal(Block.Properties.create(Material.IRON)
 						.hardnessAndResistance(50.0F, 6000000.0F)
 						.sound(SoundType.CLOTH)
-						.lightValue(8)),
+						.setLightLevel((state) -> 8)),
 				getDefaultItemConstructor(EvilCraft._instance)
 		);
 	}

@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -18,14 +20,19 @@ public class ParticleDistortData implements IParticleData {
     public static final IDeserializer<ParticleDistortData> DESERIALIZER = new IDeserializer<ParticleDistortData>() {
         public ParticleDistortData deserialize(ParticleType<ParticleDistortData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
-            float gravity = (float) reader.readDouble();
-            return new ParticleDistortData(gravity);
+            float scale = (float) reader.readDouble();
+            return new ParticleDistortData(scale);
         }
 
         public ParticleDistortData read(ParticleType<ParticleDistortData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleDistortData(buffer.readFloat());
         }
     };
+    public static final Codec<ParticleDistortData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.FLOAT.fieldOf("scale").forGetter(ParticleDistortData::getScale)
+            )
+            .apply(builder, ParticleDistortData::new));
 
     private final float scale;
 

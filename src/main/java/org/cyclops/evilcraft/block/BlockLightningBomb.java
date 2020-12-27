@@ -127,13 +127,13 @@ public class BlockLightningBomb extends Block {
             AbstractArrowEntity entityarrow = (AbstractArrowEntity)entity;
 
             if (entityarrow.isBurning()) {
-                this.primeBomb(world, blockPos, primedState, entityarrow.getShooter() instanceof LivingEntity ? (LivingEntity)entityarrow.getShooter() : null);
+                this.primeBomb(world, blockPos, primedState, entityarrow.func_234616_v_() instanceof LivingEntity ? (LivingEntity)entityarrow.func_234616_v_() : null);
                 world.removeBlock(blockPos, false);
             }
         } else if (entity instanceof EntityLightningGrenade && !world.isRemote()) {
             EntityLightningGrenade entitygrenade = (EntityLightningGrenade)entity;
 
-            this.primeBomb(world, blockPos, primedState, entitygrenade.getThrower() != null ? entitygrenade.getThrower() : null);
+            this.primeBomb(world, blockPos, primedState, entitygrenade.func_234616_v_() instanceof LivingEntity ? (LivingEntity) entitygrenade.func_234616_v_() : null);
             world.removeBlock(blockPos, false);
         }
     }

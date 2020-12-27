@@ -5,13 +5,16 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.render.entity.RenderWerewolf;
 import org.cyclops.evilcraft.client.render.entity.ModelWerewolf;
+import org.cyclops.evilcraft.client.render.entity.RenderWerewolf;
 
 /**
  * Config for the {@link EntityWerewolf}.
@@ -34,6 +37,17 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
     @Override
     public EntityRenderer<? super EntityWerewolf> getRender(EntityRendererManager entityRendererManager, ItemRenderer itemRenderer) {
         return new RenderWerewolf(entityRendererManager, this, new ModelWerewolf(), 0.5F);
+    }
+
+    @Override
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 7.0D)
+                .create());
     }
     
 }

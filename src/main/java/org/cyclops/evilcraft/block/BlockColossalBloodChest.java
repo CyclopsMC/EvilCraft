@@ -8,17 +8,18 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
@@ -26,16 +27,14 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.ILightReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
 import org.cyclops.cyclopscore.block.multi.DetectionResult;
-import org.cyclops.cyclopscore.datastructure.Wrapper;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.core.block.BlockTileGuiTank;
@@ -87,7 +86,7 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
     }
 
     @Override
-    public boolean shouldDisplayFluidOverlay(BlockState blockState, ILightReader world, BlockPos pos, IFluidState fluidState) {
+    public boolean shouldDisplayFluidOverlay(BlockState blockState, IBlockDisplayReader world, BlockPos pos, FluidState fluidState) {
         return true;
     }
 
@@ -120,7 +119,7 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
         if (stack.hasDisplayName()) {
             TileColossalBloodChest tile = TileHelpers.getSafeTile(world, pos, TileColossalBloodChest.class).orElse(null);
             if (tile != null) {
-                tile.setSize(Vec3i.NULL_VECTOR);
+                tile.setSize(Vector3i.NULL_VECTOR);
             }
         }
         triggerDetector(world, pos, true);
@@ -149,13 +148,13 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
     }
 
     @Override
-    public void onDetect(IWorldReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
+    public void onDetect(IWorldReader world, BlockPos location, Vector3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             ((World) world).setBlockState(location, world.getBlockState(location).with(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class)
                     .ifPresent(tile -> {
-                        tile.setSize(valid ? size : Vec3i.NULL_VECTOR);
+                        tile.setSize(valid ? size : Vector3i.NULL_VECTOR);
                         tile.setCenter(originCorner.add(1, 1, 1));
                     });
         }
@@ -174,26 +173,26 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());
             } else {
-                player.sendMessage(new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.unexpected"));
+                player.sendMessage(new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.unexpected"), Util.DUMMY_UUID);
             }
         }
     }
 
     public static void addPlayerChatError(PlayerEntity player, ITextComponent error) {
-        ITextComponent chat = new StringTextComponent("");
-        ITextComponent prefix = new StringTextComponent("[")
-                .appendSibling(new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.prefix"))
-                .appendSibling(new StringTextComponent("]: "))
-                .setStyle(new Style().
-                        setColor(TextFormatting.GRAY).
+        IFormattableTextComponent chat = new StringTextComponent("");
+        IFormattableTextComponent prefix = new StringTextComponent("[")
+                .append(new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.prefix"))
+                .append(new StringTextComponent("]: "))
+                .setStyle(Style.EMPTY.
+                        applyFormatting(TextFormatting.GRAY).
                         setHoverEvent(new HoverEvent(
                                 HoverEvent.Action.SHOW_TEXT,
                                 new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.prefix.info")
                         ))
                 );
-        chat.appendSibling(prefix);
-        chat.appendSibling(error);
-        player.sendMessage(chat);
+        chat.append(prefix);
+        chat.append(error);
+        player.sendMessage(chat, Util.DUMMY_UUID);
     }
 
 }

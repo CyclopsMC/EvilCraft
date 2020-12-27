@@ -76,5 +76,10 @@ public class ItemSpectralGlasses extends ArmorItem {
         public float getToughness() {
             return 0.0F;
         }
+
+        @Override
+        public float getKnockbackResistance() {
+            return 0;
+        }
     }
 }

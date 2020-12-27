@@ -4,12 +4,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
 
@@ -43,8 +42,8 @@ public class ItemEffortlessRing extends Item {
      */
     public void adjustParameters(ItemStack itemStack, PlayerEntity player) {
         // Speed
-        if(player.moveForward > 0 && player.onGround) {
-            player.moveRelative(player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS, new Vec3d(0, 0, 1));
+        if(player.moveForward > 0 && player.isOnGround()) {
+            player.moveRelative(player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS, new Vector3d(0, 0, 1));
         }
 
         // Step height
@@ -54,7 +53,7 @@ public class ItemEffortlessRing extends Item {
         player.stepHeight = player.isCrouching() ? 0.5F : STEP_SIZE;
 
         // Jump distance
-        if(!player.onGround) {
+        if(!player.isOnGround()) {
             player.jumpMovementFactor = JUMP_DISTANCE_FACTOR;
         }
     }

@@ -47,7 +47,7 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
     @OnlyIn(Dist.CLIENT)
     public ITextComponent getInfo(ItemStack itemStack) {
         ITextComponent content = new TranslationTextComponent("general." + Reference.MOD_ID + ".info.empty")
-                .applyTextStyle(TextFormatting.ITALIC);
+                .mergeStyle(TextFormatting.ITALIC);
         if(BlockBoxOfEternalClosure.hasPlayer(itemStack)) {
             content = new StringTextComponent(BlockBoxOfEternalClosure.getPlayerName(itemStack));
         } else {
@@ -57,7 +57,7 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
             }
         }
         return new TranslationTextComponent(getTranslationKey() + ".info.content")
-                .applyTextStyle(TextFormatting.LIGHT_PURPLE)
-                .appendSibling(content);
+                .mergeStyle(TextFormatting.LIGHT_PURPLE)
+                .append(content);
     }
 }

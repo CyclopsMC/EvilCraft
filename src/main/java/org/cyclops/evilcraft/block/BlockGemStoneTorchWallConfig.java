@@ -1,27 +1,23 @@
 package org.cyclops.evilcraft.block;
 
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.TorchBlock;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import java.util.Random;
+import java.util.function.Supplier;
 
 /**
  * Config for the Burning Gemstone Torch Wall.
@@ -34,21 +30,15 @@ public class BlockGemStoneTorchWallConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "gem_stone_torch_wall",
-                eConfig -> new WallTorchBlock(Block.Properties.create(Material.MISCELLANEOUS)
-                        .doesNotBlockMovement()
-                        .hardnessAndResistance(0)
-                        .lightValue(14)
-                        .sound(SoundType.WOOD)) {
-                    @Override
-                    @OnlyIn(Dist.CLIENT)
-                    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-                        // No particles
-                    }
-
-                    @Override
-                    public ResourceLocation getLootTable() {
-                        return RegistryEntries.BLOCK_GEM_STONE_TORCH.getLootTable();
-                    }
+                eConfig -> {
+                    WallTorchBlock block = new WallTorchBlock(Block.Properties.create(Material.MISCELLANEOUS)
+                            .doesNotBlockMovement()
+                            .hardnessAndResistance(0)
+                            .setLightLevel((state) -> 14)
+                            .sound(SoundType.WOOD), ParticleTypes.FLAME);
+                    ObfuscationReflectionHelper.setPrivateValue(AbstractBlock.class, block,
+                            (Supplier<ResourceLocation>) () -> RegistryEntries.BLOCK_GEM_STONE_TORCH.getLootTable(), "lootTableSupplier");
+                    return block;
                 },
                 null
         );

@@ -184,13 +184,13 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             if (modifiers != null) {
                 if (MinecraftHelpers.isShifted()) {
                     event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types")
-                            .applyTextStyle(TextFormatting.ITALIC));
+                            .mergeStyle(TextFormatting.ITALIC));
                     for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                         event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                     }
                 } else {
                     event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".shiftinfo")
-                            .applyTextStyle(TextFormatting.ITALIC));
+                            .mergeStyle(TextFormatting.ITALIC));
                 }
             }
         }

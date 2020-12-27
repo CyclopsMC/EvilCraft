@@ -8,7 +8,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
- * Config for the {@link BlockDark}.
+ * Config for the dark block.
  * @author rubensworks
  *
  */
@@ -18,7 +18,7 @@ public class BlockDarkConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "dark_block",
-                eConfig -> new BlockDark(Block.Properties.create(Material.ROCK)
+                eConfig -> new Block(Block.Properties.create(Material.ROCK)
                         .hardnessAndResistance(5.0F)
                         .sound(SoundType.METAL)
                         .harvestTool(ToolType.PICKAXE)

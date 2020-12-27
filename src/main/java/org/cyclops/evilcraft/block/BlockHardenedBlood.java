@@ -5,12 +5,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameters;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class BlockHardenedBlood extends Block {
         List<ItemStack> drops = super.getDrops(state, builder);
         if (drops.isEmpty()) {
             ServerWorld world = builder.getWorld();
-            BlockPos blockPos = builder.get(LootParameters.POSITION);
+            BlockPos blockPos = new BlockPos(builder.get(LootParameters.field_237457_g_));
             Material material = world.getBlockState(blockPos.add(0, -1, 0)).getMaterial();
 
             if (material.blocksMovement() || material.isLiquid()) {
@@ -49,10 +48,5 @@ public class BlockHardenedBlood extends Block {
     @Override
     public void fillWithRain(World world, BlockPos blockPos) {
         world.setBlockState(blockPos, RegistryEntries.BLOCK_BLOOD.getDefaultState());
-    }
-
-    @Override
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
     }
 }

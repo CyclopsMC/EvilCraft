@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.entity.monster;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.monster.SilverfishEntity;
@@ -39,15 +38,6 @@ public class EntityNetherfish extends SilverfishEntity {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(5, new EntityNetherfish.AIHideInStone());
-    }
-    
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        // A bit stronger than those normal silverfish...
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
     }
     
     @Override
@@ -93,7 +83,7 @@ public class EntityNetherfish extends SilverfishEntity {
                 Random random = EntityNetherfish.this.getRNG();
 
                 if (random.nextInt(10) == 0) {
-                    this.field_179483_b = Direction.random(random);
+                    this.field_179483_b = Direction.getRandomDirection(random);
                     BlockPos blockpos = (new BlockPos(EntityNetherfish.this.getPosX(), EntityNetherfish.this.getPosY() + 0.5D, EntityNetherfish.this.getPosZ())).offset(this.field_179483_b);
                     BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.world.getBlockState(blockpos));
                     if (type != null) {

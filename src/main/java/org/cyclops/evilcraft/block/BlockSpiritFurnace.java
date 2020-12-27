@@ -14,7 +14,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -91,14 +91,14 @@ public class BlockSpiritFurnace extends BlockTileGuiTank implements CubeDetector
     }
 
 	@Override
-	public void onDetect(IWorldReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
+	public void onDetect(IWorldReader world, BlockPos location, Vector3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !world.getBlockState(location).get(ACTIVE);
             ((World) world).setBlockState(location, world.getBlockState(location).with(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             TileEntity tile = world.getTileEntity(location);
             if(tile != null) {
-                ((TileSpiritFurnace) tile).setSize(valid ? size : Vec3i.NULL_VECTOR);
+                ((TileSpiritFurnace) tile).setSize(valid ? size : Vector3i.NULL_VECTOR);
             }
             if(change) {
                 TileSpiritFurnace.detectStructure(world, location, size, valid, originCorner);

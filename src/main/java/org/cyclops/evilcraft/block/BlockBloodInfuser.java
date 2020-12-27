@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -75,7 +75,7 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
     }
 
     @Override
-    public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid) {
+    public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
         TileHelpers.getSafeTile(world, pos, TileBloodInfuser.class)
                 .ifPresent(tile -> {
                     EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(tile.getXp()));

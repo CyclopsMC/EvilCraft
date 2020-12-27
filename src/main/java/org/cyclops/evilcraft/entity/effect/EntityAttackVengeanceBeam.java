@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,7 +36,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
         float green = rand.nextFloat() * 0.03F;
         float blue = rand.nextFloat() * 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 4.5D + 4D);
-        Vec3d motion = getMotion();
+        Vector3d motion = getMotion();
 
         Minecraft.getInstance().worldRenderer.addParticle(
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
@@ -50,8 +50,10 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
 
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof EntityVengeanceSpirit) {
-            entity.attackEntityFrom(ExtendedDamageSource.vengeanceBeam(this.getThrower()), 1F);
-            ((EntityVengeanceSpirit) entity).setRemainingLife(((EntityVengeanceSpirit) entity).getRemainingLife() + 10);
+            if (this.func_234616_v_() instanceof LivingEntity) {
+                entity.attackEntityFrom(ExtendedDamageSource.vengeanceBeam((LivingEntity) this.func_234616_v_()), 1F);
+                ((EntityVengeanceSpirit) entity).setRemainingLife(((EntityVengeanceSpirit) entity).getRemainingLife() + 10);
+            }
         } else if (entity instanceof LivingEntity) {
             LivingEntity entityLiving = (LivingEntity) entity;
             entityLiving.clearActivePotions();

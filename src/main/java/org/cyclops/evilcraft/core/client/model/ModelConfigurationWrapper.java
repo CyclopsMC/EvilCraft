@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.client.model;
 import net.minecraft.client.renderer.model.IModelTransform;
 import net.minecraft.client.renderer.model.IUnbakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.geometry.IModelGeometryPart;
 
@@ -38,7 +38,7 @@ public class ModelConfigurationWrapper implements IModelConfiguration {
     }
 
     @Override
-    public Material resolveTexture(String name) {
+    public RenderMaterial resolveTexture(String name) {
         return this.wrapped.resolveTexture(name);
     }
 

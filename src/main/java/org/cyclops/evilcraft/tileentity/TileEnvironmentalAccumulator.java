@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,10 +19,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
@@ -209,74 +209,72 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
             recipeId = null;
         }
 
-		if (!getWorld().isRemote()) {
-            // Keep ticking if necessary
-            if (tick > 0)
-                tick--;
+        // Keep ticking if necessary
+        if (tick > 0)
+            tick--;
 
-            if (state == BlockEnvironmentalAccumulator.STATE_IDLE) {
-                updateEnvironmentalAccumulatorIdle();
-            } // Are we processing an item?
-            else if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
-                if (world.isRemote()) {
-                    showWaterBeams();
-                    if (tick > MAX_AGE) {
-                        showAccumulatingParticles();
-                    }
+        if (state == BlockEnvironmentalAccumulator.STATE_IDLE) {
+            updateEnvironmentalAccumulatorIdle();
+        } // Are we processing an item?
+        else if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM) {
+            if (world.isRemote()) {
+                showWaterBeams();
+                if (tick > MAX_AGE) {
+                    showAccumulatingParticles();
                 }
-                // Are we done moving the item?
-                if (tick == 0) {
-                    dropItemStack();
-                    activateFinishedProcessingItemState();
-                    getBossInfo().removeAllPlayers();
-                    recreateBossInfo(); // Needed to allow clients to show bar increase instead of reduce
-                } else {
-                    sendUpdate();
-                }
-            } // Have we just finished processing an item?
-            else if (state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
-                // We stay in this state for a while so the client gets some time to
-                // show the corresponding effect when an item is finished processing
+            }
+            // Are we done moving the item?
+            if (tick == 0) {
+                dropItemStack();
+                activateFinishedProcessingItemState();
+                getBossInfo().removeAllPlayers();
+                recreateBossInfo(); // Needed to allow clients to show bar increase instead of reduce
+            } else {
+                sendUpdate();
+            }
+        } // Have we just finished processing an item?
+        else if (state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
+            // We stay in this state for a while so the client gets some time to
+            // show the corresponding effect when an item is finished processing
 
-                // Are we done waiting for the client to update?
-                if (tick == 0) {
-                    activateCooldownState();
+            // Are we done waiting for the client to update?
+            if (tick == 0) {
+                activateCooldownState();
 
-                    // Remove the items in our inventory
-                    this.getInventory().decrStackSize(0, this.getInventory().getInventoryStackLimit());
-                } else {
-                    sendUpdate();
-                }
-            } // Are we cooling down?
-            else if (state == BlockEnvironmentalAccumulator.STATE_COOLING_DOWN) {
-                setBeamColor(state);
-                degradationExecutor.runRandomEffect(world.isRemote());
+                // Remove the items in our inventory
+                this.getInventory().decrStackSize(0, this.getInventory().getInventoryStackLimit());
+            } else {
+                sendUpdate();
+            }
+        } // Are we cooling down?
+        else if (state == BlockEnvironmentalAccumulator.STATE_COOLING_DOWN) {
+            setBeamColor(state);
+            degradationExecutor.runRandomEffect(world.isRemote());
 
-                // Are we done cooling down?
-                if (tick == 0) {
-                    activateIdleState();
-                } else {
-                    sendUpdate();
+            // Are we done cooling down?
+            if (tick == 0) {
+                activateIdleState();
+            } else {
+                sendUpdate();
+            }
+        }
+
+        if (!getWorld().isRemote()) {
+            // Update boss bars for nearby players
+            getBossInfo().setPercent(this.getHealth() / this.getMaxHealth());
+            Set<Integer> playerIds = Sets.newHashSet();
+            if (getHealth() != getMaxHealth()) {
+                for (PlayerEntity player : getWorld().getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(getPos()).grow(32D))) {
+                    getBossInfo().addPlayer((ServerPlayerEntity) player);
+                    playerIds.add(player.getEntityId());
                 }
             }
 
-            if (!getWorld().isRemote()) {
-                // Update boss bars for nearby players
-                getBossInfo().setPercent(this.getHealth() / this.getMaxHealth());
-                Set<Integer> playerIds = Sets.newHashSet();
-                if (getHealth() != getMaxHealth()) {
-                    for (PlayerEntity player : getWorld().getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB(getPos()).grow(32D))) {
-                        getBossInfo().addPlayer((ServerPlayerEntity) player);
-                        playerIds.add(player.getEntityId());
-                    }
-                }
-
-                // Remove players that aren't in the range for this tick
-                Collection<ServerPlayerEntity> players = Lists.newArrayList(getBossInfo().getPlayers());
-                for (ServerPlayerEntity playerMP : players) {
-                    if (!playerIds.contains(playerMP.getEntityId()) || this.getHealth() == 0) {
-                        getBossInfo().removePlayer(playerMP);
-                    }
+            // Remove players that aren't in the range for this tick
+            Collection<ServerPlayerEntity> players = Lists.newArrayList(getBossInfo().getPlayers());
+            for (ServerPlayerEntity playerMP : players) {
+                if (!playerIds.contains(playerMP.getEntityId()) || this.getHealth() == 0) {
+                    getBossInfo().removePlayer(playerMP);
                 }
             }
         }
@@ -412,11 +410,11 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	            // Change the weather to the resulting weather
 	            WeatherType weatherSource = recipe.getInputWeather();
                 if (weatherSource != null)
-                    weatherSource.deactivate(world);
+                    weatherSource.deactivate((ServerWorld) world);
 
                 WeatherType weatherResult = recipe.getOutputWeather();
                 if (weatherResult != null)
-                    weatherResult.activate(world);
+                    weatherResult.activate((ServerWorld) world);
 	        }
 	        
     	    // Drop the items on the ground

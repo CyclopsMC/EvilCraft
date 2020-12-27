@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IWorldReader;
@@ -85,7 +85,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      */
     public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
 
-    protected static final MinimumSizeValidator minimumSizeValidator = new MinimumSizeValidator(new Vec3i(2, 2, 2));
+    protected static final MinimumSizeValidator minimumSizeValidator = new MinimumSizeValidator(new Vector3i(2, 2, 2));
 
 	private static CubeDetector detector;
     
@@ -104,7 +104,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
     
     @NBTPersist(useDefaultValue = false)
-    private Vec3i size = LocationHelpers.copyLocation(Vec3i.NULL_VECTOR);
+    private Vector3i size = LocationHelpers.copyLocation(Vector3i.NULL_VECTOR);
     @NBTPersist
     private Boolean forceHalt = false;
     @NBTPersist
@@ -258,10 +258,10 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * Get the size of the box entity.
      * @return The box entity size.
      */
-    public Vec3i getEntitySize() {
+    public Vector3i getEntitySize() {
     	Entity entity = getEntity();
     	if(entity == null) {
-    		return Vec3i.NULL_VECTOR;
+    		return Vector3i.NULL_VECTOR;
     	}
     	return EntityHelpers.getEntitySize(entity);
     }
@@ -276,7 +276,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     	if(entity == null) {
     		return false;
     	}
-    	Vec3i requiredSize = getEntitySize();
+    	Vector3i requiredSize = getEntitySize();
     	return getInnerSize().compareTo(requiredSize) >= 0;
     }
 
@@ -287,7 +287,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 
     @Override
     public boolean canWork() {
-    	Vec3i size = getSize();
+    	Vector3i size = getSize();
 		return size.compareTo(minimumSizeValidator.getMinimumSize()) >= 0;
     }
     
@@ -321,7 +321,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @param valid If the structure is being validated(/created), otherwise invalidated.
      * @param originCorner The origin corner
      */
-    public static void detectStructure(IWorldReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
+    public static void detectStructure(IWorldReader world, BlockPos location, Vector3i size, boolean valid, BlockPos originCorner) {
 
     }
     
@@ -344,21 +344,21 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 	/**
 	 * @return the size
 	 */
-	public Vec3i getSize() {
+	public Vector3i getSize() {
 		return size;
 	}
 	
 	/**
 	 * @return the actual inner size.
 	 */
-	public Vec3i getInnerSize() {
-		return LocationHelpers.subtract(getSize(), new Vec3i(1, 1, 1));
+	public Vector3i getInnerSize() {
+		return LocationHelpers.subtract(getSize(), new Vector3i(1, 1, 1));
 	}
 
 	/**
 	 * @param size the size to set
 	 */
-	public void setSize(Vec3i size) {
+	public void setSize(Vector3i size) {
 		this.size = size;
 		sendUpdate();
 	}

@@ -1,22 +1,20 @@
 package org.cyclops.evilcraft.world.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.loot.LootTables;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.DungeonsFeature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.storage.loot.LootTables;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Random;
-import java.util.function.Function;
 
 /**
  * Evil Dungeon, based on vanilla dungeons
@@ -32,12 +30,12 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
     private static final int CHESTS = 2;
     private static final int CHESTS_RAND = 2;
 
-    public WorldFeatureEvilDungeon(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public WorldFeatureEvilDungeon(Codec<NoFeatureConfig> config) {
         super(config);
     }
 
     @Override
-    public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random random, BlockPos blockPos, NoFeatureConfig config) {
+    public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos blockPos, NoFeatureConfig config) {
         int height = 3;
         int radiusX = random.nextInt(RADIUS_X_RAND) + RADIUS_X;
         int radiusZ = random.nextInt(RADIUS_Z_RAND) + RADIUS_Z;

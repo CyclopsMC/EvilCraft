@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.ParticleType;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -39,6 +41,18 @@ public class ParticleBlurTargettedData extends ParticleBlurData {
             return new ParticleBlurTargettedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
+    public static final Codec<ParticleBlurTargettedData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.FLOAT.fieldOf("r").forGetter(ParticleBlurTargettedData::getRed),
+                    Codec.FLOAT.fieldOf("g").forGetter(ParticleBlurTargettedData::getGreen),
+                    Codec.FLOAT.fieldOf("b").forGetter(ParticleBlurTargettedData::getBlue),
+                    Codec.FLOAT.fieldOf("scale").forGetter(ParticleBlurTargettedData::getScale),
+                    Codec.FLOAT.fieldOf("age").forGetter(ParticleBlurTargettedData::getAgeMultiplier),
+                    Codec.FLOAT.fieldOf("x").forGetter(ParticleBlurTargettedData::getTargetX),
+                    Codec.FLOAT.fieldOf("y").forGetter(ParticleBlurTargettedData::getTargetY),
+                    Codec.FLOAT.fieldOf("z").forGetter(ParticleBlurTargettedData::getTargetZ)
+            )
+            .apply(builder, ParticleBlurTargettedData::new));
 
     private final float targetX;
     private final float targetY;

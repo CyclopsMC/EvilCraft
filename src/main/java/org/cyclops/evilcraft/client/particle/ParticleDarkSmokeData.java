@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -28,6 +30,11 @@ public class ParticleDarkSmokeData implements IParticleData {
             return new ParticleDarkSmokeData(buffer.readBoolean());
         }
     };
+    public static final Codec<ParticleDarkSmokeData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.BOOL.fieldOf("dead").forGetter(ParticleDarkSmokeData::isEntityDead)
+            )
+            .apply(builder, ParticleDarkSmokeData::new));
 
     private final boolean entityDead;
 

@@ -1,13 +1,14 @@
 modLoader="javafml"
-loaderVersion="[31.2,)"
+loaderVersion="[34,)"
 issueTrackerURL="https://github.com/CyclopsMC/EvilCraft/issues"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/evilcraft"
+license="MIT"
+logoFile="logo.png"
+authors="rubensworks (aka kroeser)"
 [[mods]]
 modId="evilcraft"
 version="${file.jarVersion}"
 displayName="EvilCraft"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/evilcraft"
-logoFile="logo.png"
-authors="rubensworks (aka kroeser)"
 description='''
 An evil mod for Minecraft.
 '''
@@ -20,12 +21,12 @@ An evil mod for Minecraft.
 [[dependencies.evilcraft]]
     modId="forge"
     mandatory=true
-    versionRange="[31.2,)"
+    versionRange="[34,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.evilcraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16.2,]"
     ordering="NONE"
     side="BOTH"

@@ -34,7 +34,8 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
             
             if (!world.isRemote()) {
             	EntityBloodPearl pearl = new EntityBloodPearl(world, player);
-                pearl.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.0F);
+                // MCP: shoot
+                pearl.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.0F);
                 pearl.setMotion(pearl.getMotion().mul(3, 3, 3));
                 world.addEntity(pearl);
             }

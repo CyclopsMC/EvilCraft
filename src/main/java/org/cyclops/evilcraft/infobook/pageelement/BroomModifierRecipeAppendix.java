@@ -1,8 +1,11 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.IBidiRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
@@ -63,27 +66,24 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, MatrixStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
         int tick = getTick(gui);
         Pair<ItemStack, Float> value = modifierValues.get(tick % modifierValues.size());
 
         ItemStack input = value.getKey();
 
         // Items
-        renderItem(gui, x, y, input, mx, my, INPUT);
+        renderItem(gui, matrixStack, x, y, input, mx, my, INPUT);
 
         // Effect
         String line = String.format("+ %s %s", value.getValue().toString(), L10NHelpers.localize(modifier.getTranslationKey()));
-        drawString(gui, line, x + SLOT_SIZE + 4, y + 3);
+        drawString(gui, matrixStack, line, x + SLOT_SIZE + 4, y + 3);
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void drawString(ScreenInfoBook gui, String string, int x, int y) {
+    protected void drawString(ScreenInfoBook gui, MatrixStack matrixStack, String string, int x, int y) {
         FontRenderer fontRenderer = gui.getFontRenderer();
-        boolean oldUnicode = fontRenderer.getBidiFlag();
-        fontRenderer.setBidiFlag(true);
-        fontRenderer.setBidiFlag(false);
-        fontRenderer.drawSplitString(string, x, y, 200, 0);
-        fontRenderer.setBidiFlag(oldUnicode);
+        IBidiRenderer.func_243258_a(fontRenderer, new StringTextComponent(string), 200)
+                .func_241866_c(matrixStack, x, y, 9, 0);
     }
 }

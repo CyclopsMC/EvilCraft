@@ -18,7 +18,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -95,9 +95,9 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public static Metadata METADATA = new Metadata();
 
     @NBTPersist(useDefaultValue = false)
-    private Vec3i size = LocationHelpers.copyLocation(Vec3i.NULL_VECTOR);
+    private Vector3i size = LocationHelpers.copyLocation(Vector3i.NULL_VECTOR);
     @NBTPersist(useDefaultValue = false)
-    private Vec3i renderOffset = new Vec3i(0, 0, 0);
+    private Vector3i renderOffset = new Vector3i(0, 0, 0);
     @Getter
     @Setter
     @NBTPersist
@@ -131,7 +131,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
     public static int TICKERS = SLOTS_CHEST + 1;
 
-    protected static final ExactSizeValidator exactSizeValidator = new ExactSizeValidator(new Vec3i(2, 2, 2));
+    protected static final ExactSizeValidator exactSizeValidator = new ExactSizeValidator(new Vector3i(2, 2, 2));
 
     private static CubeDetector detector;
 
@@ -229,7 +229,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      * @return If the structure is valid.
      */
     public boolean isStructureComplete() {
-        return !getSize().equals(Vec3i.NULL_VECTOR);
+        return !getSize().equals(Vector3i.NULL_VECTOR);
     }
 
     public int getSizeSingular() {
@@ -239,14 +239,14 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     /**
      * @return the size
      */
-    public Vec3i getSize() {
+    public Vector3i getSize() {
         return size;
     }
 
     /**
      * @param size the size to set
      */
-    public void setSize(Vec3i size) {
+    public void setSize(Vector3i size) {
         this.size = size;
         sendUpdate();
     }
@@ -258,7 +258,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     public boolean canWork() {
-        Vec3i size = getSize();
+        Vector3i size = getSize();
         return size.compareTo(exactSizeValidator.getExactSize()) == 0;
     }
 
@@ -312,8 +312,8 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             List<PlayerEntity> entities = this.world.getEntitiesWithinAABB(
                     PlayerEntity.class,
                     new AxisAlignedBB(
-                            getPos().subtract(new Vec3i(range, range, range)),
-                            getPos().add(new Vec3i(1 + range, 1 + range, 1 + range))
+                            getPos().subtract(new Vector3i(range, range, range)),
+                            getPos().add(new Vector3i(1 + range, 1 + range, 1 + range))
                     )
             );
 
@@ -417,7 +417,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     @Override
     @OnlyIn(Dist.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(getPos().subtract(new Vec3i(3, 3, 3)), getPos().add(3, 6, 3));
+        return new AxisAlignedBB(getPos().subtract(new Vector3i(3, 3, 3)), getPos().add(3, 6, 3));
     }
 
     public void setCenter(BlockPos center) {
@@ -440,7 +440,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
         return Direction.byIndex(this.rotation);
     }
 
-    public Vec3i getRenderOffset() {
+    public Vector3i getRenderOffset() {
         return this.renderOffset;
     }
 
@@ -458,7 +458,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      * @param valid If the structure is being validated(/created), otherwise invalidated.
      * @param originCorner The origin corner
      */
-    public static void detectStructure(World world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
+    public static void detectStructure(World world, BlockPos location, Vector3i size, boolean valid, BlockPos originCorner) {
 
     }
 

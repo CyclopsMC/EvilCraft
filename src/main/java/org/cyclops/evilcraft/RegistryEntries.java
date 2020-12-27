@@ -395,8 +395,6 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:degraded")
     public static final Biome BIOME_DEGRADED = null;
 
-    @ObjectHolder("evilcraft:evil_dungeon")
-    public static final Placement DECORATOR_EVIL_DUNGEON = null;
     @ObjectHolder("evilcraft:dark_temple")
     public static final Structure<?> STRUCTURE_DARK_TEMPLE = null;
 }

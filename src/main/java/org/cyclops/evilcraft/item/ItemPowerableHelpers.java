@@ -55,7 +55,7 @@ public class ItemPowerableHelpers {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
                 player.sendStatusMessage(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.set_power", newPower)
-                        .applyTextStyle(TextFormatting.DARK_PURPLE), true);
+                        .mergeStyle(TextFormatting.DARK_PURPLE), true);
             }
             return true;
         }
@@ -78,7 +78,7 @@ public class ItemPowerableHelpers {
      */
     public static void addPostInformation(ItemStack itemStack, List<ITextComponent> lines) {
         lines.add(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
-                .applyTextStyle(TextFormatting.BOLD));
+                .mergeStyle(TextFormatting.BOLD));
     }
 	
 }

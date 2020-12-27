@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.network.packet;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -73,7 +73,7 @@ public class FartPacket extends PlayerPositionPacket {
     @OnlyIn(Dist.CLIENT)
     private void spawnFartParticles(
             World world, PlayerEntity player,
-            Vec3d pos, boolean isRemotePlayer) {
+            Vector3d pos, boolean isRemotePlayer) {
         
         if (player == null)
             return;
@@ -118,7 +118,7 @@ public class FartPacket extends PlayerPositionPacket {
     @Override
     public void actionServer(World world, ServerPlayerEntity player) {
         if(GeneralConfig.farting) {
-            Advancements.FART.trigger(player, null);
+            Advancements.FART.test(player);
             super.actionServer(world, player);
         }
     }

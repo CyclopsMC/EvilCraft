@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.player.PlayerInventory;
@@ -80,23 +81,24 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
-        super.drawGuiContainerBackgroundLayer(f, x, y);
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float f, int x, int y) {
+        super.drawGuiContainerBackgroundLayer(matrixStack, f, x, y);
         if(isShowProgress()) {
-            this.blit(guiLeft + progressTargetX, guiTop + progressTargetY, progressX, progressY,
+            this.blit(matrixStack, guiLeft + progressTargetX, guiTop + progressTargetY, progressX, progressY,
             		getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
 
     protected abstract ITextComponent getName();
     
-	protected void drawForgegroundString() {
-    	font.drawString(getName().getFormattedText(), 8 + offsetX, 4 + offsetY, 4210752);
+	protected void drawForgegroundString(MatrixStack matrixStack) {
+	    // MCP: drawString
+    	font.func_243248_b(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        drawForgegroundString();
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
+        drawForgegroundString(matrixStack);
         RenderHelpers.bindTexture(texture);
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -104,19 +106,19 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         FluidStack fluidStack = getContainer().getFluidStack();
         if(shouldRenderTank(fluidStack) && getContainer().getFluidCapacity() > 0) {
             int tankSize = Math.min(getContainer().getFluidCapacity(), Math.min(getContainer().getFluidCapacity(), fluidStack.getAmount()) * tankHeight / getContainer().getFluidCapacity());
-            drawTank(tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
+            drawTank(matrixStack, tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
         }
-        drawAdditionalForeground(mouseX, mouseY);
+        drawAdditionalForeground(matrixStack, mouseX, mouseY);
         GlStateManager.disableBlend();
     }
     
-	protected void drawAdditionalForeground(int mouseX, int mouseY) {
+	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
     	
     }
     
     @Override
-    public void drawCurrentScreen(int mouseX, int mouseY, float gameTicks) {
-        super.drawCurrentScreen(mouseX, mouseY, gameTicks);
+    public void drawCurrentScreen(MatrixStack matrixStack, int mouseX, int mouseY, float gameTicks) {
+        super.drawCurrentScreen(matrixStack, mouseX, mouseY, gameTicks);
         drawTooltips(mouseX, mouseY);
     }
     
@@ -126,7 +128,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         return fluidStack.getAmount() > 0;
     }
     
-	protected void drawTank(int xOffset, int yOffset, Fluid fluid, int level) {
+	protected void drawTank(MatrixStack matrixStack, int xOffset, int yOffset, Fluid fluid, int level) {
         if(fluid != null) {
             FluidStack stack = new FluidStack(fluid, 1);
             TextureAtlasSprite icon = RenderHelpers.getFluidIcon(stack, Direction.UP);
@@ -145,12 +147,12 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
                 }
                 
                 RenderHelpers.bindTexture(org.cyclops.evilcraft.core.helper.RenderHelpers.TEXTURE_MAP);
-                blit(xOffset, yOffset - textureHeight - verticalOffset, 0, tankWidth, textureHeight, icon);
+                blit(matrixStack, xOffset, yOffset - textureHeight - verticalOffset, 0, tankWidth, textureHeight, icon);
                 verticalOffset = verticalOffset + 16;
             }
             
             RenderHelpers.bindTexture(texture);
-            blit(xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
+            blit(matrixStack, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
         }
     }
     

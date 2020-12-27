@@ -4,6 +4,7 @@ import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
  */
 public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
-    public ParticleDarkSmoke(World world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead) {
+    public ParticleDarkSmoke(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.motionX = motionX;
         this.motionY = motionY;

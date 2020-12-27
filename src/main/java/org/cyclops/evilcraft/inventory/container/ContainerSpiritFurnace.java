@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.inventory.container;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
@@ -66,8 +66,8 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
     private final Supplier<Boolean> variableSizeValidForEntity;
     private final Supplier<Boolean> variableForceHalt;
     private final Supplier<Boolean> variableCaughtError;
-    private final Supplier<Vec3i> variableInnerSize;
-    private final Supplier<Vec3i> variableEntitySize;
+    private final Supplier<Vector3i> variableInnerSize;
+    private final Supplier<Vector3i> variableEntitySize;
 
     public ContainerSpiritFurnace(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, new Inventory(TileSpiritFurnace.SLOTS + TileSpiritFurnace.INVENTORY_SIZE_UPGRADES), Optional.empty());
@@ -82,8 +82,8 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
         this.variableSizeValidForEntity = registerSyncedVariable(Boolean.class, () -> getTileSupplier().get().isSizeValidForEntity());
         this.variableForceHalt = registerSyncedVariable(Boolean.class, () -> getTileSupplier().get().isForceHalt());
         this.variableCaughtError = registerSyncedVariable(Boolean.class, () -> getTileSupplier().get().isCaughtError());
-        this.variableInnerSize = registerSyncedVariable(Vec3i.class, () -> getTileSupplier().get().getInnerSize());
-        this.variableEntitySize = registerSyncedVariable(Vec3i.class, () -> getTileSupplier().get().getEntitySize());
+        this.variableInnerSize = registerSyncedVariable(Vector3i.class, () -> getTileSupplier().get().getInnerSize());
+        this.variableEntitySize = registerSyncedVariable(Vector3i.class, () -> getTileSupplier().get().getEntitySize());
 
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, TileSpiritFurnace.SLOT_CONTAINER,
@@ -122,11 +122,11 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<TileSpiritFurna
         return variableCaughtError.get();
     }
 
-    public Vec3i getInnerSize() {
+    public Vector3i getInnerSize() {
         return variableInnerSize.get();
     }
 
-    public Vec3i getEntitySize() {
+    public Vector3i getEntitySize() {
         return variableEntitySize.get();
     }
 

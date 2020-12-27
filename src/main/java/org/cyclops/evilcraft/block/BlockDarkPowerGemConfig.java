@@ -8,7 +8,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
- * Config for the {@link BlockDarkPowerGem}.
+ * Config for the dark power gem block.
  * @author rubensworks
  *
  */
@@ -18,7 +18,7 @@ public class BlockDarkPowerGemConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "dark_power_gem_block",
-                eConfig -> new BlockDarkPowerGem(Block.Properties.create(Material.ROCK)
+                eConfig -> new Block(Block.Properties.create(Material.ROCK)
                         .hardnessAndResistance(5.0F)
                         .sound(SoundType.METAL)
                         .harvestTool(ToolType.PICKAXE)

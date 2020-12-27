@@ -1,4 +1,4 @@
-package org.cyclops.evilcraft.world.gen.feature;
+package org.cyclops.evilcraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
@@ -7,10 +7,12 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.ScatteredStructurePiece;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
@@ -19,17 +21,17 @@ import java.util.Random;
 /**
  * @author rubensworks
  */
-public abstract class WorldFeaturePieceQuarterSymmetrical extends ScatteredStructurePiece {
+public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStructurePiece {
 
     private final List<Integer> layerHeights = Lists.newArrayList();
     private final List<BlockWrapper[]> layers = Lists.newArrayList();
 
-    protected WorldFeaturePieceQuarterSymmetrical(IStructurePieceType structurePieceTypeIn, Random rand, int xIn, int yIn, int zIn, int widthIn, int heightIn, int depthIn) {
+    protected WorldStructurePieceQuarterSymmetrical(IStructurePieceType structurePieceTypeIn, Random rand, int xIn, int yIn, int zIn, int widthIn, int heightIn, int depthIn) {
         super(structurePieceTypeIn, rand, xIn, yIn, zIn, widthIn, heightIn, depthIn);
         generateLayers();
     }
 
-    protected WorldFeaturePieceQuarterSymmetrical(IStructurePieceType structurePieceTypeIn, CompoundNBT nbt) {
+    protected WorldStructurePieceQuarterSymmetrical(IStructurePieceType structurePieceTypeIn, CompoundNBT nbt) {
         super(structurePieceTypeIn, nbt);
         generateLayers();
     }
@@ -96,7 +98,8 @@ public abstract class WorldFeaturePieceQuarterSymmetrical extends ScatteredStruc
 
     // init
     @Override
-    public boolean func_225577_a_(IWorld world, ChunkGenerator<?> chunkGenerator, Random rand, MutableBoundingBox bounds, ChunkPos chunkPos) {
+    public boolean func_230383_a_(ISeedReader world, StructureManager structureManager, ChunkGenerator chunkGenerator,
+                                  Random rand, MutableBoundingBox bounds, ChunkPos chunkPos, BlockPos pos) {
         int x = rand.nextInt(16);
         int z = rand.nextInt(16);
         BlockPos blockPos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(0), this.getZWithOffset(x, z));

@@ -40,11 +40,6 @@ public class BlockSanguinaryPedestal extends BlockTile implements IBlockRarityPr
     }
 
     @Override
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
-
-    @Override
     public Rarity getRarity(ItemStack itemStack) {
         return tier == 1 ? Rarity.UNCOMMON : Rarity.COMMON;
     }
@@ -54,9 +49,9 @@ public class BlockSanguinaryPedestal extends BlockTile implements IBlockRarityPr
         TileHelpers.getSafeTile(worldIn, pos, TileSanguinaryPedestal.class)
                 .ifPresent(tile -> {
                     player.sendStatusMessage(new StringTextComponent(String.format("%,d", tile.getTank().getFluidAmount()))
-                            .appendText(" / ")
-                            .appendText(String.format("%,d", tile.getTank().getCapacity()))
-                            .appendText(" mB"), true);
+                            .appendString(" / ")
+                            .appendString(String.format("%,d", tile.getTank().getCapacity()))
+                            .appendString(" mB"), true);
                 });
         return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);
     }

@@ -7,6 +7,7 @@ import net.minecraft.block.TorchBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -30,10 +31,8 @@ public class BlockGemStoneTorchConfig extends BlockConfig {
                 eConfig -> new TorchBlock(Block.Properties.create(Material.MISCELLANEOUS)
                         .doesNotBlockMovement()
                         .hardnessAndResistance(0)
-                        .lightValue(14)
-                        .sound(SoundType.WOOD)) {
-
-                },
+                        .setLightLevel((state) -> 14)
+                        .sound(SoundType.WOOD), ParticleTypes.FLAME),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);

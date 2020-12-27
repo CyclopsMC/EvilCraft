@@ -9,6 +9,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -58,7 +59,7 @@ public abstract class BlockTileGuiTank extends BlockTileGui implements IInformat
     }
     
     @Override
-    public ITextComponent getInfo(ItemStack itemStack) {
+    public IFormattableTextComponent getInfo(ItemStack itemStack) {
         return BlockTankHelpers.getInfoTank(itemStack);
     }
 

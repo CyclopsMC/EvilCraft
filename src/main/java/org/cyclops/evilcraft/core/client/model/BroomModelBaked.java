@@ -7,7 +7,6 @@ import com.google.common.util.concurrent.AtomicLongMap;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
@@ -16,6 +15,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.data.IModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
@@ -100,7 +100,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public boolean func_230044_c_() {
+    public boolean isSideLit() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
@@ -154,7 +154,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
                 vertexData[i * 8 + 3] = color;
             }
 
-            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.func_187508_a(), false));
+            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.getSprite(), false));
         }
 
         return offsetQuads;

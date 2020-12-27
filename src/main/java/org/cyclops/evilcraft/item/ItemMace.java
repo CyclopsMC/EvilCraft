@@ -1,12 +1,14 @@
 package org.cyclops.evilcraft.item;
 
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -257,14 +259,13 @@ public abstract class ItemMace extends ItemBloodContainer {
         return 15;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public Multimap getAttributeModifiers(EquipmentSlotType slot, ItemStack itemStack) {
-        Multimap multimap = super.getAttributeModifiers(slot, itemStack);
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack itemStack) {
         if (slot == EquipmentSlotType.MAINHAND) {
-            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.meleeDamage, AttributeModifier.Operation.ADDITION));
+            return ImmutableMultimap.of(Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.meleeDamage, AttributeModifier.Operation.ADDITION));
         }
-        return multimap;
+        return super.getAttributeModifiers(slot, itemStack);
     }
 
     @OnlyIn(Dist.CLIENT)

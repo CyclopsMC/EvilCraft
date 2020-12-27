@@ -33,7 +33,8 @@ public class ItemNecromancerStaff extends ItemBloodContainer {
     	if(!entityLiving.world.isRemote()) {
     		head.setMobType(mobType);
             // Last three params: pitch offset, velocity, inaccuracy
-            head.shoot(entityLiving, entityLiving.rotationPitch, entityLiving.rotationYaw, -20.0F, 0.5F, 1.0F);
+            // MCP: shoot
+            head.func_234612_a_(entityLiving, entityLiving.rotationPitch, entityLiving.rotationYaw, -20.0F, 0.5F, 1.0F);
     		entityLiving.world.addEntity(head);
         }
     }

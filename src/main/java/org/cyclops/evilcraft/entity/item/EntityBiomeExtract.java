@@ -93,7 +93,7 @@ public class EntityBiomeExtract extends EntityThrowable {
 
                     @Override
                     public void spreadTo(World world, BlockPos location) {
-                        setBiome(world, location, biome);
+                        setBiome((ServerWorld) world, location, biome);
                         updatedChunks.add(new ChunkPos(location));
                         showChangedBiome((ServerWorld) world, new BlockPos(location.getX(), ((BlockRayTraceResult) movingobjectposition).getPos().getY(),
                                 location.getZ()), biome.getFoliageColor());
@@ -126,12 +126,12 @@ public class EntityBiomeExtract extends EntityThrowable {
      * @param posIn The position.
      * @param biome The biome to change to.
      */
-    public static void setBiome(World world, BlockPos posIn, Biome biome) {
+    public static void setBiome(ServerWorld world, BlockPos posIn, Biome biome) {
         // Worldgen applies some funk "magnifier" position transformation to a "noise position",
         // which can change the pos into some other internal pos.
         // In a hacky way, we can apply transformation as follows:
         Wrapper<BlockPos> posWrapper = new Wrapper<>();
-        world.getDimension().getType().getMagnifier().getBiome(world.getSeed(), posIn.getX(), posIn.getY(), posIn.getZ(), new BiomeManager.IBiomeReader() {
+        world.getDimensionType().getMagnifier().getBiome(world.getSeed(), posIn.getX(), posIn.getY(), posIn.getZ(), new BiomeManager.IBiomeReader() {
             @Override
             public Biome getNoiseBiome(int x, int y, int z) {
                 posWrapper.set(new BlockPos(x, y, z));
@@ -156,7 +156,7 @@ public class EntityBiomeExtract extends EntityThrowable {
     }
 
     /**
-     * This should be called after {@link EntityBiomeExtract#setBiome(World, BlockPos, Biome)}
+     * This should be called after {@link EntityBiomeExtract#setBiome(ServerWorld, BlockPos, Biome)}}
      * to notify players of biome change.
      * @param world The world.
      * @param chunkPos The chunk position in which one or more biome positions were changed.

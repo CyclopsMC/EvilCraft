@@ -1,7 +1,11 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.IBidiRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
@@ -58,9 +62,9 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, MatrixStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
         int middle = (width - SLOT_SIZE) / 2;
-        gui.drawArrowRight(x + middle - 3, y + SLOT_OFFSET_Y + 2);
+        gui.drawArrowRight(matrixStack, x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
         // Prepare items
         int tick = getTick(gui);
@@ -72,25 +76,22 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
         }
 
         // Items
-        renderItem(gui, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
-        renderItem(gui, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
+        renderItem(gui, matrixStack, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
+        renderItem(gui, matrixStack, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
         // Tier
         if(promise != null) {
-            renderItem(gui, x + SLOT_OFFSET_X, y + 2, promise, mx, my, PROMISE);
+            renderItem(gui, matrixStack, x + SLOT_OFFSET_X, y + 2, promise, mx, my, PROMISE);
         }
 
-        renderItem(gui, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
-        renderItem(gui, x + middle, y + SLOT_OFFSET_Y, new ItemStack(RegistryEntries.BLOCK_BLOOD_INFUSER), mx, my, false, null);
+        renderItem(gui, matrixStack, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
+        renderItem(gui, matrixStack, x + middle, y + SLOT_OFFSET_Y, new ItemStack(RegistryEntries.BLOCK_BLOOD_INFUSER), mx, my, false, null);
 
         // Blood amount text
         FontRenderer fontRenderer = gui.getFontRenderer();
-        boolean oldUnicode = fontRenderer.getBidiFlag();
-        fontRenderer.setBidiFlag(true);
-        fontRenderer.setBidiFlag(false);
         FluidStack fluidStack = recipe.getInputFluid();
         String line = fluidStack.getAmount() + " mB";
-        fontRenderer.drawSplitString(line, x + middle + SLOT_SIZE + 1, y + 6, 200, 0);
-        fontRenderer.setBidiFlag(oldUnicode);
+        IBidiRenderer.func_243258_a(fontRenderer, new StringTextComponent(line), 200)
+                .func_241866_c(matrixStack, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
     }
 }

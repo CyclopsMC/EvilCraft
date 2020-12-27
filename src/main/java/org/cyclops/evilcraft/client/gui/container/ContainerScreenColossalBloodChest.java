@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.gui.container;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -103,17 +104,18 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
     }
 
     @Override
-    protected void drawForgegroundString() {
-        font.drawString(getName().getFormattedText(), 8 + offsetX, 4 + offsetY, 4210752);
+    protected void drawForgegroundString(MatrixStack matrixStack) {
+        // MCP: drawString
+        font.func_243248_b(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
+        super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
 
         RenderHelpers.bindTexture(texture);
         int minusFactor = (int) (((float) (TileColossalBloodChest.MAX_EFFICIENCY - ((ContainerColossalBloodChest) getContainer()).getEfficiency()) * EFFICIENCYBARHEIGHT) / TileColossalBloodChest.MAX_EFFICIENCY);
-        blit(EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
+        blit(matrixStack, EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
                 EFFICIENCYBARX, EFFICIENCYBARY + minusFactor, EFFICIENCYBARWIDTH, EFFICIENCYBARHEIGHT - minusFactor);
     }
     

@@ -1,10 +1,12 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
@@ -29,9 +31,16 @@ public abstract class ItemAbstractFocus extends Item {
 
     public ItemAbstractFocus(Properties properties) {
         super(properties);
-        this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
+        if (MinecraftHelpers.isClientSide()) {
+            registerProperties();
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    protected void registerProperties() {
+        ItemModelsProperties.registerProperty(this, new ResourceLocation("pull"), new IItemPropertyGetter() {
             @OnlyIn(Dist.CLIENT)
-            public float call(ItemStack stack, World worldIn, LivingEntity entityIn) {
+            public float call(ItemStack stack, ClientWorld worldIn, LivingEntity entityIn) {
                 if (entityIn == null) {
                     return 0.0F;
                 } else {
@@ -40,9 +49,9 @@ public abstract class ItemAbstractFocus extends Item {
                 }
             }
         });
-        this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
+        ItemModelsProperties.registerProperty(this, new ResourceLocation("pulling"), new IItemPropertyGetter() {
             @OnlyIn(Dist.CLIENT)
-            public float call(ItemStack stack, World worldIn, LivingEntity entityIn) {
+            public float call(ItemStack stack, ClientWorld worldIn, LivingEntity entityIn) {
                 return entityIn != null && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
         });
@@ -91,7 +100,8 @@ public abstract class ItemAbstractFocus extends Item {
                 ThrowableEntity beam = newBeamEntity(player);
 		    	if(!player.world.isRemote()) {
                     // Last three params: pitch offset, velocity, inaccuracy
-                    beam.shoot(player, player.rotationPitch, player.rotationYaw, 0F, 0.5F, 1.0F);
+                    // MCP: shoot
+                    beam.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0F, 0.5F, 1.0F);
 		    		player.world.addEntity(beam);
 		        }
     		}

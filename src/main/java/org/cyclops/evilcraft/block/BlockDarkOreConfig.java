@@ -7,14 +7,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -35,6 +35,8 @@ public class BlockDarkOreConfig extends BlockConfig {
     @ConfigurableProperty(category = "worldgeneration", comment = "Generation ends of this level.")
     public static int endY = 66;
 
+    public ConfiguredFeature<?, ?> worldFeature;
+
     public BlockDarkOreConfig() {
         super(
                 EvilCraft._instance,
@@ -47,21 +49,18 @@ public class BlockDarkOreConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
+        MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
     }
 
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        for (Biome biome : ForgeRegistries.BIOMES) {
-            if (biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NETHER) {
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, getInstance().getDefaultState(), blocksPerVein))
-                        .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(veinsPerChunk, 0, 0, endY))));
-            }
+    public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
+        if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+            event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> Feature.ORE
+                    .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, getInstance().getDefaultState(), blocksPerVein))
+                    .range(endY).square().func_242731_b(veinsPerChunk));
         }
     }
     

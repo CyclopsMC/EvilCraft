@@ -6,9 +6,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -16,14 +15,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Matrix4f;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
-
-import java.util.Random;
 
 /**
  * Renderer for the {@link BlockBoxOfEternalClosure}.

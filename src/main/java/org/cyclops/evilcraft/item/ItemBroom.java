@@ -156,7 +156,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
         super.addInformation(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
             list.add(new TranslationTextComponent("broom.parts." + Reference.MOD_ID + ".types")
-                    .applyTextStyle(TextFormatting.ITALIC));
+                    .mergeStyle(TextFormatting.ITALIC));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
             Map<BroomModifier, Float> modifiers = getBroomModifiers(itemStack);
             Set<BroomModifier> modifierTypes = Sets.newHashSet();
@@ -173,7 +173,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             int maxModifiers = modifiersAndMax.getRight();
             list.add(new TranslationTextComponent(
                     "broom.modifiers." + Reference.MOD_ID + ".types.nameparam", modifierCount, maxModifiers)
-                    .applyTextStyle(TextFormatting.ITALIC));
+                    .mergeStyle(TextFormatting.ITALIC));
             for (BroomModifier modifier : modifierTypes) {
                 if(modifier.showTooltip()) {
                     Float value = modifiers.get(modifier);
@@ -186,7 +186,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
         } else {
             list.add(new TranslationTextComponent("broom." + Reference.MOD_ID + ".shiftinfo")
-                    .applyTextStyle(TextFormatting.ITALIC));
+                    .mergeStyle(TextFormatting.ITALIC));
         }
     }
 
@@ -239,7 +239,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             RenderHelpers.bindTexture(OVERLAY);
 
             // Render slot
-            Minecraft.getInstance().ingameGUI.blit(x, y, 11, 0, 24, 24);
+            Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), x, y, 11, 0, 24, 24);
 
             // Render item
             GlStateManager.enableLighting();

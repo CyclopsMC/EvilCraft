@@ -4,24 +4,33 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootFunction;
+import net.minecraft.loot.LootFunctionType;
+import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameters;
-import net.minecraft.world.storage.loot.functions.ILootFunction;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.functions.ILootFunction;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
+import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.Reference;
 
 /**
  * Copies fluid tank data to the item.
  * @author rubensworks
  */
-public class LootFunctionCopyTankData implements ILootFunction {
+public class LootFunctionCopyTankData extends LootFunction {
+    public static final LootFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_tank_data"), new LootFunctionCopyTankData.Serializer());
+
+    protected LootFunctionCopyTankData(ILootCondition[] conditionsIn) {
+        super(conditionsIn);
+    }
 
     @Override
-    public ItemStack apply(ItemStack itemStack, LootContext lootContext) {
+    public ItemStack doApply(ItemStack itemStack, LootContext lootContext) {
         TileEntity tile = lootContext.get(LootParameters.BLOCK_ENTITY);
         tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                 .ifPresent(fluidHandlerTile -> {
@@ -38,11 +47,16 @@ public class LootFunctionCopyTankData implements ILootFunction {
         return itemStack;
     }
 
-    public static class Serializer extends ILootFunction.Serializer<LootFunctionCopyTankData> {
+    @Override
+    public LootFunctionType getFunctionType() {
+        return TYPE;
+    }
 
-        public Serializer() {
-            super(new ResourceLocation(Reference.MOD_ID, "copy_tank_data"), LootFunctionCopyTankData.class);
-        }
+    public static void load() {
+        // Dummy call, to enforce class loading
+    }
+
+    public static class Serializer extends LootFunction.Serializer<LootFunctionCopyTankData> {
 
         @Override
         public void serialize(JsonObject jsonObject, LootFunctionCopyTankData lootFunctionCopyId, JsonSerializationContext jsonSerializationContext) {
@@ -50,8 +64,8 @@ public class LootFunctionCopyTankData implements ILootFunction {
         }
 
         @Override
-        public LootFunctionCopyTankData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
-            return new LootFunctionCopyTankData();
+        public LootFunctionCopyTankData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, ILootCondition[] conditionsIn) {
+            return new LootFunctionCopyTankData(conditionsIn);
         }
     }
 

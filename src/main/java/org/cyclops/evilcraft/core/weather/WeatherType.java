@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.weather;
 
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import java.lang.reflect.Field;
 
@@ -55,19 +56,19 @@ public abstract class WeatherType {
      * Activate this weather in the given world.
      * @param world The world.
      */
-    public abstract void activate(World world);
+    public abstract void activate(ServerWorld world);
     /**
      * Deactivate this weather in the given world.
      * @param world The world.
      */
-    public abstract void deactivate(World world);
+    public abstract void deactivate(ServerWorld world);
     
     /**
      * Activate or deactivate this weather in the given world.
      * @param world The world.
      * @param activate If the weather must be activated.
      */
-    public void activate(World world, boolean activate) {
+    public void activate(ServerWorld world, boolean activate) {
         if (activate)
             activate(world);
         else

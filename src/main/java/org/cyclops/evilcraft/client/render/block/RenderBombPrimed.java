@@ -3,12 +3,12 @@ package org.cyclops.evilcraft.client.render.block;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.TNTMinecartRenderer;
 import net.minecraft.client.renderer.entity.TNTRenderer;
 import net.minecraft.entity.item.TNTEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3f;
 
 /**
  * Renderer for a primed bomb.

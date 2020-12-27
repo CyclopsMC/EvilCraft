@@ -7,9 +7,8 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -33,27 +32,19 @@ public class BlockInfestedNetherConfig extends BlockConfig {
                         .hardnessAndResistance(0.0F), type),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
+        MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
 
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        for (Biome biome : ForgeRegistries.BIOMES) {
-            if (biome.getCategory() == Biome.Category.NETHER) {
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, getInstance().getDefaultState(), 9))
-                        .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(veinsPerChunk, 0, 0, 64))));
-            }
+    public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
+        if (event.getCategory() == Biome.Category.NETHER) {
+            event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_DECORATION).add(() -> Feature.ORE
+                    .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_NETHER, getInstance().getDefaultState(), 9))
+                    .range(64).square().func_242731_b(veinsPerChunk));
         }
-
-        if(GeneralConfig.extraSilverfish && GeneralConfig.silverfish_BlocksPerVein > 0 && GeneralConfig.silverfish_VeinsPerChunk > 0) {
-            for (Biome biome : ForgeRegistries.BIOMES) {
-                if (biome.getCategory() != Biome.Category.THEEND && biome.getCategory() != Biome.Category.NETHER) {
-                    biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Feature.ORE
-                            .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, Blocks.INFESTED_STONE.getDefaultState(), GeneralConfig.silverfish_BlocksPerVein))
-                            .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(GeneralConfig.silverfish_VeinsPerChunk, 0, 0, GeneralConfig.silverfish_EndY))));
-                }
-            }
+        if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+            event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_DECORATION).add(() -> Feature.ORE
+                    .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, Blocks.INFESTED_STONE.getDefaultState(), GeneralConfig.silverfish_BlocksPerVein))
+                    .range(GeneralConfig.silverfish_EndY).square().func_242731_b(GeneralConfig.silverfish_VeinsPerChunk));
         }
     }
     

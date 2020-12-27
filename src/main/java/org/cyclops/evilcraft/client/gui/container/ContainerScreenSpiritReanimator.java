@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
@@ -109,7 +110,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
     }
     
     @Override
-	protected void drawAdditionalForeground(int mouseX, int mouseY) {
+	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
     	String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getTranslationKey() + ".help.invalid";
     	List<ITextComponent> lines = Lists.newArrayList();
     	lines.add(new TranslationTextComponent(prefix));
@@ -127,7 +128,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
         	}
         }
         if(lines.size() > 1) {
-            this.blit(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+            this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
 	    	if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {

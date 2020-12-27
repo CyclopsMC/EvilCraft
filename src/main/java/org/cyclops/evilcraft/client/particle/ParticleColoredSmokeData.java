@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -30,6 +32,13 @@ public class ParticleColoredSmokeData implements IParticleData {
             return new ParticleColoredSmokeData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
+    public static final Codec<ParticleColoredSmokeData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.FLOAT.fieldOf("r").forGetter(ParticleColoredSmokeData::getR),
+                    Codec.FLOAT.fieldOf("g").forGetter(ParticleColoredSmokeData::getG),
+                    Codec.FLOAT.fieldOf("b").forGetter(ParticleColoredSmokeData::getB)
+            )
+            .apply(builder, ParticleColoredSmokeData::new));
 
     private final float r;
     private final float g;

@@ -60,9 +60,6 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
             if (isPickupFluids() && movingobjectpositionFill.getType() == RayTraceResult.Type.BLOCK) {
                 // Fill the container and remove fluid blockState
                 BlockPos blockPos = movingobjectpositionFill.getPos();
-                if (!world.canMineBlockBody(player, blockPos)) {
-                    return MinecraftHelpers.successAction(itemStack);
-                }
 
                 BlockState blockState = world.getBlockState(blockPos);
                 if (blockState.getBlock() instanceof FlowingFluidBlock
@@ -79,9 +76,6 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
             // Drain container and place fluid blockState
             if (hasBucket && isPlaceFluids() && movingobjectpositionDrain.getType() == RayTraceResult.Type.BLOCK) {
                 BlockPos blockPos = movingobjectpositionFill.getPos();
-                if (!world.canMineBlockBody(player, blockPos)) {
-                    return MinecraftHelpers.successAction(itemStack);
-                }
 
                 Direction direction = movingobjectpositionDrain.getFace();
                 blockPos = blockPos.add(direction.getDirectionVec());

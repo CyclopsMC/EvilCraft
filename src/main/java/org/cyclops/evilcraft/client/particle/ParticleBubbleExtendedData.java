@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
@@ -26,6 +28,11 @@ public class ParticleBubbleExtendedData implements IParticleData {
             return new ParticleBubbleExtendedData(buffer.readFloat());
         }
     };
+    public static final Codec<ParticleBubbleExtendedData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.FLOAT.fieldOf("gravity").forGetter(ParticleBubbleExtendedData::getGravity)
+            )
+            .apply(builder, ParticleBubbleExtendedData::new));
 
     private final float gravity;
 

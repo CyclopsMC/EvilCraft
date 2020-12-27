@@ -14,10 +14,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -72,7 +74,8 @@ public class ItemWeatherContainer extends Item {
         if(!world.isRemote() && getWeatherType(itemStack) != WeatherContainerType.EMPTY) {
             world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             EntityWeatherContainer entity = new EntityWeatherContainer(world, player, itemStack.copy());
-            entity.shoot(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            // MCP: shoot
+            entity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
             world.addEntity(entity);
             
             itemStack.shrink(1);
@@ -86,7 +89,7 @@ public class ItemWeatherContainer extends Item {
      * @param world The world.
      * @param itemStack The weather container that was thrown.
      */
-    public void onUse(World world, ItemStack itemStack) {
+    public void onUse(ServerWorld world, ItemStack itemStack) {
         getWeatherType(itemStack).onUse(world, itemStack);
     }
     
@@ -95,7 +98,7 @@ public class ItemWeatherContainer extends Item {
      * @param world The world.
      * @param itemStack The weather container that was filled.
      */
-    public void onFill(World world, ItemStack itemStack) {
+    public void onFill(ServerWorld world, ItemStack itemStack) {
         getWeatherType(itemStack).onFill(world, itemStack);
     }
 
@@ -103,7 +106,7 @@ public class ItemWeatherContainer extends Item {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
         WeatherContainerType type = getWeatherType(itemStack);
-        list.add(type.description.applyTextStyle(type.damageColor));
+        list.add(type.description.mergeStyle(type.damageColor));
     }
 
     @Override
@@ -144,7 +147,7 @@ public class ItemWeatherContainer extends Item {
         
         private final WeatherType type;
         
-        private final ITextComponent description;
+        private final IFormattableTextComponent description;
         private final TextFormatting damageColor;
         private final int damageRenderColor;
         private final Rarity rarity;
@@ -163,7 +166,7 @@ public class ItemWeatherContainer extends Item {
          * @param world The world.
          * @param containerStack The weather container that was filled.
          */
-        public void onFill(World world, ItemStack containerStack) {
+        public void onFill(ServerWorld world, ItemStack containerStack) {
             WeatherContainerType currentWeatherType = EMPTY;
             
             // Find the weather container type who's weather is currently active
@@ -182,7 +185,7 @@ public class ItemWeatherContainer extends Item {
          * @param world The world.
          * @param containerStack The weather container that was thrown.
          */
-        public void onUse(World world, ItemStack containerStack) {
+        public void onUse(ServerWorld world, ItemStack containerStack) {
             if (world.isRemote())
                 return;
             

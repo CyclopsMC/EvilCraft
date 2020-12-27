@@ -118,11 +118,6 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
         }
         return BlockHelpers.getSafeBlockStateProperty(getBlockState(), BlockBloodChest.FACING, Direction.SOUTH).getOpposite();
     }
-
-    @Override
-    public boolean canRenderBreaking() {
-        return true;
-    }
     
     @Override
     protected SingleUseTank createTank(int tankSize) {

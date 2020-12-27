@@ -64,8 +64,9 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 
 	@Nullable
 	private Float loadRotation() {
+		// MCP: findNearestStructure
 		BlockPos closest = ((ServerWorld)world).getChunkProvider().getChunkGenerator()
-				.findNearestStructure(world, RegistryEntries.STRUCTURE_DARK_TEMPLE.getStructureName(), new BlockPos(getPosX(), getPosY(), getPosZ()), 100, false);
+				.func_235956_a_((ServerWorld) world, RegistryEntries.STRUCTURE_DARK_TEMPLE, new BlockPos(getPosX(), getPosY(), getPosZ()), 100, false);
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
 			double d = closest.distanceSq(new BlockPos((int) getPosX(), 0, (int) getPosZ()));

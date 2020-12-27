@@ -33,7 +33,8 @@ public abstract class ItemAbstractGrenade extends Item {
             world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.MASTER, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
             ThrowableEntity entity = getThrowableEntity(itemStack, world, player);
-            entity.shoot(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
+            // MCP: shoot
+            entity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
             world.addEntity(entity);
         }
         return MinecraftHelpers.successAction(itemStack);

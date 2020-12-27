@@ -3,11 +3,11 @@ package org.cyclops.evilcraft.client.render.tileentity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.RenderMaterial;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,8 +38,8 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityChestBas
     }
 
     @Override
-    protected Material getMaterial(TileColossalBloodChest tile) {
-        return new Material(Atlases.CHEST_ATLAS, TEXTURE);
+    protected RenderMaterial getMaterial(TileColossalBloodChest tile) {
+        return new RenderMaterial(Atlases.CHEST_ATLAS, TEXTURE);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityChestBas
     protected void handleRotation(TileColossalBloodChest tile, MatrixStack matrixStack) {
         // Move origin to center of chest
         if(tile.isStructureComplete()) {
-            Vec3i renderOffset = tile.getRenderOffset();
+            Vector3i renderOffset = tile.getRenderOffset();
             matrixStack.translate(-renderOffset.getX(), -renderOffset.getY(), -renderOffset.getZ());
         }
 

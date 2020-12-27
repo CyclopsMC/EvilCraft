@@ -2,10 +2,13 @@ package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.cyclops.cyclopscore.client.particle.ParticleDropColoredData;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
@@ -24,14 +27,22 @@ public class ParticleExplosionExtendedData implements IParticleData {
             reader.expect(' ');
             float b = (float) reader.readDouble();
             reader.expect(' ');
-            float scale = (float) reader.readDouble();
-            return new ParticleExplosionExtendedData(r, g, b, scale);
+            float alpha = (float) reader.readDouble();
+            return new ParticleExplosionExtendedData(r, g, b, alpha);
         }
 
         public ParticleExplosionExtendedData read(ParticleType<ParticleExplosionExtendedData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleExplosionExtendedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
+    public static final Codec<ParticleExplosionExtendedData> CODEC = RecordCodecBuilder.create((builder) -> builder
+            .group(
+                    Codec.FLOAT.fieldOf("r").forGetter(ParticleExplosionExtendedData::getR),
+                    Codec.FLOAT.fieldOf("g").forGetter(ParticleExplosionExtendedData::getG),
+                    Codec.FLOAT.fieldOf("b").forGetter(ParticleExplosionExtendedData::getB),
+                    Codec.FLOAT.fieldOf("alpha").forGetter(ParticleExplosionExtendedData::getAlpha)
+            )
+            .apply(builder, ParticleExplosionExtendedData::new));
 
     private final float r;
     private final float g;

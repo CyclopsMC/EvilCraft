@@ -44,11 +44,6 @@ public class BlockSpiritPortal extends BlockTile {
         return BlockRenderType.INVISIBLE;
     }
 
-    @Override
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
-
     protected static boolean canReplaceBlock(BlockState blockState, IWorldReader world, BlockPos pos) {
         return blockState != null && (blockState.getBlock().isAir(blockState, world, pos)|| blockState.getMaterial().isReplaceable());
     }

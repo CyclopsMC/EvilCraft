@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootTables;
+import net.minecraft.loot.LootTables;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;

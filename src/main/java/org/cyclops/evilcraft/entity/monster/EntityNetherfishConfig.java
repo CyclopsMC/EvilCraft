@@ -5,6 +5,9 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -34,6 +37,17 @@ public class EntityNetherfishConfig extends EntityConfig<EntityNetherfish> {
     @Override
     public EntityRenderer<? super EntityNetherfish> getRender(EntityRendererManager entityRendererManager, ItemRenderer itemRenderer) {
         return new RenderNetherfish(entityRendererManager, this);
+    }
+
+    @Override
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
+        // A bit stronger than those normal silverfish...
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
+                .createMutableAttribute(Attributes.MAX_HEALTH, 35.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D)
+                .create());
     }
     
 }

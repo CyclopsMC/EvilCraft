@@ -4,14 +4,15 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootFunction;
+import net.minecraft.loot.LootFunctionType;
+import net.minecraft.loot.conditions.ILootCondition;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootParameters;
-import net.minecraft.world.storage.loot.functions.ILootFunction;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
-import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
+import net.minecraft.loot.LootContext;
+import net.minecraft.loot.LootParameters;
+import net.minecraft.loot.functions.ILootFunction;
+import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.tileentity.TileDisplayStand;
@@ -20,10 +21,15 @@ import org.cyclops.evilcraft.tileentity.TileDisplayStand;
  * Copies display stand data to the item.
  * @author rubensworks
  */
-public class LootFunctionCopyDisplayStandData implements ILootFunction {
+public class LootFunctionCopyDisplayStandData extends LootFunction {
+    public static final LootFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_display_stand_data"), new LootFunctionCopyDisplayStandData.Serializer());
+
+    protected LootFunctionCopyDisplayStandData(ILootCondition[] conditionsIn) {
+        super(conditionsIn);
+    }
 
     @Override
-    public ItemStack apply(ItemStack itemStack, LootContext lootContext) {
+    public ItemStack doApply(ItemStack itemStack, LootContext lootContext) {
         TileEntity tile = lootContext.get(LootParameters.BLOCK_ENTITY);
         if (tile instanceof TileDisplayStand) {
             ItemStack type = ((TileDisplayStand) tile).getDisplayStandType();
@@ -32,11 +38,16 @@ public class LootFunctionCopyDisplayStandData implements ILootFunction {
         return itemStack;
     }
 
-    public static class Serializer extends ILootFunction.Serializer<LootFunctionCopyDisplayStandData> {
+    @Override
+    public LootFunctionType getFunctionType() {
+        return TYPE;
+    }
 
-        public Serializer() {
-            super(new ResourceLocation(Reference.MOD_ID, "copy_display_stand_data"), LootFunctionCopyDisplayStandData.class);
-        }
+    public static void load() {
+        // Dummy call, to enforce class loading
+    }
+
+    public static class Serializer extends LootFunction.Serializer<LootFunctionCopyDisplayStandData> {
 
         @Override
         public void serialize(JsonObject jsonObject, LootFunctionCopyDisplayStandData lootFunctionCopyId, JsonSerializationContext jsonSerializationContext) {
@@ -44,8 +55,8 @@ public class LootFunctionCopyDisplayStandData implements ILootFunction {
         }
 
         @Override
-        public LootFunctionCopyDisplayStandData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext) {
-            return new LootFunctionCopyDisplayStandData();
+        public LootFunctionCopyDisplayStandData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, ILootCondition[] conditionsIn) {
+            return new LootFunctionCopyDisplayStandData(conditionsIn);
         }
     }
 

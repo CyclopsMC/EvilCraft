@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.gui.container;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -33,10 +34,11 @@ public class ContainerScreenPrimedPendant extends ContainerScreenExtended<Contai
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int x, int y) {
-        super.drawGuiContainerForegroundLayer(x, y);
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+        // super.drawGuiContainerForegroundLayer(matrixStack, x, y);
         ItemStack itemStack = container.getItemStack(playerInventory.player);
-        this.font.drawString(itemStack.getDisplayName().getFormattedText(), 28, 6, 4210752);
+        // MCP: drawString
+        this.font.func_243248_b(matrixStack, itemStack.getDisplayName(), 28, 6, 4210752);
     }
     
 }

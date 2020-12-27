@@ -90,11 +90,6 @@ public class BlockPurifier extends BlockTile implements IBlockTank {
     }
 
     @Override
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
-
-    @Override
     public boolean hasComparatorInputOverride(BlockState blockState) {
         return true;
     }

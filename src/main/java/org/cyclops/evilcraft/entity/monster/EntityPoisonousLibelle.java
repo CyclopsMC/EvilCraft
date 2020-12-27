@@ -6,7 +6,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
@@ -16,7 +15,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -94,13 +93,6 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.625D);
-    }
-
-    @Override
     public SoundEvent getAmbientSound() {
         return null;
     }
@@ -149,7 +141,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
 
         this.prevAnimTime = this.animTime;
 
-        Vec3d m = getMotion();
+        Vector3d m = getMotion();
         f = 0.2F / (MathHelper.sqrt(m.x * m.x + m.z * m.z) * 10.0F + 1.0F);
         f *= (float)Math.pow(2.0D, m.y);
 
@@ -238,8 +230,8 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 differenceYaw = -limitDifferenceYaw;
             }
 
-            Vec3d distanceVector = new Vec3d(this.targetX - this.getPosX(), this.targetY - this.getPosY(), this.targetZ - this.getPosZ()).normalize();
-            Vec3d rotationVector = new Vec3d((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), m.y, (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F))).normalize();
+            Vector3d distanceVector = new Vector3d(this.targetX - this.getPosX(), this.targetY - this.getPosY(), this.targetZ - this.getPosZ()).normalize();
+            Vector3d rotationVector = new Vector3d((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), m.y, (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F))).normalize();
             float dynamicMotionMultiplier = (float)(rotationVector.dotProduct(distanceVector) + 0.5D) / 1.5F;
 
             if (dynamicMotionMultiplier < 0.0F) {
@@ -258,11 +250,11 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
             this.rotationYaw += this.randomYawVelocity * 0.1F;
             float scaledMotionDistanceHeightPlane = (float)(2.0D / (motionDistanceHeightPlane + 1.0D));
             float staticMotionMultiplier = 0.03F;
-            this.moveRelative(staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), new Vec3d(0.0D, 0.0D, -1.0D));
+            this.moveRelative(staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), new Vector3d(0.0D, 0.0D, -1.0D));
 
             this.move(MoverType.SELF, getMotion());
 
-            Vec3d vec3d3 = this.getMotion().normalize();
+            Vector3d vec3d3 = this.getMotion().normalize();
             double d6 = 0.8D + 0.15D * (vec3d3.dotProduct(rotationVector) + 1.0D) / 2.0D;
             this.setMotion(this.getMotion().mul(d6, 0.91F, d6));
         }

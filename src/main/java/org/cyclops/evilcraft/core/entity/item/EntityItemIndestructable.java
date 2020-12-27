@@ -36,12 +36,10 @@ public abstract class EntityItemIndestructable extends EntityItemExtended {
 	protected boolean isUndespawnable() {
 		return isIndestructable();
 	}
-	
-	@Override
-	protected void dealFireDamage(int damage) {
-		if(!isIndestructable()) {
-			super.dealFireDamage(damage);
-		}
+
+    @Override
+    public boolean isImmuneToFire() {
+        return true;
     }
 
     @Override

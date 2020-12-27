@@ -62,7 +62,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
                         new TranslationTextComponent("enchantment.level." + (potionEffect.getAmplifier() + 1)));
                 Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getPotion());
                 if (multiplier != null && multiplier < 0) {
-                    textComponent.applyTextStyle(TextFormatting.STRIKETHROUGH);
+                    textComponent.mergeStyle(TextFormatting.STRIKETHROUGH);
                 }
                 list.add(textComponent);
             }

@@ -2,8 +2,10 @@ package org.cyclops.evilcraft.core.monster;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -15,6 +17,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
@@ -44,11 +47,11 @@ public class EntityNoMob extends CreatureEntity {
 
     public void livingTick() {
         this.updateArmSwingProgress();
-        this.func_213623_ec();
+        this.idle();
         super.livingTick();
     }
 
-    protected void func_213623_ec() {
+    protected void idle() {
         float f = this.getBrightness();
         if (f > 0.5F) {
             this.idleTime += 2;
@@ -88,7 +91,7 @@ public class EntityNoMob extends CreatureEntity {
         return 0.5F - worldIn.getBrightness(pos);
     }
 
-    public static boolean isValidLightLevel(IWorld worldIn, BlockPos pos, Random randomIn) {
+    public static boolean isValidLightLevel(IServerWorld worldIn, BlockPos pos, Random randomIn) {
         if (worldIn.getLightFor(LightType.SKY, pos) > randomIn.nextInt(32)) {
             return false;
         } else {
@@ -97,7 +100,7 @@ public class EntityNoMob extends CreatureEntity {
         }
     }
 
-    public static boolean canMonsterSpawnInLight(EntityType<? extends MonsterEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
+    public static boolean canMonsterSpawnInLight(EntityType<? extends MonsterEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(worldIn, pos, randomIn) && canSpawnOn(type, worldIn, reason, pos, randomIn);
     }
 
@@ -105,16 +108,19 @@ public class EntityNoMob extends CreatureEntity {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && canSpawnOn(type, worldIn, reason, pos, randomIn);
     }
 
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+    public static AttributeModifierMap.MutableAttribute func_234295_eP_() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.ATTACK_DAMAGE);
     }
 
     protected boolean canDropLoot() {
         return true;
     }
 
-    public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
+    protected boolean func_230282_cS_() {
+        return true;
+    }
+
+    public boolean func_230292_f_(PlayerEntity p_230292_1_) {
         return true;
     }
 

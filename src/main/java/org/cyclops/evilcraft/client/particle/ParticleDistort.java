@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.particle;
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
@@ -14,7 +15,7 @@ import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
  */
 public class ParticleDistort extends SpriteTexturedParticle {
 
-    public ParticleDistort(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale, IAnimatedSprite sprite) {
+    public ParticleDistort(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale, IAnimatedSprite sprite) {
         super(world, x, y, z, motionX, motionY, motionZ);
         
         particleScale = scale;

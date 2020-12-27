@@ -4,6 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -114,19 +115,19 @@ public class BroomModifier {
     }
 
     public ITextComponent getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
-        ITextComponent suffix = new TranslationTextComponent(getTranslationKey())
-                .appendText(": " + value);
+        IFormattableTextComponent suffix = new TranslationTextComponent(getTranslationKey())
+                .appendString(": " + value);
         if (bonusValue > 0) {
-            suffix = suffix.appendText(String.format(" (+%s)", bonusValue));
+            suffix = suffix.appendString(String.format(" (+%s)", bonusValue));
         }
         if (showMaxValue) {
-            suffix = suffix.appendText(String.format(" / %s", getMaxTierValue()));
+            suffix = suffix.appendString(String.format(" / %s", getMaxTierValue()));
         }
 
-        ITextComponent ret = new StringTextComponent(prefix)
-                .appendSibling(suffix);
+        IFormattableTextComponent ret = new StringTextComponent(prefix)
+                .append(suffix);
         for (TextFormatting format : getTooltipFormats()) {
-            ret = ret.applyTextStyle(format);
+            ret = ret.mergeStyle(format);
         }
         return ret;
     }

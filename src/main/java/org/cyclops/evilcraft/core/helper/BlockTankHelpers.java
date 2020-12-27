@@ -1,14 +1,8 @@
 package org.cyclops.evilcraft.core.helper;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,15 +19,10 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacityConfig;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
-import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.fluid.SimulatedFluidStack;
-import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 
 import javax.annotation.Nonnull;
 
@@ -57,14 +46,14 @@ public class BlockTankHelpers {
      * @return Information for that itemStack.
      */
     @OnlyIn(Dist.CLIENT)
-    public static ITextComponent getInfoTank(ItemStack itemStack) {
+    public static IFormattableTextComponent getInfoTank(ItemStack itemStack) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
         int amount = fluidStack.getAmount();
         int capacity = FluidUtil.getFluidHandler(itemStack)
                 .map(handler -> ((IFluidHandlerItemCapacity) handler).getCapacity())
                 .orElse(0);
         return DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity)
-                .applyTextStyle(IInformationProvider.ITEM_PREFIX);
+                .mergeStyle(IInformationProvider.ITEM_PREFIX);
     }
 
     /**
