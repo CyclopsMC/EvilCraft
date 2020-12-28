@@ -51,6 +51,7 @@ import java.util.Optional;
  * @author rubensworks
  *
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IChestLid.class)
 public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChest> implements INamedContainerProvider, IChestLid {
 	
 	private static final int TICK_MODULUS = 200;

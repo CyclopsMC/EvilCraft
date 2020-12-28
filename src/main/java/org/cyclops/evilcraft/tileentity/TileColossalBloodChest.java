@@ -69,6 +69,7 @@ import java.util.Optional;
  * @author rubensworks
  *
  */
+@OnlyIn(value = Dist.CLIENT, _interface = IChestLid.class)
 public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, MutableFloat> implements INamedContainerProvider, IChestLid {
 
     private static final int TICK_MODULUS = 200;
