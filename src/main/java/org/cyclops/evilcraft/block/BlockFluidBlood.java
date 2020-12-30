@@ -28,6 +28,11 @@ public class BlockFluidBlood extends FlowingFluidBlock {
     }
 
     @Override
+    public boolean ticksRandomly(BlockState state) {
+        return state.get(LEVEL) == 0;
+    }
+
+    @Override
     public void randomTick(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random) {
         if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.get(LEVEL) == 0
                 && (!(world.isRaining() && world.getBiome(blockPos).getDownfall() > 0) || !world.canBlockSeeSky(blockPos))
