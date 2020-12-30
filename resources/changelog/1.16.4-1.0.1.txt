@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.9.2 or higher.
+
+Changes:
+* Clarify that Hardened Blood should be broken with F&S
+
+Fixes:
+* Fix blood not hardening
+* Fix creative blood drop appearing in all creative tabs, Closes #810
+* Fix client crash when envir acc ticks, Closes #811
+
