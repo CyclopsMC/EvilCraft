@@ -27,6 +27,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
@@ -105,8 +106,10 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
 
     @Override
     public void fillItemGroup(ItemGroup itemGroup, NonNullList<ItemStack> items) {
-        if (this.isInGroup(this.group)) {
-            items.add(new ItemStack(this));
+        if (ItemStackHelpers.isValidCreativeTab(this, itemGroup)) {
+            if (this.isInGroup(this.group)) {
+                items.add(new ItemStack(this));
+            }
         }
     }
     
