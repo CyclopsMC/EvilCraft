@@ -349,15 +349,14 @@ public class TileEnvironmentalAccumulator extends EvilCraftBeaconTileEntity impl
 	
 	private void updateEnvironmentalAccumulatorIdle() {
         // Look for items thrown into the beam
-        @SuppressWarnings("rawtypes")
-        List entityItems = world.getEntitiesWithinAABB(ItemEntity.class,
+        List<ItemEntity> entityItems = world.getEntitiesWithinAABB(ItemEntity.class,
                 new AxisAlignedBB(
                         getPos().getX(), getPos().getY() + WEATHER_CONTAINER_MIN_DROP_HEIGHT, getPos().getZ(),
                         getPos().getX() + 1.0, getPos().getY() + WEATHER_CONTAINER_MAX_DROP_HEIGHT, getPos().getZ() + 1.0)
                 );
 
         // Loop over all recipes until we find an item dropped in the accumulator that matches a recipe
-        for (RecipeEnvironmentalAccumulator recipe : CraftingHelpers.findServerRecipes(getRegistry())) {
+        for (RecipeEnvironmentalAccumulator recipe : CraftingHelpers.findRecipes(world, getRegistry())) {
             Ingredient recipeIngredient = recipe.getInputIngredient();
             WeatherType weatherType = recipe.getInputWeather();
 
