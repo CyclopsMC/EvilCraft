@@ -57,7 +57,7 @@ public class OriginsOfDarknessBook extends InfoBook {
         super(EvilCraft._instance, 2, Reference.BOOK_URL);
     }
 
-    public static OriginsOfDarknessBook getInstance() {
+    public static synchronized OriginsOfDarknessBook getInstance() {
         if(_instance == null) {
             _instance = new OriginsOfDarknessBook();
         }
