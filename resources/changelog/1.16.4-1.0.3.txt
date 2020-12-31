@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.9.2 or higher.
+
+Fixes:
+* Make book getter thread-safe (fixes rare crashes)
