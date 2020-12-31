@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.9.2 or higher.
+
+Fixes:
+* Fix glitchy fart particles, Closes #815
+* Fix fluid duplication in machines when draining from non-bucket, Closes #820
+* Fix JEI not finding all items in Exalted Crafter gui, Closes CyclopsMC/EvilCraft#817
+* Fix missing advancements background, Closes #816
+* Fix crash when JEI is not present, Closes #814
