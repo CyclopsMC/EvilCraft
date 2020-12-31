@@ -18,7 +18,7 @@ public class ParticleFart extends SpriteTexturedParticle {
     public ParticleFart(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
         super(world, x, y, z, motionX, motionY, motionZ);
 
-        particleScale = 3;
+        particleScale = 0.25F;
         particleAlpha = 0.7F;
 
         if (!rainbow) {
@@ -58,8 +58,6 @@ public class ParticleFart extends SpriteTexturedParticle {
             }
 
         }
-        
-        particleScale = (1 - (float)age / maxAge) * 1;
     }
 
     @Override
