@@ -26,7 +26,9 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
         IFluidHandler container = FluidUtil.getFluidHandler(containerStack).orElse(null);
         if(container != null && FluidHelpers.hasFluid(container)) {
             FluidActionResult result;
-            if (FluidUtil.tryEmptyContainer(containerStack, tile.getTank(), MB_PER_TICK, null, false).isSuccess()) {
+            if (FluidUtil.getFluidHandler(containerStack)
+                    .map(h -> !h.drain(MB_PER_TICK, IFluidHandler.FluidAction.SIMULATE).isEmpty())
+                    .orElse(false)) {
                 result = FluidUtil.tryEmptyContainer(containerStack.split(1), tile.getTank(), MB_PER_TICK, null, true);
             } else {
                 result = FluidUtil.tryEmptyContainer(containerStack.split(1), tile.getTank(), FluidHelpers.BUCKET_VOLUME, null, true);
