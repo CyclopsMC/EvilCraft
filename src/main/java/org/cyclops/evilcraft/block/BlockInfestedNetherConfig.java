@@ -22,7 +22,7 @@ import org.cyclops.evilcraft.GeneralConfig;
 public class BlockInfestedNetherConfig extends BlockConfig {
 
     @ConfigurableProperty(category = "worldgeneration", comment = "How many veins per chunk.")
-    public static int veinsPerChunk = 250;
+    public static int veinsPerChunk = 10;
 
     private final BlockInfestedNether.Type type;
 

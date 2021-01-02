@@ -41,7 +41,7 @@ public class GeneralConfig extends DummyConfig {
     @ConfigurableProperty(category = "general", comment = "The amount of mB that can flow per tick out of machines and items.", requiresMcRestart = true, configLocation = ModConfig.Type.SERVER)
     public static int mbFlowRate = 100;
 
-    @ConfigurableProperty(category = "worldgeneration", comment = "Spawn extra netherfish blocks in all biomes.", configLocation = ModConfig.Type.SERVER)
+    @ConfigurableProperty(category = "worldgeneration", comment = "Spawn extra silverfish blocks in all biomes.", configLocation = ModConfig.Type.SERVER)
     public static boolean extraSilverfish = false;
     @ConfigurableProperty(category = "worldgeneration", comment = "The amount of blocks per vein there should be.", isCommandable = true, configLocation = ModConfig.Type.SERVER)
     public static int silverfishBlocksPerVein = 4;
