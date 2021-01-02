@@ -24,6 +24,8 @@ public class BlockInfestedNetherConfig extends BlockConfig {
     @ConfigurableProperty(category = "worldgeneration", comment = "How many veins per chunk.")
     public static int veinsPerChunk = 250;
 
+    private final BlockInfestedNether.Type type;
+
     public BlockInfestedNetherConfig(BlockInfestedNether.Type type) {
         super(
             EvilCraft._instance,
@@ -32,6 +34,7 @@ public class BlockInfestedNetherConfig extends BlockConfig {
                         .hardnessAndResistance(0.0F), type),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
+        this.type = type;
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
 
@@ -41,10 +44,13 @@ public class BlockInfestedNetherConfig extends BlockConfig {
                     .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_NETHER, getInstance().getDefaultState(), 9))
                     .range(64).square().func_242731_b(veinsPerChunk));
         }
-        if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+
+        // Only for type netherrack, as this event will be invoked for all infested block typess
+        if (this.type == BlockInfestedNether.Type.NETHERRACK && GeneralConfig.extraSilverfish
+                && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
             event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_DECORATION).add(() -> Feature.ORE
-                    .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, Blocks.INFESTED_STONE.getDefaultState(), GeneralConfig.silverfish_BlocksPerVein))
-                    .range(GeneralConfig.silverfish_EndY).square().func_242731_b(GeneralConfig.silverfish_VeinsPerChunk));
+                    .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, Blocks.INFESTED_STONE.getDefaultState(), GeneralConfig.silverfishBlocksPerVein))
+                    .range(GeneralConfig.silverfishEndY).square().func_242731_b(GeneralConfig.silverfishVeinsPerChunk));
         }
     }
     
