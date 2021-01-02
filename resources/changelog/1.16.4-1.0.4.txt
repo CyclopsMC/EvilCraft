@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.9.2 or higher.
+
+Changes:
+* Reduce default netherfish blocks spawn rate
+
+Fixes:
+* Fix NBT-related issues with recipes
+  Closes #819
+  Closes #822
+* Fix silverfish configuration issues
