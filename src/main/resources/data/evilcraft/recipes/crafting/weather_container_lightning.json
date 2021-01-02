@@ -2,10 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
+      "type": "forge:nbt",
       "item": "evilcraft:weather_container",
-      "nbt": {
-        "weather": "RAIN"
-      }
+      "nbt": "{weather: \"RAIN\"}"
     },
     {
       "tag": "forge:dusts/glowstone"

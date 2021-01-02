@@ -5,12 +5,9 @@
       "tag": "minecraft:leaves"
     },
     {
+      "type": "forge:nbt",
       "item": "evilcraft:broom_part",
-      "nbt": {
-        "broom_parts_tag": [
-          "evilcraft:brush_bare"
-        ]
-      }
+      "nbt": "{broom_parts_tag: [\"evilcraft:brush_bare\"]}"
     },
     {
       "tag": "minecraft:leaves"
@@ -20,7 +17,7 @@
     "item": "evilcraft:broom_part",
     "nbt": {
       "broom_parts_tag": [
-        "evilcraft:brush_sleaves"
+        "evilcraft:brush_leaves"
       ]
     }
   }

@@ -5,12 +5,9 @@
       "tag": "forge:ingots/copper"
     },
     {
+      "type": "forge:nbt",
       "item": "evilcraft:broom_part",
-      "nbt": {
-        "broom_parts_tag": [
-          "evilcraft:cap_bare"
-        ]
-      }
+      "nbt": "{broom_parts_tag: [\"evilcraft:cap_bare\"]}"
     },
     {
       "tag": "forge:ingots/copper"

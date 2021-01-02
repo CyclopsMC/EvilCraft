@@ -10,10 +10,9 @@
       "tag": "forge:ender_pearls"
     },
     "C": {
+      "type": "forge:nbt",
       "item": "evilcraft:weather_container",
-      "nbt": {
-        "weather": "LIGHTNING"
-      }
+      "nbt": "{weather: \"LIGHTNING\"}"
     }
   },
   "result": {

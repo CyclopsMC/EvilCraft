@@ -10,10 +10,9 @@
       "tag": "forge:glass_panes"
     },
     "W": {
+      "type": "forge:nbt",
       "item": "evilcraft:weather_container",
-      "nbt": {
-        "weather": "RAIN"
-      }
+      "nbt": "{weather: \"RAIN\"}"
     },
     "D": {
       "item": "evilcraft:dark_block"

@@ -5,12 +5,9 @@
       "item": "minecraft:zombie_head"
     },
     {
+      "type": "forge:nbt",
       "item": "evilcraft:broom_part",
-      "nbt": {
-        "broom_parts_tag": [
-          "evilcraft:cap_bare"
-        ]
-      }
+      "nbt": "{broom_parts_tag: [\"evilcraft:cap_bare\"]}"
     },
     {
       "item": "minecraft:zombie_head"

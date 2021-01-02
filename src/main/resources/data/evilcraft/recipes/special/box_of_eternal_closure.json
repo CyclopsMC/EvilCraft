@@ -10,10 +10,9 @@
       "item": "evilcraft:dark_gem_crushed"
     },
     "P": {
+      "type": "forge:nbt",
       "item": "minecraft:potion",
-      "nbt": {
-        "Potion": "minecraft:weakness"
-      }
+      "nbt": "{Potion: \"minecraft:weakness\"}"
     },
     "E": {
       "tag": "forge:chests/ender"

@@ -9,10 +9,9 @@
       "item": "evilcraft:dark_gem"
     },
     "W": {
+      "type": "forge:nbt",
       "item": "evilcraft:weather_container",
-      "nbt": {
-        "weather": "RAIN"
-      }
+      "nbt": "{weather: \"RAIN\"}"
     }
   },
   "result": {

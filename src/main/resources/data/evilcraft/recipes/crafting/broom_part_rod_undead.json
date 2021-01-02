@@ -5,12 +5,9 @@
       "item": "evilcraft:undead_planks"
     },
     {
+      "type": "forge:nbt",
       "item": "evilcraft:broom_part",
-      "nbt": {
-        "broom_parts_tag": [
-          "evilcraft:rod_bare"
-        ]
-      }
+      "nbt": "{broom_parts_tag: [\"evilcraft:rod_bare\"]}"
     },
     {
       "item": "evilcraft:undead_planks"

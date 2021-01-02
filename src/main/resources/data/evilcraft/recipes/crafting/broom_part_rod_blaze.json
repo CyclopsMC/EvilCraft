@@ -5,12 +5,9 @@
       "item": "minecraft:blaze_rod"
     },
     {
+      "type": "forge:nbt",
       "item": "evilcraft:broom_part",
-      "nbt": {
-        "broom_parts_tag": [
-          "evilcraft:rod_bare"
-        ]
-      }
+      "nbt": "{broom_parts_tag: [\"evilcraft:rod_bare\"]}"
     },
     {
       "item": "minecraft:blaze_rod"

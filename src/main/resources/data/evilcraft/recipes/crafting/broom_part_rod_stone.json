@@ -5,12 +5,9 @@
       "tag": "forge:stone"
     },
     {
+      "type": "forge:nbt",
       "item": "evilcraft:broom_part",
-      "nbt": {
-        "broom_parts_tag": [
-          "evilcraft:rod_bare"
-        ]
-      }
+      "nbt": "{broom_parts_tag: [\"evilcraft:rod_bare\"]}"
     },
     {
       "tag": "forge:stone"

@@ -11,12 +11,9 @@
       "item": "minecraft:wither_skeleton_skull"
     },
     {
+      "type": "forge:nbt",
       "item": "evilcraft:broom_part",
-      "nbt": {
-        "broom_parts_tag": [
-          "evilcraft:cap_bare"
-        ]
-      }
+      "nbt": "{broom_parts_tag: [\"evilcraft:cap_bare\"]}"
     }
   ],
   "result": {
