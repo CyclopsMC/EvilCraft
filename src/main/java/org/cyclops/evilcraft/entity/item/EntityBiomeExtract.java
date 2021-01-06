@@ -10,16 +10,20 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SChunkDataPacket;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.registry.MutableRegistry;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeContainer;
 import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkPrimerWrapper;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.server.ServerChunkProvider;
@@ -142,13 +146,24 @@ public class EntityBiomeExtract extends EntityThrowable {
         // Update biome data in chunk
         BlockPos noisePos = posWrapper.get();
         IChunk chunk = world.getChunk(noisePos.getX() >> 2, noisePos.getZ() >> 2, ChunkStatus.BIOMES, false);
+        if (chunk instanceof ChunkPrimerWrapper) {
+            //chunk = ((ChunkPrimerWrapper) chunk).getChunk();
+        }
         if(chunk != null) {
             // Update biome in chunk
             Biome[] biomeArray = chunk.getBiomes().biomes;
             int i = noisePos.getX() & BiomeContainer.HORIZONTAL_MASK;
             int j = MathHelper.clamp(noisePos.getY(), 0, BiomeContainer.VERTICAL_MASK);
             int k = noisePos.getZ() & BiomeContainer.HORIZONTAL_MASK;
-            biomeArray[j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i] = biome;
+
+            // HACK
+            // Due to some weird thing in MC, different instances of the same biome can exist.
+            // This hack allows us to convert to the biome instance that is required for chunk serialization.
+            // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
+            MutableRegistry<Biome> biomeRegistry = world.func_241828_r().getRegistry(Registry.BIOME_KEY);
+            Biome biomeHack = biomeRegistry.getValueForKey(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName()));
+
+            biomeArray[j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i] = biomeHack;
             chunk.setModified(true);
         } else {
             CyclopsCore.clog(Level.WARN, "Tried changing biome at non-existing chunk for position " + noisePos);
