@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.9.5 or higher.
+
+Additions:
+* Show recipe duration and energy usage in JEI
+
+Fixes:
+* Fix biome extract not converting biomes, Closes #818
+* Fix spiked plate not dropping when block under breaks, Closes #824
