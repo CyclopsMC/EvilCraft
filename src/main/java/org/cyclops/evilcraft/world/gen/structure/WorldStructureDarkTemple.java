@@ -13,6 +13,7 @@ import net.minecraft.state.properties.Half;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.state.properties.StairsShape;
 import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -113,10 +114,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             BlockWrapper lc = new BlockWrapper(Blocks.CHEST.getDefaultState(), (float) GeneralConfig.darkTempleChestChance);
             lc.action = (world, pos) -> {
                 Random rand = new Random();
-                ChestTileEntity tile = (ChestTileEntity) world.getTileEntity(pos);
-                if (tile != null) {
-                    tile.setLootTable(LootTables.CHESTS_JUNGLE_TEMPLE, rand.nextLong());
-                }
+                LockableLootTileEntity.setLootTable(world, rand, pos, LootTables.CHESTS_JUNGLE_TEMPLE);
             };
             BlockWrapper vi = new BlockWrapper(Blocks.VINE.getDefaultState(), 0.3F);
             vi.action = (world, pos) -> {
