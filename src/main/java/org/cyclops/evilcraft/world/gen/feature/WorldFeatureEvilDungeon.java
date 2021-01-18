@@ -5,6 +5,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.loot.LootTables;
 import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
@@ -118,11 +119,8 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
 
                     if (wallCounter == 1) {
                         world.setBlockState(loopPos, Blocks.CHEST.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-                        ChestTileEntity tileentitychest = (ChestTileEntity)world.getTileEntity(loopPos);
-
-                        if (tileentitychest != null) {
-                            tileentitychest.setLootTable(LootTables.CHESTS_SIMPLE_DUNGEON, random.nextLong());
-                        }
+                         // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
+                        LockableLootTileEntity.setLootTable(world, random, loopPos, LootTables.CHESTS_SIMPLE_DUNGEON);
 
                         chests--;
                     }
