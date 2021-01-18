@@ -114,6 +114,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             BlockWrapper lc = new BlockWrapper(Blocks.CHEST.getDefaultState(), (float) GeneralConfig.darkTempleChestChance);
             lc.action = (world, pos) -> {
                 Random rand = new Random();
+                // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
                 LockableLootTileEntity.setLootTable(world, rand, pos, LootTables.CHESTS_JUNGLE_TEMPLE);
             };
             BlockWrapper vi = new BlockWrapper(Blocks.VINE.getDefaultState(), 0.3F);

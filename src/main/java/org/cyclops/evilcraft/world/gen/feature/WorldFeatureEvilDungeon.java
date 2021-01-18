@@ -119,6 +119,7 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
 
                     if (wallCounter == 1) {
                         world.setBlockState(loopPos, Blocks.CHEST.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                         // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
                         LockableLootTileEntity.setLootTable(world, random, loopPos, LootTables.CHESTS_SIMPLE_DUNGEON);
 
                         chests--;
