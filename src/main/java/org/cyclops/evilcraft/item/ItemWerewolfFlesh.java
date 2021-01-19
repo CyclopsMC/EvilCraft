@@ -27,8 +27,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.Helpers;
 
 import javax.annotation.Nullable;
@@ -61,9 +59,23 @@ public class ItemWerewolfFlesh extends Item {
             MinecraftForge.EVENT_BUS.addListener(this::dropHumanoidFleshEvent);
         }
     }
+
+    /**
+     * The length of one Minecraft day.
+     */
+    public static final int MINECRAFT_DAY = 24000;
+
+    /**
+     * Check if it's day in this world.
+     * @param world The world.
+     * @return If it is day in the world, checked with the world time.
+     */
+    public static boolean isDay(World world) {
+        return world.getDayTime() % MINECRAFT_DAY < MINECRAFT_DAY / 2;
+    }
     
     private boolean isPower(World world) {
-        return world == null ? power : (power = !world.isDaytime());
+        return world == null ? power : (power = !isDay(world));
     }
     
     @Override
