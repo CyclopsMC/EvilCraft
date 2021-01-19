@@ -93,18 +93,18 @@ public class EntityLightningBombPrimed extends TNTEntity {
     }
 
     private void explode(World world, double x, double y, double z) {
-        Random rand = new Random();
-        for (int i = 0; i < 32; ++i) {
-            Minecraft.getInstance().worldRenderer.addParticle(
-                    ParticleTypes.CRIT, false,
-                    x, y + rand.nextDouble() * 2.0D, z,
-                    rand.nextGaussian(), 0.0D, rand.nextGaussian());
-        }
-
         if (!world.isRemote()) {
             this.world.createExplosion(this, this.getPosX(), this.getPosY(), this.getPosZ(), EXPLOSION_STRENGTH, Explosion.Mode.DESTROY);
             LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
             bolt.moveForced(x, y, z);
+        } else {
+            Random rand = new Random();
+            for (int i = 0; i < 32; ++i) {
+                Minecraft.getInstance().worldRenderer.addParticle(
+                        ParticleTypes.CRIT, false,
+                        x, y + rand.nextDouble() * 2.0D, z,
+                        rand.nextGaussian(), 0.0D, rand.nextGaussian());
+            }
         }
     }
 

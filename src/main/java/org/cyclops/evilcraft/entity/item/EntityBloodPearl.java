@@ -55,13 +55,6 @@ public class EntityBloodPearl extends ThrowableEntity implements IRendersAsItem 
                     .attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 0.0F);
         }
 
-        for (int i = 0; i < 32; ++i) {
-            Minecraft.getInstance().worldRenderer.addParticle(
-                    ParticleTypes.PORTAL, false,
-                    this.getPosX(), this.getPosY() + this.rand.nextDouble() * 2.0D, this.getPosZ(),
-                    this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
-        }
-
         if (!this.world.isRemote()) {
             if (this.func_234616_v_() != null && this.func_234616_v_() instanceof ServerPlayerEntity) {
                 ServerPlayerEntity entityplayermp = (ServerPlayerEntity)this.func_234616_v_();
@@ -83,6 +76,13 @@ public class EntityBloodPearl extends ThrowableEntity implements IRendersAsItem 
             }
 
             this.remove();
+        } else {
+            for (int i = 0; i < 32; ++i) {
+                Minecraft.getInstance().worldRenderer.addParticle(
+                        ParticleTypes.PORTAL, false,
+                        this.getPosX(), this.getPosY() + this.rand.nextDouble() * 2.0D, this.getPosZ(),
+                        this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
+            }
         }
     }
 
