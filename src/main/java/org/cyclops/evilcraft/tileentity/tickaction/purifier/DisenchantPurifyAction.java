@@ -11,6 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
+import org.cyclops.evilcraft.block.BlockBloodChestConfig;
+import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.tileentity.TilePurifier;
 
@@ -29,9 +31,19 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
     private static final int PURIFY_DURATION = 60;
 
+    protected boolean isAllowed(ItemStack itemStack) {
+        if(itemStack.isEmpty()) return false;
+        for(String name : BlockPurifierConfig.disenchantBlacklist) {
+            if(itemStack.getItem().getRegistryName().toString().matches(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean isItemValidForMainSlot(ItemStack itemStack) {
-        return true;
+        return isAllowed(itemStack);
     }
 
     @Override
@@ -43,7 +55,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
     public boolean canWork(TilePurifier tile) {
         if(tile.getBucketsFloored() == tile.getMaxBuckets() && !tile.getPurifyItem().isEmpty() &&
                 !tile.getAdditionalItem().isEmpty() && tile.getAdditionalItem().getItem() == ALLOWED_BOOK.get()) {
-            return !EnchantmentHelper.getEnchantments(tile.getPurifyItem()).isEmpty();
+            return isAllowed(tile.getPurifyItem()) && !EnchantmentHelper.getEnchantments(tile.getPurifyItem()).isEmpty();
         }
         return false;
     }
