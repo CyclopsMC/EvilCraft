@@ -21,7 +21,7 @@ public class BlockPurifierConfig extends BlockConfig {
 
     @ConfigurableProperty(category = "machine", comment = "Item that can not be disenchanted. Regular expressions are allowed.", isCommandable = true)
     public static List<String> disenchantBlacklist = Lists.newArrayList(
-
+            "tetra:.*"
     );
 
     public BlockPurifierConfig() {
