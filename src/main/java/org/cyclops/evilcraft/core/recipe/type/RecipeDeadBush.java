@@ -12,6 +12,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.Tags;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
@@ -27,17 +28,17 @@ public class RecipeDeadBush extends SpecialRecipe {
 
 	@Override
 	public boolean matches(CraftingInventory inv, World worldIn) {
-		boolean bush = false;
-		boolean shears = true;
+		int bushes = 0;
+		int shears = 0;
 		for (int i = 0; i < inv.getSizeInventory(); i++) {
 			ItemStack itemStack = inv.getStackInSlot(i);
 			if (ItemTags.SAPLINGS.contains(itemStack.getItem())) {
-				bush = true;
-			} else if (itemStack.getItem() == Items.SHEARS) {
-				shears = true;
+				bushes++;
+			} else if (Tags.Items.SHEARS.contains(itemStack.getItem())) {
+				shears++;
 			}
 		}
-		return bush && shears;
+		return bushes == 1 && shears == 1;
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class RecipeDeadBush extends SpecialRecipe {
 
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.from(Ingredient.EMPTY, Ingredient.fromTag(ItemTags.SAPLINGS), Ingredient.fromItems(Items.SHEARS));
+		return NonNullList.from(Ingredient.fromTag(ItemTags.SAPLINGS), Ingredient.fromTag(Tags.Items.SHEARS));
 	}
 
 	@Override
