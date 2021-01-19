@@ -17,7 +17,7 @@
     "item": "evilcraft:broom_part",
     "nbt": {
       "broom_parts_tag": [
-        "evilcraft:cap_gem_darkpower"
+        "evilcraft:cap_gem_dark_power"
       ]
     }
   }
