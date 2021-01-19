@@ -1,0 +1,16 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.10.0 or higher.
+
+Additions:
+* Allow blacklisting of Purifier items, Required for #826
+
+Changes:
+* Consistently allow regexes in item list configs
+* Add Tetra tools to default Purifier blacklist, Closes #826
+* Use static `LockableLootTileEntity::setLootTable` for Lootr compatibility
+
+Fixes:
+* Fix glitching enchantment effect of Werewolf Flesh, Closes #834
+* Fix thrown entity crashes when rendering particles on server, Closes #827
+* Fix broken Dark Power Gem Cap recipe, Closes #829
+* Fix dead bush recipe being too generic, Closes #832
