@@ -63,7 +63,7 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     protected boolean isNotBlacklisted(ItemStack itemStack) {
         if(itemStack.isEmpty()) return false;
         for(String name : BlockBloodChestConfig.itemBlacklist) {
-            if(itemStack.getItem().getRegistryName().toString().equals(name)) {
+            if(itemStack.getItem().getRegistryName().toString().matches(name)) {
                 return false;
             }
         }

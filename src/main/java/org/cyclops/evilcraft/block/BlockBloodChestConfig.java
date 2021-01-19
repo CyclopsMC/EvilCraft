@@ -33,7 +33,7 @@ public class BlockBloodChestConfig extends BlockConfig {
     @ConfigurableProperty(category = "machine", comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
     public static int ticksPerDamage = 2;
 
-    @ConfigurableProperty(category = "machine", comment = "Item names that can not be repaired", isCommandable = true)
+    @ConfigurableProperty(category = "machine", comment = "Item names that can not be repaired. Regular expressions are allowed.", isCommandable = true)
     public static List<String> itemBlacklist = Lists.newArrayList(
             "minecraft:stick"
     );
