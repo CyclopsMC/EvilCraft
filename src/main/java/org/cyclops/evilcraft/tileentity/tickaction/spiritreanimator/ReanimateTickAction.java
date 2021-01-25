@@ -27,7 +27,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
     }
 
 	protected ItemStack getSpawnEgg(EntityType<?> entityType) {
-		return new ItemStack(SpawnEggItem.getEgg(entityType));
+		return new ItemStack(SpawnEggItem.EGGS.get(entityType));
 	}
 
 	@Override
