@@ -1,0 +1,14 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.10.0 or higher.
+
+Additions:
+
+Changes:
+* Optimize images
+
+Fixes:
+* Improve Entangled Chalice model loading
+  This potentially fixes texture issues, Closes #823
+* Fix server crash when using Spirit Reanimator, Closes #838
+* Fix damage resets in Colossal Blood Chest, Closes #839
+* Fix JEI not considering all Exalted Crafter slots, Closes #841
