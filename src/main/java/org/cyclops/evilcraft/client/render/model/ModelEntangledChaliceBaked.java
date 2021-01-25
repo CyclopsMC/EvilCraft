@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockDisplayReader;
 import net.minecraft.world.World;
@@ -24,6 +25,7 @@ import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
@@ -44,6 +46,9 @@ import java.util.Random;
 public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockModel {
 
     private final static Map<String, Integer> seeds = Maps.newHashMap();
+
+    public static final ResourceLocation chaliceModelName = new ResourceLocation(Reference.MOD_ID, "block/chalice");;
+    public static final ResourceLocation gemsModelName = new ResourceLocation(Reference.MOD_ID, "block/gems");;
 
     public static IBakedModel chaliceModel;
     public static IBakedModel gemsModel;

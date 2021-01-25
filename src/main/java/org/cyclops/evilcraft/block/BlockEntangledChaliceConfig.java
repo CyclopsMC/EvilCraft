@@ -4,10 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelLoader;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -20,11 +16,6 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
  *
  */
 public class BlockEntangledChaliceConfig extends BlockConfig {
-
-    @OnlyIn(Dist.CLIENT)
-    public static ResourceLocation chaliceModel;
-    @OnlyIn(Dist.CLIENT)
-    public static ResourceLocation gemsModel;
 
     @ConfigurableProperty(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.", requiresMcRestart = true)
     public static boolean staticBlockRendering = false;
@@ -40,14 +31,5 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
                         .group(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> RenderItemStackTileEntityEntangledChalice::new))
         );
-    }
-    
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void onRegistered() {
-        chaliceModel = new ResourceLocation(getMod().getModId() + ":block/chalice");
-        gemsModel = new ResourceLocation(getMod().getModId() + ":block/gems");
-        ModelLoader.addSpecialModel(chaliceModel);
-        ModelLoader.addSpecialModel(gemsModel);
     }
 }

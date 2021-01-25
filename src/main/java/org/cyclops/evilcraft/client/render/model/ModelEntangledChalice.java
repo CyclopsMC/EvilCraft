@@ -29,8 +29,8 @@ public class ModelEntangledChalice implements IUnbakedModel, IModelGeometry<Mode
     @Override
     public Collection<ResourceLocation> getDependencies() {
         ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
-        builder.add(BlockEntangledChaliceConfig.chaliceModel);
-        builder.add(BlockEntangledChaliceConfig.gemsModel);
+        builder.add(ModelEntangledChaliceBaked.chaliceModelName);
+        builder.add(ModelEntangledChaliceBaked.gemsModelName);
         return builder.build();
     }
 
@@ -46,8 +46,8 @@ public class ModelEntangledChalice implements IUnbakedModel, IModelGeometry<Mode
         ModelEntangledChaliceBaked bakedModel = new ModelEntangledChaliceBaked();
 
         try {
-            ModelEntangledChaliceBaked.chaliceModel = bakery.getBakedModel(BlockEntangledChaliceConfig.chaliceModel, transform, spriteGetter);
-            ModelEntangledChaliceBaked.gemsModel = bakery.getBakedModel(BlockEntangledChaliceConfig.gemsModel, transform, spriteGetter);
+            ModelEntangledChaliceBaked.chaliceModel = bakery.getBakedModel(ModelEntangledChaliceBaked.chaliceModelName, transform, spriteGetter);
+            ModelEntangledChaliceBaked.gemsModel = bakery.getBakedModel(ModelEntangledChaliceBaked.gemsModelName, transform, spriteGetter);
         } catch (Exception e) {
             e.printStackTrace();
         }
