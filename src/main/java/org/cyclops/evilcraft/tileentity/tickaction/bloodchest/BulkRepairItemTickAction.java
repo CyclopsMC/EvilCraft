@@ -22,9 +22,6 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
     
     @Override
     public boolean canTick(TileColossalBloodChest tile, ItemStack itemStack, int slot, int tick) {
-        if (itemStack.getDamage() == 0) {
-            itemStack.setDamage(itemStack.getMaxDamage() - 1);
-        }
         return tile.canWork() && !tile.getTank().isEmpty() && !itemStack.isEmpty();
     }
     
