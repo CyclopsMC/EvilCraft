@@ -9,6 +9,7 @@ authors="rubensworks (aka kroeser)"
 modId="evilcraft"
 version="${file.jarVersion}"
 displayName="EvilCraft"
+updateJSONURL="https://raw.githubusercontent.com/CyclopsMC/Versions/master/forge_update/evilcraft.json"
 description='''
 An evil mod for Minecraft.
 '''
