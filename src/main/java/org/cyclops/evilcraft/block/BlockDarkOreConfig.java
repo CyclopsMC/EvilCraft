@@ -5,6 +5,9 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -35,7 +38,7 @@ public class BlockDarkOreConfig extends BlockConfig {
     @ConfigurableProperty(category = "worldgeneration", comment = "Generation ends of this level.")
     public static int endY = 66;
 
-    public ConfiguredFeature<?, ?> worldFeature;
+    public static ConfiguredFeature<?, ?> CONFIGURED_FEATURE;
 
     public BlockDarkOreConfig() {
         super(
@@ -56,11 +59,21 @@ public class BlockDarkOreConfig extends BlockConfig {
         RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
     }
 
+    @Override
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
+
+        CONFIGURED_FEATURE = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE,
+                new ResourceLocation(getMod().getModId(), getNamedId()),
+                Feature.ORE
+                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, getInstance().getDefaultState(), blocksPerVein))
+                        .range(endY).square().func_242731_b(veinsPerChunk));
+    }
+
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
-            event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES).add(() -> Feature.ORE
-                    .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, getInstance().getDefaultState(), blocksPerVein))
-                    .range(endY).square().func_242731_b(veinsPerChunk));
+            event.getGeneration().getFeatures(GenerationStage.Decoration.UNDERGROUND_ORES)
+                    .add(() -> CONFIGURED_FEATURE);
         }
     }
     

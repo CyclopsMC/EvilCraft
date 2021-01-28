@@ -1,12 +1,15 @@
 package org.cyclops.evilcraft.world.gen.structure;
 
 import com.google.common.collect.ImmutableSet;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.DimensionSettings;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.settings.DimensionStructuresSettings;
@@ -37,6 +40,7 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
     public static int darkTempleSeparation = 16;
 
     public static final IStructurePieceType PIECE_TYPE = Registry.register(Registry.STRUCTURE_PIECE, "evilcraft:dark_temple_piece", WorldStructureDarkTemple.Piece::new);
+    public static StructureFeature<?, ?> CONFIGURED_FEATURE;
 
     public WorldStructureDarkTempleConfig() {
         super(
@@ -50,6 +54,11 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
+
+        CONFIGURED_FEATURE = Registry.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE,
+                new ResourceLocation(getMod().getModId(), getNamedId() + "_default"),
+                ((WorldStructureDarkTemple) getInstance())
+                        .withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
 
         Structure.NAME_STRUCTURE_BIMAP.put(getRegistryKey().getLocation().toString().toLowerCase(Locale.ROOT), getInstance());
 
@@ -67,8 +76,7 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
-            event.getGeneration().getStructures().add(() -> ((WorldStructureDarkTemple) getInstance())
-                    .withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+            event.getGeneration().getStructures().add(() -> CONFIGURED_FEATURE);
         }
     }
 }
