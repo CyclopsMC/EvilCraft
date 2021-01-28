@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.10.0 or higher.
+
+Changes:
+* Enable Forge version checker
+
+Fixes:
+* Fix serialization issues with configured features, Closes #842
