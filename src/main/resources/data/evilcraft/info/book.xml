@@ -151,7 +151,7 @@
                 <tag>display_stand</tag>
                 <paragraph>info_book.evilcraft.first_age.items.display_stand.text1</paragraph>
                 <paragraph>info_book.evilcraft.first_age.items.display_stand.text2</paragraph>
-                <appendix_list type="minecraft:crafting">evilcraft:crafting/display_stand_.*</appendix_list>
+                <appendix_list type="minecraft:crafting">evilcraft:special/display_stand</appendix_list>
             </section>
         </section>
         <section name="info_book.evilcraft.first_age.vengeance_spirits">
