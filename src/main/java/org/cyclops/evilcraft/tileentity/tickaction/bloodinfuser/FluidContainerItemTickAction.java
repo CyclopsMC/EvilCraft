@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.tileentity.tickaction.bloodinfuser;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -51,9 +52,12 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
             }
         } else {
             // We might be dealing with a bucket
-            ItemStack result = FluidUtil.tryFillContainer(infuseStack, tile.getTank(), Integer.MAX_VALUE, null, true).getResult();
-            if (addToProduceSlot(tile, result)) {
-                tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
+            FluidActionResult filledContainer = FluidUtil.tryFillContainer(infuseStack, tile.getTank(), Integer.MAX_VALUE, null, true);
+            if (filledContainer.isSuccess()) {
+                ItemStack result = filledContainer.getResult();
+                if (addToProduceSlot(tile, result)) {
+                    tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
+                }
             }
         }
     }
