@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.FireBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -31,11 +32,12 @@ public class BlockUndeadLeavesConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-    
+
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
         BlockHelpers.setFireInfo(getInstance(), 30, 60);
+        ComposterBlock.CHANCES.put(getItemInstance(), 0.3F);
     }
 
 }
