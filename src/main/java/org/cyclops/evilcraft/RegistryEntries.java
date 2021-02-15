@@ -234,6 +234,12 @@ public class RegistryEntries {
     public static final Block BLOCK_UNDEAD_LEAVES = null;
     @ObjectHolder("evilcraft:undead_log")
     public static final Block BLOCK_UNDEAD_LOG = null;
+    @ObjectHolder("evilcraft:undead_log_stripped")
+    public static final Block BLOCK_UNDEAD_LOG_STRIPPED = null;
+    @ObjectHolder("evilcraft:undead_wood")
+    public static final Block BLOCK_UNDEAD_WOOD = null;
+    @ObjectHolder("evilcraft:undead_wood_stripped")
+    public static final Block BLOCK_UNDEAD_WOOD_STRIPPED = null;
     @ObjectHolder("evilcraft:undead_planks")
     public static final Block BLOCK_UNDEAD_PLANK = null;
     @ObjectHolder("evilcraft:undead_sapling")

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "evilcraft:undead_log",
+    "evilcraft:undead_wood",
+    "evilcraft:undead_log_stripped",
+    "evilcraft:undead_wood_stripped"
+  ]
+}

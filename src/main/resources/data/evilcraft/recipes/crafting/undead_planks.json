@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "evilcraft:undead_log"
+      "tag": "evilcraft:undead_logs"
     }
   ],
   "result": {

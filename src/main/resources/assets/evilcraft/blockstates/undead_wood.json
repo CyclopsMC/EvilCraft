@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=x": { "model": "evilcraft:block/undead_wood", "x": 90, "y": 90 },
+    "axis=y": { "model": "evilcraft:block/undead_wood" },
+    "axis=z": { "model": "evilcraft:block/undead_wood", "x": 90 }
+  }
+}
