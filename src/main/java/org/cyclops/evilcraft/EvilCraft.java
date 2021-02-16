@@ -213,6 +213,8 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new BlockUndeadWoodConfig());
         configHandler.addConfigurable(new BlockUndeadWoodStrippedConfig());
         configHandler.addConfigurable(new BlockUndeadSlabConfig());
+        configHandler.addConfigurable(new BlockUndeadFenceConfig());
+        configHandler.addConfigurable(new BlockUndeadFenceGateConfig());
         configHandler.addConfigurable(new BlockUndeadSaplingConfig());
         configHandler.addConfigurable(new BlockUndeadPlankConfig());
         configHandler.addConfigurable(new BlockFluidPoisonConfig());

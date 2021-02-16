@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "undead:undead_log_stripped"
+      "item": "evilcraft:undead_log_stripped"
     },
     {
-      "item": "undead:undead_log_stripped"
+      "item": "evilcraft:undead_log_stripped"
     },
     {
-      "item": "undead:undead_log_stripped"
+      "item": "evilcraft:undead_log_stripped"
     },
     {
-      "item": "undead:undead_log_stripped"
+      "item": "evilcraft:undead_log_stripped"
     }
   ],
   "result": {
-    "item": "undead:undead_wood_stripped",
+    "item": "evilcraft:undead_wood_stripped",
     "count": 3
   }
 }
