@@ -1,0 +1,13 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.11.1 or higher.
+
+Additions:
+* Add Undead Fence and Undead Fence Gate
+* Add Undead Slabs
+* Add composter support for undead leaves and sapling
+* Add Undead Log and stripped variants
+
+Fixes:
+* Fix Bowl Of Promises Tier 3 not being usable in recipes, Closes #844
+* Fix Brooms vanishing when filling in Blood Infuser, Closes #845
+* Resolve infobook issues
