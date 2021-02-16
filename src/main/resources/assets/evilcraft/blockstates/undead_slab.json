@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "evilcraft:block/undead_slab"
+    },
+    "type=double": {
+      "model": "evilcraft:block/undead_planks"
+    },
+    "type=top": {
+      "model": "evilcraft:block/undead_slab_top"
+    }
+  }
+}
