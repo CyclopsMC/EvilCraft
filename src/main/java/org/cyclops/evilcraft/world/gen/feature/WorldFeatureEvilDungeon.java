@@ -7,6 +7,7 @@ import net.minecraft.loot.LootTables;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -132,10 +133,10 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                 for(int zs = z - 1; zs <= z + 1; zs += 2) {
                     BlockPos loopPos = new BlockPos(xs, y, zs);
                     world.setBlockState(loopPos, Blocks.SPAWNER.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-                    MobSpawnerTileEntity tileentity = (MobSpawnerTileEntity)world.getTileEntity(loopPos);
+                    TileEntity tile = world.getTileEntity(loopPos);
         
-                    if (tileentity != null) {
-                        tileentity.getSpawnerBaseLogic().setEntityType(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
+                    if (tile instanceof MobSpawnerTileEntity) {
+                        ((MobSpawnerTileEntity) tile).getSpawnerBaseLogic().setEntityType(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }
