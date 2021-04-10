@@ -86,7 +86,9 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 						playerRenderer.setPlayerTexture(resourcelocation);
 						playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
 					} else {
+						matrixStackIn.push();
 						render.render(innerEntity, entityYaw, 0, matrixStackIn, bufferSub, packedLightIn);
+						matrixStackIn.pop();
 					}
 				} catch (Exception e) {
 					// Invalid entity, so set as swarm.
