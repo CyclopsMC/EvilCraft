@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.entity.effect;
 
-import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,9 +10,7 @@ import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -126,11 +123,6 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
     	
     	if (entityRayTraceResult != null) {
     	    this.onImpact(entityRayTraceResult);
-        } else {
-            BlockRayTraceResult blockRayTraceResult = this.world.rayTraceBlocks(new RayTraceContext(vec3, vec31, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this));
-            if (this.world.getBlockState(blockRayTraceResult.getPos()).getBlock() instanceof NetherPortalBlock) {
-                this.inPortal = true;
-            }
         }
     	
     	if(age++ > MAX_AGE) {
