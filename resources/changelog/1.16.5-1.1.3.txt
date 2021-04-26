@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.11.1 or higher.
+
+Additions:
+* Create it_it.json
+
+Fixes:
+* Fix server crash when throwing Biome Extract, Closes #868
+* Fix water dropping when breaking Eternal Water Block
+* Fix Eternal Water Block being destroyed when shift-placing blocks, Closes #865
