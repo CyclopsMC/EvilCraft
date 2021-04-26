@@ -3,8 +3,10 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.ActionResultType;
@@ -43,6 +45,16 @@ public class BlockEternalWater extends BlockTile {
 
     @Override
     public boolean canBeReplacedByLogs(BlockState state, IWorldReader world, BlockPos pos) {
+        return false;
+    }
+
+    @Override
+    public boolean isReplaceable(BlockState state, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
         return false;
     }
 
