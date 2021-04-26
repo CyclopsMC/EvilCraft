@@ -18,6 +18,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.FoliageColors;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeContainer;
@@ -99,8 +100,14 @@ public class EntityBiomeExtract extends EntityThrowable {
                     public void spreadTo(World world, BlockPos location) {
                         setBiome((ServerWorld) world, location, biome);
                         updatedChunks.add(new ChunkPos(location));
+                        // int color = biome.getFoliageColor(); // Only accessible client-side, so we copy its implementation...
+                        int color = biome.effects.getFoliageColor().orElseGet(() -> {
+                            double d0 = (double)MathHelper.clamp(biome.climate.temperature, 0.0F, 1.0F);
+                            double d1 = (double)MathHelper.clamp(biome.climate.downfall, 0.0F, 1.0F);
+                            return FoliageColors.get(d0, d1);
+                        });
                         showChangedBiome((ServerWorld) world, new BlockPos(location.getX(), ((BlockRayTraceResult) movingobjectposition).getPos().getY(),
-                                location.getZ()), biome.getFoliageColor());
+                                location.getZ()), color);
                     }
                 });
                 BlockPos pos = new BlockPos(movingobjectposition.getHitVec());
