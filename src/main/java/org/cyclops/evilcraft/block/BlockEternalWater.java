@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -80,6 +81,15 @@ public class BlockEternalWater extends BlockTile {
             return ActionResultType.SUCCESS;
         }
         return ActionResultType.PASS;
+    }
+
+    @Override
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
+        // When removing this block, it will drop water, so forcefully set to air instead.
+        if (!worldIn.isRemote() && newState.getBlock() == Blocks.WATER) {
+            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
