@@ -33,8 +33,10 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootFunction {
         if (tile instanceof TileBoxOfEternalClosure) {
             CompoundNBT tag = new CompoundNBT();
             tag.put(TileBoxOfEternalClosure.NBTKEY_SPIRIT, ((TileBoxOfEternalClosure) tile).getSpiritTag());
-            tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, ((TileBoxOfEternalClosure) tile).getPlayerId());
-            tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, ((TileBoxOfEternalClosure) tile).getPlayerName());
+            String playerId = ((TileBoxOfEternalClosure) tile).getPlayerId();
+            tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, playerId == null ? "" : playerId);
+            String playerName = ((TileBoxOfEternalClosure) tile).getPlayerName();
+            tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, playerName == null ? "" : playerName);
             itemStack.setTag(tag);
         }
         return itemStack;
