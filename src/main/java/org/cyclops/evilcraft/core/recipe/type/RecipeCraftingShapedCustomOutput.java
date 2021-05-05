@@ -31,6 +31,6 @@ public class RecipeCraftingShapedCustomOutput extends ShapedRecipe {
         if (outputTransformer != null) {
             return outputTransformer.transform(inv, super.getRecipeOutput());
         }
-        return super.getRecipeOutput();
+        return super.getRecipeOutput().copy();
     }
 }

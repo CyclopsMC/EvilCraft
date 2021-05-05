@@ -43,7 +43,7 @@ public class RecipeDeadBush extends SpecialRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(CraftingInventory inv) {
-		return getRecipeOutput();
+		return getRecipeOutput().copy();
 	}
 
 	@Override
