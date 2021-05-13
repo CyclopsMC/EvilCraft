@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.11.6 or higher.
+
+Fixes:
+* Fix large dark tank and dead bush recipes only working once, Closes #870
+* Fix crash when breaking BOEC, Closes #869
+
