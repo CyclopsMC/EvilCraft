@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.11.6 or higher.
+
+Fixes:
+* Fix Spirit Furnace client gui crash on slow server connections, Closes #874
+* Fix rare Entangled Chalice crash due to race condition, Closes #875
+* Fix server crash when using spirit reanimator, Closes #876
+
