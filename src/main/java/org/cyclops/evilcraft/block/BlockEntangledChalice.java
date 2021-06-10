@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -147,8 +148,9 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 		TileEntity tile = world.getTileEntity(blockPos);
 		if(tile != null && tile instanceof TileEntangledChalice) {
 			TileEntangledChalice tank = (TileEntangledChalice) tile;
-			if(tank.getTank().getFluidType() != null) {
-				return (int) Math.min(15, tank.getFillRatio() * tank.getTank().getFluidType().getAttributes().getLuminosity());
+			Fluid fluidType = tank.getTank().getFluidType();
+			if(fluidType != null) {
+				return (int) Math.min(15, tank.getFillRatio() * fluidType.getAttributes().getLuminosity());
 			}
 		}
 		return 0;
