@@ -229,7 +229,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
         boolean validNameStack = entityType != null
                 && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
-                        && SpawnEggItem.getEgg(entityType) == outputStack.getItem()));
+                        && SpawnEggItem.EGGS.get(entityType) == outputStack.getItem()));
         return !eggStack.isEmpty() && validNameStack;
 	}
 	
