@@ -14,6 +14,7 @@ import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorkin
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnace;
 import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -107,7 +108,10 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
         return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png");
     }
     
-    private String prettyPrintSize(Vector3i size) {
+    private String prettyPrintSize(@Nullable Vector3i size) {
+        if (size == null) {
+            return "Loading...";
+        }
         return size.getX() + "x" + size.getY() + "x" + size.getZ();
     }
     
