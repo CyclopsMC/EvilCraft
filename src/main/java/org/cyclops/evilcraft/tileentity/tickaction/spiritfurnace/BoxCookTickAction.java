@@ -196,8 +196,8 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                 } else {
                     ResourceLocation deathLootTable;
                     Map<EntityType<?>, ResourceLocation> mobDropTablesOverrides = getMobDropTablesOverrides();
-                    if (mobDropTablesOverrides.containsKey(entity.getClass())) {
-                        deathLootTable = mobDropTablesOverrides.get(entity.getClass());
+                    if (mobDropTablesOverrides.containsKey(entity.getType())) {
+                        deathLootTable = mobDropTablesOverrides.get(entity.getType());
                     } else {
                         deathLootTable = entity.getLootTableResourceLocation();
                     }
