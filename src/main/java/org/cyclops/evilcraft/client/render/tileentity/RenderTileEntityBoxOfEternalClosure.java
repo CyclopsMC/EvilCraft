@@ -62,7 +62,8 @@ public class RenderTileEntityBoxOfEternalClosure extends RendererTileEntityEndPo
         matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
-        BlockState blockState = tile.getBlockState();
+        BlockState blockState = tile.getBlockState()
+                .with(BlockBoxOfEternalClosure.FACING, Direction.NORTH);
         Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelRenderer().
                 renderModelBrightnessColor(matrixStackIn.getLast(), bufferIn.getBuffer(Atlases.getSolidBlockType()), blockState, ModelBoxOfEternalClosureBaked.boxModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
 
