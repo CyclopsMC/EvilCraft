@@ -78,29 +78,29 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 			ItemStack element = grid.getStackInSlot(j);
 			if(!element.isEmpty()) {
 				if(element.getItem() instanceof BlockItem && ((BlockItem) element.getItem()).getBlock() instanceof BlockDarkTank) {
-					tanks++;
+					tanks += element.getCount();
 					FluidStack fluidStack = FluidUtil.getFluidContained(element).orElse(FluidStack.EMPTY);
 					if(!fluidStack.isEmpty()) {
 						if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD) {
 							return ItemStack.EMPTY;
 						}
-						totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount());
+						totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
 					}
 					totalCapacity = Helpers.addSafe(totalCapacity, FluidHelpers.getFluidHandlerItemCapacity(element)
 							.map(IFluidHandlerItemCapacity::getCapacity)
-							.orElse(0));
+							.orElse(0) * element.getCount());
 				} else if(element.getItem() instanceof ItemBloodExtractor) {
-					extractors++;
+					extractors += element.getCount();
 					FluidStack fluidStack = FluidUtil.getFluidContained(element).orElse(FluidStack.EMPTY);
 					if(!fluidStack.isEmpty()) {
 						if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD) {
 							return ItemStack.EMPTY;
 						}
-						totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount());
+						totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
 					}
 					totalCapacity = Helpers.addSafe(totalCapacity, FluidHelpers.getFluidHandlerItemCapacity(element)
 							.map(IFluidHandlerItemCapacity::getCapacity)
-							.orElse(0));
+							.orElse(0) * element.getCount());
 				} else {
 					return ItemStack.EMPTY;
 				}

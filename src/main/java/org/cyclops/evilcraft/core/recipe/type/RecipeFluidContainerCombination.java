@@ -90,9 +90,9 @@ public class RecipeFluidContainerCombination extends SpecialRecipe {
 						} else if(!commonFluid.equals(fluidStack)) {
 							return ItemStack.EMPTY;
 						}
-						totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount());
+						totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
 					}
-					totalCapacity = Helpers.addSafe(totalCapacity, fluidHandler.getCapacity());
+					totalCapacity = Helpers.addSafe(totalCapacity, fluidHandler.getCapacity() * element.getCount());
 				} else {
 					return ItemStack.EMPTY;
 				}
