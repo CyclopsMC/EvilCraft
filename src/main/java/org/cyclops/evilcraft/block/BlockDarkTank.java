@@ -44,6 +44,7 @@ import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.tileentity.TileDarkTank;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A tank that can hold liquids.
@@ -97,9 +98,9 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 			TileHelpers.getSafeTile(worldIn, pos, TileDarkTank.class)
 					.ifPresent(tile -> {
 						tile.setEnabled(!tile.isEnabled());
-						player.sendStatusMessage(new StringTextComponent(String.format("%,d", tile.getTank().getFluidAmount()))
+						player.sendStatusMessage(new StringTextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
 								.appendString(" / ")
-								.appendString(String.format("%,d", tile.getTank().getCapacity()))
+								.appendString(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
 								.appendString(" mB"), true);
 					});
 			return ActionResultType.SUCCESS;
