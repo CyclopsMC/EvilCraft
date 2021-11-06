@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
+import net.minecraft.util.Hand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -43,11 +44,14 @@ public class EnchantmentUnusing extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void unusingEvent(BlockEvent.BreakEvent event) {
-        if(EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()), this) > -1) {
-            if(event.getPlayer() != null
-                    && EnchantmentUnusing.unuseTool(event.getPlayer().getHeldItem(event.getPlayer().getActiveHand()))) {
-                event.setCanceled(true);
-                event.getPlayer().stopActiveHand();
+        Hand hand = event.getPlayer().getActiveHand();
+        if (hand != null) {
+            if (EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(hand), this) > -1) {
+                if (event.getPlayer() != null
+                        && EnchantmentUnusing.unuseTool(event.getPlayer().getHeldItem(hand))) {
+                    event.setCanceled(true);
+                    event.getPlayer().stopActiveHand();
+                }
             }
         }
     }

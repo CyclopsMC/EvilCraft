@@ -145,7 +145,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
             float boost = 1.0F;
             ServerPlayerEntity player = (ServerPlayerEntity) e;
             Hand hand = player.getActiveHand();
-            if(player.getHeldItem(hand) != null
+            if(hand != null && player.getHeldItem(hand) != null
                     && player.getHeldItem(hand).getItem() instanceof ItemVeinSword) {
                 boost = (float) ItemVeinSwordConfig.extractionBoost;
             }

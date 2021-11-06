@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -65,10 +66,13 @@ public class EnchantmentVengeance extends Enchantment {
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player != null && !player.world.isRemote()) {
-            ItemStack heldItem = player.getHeldItem(player.getActiveHand());
-            int level = getEnchantLevel(heldItem);
-            if (level > 0) {
-                apply(player.world, level, player);
+            Hand hand = event.getPlayer().getActiveHand();
+            if (hand != null) {
+                ItemStack heldItem = player.getHeldItem(hand);
+                int level = getEnchantLevel(heldItem);
+                if (level > 0) {
+                    apply(player.world, level, player);
+                }
             }
         }
     }
@@ -78,10 +82,13 @@ public class EnchantmentVengeance extends Enchantment {
         Entity entity = event.getSource().getTrueSource();
         if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
             PlayerEntity player = (PlayerEntity) entity;
-            ItemStack heldItem = player.getHeldItem(player.getActiveHand());
-            int level = getEnchantLevel(heldItem);
-            if (level > 0) {
-                apply(player.world, level, player);
+            Hand hand = player.getActiveHand();
+            if (hand != null) {
+                ItemStack heldItem = player.getHeldItem(hand);
+                int level = getEnchantLevel(heldItem);
+                if (level > 0) {
+                    apply(player.world, level, player);
+                }
             }
         }
     }
