@@ -1,0 +1,12 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.11.6 or higher.
+
+Changes:
+* Update sv_se.json (#889)
+
+Fixes:
+* Fix crash when Hand is null during enchantment check, Closes #892
+* Fix amount formatting errors in other locales, Closes #891
+* Fix incorrect color code in Entangled Chalice infobook section
+
+
