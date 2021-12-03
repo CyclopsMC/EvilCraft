@@ -78,7 +78,7 @@ public class RecipeFluidContainerCombination extends SpecialRecipe {
 		
 		// Loop over the grid and count the total contents and capacity + collect common fluid.
 		for(int j = 0; j < grid.getSizeInventory(); j++) {
-			ItemStack element = grid.getStackInSlot(j);
+			ItemStack element = grid.getStackInSlot(j).copy().split(1);
 			if(!element.isEmpty()) {
 				if(fluidContainer.test(element)) {
 					IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(element).orElse(null);

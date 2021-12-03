@@ -75,7 +75,7 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 		
 		// Loop over the grid and count the total contents and capacity
 		for(int j = 0; j < grid.getSizeInventory(); j++) {
-			ItemStack element = grid.getStackInSlot(j);
+			ItemStack element = grid.getStackInSlot(j).copy().split(1);
 			if(!element.isEmpty()) {
 				if(element.getItem() instanceof BlockItem && ((BlockItem) element.getItem()).getBlock() instanceof BlockDarkTank) {
 					tanks += element.getCount();
