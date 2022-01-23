@@ -30,6 +30,8 @@ import java.util.Locale;
  */
 public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
 
+    @ConfigurableProperty(category = "worldgeneration", comment = "If dark temple should be added to all dimensions (except for the end and nether).", configLocation = ModConfig.Type.SERVER)
+    public static boolean enabled = true;
     @ConfigurableProperty(category = "worldgeneration", comment = "Minimum block height at which a dark temple can spawn.", configLocation = ModConfig.Type.SERVER)
     public static int darkTempleMinHeight = 64;
     @ConfigurableProperty(category = "worldgeneration", comment = "Maximum blockState height at which a dark temple can spawn.", configLocation = ModConfig.Type.SERVER)
@@ -75,7 +77,7 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
+        if (WorldStructureDarkTempleConfig.enabled && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
             event.getGeneration().getStructures().add(() -> CONFIGURED_FEATURE);
         }
     }
