@@ -89,6 +89,7 @@ public class BlockEternalWater extends BlockTile {
         // When removing this block, it will drop water, so forcefully set to air instead.
         if (!worldIn.isRemote() && newState.getBlock() == Blocks.WATER) {
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
+            Block.spawnDrops(state, worldIn, pos);
         }
     }
 
