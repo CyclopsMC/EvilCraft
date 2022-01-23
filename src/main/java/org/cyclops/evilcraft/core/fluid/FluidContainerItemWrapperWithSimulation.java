@@ -55,9 +55,9 @@ public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCap
         if (doDrain.simulate()) {
             return FluidAction.SIMULATE;
         }
-        if (resource instanceof SimulatedFluidStack) {
+        /*if (resource instanceof SimulatedFluidStack) {
             doDrain = FluidAction.SIMULATE;
-        }
+        }*/
         return doDrain;
     }
 
