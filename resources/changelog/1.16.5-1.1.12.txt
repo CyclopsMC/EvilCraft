@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.11.6 or higher.
+
+Additions:
+* Add config option to disable dark temples, Closes #898
+
+Fixes:
+* Fix Eternal Water block not dropping, Closes #896
+* Fix Entangled Chalice fluid dupe in recent Forge versions, Closes #897
+
