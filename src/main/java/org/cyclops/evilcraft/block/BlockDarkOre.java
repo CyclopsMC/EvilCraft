@@ -161,7 +161,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     @Override
     public IFormattableTextComponent getInfo(ItemStack itemStack) {
     	return new TranslationTextComponent(this.getTranslationKey()
-                + ".info.custom", BlockDarkOreConfig.endY)
+                + ".info.custom", 66)
                 .mergeStyle(INFO_PREFIX_STYLES);
     }
 

@@ -25,9 +25,6 @@ import org.cyclops.evilcraft.GeneralConfig;
  */
 public class BlockInfestedNetherConfig extends BlockConfig {
 
-    @ConfigurableProperty(category = "worldgeneration", comment = "How many veins per chunk.")
-    public static int veinsPerChunk = 10;
-
     private final BlockInfestedNether.Type type;
 
     public static ConfiguredFeature<?, ?> CONFIGURED_FEATURE_SILVERFISH_EXTRA;
@@ -52,12 +49,12 @@ public class BlockInfestedNetherConfig extends BlockConfig {
                 new ResourceLocation(getMod().getModId(), "stone_netherfish"),
                 Feature.ORE
                         .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_NETHER, getInstance().getDefaultState(), 9))
-                        .range(64).square().func_242731_b(veinsPerChunk));
+                        .range(64).square().func_242731_b(10));
         CONFIGURED_FEATURE_SILVERFISH_EXTRA = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), "stone_nether_silverfish_extra"),
                 Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, Blocks.INFESTED_STONE.getDefaultState(), GeneralConfig.silverfishBlocksPerVein))
-                        .range(GeneralConfig.silverfishEndY).square().func_242731_b(GeneralConfig.silverfishVeinsPerChunk));
+                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, Blocks.INFESTED_STONE.getDefaultState(), 4))
+                        .range(66).square().func_242731_b(10));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {

@@ -65,7 +65,17 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
         Structure.NAME_STRUCTURE_BIMAP.put(getRegistryKey().getLocation().toString().toLowerCase(Locale.ROOT), getInstance());
 
         // MCP params: spacing, separation, salt
-        StructureSeparationSettings settings = new StructureSeparationSettings(darkTempleSpacing, darkTempleSeparation, 370458167);
+        StructureSeparationSettings settings = new StructureSeparationSettings(darkTempleSpacing, darkTempleSeparation, 370458167) {
+            @Override
+            public int func_236668_a_() {
+                return darkTempleSpacing;
+            }
+
+            @Override
+            public int func_236671_b_() {
+                return darkTempleSeparation;
+            }
+        };
 
         ImmutableSet.of(DimensionSettings.field_242734_c, DimensionSettings.field_242735_d, DimensionSettings.field_242736_e,
                 DimensionSettings.field_242737_f, DimensionSettings.field_242738_g, DimensionSettings.field_242739_h)

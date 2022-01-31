@@ -43,12 +43,6 @@ public class GeneralConfig extends DummyConfig {
 
     @ConfigurableProperty(category = "worldgeneration", comment = "Spawn extra silverfish blocks in all biomes.", configLocation = ModConfig.Type.SERVER)
     public static boolean extraSilverfish = false;
-    @ConfigurableProperty(category = "worldgeneration", comment = "The amount of blocks per vein there should be.", isCommandable = true, configLocation = ModConfig.Type.SERVER)
-    public static int silverfishBlocksPerVein = 4;
-    @ConfigurableProperty(category = "worldgeneration", comment = "The amount of veins per chunk there should be.", isCommandable = true, configLocation = ModConfig.Type.SERVER)
-    public static int silverfishVeinsPerChunk = 10;
-    @ConfigurableProperty(category = "worldgeneration", comment = "The Y end value for generation to end (larget Y value).", isCommandable = true, configLocation = ModConfig.Type.SERVER)
-    public static int silverfishEndY = 66;
 
     @ConfigurableProperty(category = "general", comment = "If the blood gui overlay should be rendered.", isCommandable = true, configLocation = ModConfig.Type.CLIENT)
     public static boolean bloodGuiOverlay = true;

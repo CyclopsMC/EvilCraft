@@ -29,15 +29,6 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class BlockDarkOreConfig extends BlockConfig {
 
-    @ConfigurableProperty(category = "worldgeneration", comment = "How much ores per vein.")
-    public static int blocksPerVein = 4;
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "How many veins per chunk.")
-    public static int veinsPerChunk = 7;
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "Generation ends of this level.")
-    public static int endY = 66;
-
     public static ConfiguredFeature<?, ?> CONFIGURED_FEATURE;
 
     public BlockDarkOreConfig() {
@@ -66,8 +57,8 @@ public class BlockDarkOreConfig extends BlockConfig {
         CONFIGURED_FEATURE = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), getNamedId()),
                 Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, getInstance().getDefaultState(), blocksPerVein))
-                        .range(endY).square().func_242731_b(veinsPerChunk));
+                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, getInstance().getDefaultState(), 4))
+                        .range(66).square().func_242731_b(7));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
