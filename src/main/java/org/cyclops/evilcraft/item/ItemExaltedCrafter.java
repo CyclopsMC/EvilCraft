@@ -81,7 +81,9 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     @Override
 	public ItemStack empower(ItemStack itemStack) {
         ItemStack newStack = new ItemStack(wooden ? RegistryEntries.ITEM_EXALTED_CRAFTER_WOODEN_EMPOWERED : RegistryEntries.ITEM_EXALTED_CRAFTER_EMPOWERED);
-        newStack.setTag(itemStack.getTag().copy());
+        if (itemStack.hasTag()) {
+            newStack.setTag(itemStack.getTag().copy());
+        }
         return newStack;
     }
     
