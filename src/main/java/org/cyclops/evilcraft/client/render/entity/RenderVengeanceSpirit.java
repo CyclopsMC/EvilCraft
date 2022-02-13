@@ -55,40 +55,40 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
     	super.render(spirit, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 		MobEntity innerEntity = spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
-			EntityRenderer render = renderManager.renderers.get(innerEntity.getType());
+			EntityRenderer render = entityRenderDispatcher.renderers.get(innerEntity.getType());
 			if(render != null && !spirit.isSwarm()) {
 				// Override the render type buffer so that it always returns buffers with alpha blend
 				IRenderTypeBuffer bufferSub = renderType -> {
-					float uv = spirit.isFrozen() ? ((float)spirit.ticksExisted + partialTicks) * 0.01F : 1;
-					renderType = RenderType.getEnergySwirl((spirit.isPlayer() ? playerRenderer : render).getEntityTexture(innerEntity), uv, uv);
+					float uv = spirit.isFrozen() ? ((float)spirit.tickCount + partialTicks) * 0.01F : 1;
+					renderType = RenderType.energySwirl((spirit.isPlayer() ? playerRenderer : render).getTextureLocation(innerEntity), uv, uv);
 					return bufferIn.getBuffer(renderType);
 				};
 				
 				try {
 					if(spirit.isPlayer()) {
 						GameProfile gameProfile = new GameProfile(spirit.getPlayerUUID(), spirit.getPlayerName());
-						ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkinLegacy();
+						ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkin();
 						Minecraft minecraft = Minecraft.getInstance();
 						// Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
 						if(!checkedProfiles.containsKey(gameProfile)) {
 							Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
 							if (property == null) {
 								// The game profile enhanced with texture information.
-								GameProfile newGameProfile = Minecraft.getInstance().getSessionService().fillProfileProperties(gameProfile, true);
+								GameProfile newGameProfile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(gameProfile, true);
 								checkedProfiles.put(gameProfile, newGameProfile);
 							}
 						} else {
-							Map map = minecraft.getSkinManager().loadSkinFromCache(checkedProfiles.get(gameProfile));
+							Map map = minecraft.getSkinManager().getInsecureSkinInformation(checkedProfiles.get(gameProfile));
 							if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
-								resourcelocation = minecraft.getSkinManager().loadSkin((MinecraftProfileTexture) map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
+								resourcelocation = minecraft.getSkinManager().registerTexture((MinecraftProfileTexture) map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
 							}
 						}
 						playerRenderer.setPlayerTexture(resourcelocation);
 						playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
 					} else {
-						matrixStackIn.push();
+						matrixStackIn.popPose();
 						render.render(innerEntity, entityYaw, 0, matrixStackIn, bufferSub, packedLightIn);
-						matrixStackIn.pop();
+						matrixStackIn.popPose();
 					}
 				} catch (Exception e) {
 					// Invalid entity, so set as swarm.
@@ -100,7 +100,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(EntityVengeanceSpirit entity) {
+	public ResourceLocation getTextureLocation(EntityVengeanceSpirit entity) {
 		return null;
 	}
 
@@ -118,7 +118,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 		}
 
 		@Override
-		public ResourceLocation getEntityTexture(MobEntity entity) {
+		public ResourceLocation getTextureLocation(MobEntity entity) {
 			return playerTexture;
 		}
 

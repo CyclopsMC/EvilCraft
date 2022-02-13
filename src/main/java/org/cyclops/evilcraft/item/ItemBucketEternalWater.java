@@ -31,6 +31,8 @@ import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.TileHelpers;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * @author rubensworks
  */
@@ -50,20 +52,20 @@ public class ItemBucketEternalWater extends BucketItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        RayTraceResult position = this.rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        RayTraceResult position = this.getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
         if(position != null && position.getType() == RayTraceResult.Type.BLOCK) {
-            BlockPos pos = new BlockPos(position.getHitVec());
+            BlockPos pos = new BlockPos(position.getLocation());
             BlockState blockState = world.getBlockState(pos);
-            if(blockState.getBlock() == Blocks.WATER && blockState.get(FlowingFluidBlock.LEVEL) == 0) {
-                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            if(blockState.getBlock() == Blocks.WATER && blockState.getValue(FlowingFluidBlock.LEVEL) == 0) {
+                world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                 return MinecraftHelpers.successAction(itemStack);
             }
         }
 
-        ActionResult<ItemStack> result = super.onItemRightClick(world, player, hand);
-        if(!result.getResult().isEmpty() && result.getResult().getItem() == Items.BUCKET) {
+        ActionResult<ItemStack> result = super.use(world, player, hand);
+        if(!result.getObject().isEmpty() && result.getObject().getItem() == Items.BUCKET) {
             return MinecraftHelpers.successAction(itemStack);
         }
 
@@ -72,9 +74,9 @@ public class ItemBucketEternalWater extends BucketItem {
 
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-        IFluidHandler handler = TileHelpers.getCapability(context.getWorld(), context.getPos(),
-                context.getFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
-        if(handler != null && !context.getWorld().isRemote()) {
+        IFluidHandler handler = TileHelpers.getCapability(context.getLevel(), context.getClickedPos(),
+                context.getClickedFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+        if(handler != null && !context.getLevel().isClientSide()) {
             handler.fill(new FluidStack(Fluids.WATER, FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
             return ActionResultType.SUCCESS;
         }
@@ -82,18 +84,18 @@ public class ItemBucketEternalWater extends BucketItem {
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        BlockState state = context.getWorld().getBlockState(context.getPos());
+    public ActionResultType useOn(ItemUseContext context) {
+        BlockState state = context.getLevel().getBlockState(context.getClickedPos());
         Block block = state.getBlock();
         if(block instanceof CauldronBlock && !context.getPlayer().isCrouching()) {
-            if(!context.getWorld().isRemote() && state.get(CauldronBlock.LEVEL) < 3) {
-                context.getPlayer().addStat(Stats.USE_CAULDRON);
-                ((CauldronBlock)block).setWaterLevel(context.getWorld(), context.getPos(), state, 3);
-                context.getWorld().playSound(null, context.getPos(), SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if(!context.getLevel().isClientSide() && state.getValue(CauldronBlock.LEVEL) < 3) {
+                context.getPlayer().awardStat(Stats.USE_CAULDRON);
+                ((CauldronBlock)block).setWaterLevel(context.getLevel(), context.getClickedPos(), state, 3);
+                context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
             return ActionResultType.SUCCESS;
         }
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 
     @Override

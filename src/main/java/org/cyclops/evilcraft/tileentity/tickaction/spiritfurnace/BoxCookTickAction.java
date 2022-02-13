@@ -68,14 +68,14 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         ));
         overridePlayerDropInner("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
         overridePlayerDropInner("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
-        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.BROWN_DYE).setDisplayName(new StringTextComponent("Lekkere Stront"))); // Davivs69
+        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.BROWN_DYE).setHoverName(new StringTextComponent("Lekkere Stront"))); // Davivs69
         overridePlayerDropInner("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.QUARTZ)); // Jona
         overridePlayerDropInner("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
-        overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setDisplayName(new StringTextComponent("Fuurnas"))); // _KillaH229_
+        overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setHoverName(new StringTextComponent("Fuurnas"))); // _KillaH229_
         overridePlayerDropInner("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.ENCHANTED_GOLDEN_APPLE)); // Notch
-        overridePlayerDropInner("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SHEEP_SPAWN_EGG).setDisplayName(new StringTextComponent("jeb_"))); // jeb_
-        overridePlayerDropInner("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SHEEP_SPAWN_EGG).setDisplayName(new StringTextComponent("Dinnerbone"))); // Dinnerbone
-        overridePlayerDropInner("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setDisplayName(new StringTextComponent("direwolf20"))); // direwolf20
+        overridePlayerDropInner("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(new StringTextComponent("jeb_"))); // jeb_
+        overridePlayerDropInner("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(new StringTextComponent("Dinnerbone"))); // Dinnerbone
+        overridePlayerDropInner("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setHoverName(new StringTextComponent("direwolf20"))); // direwolf20
         overridePlayerDropInner("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.PORKCHOP)); // iChun
     }
     public static final ItemStack[] PLAYERDROP_RANDOM = new ItemStack[] {
@@ -126,9 +126,9 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     public boolean canTick(TileSpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
         if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork()
                 && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0)
-        		&& !getCookStack(tile).isEmpty() && tile.getTileWorkingMetadata().canConsume(getCookStack(tile), tile.getWorld())) {
+        		&& !getCookStack(tile).isEmpty() && tile.getTileWorkingMetadata().canConsume(getCookStack(tile), tile.getLevel())) {
         	for(int slotId : tile.getProduceSlots()) {
-	        	ItemStack production = tile.getInventory().getStackInSlot(slotId);
+	        	ItemStack production = tile.getInventory().getItem(slotId);
 	            if(production == null || production.getCount() < production.getMaxStackSize()) {
 	            	return tile.isSizeValidForEntity();
 	            }
@@ -138,7 +138,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     }
     
     protected ItemStack getCookStack(TileSpiritFurnace tile) {
-        return tile.getInventory().getStackInSlot(tile.getConsumeSlot());
+        return tile.getInventory().getItem(tile.getConsumeSlot());
     }
 
     protected ItemStack getPlayerSkull(String playerName) {
@@ -156,13 +156,13 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
     	Entity entityRaw = tile.getEntity();
     	if(entityRaw instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) entityRaw;
-            World world = tile.getWorld();
+            World world = tile.getLevel();
 			
 			// Send sound to client
 			SoundEvent deathSound = entity.getDeathSound();
             if(BlockSpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
-                BlockPos pos = tile.getPos();
-                world.playSound(null, pos, deathSound, entity.getSoundCategory(), 0.5F + world.rand.nextFloat() * 0.2F, 1.0F);
+                BlockPos pos = tile.getBlockPos();
+                world.playSound(null, pos, deathSound, entity.getSoundSource(), 0.5F + world.random.nextFloat() * 0.2F, 1.0F);
             }
 
             if(tile.isPlayer()) {
@@ -180,16 +180,16 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                 if(!BlockBoxOfEternalClosure.FORGOTTEN_PLAYER.equals(tile.getPlayerName())) {
                     possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
                 }
-                WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
-                ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
+                WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.random);
+                ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.random);
                 if (!drop.isEmpty()) {
                     tile.onItemDrop(drop);
                 }
             } else {
                 if (MOBDROP_OVERRIDES.containsKey(entity.getClass())) {
                     List<WeightedItemStack> possibleDrops = MOBDROP_OVERRIDES.get(entity.getClass());
-                    WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.rand);
-                    ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.rand);
+                    WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.random);
+                    ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.random);
                     if (!drop.isEmpty()) {
                         tile.onItemDrop(drop);
                     }
@@ -199,14 +199,14 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                     if (mobDropTablesOverrides.containsKey(entity.getType())) {
                         deathLootTable = mobDropTablesOverrides.get(entity.getType());
                     } else {
-                        deathLootTable = entity.getLootTableResourceLocation();
+                        deathLootTable = entity.getLootTable();
                     }
                     if(deathLootTable != null) {
-                        LootTable loottable = ServerLifecycleHooks.getCurrentServer().getLootTableManager().getLootTableFromLocation(deathLootTable);
-                        FakePlayer killerEntity = FakePlayerFactory.getMinecraft((ServerWorld) tile.getWorld());
-                        LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) tile.getWorld()))
+                        LootTable loottable = ServerLifecycleHooks.getCurrentServer().getLootTables().get(deathLootTable);
+                        FakePlayer killerEntity = FakePlayerFactory.getMinecraft((ServerWorld) tile.getLevel());
+                        LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) tile.getLevel()))
                                 .withParameter(LootParameters.THIS_ENTITY, entity)
-                                .withParameter(LootParameters.field_237457_g_, new Vector3d(tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ()))
+                                .withParameter(LootParameters.ORIGIN, new Vector3d(tile.getBlockPos().getX(), tile.getBlockPos().getY(), tile.getBlockPos().getZ()))
                                 .withParameter(LootParameters.KILLER_ENTITY, killerEntity)
                                 .withParameter(LootParameters.DIRECT_KILLER_ENTITY, killerEntity)
                                 .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC);
@@ -216,7 +216,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
                             lootcontext$builder = lootcontext$builder.withPlayer(this.attackingPlayer).withLuck(this.attackingPlayer.getLuck());
                         }*/
 
-                        for (ItemStack itemstack : loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY))) {
+                        for (ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootParameterSets.ENTITY))) {
                             tile.onItemDrop(itemstack);
                         }
                     }
@@ -285,7 +285,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
         int baseUsage;
         if(tile.isPlayer()) {
             baseUsage = BlockSpiritFurnaceConfig.playerMBPerTick;
-        } else if (tile.getEntity() != null && !tile.getEntity().isNonBoss()) {
+        } else if (tile.getEntity() != null && !tile.getEntity().canChangeDimensions()) {
             baseUsage = BlockSpiritFurnaceConfig.bossMBPerTick;
         } else {
             baseUsage = BlockSpiritFurnaceConfig.mBPerTick;
@@ -314,7 +314,7 @@ public class BoxCookTickAction implements ITickAction<TileSpiritFurnace> {
 		} else {
             try {
                 LivingEntity livingEntity = (LivingEntity) entity;
-                requiredTicksBase = (int) ((livingEntity.getHealth() + livingEntity.getTotalArmorValue()) * BlockSpiritFurnaceConfig.requiredTicksPerHp);
+                requiredTicksBase = (int) ((livingEntity.getHealth() + livingEntity.getArmorValue()) * BlockSpiritFurnaceConfig.requiredTicksPerHp);
             } catch (RuntimeException e) {
                 requiredTicksBase = 40 * BlockSpiritFurnaceConfig.requiredTicksPerHp;
             }

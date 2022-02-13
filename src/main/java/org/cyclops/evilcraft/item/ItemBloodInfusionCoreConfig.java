@@ -16,7 +16,7 @@ public class ItemBloodInfusionCoreConfig extends ItemConfig {
                 EvilCraft._instance,
             "blood_infusion_core",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

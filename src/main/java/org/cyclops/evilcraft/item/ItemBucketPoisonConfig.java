@@ -18,9 +18,9 @@ public class ItemBucketPoisonConfig extends ItemConfig {
                 EvilCraft._instance,
                 "bucket_poison",
                 eConfig -> new BucketItem(() -> RegistryEntries.FLUID_POISON, new Item.Properties()
-                        .containerItem(Items.BUCKET)
-                        .maxStackSize(1)
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .craftRemainder(Items.BUCKET)
+                        .stacksTo(1)
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

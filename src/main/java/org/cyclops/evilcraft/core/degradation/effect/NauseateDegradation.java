@@ -39,8 +39,8 @@ public class NauseateDegradation implements IDegradationEffect {
         List<Entity> entities = degradable.getAreaEntities();
         for(Entity entity : entities) {
             if(entity instanceof LivingEntity) {
-                ((LivingEntity) entity).addPotionEffect(
-                        new EffectInstance(Effects.NAUSEA,
+                ((LivingEntity) entity).addEffect(
+                        new EffectInstance(Effects.CONFUSION,
                                 (int) degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1));
             }
         }

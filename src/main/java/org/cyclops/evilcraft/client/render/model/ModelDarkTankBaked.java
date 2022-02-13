@@ -172,17 +172,27 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture() {
-        return baseModel.getParticleTexture();
+    public TextureAtlasSprite getParticleIcon() {
+        return baseModel.getParticleIcon();
     }
 
     @Override
-    public boolean isSideLit() {
+    public boolean useAmbientOcclusion() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public boolean usesBlockLight() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public ItemCameraTransforms getItemCameraTransforms() {
+    public boolean isCustomRenderer() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public ItemCameraTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

@@ -35,7 +35,7 @@ public class ItemKineticatorConfig extends ItemConfig {
                 EvilCraft._instance,
                 "kineticator" + (repelling ? "_repelling" : ""),
                 eConfig -> new ItemKineticator(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()), repelling)
+                        .tab(EvilCraft._instance.getDefaultItemGroup()), repelling)
         );
     }
     

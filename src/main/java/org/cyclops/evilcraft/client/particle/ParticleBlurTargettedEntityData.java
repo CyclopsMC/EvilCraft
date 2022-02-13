@@ -11,13 +11,15 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
+import net.minecraft.particles.IParticleData.IDeserializer;
+
 /**
  * @author rubensworks
  */
 public class ParticleBlurTargettedEntityData extends ParticleBlurData {
 
     public static final IDeserializer<ParticleBlurTargettedEntityData> DESERIALIZER = new IDeserializer<ParticleBlurTargettedEntityData>() {
-        public ParticleBlurTargettedEntityData deserialize(ParticleType<ParticleBlurTargettedEntityData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleBlurTargettedEntityData fromCommand(ParticleType<ParticleBlurTargettedEntityData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float red = (float)reader.readDouble();
             reader.expect(' ');
@@ -33,7 +35,7 @@ public class ParticleBlurTargettedEntityData extends ParticleBlurData {
             return new ParticleBlurTargettedEntityData(red, green, blue, scale, ageMultiplier, entityId);
         }
 
-        public ParticleBlurTargettedEntityData read(ParticleType<ParticleBlurTargettedEntityData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleBlurTargettedEntityData fromNetwork(ParticleType<ParticleBlurTargettedEntityData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleBlurTargettedEntityData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readInt());
         }
     };
@@ -65,15 +67,15 @@ public class ParticleBlurTargettedEntityData extends ParticleBlurData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
-        super.write(buffer);
+    public void writeToNetwork(PacketBuffer buffer) {
+        super.write(buffer); // TODO: to writeToNetwork
         buffer.writeInt(entityId);
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %s",
-                super.getParameters(),
+                "", // TODO: restore super.writeToString()
                 this.entityId);
     }
 }

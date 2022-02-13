@@ -117,27 +117,27 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
     
     @Override
 	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
-    	String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getTranslationKey() + ".help.invalid";
+    	String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getDescriptionId() + ".help.invalid";
     	List<ITextComponent> lines = Lists.newArrayList();
     	lines.add(new TranslationTextComponent(prefix));
-        if (!getContainer().hasEntity()) {
+        if (!getMenu().hasEntity()) {
         	lines.add(new TranslationTextComponent(prefix + ".no_entity"));
-        } else if (!getContainer().isSizeValidForEntity()) {
-        	lines.add(new TranslationTextComponent(prefix + ".content_size", prettyPrintSize(getContainer().getInnerSize())));
-        	lines.add(new TranslationTextComponent(prefix + ".required_size", prettyPrintSize(getContainer().getEntitySize())));
-        } else if (getContainer().isForceHalt()) {
+        } else if (!getMenu().isSizeValidForEntity()) {
+        	lines.add(new TranslationTextComponent(prefix + ".content_size", prettyPrintSize(getMenu().getInnerSize())));
+        	lines.add(new TranslationTextComponent(prefix + ".required_size", prettyPrintSize(getMenu().getEntitySize())));
+        } else if (getMenu().isForceHalt()) {
         	lines.add(new TranslationTextComponent(prefix + ".force_halt"));
         }
-        else if (getContainer().isCaughtError()) {
+        else if (getMenu().isCaughtError()) {
         	lines.add(new TranslationTextComponent(prefix + ".caught_error"));
         }
         if (lines.size() > 1) {
         	this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
             		PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
-            if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
+            if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
-	    		mouseX -= guiLeft;
-	        	mouseY -= guiTop;
+	    		mouseX -= leftPos;
+	        	mouseY -= topPos;
 	            drawTooltip(lines, mouseX, mouseY);
 	        }
         }

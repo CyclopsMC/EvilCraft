@@ -129,13 +129,13 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
 
     @Override
     public void onStateChanged() {
-        markDirty();
+        setChanged();
     }
 
     protected List<ItemStack> getUpgradeItems() {
         List<ItemStack> itemStacks = Lists.newLinkedList();
         for(int i = this.basicInventorySize; i < this.basicInventorySize + INVENTORY_SIZE_UPGRADES; i++) {
-            ItemStack itemStack = getInventory().getStackInSlot(i);
+            ItemStack itemStack = getInventory().getItem(i);
             if(!itemStack.isEmpty()) {
                 itemStacks.add(itemStack);
             }
@@ -151,13 +151,15 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new Inventory<T>(inventorySize, stackSize, (T) this) {
             @Override
-            public boolean canInsertItem(int slot, ItemStack itemStack, Direction side) {
-                return super.canInsertItem(slot, itemStack, side) && canInsertItem(slot, itemStack, side);
+            public boolean canPlaceItemThroughFace(int slot, ItemStack itemStack, Direction side) {
+                return false; // TODO: restore
+                //return super.canPlaceItemThroughFace(slot, itemStack, side) && canPlaceItemThroughFace(slot, itemStack, side);
             }
 
             @Override
-            public boolean canExtractItem(int slot, ItemStack itemStack, Direction side) {
-                return super.canExtractItem(slot, itemStack, side) && canExtractItem(slot, itemStack, side);
+            public boolean canTakeItemThroughFace(int slot, ItemStack itemStack, Direction side) {
+                return false; // TODO: restore
+                //return super.canTakeItemThroughFace(slot, itemStack, side) && canTakeItemThroughFace(slot, itemStack, side);
             }
         };
     }
@@ -207,13 +209,13 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
     }
 
     public boolean onUpgradeSlotChanged(int slotId, ItemStack oldItemStack, ItemStack itemStack) {
-        if(!ItemStack.areItemStacksEqual(oldItemStack, itemStack)) {
+        if(!ItemStack.matches(oldItemStack, itemStack)) {
             resetUpgradeLevels();
             resetWork();
-            if (!world.isRemote()) {
+            if (!level.isClientSide()) {
                 getTank().setCapacity(getTankTierMultiplier(getTileWorkingMetadata().getTier(getInventory())) * tankSize);
             }
-            markDirty();
+            setChanged();
             return true;
         }
         return false;
@@ -237,31 +239,33 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
         }
 
         @Override
-        public ItemStack decrStackSize(int slotId, int count) {
-            ItemStack itemStack = super.decrStackSize(slotId, count);
+        public ItemStack removeItem(int slotId, int count) {
+            /*ItemStack itemStack = super.removeItem(slotId, count);
             if(this.tile.getTileWorkingMetadata().isUpgradeSlot(slotId)) {
                 ItemStack oldItemStack = itemStack.copy();
                 oldItemStack.grow(count);
                 this.tile.onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
             }
-            return itemStack;
+            return itemStack;*/
+            // TODO: restore
+            return null;
         }
 
         @Override
-        public void setInventorySlotContents(int slotId, ItemStack itemStack) {
-            ItemStack oldItemStack = getStackInSlot(slotId);
+        public void setItem(int slotId, ItemStack itemStack) {
+            ItemStack oldItemStack = getItem(slotId);
             if(!oldItemStack.isEmpty()) oldItemStack = oldItemStack.copy();
-            super.setInventorySlotContents(slotId, itemStack);
+            // super.setItem(slotId, itemStack); // TODO: restore
             if(this.tile.getTileWorkingMetadata().isUpgradeSlot(slotId)) {
                 this.tile.onUpgradeSlotChanged(slotId, oldItemStack, itemStack);
             }
         }
 
         @Override
-        public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        public boolean canPlaceItem(int slot, ItemStack itemStack) {
             return (this.tile.getTileWorkingMetadata().isUpgradeSlot(slot)
                     && this.tile.getTileWorkingMetadata().isUpgradeSlotEnabled(this.tile.getInventory(), slot))
-                    || super.isItemValidForSlot(slot, itemStack);
+                    || super.canPlaceItem(slot, itemStack);
         }
     }
 
@@ -296,10 +300,10 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
             if (!this.isUpgradeSlot(slot)) return true;
             if (!(itemStack.getItem() instanceof ItemPromise)
                     || !(this.getUpgrades().contains(((ItemPromise) itemStack.getItem()).getUpgrade(itemStack)))) return false;
-            if (this.isTierUpgrade(itemStack) && this.isTierUpgrade(inventory.getStackInSlot(slot))) {
+            if (this.isTierUpgrade(itemStack) && this.isTierUpgrade(inventory.getItem(slot))) {
                 // Condition already checked in canExtractItem.ø
                 return true;
-            } else if (this.isTierUpgrade(inventory.getStackInSlot(slot))) {
+            } else if (this.isTierUpgrade(inventory.getItem(slot))) {
                 // Remove a tier upgrade
                 return this.areUpgradeSlotsValidForTier(inventory, 0);
             } else if (this.isTierUpgrade(itemStack)) {
@@ -344,7 +348,7 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
 
         protected boolean areUpgradeSlotsValidForTier(IInventory inventory, int tier) {
             for(int i = basicInventorySize + tier + 1; i < basicInventorySize + INVENTORY_SIZE_UPGRADES; i++) {
-                ItemStack itemStack = inventory.getStackInSlot(i);
+                ItemStack itemStack = inventory.getItem(i);
                 if (!itemStack.isEmpty() && !(itemStack.getItem() instanceof ItemPromise && ((ItemPromise) itemStack.getItem()).isTierUpgrade(itemStack))) {
                     return false;
                 }
@@ -369,7 +373,7 @@ public abstract class TileWorking<T extends TileWorking<T, O>, O> extends Tickin
          */
         public int getTier(IInventory inventory) {
             for(int i = basicInventorySize; i < basicInventorySize + INVENTORY_SIZE_UPGRADES; i++) {
-                ItemStack itemStack = inventory.getStackInSlot(i);
+                ItemStack itemStack = inventory.getItem(i);
                 if (itemStack.getItem() instanceof ItemPromise && ((ItemPromise) itemStack.getItem()).isTierUpgrade(itemStack)) {
                     return ((ItemPromise) itemStack.getItem()).getUpgrade(itemStack).getTier();
                 }

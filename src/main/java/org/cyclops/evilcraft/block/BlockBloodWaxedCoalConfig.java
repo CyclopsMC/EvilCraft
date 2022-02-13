@@ -20,8 +20,8 @@ public class BlockBloodWaxedCoalConfig extends BlockConfig {
         super(
             EvilCraft._instance,
             "blood_waxed_coal_block",
-                eConfig -> new Block(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(3.0F, 5.0F)
+                eConfig -> new Block(Block.Properties.of(Material.STONE)
+                        .strength(3.0F, 5.0F)
                         .sound(SoundType.METAL)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

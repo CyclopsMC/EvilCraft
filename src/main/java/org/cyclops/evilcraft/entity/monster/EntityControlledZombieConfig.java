@@ -26,8 +26,8 @@ public class EntityControlledZombieConfig extends EntityConfig<EntityControlledZ
         super(
                 EvilCraft._instance,
             "controlled_zombie",
-                eConfig -> EntityType.Builder.<EntityControlledZombie>create(EntityControlledZombie::new, EntityClassification.MONSTER)
-                        .size(0.6F, 1.8F),
+                eConfig -> EntityType.Builder.<EntityControlledZombie>of(EntityControlledZombie::new, EntityClassification.MONSTER)
+                        .sized(0.6F, 1.8F),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "controlled_zombie_spawn_egg", Helpers.RGBToInt(10, 10, 10), Helpers.RGBToInt(114, 80, 129))
         );
     }
@@ -41,10 +41,10 @@ public class EntityControlledZombieConfig extends EntityConfig<EntityControlledZ
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 12.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.23F)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D)
-                .create());
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.createMonsterAttributes()
+                .add(Attributes.FOLLOW_RANGE, 12.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.23F)
+                .add(Attributes.ATTACK_DAMAGE, 3.0D)
+                .build());
     }
 }

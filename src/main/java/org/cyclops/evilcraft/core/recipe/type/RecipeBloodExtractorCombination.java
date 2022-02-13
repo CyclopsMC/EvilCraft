@@ -39,20 +39,20 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 
 	@Override
 	public boolean matches(CraftingInventory grid, World world) {
-		return !getCraftingResult(grid).isEmpty();
+		return !assemble(grid).isEmpty();
 	}
 	
 	@Override
-	public ItemStack getRecipeOutput() {
+	public ItemStack getResultItem() {
 		return new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
 	}
 
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(CraftingInventory inventory) {
-		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getSizeInventory(), ItemStack.EMPTY);
+		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
 
 		for (int i = 0; i < aitemstack.size(); ++i) {
-			ItemStack itemstack = inventory.getStackInSlot(i);
+			ItemStack itemstack = inventory.getItem(i);
 			aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
 		}
 
@@ -65,8 +65,8 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public ItemStack getCraftingResult(CraftingInventory grid) {
-		ItemStack output = getRecipeOutput().copy();
+	public ItemStack assemble(CraftingInventory grid) {
+		ItemStack output = getResultItem().copy();
 
 		int totalCapacity = 0;
 		int totalContent = 0;
@@ -74,8 +74,8 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 		int tanks = 0;
 		
 		// Loop over the grid and count the total contents and capacity
-		for(int j = 0; j < grid.getSizeInventory(); j++) {
-			ItemStack element = grid.getStackInSlot(j).copy().split(1);
+		for(int j = 0; j < grid.getContainerSize(); j++) {
+			ItemStack element = grid.getItem(j).copy().split(1);
 			if(!element.isEmpty()) {
 				if(element.getItem() instanceof BlockItem && ((BlockItem) element.getItem()).getBlock() instanceof BlockDarkTank) {
 					tanks += element.getCount();
@@ -121,7 +121,7 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public boolean canFit(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return width * height >= 1;
 	}
 }

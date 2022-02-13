@@ -28,7 +28,7 @@ public abstract class StochasticDegradationEffect implements IDegradationEffect 
     
     @Override
     public boolean canRun(IDegradable degradable) {
-        Random random = degradable.getDegradationWorld().rand;
+        Random random = degradable.getDegradationWorld().random;
         return degradable.getDegradation() * getChance() > random.nextDouble();
     }
     

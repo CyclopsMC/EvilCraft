@@ -32,6 +32,8 @@ import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * {@link BlockItem} that can be used for blocks that have a tile entity with a fluid container.
  * The blockState must implement {@link IBlockTank}.
@@ -50,7 +52,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
     }
 
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
 
@@ -72,11 +74,11 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 	}
 	
 	@Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         if(block.isActivatable()) {
-            return new ActionResult<ItemStack>(ActionResultType.PASS, block.toggleActivation(player.getHeldItem(hand), world, player));
+            return new ActionResult<ItemStack>(ActionResultType.PASS, block.toggleActivation(player.getItemInHand(hand), world, player));
         }
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 
     protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
@@ -94,14 +96,14 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack itemStack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, @Nullable World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         if (CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY != null) {
             list.add(BlockTankHelpers.getInfoTank(itemStack));
         }
         if(block.isActivatable()) {
 	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
-                    getTranslationKey() + ".info.auto_supply");
+                    getDescriptionId() + ".info.auto_supply");
         }
     }
 

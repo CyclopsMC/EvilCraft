@@ -31,10 +31,10 @@ public class BlockGemStoneTorchWallConfig extends BlockConfig {
                 EvilCraft._instance,
             "gem_stone_torch_wall",
                 eConfig -> {
-                    WallTorchBlock block = new WallTorchBlock(Block.Properties.create(Material.MISCELLANEOUS)
-                            .doesNotBlockMovement()
-                            .hardnessAndResistance(0)
-                            .setLightLevel((state) -> 14)
+                    WallTorchBlock block = new WallTorchBlock(Block.Properties.of(Material.DECORATION)
+                            .noCollission()
+                            .strength(0)
+                            .lightLevel((state) -> 14)
                             .sound(SoundType.WOOD), ParticleTypes.FLAME);
                     ObfuscationReflectionHelper.setPrivateValue(AbstractBlock.class, block,
                             (Supplier<ResourceLocation>) () -> RegistryEntries.BLOCK_GEM_STONE_TORCH.getLootTable(), "lootTableSupplier");
@@ -46,7 +46,7 @@ public class BlockGemStoneTorchWallConfig extends BlockConfig {
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

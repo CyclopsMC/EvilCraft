@@ -30,6 +30,8 @@ import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Specialized item for the {@link BlockEntangledChalice} blockState.
  * @author rubensworks
@@ -43,13 +45,13 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
     }
 
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
 
     @Override
     protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
-        if(entity instanceof PlayerEntity && !world.isRemote()) {
+        if(entity instanceof PlayerEntity && !world.isClientSide()) {
             PlayerEntity player = (PlayerEntity) entity;
             FluidStack tickFluid;
             PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
@@ -60,7 +62,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
                     ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, toFill, tickFluid, player);
                     if (!filled.isEmpty()) {
                         it.replace(filled);
-                        player.inventory.setInventorySlotContents(itemSlot, source.getContainer());
+                        player.inventory.setItem(itemSlot, source.getContainer());
                     }
                 }
             } while(tickFluid != null && tickFluid.getAmount() > 0 && it.hasNext());
@@ -84,8 +86,8 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
-        super.addInformation(itemStack, worldIn, list, flagIn);
+    public void appendHoverText(ItemStack itemStack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
+        super.appendHoverText(itemStack, worldIn, list, flagIn);
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
         list.add(new TranslationTextComponent("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));

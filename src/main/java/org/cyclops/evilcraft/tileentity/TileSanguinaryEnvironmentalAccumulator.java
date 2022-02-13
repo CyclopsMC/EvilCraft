@@ -154,14 +154,14 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                     @Override
                     public Optional<RecipeEnvironmentalAccumulator> getNewValue(Triple<ItemStack, FluidStack, WeatherType> key) {
                         Inventory recipeInput = new Inventory(1, 64, TileSanguinaryEnvironmentalAccumulator.this);
-                        recipeInput.setInventorySlotContents(0, key.getLeft());
-                        return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getWorld());
+                        recipeInput.setItem(0, key.getLeft());
+                        return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getLevel());
                     }
 
                     @Override
                     public boolean isKeyEqual(Triple<ItemStack, FluidStack, WeatherType> cacheKey, Triple<ItemStack, FluidStack, WeatherType> newKey) {
                         return cacheKey == null || newKey == null ||
-                                (ItemStack.areItemStacksEqual(cacheKey.getLeft(), newKey.getLeft()) &&
+                                (ItemStack.matches(cacheKey.getLeft(), newKey.getLeft()) &&
                                         FluidStack.areFluidStackTagsEqual(cacheKey.getMiddle(), newKey.getMiddle()) &&
                                         cacheKey.getRight() == newKey.getRight());
                     }
@@ -192,11 +192,11 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new Inventory(inventorySize, stackSize, this) {
             @Override
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            public boolean canPlaceItem(int slot, ItemStack itemStack) {
                 if(slot == SLOT_ACCUMULATE) {
                     return getTileWorkingMetadata().canConsume(itemStack, getWorld());
                 }
-                return super.isItemValidForSlot(slot, itemStack);
+                return super.canPlaceItem(slot, itemStack);
             }
         };
     }
@@ -215,7 +215,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         return recipeCache.get(new ImmutableTriple<>(
                 itemStack.isEmpty() ? ItemStack.EMPTY : itemStack.copy(),
                 getTank().getFluid().copy(),
-                WeatherType.getActiveWeather(world)));
+                WeatherType.getActiveWeather(level)));
     }
 
     protected IRecipeType<RecipeEnvironmentalAccumulator> getRegistry() {
@@ -225,29 +225,29 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
     @Override
     public void updateTileEntity() {
         super.updateTileEntity();
-        if(world.isRemote() && isVisuallyWorking()) {
+        if(level.isClientSide() && isVisuallyWorking()) {
             showTankBeams();
             if((getRequiredWorkTicks() - getWorkTick()) > TileEnvironmentalAccumulator.MAX_AGE) {
                 showAccumulatingParticles();
             }
 
-        } else if(world.isRemote() && !canWork()) {
+        } else if(level.isClientSide() && !canWork()) {
             showMissingTanks();
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     protected void showAccumulatingParticles() {
-        TileEnvironmentalAccumulator.showAccumulatingParticles(world, getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F, TileEnvironmentalAccumulator.SPREAD);
+        TileEnvironmentalAccumulator.showAccumulatingParticles(level, getBlockPos().getX() + 0.5F, getBlockPos().getY() + 0.5F, getBlockPos().getZ() + 0.5F, TileEnvironmentalAccumulator.SPREAD);
     }
 
     @OnlyIn(Dist.CLIENT)
     protected void showTankBeams() {
-        Random random = world.rand;
-        BlockPos target = getPos();
+        Random random = level.random;
+        BlockPos target = getBlockPos();
         for (int j = 0; j < tankOffsets.length; j++) {
             BlockPos offset = tankOffsets[j];
-            BlockPos location = target.add(offset);
+            BlockPos location = target.offset(offset);
             double x = location.getX() + 0.5;
             double y = location.getY() + 0.5;
             double z = location.getZ() + 0.5;
@@ -266,7 +266,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                 double particleMotionY = MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI) * -speed;
                 double particleMotionZ = MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI) * MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * speed;
 
-                Minecraft.getInstance().worldRenderer.addParticle(
+                Minecraft.getInstance().levelRenderer.addParticle(
                         RegistryEntries.PARTICLE_BLOOD_BUBBLE, false,
                         particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             }
@@ -275,8 +275,8 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
     @OnlyIn(Dist.CLIENT)
     protected void showMissingTanks() {
-        if(world.getGameTime() % 10 == 0) {
-            Random random = world.rand;
+        if(level.getGameTime() % 10 == 0) {
+            Random random = level.random;
             for (BlockPos location : invalidLocations) {
                 double x = location.getX() + 0.5;
                 double y = location.getY() + 0.5;
@@ -287,7 +287,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
                     double particleY = y - 0.2 + random.nextDouble() * 0.4;
                     double particleZ = z - 0.2 + random.nextDouble() * 0.4;
 
-                    Minecraft.getInstance().worldRenderer.addParticle(
+                    Minecraft.getInstance().levelRenderer.addParticle(
                             ParticleTypes.SMOKE, false,
                             particleX, particleY, particleZ, 0, 0, 0);
                 }
@@ -297,9 +297,9 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
     @Override
     public void onStateChanged() {
-        BlockState blockState = world.getBlockState(getPos()).with(BlockSanguinaryEnvironmentalAccumulator.ON, isWorking());
-        world.setBlockState(getPos(), blockState);
-        world.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT); // Update light
+        BlockState blockState = level.getBlockState(getBlockPos()).setValue(BlockSanguinaryEnvironmentalAccumulator.ON, isWorking());
+        level.setBlockAndUpdate(getBlockPos(), blockState);
+        level.sendBlockUpdated(getBlockPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT); // Update light
     }
 
     @Override
@@ -309,7 +309,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
     @Override
 	public boolean canWork() {
-        if(!forceLoadTanks && invalidLocations != null && !WorldHelpers.efficientTick(world, TANK_CHECK_TICK_OFFSET, getPos())) {
+        if(!forceLoadTanks && invalidLocations != null && !WorldHelpers.efficientTick(level, TANK_CHECK_TICK_OFFSET, getBlockPos())) {
             return invalidLocations.isEmpty();
         }
         forceLoadTanks = false;
@@ -332,8 +332,8 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
         invalidLocations.clear();
         for (int i = 0; i < tankOffsets.length; i++) {
             BlockPos offset = tankOffsets[i];
-            BlockPos location = getPos().add(offset);
-            IFluidHandler handler = TileHelpers.getCapability(getWorld(), location, Direction.UP, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+            BlockPos location = getBlockPos().offset(offset);
+            IFluidHandler handler = TileHelpers.getCapability(getLevel(), location, Direction.UP, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
             boolean oneValid = false;
             if (handler != null) {
                 int tankAmount = handler.getTanks();
@@ -374,12 +374,54 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
 
         @Override
         public World getWorld() {
-            return tile.getWorld();
+            return tile.getLevel();
         }
 
         @Override
         public BlockPos getPos() {
-            return tile.getPos();
+            return tile.getBlockPos();
+        }
+
+        // TODO: rm everything below here!
+
+        @Override
+        public boolean canPlaceItemThroughFace(int p_180462_1_, ItemStack p_180462_2_, @Nullable Direction p_180462_3_) {
+            return false;
+        }
+
+        @Override
+        public boolean canTakeItemThroughFace(int p_180461_1_, ItemStack p_180461_2_, Direction p_180461_3_) {
+            return false;
+        }
+
+        @Override
+        public int getContainerSize() {
+            return 0;
+        }
+
+        @Override
+        public ItemStack getItem(int p_70301_1_) {
+            return null;
+        }
+
+        @Override
+        public ItemStack removeItemNoUpdate(int p_70304_1_) {
+            return null;
+        }
+
+        @Override
+        public void setChanged() {
+
+        }
+
+        @Override
+        public boolean stillValid(PlayerEntity p_70300_1_) {
+            return false;
+        }
+
+        @Override
+        public void clearContent() {
+
         }
     }
 
@@ -398,7 +440,7 @@ public class TileSanguinaryEnvironmentalAccumulator extends TileWorking<TileSang
             // Valid custom recipe
             RecipeEnvironmentalAccumulator.Inventory recipeInput = new RecipeEnvironmentalAccumulator.InventoryDummy(itemStack);
             return world.getRecipeManager()
-                    .getRecipe(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR, recipeInput, world)
+                    .getRecipeFor(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR, recipeInput, world)
                     .isPresent();
         }
 

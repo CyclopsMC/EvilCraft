@@ -14,6 +14,8 @@ import org.cyclops.evilcraft.api.broom.IBroomPart;
 
 import javax.annotation.Nullable;
 
+import org.cyclops.evilcraft.api.broom.IBroomPart.BroomPartType;
+
 /**
  * Base implementation for broom parts.
  * @author rubensworks

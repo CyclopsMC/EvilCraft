@@ -20,8 +20,8 @@ public class ItemExaltedCrafterConfig extends ItemConfig {
                 EvilCraft._instance,
                 "exalted_crafter" + (wooden ? "_wooden" : "") + (empowered ? "_empowered" : ""),
                 eConfig -> new ItemExaltedCrafter(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(1), wooden, empowered)
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(1), wooden, empowered)
         );
     }
     

@@ -16,8 +16,8 @@ public class BlockEternalWaterConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "eternal_water",
-                eConfig -> new BlockEternalWater(Block.Properties.create(Material.WATER)
-                        .hardnessAndResistance(0.5F)),
+                eConfig -> new BlockEternalWater(Block.Properties.of(Material.WATER)
+                        .strength(0.5F)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

@@ -26,18 +26,18 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
         if(canConsume(100, itemStack, player)) {
             this.consume(100, itemStack, player);
-            world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             
-            if (!world.isRemote()) {
+            if (!world.isClientSide()) {
             	EntityBloodPearl pearl = new EntityBloodPearl(world, player);
                 // MCP: shoot
-                pearl.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.0F, 0.0F);
-                pearl.setMotion(pearl.getMotion().mul(3, 3, 3));
-                world.addEntity(pearl);
+                pearl.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1.0F, 0.0F);
+                pearl.setDeltaMovement(pearl.getDeltaMovement().multiply(3, 3, 3));
+                world.addFreshEntity(pearl);
             }
 
             return MinecraftHelpers.successAction(itemStack);

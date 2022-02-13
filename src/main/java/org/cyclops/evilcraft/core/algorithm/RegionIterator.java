@@ -48,7 +48,7 @@ public class RegionIterator implements Iterator<BlockPos> {
 	}
 	
 	private long getShuffleSeed() {
-		return center.toLong();
+		return center.asLong();
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class RegionIterator implements Iterator<BlockPos> {
 			c[i] = -offset
 					+ ((tick % mod) - (tick % prevMod)) / prevMod;
 		}
-		return center.add(c[0], c[1], c[2]);
+		return center.offset(c[0], c[1], c[2]);
 	}
 	
 	@Override

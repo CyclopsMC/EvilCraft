@@ -18,13 +18,13 @@ public class ParticleDistort extends SpriteTexturedParticle {
     public ParticleDistort(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale, IAnimatedSprite sprite) {
         super(world, x, y, z, motionX, motionY, motionZ);
         
-        particleScale = scale;
-        particleAlpha = 0.3F;
-        maxAge = ItemMaceOfDistortion.AOE_TICK_UPDATE;
+        quadSize = scale;
+        alpha = 0.3F;
+        lifetime = ItemMaceOfDistortion.AOE_TICK_UPDATE;
         
-        particleRed = 1.0F * rand.nextFloat();
-        particleGreen = 0.01F * rand.nextFloat();
-        particleBlue = 0.5F * rand.nextFloat();
+        rCol = 1.0F * random.nextFloat();
+        gCol = 0.01F * random.nextFloat();
+        bCol = 0.5F * random.nextFloat();
     }
 
     @Override
@@ -33,38 +33,38 @@ public class ParticleDistort extends SpriteTexturedParticle {
     }
 
     @Override
-    public float getScale(float p_217561_1_) {
-        return this.particleScale * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.maxAge * 32.0F, 0.0F, 1.0F);
+    public float getQuadSize(float p_217561_1_) {
+        return this.quadSize * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
     
     @Override
     public void tick() {
         super.tick();
 
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        if (this.age++ >= this.maxAge) {
-            this.setExpired();
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+        if (this.age++ >= this.lifetime) {
+            this.remove();
         } else {
-            this.motionY += 0.004D;
-            this.move(this.motionX, this.motionY, this.motionZ);
-            if (this.posY == this.prevPosY) {
-                this.motionX *= 1.1D;
-                this.motionZ *= 1.1D;
+            this.yd += 0.004D;
+            this.move(this.xd, this.yd, this.zd);
+            if (this.y == this.yo) {
+                this.xd *= 1.1D;
+                this.zd *= 1.1D;
             }
 
-            this.motionX *= (double)0.96F;
-            this.motionY *= (double)0.96F;
-            this.motionZ *= (double)0.96F;
+            this.xd *= (double)0.96F;
+            this.yd *= (double)0.96F;
+            this.zd *= (double)0.96F;
             if (this.onGround) {
-                this.motionX *= (double)0.7F;
-                this.motionZ *= (double)0.7F;
+                this.xd *= (double)0.7F;
+                this.zd *= (double)0.7F;
             }
 
         }
 
-        particleScale = (1 - (float)age / maxAge) * 3;
+        quadSize = (1 - (float)age / lifetime) * 3;
     }
 
 }

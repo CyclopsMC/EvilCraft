@@ -39,18 +39,18 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
     public BlockDarkBloodBrick(Block.Properties properties) {
         super(properties);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(ACTIVE, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(ACTIVE, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(ACTIVE, false);
+        return this.defaultBlockState().setValue(ACTIVE, false);
     }
 
     @Override
@@ -63,25 +63,25 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
-        if(!world.isRemote() && !world.captureBlockSnapshots) {
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, placer, stack);
+        if(!world.isClientSide() && !world.captureBlockSnapshots) {
             triggerDetector(world, pos, true);
         }
     }
     
     @Override
-    public void onBlockAdded(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
-        super.onBlockAdded(blockStateNew, world, blockPos, blockStateOld, isMoving);
-        if(!world.isRemote() && !world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock()) {
+    public void onPlace(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
+        super.onPlace(blockStateNew, world, blockPos, blockStateOld, isMoving);
+        if(!world.isClientSide() && !world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock()) {
             triggerDetector(world, blockPos, true);
         }
     }
 
     @Override
-    public void onPlayerDestroy(IWorld world, BlockPos blockPos, BlockState blockState) {
+    public void destroy(IWorld world, BlockPos blockPos, BlockState blockState) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) triggerDetector(world, blockPos, false);
-        super.onPlayerDestroy(world, blockPos, blockState);
+        super.destroy(world, blockPos, blockState);
     }
     
     @Override
@@ -89,7 +89,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
 		Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !BlockHelpers.getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
-            ((World) world).setBlockState(location, world.getBlockState(location).with(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            ((World) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
                 TileSpiritFurnace.detectStructure(world, location, size, valid, originCorner);
             }
@@ -97,7 +97,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
 	}
 
     @Override
-    public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             TileSpiritFurnace.getCubeDetector().detect(world, blockPos, null, (location, blockState1) -> {
@@ -108,10 +108,10 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
             }, false);
             BlockPos tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
-                return world.getBlockState(tileLocation).getBlock().onBlockActivated(blockState, world, tileLocation, player, hand, rayTraceResult);
+                return world.getBlockState(tileLocation).getBlock().use(blockState, world, tileLocation, player, hand, rayTraceResult);
             }
         }
-        return super.onBlockActivated(blockState, world, blockPos, player, hand, rayTraceResult);
+        return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
     }
 
 }

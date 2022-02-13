@@ -20,7 +20,7 @@ public class ItemBloodPearlOfTeleportationConfig extends ItemConfig {
                 EvilCraft._instance,
             "blood_pearl_of_teleportation",
                 eConfig -> new ItemBloodPearlOfTeleportation(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

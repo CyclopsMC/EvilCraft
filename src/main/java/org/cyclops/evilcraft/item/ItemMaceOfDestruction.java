@@ -31,9 +31,9 @@ public class ItemMaceOfDestruction extends ItemMace {
 
     @Override
     protected void use(World world, LivingEntity entity, int itemUsedCount, int power) {
-        if(!world.isRemote()) {
-            Vector3d v = entity.getLookVec();
-            world.createExplosion(entity, entity.getPosX() + v.x * 2, entity.getPosY() + entity.getEyeHeight() + v.y * 2, entity.getPosZ() + v.z * 2, ((float) itemUsedCount) / 20 + power, Explosion.Mode.DESTROY);
+        if(!world.isClientSide()) {
+            Vector3d v = entity.getLookAngle();
+            world.explode(entity, entity.getX() + v.x * 2, entity.getY() + entity.getEyeHeight() + v.y * 2, entity.getZ() + v.z * 2, ((float) itemUsedCount) / 20 + power, Explosion.Mode.DESTROY);
         }
     }
 }

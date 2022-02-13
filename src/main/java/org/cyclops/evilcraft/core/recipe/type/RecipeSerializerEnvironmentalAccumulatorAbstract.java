@@ -36,35 +36,35 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
                              int duration, int cooldownTime, float processingSpeed);
 
     @Override
-    public T read(ResourceLocation recipeId, JsonObject json) {
-        JsonObject result = JSONUtils.getJsonObject(json, "result");
+    public T fromJson(ResourceLocation recipeId, JsonObject json) {
+        JsonObject result = JSONUtils.getAsJsonObject(json, "result");
 
         // Input
         Ingredient inputIngredient = RecipeSerializerHelpers.getJsonIngredient(json, "item", false);
-        WeatherType inputWeather = getWeatherType(JSONUtils.getString(json, "weather"));
+        WeatherType inputWeather = getWeatherType(JSONUtils.getAsString(json, "weather"));
 
         // Output
         ItemStack outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);
-        WeatherType outputWeather = getWeatherType(JSONUtils.getString(result, "weather"));
+        WeatherType outputWeather = getWeatherType(JSONUtils.getAsString(result, "weather"));
 
         // Other stuff
-        int duration = JSONUtils.getInt(json, "duration", -1);
-        int cooldownTime = JSONUtils.getInt(json, "cooldownTime", -1);
-        float processingSpeed = JSONUtils.getFloat(json, "processingSpeed", -1.0F);
+        int duration = JSONUtils.getAsInt(json, "duration", -1);
+        int cooldownTime = JSONUtils.getAsInt(json, "cooldownTime", -1);
+        float processingSpeed = JSONUtils.getAsFloat(json, "processingSpeed", -1.0F);
 
         return createRecipe(recipeId, inputIngredient, inputWeather, outputItemStack, outputWeather, duration, cooldownTime, processingSpeed);
     }
 
     @Nullable
     @Override
-    public T read(ResourceLocation recipeId, PacketBuffer buffer) {
+    public T fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
         // Input
-        Ingredient inputIngredient = Ingredient.read(buffer);
-        WeatherType inputWeather = getWeatherType(buffer.readString(20));
+        Ingredient inputIngredient = Ingredient.fromNetwork(buffer);
+        WeatherType inputWeather = getWeatherType(buffer.readUtf(20));
 
         // Output
-        ItemStack outputItemStack = buffer.readItemStack();
-        WeatherType outputWeather = getWeatherType(buffer.readString(20));
+        ItemStack outputItemStack = buffer.readItem();
+        WeatherType outputWeather = getWeatherType(buffer.readUtf(20));
 
         // Other stuff
         int duration = buffer.readVarInt();
@@ -75,14 +75,14 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
     }
 
     @Override
-    public void write(PacketBuffer buffer, RecipeEnvironmentalAccumulator recipe) {
+    public void toNetwork(PacketBuffer buffer, RecipeEnvironmentalAccumulator recipe) {
         // Input
-        recipe.getInputIngredient().write(buffer);
-        buffer.writeString(recipe.getInputWeather().toString().toUpperCase(Locale.ENGLISH));
+        recipe.getInputIngredient().toNetwork(buffer);
+        buffer.writeUtf(recipe.getInputWeather().toString().toUpperCase(Locale.ENGLISH));
 
         // Output
-        buffer.writeItemStack(recipe.getOutputItem());
-        buffer.writeString(recipe.getOutputWeather().toString().toUpperCase(Locale.ENGLISH));
+        buffer.writeItem(recipe.getOutputItem());
+        buffer.writeUtf(recipe.getOutputWeather().toString().toUpperCase(Locale.ENGLISH));
 
         // Other stuff
         buffer.writeVarInt(recipe.getDuration());

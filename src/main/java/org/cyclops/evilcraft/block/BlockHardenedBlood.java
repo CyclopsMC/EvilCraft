@@ -29,24 +29,24 @@ public class BlockHardenedBlood extends Block {
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
         if (drops.isEmpty()) {
-            ServerWorld world = builder.getWorld();
-            BlockPos blockPos = new BlockPos(builder.get(LootParameters.field_237457_g_));
-            Material material = world.getBlockState(blockPos.add(0, -1, 0)).getMaterial();
+            ServerWorld world = builder.getLevel();
+            BlockPos blockPos = new BlockPos(builder.getOptionalParameter(LootParameters.ORIGIN));
+            Material material = world.getBlockState(blockPos.offset(0, -1, 0)).getMaterial();
 
-            if (material.blocksMovement() || material.isLiquid()) {
-                world.setBlockState(blockPos, RegistryEntries.BLOCK_BLOOD.getDefaultState());
+            if (material.blocksMotion() || material.isLiquid()) {
+                world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.defaultBlockState());
             }
         }
         return drops;
     }
 
     @Override
-    public PushReaction getPushReaction(BlockState blockState) {
+    public PushReaction getPistonPushReaction(BlockState blockState) {
         return PushReaction.NORMAL;
     }
     
     @Override
-    public void fillWithRain(World world, BlockPos blockPos) {
-        world.setBlockState(blockPos, RegistryEntries.BLOCK_BLOOD.getDefaultState());
+    public void handleRain(World world, BlockPos blockPos) {
+        world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.defaultBlockState());
     }
 }

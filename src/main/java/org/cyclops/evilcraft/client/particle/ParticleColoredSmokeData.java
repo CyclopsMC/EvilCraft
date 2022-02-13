@@ -12,13 +12,15 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
+import net.minecraft.particles.IParticleData.IDeserializer;
+
 /**
  * @author rubensworks
  */
 public class ParticleColoredSmokeData implements IParticleData {
 
     public static final IDeserializer<ParticleColoredSmokeData> DESERIALIZER = new IDeserializer<ParticleColoredSmokeData>() {
-        public ParticleColoredSmokeData deserialize(ParticleType<ParticleColoredSmokeData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleColoredSmokeData fromCommand(ParticleType<ParticleColoredSmokeData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float r = (float) reader.readDouble();
             reader.expect(' ');
@@ -28,7 +30,7 @@ public class ParticleColoredSmokeData implements IParticleData {
             return new ParticleColoredSmokeData(r, g, b);
         }
 
-        public ParticleColoredSmokeData read(ParticleType<ParticleColoredSmokeData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleColoredSmokeData fromNetwork(ParticleType<ParticleColoredSmokeData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleColoredSmokeData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
@@ -68,14 +70,14 @@ public class ParticleColoredSmokeData implements IParticleData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
+    public void writeToNetwork(PacketBuffer buffer) {
         buffer.writeFloat(r);
         buffer.writeFloat(g);
         buffer.writeFloat(b);
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f %.2f %.2f",
                 ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
                 this.r, this.g, this.b);

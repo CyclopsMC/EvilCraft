@@ -41,20 +41,20 @@ public class RecipeFluidContainerCombination extends SpecialRecipe {
 
 	@Override
 	public boolean matches(CraftingInventory grid, World world) {
-		return !getCraftingResult(grid).isEmpty();
+		return !assemble(grid).isEmpty();
 	}
 	
 	@Override
-	public ItemStack getRecipeOutput() {
-		return fluidContainer.getMatchingStacks()[0];
+	public ItemStack getResultItem() {
+		return fluidContainer.getItems()[0];
 	}
 
     @Override
     public NonNullList<ItemStack> getRemainingItems(CraftingInventory inventory) {
-		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getSizeInventory(), ItemStack.EMPTY);
+		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
 
         for (int i = 0; i < aitemstack.size(); ++i) {
-            ItemStack itemstack = inventory.getStackInSlot(i);
+            ItemStack itemstack = inventory.getItem(i);
             aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
         }
 
@@ -67,8 +67,8 @@ public class RecipeFluidContainerCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public ItemStack getCraftingResult(CraftingInventory grid) {
-		ItemStack output = getRecipeOutput().copy();
+	public ItemStack assemble(CraftingInventory grid) {
+		ItemStack output = getResultItem().copy();
 		IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output).orElse(null);
 		
 		FluidStack commonFluid = null;
@@ -77,8 +77,8 @@ public class RecipeFluidContainerCombination extends SpecialRecipe {
 		int inputItems = 0;
 		
 		// Loop over the grid and count the total contents and capacity + collect common fluid.
-		for(int j = 0; j < grid.getSizeInventory(); j++) {
-			ItemStack element = grid.getStackInSlot(j).copy().split(1);
+		for(int j = 0; j < grid.getContainerSize(); j++) {
+			ItemStack element = grid.getItem(j).copy().split(1);
 			if(!element.isEmpty()) {
 				if(fluidContainer.test(element)) {
 					IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(element).orElse(null);
@@ -114,7 +114,7 @@ public class RecipeFluidContainerCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public boolean canFit(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return width * height >= 1;
 	}
 }

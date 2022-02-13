@@ -98,16 +98,16 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      */
     public static final int REMAININGLIFE_MAX = 1000;
 
-    public static final DataParameter<String> WATCHERID_INNER = EntityDataManager.<String>createKey(EntityVengeanceSpirit.class, DataSerializers.STRING);
-    public static final DataParameter<Integer> WATCHERID_REMAININGLIFE = EntityDataManager.<Integer>createKey(EntityVengeanceSpirit.class, DataSerializers.VARINT);
-    public static final DataParameter<Integer> WATCHERID_FROZENDURATION = EntityDataManager.<Integer>createKey(EntityVengeanceSpirit.class, DataSerializers.VARINT);
-    public static final DataParameter<Integer> WATCHERID_GLOBALVENGEANCE = EntityDataManager.<Integer>createKey(EntityVengeanceSpirit.class, DataSerializers.VARINT);
-    public static final DataParameter<String> WATCHERID_VENGEANCEPLAYERS = EntityDataManager.<String>createKey(EntityVengeanceSpirit.class, DataSerializers.STRING);
-    public static final DataParameter<Integer> WATCHERID_ISSWARM = EntityDataManager.<Integer>createKey(EntityVengeanceSpirit.class, DataSerializers.VARINT);
-    public static final DataParameter<Integer> WATCHERID_SWARMTIER = EntityDataManager.<Integer>createKey(EntityVengeanceSpirit.class, DataSerializers.VARINT);
-    public static final DataParameter<Integer> WATCHERID_BUILDUP = EntityDataManager.<Integer>createKey(EntityVengeanceSpirit.class, DataSerializers.VARINT);
-    public static final DataParameter<String> WATCHERID_PLAYERID = EntityDataManager.<String>createKey(EntityVengeanceSpirit.class, DataSerializers.STRING);
-    public static final DataParameter<String> WATCHERID_PLAYERNAME = EntityDataManager.<String>createKey(EntityVengeanceSpirit.class, DataSerializers.STRING);
+    public static final DataParameter<String> WATCHERID_INNER = EntityDataManager.<String>defineId(EntityVengeanceSpirit.class, DataSerializers.STRING);
+    public static final DataParameter<Integer> WATCHERID_REMAININGLIFE = EntityDataManager.<Integer>defineId(EntityVengeanceSpirit.class, DataSerializers.INT);
+    public static final DataParameter<Integer> WATCHERID_FROZENDURATION = EntityDataManager.<Integer>defineId(EntityVengeanceSpirit.class, DataSerializers.INT);
+    public static final DataParameter<Integer> WATCHERID_GLOBALVENGEANCE = EntityDataManager.<Integer>defineId(EntityVengeanceSpirit.class, DataSerializers.INT);
+    public static final DataParameter<String> WATCHERID_VENGEANCEPLAYERS = EntityDataManager.<String>defineId(EntityVengeanceSpirit.class, DataSerializers.STRING);
+    public static final DataParameter<Integer> WATCHERID_ISSWARM = EntityDataManager.<Integer>defineId(EntityVengeanceSpirit.class, DataSerializers.INT);
+    public static final DataParameter<Integer> WATCHERID_SWARMTIER = EntityDataManager.<Integer>defineId(EntityVengeanceSpirit.class, DataSerializers.INT);
+    public static final DataParameter<Integer> WATCHERID_BUILDUP = EntityDataManager.<Integer>defineId(EntityVengeanceSpirit.class, DataSerializers.INT);
+    public static final DataParameter<String> WATCHERID_PLAYERID = EntityDataManager.<String>defineId(EntityVengeanceSpirit.class, DataSerializers.STRING);
+    public static final DataParameter<String> WATCHERID_PLAYERNAME = EntityDataManager.<String>defineId(EntityVengeanceSpirit.class, DataSerializers.STRING);
 
     @Getter
     @Delegate
@@ -120,23 +120,23 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     private final Set<ServerPlayerEntity> entanglingPlayers = Sets.newHashSet();
 
-    public EntityVengeanceSpirit(EntityType<? extends EntityVengeanceSpirit> type, World world) {
-        this(type, world, null);
+    public EntityVengeanceSpirit(EntityType<? extends EntityVengeanceSpirit> type, World level) {
+        this(type, level, null);
     }
 
-    public EntityVengeanceSpirit(World world) {
-        this(RegistryEntries.ENTITY_VENGEANCE_SPIRIT, world, null);
+    public EntityVengeanceSpirit(World level) {
+        this(RegistryEntries.ENTITY_VENGEANCE_SPIRIT, level, null);
     }
 
-    public EntityVengeanceSpirit(EntityType<? extends EntityVengeanceSpirit> type, World world, @Nullable EntityType<?> preferredInnerEntity) {
-        super(type, world);
+    public EntityVengeanceSpirit(EntityType<? extends EntityVengeanceSpirit> type, World level, @Nullable EntityType<?> preferredInnerEntity) {
+        super(type, level);
         this.preferredInnerEntity = preferredInnerEntity;
 
-        this.stepHeight = 5.0F;
-        this.preventEntitySpawning = false;
+        this.maxUpStep = 5.0F;
+        this.blocksBuilding = false;
 
         float damage = 0.5F;
-        int remainingLife = MathHelper.nextInt(world.rand, REMAININGLIFE_MIN, REMAININGLIFE_MAX);
+        int remainingLife = MathHelper.nextInt(level.random, REMAININGLIFE_MIN, REMAININGLIFE_MAX);
         if(isSwarm()) {
         	damage += 0.5D * getSwarmTier();
         	remainingLife += (REMAININGLIFE_MAX - REMAININGLIFE_MIN) * getSwarmTier();
@@ -156,7 +156,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public double getBaseAttributeValue(Attribute attribute) {
+    public double getAttributeValue(Attribute attribute) {
         if (attribute == Attributes.MOVEMENT_SPEED) {
             double speed = 0.25D;
             if(isSwarm()) {
@@ -164,35 +164,35 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             }
             return speed;
         }
-        return super.getBaseAttributeValue(attribute);
+        return super.getAttributeValue(attribute);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void vengeanceEvent(LivingDeathEvent event) {
         if (event.getEntityLiving() != null) {
-            World world = event.getEntityLiving().world;
+            World level = event.getEntityLiving().level;
             boolean directToPlayer = shouldDirectSpiritToPlayer(event);
-            if (!world.isRemote()
-                    && world.getDifficulty() != Difficulty.PEACEFUL
+            if (!level.isClientSide()
+                    && level.getDifficulty() != Difficulty.PEACEFUL
                     && EntityVengeanceSpirit.canSustain(event.getEntityLiving())
-                    && (directToPlayer || EntityVengeanceSpirit.canSpawnNew(world, event.getEntityLiving().getPosition()))) {
-                EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(world);
+                    && (directToPlayer || EntityVengeanceSpirit.canSpawnNew(level, event.getEntityLiving().blockPosition()))) {
+                EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(level);
                 spirit.setInnerEntity(event.getEntityLiving());
-                spirit.copyLocationAndAnglesFrom(event.getEntityLiving());
-                world.addEntity(spirit);
+                spirit.copyPosition(event.getEntityLiving());
+                level.addFreshEntity(spirit);
                 if(directToPlayer) {
-                    PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+                    PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
                     spirit.setBuildupDuration(3 * MinecraftHelpers.SECOND_IN_TICKS);
                     spirit.setGlobalVengeance(true);
-                    spirit.setAttackTarget(player);
+                    spirit.setTarget(player);
                 }
             }
         }
     }
 
     private static boolean shouldDirectSpiritToPlayer(LivingDeathEvent event) {
-        if(event.getSource().getTrueSource() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+        if(event.getSource().getDirectEntity() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
             for(PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player); it.hasNext();) {
                 ItemStack itemStack = it.next();
                 if(!itemStack.isEmpty() && itemStack.getItem() instanceof ItemVengeanceRing) {
@@ -204,38 +204,38 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-	public void registerData() {
-        super.registerData();
+	public void defineSynchedData() {
+        super.defineSynchedData();
         if (preferredInnerEntity == null)
-            data = new EntityVengeanceSpiritSyncedData(this.dataManager, EntityVengeanceSpiritData.getRandomInnerEntity(this.rand));
+            data = new EntityVengeanceSpiritSyncedData(this.entityData, EntityVengeanceSpiritData.getRandomInnerEntity(this.random));
         else
-            data = new EntityVengeanceSpiritSyncedData(this.dataManager, preferredInnerEntity);
+            data = new EntityVengeanceSpiritSyncedData(this.entityData, preferredInnerEntity);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT tag) {
-        super.writeAdditional(tag);
+    public void addAdditionalSaveData(CompoundNBT tag) {
+        super.addAdditionalSaveData(tag);
         data.writeNBT(tag);
     }
 
     @Override
-    public void readAdditional(CompoundNBT tag) {
-        super.readAdditional(tag);
+    public void readAdditionalSaveData(CompoundNBT tag) {
+        super.readAdditionalSaveData(tag);
         data.readNBT(tag);
     }
 
     @Override
-    public ResourceLocation getLootTable() {
+    public ResourceLocation getDefaultLootTable() {
         return new ResourceLocation(Reference.MOD_ID, "entities/" + getType().getRegistryName().getPath());
-    }
-    
-    @Override
-    protected float getSoundPitch() {
-        return super.getSoundPitch() / 3.0F;
     }
 
     @Override
-    public CreatureAttribute getCreatureAttribute() {
+    protected float getVoicePitch() {
+        return super.getVoicePitch() / 3.0F;
+    }
+
+    @Override
+    public CreatureAttribute getMobType() {
         return CreatureAttribute.UNDEAD;
     }
 
@@ -245,7 +245,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
     
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean doHurtTarget(Entity entity) {
         if(getBuildupDuration() > 0) return false; // Don't attack anything when still building up.
 
         this.remove();
@@ -253,43 +253,43 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     		PlayerEntity player = (PlayerEntity) entity;
 
     		if(ItemBurningGemStone.damageForPlayer(player, isSwarm() ? getSwarmTier() : 0, false)) {
-    			entity.addVelocity(
-    					(double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * 0.01F),
+    			entity.setDeltaMovement(
+    					(double)(-MathHelper.sin(this.yRot * (float)Math.PI / 180.0F) * 0.01F),
     					0.025D,
-    					(double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * 0.01F));
-    			entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.1F);
+    					(double)(MathHelper.cos(this.yRot * (float)Math.PI / 180.0F) * 0.01F));
+    			entity.hurt(DamageSource.mobAttack(this), 0.1F);
     			return false;
     		}
     	}
-        return super.attackEntityAsMob(entity);
+        return super.doHurtTarget(entity);
     }
 
     @Override
-    protected void dropLoot(DamageSource damageSource, boolean fromPlayer) {
-        super.dropLoot(damageSource, fromPlayer);
+    protected void dropFromLootTable(DamageSource damageSource, boolean fromPlayer) {
+        super.dropFromLootTable(damageSource, fromPlayer);
 
         // Also drop loot from inner entity!
         LivingEntity innerEntity = getInnerEntity();
-        if (innerEntity instanceof MobEntity && damageSource != DamageSource.OUT_OF_WORLD) {
-            ResourceLocation deathLootTable = ((MobEntity) innerEntity).getLootTable();
+        if (innerEntity != null && damageSource != DamageSource.OUT_OF_WORLD) {
+            ResourceLocation deathLootTable = innerEntity.getLootTable();
             if (deathLootTable != null) {
-                LootTable loottable = getEntityWorld().getServer().getLootTableManager().getLootTableFromLocation(deathLootTable);
-                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) getEntityWorld()))
-                        .withRandom(this.rand)
+                LootTable loottable = level.getServer().getLootTables().get(deathLootTable);
+                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerWorld) level))
+                        .withRandom(this.random)
                         .withParameter(LootParameters.THIS_ENTITY, innerEntity)
-                        .withParameter(LootParameters.field_237457_g_, new Vector3d(getPosX(), getPosY(), getPosZ()))
+                        .withParameter(LootParameters.ORIGIN, new Vector3d(getX(), getY(), getZ()))
                         .withParameter(LootParameters.DAMAGE_SOURCE, DamageSource.GENERIC)
-                        .withNullableParameter(LootParameters.KILLER_ENTITY, null)
-                        .withNullableParameter(LootParameters.DIRECT_KILLER_ENTITY, null);
+                        .withOptionalParameter(LootParameters.KILLER_ENTITY, null)
+                        .withOptionalParameter(LootParameters.DIRECT_KILLER_ENTITY, null);
 
-                if (fromPlayer && this.attackingPlayer != null) {
+                if (fromPlayer && this.lastHurtByPlayer != null) {
                     lootcontext$builder = lootcontext$builder
-                            .withParameter(LootParameters.LAST_DAMAGE_PLAYER, this.attackingPlayer)
-                            .withLuck(this.attackingPlayer.getLuck());
+                            .withParameter(LootParameters.LAST_DAMAGE_PLAYER, this.lastHurtByPlayer)
+                            .withLuck(this.lastHurtByPlayer.getLuck());
                 }
 
-                for (ItemStack itemstack : loottable.generate(lootcontext$builder.build(LootParameterSets.ENTITY))) {
-                    this.entityDropItem(itemstack, 0.0F);
+                for (ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootParameterSets.ENTITY))) {
+                    this.spawnAtLocation(itemstack, 0.0F);
                 }
             }
         }
@@ -298,39 +298,39 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     @Override
     public void remove() {
     	super.remove();
-    	if(world.isRemote() && isVisible()) {
+    	if(level.isClientSide() && isVisible()) {
     		spawnSmoke();
-    		playSound(getDeathSound(), 0.1F + world.rand.nextFloat() * 0.9F,
-    				0.1F + world.rand.nextFloat() * 0.9F);
+    		playSound(getDeathSound(), 0.1F + level.random.nextFloat() * 0.9F,
+    				0.1F + level.random.nextFloat() * 0.9F);
     	}
     }
     
     @Override
-    public boolean isMovementBlocked() {
+    public boolean isImmobile() {
     	return isFrozen() || getBuildupDuration() > 0;
     }
     
     @Override
-    public void livingTick() {
-    	super.livingTick();
+    public void aiStep() {
+    	super.aiStep();
 
         if(isVisible()) {
         	if(innerEntity != null) {
 	        	innerEntity.deathTime = deathTime;
-                innerEntity.setRevengeTarget(getAttackTarget());
+                innerEntity.setTarget(getTarget());
 	        	//innerEntity.lastAttackerTime = lastAttackerTime;
 	        	innerEntity.hurtTime = hurtTime;
-	        	innerEntity.rotationPitch = rotationPitch;
-	        	innerEntity.rotationYaw = rotationYaw;
-	        	innerEntity.rotationYawHead = rotationYawHead;
-	        	innerEntity.renderYawOffset = renderYawOffset;
-	        	innerEntity.prevRotationPitch = prevRotationPitch;
-	        	innerEntity.prevRenderYawOffset = prevRenderYawOffset;
-	        	innerEntity.prevRotationYaw = prevRotationYaw;
-	        	innerEntity.prevRotationYawHead = prevRotationYawHead;
+	        	innerEntity.xRot = xRot;
+	        	innerEntity.yRot = yRot;
+	        	innerEntity.xRotO = xRotO;
+	        	innerEntity.yRotO = yRotO;
+	        	innerEntity.yBodyRot = yBodyRot;
+	        	innerEntity.yBodyRotO = yBodyRotO;
+	        	innerEntity.yHeadRot = yHeadRot;
+	        	innerEntity.yHeadRotO = yHeadRotO;
         	}
         	
-        	if(world.isRemote()) {
+        	if(level.isClientSide()) {
         		spawnSmoke();
         		if(isSwarm()) {
         			spawnSwarmParticles();
@@ -342,7 +342,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         if(buildupDuration > 0) setBuildupDuration(buildupDuration - 1);
 
         if(isFrozen()) {
-            this.setMotion(0, 0, 0);
+            this.setDeltaMovement(0, 0, 0);
         	addFrozenDuration(-1);
         } else {
             setRemainingLife(getRemainingLife() - 1);
@@ -354,25 +354,25 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     
     @OnlyIn(Dist.CLIENT)
     private void spawnSmoke() {
-        EntitySize size = getSize(getPose());
-    	int numParticles = rand.nextInt(5);
+        EntitySize size = getDimensions(getPose());
+    	int numParticles = random.nextInt(5);
     	if(!this.isAlive())
     		numParticles *= 10;
     	float clearRange = size.width; // Particles can't spawn within this X and Z distance
     	for (int i=0; i < numParticles; i++) {            
-            double particleX = getPosX() - size.width /2 + size.width * rand.nextFloat();
+            double particleX = getX() - size.width /2 + size.width * random.nextFloat();
             if(particleX < 0.7F && particleX >= 0) particleX += size.width /2;
             if(particleX > -0.7F && particleX <= 0) particleX -= size.width /2;
-            double particleY = getPosY() + size.height * rand.nextFloat();
-            double particleZ = getPosZ() - size.width / 2 + size.width * rand.nextFloat();
+            double particleY = getY() + size.height * random.nextFloat();
+            double particleZ = getZ() - size.width / 2 + size.width * random.nextFloat();
             if(particleZ < clearRange && particleZ >= 0) particleZ += size.width /2;
             if(particleZ > -clearRange && particleZ <= 0) particleZ -= size.width /2;
             
-            float particleMotionX = (-0.5F + rand.nextFloat()) * 0.05F;
-            float particleMotionY = (-0.5F + rand.nextFloat()) * 0.05F;
-            float particleMotionZ = (-0.5F + rand.nextFloat()) * 0.05F;
+            float particleMotionX = (-0.5F + random.nextFloat()) * 0.05F;
+            float particleMotionY = (-0.5F + random.nextFloat()) * 0.05F;
+            float particleMotionZ = (-0.5F + random.nextFloat()) * 0.05F;
 
-            Minecraft.getInstance().worldRenderer.addParticle(
+            Minecraft.getInstance().levelRenderer.addParticle(
                     new ParticleDarkSmokeData(!this.isAlive()), false,
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
@@ -380,20 +380,20 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     
     @OnlyIn(Dist.CLIENT)
     private void spawnSwarmParticles() {
-        EntitySize size = getSize(getPose());
-    	int numParticles = 5 * (rand.nextInt((getSwarmTier() << 1) + 1) + 1);
+        EntitySize size = getDimensions(getPose());
+    	int numParticles = 5 * (random.nextInt((getSwarmTier() << 1) + 1) + 1);
     	for (int i=0; i < numParticles; i++) {            
-            double particleX = getPosX() - size.width /2 + size.width * rand.nextFloat();
+            double particleX = getX() - size.width /2 + size.width * random.nextFloat();
             if(particleX < 0.7F && particleX >= 0) particleX += size.width /2;
             if(particleX > -0.7F && particleX <= 0) particleX -= size.width /2;
-            double particleY = getPosY() + size.height * rand.nextFloat();
-            double particleZ = getPosZ() - size.width / 2 + size.width * rand.nextFloat();
+            double particleY = getY() + size.height * random.nextFloat();
+            double particleZ = getZ() - size.width / 2 + size.width * random.nextFloat();
             
-            float particleMotionX = (-0.5F + rand.nextFloat()) * 0.05F;
-            float particleMotionY = (-0.5F + rand.nextFloat()) * 0.05F;
-            float particleMotionZ = (-0.5F + rand.nextFloat()) * 0.05F;
+            float particleMotionX = (-0.5F + random.nextFloat()) * 0.05F;
+            float particleMotionY = (-0.5F + random.nextFloat()) * 0.05F;
+            float particleMotionZ = (-0.5F + random.nextFloat()) * 0.05F;
 
-            Minecraft.getInstance().worldRenderer.addParticle(
+            Minecraft.getInstance().levelRenderer.addParticle(
                     RegistryEntries.PARTICLE_DEGRADE, false,
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
@@ -402,7 +402,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     @Override
     public void playSound(SoundEvent soundIn, float volume, float pitch) {
         if (soundIn != null && isVisible() && !this.isSilent()) {
-            this.world.playSound(this.getPosX(), this.getPosY(), this.getPosZ(), soundIn, this.getSoundCategory(), volume, pitch, true);
+            this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), soundIn, this.getSoundSource(), volume, pitch, true);
         }
     }
 
@@ -411,7 +411,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      * @return If it is visible
      */
     public boolean isVisible() {
-        return world.isRemote() &&
+        return level.isClientSide() &&
     			(isAlternativelyVisible() || isClientVisible());
     }
     
@@ -436,12 +436,12 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 	}
 
     @Override
-    protected void collideWithNearbyEntities() {
+    protected void pushEntities() {
         // Do nothing
     }
 
     @Override
-    public boolean canBePushed() {
+    public boolean isPushable() {
         return false;
     }
     
@@ -452,16 +452,16 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     // MCP: onStruckByLightning
     @Override
-    public void func_241841_a(ServerWorld world, LightningBoltEntity lightning) {
+    public void thunderHit(ServerWorld level, LightningBoltEntity lightning) {
     	setGlobalVengeance(true);
     }
     
     @Override
-    public boolean canEntityBeSeen(Entity entity) {
+    public boolean canSee(Entity entity) {
     	if(entity instanceof PlayerEntity)
     		return isEnabledVengeance((PlayerEntity) entity);
     	else
-    		return super.canEntityBeSeen(entity);
+    		return super.canSee(entity);
     }
     
     /**
@@ -493,15 +493,15 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public EntitySize getSize(Pose poseIn) {
+    public EntitySize getDimensions(Pose poseIn) {
         if(isSwarm()) {
-            return EntitySize.flexible(getSwarmTier() / 3 + 1, getSwarmTier() / 2 + 1);
+            return EntitySize.scalable(getSwarmTier() / 3 + 1, getSwarmTier() / 2 + 1);
         }
         MobEntity innerEntity = getInnerEntity();
         if (innerEntity != null) {
-            return innerEntity.getSize(poseIn);
+            return innerEntity.getDimensions(poseIn);
         }
-        return super.getSize(poseIn);
+        return super.getDimensions(poseIn);
     }
 
     /**
@@ -521,7 +521,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         }
     	try {
             if (entityType != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
-                Entity entity = entityType.create(world);
+                Entity entity = entityType.create(level);
                 if (canSustain((MobEntity) entity)) {
                     return innerEntity = (MobEntity) entity;
                 }
@@ -570,23 +570,23 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      * Check if we can spawn a new vengeance spirit in the given location.
      * It will check if the amount of spirits in an area is below a certain threshold and if there aren't any gemstone
      * torches in the area
-	 * @param world The world.
+	 * @param level The level.
 	 * @param blockPos The position.
      * @return If we are allowed to spawn a spirit.
      */
 	@SuppressWarnings("unchecked")
-	public static boolean canSpawnNew(World world, BlockPos blockPos) {
+	public static boolean canSpawnNew(World level, BlockPos blockPos) {
 		int area = EntityVengeanceSpiritConfig.spawnLimitArea;
 		int threshold = EntityVengeanceSpiritConfig.spawnLimit;
-		AxisAlignedBB box = new AxisAlignedBB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()).grow(area, area, area);
-    	List<EntityVengeanceSpirit> spirits = world.getEntitiesWithinAABB(EntityVengeanceSpirit.class, box);
+		AxisAlignedBB box = new AxisAlignedBB(blockPos.getX(), blockPos.getY(), blockPos.getZ(), blockPos.getX(), blockPos.getY(), blockPos.getZ()).inflate(area, area, area);
+    	List<EntityVengeanceSpirit> spirits = level.getEntitiesOfClass(EntityVengeanceSpirit.class, box);
 		if(spirits.size() >= threshold) {
             return false;
         }
 
-        return WorldHelpers.foldArea(world, BlockGemStoneTorchConfig.area, blockPos,
-                (input, world1, blockPos1) -> input
-                        && !BlockTags.getCollection().get(new ResourceLocation("evilcraft:vengeance_spirit_blocker")).contains(world1.getBlockState(blockPos1).getBlock()), true);
+        return WorldHelpers.foldArea(level, BlockGemStoneTorchConfig.area, blockPos,
+                (input, level1, blockPos1) -> input
+                        && !BlockTags.getAllTags().getTag(new ResourceLocation("evilcraft:vengeance_spirit_blocker")).contains(level1.getBlockState(blockPos1).getBlock()), true);
 	}
 	
 	/**
@@ -600,8 +600,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 	 */
 	public void onHit(double hitX, double hitY, double hitZ,
 			double impactMotionX, double impactMotionY, double impactMotionZ) {
-		addFrozenDuration(world.rand.nextInt(4) + 3);
-		if(world.isRemote()) {
+		addFrozenDuration(level.random.nextInt(4) + 3);
+		if(level.isClientSide()) {
 			showBurstParticles(hitX, hitY, hitZ, impactMotionX, impactMotionY, impactMotionZ);
 		}
 	}
@@ -609,18 +609,18 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 	@OnlyIn(Dist.CLIENT)
 	private void showBurstParticles(double hitX, double hitY, double hitZ, 
 			double impactMotionX, double impactMotionY, double impactMotionZ) {
-		for(int i = 0; i < world.rand.nextInt(5); i++) {
-			float scale = 0.04F - rand.nextFloat() * 0.02F;
-	    	float red = rand.nextFloat() * 0.2F + 0.3F;
-	        float green = rand.nextFloat() * 0.2F + 0.3F;
-	        float blue = rand.nextFloat() * 0.01F;
-	        float ageMultiplier = (float) (rand.nextDouble() * 0.5D + 3D);
+		for(int i = 0; i < level.random.nextInt(5); i++) {
+			float scale = 0.04F - random.nextFloat() * 0.02F;
+	    	float red = random.nextFloat() * 0.2F + 0.3F;
+	        float green = random.nextFloat() * 0.2F + 0.3F;
+	        float blue = random.nextFloat() * 0.01F;
+	        float ageMultiplier = (float) (random.nextDouble() * 0.5D + 3D);
 	        
-	        double dx = 0.1D - rand.nextDouble() * 0.2D - impactMotionX * 0.1D;
-	        double dy = 0.1D - rand.nextDouble() * 0.2D - impactMotionY * 0.1D;
-	        double dz = 0.1D - rand.nextDouble() * 0.2D - impactMotionZ * 0.1D;
+	        double dx = 0.1D - random.nextDouble() * 0.2D - impactMotionX * 0.1D;
+	        double dy = 0.1D - random.nextDouble() * 0.2D - impactMotionY * 0.1D;
+	        double dz = 0.1D - random.nextDouble() * 0.2D - impactMotionZ * 0.1D;
 
-            Minecraft.getInstance().worldRenderer.addParticle(
+            Minecraft.getInstance().levelRenderer.addParticle(
                     new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
                     hitX, hitY, hitZ, dx, dy, dz);
 		}
@@ -628,28 +628,27 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
 	/**
 	 * Spawn a random vengeance spirit in the given area.
-	 * @param world The world.
+	 * @param level The level.
 	 * @param blockPos The position.
 	 * @param area The radius in which the spawn can occur.
 	 * @return The spawned spirit, could be null.
 	 */
-	public static EntityVengeanceSpirit spawnRandom(World world, BlockPos blockPos, int area) {
-		EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(world);
+	public static EntityVengeanceSpirit spawnRandom(World level, BlockPos blockPos, int area) {
+		EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(level);
 		int attempts = 50;
         int baseDistance = 5;
-		while(canSpawnNew(world, blockPos) && attempts > 0) {
-            BlockPos spawnPos = blockPos.add(
-                    MathHelper.nextInt(world.rand, baseDistance, baseDistance + area) * MathHelper.nextInt(world.rand, -1, 1),
-                    MathHelper.nextInt(world.rand, 0, 3) * MathHelper.nextInt(world.rand, -1, 1),
-                    MathHelper.nextInt(world.rand, baseDistance, baseDistance + area) * MathHelper.nextInt(world.rand, -1, 1)
+		while(canSpawnNew(level, blockPos) && attempts > 0) {
+            BlockPos spawnPos = blockPos.offset(
+                    MathHelper.nextInt(level.random, baseDistance, baseDistance + area) * MathHelper.nextInt(level.random, -1, 1),
+                    MathHelper.nextInt(level.random, 0, 3) * MathHelper.nextInt(level.random, -1, 1),
+                    MathHelper.nextInt(level.random, baseDistance, baseDistance + area) * MathHelper.nextInt(level.random, -1, 1)
             );
             
-            if(BlockHelpers.doesBlockHaveSolidTopSurface(world, spawnPos.add(0, -1, 0))) {
-                spirit.setPosition((double) spawnPos.getX() + 0.5, (double) spawnPos.getY() + 0.5, (double) spawnPos.getZ() + 0.5);
-                if(!world.hasNoCollisions(spirit)
-                		&& spirit.isNotColliding(world)
-                		&& !world.containsAnyLiquid(spirit.getBoundingBox())) {
-                    world.addEntity(spirit);
+            if(BlockHelpers.doesBlockHaveSolidTopSurface(level, spawnPos.offset(0, -1, 0))) {
+                spirit.setPos((double) spawnPos.getX() + 0.5, (double) spawnPos.getY() + 0.5, (double) spawnPos.getZ() + 0.5);
+                if(!level.noCollision(spirit)
+                		&& !level.containsAnyLiquid(spirit.getBoundingBox())) {
+                    level.addFreshEntity(spirit);
                     return spirit;
                 }
             }
@@ -687,19 +686,19 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public boolean handleFluidAcceleration(ITag<Fluid> fluidTag, double p_210500_2_) {
+    public boolean updateFluidHeightAndDoFluidPushing(ITag<Fluid> fluidTag, double p_210500_2_) {
         // Ignore water movement and particles
-        return this.inWater;
+        return this.wasTouchingWater;
     }
 
     @Override
-    public boolean doesEntityNotTriggerPressurePlate() {
+    public boolean isIgnoringBlockTriggers() {
         return true;
     }
 
-    public static EntityVengeanceSpirit fromNBT(World world, CompoundNBT spiritTag) {
-        EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(world);
-        spirit.readAdditional(spiritTag);
+    public static EntityVengeanceSpirit fromNBT(World level, CompoundNBT spiritTag) {
+        EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(level);
+        spirit.readAdditionalSaveData(spiritTag);
         return spirit;
     }
 

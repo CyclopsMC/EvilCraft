@@ -27,7 +27,7 @@ public class EntityAttackVengeanceBeamConfig extends EntityConfig<EntityAttackVe
         super(
                 EvilCraft._instance,
                 "attack_vengeance_beam",
-                eConfig -> EntityType.Builder.<EntityAttackVengeanceBeam>create(EntityAttackVengeanceBeam::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityAttackVengeanceBeam>of(EntityAttackVengeanceBeam::new, EntityClassification.MISC)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }

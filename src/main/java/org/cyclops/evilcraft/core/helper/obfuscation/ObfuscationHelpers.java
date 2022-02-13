@@ -19,7 +19,7 @@ public class ObfuscationHelpers {
 	 * @param titlePanoramaPaths The panorama path.
 	 */
 	public static void setPanoramaResources(RenderSkyboxCube titlePanoramaPaths) {
-		Field field = ObfuscationReflectionHelper.findField(MainMenuScreen.class, "field_213098_a");
+		Field field = ObfuscationReflectionHelper.findField(MainMenuScreen.class, "CUBE_MAP");
 		
 		Field modifiersField;
 		try {

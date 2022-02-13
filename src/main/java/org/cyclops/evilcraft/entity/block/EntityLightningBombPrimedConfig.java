@@ -28,7 +28,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig<EntityLightnin
         super(
                 EvilCraft._instance,
                 "lightning_bomb_primed",
-                eConfig -> EntityType.Builder.<EntityLightningBombPrimed>create(EntityLightningBombPrimed::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityLightningBombPrimed>of(EntityLightningBombPrimed::new, EntityClassification.MISC)
         );
     }
 

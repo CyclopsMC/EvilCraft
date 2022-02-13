@@ -18,8 +18,8 @@ public class BlockHardenedBloodConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "hardened_blood",
-                eConfig -> new BlockHardenedBlood(Block.Properties.create(Material.ICE)
-                        .hardnessAndResistance(0.5F)
+                eConfig -> new BlockHardenedBlood(Block.Properties.of(Material.ICE)
+                        .strength(0.5F)
                         .sound(SoundType.STONE)
                         .harvestTool(ToolType.PICKAXE)
                         .harvestLevel(0)),

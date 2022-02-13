@@ -23,8 +23,8 @@ public class ItemVengeancePickaxeConfig extends ItemConfig {
                 EvilCraft._instance,
             "vengeance_pickaxe",
                 eConfig -> new ItemVengeancePickaxe(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxDamage(154))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .durability(154))
         );
     }
     

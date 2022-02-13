@@ -50,29 +50,29 @@ public class BlockEternalWater extends BlockTile {
     }
 
     @Override
-    public boolean isReplaceable(BlockState state, Fluid fluid) {
+    public boolean canBeReplaced(BlockState state, Fluid fluid) {
         return false;
     }
 
     @Override
-    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+    public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
         return false;
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos blockPos, PlayerEntity player,
+    public ActionResultType use(BlockState state, World world, BlockPos blockPos, PlayerEntity player,
                                              Hand hand, BlockRayTraceResult p_225533_6_) {
-        ItemStack itemStack = player.inventory.getCurrentItem();
+        ItemStack itemStack = player.inventory.getSelected();
         if (!itemStack.isEmpty()) {
             if (itemStack.getItem() == Items.BUCKET) {
-                if (!world.isRemote()) {
+                if (!world.isClientSide()) {
                     itemStack.shrink(1);
                     if (itemStack.isEmpty()) {
-                        player.setHeldItem(hand, new ItemStack(Items.WATER_BUCKET));
-                    } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.WATER_BUCKET))) {
-                        player.dropItem(new ItemStack(Items.WATER_BUCKET), false);
+                        player.setItemInHand(hand, new ItemStack(Items.WATER_BUCKET));
+                    } else if (!player.inventory.add(new ItemStack(Items.WATER_BUCKET))) {
+                        player.drop(new ItemStack(Items.WATER_BUCKET), false);
                     }
-                    world.playSound((PlayerEntity)null, blockPos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.playSound((PlayerEntity)null, blockPos, SoundEvents.BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
             } else {
                 FluidUtil.getFluidHandler(itemStack)
@@ -84,19 +84,19 @@ public class BlockEternalWater extends BlockTile {
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        super.onReplaced(state, worldIn, pos, newState, isMoving);
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        super.onRemove(state, worldIn, pos, newState, isMoving);
         // When removing this block, it will drop water, so forcefully set to air instead.
-        if (!worldIn.isRemote() && newState.getBlock() == Blocks.WATER) {
-            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-            Block.spawnDrops(state, worldIn, pos);
+        if (!worldIn.isClientSide() && newState.getBlock() == Blocks.WATER) {
+            worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+            Block.dropResources(state, worldIn, pos);
         }
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void stopFillWithEternalWaterBlock(FillBucketEvent event) {
         if (event.getTarget() != null && event.getTarget().getType() == RayTraceResult.Type.BLOCK) {
-            Block block = event.getWorld().getBlockState(((BlockRayTraceResult) event.getTarget()).getPos()).getBlock();
+            Block block = event.getWorld().getBlockState(((BlockRayTraceResult) event.getTarget()).getBlockPos()).getBlock();
             if (block instanceof BlockEternalWater) {
                 event.setCanceled(true);
             }
@@ -105,6 +105,6 @@ public class BlockEternalWater extends BlockTile {
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return Fluids.WATER.getDefaultState();
+        return Fluids.WATER.defaultFluidState();
     }
 }

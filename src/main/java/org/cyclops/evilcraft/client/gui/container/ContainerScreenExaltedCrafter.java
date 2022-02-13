@@ -52,7 +52,7 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
     }
 
     protected boolean handleKeyCode(int keyCode, int scanCode) {
-        InputMappings.Input inputCode = InputMappings.getInputByCode(keyCode, scanCode);
+        InputMappings.Input inputCode = InputMappings.getKey(keyCode, scanCode);
         if (Keys.EXALTEDCRAFTING.isActiveAndMatches(inputCode)) {
             if (MinecraftHelpers.isShifted()) {
                 this.buttonBalance.onPress();
@@ -73,13 +73,13 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
 	@Override
     public void init() {
     	super.init();
-    	this.buttonClear = addButton(new ButtonText( this.guiLeft + 88,  this.guiTop + 58, 13, 12,
+    	this.buttonClear = addButton(new ButtonText( this.leftPos + 88,  this.topPos + 58, 13, 12,
                 new TranslationTextComponent("gui.exalted_crafting.clear"), new StringTextComponent("C"),
                 createServerPressable(ContainerExaltedCrafter.BUTTON_CLEAR, (button) -> {}), true));
-        this.buttonBalance = addButton(new ButtonText(this.guiLeft + 103, this.guiTop + 58, 13, 12,
+        this.buttonBalance = addButton(new ButtonText(this.leftPos + 103, this.topPos + 58, 13, 12,
                 new TranslationTextComponent("gui.exalted_crafting.balance"), new StringTextComponent("B"),
                 createServerPressable(ContainerExaltedCrafter.BUTTON_BALANCE, (button) -> {}), true));
-        addButton(new ButtonText(this.guiLeft + 36, this.guiTop + 70, 40, 12,
+        addButton(new ButtonText(this.leftPos + 36, this.topPos + 70, 40, 12,
                 new TranslationTextComponent("gui.exalted_crafting.toggle_return"), new StringTextComponent("..."),
                 createServerPressable(ContainerExaltedCrafter.BUTTON_TOGGLERETURN, (button) -> {}), true) {
             @Override
@@ -90,15 +90,20 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
     }
     
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
     	// super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-    	ItemStack itemStack = container.getItemStack(playerInventory.player);
+    	ItemStack itemStack = container.getItemStack(inventory.player);
     	ITextComponent name = new TranslationTextComponent("gui.exalted_crafting");
-    	if(itemStack.hasDisplayName()) {
-    		name = itemStack.getDisplayName();
+    	if(itemStack.hasCustomHoverName()) {
+    		name = itemStack.getHoverName();
     	}
         // MCP: drawString
-        this.font.func_243248_b(matrixStack, name, 28, 6, 4210752);
+        this.font.draw(matrixStack, name, 28, 6, 4210752);
     }
-    
+
+    @Override
+    protected void renderBg(MatrixStack p_230450_1_, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
+        // TODO: rm
+    }
+
 }

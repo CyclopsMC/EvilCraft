@@ -24,24 +24,24 @@ public class BlockUndeadSaplingConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_sapling",
-                eConfig -> new SaplingBlock(new TreeUndead(), Block.Properties.create(Material.PLANTS)
-                        .doesNotBlockMovement()
-                        .tickRandomly()
-                        .hardnessAndResistance(0)
-                        .sound(SoundType.PLANT)),
+                eConfig -> new SaplingBlock(new TreeUndead(), Block.Properties.of(Material.PLANT)
+                        .noCollission()
+                        .randomTicks()
+                        .strength(0)
+                        .sound(SoundType.GRASS)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
 
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        ComposterBlock.CHANCES.put(getItemInstance(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(getItemInstance(), 0.3F);
     }
     
 }

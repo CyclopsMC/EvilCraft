@@ -20,9 +20,9 @@ public class RenderPoisonousLibelle extends RenderModelLiving<EntityPoisonousLib
 	}
 
     @Override
-    protected void preRenderCallback(EntityPoisonousLibelle entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
-        super.preRenderCallback(entitylivingbaseIn, matrixStackIn, partialTickTime);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180F));
+    protected void scale(EntityPoisonousLibelle entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+        super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180F));
         matrixStackIn.scale(-0.5F, 0.5F, -0.5F);
         matrixStackIn.translate(0, 0.5F, 0);
     }

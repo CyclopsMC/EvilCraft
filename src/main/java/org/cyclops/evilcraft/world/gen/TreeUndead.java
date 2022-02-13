@@ -22,19 +22,19 @@ public class TreeUndead extends Tree {
 
     public static BaseTreeFeatureConfig getTreeConfig() {
         return new BaseTreeFeatureConfig.Builder(
-                new SimpleBlockStateProvider(RegistryEntries.BLOCK_UNDEAD_LOG.getDefaultState()),
-                new SimpleBlockStateProvider(RegistryEntries.BLOCK_UNDEAD_LEAVES.getDefaultState()),
-                new BlobFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0), 3),
+                new SimpleBlockStateProvider(RegistryEntries.BLOCK_UNDEAD_LOG.defaultBlockState()),
+                new SimpleBlockStateProvider(RegistryEntries.BLOCK_UNDEAD_LEAVES.defaultBlockState()),
+                new BlobFoliagePlacer(FeatureSpread.fixed(2), FeatureSpread.fixed(0), 3),
                 new StraightTrunkPlacer(9, 4, 0),
                 new TwoLayerFeature(1, 0, 1))
-                .setIgnoreVines()
+                .ignoreVines()
                 .build();
     }
 
     @Nullable
     @Override
-    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getTreeFeature(Random random, boolean b) {
-        return Feature.TREE.withConfiguration(getTreeConfig());
+    protected ConfiguredFeature<BaseTreeFeatureConfig, ?> getConfiguredFeature(Random random, boolean b) {
+        return Feature.TREE.configured(getTreeConfig());
     }
 
 }

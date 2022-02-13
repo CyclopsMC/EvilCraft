@@ -40,7 +40,7 @@ public class RenderOverlayEventHook {
     public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
         PlayerEntity player = Minecraft.getInstance().player;
         if (GeneralConfig.bloodGuiOverlay && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
-            if (filledHeight < 0 || WorldHelpers.efficientTick(player.world, 50)) {
+            if (filledHeight < 0 || WorldHelpers.efficientTick(player.level, 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
                 Wrapper<Integer> capacity = new Wrapper<Integer>(1);
                 PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
@@ -67,16 +67,16 @@ public class RenderOverlayEventHook {
                 int x = overlayPosition.getX(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetX;
                 int y = overlayPosition.getY(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetY;
 
-                GlStateManager.pushMatrix();
-                GlStateManager.enableBlend();
-                GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GlStateManager._pushMatrix();
+                GlStateManager._enableBlend();
+                GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderHelpers.bindTexture(BLOOD_OVERLAY);
 
-                Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), x, y, 0, 0, WIDTH, HEIGHT);
-                Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
+                Minecraft.getInstance().gui.blit(event.getMatrixStack(), x, y, 0, 0, WIDTH, HEIGHT);
+                Minecraft.getInstance().gui.blit(event.getMatrixStack(), x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
 
-                GlStateManager.disableBlend();
-                GlStateManager.popMatrix();
+                GlStateManager._disableBlend();
+                GlStateManager._popMatrix();
             }
         }
     }
@@ -86,7 +86,7 @@ public class RenderOverlayEventHook {
         NE {
             @Override
             public int getX(MainWindow resolution, int width, int height) {
-                return resolution.getScaledWidth() - width;
+                return resolution.getGuiScaledWidth() - width;
             }
 
             @Override
@@ -97,12 +97,12 @@ public class RenderOverlayEventHook {
         SE {
             @Override
             public int getX(MainWindow resolution, int width, int height) {
-                return resolution.getScaledWidth() - width;
+                return resolution.getGuiScaledWidth() - width;
             }
 
             @Override
             public int getY(MainWindow resolution, int width, int height) {
-                return resolution.getScaledHeight() - height;
+                return resolution.getGuiScaledHeight() - height;
             }
         },
         SW {
@@ -113,7 +113,7 @@ public class RenderOverlayEventHook {
 
             @Override
             public int getY(MainWindow resolution, int width, int height) {
-                return resolution.getScaledHeight() - height;
+                return resolution.getGuiScaledHeight() - height;
             }
         },
         NW {

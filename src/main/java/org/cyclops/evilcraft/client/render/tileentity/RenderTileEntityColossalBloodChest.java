@@ -28,7 +28,7 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityChestBas
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        if (event.getMap().getTextureLocation().equals(Atlases.CHEST_ATLAS)) {
+        if (event.getMap().location().equals(Atlases.CHEST_SHEET)) {
             event.addSprite(TEXTURE);
         }
     }
@@ -39,11 +39,11 @@ public class RenderTileEntityColossalBloodChest extends RenderTileEntityChestBas
 
     @Override
     protected RenderMaterial getMaterial(TileColossalBloodChest tile) {
-        return new RenderMaterial(Atlases.CHEST_ATLAS, TEXTURE);
+        return new RenderMaterial(Atlases.CHEST_SHEET, TEXTURE);
     }
 
     @Override
-    public boolean isGlobalRenderer(TileColossalBloodChest tile) {
+    public boolean shouldRenderOffScreen(TileColossalBloodChest tile) {
         return true;
     }
 

@@ -189,7 +189,7 @@ public class BroomModifiers {
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
                 float damage = (modifierValue * (float) broom.getLastPlayerSpeed()) / 50F;
                 if (damage > 0) {
-                    entity.attackEntityFrom(ExtendedDamageSource.broomDamage((LivingEntity) broom.getControllingPassenger()), damage);
+                    entity.hurt(ExtendedDamageSource.broomDamage((LivingEntity) broom.getControllingPassenger()), damage);
                 }
             }
         });
@@ -197,15 +197,15 @@ public class BroomModifiers {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
                 if (modifierValue > 0) {
-                    entity.setFire((int) modifierValue);
+                    entity.setSecondsOnFire((int) modifierValue);
                 }
             }
         });
         SMASH.addTickListener(new BroomModifier.ITickListener() {
             @Override
             public void onTick(EntityBroom broom, float modifierValue) {
-                double pitch = ((broom.rotationPitch + 90) * Math.PI) / 180;
-                double yaw = ((broom.rotationYaw + 90) * Math.PI) / 180;
+                double pitch = ((broom.xRot + 90) * Math.PI) / 180;
+                double yaw = ((broom.yRot + 90) * Math.PI) / 180;
                 double x = Math.sin(pitch) * Math.cos(yaw);
                 double z = Math.sin(pitch) * Math.sin(yaw);
                 double y = Math.cos(pitch);
@@ -219,13 +219,13 @@ public class BroomModifiers {
                         broom.getBoundingBox().maxX + x - r,
                         broom.getBoundingBox().maxY + y - r + 1D,
                         broom.getBoundingBox().maxZ + z - r);
-                World world = broom.world;
+                World world = broom.level;
                 float maxHardness = modifierValue;
                 float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
                 LivingEntity ridingEntity = broom.getControllingPassenger() instanceof LivingEntity ? (LivingEntity) broom.getControllingPassenger() : null;
                 PlayerEntity player = broom.getControllingPassenger() instanceof PlayerEntity ? (PlayerEntity) broom.getControllingPassenger() : null;
 
-                if (world.isAreaLoaded(blockpos, blockpos1)) {
+                if (world.hasChunksAt(blockpos, blockpos1)) {
                     for (int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
                         for (int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
                             for (int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
@@ -234,7 +234,7 @@ public class BroomModifiers {
                                 FluidState fluidState = world.getFluidState(pos);
                                 Block block = blockState.getBlock();
                                 if (!blockState.getBlock().isAir(blockState, world, pos) && broom.canConsume(ItemBroomConfig.bloodUsageBlockBreak, ridingEntity)) {
-                                    float hardness = blockState.getBlockHardness(world, pos);
+                                    float hardness = blockState.getDestroySpeed(world, pos);
                                     if (hardness > 0F && hardness <= maxHardness) {
                                         broom.consume(ItemBroomConfig.bloodUsageBlockBreak, ridingEntity);
                                         if (player == null) {
@@ -245,32 +245,32 @@ public class BroomModifiers {
                                             // Inspired by TCon's block breaking code
 
                                             // Destroy the block
-                                            if (!broom.world.isRemote()) {
+                                            if (!broom.level.isClientSide()) {
                                                 ServerPlayerEntity playerMp = (ServerPlayerEntity) player;
-                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.interactionManager.getGameType(), (ServerPlayerEntity) player, pos);
+                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayerEntity) player, pos);
                                                 if (expToDrop >= 0) {
                                                     // Block breaking sequence
-                                                    block.onBlockHarvested(world, pos, blockState, player);
+                                                    block.playerWillDestroy(world, pos, blockState, player);
                                                     if(block.removedByPlayer(blockState, world, pos, player, true, fluidState)) {
-                                                        block.onPlayerDestroy(world, pos, blockState);
-                                                        block.harvestBlock(world, player, pos, blockState, world.getTileEntity(pos), ItemStack.EMPTY);
-                                                        block.dropXpOnBlockBreak((ServerWorld) world, pos, expToDrop);
+                                                        block.destroy(world, pos, blockState);
+                                                        block.playerDestroy(world, player, pos, blockState, world.getBlockEntity(pos), ItemStack.EMPTY);
+                                                        block.popExperience((ServerWorld) world, pos, expToDrop);
                                                     }
 
                                                     // Send block change packet to the client
-                                                    playerMp.connection.sendPacket(new SChangeBlockPacket(world, pos));
+                                                    playerMp.connection.send(new SChangeBlockPacket(world, pos));
                                                 }
-                                            } else if (Minecraft.getInstance().objectMouseOver.getType() == RayTraceResult.Type.BLOCK) {
+                                            } else if (Minecraft.getInstance().hitResult.getType() == RayTraceResult.Type.BLOCK) {
                                                 // Play sound and client-side block breaking sequence
-                                                world.playBroadcastSound(2001, pos, Block.getStateId(blockState));
+                                                world.globalLevelEvent(2001, pos, Block.getId(blockState));
                                                 if(block.removedByPlayer(blockState, world, pos, player, true, fluidState)) {
-                                                    block.onPlayerDestroy(world, pos, blockState);
+                                                    block.destroy(world, pos, blockState);
                                                 }
 
                                                 // Tell the server we are done with breaking this block
-                                                Minecraft.getInstance().getConnection().sendPacket(new CPlayerDiggingPacket(
+                                                Minecraft.getInstance().getConnection().send(new CPlayerDiggingPacket(
                                                         CPlayerDiggingPacket.Action.STOP_DESTROY_BLOCK, pos,
-                                                        ((BlockRayTraceResult) Minecraft.getInstance().objectMouseOver).getFace()));
+                                                        ((BlockRayTraceResult) Minecraft.getInstance().hitResult).getDirection()));
                                             }
                                         }
 
@@ -289,19 +289,19 @@ public class BroomModifiers {
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 20F;
                 if (power > 0) {
-                    double dx = entity.getPosX() - broom.getPosX();
-                    double dy = entity.getPosY() + (double)entity.getEyeHeight() - broom.getPosY();
-                    double dz = entity.getPosZ() - broom.getPosZ();
+                    double dx = entity.getX() - broom.getX();
+                    double dy = entity.getY() + (double)entity.getEyeHeight() - broom.getY();
+                    double dz = entity.getZ() - broom.getZ();
                     double d = (double) MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
                     if (d != 0.0D) {
                         dx /= d;
                         dy /= d;
                         dz /= d;
-                        entity.setMotion(entity.getMotion()
+                        entity.setDeltaMovement(entity.getDeltaMovement()
                                 .add(dx, dy, dz)
-                                .mul(power, power, power));
-                        if (broom.world.isRemote()) {
-                            ItemMaceOfDistortion.showEntityDistored(broom.world, null, entity, (int) (power / 10F));
+                                .multiply(power, power, power));
+                        if (broom.level.isClientSide()) {
+                            ItemMaceOfDistortion.showEntityDistored(broom.level, null, entity, (int) (power / 10F));
                         }
                     }
                 }
@@ -312,19 +312,19 @@ public class BroomModifiers {
         KAMIKAZE.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
-                World world = broom.world;
+                World world = broom.level;
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
                 if (power > 0 && broom.getControllingPassenger() != null) {
                     broom.stopRiding();
-                    world.createExplosion(null, broom.getPosX(), broom.getPosY(), broom.getPosZ(), power, Explosion.Mode.DESTROY);
+                    world.explode(null, broom.getX(), broom.getY(), broom.getZ(), power, Explosion.Mode.DESTROY);
                 }
             }
         });
-        ICY.addCollisionListener(new PotionEffectBroomCollision(Effects.SLOWNESS, 2));
+        ICY.addCollisionListener(new PotionEffectBroomCollision(Effects.MOVEMENT_SLOWDOWN, 2));
         STICKY.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
-                if (!entity.world.isRemote() && !entity.isPassenger() && entity.canBeRidden(broom)) {
+                if (!entity.level.isClientSide() && !entity.isPassenger() && entity.canRide(broom)) {
                     // Will fail if max passenger count is exceeded
                     entity.startRiding(broom);
                 }
@@ -388,20 +388,20 @@ public class BroomModifiers {
     }
 
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntityLiving() != null && event.getEntityLiving().getRidingEntity() instanceof EntityBroom
-                && event.getSource().getImmediateSource() instanceof ProjectileEntity) {
-            EntityBroom broom = (EntityBroom) event.getEntityLiving().getRidingEntity();
+        if (event.getEntityLiving() != null && event.getEntityLiving().getVehicle() instanceof EntityBroom
+                && event.getSource().getDirectEntity() instanceof ProjectileEntity) {
+            EntityBroom broom = (EntityBroom) event.getEntityLiving().getVehicle();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
-            if (modifierValue > 0 && modifierValue > broom.world.rand.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
+            if (modifierValue > 0 && modifierValue > broom.level.random.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.setCanceled(true);
             }
         }
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
-        ITag<Item> tag = ItemTags.getCollection().get(name);
+        ITag<Item> tag = ItemTags.getAllTags().getTag(name);
         if (tag != null) {
-            for (Item item : tag.getAllElements()) {
+            for (Item item : tag.getValues()) {
                 REGISTRY.registerModifiersItem(modifier, value, new ItemStack(item));
             }
         } else {

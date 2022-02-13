@@ -18,6 +18,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemVengeanceRing;
 import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 /**
  * Enchantment for letting tools break tools faster.
  * @author rubensworks
@@ -32,13 +34,13 @@ public class EnchantmentVengeance extends Enchantment {
     }
     
     @Override
-    public int getMinEnchantability(int level) {
+    public int getMinCost(int level) {
         return 1 + (level - 1) * 8;
     }
     
     @Override
-    public int getMaxEnchantability(int level) {
-        return super.getMinEnchantability(level) + 50;
+    public int getMaxCost(int level) {
+        return super.getMinCost(level) + 50;
     }
     
     @Override
@@ -65,13 +67,13 @@ public class EnchantmentVengeance extends Enchantment {
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         PlayerEntity player = event.getPlayer();
-        if (player != null && !player.world.isRemote()) {
-            Hand hand = event.getPlayer().getActiveHand();
+        if (player != null && !player.level.isClientSide()) {
+            Hand hand = event.getPlayer().getUsedItemHand();
             if (hand != null) {
-                ItemStack heldItem = player.getHeldItem(hand);
+                ItemStack heldItem = player.getItemInHand(hand);
                 int level = getEnchantLevel(heldItem);
                 if (level > 0) {
-                    apply(player.world, level, player);
+                    apply(player.level, level, player);
                 }
             }
         }
@@ -79,15 +81,15 @@ public class EnchantmentVengeance extends Enchantment {
 
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
-        Entity entity = event.getSource().getTrueSource();
-        if (entity instanceof PlayerEntity && !entity.world.isRemote()) {
+        Entity entity = event.getSource().getEntity();
+        if (entity instanceof PlayerEntity && !entity.level.isClientSide()) {
             PlayerEntity player = (PlayerEntity) entity;
-            Hand hand = player.getActiveHand();
+            Hand hand = player.getUsedItemHand();
             if (hand != null) {
-                ItemStack heldItem = player.getHeldItem(hand);
+                ItemStack heldItem = player.getItemInHand(hand);
                 int level = getEnchantLevel(heldItem);
                 if (level > 0) {
-                    apply(player.world, level, player);
+                    apply(player.level, level, player);
                 }
             }
         }
@@ -97,13 +99,13 @@ public class EnchantmentVengeance extends Enchantment {
         if (itemStack.isEmpty()) {
             return 0;
         }
-        return EnchantmentHelper.getEnchantmentLevel(RegistryEntries.ENCHANTMENT_VENGEANCE, itemStack);
+        return EnchantmentHelper.getItemEnchantmentLevel(RegistryEntries.ENCHANTMENT_VENGEANCE, itemStack);
     }
 
     public static void apply(World world, int level, LivingEntity entity) {
         if (level > 0) {
             int chance = Math.max(1, EnchantmentVengeanceConfig.vengeanceChance / level);
-            if (chance > 0 && world.rand.nextInt(chance) == 0) {
+            if (chance > 0 && world.random.nextInt(chance) == 0) {
                 int area = EnchantmentVengeanceConfig.areaOfEffect * level;
                 ItemVengeanceRing.toggleVengeanceArea(world, entity, area, true, true, true);
             }

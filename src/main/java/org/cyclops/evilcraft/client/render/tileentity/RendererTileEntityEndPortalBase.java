@@ -25,7 +25,7 @@ public abstract class RendererTileEntityEndPortalBase<T extends TileEntity> exte
     public static final ResourceLocation END_PORTAL_TEXTURE = new ResourceLocation("textures/entity/end_portal.png");
     protected static final Random RANDOM = new Random(31100L);
     private static final List<RenderType> RENDER_TYPES = IntStream.range(0, 16).mapToObj((p_228882_0_) -> {
-        return RenderType.getEndPortal(p_228882_0_ + 1);
+        return RenderType.endPortal(p_228882_0_ + 1);
     }).collect(ImmutableList.toImmutableList());
 
     public RendererTileEntityEndPortalBase(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -34,10 +34,10 @@ public abstract class RendererTileEntityEndPortalBase<T extends TileEntity> exte
 
     public void render(T tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         RANDOM.setSeed(31100L);
-        double d0 = tileEntityIn.getPos().distanceSq(this.renderDispatcher.renderInfo.getProjectedView(), true);
+        double d0 = tileEntityIn.getBlockPos().distSqr(this.renderer.camera.getPosition(), true);
         int i = this.getPasses(d0);
         float f = this.getOffset();
-        Matrix4f matrix4f = matrixStackIn.getLast().getMatrix();
+        Matrix4f matrix4f = matrixStackIn.last().pose();
         this.renderCube(tileEntityIn, f, 0.15F, matrix4f, bufferIn.getBuffer(RENDER_TYPES.get(0)));
 
         for(int j = 1; j < i; ++j) {
@@ -60,10 +60,10 @@ public abstract class RendererTileEntityEndPortalBase<T extends TileEntity> exte
 
     protected void renderFace(T tileEntityIn, Matrix4f p_228884_2_, IVertexBuilder p_228884_3_, float p_228884_4_, float p_228884_5_, float p_228884_6_, float p_228884_7_, float p_228884_8_, float p_228884_9_, float p_228884_10_, float p_228884_11_, float p_228884_12_, float p_228884_13_, float p_228884_14_, Direction p_228884_15_) {
         if (shouldRenderFace(p_228884_15_)) {
-            p_228884_3_.pos(p_228884_2_, p_228884_4_, p_228884_6_, p_228884_8_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
-            p_228884_3_.pos(p_228884_2_, p_228884_5_, p_228884_6_, p_228884_9_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
-            p_228884_3_.pos(p_228884_2_, p_228884_5_, p_228884_7_, p_228884_10_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
-            p_228884_3_.pos(p_228884_2_, p_228884_4_, p_228884_7_, p_228884_11_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+            p_228884_3_.vertex(p_228884_2_, p_228884_4_, p_228884_6_, p_228884_8_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+            p_228884_3_.vertex(p_228884_2_, p_228884_5_, p_228884_6_, p_228884_9_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+            p_228884_3_.vertex(p_228884_2_, p_228884_5_, p_228884_7_, p_228884_10_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
+            p_228884_3_.vertex(p_228884_2_, p_228884_4_, p_228884_7_, p_228884_11_).color(p_228884_12_, p_228884_13_, p_228884_14_, 1.0F).endVertex();
         }
     }
 

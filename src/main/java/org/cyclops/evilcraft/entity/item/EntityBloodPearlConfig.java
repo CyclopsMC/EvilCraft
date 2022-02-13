@@ -22,8 +22,8 @@ public class EntityBloodPearlConfig extends EntityConfig<EntityBloodPearl> {
         super(
                 EvilCraft._instance,
                 "blood_pearl",
-                eConfig -> EntityType.Builder.<EntityBloodPearl>create(EntityBloodPearl::new, EntityClassification.MISC)
-                        .size(0.6F, 1.8F)
+                eConfig -> EntityType.Builder.<EntityBloodPearl>of(EntityBloodPearl::new, EntityClassification.MISC)
+                        .sized(0.6F, 1.8F)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }

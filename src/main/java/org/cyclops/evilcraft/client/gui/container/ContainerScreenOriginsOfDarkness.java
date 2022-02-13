@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.client.gui.container;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.entity.player.PlayerInventory;
@@ -22,6 +23,11 @@ public class ContainerScreenOriginsOfDarkness extends ScreenInfoBook<ContainerOr
 
     public ContainerScreenOriginsOfDarkness(ContainerOriginsOfDarkness container, PlayerInventory playerInventory, ITextComponent title) {
         super(container, playerInventory, title, OriginsOfDarknessBook.getInstance());
+    }
+
+    @Override
+    protected void renderBg(MatrixStack p_230450_1_, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
+        // TODO: rm
     }
 
     @Override
@@ -56,11 +62,11 @@ public class ContainerScreenOriginsOfDarkness extends ScreenInfoBook<ContainerOr
 
     @Override
     public void playPageFlipSound(SoundHandler soundHandler) {
-        soundHandler.play(SimpleSound.master(EvilCraftSoundEvents.effect_page_flipsingle, 1.0F));
+        soundHandler.play(SimpleSound.forUI(EvilCraftSoundEvents.effect_page_flipsingle, 1.0F));
     }
 
     @Override
     public void playPagesFlipSound(SoundHandler soundHandler) {
-        soundHandler.play(SimpleSound.master(EvilCraftSoundEvents.effect_page_flipmultiple, 1.0F));
+        soundHandler.play(SimpleSound.forUI(EvilCraftSoundEvents.effect_page_flipmultiple, 1.0F));
     }
 }

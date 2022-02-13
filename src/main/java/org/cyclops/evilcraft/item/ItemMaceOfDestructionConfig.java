@@ -16,7 +16,7 @@ public class ItemMaceOfDestructionConfig extends ItemConfig {
                 EvilCraft._instance,
             "mace_of_destruction",
                 eConfig -> new ItemMaceOfDestruction(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

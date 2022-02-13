@@ -26,9 +26,9 @@ public class EntityNetherfishConfig extends EntityConfig<EntityNetherfish> {
         super(
                 EvilCraft._instance,
                 "netherfish",
-                eConfig -> EntityType.Builder.<EntityNetherfish>create(EntityNetherfish::new, EntityClassification.MONSTER)
-                        .size(0.4F, 0.3F)
-                        .immuneToFire(),
+                eConfig -> EntityType.Builder.<EntityNetherfish>of(EntityNetherfish::new, EntityClassification.MONSTER)
+                        .sized(0.4F, 0.3F)
+                        .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "netherfish_spawn_egg", Helpers.RGBToInt(73, 27, 20), Helpers.RGBToInt(160, 45, 27))
         );
     }
@@ -43,11 +43,11 @@ public class EntityNetherfishConfig extends EntityConfig<EntityNetherfish> {
     public void onForgeRegistered() {
         super.onForgeRegistered();
         // A bit stronger than those normal silverfish...
-        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 35.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D)
-                .create());
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 35.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.25D)
+                .add(Attributes.ATTACK_DAMAGE, 2.0D)
+                .build());
     }
     
 }

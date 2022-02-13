@@ -18,8 +18,8 @@ public class BlockDarkBloodBrickConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "dark_blood_brick",
-                eConfig -> new BlockDarkBloodBrick(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(5.0F)
+                eConfig -> new BlockDarkBloodBrick(Block.Properties.of(Material.STONE)
+                        .strength(5.0F)
                         .sound(SoundType.STONE)
                         .harvestTool(ToolType.PICKAXE)
                         .harvestLevel(2)),

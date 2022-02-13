@@ -43,36 +43,36 @@ public class EntityLightningGrenade extends ThrowableEntity implements IRendersA
 
     @Nonnull
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected void onImpact(RayTraceResult par1MovingObjectPosition) {
+    protected void onHit(RayTraceResult par1MovingObjectPosition) {
         if (par1MovingObjectPosition.getType() == RayTraceResult.Type.ENTITY) {
-            ((EntityRayTraceResult) par1MovingObjectPosition).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 0.0F);
+            ((EntityRayTraceResult) par1MovingObjectPosition).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
         }
 
-        if (!this.world.isRemote()) {
-            if (this.func_234616_v_() != null && this.func_234616_v_() instanceof ServerPlayerEntity) {
-                EntityHelpers.onEntityCollided(this.world, new BlockPos(par1MovingObjectPosition.getHitVec()), this);
-                LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-                bolt.moveForced(this.getPosX(), this.getPosY(), this.getPosZ());
+        if (!this.level.isClientSide()) {
+            if (this.getOwner() != null && this.getOwner() instanceof ServerPlayerEntity) {
+                EntityHelpers.onEntityCollided(this.level, new BlockPos(par1MovingObjectPosition.getLocation()), this);
+                LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(level);
+                bolt.moveTo(this.getX(), this.getY(), this.getZ());
             }
 
             this.remove();
         } else {
             for (int i = 0; i < 32; ++i) {
-                Minecraft.getInstance().worldRenderer.addParticle(
+                Minecraft.getInstance().levelRenderer.addParticle(
                         ParticleTypes.CRIT, false,
-                        this.getPosX(), this.getPosY() + this.rand.nextDouble() * 2.0D, this.getPosZ(),
-                        this.rand.nextGaussian(), 0.0D, this.rand.nextGaussian());
+                        this.getX(), this.getY() + this.random.nextDouble() * 2.0D, this.getZ(),
+                        this.random.nextGaussian(), 0.0D, this.random.nextGaussian());
             }
         }
     }
 
     @Override
-    protected void registerData() {
+    protected void defineSynchedData() {
 
     }
 

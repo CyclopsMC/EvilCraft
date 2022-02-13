@@ -65,10 +65,10 @@ public class TankInventoryTileEntity extends CyclopsTileEntity {
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         inventory.writeToNBT(tag, "inventory");
         tank.writeToNBT(tag, "tank");
-        return super.write(tag);
+        return super.save(tag);
     }
 
     public SimpleInventory getInventory() {
@@ -80,7 +80,7 @@ public class TankInventoryTileEntity extends CyclopsTileEntity {
     }
 
     public void onTankChanged() {
-        markDirty();
-        getInventory().markDirty();
+        setChanged();
+        getInventory().setChanged();
     }
 }

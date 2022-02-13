@@ -24,6 +24,10 @@ import org.cyclops.evilcraft.core.algorithm.RegionIterator;
 import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * Tile for the {@link BlockSanguinaryPedestal}.
  * @author rubensworks
@@ -82,18 +86,18 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
     public void updateTileEntity() {
     	super.updateTileEntity();
 
-        if(!getWorld().isRemote()) {
+        if(!getLevel().isClientSide()) {
             int actions = hasEfficiency() ? ACTIONS_PER_TICK_EFFICIENCY : 1;
 	    	// Drain next blockState in tick
     		while(!getTank().isFull() && actions > 0) {
 		    	BlockPos location = getNextLocation();
-		    	Block block = getWorld().getBlockState(location).getBlock();
+		    	Block block = getLevel().getBlockState(location).getBlock();
 		    	if(block instanceof BlockBloodStain) {
-					TileHelpers.getCapability(getWorld(), location, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+					TileHelpers.getCapability(getLevel(), location, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 							.ifPresent((source) -> {
 								FluidStack moved = FluidUtil.tryFluidTransfer(getBonusFluidHandler(), source, Integer.MAX_VALUE, true);
 								if (!moved.isEmpty()) {
-									afterBlockReplace(getWorld(), location);
+									afterBlockReplace(getLevel(), location);
 								}
 							});
 		    	}
@@ -103,7 +107,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 	    	// Auto-drain the inner tank
 	    	if(!getTank().isEmpty()) {
 				for(Direction direction : Direction.values()) {
-					TileHelpers.getCapability(getWorld(), getPos().offset(direction),
+					TileHelpers.getCapability(getLevel(), getBlockPos().relative(direction),
 							direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 							.ifPresent(handler -> {
 								if(!getTank().isEmpty()) {
@@ -122,7 +126,7 @@ public class TileSanguinaryPedestal extends TankInventoryTileEntity implements C
 	
 	private BlockPos getNextLocation() {
 		if(regionIterator == null) {
-			regionIterator = new RegionIterator(getPos(), (hasEfficiency() ? OFFSET_EFFICIENCY : OFFSET), true);
+			regionIterator = new RegionIterator(getBlockPos(), (hasEfficiency() ? OFFSET_EFFICIENCY : OFFSET), true);
 		}
 		return regionIterator.next();
 	}

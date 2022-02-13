@@ -42,18 +42,18 @@ public class BlockSpikedPlate extends BlockPressurePlate {
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos blockPos) {
-        return super.isValidPosition(state, world, blockPos)
-                || world.getBlockState(blockPos.add(0, -1, 0)).getBlock() instanceof BlockSanguinaryPedestal;
+    public boolean canSurvive(BlockState state, IWorldReader world, BlockPos blockPos) {
+        return super.canSurvive(state, world, blockPos)
+                || world.getBlockState(blockPos.offset(0, -1, 0)).getBlock() instanceof BlockSanguinaryPedestal;
     }
 
     @Override
-    protected void playClickOnSound(IWorld worldIn, BlockPos color) {
+    protected void playOnSound(IWorld worldIn, BlockPos color) {
 
     }
 
     @Override
-    protected void playClickOffSound(IWorld worldIn, BlockPos pos) {
+    protected void playOffSound(IWorld worldIn, BlockPos pos) {
 
     }
 
@@ -69,10 +69,10 @@ public class BlockSpikedPlate extends BlockPressurePlate {
     		float damage = (float) BlockSpikedPlateConfig.damage;
     		
     		// To make sure the entity actually will drop something.
-            ((LivingEntity) entity).recentlyHit = 100;
+            ((LivingEntity) entity).lastHurtByPlayerTime = 100;
 
-    		if(entity.attackEntityFrom(ExtendedDamageSource.spikedDamage(world), damage)) {
-	    		TileEntity tile = world.getTileEntity(blockPos.add(0, -1, 0));
+    		if(entity.hurt(ExtendedDamageSource.spikedDamage(world), damage)) {
+	    		TileEntity tile = world.getBlockEntity(blockPos.offset(0, -1, 0));
 	    		if(tile != null && tile instanceof TileSanguinaryPedestal) {
 	    			int amount = MathHelper.floor(damage * (float) BlockSpikedPlateConfig.mobMultiplier);
 	    			((TileSanguinaryPedestal) tile).getBonusFluidHandler()
@@ -85,15 +85,15 @@ public class BlockSpikedPlate extends BlockPressurePlate {
     }
 
 	@Override
-	protected int computeRedstoneStrength(World world, BlockPos blockPos) {
-        VoxelShape shape = this.getShape(world.getBlockState(blockPos), world, blockPos, ISelectionContext.dummy());
-		List<LivingEntity> list = world.getEntitiesWithinAABB(LivingEntity.class, shape.getBoundingBox().expand(0, 1, 1).offset(blockPos));
+	protected int getSignalStrength(World world, BlockPos blockPos) {
+        VoxelShape shape = this.getShape(world.getBlockState(blockPos), world, blockPos, ISelectionContext.empty());
+		List<LivingEntity> list = world.getEntitiesOfClass(LivingEntity.class, shape.bounds().expandTowards(0, 1, 1).move(blockPos));
 
         int ret = 0;
 
-		if (!world.isRemote() && !list.isEmpty()) {
+		if (!world.isClientSide() && !list.isEmpty()) {
             for (LivingEntity entity : list) {
-                    if (!entity.doesEntityNotTriggerPressurePlate() && damageEntity((ServerWorld) world, entity, blockPos)) {
+                    if (!entity.isIgnoringBlockTriggers() && damageEntity((ServerWorld) world, entity, blockPos)) {
                     ret = 15;
                 }
             }
@@ -102,12 +102,12 @@ public class BlockSpikedPlate extends BlockPressurePlate {
         return ret;
 	}
 
-    protected int getRedstoneStrength(BlockState blockState) {
+    protected int getSignalForState(BlockState blockState) {
         return BlockHelpers.getSafeBlockStateProperty(blockState, POWERED, false) ? 15 : 0;
     }
 
-    protected BlockState setRedstoneStrength(BlockState blockState, int meta) {
-        return blockState.with(POWERED, meta > 0);
+    protected BlockState setSignalForState(BlockState blockState, int meta) {
+        return blockState.setValue(POWERED, meta > 0);
     }
 
     @Override

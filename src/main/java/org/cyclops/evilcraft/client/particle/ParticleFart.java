@@ -18,17 +18,17 @@ public class ParticleFart extends SpriteTexturedParticle {
     public ParticleFart(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
         super(world, x, y, z, motionX, motionY, motionZ);
 
-        particleScale = 0.25F;
-        particleAlpha = 0.7F;
+        quadSize = 0.25F;
+        alpha = 0.7F;
 
         if (!rainbow) {
-            particleRed = 0.50F + rand.nextFloat() * 0.2F;
-            particleGreen = 0.3F + rand.nextFloat() * 0.1F;
-            particleBlue = rand.nextFloat() * 0.2F;
+            rCol = 0.50F + random.nextFloat() * 0.2F;
+            gCol = 0.3F + random.nextFloat() * 0.1F;
+            bCol = random.nextFloat() * 0.2F;
         } else {
-            particleRed = rand.nextFloat();
-            particleGreen = rand.nextFloat();
-            particleBlue = rand.nextFloat();
+            rCol = random.nextFloat();
+            gCol = random.nextFloat();
+            bCol = random.nextFloat();
         }
     }
     
@@ -36,25 +36,25 @@ public class ParticleFart extends SpriteTexturedParticle {
     public void tick() {
         super.tick();
 
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        if (this.age++ >= this.maxAge) {
-            this.setExpired();
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+        if (this.age++ >= this.lifetime) {
+            this.remove();
         } else {
-            this.motionY += 0.004D;
-            this.move(this.motionX, this.motionY, this.motionZ);
-            if (this.posY == this.prevPosY) {
-                this.motionX *= 1.1D;
-                this.motionZ *= 1.1D;
+            this.yd += 0.004D;
+            this.move(this.xd, this.yd, this.zd);
+            if (this.y == this.yo) {
+                this.xd *= 1.1D;
+                this.zd *= 1.1D;
             }
 
-            this.motionX *= (double)0.96F;
-            this.motionY *= (double)0.96F;
-            this.motionZ *= (double)0.96F;
+            this.xd *= (double)0.96F;
+            this.yd *= (double)0.96F;
+            this.zd *= (double)0.96F;
             if (this.onGround) {
-                this.motionX *= (double)0.7F;
-                this.motionZ *= (double)0.7F;
+                this.xd *= (double)0.7F;
+                this.zd *= (double)0.7F;
             }
 
         }
@@ -66,8 +66,8 @@ public class ParticleFart extends SpriteTexturedParticle {
     }
 
     @Override
-    public float getScale(float p_217561_1_) {
-        return this.particleScale * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.maxAge * 32.0F, 0.0F, 1.0F);
+    public float getQuadSize(float p_217561_1_) {
+        return this.quadSize * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
 
 }

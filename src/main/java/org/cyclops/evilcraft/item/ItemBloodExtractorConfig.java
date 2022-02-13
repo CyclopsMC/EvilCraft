@@ -27,7 +27,7 @@ public class ItemBloodExtractorConfig extends ItemConfig {
                 EvilCraft._instance,
                 "blood_extractor",
                 eConfig -> new ItemBloodExtractor(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

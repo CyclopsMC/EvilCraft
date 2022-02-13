@@ -11,6 +11,8 @@ import org.cyclops.evilcraft.block.BlockBloodStain;
 
 import javax.annotation.Nonnull;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 /**
  * Tile for the {@link BlockBloodStain}.
  * @author rubensworks
@@ -41,9 +43,9 @@ public class TileBloodStain extends CyclopsTileEntity {
 	public void addAmount(int amount) {
 		this.amount = Math.min(CAPACITY, Math.max(0, this.amount + amount));
 		if (this.amount == 0) {
-			getWorld().removeBlock(getPos(), false);
+			getLevel().removeBlock(getBlockPos(), false);
 		}
-		markDirty();
+		setChanged();
 	}
 
 	public static class FluidHandler implements IFluidHandler {

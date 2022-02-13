@@ -17,9 +17,9 @@ public class BlockLightningBombConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "lightning_bomb",
-                eConfig -> new BlockLightningBomb(Block.Properties.create(Material.TNT)
-                        .hardnessAndResistance(0.0F)
-                        .sound(SoundType.GROUND)),
+                eConfig -> new BlockLightningBomb(Block.Properties.of(Material.EXPLOSIVE)
+                        .strength(0.0F)
+                        .sound(SoundType.GRAVEL)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

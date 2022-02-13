@@ -17,8 +17,8 @@ public class ItemEffortlessRingConfig extends ItemConfig {
                 EvilCraft._instance,
             "effortless_ring",
                 eConfig -> new ItemEffortlessRing(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(1)
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(1)
                         .rarity(Rarity.UNCOMMON))
         );
     }

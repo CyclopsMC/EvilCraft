@@ -26,7 +26,7 @@ public abstract class RenderModelLiving<T extends MobEntity, M extends EntityMod
     }
 
     @Override
-    public ResourceLocation getEntityTexture(T entity) {
+    public ResourceLocation getTextureLocation(T entity) {
         return texture;
     }
     

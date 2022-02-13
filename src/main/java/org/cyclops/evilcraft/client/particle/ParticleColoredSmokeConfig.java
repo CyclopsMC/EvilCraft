@@ -21,7 +21,7 @@ public class ParticleColoredSmokeConfig extends ParticleConfig<ParticleColoredSm
         super(EvilCraft._instance, "colored_smoke", eConfig -> new ParticleType<ParticleColoredSmokeData>(false, ParticleColoredSmokeData.DESERIALIZER) {
 
             @Override
-            public Codec<ParticleColoredSmokeData> func_230522_e_() {
+            public Codec<ParticleColoredSmokeData> codec() {
                 return ParticleColoredSmokeData.CODEC;
             }
         });
@@ -42,7 +42,7 @@ public class ParticleColoredSmokeConfig extends ParticleConfig<ParticleColoredSm
             ParticleColoredSmoke particle = new ParticleColoredSmoke(worldIn, x, y, z,
                     particleData.getR(), particleData.getG(), particleData.getB(),
                     xSpeed, ySpeed, zSpeed);
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

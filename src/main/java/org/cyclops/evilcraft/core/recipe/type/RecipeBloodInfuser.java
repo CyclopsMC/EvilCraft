@@ -63,23 +63,23 @@ public class RecipeBloodInfuser implements IRecipe<IInventoryFluidTier> {
     @Override
     public boolean matches(IInventoryFluidTier inv, World worldIn) {
         return this.getInputTier() <= inv.getTier()
-                && inputIngredient.test(inv.getStackInSlot(0))
+                && inputIngredient.test(inv.getItem(0))
                 && inputFluid.getFluid() == inv.getFluidHandler().getFluidInTank(0).getFluid()
                 && inputFluid.getAmount() <= inv.getFluidHandler().getFluidInTank(0).getAmount();
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventoryFluidTier inv) {
+    public ItemStack assemble(IInventoryFluidTier inv) {
         return this.outputItem.copy();
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height <= 1;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return this.outputItem;
     }
 

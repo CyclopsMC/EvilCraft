@@ -19,11 +19,11 @@ public class BlockFluidPoisonConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "poison",
-                eConfig -> new BlockFluidPoison(Block.Properties.create(Material.WATER)
-                        .doesNotBlockMovement()
-                        .hardnessAndResistance(100.0F)
+                eConfig -> new BlockFluidPoison(Block.Properties.of(Material.WATER)
+                        .noCollission()
+                        .strength(100.0F)
                         .noDrops()
-                        .tickRandomly()),
+                        .randomTicks()),
                 (eConfig, block) -> new BlockItem(block, new Item.Properties())
         );
     }

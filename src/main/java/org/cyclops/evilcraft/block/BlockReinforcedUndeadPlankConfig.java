@@ -22,19 +22,19 @@ public class BlockReinforcedUndeadPlankConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "reinforced_undead_planks",
-                eConfig -> new BlockReinforcedUndeadPlank(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(5.0F)
+                eConfig -> new BlockReinforcedUndeadPlank(Block.Properties.of(Material.STONE)
+                        .strength(5.0F)
                         .sound(SoundType.WOOD)
                         .harvestTool(ToolType.AXE)
                         .harvestLevel(2)
-                        .notSolid()),
+                        .noOcclusion()),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

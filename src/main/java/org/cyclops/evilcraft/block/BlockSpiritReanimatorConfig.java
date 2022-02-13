@@ -34,13 +34,13 @@ public class BlockSpiritReanimatorConfig extends UpgradableBlockContainerConfig 
         super(
                 EvilCraft._instance,
             "spirit_reanimator",
-                eConfig -> new BlockSpiritReanimator(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(5.0F)
+                eConfig -> new BlockSpiritReanimator(Block.Properties.of(Material.STONE)
+                        .strength(5.0F)
                         .sound(SoundType.STONE)
                         .harvestTool(ToolType.PICKAXE)
                         .harvestLevel(2)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

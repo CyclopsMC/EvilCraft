@@ -81,16 +81,16 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        if (!world.isRemote() && player.getRidingEntity() == null && !player.isCrouching()) {
-            player.setPosition(player.getPosX(), player.getPosY() + Y_SPAWN_OFFSET, player.getPosZ());
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (!world.isClientSide() && player.getVehicle() == null && !player.isCrouching()) {
+            player.setPos(player.getX(), player.getY() + Y_SPAWN_OFFSET, player.getZ());
             
-            EntityBroom entityBroom = new EntityBroom(world, player.getPosX(), player.getPosY(), player.getPosZ());
+            EntityBroom entityBroom = new EntityBroom(world, player.getX(), player.getY(), player.getZ());
             entityBroom.setBroomStack(stack);
-            entityBroom.rotationYaw = player.rotationYaw;
+            entityBroom.yRot = player.yRot;
             // Spawn and mount the broom
-            world.addEntity(entityBroom);
+            world.addFreshEntity(entityBroom);
             player.startRiding(entityBroom);
 
             stack.shrink(1);
@@ -101,14 +101,14 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-    	if (!context.getWorld().isRemote() && context.getPlayer().isCrouching()) {
-            BlockPos blockPos = context.getPos();
-            if (!TileHelpers.getCapability(context.getWorld(), blockPos, context.getFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
-                    && context.getWorld().isAirBlock(blockPos.add(0, Y_SPAWN_OFFSET, 0))) {
-                EntityBroom entityBroom = new EntityBroom(context.getWorld(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
+    	if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
+            BlockPos blockPos = context.getClickedPos();
+            if (!TileHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
+                    && context.getLevel().isEmptyBlock(blockPos.offset(0, Y_SPAWN_OFFSET, 0))) {
+                EntityBroom entityBroom = new EntityBroom(context.getLevel(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
                 entityBroom.setBroomStack(stack);
-                entityBroom.rotationYaw = context.getPlayer().rotationYaw;
-                context.getWorld().addEntity(entityBroom);
+                entityBroom.yRot = context.getPlayer().yRot;
+                context.getLevel().addFreshEntity(entityBroom);
 
                 // We don't consume the broom when in creative mode
                 if (!context.getPlayer().isCreative())
@@ -152,11 +152,11 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
             list.add(new TranslationTextComponent("broom.parts." + Reference.MOD_ID + ".types")
-                    .mergeStyle(TextFormatting.ITALIC));
+                    .withStyle(TextFormatting.ITALIC));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
             Map<BroomModifier, Float> modifiers = getBroomModifiers(itemStack);
             Set<BroomModifier> modifierTypes = Sets.newHashSet();
@@ -173,7 +173,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             int maxModifiers = modifiersAndMax.getRight();
             list.add(new TranslationTextComponent(
                     "broom.modifiers." + Reference.MOD_ID + ".types.nameparam", modifierCount, maxModifiers)
-                    .mergeStyle(TextFormatting.ITALIC));
+                    .withStyle(TextFormatting.ITALIC));
             for (BroomModifier modifier : modifierTypes) {
                 if(modifier.showTooltip()) {
                     Float value = modifiers.get(modifier);
@@ -186,7 +186,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
         } else {
             list.add(new TranslationTextComponent("broom." + Reference.MOD_ID + ".shiftinfo")
-                    .mergeStyle(TextFormatting.ITALIC));
+                    .withStyle(TextFormatting.ITALIC));
         }
     }
 
@@ -211,8 +211,8 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     @OnlyIn(Dist.CLIENT)
     public void onFovEvent(FOVUpdateEvent event) {
-        if(event.getEntity().getRidingEntity() instanceof EntityBroom) {
-            EntityBroom broom = (EntityBroom) event.getEntity().getRidingEntity();
+        if(event.getEntity().getVehicle() instanceof EntityBroom) {
+            EntityBroom broom = (EntityBroom) event.getEntity().getVehicle();
             double speed = broom.getLastPlayerSpeed();
             event.setNewfov((float) (event.getFov() + speed / 10));
         }
@@ -221,9 +221,9 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     @OnlyIn(Dist.CLIENT)
     public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
         PlayerEntity player = Minecraft.getInstance().player;
-        if (player.getRidingEntity() instanceof EntityBroom
+        if (player.getVehicle() instanceof EntityBroom
                 && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
-            EntityBroom broom = (EntityBroom) player.getRidingEntity();
+            EntityBroom broom = (EntityBroom) player.getVehicle();
             ItemStack broomStack = broom.getBroomStack();
             MainWindow resolution = event.getWindow();
             int height = 21;
@@ -233,25 +233,25 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             int x = overlayPosition.getX(resolution, width, height) + ItemBroomConfig.guiOverlayPositionOffsetX;
             int y = overlayPosition.getY(resolution, width, height) + ItemBroomConfig.guiOverlayPositionOffsetY;
 
-            GlStateManager.pushMatrix();
-            GlStateManager.enableBlend();
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GlStateManager._pushMatrix();
+            GlStateManager._enableBlend();
+            GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             RenderHelpers.bindTexture(OVERLAY);
 
             // Render slot
-            Minecraft.getInstance().ingameGUI.blit(event.getMatrixStack(), x, y, 11, 0, 24, 24);
+            Minecraft.getInstance().gui.blit(event.getMatrixStack(), x, y, 11, 0, 24, 24);
 
             // Render item
-            GlStateManager.enableLighting();
-            RenderHelper.enableStandardItemLighting();
-            Minecraft.getInstance().getItemRenderer().renderItemAndEffectIntoGUI(broomStack, x + 3, y + 3);
-            Minecraft.getInstance().getItemRenderer().renderItemOverlayIntoGUI(
-                    Minecraft.getInstance().ingameGUI.getFontRenderer(), broomStack, x + 3, y + 3, "");
-            RenderHelper.enableStandardItemLighting();
-            GlStateManager.disableLighting();
+            GlStateManager._enableLighting();
+            RenderHelper.turnBackOn();
+            Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(broomStack, x + 3, y + 3);
+            Minecraft.getInstance().getItemRenderer().renderGuiItemDecorations(
+                    Minecraft.getInstance().gui.getFont(), broomStack, x + 3, y + 3, "");
+            RenderHelper.turnBackOn();
+            GlStateManager._disableLighting();
 
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
+            GlStateManager._disableBlend();
+            GlStateManager._popMatrix();
         }
     }
 }

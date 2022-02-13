@@ -36,26 +36,26 @@ public class BlockLightningBomb extends Block {
     public BlockLightningBomb(Block.Properties properties) {
         super(properties);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(PRIMED, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(PRIMED, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(PRIMED);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(PRIMED, false);
+        return this.defaultBlockState().setValue(PRIMED, false);
     }
 
     @Override
-    public void onBlockAdded(BlockState blockState, World world, BlockPos blockPos, BlockState oldState, boolean isMoving) {
-        super.onBlockAdded(blockState, world, blockPos, oldState, isMoving);
+    public void onPlace(BlockState blockState, World world, BlockPos blockPos, BlockState oldState, boolean isMoving) {
+        super.onPlace(blockState, world, blockPos, oldState, isMoving);
 
-        if (world.isBlockPowered(blockPos)) {
-            this.onPlayerDestroy(world, blockPos, blockState.with(PRIMED, true));
+        if (world.hasNeighborSignal(blockPos)) {
+            this.destroy(world, blockPos, blockState.setValue(PRIMED, true));
             world.removeBlock(blockPos, false);
         }
     }
@@ -64,27 +64,27 @@ public class BlockLightningBomb extends Block {
     public void neighborChanged(BlockState blockState, World world, BlockPos blockPos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(blockState, world, blockPos, blockIn, fromPos, isMoving);
 
-        if (world.isBlockPowered(blockPos)) {
-            this.onPlayerDestroy(world, blockPos, blockState.with(PRIMED, true));
+        if (world.hasNeighborSignal(blockPos)) {
+            this.destroy(world, blockPos, blockState.setValue(PRIMED, true));
             world.removeBlock(blockPos, false);
         }
     }
 
     @Override
     public void onBlockExploded(BlockState state, World world, BlockPos blockPos, Explosion explosion) {
-        if (!world.isRemote()) {
+        if (!world.isClientSide()) {
             EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(world,
                     (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
-                    (double)((float)blockPos.getZ() + 0.5F), explosion.getExplosivePlacedBy());
-            entityprimed.setFuse(world.rand.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
-            world.addEntity(entityprimed);
+                    (double)((float)blockPos.getZ() + 0.5F), explosion.getSourceMob());
+            entityprimed.setFuse(world.random.nextInt(entityprimed.getLife() / 4) + entityprimed.getLife() / 8);
+            world.addFreshEntity(entityprimed);
             world.removeBlock(blockPos, false);
         }
     }
 
     @Override
-    public void onPlayerDestroy(IWorld world, BlockPos blockPos, BlockState blockState) {
-        super.onPlayerDestroy(world, blockPos, blockState);
+    public void destroy(IWorld world, BlockPos blockPos, BlockState blockState) {
+        super.destroy(world, blockPos, blockState);
         this.primeBomb(world, blockPos, blockState, null);
     }
     
@@ -96,50 +96,50 @@ public class BlockLightningBomb extends Block {
      * @param placer The entity that primed the bomb.
      */
     public void primeBomb(IWorld world, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity placer) {
-        if (!world.isRemote()) {
-            if (blockState.get(PRIMED)) {
+        if (!world.isClientSide()) {
+            if (blockState.getValue(PRIMED)) {
                 EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed((World) world,
                         (float)blockPos.getX() + 0.5F, (float)blockPos.getY() + 0.5F,
                         (float)blockPos.getZ() + 0.5F, placer);
-                world.addEntity(entityprimed);
-                world.playSound(null, blockPos, SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.addFreshEntity(entityprimed);
+                world.playSound(null, blockPos, SoundEvents.TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
             }
         }
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
-        if (!player.getHeldItem(hand).isEmpty() &&
-                (player.getHeldItem(hand).getItem() == Items.FLINT_AND_STEEL || player.getHeldItem(hand).getItem() == Items.FIRE_CHARGE)) {
-            this.primeBomb(world, blockPos, getDefaultState().with(PRIMED, true), player);
+    public ActionResultType use(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
+        if (!player.getItemInHand(hand).isEmpty() &&
+                (player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL || player.getItemInHand(hand).getItem() == Items.FIRE_CHARGE)) {
+            this.primeBomb(world, blockPos, defaultBlockState().setValue(PRIMED, true), player);
             world.removeBlock(blockPos, false);
-            player.getHeldItem(hand).damageItem(1, player, (e) -> {});
+            player.getItemInHand(hand).hurtAndBreak(1, player, (e) -> {});
             return ActionResultType.SUCCESS;
         } else {
-            return super.onBlockActivated(state, world, blockPos, player, hand, p_225533_6_);
+            return super.use(state, world, blockPos, player, hand, p_225533_6_);
         }
     }
 
     @Override
-    public void onEntityWalk(World world, BlockPos blockPos, Entity entity) {
-        BlockState primedState = getDefaultState().with(PRIMED, true);
-        if (entity instanceof AbstractArrowEntity && !world.isRemote()) {
+    public void stepOn(World world, BlockPos blockPos, Entity entity) {
+        BlockState primedState = defaultBlockState().setValue(PRIMED, true);
+        if (entity instanceof AbstractArrowEntity && !world.isClientSide()) {
             AbstractArrowEntity entityarrow = (AbstractArrowEntity)entity;
 
-            if (entityarrow.isBurning()) {
-                this.primeBomb(world, blockPos, primedState, entityarrow.func_234616_v_() instanceof LivingEntity ? (LivingEntity)entityarrow.func_234616_v_() : null);
+            if (entityarrow.isOnFire()) {
+                this.primeBomb(world, blockPos, primedState, entityarrow.getOwner() instanceof LivingEntity ? (LivingEntity)entityarrow.getOwner() : null);
                 world.removeBlock(blockPos, false);
             }
-        } else if (entity instanceof EntityLightningGrenade && !world.isRemote()) {
+        } else if (entity instanceof EntityLightningGrenade && !world.isClientSide()) {
             EntityLightningGrenade entitygrenade = (EntityLightningGrenade)entity;
 
-            this.primeBomb(world, blockPos, primedState, entitygrenade.func_234616_v_() instanceof LivingEntity ? (LivingEntity) entitygrenade.func_234616_v_() : null);
+            this.primeBomb(world, blockPos, primedState, entitygrenade.getOwner() instanceof LivingEntity ? (LivingEntity) entitygrenade.getOwner() : null);
             world.removeBlock(blockPos, false);
         }
     }
     
     @Override
-    public boolean canDropFromExplosion(Explosion explosion) {
+    public boolean dropFromExplosion(Explosion explosion) {
         return false;
     }
 

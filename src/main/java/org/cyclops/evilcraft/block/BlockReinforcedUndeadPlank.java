@@ -45,23 +45,23 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     public BlockReinforcedUndeadPlank(Block.Properties properties) {
         super(properties);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(ACTIVE, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(ACTIVE, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(ACTIVE, false);
+        return this.defaultBlockState().setValue(ACTIVE, false);
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState blockState) {
-        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false) ? BlockRenderType.ENTITYBLOCK_ANIMATED : super.getRenderType(blockState);
+    public BlockRenderType getRenderShape(BlockState blockState) {
+        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false) ? BlockRenderType.ENTITYBLOCK_ANIMATED : super.getRenderShape(blockState);
     }
 
     @Override
@@ -81,24 +81,24 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, placer, stack);
         if(!world.captureBlockSnapshots) {
             BlockColossalBloodChest.triggerDetector(world, pos, true);
         }
     }
 
     @Override
-    public void onBlockAdded(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
-        super.onBlockAdded(blockStateNew, world, blockPos, blockStateOld, isMoving);
-        if(!world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock() && !blockStateNew.get(ACTIVE)) {
+    public void onPlace(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
+        super.onPlace(blockStateNew, world, blockPos, blockStateOld, isMoving);
+        if(!world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock() && !blockStateNew.getValue(ACTIVE)) {
             BlockColossalBloodChest.triggerDetector(world, blockPos, true);
         }
     }
 
     @Override
-    public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
-        super.onPlayerDestroy(worldIn, pos, state);
+    public void destroy(IWorld worldIn, BlockPos pos, BlockState state) {
+        super.destroy(worldIn, pos, state);
         if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) BlockColossalBloodChest.triggerDetector(worldIn, pos, false);
     }
 
@@ -106,8 +106,8 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
         if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) BlockColossalBloodChest.triggerDetector(world, pos, false);
         // IForgeBlock.super.onBlockExploded(state, world, pos, explosion);
-        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-        getBlock().onExplosionDestroy(world, pos, explosion);
+        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+        getBlock().wasExploded(world, pos, explosion);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !BlockHelpers.getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
-            ((World) world).setBlockState(location, world.getBlockState(location).with(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            ((World) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
                 TileColossalBloodChest.detectStructure((World) world, location, size, valid, originCorner);
             }
@@ -123,7 +123,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
+    public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             TileColossalBloodChest.getCubeDetector().detect(world, blockPos, null, new CubeDetector.IValidationAction() {
@@ -140,9 +140,9 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
             BlockPos tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
                 return world.getBlockState(tileLocation).getBlock()
-                        .onBlockActivated(world.getBlockState(tileLocation), world, tileLocation, player, hand, p_225533_6_);
+                        .use(world.getBlockState(tileLocation), world, tileLocation, player, hand, p_225533_6_);
             }
-            return super.onBlockActivated(blockState, world, blockPos, player, hand, p_225533_6_);
+            return super.use(blockState, world, blockPos, player, hand, p_225533_6_);
         } else {
             BlockColossalBloodChest.addPlayerChatError(world, blockPos, player, hand);
             return ActionResultType.FAIL;

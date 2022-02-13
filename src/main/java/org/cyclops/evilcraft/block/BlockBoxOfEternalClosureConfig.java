@@ -28,11 +28,11 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfig {
         super(
             EvilCraft._instance,
             "box_of_eternal_closure",
-                eConfig -> new BlockBoxOfEternalClosure(Block.Properties.create(Material.IRON)
-                        .hardnessAndResistance(2.5F)
+                eConfig -> new BlockBoxOfEternalClosure(Block.Properties.of(Material.METAL)
+                        .strength(2.5F)
                         .sound(SoundType.METAL)),
                 (eConfig, block) -> new ItemBlockBoxOfEternalClosure(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 
@@ -41,10 +41,10 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfig {
         super.onForgeRegistered();
         if (injectLootTables) {
             LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/box_of_eternal_closure"),
-                    LootTables.CHESTS_END_CITY_TREASURE,
-                    LootTables.CHESTS_SIMPLE_DUNGEON,
-                    LootTables.CHESTS_ABANDONED_MINESHAFT,
-                    LootTables.CHESTS_STRONGHOLD_LIBRARY);
+                    LootTables.END_CITY_TREASURE,
+                    LootTables.SIMPLE_DUNGEON,
+                    LootTables.ABANDONED_MINESHAFT,
+                    LootTables.STRONGHOLD_LIBRARY);
         }
 
         BlockBoxOfEternalClosure.boxOfEternalClosureFilled = new ItemStack(getItemInstance());

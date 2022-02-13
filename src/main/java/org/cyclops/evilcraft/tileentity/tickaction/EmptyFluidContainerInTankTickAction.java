@@ -22,7 +22,7 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
 
     @Override
     public void onTick(T tile, ItemStack itemStack, int slot, int tick) {
-        ItemStack containerStack = tile.getInventory().getStackInSlot(slot).copy();
+        ItemStack containerStack = tile.getInventory().getItem(slot).copy();
         IFluidHandler container = FluidUtil.getFluidHandler(containerStack).orElse(null);
         if(container != null && FluidHelpers.hasFluid(container)) {
             FluidActionResult result;
@@ -44,19 +44,19 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
                     if (containerStack.getCount() > 0) {
                         // In this case we have an "empty container", and a remaining container stack.
                         // Let's pop out the empty container in this case
-                        ItemStackHelpers.spawnItemStack(tile.getWorld(), tile.getPos(), resultStack.copy());
+                        ItemStackHelpers.spawnItemStack(tile.getLevel(), tile.getBlockPos(), resultStack.copy());
                         resultStack = containerStack;
                         // TODO: in the next major update, rewrite this so that we have a proper "empty container" slot.
                     }
                 }
-                tile.getInventory().setInventorySlotContents(slot, resultStack);
+                tile.getInventory().setItem(slot, resultStack);
             }
         }
     }
     
     @Override
     public float getRequiredTicks(T tile, int slot, int tick) {
-        return getRequiredTicks(tile, tile.getInventory().getStackInSlot(slot));
+        return getRequiredTicks(tile, tile.getInventory().getItem(slot));
     }
     
     /**
@@ -77,7 +77,7 @@ public class EmptyFluidContainerInTankTickAction<T extends TickingTankInventoryT
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         boolean emptyContainer = false;
-        ItemStack containerStack = tile.getInventory().getStackInSlot(slot);
+        ItemStack containerStack = tile.getInventory().getItem(slot);
         IFluidHandler container = FluidUtil.getFluidHandler(containerStack).orElse(null);
         if(container != null && FluidHelpers.hasFluid(container)) {
             FluidStack fluidStack = FluidHelpers.getFluid(container);

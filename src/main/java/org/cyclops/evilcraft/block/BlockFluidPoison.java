@@ -27,10 +27,10 @@ public class BlockFluidPoison extends FlowingFluidBlock {
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
         if(entity instanceof LivingEntity && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
-            ((LivingEntity)entity).addPotionEffect(new EffectInstance(Effects.POISON, POISON_DURATION * 20, 1));
+            ((LivingEntity)entity).addEffect(new EffectInstance(Effects.POISON, POISON_DURATION * 20, 1));
         }
-        super.onEntityCollision(state, world, pos, entity);
+        super.entityInside(state, world, pos, entity);
     }
 }

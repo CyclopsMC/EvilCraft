@@ -24,16 +24,16 @@ public class BlockBloodStainConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "blood_stain",
-                eConfig -> new BlockBloodStain(Block.Properties.create(Material.CLAY)
-                        .doesNotBlockMovement()
-                        .hardnessAndResistance(0.5F)),
+                eConfig -> new BlockBloodStain(Block.Properties.of(Material.CLAY)
+                        .noCollission()
+                        .strength(0.5F)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

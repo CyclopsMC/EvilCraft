@@ -18,10 +18,10 @@ public class ParticleExplosionExtended extends PoofParticle {
 									 float red, float green, float blue, float alpha,
 									 IAnimatedSprite sprite) {
 		super(world, x, y, z, motionX, motionY, motionZ, sprite);
-		this.particleRed = red;
-		this.particleGreen = green;
-		this.particleBlue = blue;
-		this.particleAlpha = alpha;
+		this.rCol = red;
+		this.gCol = green;
+		this.bCol = blue;
+		this.alpha = alpha;
 	}
 
 	@Override

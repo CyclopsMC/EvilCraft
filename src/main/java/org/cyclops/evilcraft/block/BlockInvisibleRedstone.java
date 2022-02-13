@@ -26,27 +26,27 @@ public class BlockInvisibleRedstone extends BlockTile {
     }
 
     @Override
-    public int getWeakPower(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
+    public int getSignal(BlockState blockState, IBlockReader blockAccess, BlockPos pos, Direction side) {
         return 15;
     }
     
     @Override
-    public boolean canProvidePower(BlockState blockState) {
+    public boolean isSignalSource(BlockState blockState) {
         return true;
     }
 
     @Override
-    public PushReaction getPushReaction(BlockState blockState) {
+    public PushReaction getPistonPushReaction(BlockState blockState) {
         return PushReaction.BLOCK;
     }
 
     @Override
-    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+    public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
         return true;
     }
 
     @Override
-    public boolean isReplaceable(BlockState p_225541_1_, Fluid p_225541_2_) {
+    public boolean canBeReplaced(BlockState p_225541_1_, Fluid p_225541_2_) {
         return true;
     }
 

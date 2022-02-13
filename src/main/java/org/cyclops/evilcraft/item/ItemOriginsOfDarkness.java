@@ -13,6 +13,8 @@ import org.cyclops.evilcraft.inventory.container.ContainerOriginsOfDarkness;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A simple orb that can be filled with blood.
  * @author rubensworks

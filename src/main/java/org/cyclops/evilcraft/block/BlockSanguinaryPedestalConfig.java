@@ -27,18 +27,18 @@ public class BlockSanguinaryPedestalConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "sanguinary_pedestal_" + tier,
-                eConfig -> new BlockSanguinaryPedestal(Block.Properties.create(Material.IRON)
-                        .hardnessAndResistance(2.5F)
+                eConfig -> new BlockSanguinaryPedestal(Block.Properties.of(Material.METAL)
+                        .strength(2.5F)
                         .sound(SoundType.STONE)
-                        .notSolid(), tier),
+                        .noOcclusion(), tier),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

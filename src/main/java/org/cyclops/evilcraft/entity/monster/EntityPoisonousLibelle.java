@@ -76,7 +76,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
 
     public EntityPoisonousLibelle(EntityType<? extends EntityPoisonousLibelle> typeIn, World worldIn) {
         super(typeIn, worldIn);
-        this.experienceValue = 10;
+        this.xpReward = 10;
     }
 
     public EntityPoisonousLibelle(World world) {
@@ -86,7 +86,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void checkLibelleSpawn(LivingSpawnEvent.CheckSpawn event) {
         if(event.getEntityLiving() instanceof EntityPoisonousLibelle) {
-            if(((EntityPoisonousLibelle) event.getEntityLiving()).getPosY() < EntityPoisonousLibelleConfig.minY) {
+            if(((EntityPoisonousLibelle) event.getEntityLiving()).getY() < EntityPoisonousLibelleConfig.minY) {
                 event.setResult(Event.Result.DENY);
             }
         }
@@ -99,12 +99,12 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.ENTITY_BAT_HURT;
+        return SoundEvents.BAT_HURT;
     }
 
     @Override
     public SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_BAT_DEATH;
+        return SoundEvents.BAT_DEATH;
     }
 
     @Override
@@ -113,35 +113,35 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
     }
 
     @Override
-    public CreatureAttribute getCreatureAttribute() {
+    public CreatureAttribute getMobType() {
         return CreatureAttribute.ARTHROPOD;
     }
 
     @Override
-    public boolean canBePushed() {
+    public boolean isPushable() {
         return false;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void aiStep() {
+        super.aiStep();
         float f;
         float f1;
 
-        if (this.world.isRemote()) {
+        if (this.level.isClientSide()) {
             f = MathHelper.cos(this.animTime * (float)Math.PI * 2.0F);
             f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
-            if (f1 <= -0.3F && f >= -0.3F && this.rand.nextInt(45) == 0) {
-                this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_BAT_AMBIENT,
-                        SoundCategory.AMBIENT, 0.1F, 0.8F + this.rand.nextFloat() * 0.3F);
+            if (f1 <= -0.3F && f >= -0.3F && this.random.nextInt(45) == 0) {
+                this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.BAT_AMBIENT,
+                        SoundCategory.AMBIENT, 0.1F, 0.8F + this.random.nextFloat() * 0.3F);
             }
         }
 
         this.prevAnimTime = this.animTime;
 
-        Vector3d m = getMotion();
+        Vector3d m = getDeltaMovement();
         f = 0.2F / (MathHelper.sqrt(m.x * m.x + m.z * m.z) * 10.0F + 1.0F);
         f *= (float)Math.pow(2.0D, m.y);
 
@@ -154,32 +154,32 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
         float limitDistanceY;
         double limitDifferenceYaw;
 
-        if (this.world.isRemote()) {
+        if (this.level.isClientSide()) {
             // Correct rotation of the entity when rotating
-            if (this.newPosRotationIncrements > 0) {
-                distanceX = this.getPosX() + (this.interpTargetX - this.getPosX()) / (double)this.newPosRotationIncrements;
-                distanceY = this.getPosY() + (this.interpTargetY - this.getPosY()) / (double)this.newPosRotationIncrements;
-                distanceZ = this.getPosZ() + (this.interpTargetZ - this.getPosZ()) / (double)this.newPosRotationIncrements;
-                distance = MathHelper.wrapDegrees(this.interpTargetYaw - (double) this.rotationYaw);
-                this.rotationYaw = (float)((double)this.rotationYaw + distance / (double)this.newPosRotationIncrements);
+            if (this.lerpSteps > 0) {
+                distanceX = this.getX() + (this.lerpX - this.getX()) / (double)this.lerpSteps;
+                distanceY = this.getY() + (this.lerpY - this.getY()) / (double)this.lerpSteps;
+                distanceZ = this.getZ() + (this.lerpZ - this.getZ()) / (double)this.lerpSteps;
+                distance = MathHelper.wrapDegrees(this.lerpYRot - (double) this.yRot);
+                this.yRot = (float)((double)this.yRot + distance / (double)this.lerpSteps);
                 // MCP: newPosX should probably be interpPitch
-                this.rotationPitch = (float)((double)this.rotationPitch + (this.targetX - (double)this.rotationPitch) / (double)this.newPosRotationIncrements);
-                --this.newPosRotationIncrements;
-                this.setPosition(distanceX, distanceY, distanceZ);
-                this.setRotation(this.rotationYaw, this.rotationPitch);
+                this.xRot = (float)((double)this.xRot + (this.targetX - (double)this.xRot) / (double)this.lerpSteps);
+                --this.lerpSteps;
+                this.setPos(distanceX, distanceY, distanceZ);
+                this.setRot(this.yRot, this.xRot);
             }
         } else {
             // Calc distance to target
-            distanceX = this.targetX - this.getPosX();
-            distanceY = this.targetY - this.getPosY();
-            distanceZ = this.targetZ - this.getPosZ();
+            distanceX = this.targetX - this.getX();
+            distanceY = this.targetY - this.getY();
+            distanceZ = this.targetZ - this.getZ();
             distance = distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ;
 
             if (this.target != null) {
-                this.targetX = this.target.getPosX();
-                this.targetZ = this.target.getPosZ();
-                double distancedX = this.targetX - this.getPosX();
-                double distancedZ = this.targetZ - this.getPosZ();
+                this.targetX = this.target.getX();
+                this.targetZ = this.target.getZ();
+                double distancedX = this.targetX - this.getX();
+                double distancedZ = this.targetZ - this.getZ();
                 double distancedHeightPlane = Math.sqrt(distancedX * distancedX + distancedZ * distancedZ);
                 double Yplus = 0.4D + distancedHeightPlane / 80.0D - 1.0D;
 
@@ -190,16 +190,16 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
 
                 this.targetY = Math.min(this.target.getBoundingBox().minY + Yplus, MAXHEIGHT);
             } else {
-                this.targetX += (this.rand.nextDouble() * 2.0D - 1.0D) * 2.0D;
-                this.targetZ += (this.rand.nextDouble() * 2.0D - 1.0D) * 2.0D;
+                this.targetX += (this.random.nextDouble() * 2.0D - 1.0D) * 2.0D;
+                this.targetZ += (this.random.nextDouble() * 2.0D - 1.0D) * 2.0D;
             }
 
             // Reset target
             if (this.forceNewTarget
                     || distance < 3.0D
                     || distance > 250.0D
-                    || this.collidedHorizontally
-                    || this.collidedVertically
+                    || this.horizontalCollision
+                    || this.verticalCollision
                     || this.targetY > MAXHEIGHT) {
                 this.setNewTarget();
             }
@@ -215,10 +215,10 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 distanceY = (double)limitDistanceY;
             }
 
-            setMotion(getMotion().add(0, distanceY * 0.1D, 0));
-            this.rotationYaw = MathHelper.wrapDegrees(this.rotationYaw);
+            setDeltaMovement(getDeltaMovement().add(0, distanceY * 0.1D, 0));
+            this.yRot = MathHelper.wrapDegrees(this.yRot);
             double newYaw = 180.0D - Math.atan2(distanceX, distanceZ) * 180.0D / Math.PI;
-            double differenceYaw = MathHelper.wrapDegrees(newYaw - (double)this.rotationYaw);
+            double differenceYaw = MathHelper.wrapDegrees(newYaw - (double)this.yRot);
 
             limitDifferenceYaw = 50.0D;
             
@@ -230,9 +230,9 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 differenceYaw = -limitDifferenceYaw;
             }
 
-            Vector3d distanceVector = new Vector3d(this.targetX - this.getPosX(), this.targetY - this.getPosY(), this.targetZ - this.getPosZ()).normalize();
-            Vector3d rotationVector = new Vector3d((double)MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F), m.y, (double)(-MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F))).normalize();
-            float dynamicMotionMultiplier = (float)(rotationVector.dotProduct(distanceVector) + 0.5D) / 1.5F;
+            Vector3d distanceVector = new Vector3d(this.targetX - this.getX(), this.targetY - this.getY(), this.targetZ - this.getZ()).normalize();
+            Vector3d rotationVector = new Vector3d((double)MathHelper.sin(this.yRot * (float)Math.PI / 180.0F), m.y, (double)(-MathHelper.cos(this.yRot * (float)Math.PI / 180.0F))).normalize();
+            float dynamicMotionMultiplier = (float)(rotationVector.dot(distanceVector) + 0.5D) / 1.5F;
 
             if (dynamicMotionMultiplier < 0.0F) {
                 dynamicMotionMultiplier = 0.0F;
@@ -247,22 +247,22 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
             }
 
             this.randomYawVelocity = (float)((double)this.randomYawVelocity + differenceYaw * (0.7D / motionDistanceHeightPlane / (double)motionDistanceHeightPlaneFloat));
-            this.rotationYaw += this.randomYawVelocity * 0.1F;
+            this.yRot += this.randomYawVelocity * 0.1F;
             float scaledMotionDistanceHeightPlane = (float)(2.0D / (motionDistanceHeightPlane + 1.0D));
             float staticMotionMultiplier = 0.03F;
             this.moveRelative(staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), new Vector3d(0.0D, 0.0D, -1.0D));
 
-            this.move(MoverType.SELF, getMotion());
+            this.move(MoverType.SELF, getDeltaMovement());
 
-            Vector3d vec3d3 = this.getMotion().normalize();
-            double d6 = 0.8D + 0.15D * (vec3d3.dotProduct(rotationVector) + 1.0D) / 2.0D;
-            this.setMotion(this.getMotion().mul(d6, 0.91F, d6));
+            Vector3d vec3d3 = this.getDeltaMovement().normalize();
+            double d6 = 0.8D + 0.15D * (vec3d3.dot(rotationVector) + 1.0D) / 2.0D;
+            this.setDeltaMovement(this.getDeltaMovement().multiply(d6, 0.91F, d6));
         }
 
-        this.renderYawOffset = this.rotationYaw;
+        this.yBodyRot = this.yRot;
         
-        if (!this.world.isRemote() && this.hurtTime == 0 && this.isAlive()) {
-            this.attackEntitiesInList(this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().grow(1.0D, 0.0D, 1.0D)));
+        if (!this.level.isClientSide() && this.hurtTime == 0 && this.isAlive()) {
+            this.attackEntitiesInList(this.level.getEntities(this, this.getBoundingBox().inflate(1.0D, 0.0D, 1.0D)));
         }
         
         // Update wing progress
@@ -276,7 +276,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 wingGoUp = true;
         }
         
-        if (!this.world.isRemote() && this.world.getDifficulty() == Difficulty.PEACEFUL) {
+        if (!this.level.isClientSide() && this.level.getDifficulty() == Difficulty.PEACEFUL) {
             this.remove();
         }
     }
@@ -284,7 +284,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
     private void attackEntitiesInList(List<Entity> entities) {
         int chance = EntityPoisonousLibelleConfig.poisonChance;
         for (Entity entity : entities) {
-            if(chance > 0 && world.rand.nextInt(chance) == 0) {
+            if(chance > 0 && level.random.nextInt(chance) == 0) {
                 if (entity instanceof LivingEntity) {
                     boolean shouldAttack = true;
                     if (entity instanceof PlayerEntity) {
@@ -295,8 +295,8 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                     }
                     if (shouldAttack) {
                         if (EntityPoisonousLibelleConfig.hasAttackDamage)
-                            entity.attackEntityFrom(DamageSource.causeMobDamage(this), 0.5F);
-                        ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.POISON, POISON_DURATION * 20, 1));
+                            entity.hurt(DamageSource.mobAttack(this), 0.5F);
+                        ((LivingEntity) entity).addEffect(new EffectInstance(Effects.POISON, POISON_DURATION * 20, 1));
                     }
                 }
             }
@@ -307,8 +307,8 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
         this.forceNewTarget = false;
 
         boolean targetSet = false;
-        if (this.rand.nextInt(2) == 0 && !this.world.getPlayers().isEmpty() && !this.world.isDaytime()) {
-            this.target = (Entity)this.world.getPlayers().get(this.rand.nextInt(this.world.getPlayers().size()));
+        if (this.random.nextInt(2) == 0 && !this.level.players().isEmpty() && !this.level.isDay()) {
+            this.target = (Entity)this.level.players().get(this.random.nextInt(this.level.players().size()));
             targetSet = true;
             if(target instanceof PlayerEntity) {
                 if(((PlayerEntity)target).isCreative()) {
@@ -321,14 +321,14 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
             boolean flag;
 
             do {
-                this.targetX = this.getPosX();
-                this.targetY = (double)(MAXHEIGHT - this.rand.nextFloat() * 30.0F);
-                this.targetZ = this.getPosZ();
-                this.targetX += (double)(this.rand.nextFloat() * 120.0F - 60.0F);
-                this.targetZ += (double)(this.rand.nextFloat() * 120.0F - 60.0F);
-                double d0 = this.getPosX() - this.targetX;
-                double d1 = this.getPosY() - this.targetY;
-                double d2 = this.getPosZ() - this.targetZ;
+                this.targetX = this.getX();
+                this.targetY = (double)(MAXHEIGHT - this.random.nextFloat() * 30.0F);
+                this.targetZ = this.getZ();
+                this.targetX += (double)(this.random.nextFloat() * 120.0F - 60.0F);
+                this.targetZ += (double)(this.random.nextFloat() * 120.0F - 60.0F);
+                double d0 = this.getX() - this.targetX;
+                double d1 = this.getY() - this.targetY;
+                double d2 = this.getZ() - this.targetZ;
                 flag = d0 * d0 + d1 * d1 + d2 * d2 > 20.0D;
             } while (!flag);
 

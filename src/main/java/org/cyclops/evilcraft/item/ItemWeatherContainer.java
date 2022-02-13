@@ -30,6 +30,8 @@ import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
 
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
  * WeatherContainerType which contains the actual data and functionality that
@@ -64,19 +66,19 @@ public class ItemWeatherContainer extends Item {
     }
 
     @Override
-    public UseAction getUseAction(ItemStack itemStack) {
+    public UseAction getUseAnimation(ItemStack itemStack) {
         return UseAction.BOW;
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if(!world.isRemote() && getWeatherType(itemStack) != WeatherContainerType.EMPTY) {
-            world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if(!world.isClientSide() && getWeatherType(itemStack) != WeatherContainerType.EMPTY) {
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             EntityWeatherContainer entity = new EntityWeatherContainer(world, player, itemStack.copy());
             // MCP: shoot
-            entity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
-            world.addEntity(entity);
+            entity.shootFromRotation(player, player.xRot, player.yRot, -20.0F, 0.5F, 1.0F);
+            world.addFreshEntity(entity);
             
             itemStack.shrink(1);
         }
@@ -104,14 +106,14 @@ public class ItemWeatherContainer extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
         WeatherContainerType type = getWeatherType(itemStack);
-        list.add(type.description.mergeStyle(type.damageColor));
+        list.add(type.description.withStyle(type.damageColor));
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             for (WeatherContainerType type : WeatherContainerType.values()) {
                 ItemStack stack = new ItemStack(this);
                 setWeatherType(stack, type);
@@ -186,7 +188,7 @@ public class ItemWeatherContainer extends Item {
          * @param containerStack The weather container that was thrown.
          */
         public void onUse(ServerWorld world, ItemStack containerStack) {
-            if (world.isRemote())
+            if (world.isClientSide())
                 return;
             
             if (type != null)

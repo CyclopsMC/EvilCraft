@@ -18,12 +18,12 @@ public class PotionPaling extends Effect {
     }
 
     @Override
-    public boolean isReady(int duration, int amplifier) {
+    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 
     @Override
-    public void performEffect(LivingEntity entity, int amplifier) {
-        entity.attackEntityFrom(ExtendedDamageSource.paling, ((float) amplifier) / 4);
+    public void applyEffectTick(LivingEntity entity, int amplifier) {
+        entity.hurt(ExtendedDamageSource.paling, ((float) amplifier) / 4);
     }
 }

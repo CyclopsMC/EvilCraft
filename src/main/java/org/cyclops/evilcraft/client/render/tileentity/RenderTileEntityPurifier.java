@@ -39,7 +39,7 @@ import org.cyclops.evilcraft.tileentity.tickaction.purifier.DisenchantPurifyActi
  */
 public class RenderTileEntityPurifier extends TileEntityRenderer<TilePurifier> {
 
-    public static final RenderMaterial TEXTURE_BLOOK = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, new ResourceLocation(Reference.MOD_ID, "entity/blook"));
+    public static final RenderMaterial TEXTURE_BLOOK = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS, new ResourceLocation(Reference.MOD_ID, "entity/blook"));
     private final BookModel enchantmentBook = new BookModel();
 
     public RenderTileEntityPurifier(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -59,12 +59,12 @@ public class RenderTileEntityPurifier extends TileEntityRenderer<TilePurifier> {
         }
 
         // Render item inside
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
         if(!tile.getPurifyItem().isEmpty()) {
             renderItem(matrixStackIn, bufferIn, tile.getPurifyItem(), tile.getRandomRotation());
         }
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
 
         // Render fluid
         FluidStack fluid = tile.getTank().getFluid();
@@ -75,35 +75,35 @@ public class RenderTileEntityPurifier extends TileEntityRenderer<TilePurifier> {
             int i3 = brightness & 0xFFFF;
 
             TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
-            Triple<Float, Float, Float> color = Helpers.intToRGB(fluid.getFluid().getAttributes().getColor(tile.getWorld(), tile.getPos()));
+            Triple<Float, Float, Float> color = Helpers.intToRGB(fluid.getFluid().getAttributes().getColor(tile.getLevel(), tile.getBlockPos()));
 
-            IVertexBuilder vb = bufferIn.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
-            Matrix4f matrix = matrixStackIn.getLast().getMatrix();
-            vb.pos(matrix, 0.0625F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMinU(), icon.getMaxV()).lightmap(l2, i3).endVertex();
-            vb.pos(matrix, 0.0625F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-            vb.pos(matrix, 0.9375F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-            vb.pos(matrix, 0.9375F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMaxU(), icon.getMaxV()).lightmap(l2, i3).endVertex();
+            IVertexBuilder vb = bufferIn.getBuffer(RenderType.text(icon.atlas().location()));
+            Matrix4f matrix = matrixStackIn.last().pose();
+            vb.vertex(matrix, 0.0625F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV1()).uv2(l2, i3).endVertex();
+            vb.vertex(matrix, 0.0625F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV0()).uv2(l2, i3).endVertex();
+            vb.vertex(matrix, 0.9375F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV0()).uv2(l2, i3).endVertex();
+            vb.vertex(matrix, 0.9375F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV1()).uv2(l2, i3).endVertex();
         });
 	}
 	
 	private void renderItem(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, ItemStack itemStack, float rotation) {
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         if (itemStack.getItem() instanceof BlockItem) {
             matrixStackIn.translate(1F, 1.2F, 1F);
             matrixStackIn.scale(0.6F, 0.6F, 0.6F);
         } else {
             matrixStackIn.translate(1F, 1.2F, 1F);
-            matrixStackIn.rotate(Vector3f.XP.rotationDegrees(25F));
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(25F));
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(rotation));
+            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(25F));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(25F));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
         }
 
-        Minecraft.getInstance().getItemRenderer().renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
-        matrixStackIn.pop();
+        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
+        matrixStackIn.popPose();
     }
 
     private void renderAdditionalItem(TilePurifier tile, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, ItemStack itemStack, float partialTickTime) {
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         float tick = (float)tile.tickCount + partialTickTime;
         matrixStackIn.translate(0.5F, 0.75F, 0.5F);
         matrixStackIn.translate(0.0F, 0.1F + MathHelper.sin(tick * 0.1F) * 0.01F, 0.0F);
@@ -120,21 +120,21 @@ public class RenderTileEntityPurifier extends TileEntityRenderer<TilePurifier> {
         }
 
         float rotation = tile.additionalRotationPrev + speedUp * partialTickTime;
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
 
         matrixStackIn.translate(0F, 0.5F, 0F);
         if (!(itemStack.getItem() instanceof BlockItem)) {
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(25));
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(rotation));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(25));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
         }
 
-        Minecraft.getInstance().getItemRenderer().renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
+        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
 
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
     }
 
 	private void renderBook(TilePurifier tile, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn, ItemStack itemStack, float partialTickTime) {
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         matrixStackIn.translate(0.5F, 0.75F, 0.5F);
         float tick = (float)tile.tickCount + partialTickTime;
         matrixStackIn.translate(0.0F, 0.1F + MathHelper.sin(tick * 0.1F) * 0.01F, 0.0F);
@@ -147,19 +147,19 @@ public class RenderTileEntityPurifier extends TileEntityRenderer<TilePurifier> {
         }
 
         float rotation = tile.additionalRotationPrev + speedUp * partialTickTime;
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
-        matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(80.0F));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
+        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(80.0F));
 
-        float f3 = MathHelper.lerp(partialTickTime, tile.field_195524_g, tile.field_195523_f);
+        float f3 = MathHelper.lerp(partialTickTime, tile.oFlip, tile.flip);
         float f4 = MathHelper.frac(f3 + 0.25F) * 1.6F - 0.3F;
         float f5 = MathHelper.frac(f3 + 0.75F) * 1.6F - 0.3F;
-        float f6 = MathHelper.lerp(partialTickTime, tile.field_195528_k, tile.field_195527_j);
-        this.enchantmentBook.setBookState(rotation, MathHelper.clamp(f4, 0.0F, 1.0F), MathHelper.clamp(f5, 0.0F, 1.0F), f6);
-        RenderMaterial material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantmentTableTileEntityRenderer.TEXTURE_BOOK;
-        IVertexBuilder ivertexbuilder = material.getBuffer(bufferIn, RenderType::getEntitySolid);
-        this.enchantmentBook.renderAll(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+        float f6 = MathHelper.lerp(partialTickTime, tile.oOpen, tile.open);
+        this.enchantmentBook.setupAnim(rotation, MathHelper.clamp(f4, 0.0F, 1.0F), MathHelper.clamp(f5, 0.0F, 1.0F), f6);
+        RenderMaterial material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantmentTableTileEntityRenderer.BOOK_LOCATION;
+        IVertexBuilder ivertexbuilder = material.buffer(bufferIn, RenderType::entitySolid);
+        this.enchantmentBook.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
 
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
 	}
 
 }

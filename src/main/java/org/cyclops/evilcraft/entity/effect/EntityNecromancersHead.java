@@ -57,7 +57,7 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
 
 	@Nonnull
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public IPacket<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
     
@@ -70,17 +70,17 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
     }
     
     protected void spawnSwarm(LivingEntity necromancer, LivingEntity target) {
-    	World world = target.world;
-    	int amount = world.rand.nextInt(2) + 3;
+    	World world = target.level;
+    	int amount = world.random.nextInt(2) + 3;
     	for(int i = 0; i < amount; i++) {
 			EntityControlledZombie mob = new EntityControlledZombie(world);
-			if(mob.canAttack(target.getType())) {
-				mob.copyLocationAndAnglesFrom(necromancer);
-				mob.move(MoverType.SELF, new Vector3d(world.rand.nextInt(20) - 10, 0, world.rand.nextInt(20) - 10));
+			if(mob.canAttackType(target.getType())) {
+				mob.copyPosition(necromancer);
+				mob.move(MoverType.SELF, new Vector3d(world.random.nextInt(20) - 10, 0, world.random.nextInt(20) - 10));
 				if(EntityHelpers.spawnEntity(world, mob, SpawnReason.MOB_SUMMONED)) {
 					observables.add(mob);
 				}
-				mob.setAttackTarget(target);
+				mob.setTarget(target);
 				mob.setTtl(DURATION);
 			}
     	}
@@ -95,7 +95,7 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
     @Override
     public void tick() {
     	super.tick();
-    	if(observing && !world.isRemote() && WorldHelpers.efficientTick(world, 10)) {
+    	if(observing && !level.isClientSide() && WorldHelpers.efficientTick(level, 10)) {
     		if(!observables.isEmpty()) {
     			Iterator<EntityControlledZombie> it = observables.iterator();
     			while(it.hasNext()) {
@@ -116,7 +116,7 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
     }
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 
 	}
 
@@ -129,18 +129,18 @@ public class EntityNecromancersHead extends ThrowableEntity implements IRendersA
     
     protected void setObserverMode() {
     	observing = true;
-    	setMotion(0, 0, 0);
+    	setDeltaMovement(0, 0, 0);
     	setInvisible(true);
     }
 
     @Override
-    protected void onImpact(RayTraceResult position) {
-    	if(position.getType() == RayTraceResult.Type.ENTITY && !observing && !getEntityWorld().isRemote()) {
-			((EntityRayTraceResult) position).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 0.0F);
-	        if(func_234616_v_() instanceof ServerPlayerEntity
-					&& func_234616_v_() != ((EntityRayTraceResult) position).getEntity()
+    protected void onHit(RayTraceResult position) {
+    	if(position.getType() == RayTraceResult.Type.ENTITY && !observing && !getCommandSenderWorld().isClientSide()) {
+			((EntityRayTraceResult) position).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+	        if(getOwner() instanceof ServerPlayerEntity
+					&& getOwner() != ((EntityRayTraceResult) position).getEntity()
 					&& ((EntityRayTraceResult) position).getEntity() instanceof LivingEntity) {
-	        	spawnSwarm((LivingEntity) this.func_234616_v_(), (LivingEntity) ((EntityRayTraceResult) position).getEntity());
+	        	spawnSwarm((LivingEntity) this.getOwner(), (LivingEntity) ((EntityRayTraceResult) position).getEntity());
 	        } else {
 				this.remove();
 	        }

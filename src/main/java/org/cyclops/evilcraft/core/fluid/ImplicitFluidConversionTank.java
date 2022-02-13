@@ -4,6 +4,8 @@ import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 /**
  * A single use tank that can accept multiple types of fluids.
  * @author rubensworks

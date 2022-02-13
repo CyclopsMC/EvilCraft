@@ -22,5 +22,5 @@ public class RenderHelpers {
     /**
      * Texture sheet of all blocks.
      */
-    public static ResourceLocation TEXTURE_MAP = AtlasTexture.LOCATION_BLOCKS_TEXTURE;
+    public static ResourceLocation TEXTURE_MAP = AtlasTexture.LOCATION_BLOCKS;
 }

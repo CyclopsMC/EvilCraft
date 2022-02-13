@@ -16,8 +16,8 @@ public class ItemInvertedPotentiaConfig extends ItemConfig {
                 EvilCraft._instance,
                 "inverted_potentia" + (empowered ? "_empowered" : ""),
                 eConfig -> new ItemInvertedPotentia(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(16), empowered)
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(16), empowered)
         );
     }
     

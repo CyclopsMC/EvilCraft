@@ -34,11 +34,16 @@ public class ContainerScreenPrimedPendant extends ContainerScreenExtended<Contai
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
         // super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-        ItemStack itemStack = container.getItemStack(playerInventory.player);
+        ItemStack itemStack = container.getItemStack(inventory.player);
         // MCP: drawString
-        this.font.func_243248_b(matrixStack, itemStack.getDisplayName(), 28, 6, 4210752);
+        this.font.draw(matrixStack, itemStack.getHoverName(), 28, 6, 4210752);
     }
-    
+
+    @Override
+    protected void renderBg(MatrixStack p_230450_1_, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
+        // TODO: rm
+    }
+
 }

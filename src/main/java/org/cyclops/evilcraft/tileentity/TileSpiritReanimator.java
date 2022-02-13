@@ -45,6 +45,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.cyclops.evilcraft.core.tileentity.TileWorking.Inventory;
+
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
  * @author rubensworks
@@ -159,22 +161,22 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new Inventory<TileSpiritReanimator>(inventorySize, stackSize, this) {
             @Override
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            public boolean canPlaceItem(int slot, ItemStack itemStack) {
                 if(slot == SLOT_BOX)
-                    return getTileWorkingMetadata().canConsume(itemStack, getWorld());
+                    return getTileWorkingMetadata().canConsume(itemStack, getLevel());
                 if(slot == SLOT_EGG)
                     return itemStack.getItem() == Items.EGG
                             /*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
                 if(slot == SLOT_CONTAINER)
                     return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
-                return super.isItemValidForSlot(slot, itemStack);
+                return super.canPlaceItem(slot, itemStack);
             }
         };
     }
 
     @Override
     public Direction getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockSpiritReanimator.FACING, Direction.NORTH).getOpposite();
+        return BlockHelpers.getSafeBlockStateProperty(getLevel().getBlockState(getBlockPos()), BlockSpiritReanimator.FACING, Direction.NORTH).getOpposite();
     }
     
     @Override
@@ -193,7 +195,7 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
      */
     @Nullable
     public EntityType<?> getEntityType() {
-        ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+        ItemStack boxStack = getInventory().getItem(getConsumeSlot());
         if(boxStack.getItem() == getAllowedCookItem()) {
             return BlockBoxOfEternalClosure.getSpiritTypeRaw(boxStack.getTag());
         }
@@ -223,19 +225,19 @@ public class TileSpiritReanimator extends TileWorking<TileSpiritReanimator, Muta
 
     @Override
 	public boolean canWork() {
-		ItemStack eggStack = getInventory().getStackInSlot(SLOT_EGG);
-		ItemStack outputStack = getInventory().getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
+		ItemStack eggStack = getInventory().getItem(SLOT_EGG);
+		ItemStack outputStack = getInventory().getItem(TileSpiritReanimator.SLOTS_OUTPUT);
         EntityType<?> entityType = getEntityType();
         boolean validNameStack = entityType != null
                 && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
-                        && SpawnEggItem.EGGS.get(entityType) == outputStack.getItem()));
+                        && SpawnEggItem.BY_ID.get(entityType) == outputStack.getItem()));
         return !eggStack.isEmpty() && validNameStack;
 	}
 	
 	@Override
     public void onStateChanged() {
-        world.setBlockState(getPos(), world.getBlockState(getPos()).with(BlockSpiritReanimator.ON, isWorking()));
+        level.setBlockAndUpdate(getBlockPos(), level.getBlockState(getBlockPos()).setValue(BlockSpiritReanimator.ON, isWorking()));
     }
 
     @Nullable

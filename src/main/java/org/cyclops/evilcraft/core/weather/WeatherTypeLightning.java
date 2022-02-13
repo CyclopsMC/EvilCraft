@@ -27,12 +27,12 @@ public class WeatherTypeLightning extends WeatherType {
 
     @Override
     public void deactivate(ServerWorld world) {
-        ((IServerWorldInfo) world.getWorldInfo()).setThundering(false);
+        ((IServerWorldInfo) world.getLevelData()).setThundering(false);
     }
 
     public static void activateThunder(ServerWorld world) {
-        IServerWorldInfo worldInfo = (IServerWorldInfo) world.getWorldInfo();
-        int i = (300 + world.rand.nextInt(600)) * 20;
+        IServerWorldInfo worldInfo = (IServerWorldInfo) world.getLevelData();
+        int i = (300 + world.random.nextInt(600)) * 20;
         worldInfo.setRainTime(i);
         worldInfo.setThunderTime(i);
         worldInfo.setRaining(true);

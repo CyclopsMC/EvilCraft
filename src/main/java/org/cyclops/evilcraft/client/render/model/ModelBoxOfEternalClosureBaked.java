@@ -86,17 +86,27 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture() {
-        return boxModel.getParticleTexture();
+    public TextureAtlasSprite getParticleIcon() {
+        return boxModel.getParticleIcon();
     }
 
     @Override
-    public boolean isSideLit() {
+    public boolean useAmbientOcclusion() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public boolean usesBlockLight() {
         return false; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public ItemCameraTransforms getItemCameraTransforms() {
+    public boolean isCustomRenderer() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public ItemCameraTransforms getTransforms() {
         return TRANSFORMS;
     }
 }

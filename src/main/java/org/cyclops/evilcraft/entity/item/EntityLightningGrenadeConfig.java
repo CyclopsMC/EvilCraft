@@ -22,7 +22,7 @@ public class EntityLightningGrenadeConfig extends EntityConfig<EntityLightningGr
         super(
                 EvilCraft._instance,
             "lightning_grenade",
-                eConfig -> EntityType.Builder.<EntityLightningGrenade>create(EntityLightningGrenade::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityLightningGrenade>of(EntityLightningGrenade::new, EntityClassification.MISC)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }

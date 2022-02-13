@@ -59,14 +59,14 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         int enchantmentListID = EnchantmentHelpers.doesEnchantApply(purifyItem, enchant);
         if(enchantmentListID > -1) {
             if(tick >= PURIFY_DURATION) {
-                if(!world.isRemote()) {
+                if(!world.isClientSide()) {
                     int level = EnchantmentHelpers.getEnchantmentLevel(purifyItem, enchantmentListID);
                     EnchantmentHelpers.setEnchantmentLevel(purifyItem, enchantmentListID, level - 1);
                 }
                 tile.setBuckets(tile.getBucketsFloored() - 1, tile.getBucketsRest());
                 return true;
             }
-            if(world.isRemote()) {
+            if(world.isClientSide()) {
                 tile.showEffect();
             }
         }
@@ -78,7 +78,7 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
         boolean done = false;
 
         ItemStack purifyItem = tile.getPurifyItem();
-        World world = tile.getWorld();
+        World world = tile.getLevel();
         int tick = tile.getTick();
 
         // Try removing curses

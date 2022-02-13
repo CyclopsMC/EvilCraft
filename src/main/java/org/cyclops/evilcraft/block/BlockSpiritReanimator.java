@@ -32,21 +32,21 @@ public class BlockSpiritReanimator extends BlockTileGuiTank {
     public BlockSpiritReanimator(Block.Properties properties) {
         super(properties, TileSpiritReanimator::new);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(FACING, Direction.NORTH)
-                .with(ON, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(ON, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, ON);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState()
-                .with(FACING, context.getPlacementHorizontalFacing())
-                .with(ON, false);
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection())
+                .setValue(ON, false);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class BlockSpiritReanimator extends BlockTileGuiTank {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState blockState, World world, BlockPos blockPos, Random random) {
-        ParticleBloodBubble.randomDisplayTick((TileWorking) world.getTileEntity(blockPos), world, blockPos,
+        ParticleBloodBubble.randomDisplayTick((TileWorking) world.getBlockEntity(blockPos), world, blockPos,
                 random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, Direction.NORTH));
         super.animateTick(blockState, world, blockPos, random);
     }

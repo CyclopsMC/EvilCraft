@@ -16,7 +16,7 @@ public class ItemHardenedBloodShardConfig extends ItemConfig {
                 EvilCraft._instance,
             "hardened_blood_shard",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

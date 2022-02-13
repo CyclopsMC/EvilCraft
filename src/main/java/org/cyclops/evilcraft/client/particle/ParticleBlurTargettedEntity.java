@@ -21,29 +21,29 @@ public class ParticleBlurTargettedEntity extends ParticleBlur {
 
 	public ParticleBlurTargettedEntity(ParticleBlurTargettedEntityData data, ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
 		super(data, world, x, y, z, motionX, motionY, motionZ);
-		Entity entityUnknown = world.getEntityByID(data.getEntityId());
+		Entity entityUnknown = world.getEntity(data.getEntityId());
 		this.entity = entityUnknown != null ? (LivingEntity) entityUnknown : null;
 	}
 	
 	@Override
 	public void tick() {
-		prevPosX = posX;
-		prevPosY = posY;
-		prevPosZ = posZ;
+		xo = x;
+		yo = y;
+		zo = z;
 
-		if(age++ >= maxAge || entity == null || entity.getItemInUseCount() == 0) {
-			setExpired();
+		if(age++ >= lifetime || entity == null || entity.getUseItemRemainingTicks() == 0) {
+			remove();
 		}
 
-		float f = (float)this.age / (float)this.maxAge;
+		float f = (float)this.age / (float)this.lifetime;
 		float f1 = f;
 		f = -f + f * f * 2.0F;
 		//f = 1.0F - f;
-		motionY -= 0.04D * particleGravity;
+		yd -= 0.04D * gravity;
 		if (entity != null) {
-			posX = entity.getPosX() + motionX * f;
-			posY = entity.getPosY() + entity.getEyeHeight() - 0.5F + motionY * f + (double) (1.0F - f1) + (Minecraft.getInstance().player == entity ? 0 : 1);
-			posZ = entity.getPosZ() + motionZ * f;
+			x = entity.getX() + xd * f;
+			y = entity.getY() + entity.getEyeHeight() - 0.5F + yd * f + (double) (1.0F - f1) + (Minecraft.getInstance().player == entity ? 0 : 1);
+			z = entity.getZ() + zd * f;
 		}
 	}
 

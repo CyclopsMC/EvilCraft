@@ -16,7 +16,7 @@ public class ItemPoisonSacConfig extends ItemConfig {
                 EvilCraft._instance,
             "poison_sac",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

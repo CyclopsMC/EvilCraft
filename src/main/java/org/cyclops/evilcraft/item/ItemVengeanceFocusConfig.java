@@ -16,7 +16,7 @@ public class ItemVengeanceFocusConfig extends ItemConfig {
                 EvilCraft._instance,
                 "vengeance_focus",
                 eConfig -> new ItemVengeanceFocus(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

@@ -39,14 +39,14 @@ public class RenderTileEntityEntangledChalice extends TileEntityRenderer<TileEnt
                     int i3 = brightness & 0xFFFF;
 
                     TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
-                    Triple<Float, Float, Float> color = Helpers.intToRGB(fluid.getFluid().getAttributes().getColor(tile.getWorld(), tile.getPos()));
+                    Triple<Float, Float, Float> color = Helpers.intToRGB(fluid.getFluid().getAttributes().getColor(tile.getLevel(), tile.getBlockPos()));
 
-                    IVertexBuilder vb = renderTypeBuffer.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
-                    Matrix4f matrix = matrixStack.getLast().getMatrix();
-                    vb.pos(matrix, 0.1875F, height, 0.1875F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMinU(), icon.getMaxV()).lightmap(l2, i3).endVertex();
-                    vb.pos(matrix, 0.1875F, height, 0.8125F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMinU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-                    vb.pos(matrix, 0.8125F, height, 0.8125F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMaxU(), icon.getMinV()).lightmap(l2, i3).endVertex();
-                    vb.pos(matrix, 0.8125F, height, 0.1875F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).tex(icon.getMaxU(), icon.getMaxV()).lightmap(l2, i3).endVertex();
+                    IVertexBuilder vb = renderTypeBuffer.getBuffer(RenderType.text(icon.atlas().location()));
+                    Matrix4f matrix = matrixStack.last().pose();
+                    vb.vertex(matrix, 0.1875F, height, 0.1875F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV1()).uv2(l2, i3).endVertex();
+                    vb.vertex(matrix, 0.1875F, height, 0.8125F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV0()).uv2(l2, i3).endVertex();
+                    vb.vertex(matrix, 0.8125F, height, 0.8125F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV0()).uv2(l2, i3).endVertex();
+                    vb.vertex(matrix, 0.8125F, height, 0.1875F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV1()).uv2(l2, i3).endVertex();
                 });
             } catch (NullPointerException e) {
                 // This can happen because worlds are multi-threaded, and the fluid suddenly may become null while out fluid context is being executed.

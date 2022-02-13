@@ -25,10 +25,10 @@ public class BlockUndeadLeavesConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_leaves",
-                eConfig -> new BlockUndeadLeaves(Block.Properties.create(Material.LEAVES)
-                        .hardnessAndResistance(0.5F)
-                        .sound(SoundType.GROUND)
-                        .notSolid()),
+                eConfig -> new BlockUndeadLeaves(Block.Properties.of(Material.LEAVES)
+                        .strength(0.5F)
+                        .sound(SoundType.GRAVEL)
+                        .noOcclusion()),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
@@ -37,7 +37,7 @@ public class BlockUndeadLeavesConfig extends BlockConfig {
     public void onForgeRegistered() {
         super.onForgeRegistered();
         BlockHelpers.setFireInfo(getInstance(), 30, 60);
-        ComposterBlock.CHANCES.put(getItemInstance(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(getItemInstance(), 0.3F);
     }
 
 }

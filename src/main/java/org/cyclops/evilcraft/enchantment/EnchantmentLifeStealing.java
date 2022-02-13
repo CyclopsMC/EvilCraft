@@ -13,6 +13,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 /**
  * Enchantment that steals the HP when hit another Entity.
  * @author rubensworks
@@ -27,9 +29,9 @@ public class EnchantmentLifeStealing extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void stealLife(LivingAttackEvent event) {
-        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-            ItemStack itemStack = player.getHeldItemMainhand();
+        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getSource().getEntity();
+            ItemStack itemStack = player.getMainHandItem();
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
             if (enchantmentListID > -1) {
                 float damage = event.getAmount();
@@ -41,13 +43,13 @@ public class EnchantmentLifeStealing extends Enchantment {
     }
     
     @Override
-    public int getMinEnchantability(int level) {
+    public int getMinCost(int level) {
         return 15 + (level - 1) * 15;
     }
     
     @Override
-    public int getMaxEnchantability(int level) {
-        return super.getMinEnchantability(level) + 50;
+    public int getMaxCost(int level) {
+        return super.getMinCost(level) + 50;
     }
     
     @Override

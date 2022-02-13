@@ -39,7 +39,7 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<ItemPrimedPen
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity player) {
+    public boolean stillValid(PlayerEntity player) {
         return true;
     }
 }

@@ -73,22 +73,22 @@ public class FartPacket extends PlayerPositionPacket {
     @OnlyIn(Dist.CLIENT)
     private void spawnFartParticles(
             World world, PlayerEntity player,
-            Vector3d pos, boolean isRemotePlayer) {
+            Vector3d pos, boolean isClientSidePlayer) {
         
         if (player == null)
             return;
         
-        Random rand = world.rand;
+        Random rand = world.random;
         int numParticles = rand.nextInt(MAX_PARTICLES - MIN_PARTICLES) + MIN_PARTICLES;
         boolean rainbow = hasRainbowFart(player);
         
         // Make corrections for the player rotation
-        double yaw = (player.rotationYaw * Math.PI) / 180;
+        double yaw = (player.yRot * Math.PI) / 180;
         double playerXOffset = Math.sin(yaw) * 0.7;
         double playerZOffset = -Math.cos(yaw) * 0.7;
         
         // Make corrections for the location of the player's bottom
-        float playerYOffset = isRemotePlayer ? REMOTE_PLAYER_Y_OFFSET : CLIENT_PLAYER_Y_OFFSET;
+        float playerYOffset = isClientSidePlayer ? REMOTE_PLAYER_Y_OFFSET : CLIENT_PLAYER_Y_OFFSET;
         
         for (int i=0; i < numParticles; i++) {
             double extraDistance = rand.nextFloat() % 0.3;

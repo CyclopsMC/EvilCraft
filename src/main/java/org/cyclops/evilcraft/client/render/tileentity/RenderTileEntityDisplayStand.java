@@ -43,9 +43,9 @@ public class RenderTileEntityDisplayStand extends TileEntityRenderer<TileDisplay
 
     @Override
 	public void render(TileDisplayStand tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        if(!tile.getInventory().getStackInSlot(0).isEmpty()) {
-            BlockState blockState = tile.getWorld().getBlockState(tile.getPos());
-            renderItem(matrixStackIn, bufferIn, tile.getInventory().getStackInSlot(0),
+        if(!tile.getInventory().getItem(0).isEmpty()) {
+            BlockState blockState = tile.getLevel().getBlockState(tile.getBlockPos());
+            renderItem(matrixStackIn, bufferIn, tile.getInventory().getItem(0),
                     BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.FACING, Direction.NORTH),
                     BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.AXIS_X, true),
                     tile.getDirection() == Direction.AxisDirection.POSITIVE);
@@ -53,37 +53,37 @@ public class RenderTileEntityDisplayStand extends TileEntityRenderer<TileDisplay
 	}
 	
 	private void renderItem(MatrixStack matrixStack, IRenderTypeBuffer renderTypeBuffer, ItemStack itemStack, Direction facing, boolean axisX, boolean positiveDirection) {
-        matrixStack.push();
+        matrixStack.pushPose();
 
         matrixStack.translate(0.5F, 0.5F, 0.5F);
         if (itemStack.getItem() instanceof BlockItem) {
             matrixStack.scale(0.6F, 0.6F, 0.6F);
-            matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(90F));
         } else if (itemStack.getItem() instanceof IBroom) {
             matrixStack.scale(2F, 2F, 2F);
         } else if (!(itemStack.getItem() instanceof IBroom)) {
             matrixStack.scale(0.5F, 0.5F, 0.5F);
             matrixStack.translate(0F, 0.25F, 0F);
-            matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(90F));
         }
 
         Vector3f vec = ROTATIONS.get(facing);
-        matrixStack.rotate(Vector3f.XP.rotationDegrees(vec.getX()));
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(vec.getY()));
+        matrixStack.mulPose(Vector3f.XP.rotationDegrees(vec.x()));
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(vec.y()));
 
         if (!axisX) {
-            matrixStack.rotate(Vector3f.YP.rotationDegrees(90F));
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(90F));
             if (!positiveDirection) {
-                matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
+                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
             }
         } else {
             if (positiveDirection) {
-                matrixStack.rotate(Vector3f.YP.rotationDegrees(180F));
+                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
             }
         }
 
-        Minecraft.getInstance().getItemRenderer().renderItem(itemStack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer);
-        matrixStack.pop();
+        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer);
+        matrixStack.popPose();
     }
 
 }

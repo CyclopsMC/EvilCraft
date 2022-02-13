@@ -23,7 +23,7 @@ public class ItemVeinSwordConfig extends ItemConfig {
                 EvilCraft._instance,
                 "vein_sword",
                 eConfig -> new ItemVeinSword(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

@@ -25,46 +25,46 @@ public class BiomeDegradedConfig extends BiomeConfig {
                 "degraded",
                 eConfig -> {
                     MobSpawnInfo.Builder mobSpawnsBuilder = new MobSpawnInfo.Builder();
-                    DefaultBiomeFeatures.withDesertMobs(mobSpawnsBuilder);
+                    DefaultBiomeFeatures.desertSpawns(mobSpawnsBuilder);
                     BiomeGenerationSettings.Builder generationBuilder = (new BiomeGenerationSettings.Builder())
-                            .withSurfaceBuilder(ConfiguredSurfaceBuilders.field_244172_d);
+                            .surfaceBuilder(ConfiguredSurfaceBuilders.DESERT);
 
-                    DefaultBiomeFeatures.withStrongholdAndMineshaft(generationBuilder);
-                    generationBuilder.withStructure(StructureFeatures.RUINED_PORTAL_DESERT);
-                    DefaultBiomeFeatures.withCavesAndCanyons(generationBuilder);
-                    DefaultBiomeFeatures.withLavaLakes(generationBuilder);
-                    DefaultBiomeFeatures.withMonsterRoom(generationBuilder);
-                    DefaultBiomeFeatures.withCommonOverworldBlocks(generationBuilder);
-                    DefaultBiomeFeatures.withOverworldOres(generationBuilder);
-                    DefaultBiomeFeatures.withDisks(generationBuilder);
+                    DefaultBiomeFeatures.addDefaultOverworldLandStructures(generationBuilder);
+                    generationBuilder.addStructureStart(StructureFeatures.RUINED_PORTAL_DESERT);
+                    DefaultBiomeFeatures.addDefaultCarvers(generationBuilder);
+                    DefaultBiomeFeatures.addDesertLakes(generationBuilder);
+                    DefaultBiomeFeatures.addDefaultMonsterRoom(generationBuilder);
+                    DefaultBiomeFeatures.addDefaultUndergroundVariety(generationBuilder);
+                    DefaultBiomeFeatures.addDefaultOres(generationBuilder);
+                    DefaultBiomeFeatures.addDefaultSoftDisks(generationBuilder);
                     //DefaultBiomeFeatures.withDefaultFlowers(generationBuilder);
                     //DefaultBiomeFeatures.withBadlandsGrass(generationBuilder);
-                    DefaultBiomeFeatures.withDesertDeadBushes(generationBuilder);
-                    DefaultBiomeFeatures.withNormalMushroomGeneration(generationBuilder);
+                    DefaultBiomeFeatures.addDesertVegetation(generationBuilder);
+                    DefaultBiomeFeatures.addDefaultMushrooms(generationBuilder);
                     //DefaultBiomeFeatures.withDesertVegetation(generationBuilder);
-                    DefaultBiomeFeatures.withLavaAndWaterSprings(generationBuilder);
+                    DefaultBiomeFeatures.addDefaultSprings(generationBuilder);
                     //DefaultBiomeFeatures.withDesertWells(generationBuilder);
-                    DefaultBiomeFeatures.withFrozenTopLayer(generationBuilder);
+                    DefaultBiomeFeatures.addSurfaceFreezing(generationBuilder);
 
-                    DefaultBiomeFeatures.withForestGrass(generationBuilder);
+                    DefaultBiomeFeatures.addForestGrass(generationBuilder);
 
                     return new Biome.Builder()
                             .precipitation(Biome.RainType.NONE)
-                            .category(Biome.Category.THEEND)
+                            .biomeCategory(Biome.Category.THEEND)
                             .depth(0.125F)
                             .scale(0.4F)
                             .temperature(0.8F)
                             .downfall(0.9F)
-                            .setEffects((new BiomeAmbience.Builder())
-                                    .setWaterColor(Helpers.RGBToInt(60, 50, 20))
-                                    .setWaterFogColor(Helpers.RGBToInt(60, 50, 20))
-                                    .setFogColor(Helpers.RGBToInt(60, 50, 20))
-                                    .withSkyColor(Helpers.RGBToInt(10, 20, 5))
-                                    .withGrassColor(Helpers.RGBToInt(10, 20, 5))
-                                    .withFoliageColor(Helpers.RGBToInt(10, 20, 50))
-                                    .setMoodSound(MoodSoundAmbience.DEFAULT_CAVE).build())
-                            .withMobSpawnSettings(mobSpawnsBuilder.copy())
-                            .withGenerationSettings(generationBuilder.build())
+                            .specialEffects((new BiomeAmbience.Builder())
+                                    .waterColor(Helpers.RGBToInt(60, 50, 20))
+                                    .waterFogColor(Helpers.RGBToInt(60, 50, 20))
+                                    .fogColor(Helpers.RGBToInt(60, 50, 20))
+                                    .skyColor(Helpers.RGBToInt(10, 20, 5))
+                                    .grassColorOverride(Helpers.RGBToInt(10, 20, 5))
+                                    .foliageColorOverride(Helpers.RGBToInt(10, 20, 50))
+                                    .ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS).build())
+                            .mobSpawnSettings(mobSpawnsBuilder.build())
+                            .generationSettings(generationBuilder.build())
                             .build();
                 }
         );

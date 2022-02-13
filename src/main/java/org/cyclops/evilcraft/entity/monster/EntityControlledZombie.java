@@ -35,12 +35,12 @@ import org.cyclops.evilcraft.item.ItemNecromancerStaff;
  */
 public class EntityControlledZombie extends MonsterEntity {
 
-    private static final DataParameter<Integer> WATCHERID_TTL = EntityDataManager.<Integer>createKey(EntityControlledZombie.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> WATCHERID_TTL = EntityDataManager.<Integer>defineId(EntityControlledZombie.class, DataSerializers.INT);
 
     public EntityControlledZombie(EntityType<? extends EntityControlledZombie> entityType, World world) {
         super(entityType, world);
-        addPotionEffect(new EffectInstance(Effects.NAUSEA, 2000, 0));
-        ((GroundPathNavigator)this.getNavigator()).setBreakDoors(true);
+        addEffect(new EffectInstance(Effects.CONFUSION, 2000, 0));
+        ((GroundPathNavigator)this.getNavigation()).setCanOpenDoors(true);
     }
 
     public EntityControlledZombie(World world) {
@@ -59,65 +59,65 @@ public class EntityControlledZombie extends MonsterEntity {
         this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setCallsForHelp(ZombifiedPiglinEntity.class));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers(ZombifiedPiglinEntity.class));
         this.targetSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, true));
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(WATCHERID_TTL, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(WATCHERID_TTL, 0);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT tag) {
-        super.writeAdditional(tag);
+    public void addAdditionalSaveData(CompoundNBT tag) {
+        super.addAdditionalSaveData(tag);
         tag.putInt("ttl", getTtl());
     }
 
     @Override
-    public void readAdditional(CompoundNBT tag) {
-        super.readAdditional(tag);
+    public void readAdditionalSaveData(CompoundNBT tag) {
+        super.readAdditionalSaveData(tag);
         setTtl(tag.getInt("ttl"));
     }
 
     public int getTtl() {
-        return dataManager.get(WATCHERID_TTL);
+        return entityData.get(WATCHERID_TTL);
     }
 
     public void setTtl(int ttl) {
-        this.dataManager.set(WATCHERID_TTL, ttl);
+        this.entityData.set(WATCHERID_TTL, ttl);
     }
 
     @Override
-    public boolean canAttack(EntityType<?> type) {
+    public boolean canAttackType(EntityType<?> type) {
         return true;
     }
 
     @Override
     public SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_ZOMBIE_AMBIENT;
+        return SoundEvents.ZOMBIE_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_ZOMBIE_HURT;
+        return SoundEvents.ZOMBIE_HURT;
     }
 
     @Override
     public SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_ZOMBIE_DEATH;
+        return SoundEvents.ZOMBIE_DEATH;
     }
 
     @Override
-    public CreatureAttribute getCreatureAttribute() {
+    public CreatureAttribute getMobType() {
         return CreatureAttribute.UNDEAD;
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if(!world.isRemote()) {
+    public void aiStep() {
+        super.aiStep();
+        if(!level.isClientSide()) {
             int ttl = getTtl();
             setTtl(--ttl);
             if (ttl == 0) {

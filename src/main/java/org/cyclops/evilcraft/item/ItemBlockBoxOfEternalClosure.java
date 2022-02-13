@@ -20,6 +20,8 @@ import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
 
     public ItemBlockBoxOfEternalClosure(Block block, Properties builder) {
@@ -39,25 +41,25 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(getInfo(stack));
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 
     @OnlyIn(Dist.CLIENT)
     public ITextComponent getInfo(ItemStack itemStack) {
         ITextComponent content = new TranslationTextComponent("general." + Reference.MOD_ID + ".info.empty")
-                .mergeStyle(TextFormatting.ITALIC);
+                .withStyle(TextFormatting.ITALIC);
         if(BlockBoxOfEternalClosure.hasPlayer(itemStack)) {
             content = new StringTextComponent(BlockBoxOfEternalClosure.getPlayerName(itemStack));
         } else {
             EntityType<?> spiritType = BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack);
             if (spiritType != null) {
-                content = spiritType.getName();
+                content = spiritType.getDescription();
             }
         }
-        return new TranslationTextComponent(getTranslationKey() + ".info.content")
-                .mergeStyle(TextFormatting.LIGHT_PURPLE)
+        return new TranslationTextComponent(getDescriptionId() + ".info.content")
+                .withStyle(TextFormatting.LIGHT_PURPLE)
                 .append(content);
     }
 }

@@ -25,10 +25,10 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
     public boolean canTick(TileSanguinaryEnvironmentalAccumulator tile, ItemStack itemStack, int slot, int tick) {
         // Only allow ticking if production slot is empty or if the producing item is the same and
         // there is at least one spot left in the stack.
-        if (!tile.getInventory().getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE).isEmpty()
+        if (!tile.getInventory().getItem(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE).isEmpty()
                 && tile.getTileWorkingMetadata().canConsume(tile.getInventory()
-                .getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE), tile.getWorld())) {
-            ItemStack production = tile.getInventory().getStackInSlot(tile.getTileWorkingMetadata().getProduceSlot());
+                .getItem(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE), tile.getLevel())) {
+            ItemStack production = tile.getInventory().getItem(tile.getTileWorkingMetadata().getProduceSlot());
             return getRecipe(tile)
                     .map(recipe -> {
                         boolean precondition = false;
@@ -53,9 +53,9 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
         Optional<RecipeEnvironmentalAccumulator> optionalRecipe = getRecipe(tile);
         if(optionalRecipe.isPresent() && tick >= getRequiredTicks(tile, optionalRecipe.get())) {
             RecipeEnvironmentalAccumulator recipe = optionalRecipe.get();
-            ItemStack result = recipe.getCraftingResult(tile.getInventory());
+            ItemStack result = recipe.assemble(tile.getInventory());
             if(addToProduceSlot(tile, result)) {
-                tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
+                tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                 tile.getVirtualTank().drain(getRequiredFluidAmount(tile, recipe), IFluidHandler.FluidAction.EXECUTE);
             }
         }
@@ -80,7 +80,7 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
     }
     
     private Optional<RecipeEnvironmentalAccumulator> getRecipe(TileSanguinaryEnvironmentalAccumulator tile) {
-        return tile.getRecipe(tile.getInventory().getStackInSlot(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE));
+        return tile.getRecipe(tile.getInventory().getItem(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE));
     }
     
     private int getUnmodifiedRequiredTicks(RecipeEnvironmentalAccumulator recipe) {
@@ -94,7 +94,7 @@ public class AccumulateItemTickAction implements ITickAction<TileSanguinaryEnvir
     }
 
     protected ItemStack willProduceItem(TileSanguinaryEnvironmentalAccumulator tile, RecipeEnvironmentalAccumulator recipe) {
-        return recipe.getCraftingResult(tile.getInventory());
+        return recipe.assemble(tile.getInventory());
     }
 
     /**

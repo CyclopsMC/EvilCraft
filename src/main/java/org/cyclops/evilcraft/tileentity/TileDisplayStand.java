@@ -15,6 +15,9 @@ import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * A block that can display items.
  * @author rubensworks
@@ -67,11 +70,11 @@ public class TileDisplayStand extends CyclopsTileEntity implements CyclopsTileEn
     }
 
     protected Direction getFacing() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockDisplayStand.FACING, Direction.NORTH);
+        return BlockHelpers.getSafeBlockStateProperty(getLevel().getBlockState(getBlockPos()), BlockDisplayStand.FACING, Direction.NORTH);
     }
 
     protected ItemStack getContents() {
-        return this.inventory.getStackInSlot(0);
+        return this.inventory.getItem(0);
     }
 
     @Override
@@ -81,9 +84,9 @@ public class TileDisplayStand extends CyclopsTileEntity implements CyclopsTileEn
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tag) {
+    public CompoundNBT save(CompoundNBT tag) {
         inventory.writeToNBT(tag, "inventory");
-        return super.write(tag);
+        return super.save(tag);
     }
 
     @Override
@@ -99,6 +102,6 @@ public class TileDisplayStand extends CyclopsTileEntity implements CyclopsTileEn
     @Override
     public void onUpdateReceived() {
         super.onUpdateReceived();
-        BlockHelpers.markForUpdate(world, pos);
+        BlockHelpers.markForUpdate(level, worldPosition);
     }
 }

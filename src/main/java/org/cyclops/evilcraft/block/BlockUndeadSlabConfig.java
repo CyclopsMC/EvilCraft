@@ -20,8 +20,8 @@ public class BlockUndeadSlabConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_slab",
-                eConfig -> new SlabBlock(AbstractBlock.Properties.create(Material.WOOD, MaterialColor.ORANGE_TERRACOTTA)
-                        .hardnessAndResistance(2.0F, 3.0F)
+                eConfig -> new SlabBlock(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
+                        .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

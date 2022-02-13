@@ -13,13 +13,15 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
+import net.minecraft.particles.IParticleData.IDeserializer;
+
 /**
  * @author rubensworks
  */
 public class ParticleExplosionExtendedData implements IParticleData {
 
     public static final IDeserializer<ParticleExplosionExtendedData> DESERIALIZER = new IDeserializer<ParticleExplosionExtendedData>() {
-        public ParticleExplosionExtendedData deserialize(ParticleType<ParticleExplosionExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleExplosionExtendedData fromCommand(ParticleType<ParticleExplosionExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float r = (float) reader.readDouble();
             reader.expect(' ');
@@ -31,7 +33,7 @@ public class ParticleExplosionExtendedData implements IParticleData {
             return new ParticleExplosionExtendedData(r, g, b, alpha);
         }
 
-        public ParticleExplosionExtendedData read(ParticleType<ParticleExplosionExtendedData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleExplosionExtendedData fromNetwork(ParticleType<ParticleExplosionExtendedData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleExplosionExtendedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
@@ -78,7 +80,7 @@ public class ParticleExplosionExtendedData implements IParticleData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
+    public void writeToNetwork(PacketBuffer buffer) {
         buffer.writeFloat(r);
         buffer.writeFloat(g);
         buffer.writeFloat(b);
@@ -86,7 +88,7 @@ public class ParticleExplosionExtendedData implements IParticleData {
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f",
                 ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
                 this.r, this.g, this.b, this.alpha);

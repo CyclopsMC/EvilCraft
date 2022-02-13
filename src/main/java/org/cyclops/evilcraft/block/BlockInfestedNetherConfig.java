@@ -33,8 +33,8 @@ public class BlockInfestedNetherConfig extends BlockConfig {
         super(
             EvilCraft._instance,
             "infested_nether_" + type.name().toLowerCase(),
-                eConfig -> new BlockInfestedNether(Block.Properties.create(Material.CLAY)
-                        .hardnessAndResistance(0.0F), type),
+                eConfig -> new BlockInfestedNether(Block.Properties.of(Material.CLAY)
+                        .strength(0.0F), type),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         this.type = type;
@@ -48,13 +48,13 @@ public class BlockInfestedNetherConfig extends BlockConfig {
         CONFIGURED_FEATURE_SILVERFISH_EXTRA = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), "stone_netherfish"),
                 Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_NETHER, getInstance().getDefaultState(), 9))
-                        .range(64).square().func_242731_b(10));
+                        .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NETHER_ORE_REPLACEABLES, getInstance().defaultBlockState(), 9))
+                        .range(64).squared().count(10));
         CONFIGURED_FEATURE_SILVERFISH_EXTRA = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), "stone_nether_silverfish_extra"),
                 Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, Blocks.INFESTED_STONE.getDefaultState(), 4))
-                        .range(66).square().func_242731_b(10));
+                        .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, Blocks.INFESTED_STONE.defaultBlockState(), 4))
+                        .range(66).squared().count(10));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {

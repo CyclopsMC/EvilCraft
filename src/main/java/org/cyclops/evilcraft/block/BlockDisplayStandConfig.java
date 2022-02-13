@@ -19,9 +19,9 @@ public class BlockDisplayStandConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "display_stand",
-                eConfig -> new BlockDisplayStand(Block.Properties.create(Material.WOOD)),
+                eConfig -> new BlockDisplayStand(Block.Properties.of(Material.WOOD)),
                 (eConfig, block) -> new BlockItem(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

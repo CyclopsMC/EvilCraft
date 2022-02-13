@@ -36,7 +36,7 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
                         * (1 - ((float) tile.getEfficiency() / (TileColossalBloodChest.MAX_EFFICIENCY + 10)))
         ));
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<>(drain, TileColossalBloodChest.UPGRADEEVENT_BLOODUSAGE));
-        return MathHelpers.factorToBursts(drain.getValue(), (int) tile.getWorld().getGameTime() + tick % 100);
+        return MathHelpers.factorToBursts(drain.getValue(), (int) tile.getLevel().getGameTime() + tick % 100);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
                         getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
-                    float simulateMultiplier = actions.repair(itemStack, tile.getWorld().rand, actionID, false, true).getLeft();
+                    float simulateMultiplier = actions.repair(itemStack, tile.getLevel().random, actionID, false, true).getLeft();
                     if(tile.getTank().getFluidAmount() >= getRequiredFluid(tile, simulateMultiplier, tick) * simulateMultiplier) {
                         // Make sure that increasing speed by upgrades does not increase efficiency any faster.
                         Boolean slotHistory = tile.getSlotTickHistory().get(slot);
@@ -57,7 +57,7 @@ public class BulkRepairItemTickAction implements ITickAction<TileColossalBloodCh
                             tile.setEfficiency(Math.min(tile.getEfficiency() + 1, TileColossalBloodChest.MAX_EFFICIENCY));
                             tile.getSlotTickHistory().put(slot, true);
                         }
-                        Pair<Float, ItemStack> repairResult = actions.repair(itemStack, tile.getWorld().rand, actionID, true, true);
+                        Pair<Float, ItemStack> repairResult = actions.repair(itemStack, tile.getLevel().random, actionID, true, true);
                         itemStack = repairResult.getRight();
                         drainTank(tile, repairResult.getLeft(), tick);
                     }

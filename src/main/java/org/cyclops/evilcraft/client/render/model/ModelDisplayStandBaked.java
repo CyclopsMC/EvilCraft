@@ -89,7 +89,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture() {
+    public TextureAtlasSprite getParticleIcon() {
         return this.texture;
     }
 
@@ -97,8 +97,8 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         if (displayStandType != null && !displayStandType.isEmpty()) {
             // Get reference texture
             BlockState blockState = BlockHelpers.getBlockStateFromItemStack(displayStandType);
-            ResourceLocation textureName = Minecraft.getInstance().getModelManager().getBlockModelShapes()
-                    .getModel(blockState).getParticleTexture().getName();
+            ResourceLocation textureName = Minecraft.getInstance().getModelManager().getBlockModelShaper()
+                    .getBlockModel(blockState).getParticleIcon().getName();
             return modelCache.get(textureName);
         }
         return untexturedBakedModel;
@@ -109,10 +109,10 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
                                         ItemOverrideList overrides, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
                                         ResourceLocation modelName) {
         TextureAtlasSprite particle = spriteGetter.apply(modelConfiguration.resolveTexture("particle"));
-        SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(modelConfiguration, overrides).setTexture(particle);
+        SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(modelConfiguration, overrides).particle(particle);
         for(BlockPart blockPart : blockParts) {
-            for(Direction direction : blockPart.mapFaces.keySet()) {
-                BlockPartFace blockPartFace = blockPart.mapFaces.get(direction);
+            for(Direction direction : blockPart.faces.keySet()) {
+                BlockPartFace blockPartFace = blockPart.faces.get(direction);
 
                 // Remove mandatory hash at start of texture name
                 String texture = blockPartFace.texture;
@@ -121,10 +121,10 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
                 }
                 TextureAtlasSprite sprite = spriteGetter.apply(modelConfiguration.resolveTexture(texture));
 
-                if (blockPartFace.cullFace == null) {
-                    builder.addGeneralQuad(BlockModel.makeBakedQuad(blockPart, blockPartFace, sprite, direction, transform, modelName));
+                if (blockPartFace.cullForDirection == null) {
+                    builder.addUnculledFace(BlockModel.makeBakedQuad(blockPart, blockPartFace, sprite, direction, transform, modelName));
                 } else {
-                    builder.addFaceQuad(Direction.rotateFace(transform.getRotation().getMatrix(), blockPartFace.cullFace),
+                    builder.addCulledFace(Direction.rotate(transform.getRotation().getMatrix(), blockPartFace.cullForDirection),
                             BlockModel.makeBakedQuad(blockPart, blockPartFace, sprite, direction, transform, modelName));
                 }
             }
@@ -159,23 +159,33 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     public List<BakedQuad> getGeneralQuads() {
         return this.untexturedBakedModel.getQuads(null, null, null)
                 .stream()
-                .map(quad -> new BakedQuad(quad.getVertexData(), quad.getTintIndex(), quad.getFace(), this.texture, quad.applyDiffuseLighting()))
+                .map(quad -> new BakedQuad(quad.getVertices(), quad.getTintIndex(), quad.getDirection(), this.texture, quad.isShade()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public boolean isSideLit() {
+    public boolean useAmbientOcclusion() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public boolean usesBlockLight() {
         return true ; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public ItemCameraTransforms getItemCameraTransforms() {
+    public boolean isCustomRenderer() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public ItemCameraTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 
     @Override
     public TextureAtlasSprite getParticleTexture(@Nonnull IModelData data) {
         return handleDisplayStandType(ModelHelpers.getSafeProperty(data, BlockDisplayStand.TYPE, ItemStack.EMPTY), false)
-                .getParticleTexture();
+                .getParticleIcon();
     }
 }

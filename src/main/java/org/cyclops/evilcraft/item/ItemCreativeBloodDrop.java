@@ -40,6 +40,8 @@ import org.cyclops.evilcraft.tileentity.TileBloodStain;
 import javax.annotation.Nonnull;
 import java.util.List;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 /**
  * Containers that holds an infinite amount of blood.
  * @author rubensworks
@@ -55,16 +57,16 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getTranslationKey() + ".info.auto_supply");
+                getDescriptionId() + ".info.auto_supply");
     }
     
     @Override
@@ -81,14 +83,14 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
      */
     public static void updateAutoFill(ItemStack itemStack, World world, Entity entity) {
         IFluidHandler source = FluidUtil.getFluidHandler(itemStack).orElse(null);
-    	if(source != null && entity instanceof PlayerEntity && !world.isRemote() && ItemHelpers.isActivated(itemStack)) {
+    	if(source != null && entity instanceof PlayerEntity && !world.isClientSide() && ItemHelpers.isActivated(itemStack)) {
             FluidStack tickFluid = source.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
             if(tickFluid != null && tickFluid.getAmount() > 0) {
                 PlayerEntity player = (PlayerEntity) entity;
                 for(Hand hand : Hand.values()) {
-                    ItemStack held = player.getHeldItem(hand);
+                    ItemStack held = player.getItemInHand(hand);
                     IFluidHandler fluidHandler = FluidUtil.getFluidHandler(held).orElse(null);
-                    if (!held.isEmpty() && held != itemStack && fluidHandler != null && player.getItemInUseCount() == 0) {
+                    if (!held.isEmpty() && held != itemStack && fluidHandler != null && player.getUseItemRemainingTicks() == 0) {
                         if (fluidHandler.fill(tickFluid, IFluidHandler.FluidAction.SIMULATE) > 0) {
                             int filled = fluidHandler.fill(new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), IFluidHandler.FluidAction.EXECUTE);
                             source.drain(filled, IFluidHandler.FluidAction.EXECUTE);
@@ -105,9 +107,9 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup itemGroup, NonNullList<ItemStack> items) {
+    public void fillItemCategory(ItemGroup itemGroup, NonNullList<ItemStack> items) {
         if (ItemStackHelpers.isValidCreativeTab(this, itemGroup)) {
-            if (this.isInGroup(this.group)) {
+            if (this.allowdedIn(this.category)) {
                 items.add(new ItemStack(this));
             }
         }
@@ -116,19 +118,19 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     @Override
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
         if (context.getPlayer().isCrouching()) {
-            BlockPos pos = context.getPos().add(0, 1, 0);
+            BlockPos pos = context.getClickedPos().offset(0, 1, 0);
 	        if (RegistryEntries.BLOCK_BLOOD_STAIN
-                    .isValidPosition(RegistryEntries.BLOCK_BLOOD_STAIN.getDefaultState(), context.getWorld(), pos)) {
-		        if (context.getWorld().isRemote()) {
-		        	ParticleBloodSplash.spawnParticles(context.getWorld(), pos, 5, 1 + context.getWorld().rand.nextInt(2));
+                    .canSurvive(RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState(), context.getLevel(), pos)) {
+		        if (context.getLevel().isClientSide()) {
+		        	ParticleBloodSplash.spawnParticles(context.getLevel(), pos, 5, 1 + context.getLevel().random.nextInt(2));
 		        } else {
-		            if (context.getWorld().isAirBlock(pos)) {
+		            if (context.getLevel().isEmptyBlock(pos)) {
 		                // Add new stain
-		                context.getWorld().setBlockState(pos, RegistryEntries.BLOCK_BLOOD_STAIN.getDefaultState());
+		                context.getLevel().setBlockAndUpdate(pos, RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState());
                     }
-		            if (context.getWorld().getBlockState(pos).getBlock() == RegistryEntries.BLOCK_BLOOD_STAIN) {
+		            if (context.getLevel().getBlockState(pos).getBlock() == RegistryEntries.BLOCK_BLOOD_STAIN) {
                         // Add blood to existing block
-                        TileHelpers.getSafeTile(context.getWorld(), pos, TileBloodStain.class)
+                        TileHelpers.getSafeTile(context.getLevel(), pos, TileBloodStain.class)
                                 .ifPresent(tile -> tile.addAmount(FluidHelpers.BUCKET_VOLUME));
                     }
                 }
@@ -139,14 +141,14 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
         if(!player.isCrouching()) {
-            return super.onItemRightClick(world, player, hand);
+            return super.use(world, player, hand);
         } else {
-            BlockRayTraceResult target = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.ANY);
+            BlockRayTraceResult target = (BlockRayTraceResult) this.getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.ANY);
         	if(target == null || target.getType() == Type.MISS) {
-        		if(!world.isRemote()) {
+        		if(!world.isClientSide()) {
 		            ItemHelpers.toggleActivation(itemStack);
 		    	}
         	}

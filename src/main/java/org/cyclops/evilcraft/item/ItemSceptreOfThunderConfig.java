@@ -16,7 +16,7 @@ public class ItemSceptreOfThunderConfig extends ItemConfig {
                 EvilCraft._instance,
             "sceptre_of_thunder",
                 eConfig -> new ItemSceptreOfThunder(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

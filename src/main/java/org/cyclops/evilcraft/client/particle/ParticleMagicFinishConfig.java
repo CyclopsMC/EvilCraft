@@ -33,7 +33,7 @@ public class ParticleMagicFinishConfig extends ParticleConfig<BasicParticleType>
     public ParticleManager.IParticleMetaFactory<BasicParticleType> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<BasicParticleType>) (typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleMagicFinish particle = new ParticleMagicFinish(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

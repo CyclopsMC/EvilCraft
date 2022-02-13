@@ -22,7 +22,7 @@ public class EntityItemEmpowerableConfig extends EntityConfig<EntityItemEmpowera
         super(
                 EvilCraft._instance,
                 "item_empowerable",
-                eConfig -> EntityType.Builder.<EntityItemEmpowerable>create(EntityItemEmpowerable::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityItemEmpowerable>of(EntityItemEmpowerable::new, EntityClassification.MISC)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }

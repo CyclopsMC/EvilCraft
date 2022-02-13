@@ -42,7 +42,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         float x = spawn.getX() + 0.5F;
         float y = spawn.getY();
         float z = spawn.getZ() + 0.5F;
-        MobSpawnInfo.Spawners spawnlistentry = WeightedRandom.getRandomItem(new Random(), world.getBiome(spawn).getMobSpawnInfo().getSpawners(EntityClassification.MONSTER));
+        MobSpawnInfo.Spawners spawnlistentry = WeightedRandom.getRandomItem(new Random(), world.getBiome(spawn).getMobSettings().getMobs(EntityClassification.MONSTER));
         MobEntity entityliving;
 
         try {
@@ -52,7 +52,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
             return;
         }
 
-        entityliving.setLocationAndAngles((double)x, (double)y, (double)z, world.rand.nextFloat() * 360.0F, 0.0F);
+        entityliving.moveTo((double)x, (double)y, (double)z, world.random.nextFloat() * 360.0F, 0.0F);
         EntityHelpers.spawnEntity(world, entityliving, SpawnReason.MOB_SUMMONED);
     }
 

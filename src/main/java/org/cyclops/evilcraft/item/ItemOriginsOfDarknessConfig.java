@@ -25,8 +25,8 @@ public class ItemOriginsOfDarknessConfig extends ItemConfig {
                 EvilCraft._instance,
             "origins_of_darkness",
                 eConfig -> new ItemOriginsOfDarkness(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(1)
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(1)
                         .rarity(Rarity.UNCOMMON))
         );
     }
@@ -36,14 +36,14 @@ public class ItemOriginsOfDarknessConfig extends ItemConfig {
         super.onForgeRegistered();
         if (injectLootTables) {
             LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/origins_of_darkness"),
-                    LootTables.CHESTS_SPAWN_BONUS_CHEST,
-                    LootTables.CHESTS_VILLAGE_VILLAGE_TOOLSMITH,
-                    LootTables.CHESTS_VILLAGE_VILLAGE_WEAPONSMITH,
-                    LootTables.CHESTS_VILLAGE_VILLAGE_SHEPHERD,
-                    LootTables.CHESTS_SIMPLE_DUNGEON,
-                    LootTables.CHESTS_ABANDONED_MINESHAFT,
-                    LootTables.CHESTS_JUNGLE_TEMPLE,
-                    LootTables.CHESTS_IGLOO_CHEST);
+                    LootTables.SPAWN_BONUS_CHEST,
+                    LootTables.VILLAGE_TOOLSMITH,
+                    LootTables.VILLAGE_WEAPONSMITH,
+                    LootTables.VILLAGE_SHEPHERD,
+                    LootTables.SIMPLE_DUNGEON,
+                    LootTables.ABANDONED_MINESHAFT,
+                    LootTables.JUNGLE_TEMPLE,
+                    LootTables.IGLOO_CHEST);
         }
     }
 }

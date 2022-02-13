@@ -44,10 +44,10 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         if (filled > 0) {
             // Everything ok, filling the container bit by bit
             tile.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
-            tile.getInventory().setInventorySlotContents(tile.getTileWorkingMetadata().getConsumeSlot(), infuseStack);
+            tile.getInventory().setItem(tile.getTileWorkingMetadata().getConsumeSlot(), infuseStack);
             if (!FluidHelpers.getFluid(container).isEmpty() && FluidHelpers.getAmount(FluidHelpers.getFluid(container)) == FluidHelpers.getCapacity(container)) {
                 if (addToProduceSlot(tile, infuseStack)) {
-                    tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
+                    tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                 }
             }
         } else {
@@ -56,7 +56,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
             if (filledContainer.isSuccess()) {
                 ItemStack result = filledContainer.getResult();
                 if (addToProduceSlot(tile, result)) {
-                    tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
+                    tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                 }
             }
         }
@@ -69,7 +69,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 
     @Override
     public ItemStack willProduceItem(TileBloodInfuser tile) {
-        ItemStack itemStack = tile.getInventory().getStackInSlot(tile.getTileWorkingMetadata().getConsumeSlot());
+        ItemStack itemStack = tile.getInventory().getItem(tile.getTileWorkingMetadata().getConsumeSlot());
         if (itemStack.isEmpty()) {
             return ItemStack.EMPTY;
         }

@@ -55,23 +55,23 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
     public BlockColossalBloodChest(Block.Properties properties) {
         super(properties, TileColossalBloodChest::new);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(ACTIVE, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(ACTIVE, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(ACTIVE, false);
+        return this.defaultBlockState().setValue(ACTIVE, false);
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState blockState) {
-        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false) ? BlockRenderType.ENTITYBLOCK_ANIMATED : super.getRenderType(blockState);
+    public BlockRenderType getRenderShape(BlockState blockState) {
+        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false) ? BlockRenderType.ENTITYBLOCK_ANIMATED : super.getRenderShape(blockState);
     }
 
     @Override
@@ -91,12 +91,12 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             if (!TileColossalBloodChest.canWork(world, blockPos)) {
                 return ActionResultType.FAIL;
             } else {
-                return super.onBlockActivated(blockState, world, blockPos, player, hand, rayTraceResult);
+                return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
             }
         } else {
             addPlayerChatError(world, blockPos, player, hand);
@@ -114,48 +114,48 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
-        if (stack.hasDisplayName()) {
+    public void setPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(world, pos, state, placer, stack);
+        if (stack.hasCustomHoverName()) {
             TileColossalBloodChest tile = TileHelpers.getSafeTile(world, pos, TileColossalBloodChest.class).orElse(null);
             if (tile != null) {
-                tile.setSize(Vector3i.NULL_VECTOR);
+                tile.setSize(Vector3i.ZERO);
             }
         }
         triggerDetector(world, pos, true);
     }
 
     @Override
-    public void onBlockAdded(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
-        super.onBlockAdded(blockStateNew, world, blockPos, blockStateOld, isMoving);
-        if(!world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock() && !blockStateNew.get(ACTIVE)) {
+    public void onPlace(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
+        super.onPlace(blockStateNew, world, blockPos, blockStateOld, isMoving);
+        if(!world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock() && !blockStateNew.getValue(ACTIVE)) {
             triggerDetector(world, blockPos, true);
         }
     }
 
     @Override
-    public void onPlayerDestroy(IWorld world, BlockPos blockPos, BlockState blockState) {
-        if(blockState.get(ACTIVE)) triggerDetector(world, blockPos, false);
-        super.onPlayerDestroy(world, blockPos, blockState);
+    public void destroy(IWorld world, BlockPos blockPos, BlockState blockState) {
+        if(blockState.getValue(ACTIVE)) triggerDetector(world, blockPos, false);
+        super.destroy(world, blockPos, blockState);
     }
 
     @Override
     public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
         if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) triggerDetector(world, pos, false);
         // IForgeBlock.super.onBlockExploded(state, world, pos, explosion);
-        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
-        getBlock().onExplosionDestroy(world, pos, explosion);
+        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+        getBlock().wasExploded(world, pos, explosion);
     }
 
     @Override
     public void onDetect(IWorldReader world, BlockPos location, Vector3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
-            ((World) world).setBlockState(location, world.getBlockState(location).with(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            ((World) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             TileHelpers.getSafeTile(world, location, TileColossalBloodChest.class)
                     .ifPresent(tile -> {
-                        tile.setSize(valid ? size : Vector3i.NULL_VECTOR);
-                        tile.setCenter(originCorner.add(1, 1, 1));
+                        tile.setSize(valid ? size : Vector3i.ZERO);
+                        tile.setCenter(originCorner.offset(1, 1, 1));
                     });
         }
     }
@@ -168,12 +168,12 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
      * @param hand The used hand.
      */
     public static void addPlayerChatError(World world, BlockPos blockPos, PlayerEntity player, Hand hand) {
-        if(!world.isRemote && player.getHeldItem(hand).isEmpty()) {
+        if(!world.isClientSide && player.getItemInHand(hand).isEmpty()) {
             DetectionResult result = TileColossalBloodChest.getCubeDetector().detect(world, blockPos, null, false);
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());
             } else {
-                player.sendMessage(new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.unexpected"), Util.DUMMY_UUID);
+                player.sendMessage(new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.unexpected"), Util.NIL_UUID);
             }
         }
     }
@@ -184,15 +184,15 @@ public class BlockColossalBloodChest extends BlockTileGuiTank implements CubeDet
                 .append(new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.prefix"))
                 .append(new StringTextComponent("]: "))
                 .setStyle(Style.EMPTY.
-                        applyFormatting(TextFormatting.GRAY).
-                        setHoverEvent(new HoverEvent(
+                        applyFormat(TextFormatting.GRAY).
+                        withHoverEvent(new HoverEvent(
                                 HoverEvent.Action.SHOW_TEXT,
                                 new TranslationTextComponent("multiblock.evilcraft.colossalbloodchest.error.prefix.info")
                         ))
                 );
         chat.append(prefix);
         chat.append(error);
-        player.sendMessage(chat, Util.DUMMY_UUID);
+        player.sendMessage(chat, Util.NIL_UUID);
     }
 
 }

@@ -14,6 +14,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Map;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A strong pickaxe that may call up spirits.
  * @author rubensworks
@@ -32,13 +34,13 @@ public class ItemVengeancePickaxe extends PickaxeItem {
 
     // Can break all blocks, like diamond
     @Override
-    public boolean canHarvestBlock(BlockState blockState) {
+    public boolean isCorrectToolForDrops(BlockState blockState) {
         return true;
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             items.add(getEnchantedItemStack());
         }
     }
@@ -46,7 +48,7 @@ public class ItemVengeancePickaxe extends PickaxeItem {
     public ItemStack getEnchantedItemStack() {
         ItemStack pickaxe = new ItemStack(this);
         Map<Enchantment, Integer> enchantments = Maps.newHashMap();
-        enchantments.put(Enchantments.FORTUNE, ItemVengeancePickaxeConfig.fortuneLevel);
+        enchantments.put(Enchantments.BLOCK_FORTUNE, ItemVengeancePickaxeConfig.fortuneLevel);
         enchantments.put(RegistryEntries.ENCHANTMENT_VENGEANCE, ItemVengeancePickaxeConfig.vengeanceLevel);
         EnchantmentHelper.setEnchantments(enchantments, pickaxe);
         return pickaxe;

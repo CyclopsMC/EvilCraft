@@ -10,6 +10,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A dark gem that somehow caught fire.
  * @author rubensworks
@@ -45,11 +47,11 @@ public class ItemBurningGemStone extends Item {
             ItemStack itemStack = current.getRight();
 			if(!itemStack.isEmpty() && itemStack.getItem() == RegistryEntries.ITEM_BURNING_GEM_STONE) {
 				if(!simulate) {
-					itemStack.damageItem(1 + swarmTier, player, (p) -> {
-                        p.inventory.setInventorySlotContents(current.getLeft(), ItemStack.EMPTY);
+					itemStack.hurtAndBreak(1 + swarmTier, player, (p) -> {
+                        p.inventory.setItem(current.getLeft(), ItemStack.EMPTY);
                         MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(p, itemStack, null));
                     });
-                    player.addExhaustion(10);
+                    player.causeFoodExhaustion(10);
 				}
 				return true;
 			}

@@ -22,7 +22,7 @@ public class SlotWorkingRemoveOnly<T extends TileWorking<T, ?>> extends SlotWork
     }
     
     @Override
-    public boolean isItemValid(ItemStack itemStack) {
+    public boolean mayPlace(ItemStack itemStack) {
         return false;
     }
     
@@ -35,7 +35,7 @@ public class SlotWorkingRemoveOnly<T extends TileWorking<T, ?>> extends SlotWork
     }
     
     @Override
-    public void onSlotChanged() {
+    public void setChanged() {
         container.getTileSupplier().ifPresent(tile -> {
             tile.resetWork(shouldHardReset);
         });

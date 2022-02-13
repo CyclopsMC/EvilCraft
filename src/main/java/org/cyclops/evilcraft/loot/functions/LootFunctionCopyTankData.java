@@ -30,8 +30,8 @@ public class LootFunctionCopyTankData extends LootFunction {
     }
 
     @Override
-    public ItemStack doApply(ItemStack itemStack, LootContext lootContext) {
-        TileEntity tile = lootContext.get(LootParameters.BLOCK_ENTITY);
+    public ItemStack run(ItemStack itemStack, LootContext lootContext) {
+        TileEntity tile = lootContext.getParamOrNull(LootParameters.BLOCK_ENTITY);
         tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                 .ifPresent(fluidHandlerTile -> {
                     itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
@@ -48,7 +48,7 @@ public class LootFunctionCopyTankData extends LootFunction {
     }
 
     @Override
-    public LootFunctionType getFunctionType() {
+    public LootFunctionType getType() {
         return TYPE;
     }
 

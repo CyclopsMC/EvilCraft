@@ -33,10 +33,10 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
     public void renderBeacon(TileEnvironmentalAccumulator tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         // Render the an item moving up if we're currently processing one
         if (tile.getMovingItemY() != -1.0f) {
-            matrixStack.push();
+            matrixStack.pushPose();
             matrixStack.translate(-0.5f, -0.5f + tile.getMovingItemY(), -0.5f);
             renderProcessingItem(matrixStack, bufferIn, tile.getRecipe(), tile.getDegradationWorld(), partialTicks);
-            matrixStack.pop();
+            matrixStack.popPose();
         }
 
         super.renderBeacon(tile, partialTicks, matrixStack, bufferIn, combinedLightIn, combinedOverlayIn);
@@ -51,7 +51,7 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         if (recipe == null)
             return;
         
-        ItemStack stack = recipe.getInputIngredient().getMatchingStacks()[0];
+        ItemStack stack = recipe.getInputIngredient().getItems()[0];
         if (stack.isEmpty())
             return;
         
@@ -62,14 +62,14 @@ public class RenderTileEntityEnvironmentalAccumulator extends RenderTileEntityBe
         // Draw the actual item at the origin
         if (stack.getItem() instanceof BlockItem) {
             matrixStackIn.translate(1F, 0.675F, 1F);
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(angle));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(angle));
 
         } else {
             matrixStackIn.translate(1F, 1F, 1F);
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(angle));
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(angle));
         }
         matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 
-        Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemCameraTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
     }
 }

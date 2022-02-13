@@ -79,22 +79,22 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
     @Override
     protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
         super.drawAdditionalForeground(matrixStack, mouseX, mouseY);
-        String prefix = RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.getTranslationKey() + ".help.invalid";
+        String prefix = RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.getDescriptionId() + ".help.invalid";
         List<ITextComponent> lines = Lists.newArrayList();
         lines.add(new TranslationTextComponent(prefix));
-        if (!getContainer().getTileCanWork()){
+        if (!getMenu().getTileCanWork()){
             lines.add(new TranslationTextComponent(prefix + ".invalid_locations"));
-            for(Vector3i location : getContainer().getInvalidLocations()) {
+            for(Vector3i location : getMenu().getInvalidLocations()) {
                 lines.add(new StringTextComponent(String.format("  X=%s Y=%s Z=%s", location.getX(), location.getY(), location.getZ())));
             }
         }
         if (lines.size() > 1) {
             this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
-            if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
+            if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
-                mouseX -= guiLeft;
-                mouseY -= guiTop;
+                mouseX -= leftPos;
+                mouseY -= topPos;
                 drawTooltip(lines, mouseX, mouseY);
             }
         }

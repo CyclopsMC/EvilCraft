@@ -39,17 +39,17 @@ public class BlockDarkTankConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "dark_tank",
-                eConfig -> new BlockDarkTank(Block.Properties.create(Material.GLASS)
-                        .hardnessAndResistance(0.5F)
+                eConfig -> new BlockDarkTank(Block.Properties.of(Material.GLASS)
+                        .strength(0.5F)
                         .sound(SoundType.GLASS)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.translucent());
     }
 
 }

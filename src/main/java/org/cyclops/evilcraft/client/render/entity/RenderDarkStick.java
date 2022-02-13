@@ -29,19 +29,19 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
         if (entity.isValid()) {
             rotation = entity.getAngle();
         } else {
-            rotation = (((float)entity.getAge()) / 20.0F + entity.hoverStart) * (180F / (float)Math.PI);
+            rotation = (((float)entity.getAge()) / 20.0F + entity.bobOffs) * (180F / (float)Math.PI);
         }
 
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(rotation));
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90));
-        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(25));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90));
+        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(25));
 
-        ((EntityRenderer) Minecraft.getInstance().getRenderManager().renderers.get(EntityType.ITEM))
-                .render(entity, 0, entity.isValid() ? -entity.hoverStart * 20/* to undo hoverstart in ItemRenderer */ : partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        ((EntityRenderer) Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityType.ITEM))
+                .render(entity, 0, entity.isValid() ? -entity.bobOffs * 20/* to undo hoverstart in ItemRenderer */ : partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
     @Override
-    public ResourceLocation getEntityTexture(EntityItemDarkStick entity) {
+    public ResourceLocation getTextureLocation(EntityItemDarkStick entity) {
         return null;
     }
 

@@ -26,18 +26,18 @@ public class BlockSanguinaryEnvironmentalAccumulator extends BlockTileGui {
     public BlockSanguinaryEnvironmentalAccumulator(Block.Properties properties) {
         super(properties, TileSanguinaryEnvironmentalAccumulator::new);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(ON, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(ON, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ON);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(ON, false);
+        return this.defaultBlockState().setValue(ON, false);
     }
 
     @Override
@@ -49,12 +49,12 @@ public class BlockSanguinaryEnvironmentalAccumulator extends BlockTileGui {
     }
 
     @Override
-    public void onReplaced(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if (!world.isRemote() && oldState.getBlock() != newState.getBlock()) {
+    public void onRemove(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
             TileHelpers.getSafeTile(world, blockPos, TileSanguinaryEnvironmentalAccumulator.class)
                     .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
         }
-        super.onReplaced(oldState, world, blockPos, newState, isMoving);
+        super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 
 }

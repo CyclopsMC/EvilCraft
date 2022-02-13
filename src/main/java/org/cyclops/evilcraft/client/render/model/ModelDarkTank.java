@@ -36,25 +36,25 @@ public class ModelDarkTank implements IUnbakedModel, IModelGeometry<ModelDarkTan
     }
 
     @Override
-    public Collection<RenderMaterial> getTextures(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return this.blockModel.getTextures(modelGetter, missingTextureErrors);
+    public Collection<RenderMaterial> getMaterials(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+        return this.blockModel.getMaterials(modelGetter, missingTextureErrors);
     }
 
     @Nullable
     @Override
-    public IBakedModel bakeModel(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
+    public IBakedModel bake(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
                                  IModelTransform transform, ResourceLocation location) {
-        return new ModelDarkTankBaked(this.blockModel.bakeModel(bakery, spriteGetter, transform, location));
+        return new ModelDarkTankBaked(this.blockModel.bake(bakery, spriteGetter, transform, location));
     }
 
     @Override
     public IBakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter, IModelTransform modelTransform, ItemOverrideList overrides, ResourceLocation modelLocation) {
-        return bakeModel(bakery, spriteGetter, modelTransform, modelLocation);
+        return bake(bakery, spriteGetter, modelTransform, modelLocation);
     }
 
     @Override
     public Collection<RenderMaterial> getTextures(IModelConfiguration owner, Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return getTextures(modelGetter, missingTextureErrors);
+        return getMaterials(modelGetter, missingTextureErrors);
     }
 
 }

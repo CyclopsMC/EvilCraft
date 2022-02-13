@@ -24,12 +24,12 @@ public class NecromanceTrigger extends AbstractCriterionTrigger<NecromanceTrigge
     }
 
     @Override
-    public Instance deserializeTrigger(JsonObject json, EntityPredicate.AndPredicate entityPredicate, ConditionArrayParser conditionsParser) {
-        return new Instance(getId(), entityPredicate, EntityPredicate.deserialize(json.get("entity")));
+    public Instance createInstance(JsonObject json, EntityPredicate.AndPredicate entityPredicate, ConditionArrayParser conditionsParser) {
+        return new Instance(getId(), entityPredicate, EntityPredicate.fromJson(json.get("entity")));
     }
 
     public void test(ServerPlayerEntity player, Entity entity) {
-        this.triggerListeners(player, (instance) -> instance.test(player, entity));
+        this.trigger(player, (instance) -> instance.test(player, entity));
     }
 
     public static class Instance extends CriterionInstance implements ICriterionInstanceTestable<Entity> {
@@ -42,7 +42,7 @@ public class NecromanceTrigger extends AbstractCriterionTrigger<NecromanceTrigge
         }
 
         public boolean test(ServerPlayerEntity player, Entity entity) {
-            return this.entityPredicate.test(player, entity);
+            return this.entityPredicate.matches(player, entity);
         }
     }
 

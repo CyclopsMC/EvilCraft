@@ -65,14 +65,14 @@ public class DisenchantPurifyAction implements IPurifierAction {
         boolean done = false;
 
         ItemStack purifyItem = tile.getPurifyItem().copy();
-        World world = tile.getWorld();
+        World world = tile.getLevel();
         int tick = tile.getTick();
 
         // Try disenchanting.
         Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(purifyItem);
         if (!enchantments.isEmpty()) {
             if (tick >= PURIFY_DURATION) {
-                if (!world.isRemote()) {
+                if (!world.isClientSide()) {
                     Enchantment enchantment = getRandomEnchantment(world, enchantments);
                     setResultingEnchantmentBook(tile, enchantments, enchantment);
                     removePriorWorkPenalty(enchantments, purifyItem);
@@ -82,7 +82,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
                 tile.setBuckets(0, tile.getBucketsRest());
                 done = true;
             }
-            if (world.isRemote()) {
+            if (world.isClientSide()) {
                 tile.showEffect();
                 tile.showEnchantingEffect();
             }
@@ -91,17 +91,17 @@ public class DisenchantPurifyAction implements IPurifierAction {
     }
 
     private Enchantment getRandomEnchantment(World world, Map<Enchantment, Integer> enchantments) {
-        int enchantmentIndex = world.rand.nextInt(enchantments.size());
+        int enchantmentIndex = world.random.nextInt(enchantments.size());
         return Lists.newArrayList(enchantments.keySet()).get(enchantmentIndex);
     }
 
     private void setResultingEnchantmentBook(TilePurifier tile, Map<Enchantment, Integer> enchantments, Enchantment enchantment) {
-        tile.setAdditionalItem(EnchantedBookItem.getEnchantedItemStack(
+        tile.setAdditionalItem(EnchantedBookItem.createForEnchantment(
                 new EnchantmentData(enchantment, enchantments.get(enchantment))));
     }
 
     private void removePriorWorkPenalty(Map<Enchantment, Integer> enchantments, ItemStack purifyItem) {
-        int penalty = purifyItem.getRepairCost();
+        int penalty = purifyItem.getBaseRepairCost();
         int remainingPenalty = penalty -  penalty / enchantments.size();
         purifyItem.setRepairCost(remainingPenalty);
     }

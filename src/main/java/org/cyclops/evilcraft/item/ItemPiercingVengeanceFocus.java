@@ -18,12 +18,12 @@ public class ItemPiercingVengeanceFocus extends ItemAbstractFocus {
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return true;
     }
 
     @Override
     protected ThrowableEntity newBeamEntity(LivingEntity player) {
-        return new EntityAttackVengeanceBeam(player.world, player);
+        return new EntityAttackVengeanceBeam(player.level, player);
     }
 }

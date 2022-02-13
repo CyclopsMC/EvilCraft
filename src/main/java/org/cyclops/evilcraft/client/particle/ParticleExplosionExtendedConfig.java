@@ -21,7 +21,7 @@ public class ParticleExplosionExtendedConfig extends ParticleConfig<ParticleExpl
         super(EvilCraft._instance, "explosion_extended", eConfig -> new ParticleType<ParticleExplosionExtendedData>(false, ParticleExplosionExtendedData.DESERIALIZER) {
 
             @Override
-            public Codec<ParticleExplosionExtendedData> func_230522_e_() {
+            public Codec<ParticleExplosionExtendedData> codec() {
                 return ParticleExplosionExtendedData.CODEC;
             }
         });
@@ -41,7 +41,7 @@ public class ParticleExplosionExtendedConfig extends ParticleConfig<ParticleExpl
         return sprite -> (IParticleFactory<ParticleExplosionExtendedData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleExplosionExtended particle = new ParticleExplosionExtended(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,
                     particleData.getR(), particleData.getG(), particleData.getB(), particleData.getAlpha(), sprite);
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

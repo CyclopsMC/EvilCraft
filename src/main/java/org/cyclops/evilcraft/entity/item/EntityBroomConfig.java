@@ -22,8 +22,8 @@ public class EntityBroomConfig extends EntityConfig<EntityBroom> {
         super(
                 EvilCraft._instance,
             "broom",
-                eConfig -> EntityType.Builder.<EntityBroom>create(EntityBroom::new, EntityClassification.MISC)
-                        .size(0.6F, 1.8F)
+                eConfig -> EntityType.Builder.<EntityBroom>of(EntityBroom::new, EntityClassification.MISC)
+                        .sized(0.6F, 1.8F)
                         .setShouldReceiveVelocityUpdates(true)
                         .setUpdateInterval(10)
         );

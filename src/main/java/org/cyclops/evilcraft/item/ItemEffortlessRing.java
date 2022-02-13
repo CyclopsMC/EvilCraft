@@ -12,6 +12,8 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A ring that allows the player to walk faster with a double step height.
  * @author rubensworks
@@ -42,19 +44,19 @@ public class ItemEffortlessRing extends Item {
      */
     public void adjustParameters(ItemStack itemStack, PlayerEntity player) {
         // Speed
-        if(player.moveForward > 0 && player.isOnGround()) {
+        if(player.zza > 0 && player.isOnGround()) {
             player.moveRelative(player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS, new Vector3d(0, 0, 1));
         }
 
         // Step height
         if(!player.getPersistentData().contains(PLAYER_NBT_KEY)) {
-            player.getPersistentData().putFloat(PLAYER_NBT_KEY, player.stepHeight);
+            player.getPersistentData().putFloat(PLAYER_NBT_KEY, player.maxUpStep);
         }
-        player.stepHeight = player.isCrouching() ? 0.5F : STEP_SIZE;
+        player.maxUpStep = player.isCrouching() ? 0.5F : STEP_SIZE;
 
         // Jump distance
         if(!player.isOnGround()) {
-            player.jumpMovementFactor = JUMP_DISTANCE_FACTOR;
+            player.flyingSpeed = JUMP_DISTANCE_FACTOR;
         }
     }
 
@@ -62,7 +64,7 @@ public class ItemEffortlessRing extends Item {
         if(event.getEntityLiving() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) event.getEntityLiving();
             if(ItemStackHelpers.hasPlayerItem(player, this)) {
-                player.setMotion(player.getMotion().add(0, JUMP_HEIGHT_FACTOR, 0));;
+                player.setDeltaMovement(player.getDeltaMovement().add(0, JUMP_HEIGHT_FACTOR, 0));;
             }
         }
     }
@@ -73,7 +75,7 @@ public class ItemEffortlessRing extends Item {
             PlayerEntity player = (PlayerEntity) event.getEntityLiving();
             if(player.getPersistentData().contains(PLAYER_NBT_KEY)) {
                 if (!ItemStackHelpers.hasPlayerItem(player, this)) {
-                    player.stepHeight = player.getPersistentData().getFloat(PLAYER_NBT_KEY);
+                    player.maxUpStep = player.getPersistentData().getFloat(PLAYER_NBT_KEY);
                     player.getPersistentData().remove(PLAYER_NBT_KEY);
                 }
             }

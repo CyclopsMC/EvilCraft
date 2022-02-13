@@ -16,7 +16,7 @@ public class ItemDarkStickConfig extends ItemConfig {
                 EvilCraft._instance,
                 "dark_stick",
                 eConfig -> new ItemDarkStick(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

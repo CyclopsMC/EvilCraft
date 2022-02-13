@@ -31,12 +31,12 @@ public class SoundDegradation extends StochasticDegradationEffect {
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        Random random = degradable.getDegradationWorld().rand;
+        Random random = degradable.getDegradationWorld().random;
         World world = degradable.getDegradationWorld();
         for(Entity entity : degradable.getAreaEntities()) {
             if(entity instanceof PlayerEntity) {
-                world.playSound((PlayerEntity) entity, entity.getPosX(), entity.getPosY(), entity.getPosZ(), SoundEvents.ENTITY_BLAZE_AMBIENT, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-                world.playSound((PlayerEntity) entity, entity.getPosX(), entity.getPosY(), entity.getPosZ(), SoundEvents.ENTITY_ENDER_DRAGON_FLAP, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSound((PlayerEntity) entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLAZE_AMBIENT, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSound((PlayerEntity) entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             }
         }
     }

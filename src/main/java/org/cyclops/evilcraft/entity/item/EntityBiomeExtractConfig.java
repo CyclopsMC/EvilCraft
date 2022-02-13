@@ -23,8 +23,8 @@ public class EntityBiomeExtractConfig extends EntityConfig<EntityBiomeExtract> {
         super(
                 EvilCraft._instance,
             "biome_extract",
-                eConfig -> EntityType.Builder.<EntityBiomeExtract>create(EntityBiomeExtract::new, EntityClassification.MISC)
-                        .size(0.6F, 1.8F)
+                eConfig -> EntityType.Builder.<EntityBiomeExtract>of(EntityBiomeExtract::new, EntityClassification.MISC)
+                        .sized(0.6F, 1.8F)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }

@@ -61,7 +61,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
     public ContainerExaltedCrafter(int id, PlayerInventory inventory, int itemIndex, Hand hand) {
         super(RegistryEntries.CONTAINER_EXALTED_CRAFTER, id, inventory, itemIndex, hand);
         initialized = false;
-        this.world = player.world;
+        this.world = player.level;
         this.result = new CraftResultInventory();
         this.craftingGrid = new NBTCraftingGrid(player, itemIndex, hand, this);
         
@@ -72,7 +72,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
         this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         
         initialized = true;
-        this.onCraftMatrixChanged(craftingGrid);
+        this.slotsChanged(craftingGrid);
 
         putButtonAction(BUTTON_CLEAR, (buttonId, container) -> this.clearGrid());
         putButtonAction(BUTTON_BALANCE, (buttonId, container) -> this.balanceGrid());
@@ -83,8 +83,8 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
      * Clear the crafting grid.
      */
     public void clearGrid() {
-    	for(int i = 0; i < craftingGrid.getSizeInventory(); i++) {
-    		transferStackInSlot(player, i);
+    	for(int i = 0; i < craftingGrid.getContainerSize(); i++) {
+    		quickMoveStack(player, i);
     	}
     }
 
@@ -94,9 +94,9 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
     @SuppressWarnings("unchecked")
     public void balanceGrid() {
         // Init bins
-        List<Pair<ItemStack, List<Pair<Integer, Integer>>>> bins = Lists.newArrayListWithExpectedSize(craftingGrid.getSizeInventory());
-        for(int slot = 0; slot < craftingGrid.getSizeInventory(); slot++) {
-            ItemStack itemStack = craftingGrid.getStackInSlot(slot);
+        List<Pair<ItemStack, List<Pair<Integer, Integer>>>> bins = Lists.newArrayListWithExpectedSize(craftingGrid.getContainerSize());
+        for(int slot = 0; slot < craftingGrid.getContainerSize(); slot++) {
+            ItemStack itemStack = craftingGrid.getItem(slot);
             if(!itemStack.isEmpty()) {
                 int amount = itemStack.getCount();
                 itemStack = itemStack.copy();
@@ -107,7 +107,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
                     Pair<ItemStack, List<Pair<Integer, Integer>>> pair = bins.get(bin);
                     ItemStack original = pair.getLeft().copy();
                     original.setCount(1);
-                    if(ItemStack.areItemStacksEqual(original, itemStack)) {
+                    if(ItemStack.matches(original, itemStack)) {
                         pair.getLeft().grow(amount);
                         pair.getRight().add(new MutablePair<Integer, Integer>(slot, 0));
                         addedToBin = true;
@@ -136,7 +136,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
             for(Pair<Integer, Integer> slot : pair.getRight()) {
                 ItemStack itemStack = pair.getKey().copy();
                 itemStack.setCount(slot.getRight());
-                craftingGrid.setInventorySlotContents(slot.getKey(), itemStack);
+                craftingGrid.setItem(slot.getKey(), itemStack);
             }
         }
     }
@@ -190,20 +190,25 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
 	}
 	
 	@Override
-	public void onCraftMatrixChanged(IInventory inventory) {
-        if(initialized && !this.world.isRemote()) {
+	public void slotsChanged(IInventory inventory) {
+        if(initialized && !this.world.isClientSide()) {
             ItemStack itemstack = ItemStack.EMPTY;
 
             // Slightly altered logic from Container#slotChangedCraftingGrid
-            ICraftingRecipe irecipe = world.getServer().getRecipeManager().getRecipe(IRecipeType.CRAFTING, craftingGrid, world).orElse(null);
-            if (irecipe != null && result.canUseRecipe(world, (ServerPlayerEntity) player, irecipe)) {
-                itemstack = irecipe.getCraftingResult(craftingGrid);
+            ICraftingRecipe irecipe = world.getServer().getRecipeManager().getRecipeFor(IRecipeType.CRAFTING, craftingGrid, world).orElse(null);
+            if (irecipe != null && result.setRecipeUsed(world, (ServerPlayerEntity) player, irecipe)) {
+                itemstack = irecipe.assemble(craftingGrid);
             }
-            result.setInventorySlotContents(0, itemstack);
-            ((ServerPlayerEntity) this.player).connection.sendPacket(new SSetSlotPacket(this.windowId, 9, itemstack));
+            result.setItem(0, itemstack);
+            ((ServerPlayerEntity) this.player).connection.send(new SSetSlotPacket(this.containerId, 9, itemstack));
 
             craftingGrid.save();
 		}
     }
-    
+
+    @Override
+    public boolean stillValid(PlayerEntity p_75145_1_) {
+        return false; // TODO: rm
+    }
+
 }

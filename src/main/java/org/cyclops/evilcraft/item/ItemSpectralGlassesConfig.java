@@ -16,7 +16,7 @@ public class ItemSpectralGlassesConfig extends ItemConfig {
                 EvilCraft._instance,
             "spectral_glasses",
                 eConfig -> new ItemSpectralGlasses(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

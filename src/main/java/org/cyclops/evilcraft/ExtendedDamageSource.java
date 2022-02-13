@@ -18,7 +18,7 @@ public class ExtendedDamageSource extends DamageSource{
     /**
      * DamageSource for when entities die without any apparent reason.
      */
-    public static ExtendedDamageSource dieWithoutAnyReason = (ExtendedDamageSource)((new ExtendedDamageSource("die_without_any_reason")).setDamageBypassesArmor());
+    public static ExtendedDamageSource dieWithoutAnyReason = (ExtendedDamageSource)((new ExtendedDamageSource("die_without_any_reason")).bypassArmor());
     /**
      * DamageSource for when entities die from distortion not caused by another player.
      */
@@ -43,8 +43,8 @@ public class ExtendedDamageSource extends DamageSource{
     public static ExtendedDamageSource broomDamage(final LivingEntity attacker) {
         return new ExtendedDamageSource("broom", attacker) {
             @Override
-            public ITextComponent getDeathMessage(LivingEntity defender) {
-                String s = "death.attack." + this.damageType;
+            public ITextComponent getLocalizedDeathMessage(LivingEntity defender) {
+                String s = "death.attack." + this.msgId;
                 String s1 = s + ".player";
                 return new TranslationTextComponent(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()});
             }
@@ -71,11 +71,11 @@ public class ExtendedDamageSource extends DamageSource{
      * @return The unique ID.
      */
     public String getID() {
-        return "death.attack." + this.damageType;
+        return "death.attack." + this.msgId;
     }
 
     @Override
-    public Entity getTrueSource() {
+    public Entity getEntity() {
         return entity;
     }
 

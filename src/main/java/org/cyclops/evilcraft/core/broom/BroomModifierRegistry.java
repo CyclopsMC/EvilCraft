@@ -89,7 +89,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @Override
     public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item) {
         for (Map.Entry<ItemStack, Map<BroomModifier, Float>> entry : broomItems.entrySet()) {
-            if (ItemStack.areItemsEqual(item, entry.getKey()) && ItemStack.areItemStackTagsEqual(item, entry.getKey())) {
+            if (ItemStack.isSame(item, entry.getKey()) && ItemStack.tagMatches(item, entry.getKey())) {
                 return entry.getValue();
             }
         }
@@ -184,13 +184,13 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             if (modifiers != null) {
                 if (MinecraftHelpers.isShifted()) {
                     event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types")
-                            .mergeStyle(TextFormatting.ITALIC));
+                            .withStyle(TextFormatting.ITALIC));
                     for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                         event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                     }
                 } else {
                     event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".shiftinfo")
-                            .mergeStyle(TextFormatting.ITALIC));
+                            .withStyle(TextFormatting.ITALIC));
                 }
             }
         }

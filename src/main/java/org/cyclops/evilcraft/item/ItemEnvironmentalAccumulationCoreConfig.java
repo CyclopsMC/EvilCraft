@@ -18,10 +18,10 @@ public class ItemEnvironmentalAccumulationCoreConfig extends ItemConfig {
                 EvilCraft._instance,
                 "environmental_accumulation_core",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
                         .rarity(Rarity.RARE)) {
                     @Override
-                    public boolean hasEffect(ItemStack stack) {
+                    public boolean isFoil(ItemStack stack) {
                         return true;
                     }
                 }

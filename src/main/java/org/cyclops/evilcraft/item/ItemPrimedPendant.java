@@ -51,18 +51,18 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         ItemStack potionStack = getPotionStack(itemStack);
         if(!potionStack.isEmpty()) {
-            List<EffectInstance> potionEffects = PotionUtils.getEffectsFromStack(potionStack);
+            List<EffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
             for(EffectInstance potionEffect : potionEffects) {
-                TranslationTextComponent textComponent = new TranslationTextComponent(super.getTranslationKey(itemStack) + ".potion",
-                        new TranslationTextComponent(potionEffect.getEffectName()),
+                TranslationTextComponent textComponent = new TranslationTextComponent(super.getDescriptionId(itemStack) + ".potion",
+                        new TranslationTextComponent(potionEffect.getDescriptionId()),
                         new TranslationTextComponent("enchantment.level." + (potionEffect.getAmplifier() + 1)));
-                Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getPotion());
+                Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
                 if (multiplier != null && multiplier < 0) {
-                    textComponent.mergeStyle(TextFormatting.STRIKETHROUGH);
+                    textComponent.withStyle(TextFormatting.STRIKETHROUGH);
                 }
                 list.add(textComponent);
             }
@@ -77,16 +77,16 @@ public class ItemPrimedPendant extends ItemBloodContainer {
             PlayerEntity player = (PlayerEntity) entity;
             ItemStack potionStack = getPotionStack(itemStack);
             if(!potionStack.isEmpty()) {
-                List<EffectInstance> potionEffects = PotionUtils.getEffectsFromStack(potionStack);
+                List<EffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
                 for(EffectInstance potionEffect : potionEffects) {
                     int toDrain = ItemPrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
-                    Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getPotion());
+                    Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
                     if(multiplier != null) {
                         toDrain *= multiplier;
                     }
                     if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
-                        player.addPotionEffect(
-                                new EffectInstance(potionEffect.getPotion(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
+                        player.addEffect(
+                                new EffectInstance(potionEffect.getEffect(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
                                         !potionEffect.getCurativeItems().isEmpty(), true));
                         consume(toDrain, itemStack, player);
                     }
@@ -102,12 +102,12 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     public ItemStack getPotionStack(ItemStack itemStack) {
         IInventory inventory = getSupplementaryInventory(itemStack);
-        return inventory.getStackInSlot(0);
+        return inventory.getItem(0);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(ItemStack itemStack) {
+    public boolean isFoil(ItemStack itemStack) {
         return hasPotionStack(itemStack);
     }
 
@@ -137,7 +137,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     @Nullable
     public INamedContainerProvider getContainer(World world, PlayerEntity playerEntity, int itemIndex, Hand hand, ItemStack itemStack) {
         return new NamedContainerProviderItem(itemIndex, hand,
-                itemStack.getDisplayName(), ContainerPrimedPendant::new);
+                itemStack.getHoverName(), ContainerPrimedPendant::new);
     }
 
     public Class<? extends Container> getContainerClass(World world, PlayerEntity playerEntity, ItemStack itemStack) {
@@ -145,23 +145,23 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     }
 
     public boolean onDroppedByPlayer(ItemStack itemstack, PlayerEntity player) {
-        if (!itemstack.isEmpty() && player instanceof ServerPlayerEntity && player.openContainer != null && player.openContainer.getClass() == this.getContainerClass(player.world, player, itemstack)) {
-            player.closeScreen();
+        if (!itemstack.isEmpty() && player instanceof ServerPlayerEntity && player.containerMenu != null && player.containerMenu.getClass() == this.getContainerClass(player.level, player, itemstack)) {
+            player.closeContainer();
         }
 
         return super.onDroppedByPlayer(itemstack, player);
     }
 
     public void openGuiForItemIndex(World world, ServerPlayerEntity player, int itemIndex, Hand hand) {
-        if (!world.isRemote()) {
-            INamedContainerProvider containerProvider = this.getContainer(world, player, itemIndex, hand, player.getHeldItem(hand));
+        if (!world.isClientSide()) {
+            INamedContainerProvider containerProvider = this.getContainer(world, player, itemIndex, hand, player.getItemInHand(hand));
             if (containerProvider != null) {
                 NetworkHooks.openGui(player, containerProvider, (packetBuffer) -> {
                     this.writeExtraGuiData(packetBuffer, world, player, itemIndex, hand);
                 });
                 Stat<ResourceLocation> openStat = this.getOpenStat();
                 if (openStat != null) {
-                    player.addStat(openStat);
+                    player.awardStat(openStat);
                 }
             }
         }
@@ -178,13 +178,13 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         return null;
     }
 
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
         if (player instanceof FakePlayer) {
             return new ActionResult(ActionResultType.FAIL, itemStack);
         } else {
             if (player instanceof ServerPlayerEntity) {
-                this.openGuiForItemIndex(world, (ServerPlayerEntity)player, player.inventory.currentItem, hand);
+                this.openGuiForItemIndex(world, (ServerPlayerEntity)player, player.inventory.selected, hand);
             }
 
             return new ActionResult(ActionResultType.SUCCESS, itemStack);

@@ -21,6 +21,8 @@ import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import java.util.List;
 import java.util.Map;
 
+import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix.ItemButton;
+
 /**
  * Broom modifier info.
  * @author rubensworks
@@ -83,7 +85,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
     @OnlyIn(Dist.CLIENT)
     protected void drawString(ScreenInfoBook gui, MatrixStack matrixStack, String string, int x, int y) {
         FontRenderer fontRenderer = gui.getFontRenderer();
-        IBidiRenderer.func_243258_a(fontRenderer, new StringTextComponent(string), 200)
-                .func_241866_c(matrixStack, x, y, 9, 0);
+        IBidiRenderer.create(fontRenderer, new StringTextComponent(string), 200)
+                .renderLeftAlignedNoShadow(matrixStack, x, y, 9, 0);
     }
 }

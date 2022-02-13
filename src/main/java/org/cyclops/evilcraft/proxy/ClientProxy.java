@@ -49,7 +49,7 @@ public class ClientProxy extends ClientProxyComponent {
 
 	@Override
 	public void registerKeyBindings(IKeyRegistry keyRegistry) {
-		GameSettings settings = Minecraft.getInstance().gameSettings;
+		GameSettings settings = Minecraft.getInstance().options;
 
 		for (KeyBinding key : Keys.KEYS)
 			ClientRegistry.registerKeyBinding(key);
@@ -59,7 +59,7 @@ public class ClientProxy extends ClientProxyComponent {
 
         keyRegistry.addKeyHandler(Keys.FART, fartKeyHandler);
         keyRegistry.addKeyHandler(Keys.EXALTEDCRAFTING, new ExaltedCrafterKeyHandler());
-        keyRegistry.addKeyHandler(settings.keyBindSneak, fartKeyHandler);
+        keyRegistry.addKeyHandler(settings.keyShift, fartKeyHandler);
 
 		EvilCraft.clog("Registered key bindings");
 	}
@@ -73,8 +73,8 @@ public class ClientProxy extends ClientProxyComponent {
 	}
 
 	public void onPreTextureStitch(TextureStitchEvent.Pre event) {
-		if (event.getMap().getTextureLocation().equals(RenderTileEntityPurifier.TEXTURE_BLOOK.getAtlasLocation())) {
-			event.addSprite(RenderTileEntityPurifier.TEXTURE_BLOOK.getTextureLocation());
+		if (event.getMap().location().equals(RenderTileEntityPurifier.TEXTURE_BLOOK.atlasLocation())) {
+			event.addSprite(RenderTileEntityPurifier.TEXTURE_BLOOK.texture());
 		}
 	}
 

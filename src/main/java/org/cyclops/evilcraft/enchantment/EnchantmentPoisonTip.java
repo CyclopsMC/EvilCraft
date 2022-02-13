@@ -13,6 +13,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 /**
  * Enchantment that poisons the attacked entity.
  * @author rubensworks
@@ -29,9 +31,9 @@ public class EnchantmentPoisonTip extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void poisonTipEvent(LivingAttackEvent event) {
-        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof LivingEntity) {
-            LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
-            ItemStack itemStack = entity.getHeldItemMainhand();
+        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) event.getSource().getEntity();
+            ItemStack itemStack = entity.getMainHandItem();
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
             if (enchantmentListID > -1) {
                 int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
@@ -42,13 +44,13 @@ public class EnchantmentPoisonTip extends Enchantment {
     }
     
     @Override
-    public int getMinEnchantability(int level) {
+    public int getMinCost(int level) {
         return 10 + (level - 1) * 10;
     }
     
     @Override
-    public int getMaxEnchantability(int level) {
-        return super.getMinEnchantability(level) + 50;
+    public int getMaxCost(int level) {
+        return super.getMinCost(level) + 50;
     }
     
     @Override
@@ -62,7 +64,7 @@ public class EnchantmentPoisonTip extends Enchantment {
      * @param level The level of the enchant.
      */
     public static void poison(LivingEntity entity, int level) {
-        entity.addPotionEffect(new EffectInstance(Effects.POISON, POISON_BASE_DURATION * 20 * (level + 1), 1));
+        entity.addEffect(new EffectInstance(Effects.POISON, POISON_BASE_DURATION * 20 * (level + 1), 1));
     }
 
 }

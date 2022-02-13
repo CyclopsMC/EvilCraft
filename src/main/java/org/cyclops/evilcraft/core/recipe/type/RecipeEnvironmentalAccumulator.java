@@ -86,19 +86,19 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironment
 
     @Override
     public boolean matches(RecipeEnvironmentalAccumulator.Inventory inv, World worldIn) {
-        return inputIngredient.test(inv.getStackInSlot(0))
+        return inputIngredient.test(inv.getItem(0))
                 && inputWeather.isActive(worldIn);
     }
 
     @Override
-    public ItemStack getCraftingResult(RecipeEnvironmentalAccumulator.Inventory inv) {
-        ItemStack inputStack = inv.getStackInSlot(0);
-        ItemStack itemStack = getRecipeOutput().copy();
+    public ItemStack assemble(RecipeEnvironmentalAccumulator.Inventory inv) {
+        ItemStack inputStack = inv.getItem(0);
+        ItemStack itemStack = getResultItem().copy();
         if (!inputStack.isEmpty() && inputStack.hasTag()) {
             if(!itemStack.hasTag()) {
                 itemStack.setTag(new CompoundNBT());
             }
-            for (String key : inputStack.getTag().keySet()) {
+            for (String key : inputStack.getTag().getAllKeys()) {
                 if(!itemStack.getTag().contains(key)) {
                     itemStack.getTag().put(key, inputStack.getTag().get(key));
                 }
@@ -108,12 +108,12 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironment
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return width * height <= 1;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return this.outputItem;
     }
 

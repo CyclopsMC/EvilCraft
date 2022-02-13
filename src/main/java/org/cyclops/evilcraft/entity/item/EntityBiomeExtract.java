@@ -56,7 +56,7 @@ import java.util.Set;
  */
 public class EntityBiomeExtract extends EntityThrowable {
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityBiomeExtract.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>defineId(EntityBiomeExtract.class, DataSerializers.ITEM_STACK);
 
     public EntityBiomeExtract(EntityType<? extends EntityThrowable> type, World world) {
         super(type, world);
@@ -77,20 +77,20 @@ public class EntityBiomeExtract extends EntityThrowable {
 
     @Nonnull
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected void onImpact(final RayTraceResult movingobjectposition) {
-        if (!world.isRemote() && movingobjectposition.getType() == RayTraceResult.Type.BLOCK) {
+    protected void onHit(final RayTraceResult movingobjectposition) {
+        if (!level.isClientSide() && movingobjectposition.getType() == RayTraceResult.Type.BLOCK) {
             ItemStack itemStack = getItem();
 
             final Biome biome = ItemBiomeExtract.getBiome(itemStack);
             if (biome != null) {
                 // Update biome in organic spread
                 Set<ChunkPos> updatedChunks = Sets.newHashSet();
-                OrganicSpread spread = new OrganicSpread(world, 2, 5, new OrganicSpread.IOrganicSpreadable() {
+                OrganicSpread spread = new OrganicSpread(level, 2, 5, new OrganicSpread.IOrganicSpreadable() {
                     @Override
                     public boolean isDone(World world, BlockPos location) {
                         return world.getBiome(location) == biome;
@@ -101,32 +101,32 @@ public class EntityBiomeExtract extends EntityThrowable {
                         setBiome((ServerWorld) world, location, biome);
                         updatedChunks.add(new ChunkPos(location));
                         // int color = biome.getFoliageColor(); // Only accessible client-side, so we copy and modify its implementation...
-                        int color = biome.effects.getFoliageColor().orElseGet(() -> {
-                            double d0 = (double)MathHelper.clamp(biome.climate.temperature, 0.0F, 1.0F);
-                            double d1 = (double)MathHelper.clamp(biome.climate.downfall, 0.0F, 1.0F);
+                        int color = biome.specialEffects.getFoliageColorOverride().orElseGet(() -> {
+                            double d0 = (double)MathHelper.clamp(biome.climateSettings.temperature, 0.0F, 1.0F);
+                            double d1 = (double)MathHelper.clamp(biome.climateSettings.downfall, 0.0F, 1.0F);
                             // Following is also on accessible client-side...
                             //return FoliageColors.get(d0, d1);
                             return Helpers.RGBToInt(20, 200, 20);
                         });
-                        showChangedBiome((ServerWorld) world, new BlockPos(location.getX(), ((BlockRayTraceResult) movingobjectposition).getPos().getY(),
+                        showChangedBiome((ServerWorld) world, new BlockPos(location.getX(), ((BlockRayTraceResult) movingobjectposition).getBlockPos().getY(),
                                 location.getZ()), color);
                     }
                 });
-                BlockPos pos = new BlockPos(movingobjectposition.getHitVec());
+                BlockPos pos = new BlockPos(movingobjectposition.getLocation());
                 for (int i = 0; i < 50; i++) {
                     spread.spreadTick(pos);
                 }
 
                 // Send chunk biome data to all players, and reset their grass colors
-                if (!world.isRemote()) {
+                if (!level.isClientSide()) {
                     for (ChunkPos chunkPos : updatedChunks) {
-                        updateChunkAfterBiomeChange(world, chunkPos);
+                        updateChunkAfterBiomeChange(level, chunkPos);
                     }
                 }
             }
 
             // Play sound and show particles of splash potion of harming
-            this.world.playBroadcastSound(2002, getPosition(), 16428);
+            this.level.globalLevelEvent(2002, blockPosition(), 16428);
 
             remove();
         }
@@ -144,7 +144,7 @@ public class EntityBiomeExtract extends EntityThrowable {
         // which can change the pos into some other internal pos.
         // In a hacky way, we can apply transformation as follows:
         Wrapper<BlockPos> posWrapper = new Wrapper<>();
-        world.getDimensionType().getMagnifier().getBiome(world.getSeed(), posIn.getX(), posIn.getY(), posIn.getZ(), new BiomeManager.IBiomeReader() {
+        world.dimensionType().getBiomeZoomer().getBiome(world.getSeed(), posIn.getX(), posIn.getY(), posIn.getZ(), new BiomeManager.IBiomeReader() {
             @Override
             public Biome getNoiseBiome(int x, int y, int z) {
                 posWrapper.set(new BlockPos(x, y, z));
@@ -169,11 +169,11 @@ public class EntityBiomeExtract extends EntityThrowable {
             // Due to some weird thing in MC, different instances of the same biome can exist.
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
             // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
-            MutableRegistry<Biome> biomeRegistry = world.func_241828_r().getRegistry(Registry.BIOME_KEY);
-            Biome biomeHack = biomeRegistry.getValueForKey(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName()));
+            MutableRegistry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+            Biome biomeHack = biomeRegistry.get(RegistryKey.create(Registry.BIOME_REGISTRY, biome.getRegistryName()));
 
             biomeArray[j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i] = biomeHack;
-            chunk.setModified(true);
+            chunk.setUnsaved(true);
         } else {
             CyclopsCore.clog(Level.WARN, "Tried changing biome at non-existing chunk for position " + noisePos);
         }
@@ -186,16 +186,16 @@ public class EntityBiomeExtract extends EntityThrowable {
      * @param chunkPos The chunk position in which one or more biome positions were changed.
      */
     public static void updateChunkAfterBiomeChange(World world, ChunkPos chunkPos) {
-        Chunk chunkSafe = world.getChunkProvider().getChunk(chunkPos.x, chunkPos.z, false);
-        ((ServerChunkProvider) world.getChunkProvider()).chunkManager.getTrackingPlayers(chunkPos, false).forEach((player) -> {
-            player.connection.sendPacket(new SChunkDataPacket(chunkSafe, 65535));
+        Chunk chunkSafe = world.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
+        ((ServerChunkProvider) world.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
+            player.connection.send(new SChunkDataPacket(chunkSafe, 65535));
             EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
         });
     }
 
     private void showChangedBiome(ServerWorld world, BlockPos pos, int color) {
         Triple<Float, Float, Float> c = Helpers.intToRGB(color);
-        Random rand = world.rand;
+        Random rand = world.random;
         for (int j = 0; j < 2 + rand.nextInt(5); j++) {
             float x = pos.getX() + -0.5F + rand.nextFloat();
             float y = pos.getY() + -0.5F + rand.nextFloat();
@@ -211,29 +211,29 @@ public class EntityBiomeExtract extends EntityThrowable {
             double motionY = 0.1F + rand.nextFloat() * 0.2F;
             double motionZ = -0.1F + rand.nextFloat() * 0.2F;
 
-            world.spawnParticle(
+            world.sendParticles(
                     new ParticleBlurData(red, green, blue, scale, ageMultiplier),
                     x, y, z, 1, motionX, motionY, motionZ, 0.1);
         }
     }
 
     @Override
-    protected float getGravityVelocity() {
+    protected float getGravity() {
         // The bigger, the faster the entity falls to the ground
         return 0.1F;
     }
 
     @Override
     public ItemStack getItem() {
-        return dataManager.get(ITEMSTACK_INDEX);
+        return entityData.get(ITEMSTACK_INDEX);
     }
     
     private void setItemStack(ItemStack stack) {
-        dataManager.set(ITEMSTACK_INDEX, stack);
+        entityData.set(ITEMSTACK_INDEX, stack);
     }
     
     @Override
-    protected void registerData() {
-        dataManager.register(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT));
+    protected void defineSynchedData() {
+        entityData.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT));
     }
 }

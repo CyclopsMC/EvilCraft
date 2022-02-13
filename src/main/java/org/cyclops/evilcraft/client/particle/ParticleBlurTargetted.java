@@ -24,22 +24,22 @@ public class ParticleBlurTargetted extends ParticleBlur {
 	
 	@Override
 	public void tick() {
-		prevPosX = posX;
-		prevPosY = posY;
-		prevPosZ = posZ;
+		xo = x;
+		yo = y;
+		zo = z;
 
-		if(age++ >= maxAge) {
-			setExpired();
+		if(age++ >= lifetime) {
+			remove();
 		}
 
-		float f = (float)this.age / (float)this.maxAge;
+		float f = (float)this.age / (float)this.lifetime;
 		float f1 = f;
 		f = -f + f * f * 2.0F;
 		f = 1.0F - f;
-		motionY -= 0.04D * particleGravity;
-		posX = targetX + motionX * f;
-		posY = targetY + motionY * f + (double)(1.0F - f1);
-		posZ = targetZ + motionZ * f;
+		yd -= 0.04D * gravity;
+		x = targetX + xd * f;
+		y = targetY + yd * f + (double)(1.0F - f1);
+		z = targetZ + zd * f;
 	}
 
 }

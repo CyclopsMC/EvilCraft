@@ -8,6 +8,9 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockInvisibleRedstone;
 import org.cyclops.evilcraft.item.ItemRedstoneGrenadeConfig;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * Tile for the {@link BlockInvisibleRedstone}.
  * @author rubensworks
@@ -31,9 +34,9 @@ public class TileInvisibleRedstone extends CyclopsTileEntity implements CyclopsT
     @Override
     public void updateTileEntity() {
         if (destroyCountDown-- <= 0) {
-        	world.removeBlock(getPos(), false);
+        	level.removeBlock(getBlockPos(), false);
         	if(ItemRedstoneGrenadeConfig.dropAfterUsage) {
-                ItemStackHelpers.spawnItemStack(world, getPos(), new ItemStack(RegistryEntries.ITEM_REDSTONE_GRENADE));
+                ItemStackHelpers.spawnItemStack(level, getBlockPos(), new ItemStack(RegistryEntries.ITEM_REDSTONE_GRENADE));
         	}
         }
     }

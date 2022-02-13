@@ -106,15 +106,15 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
     @Override
     protected void drawForgegroundString(MatrixStack matrixStack) {
         // MCP: drawString
-        font.func_243248_b(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
+        font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(matrixStack, mouseX, mouseY);
+    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+        super.renderLabels(matrixStack, mouseX, mouseY);
 
         RenderHelpers.bindTexture(texture);
-        int minusFactor = (int) (((float) (TileColossalBloodChest.MAX_EFFICIENCY - ((ContainerColossalBloodChest) getContainer()).getEfficiency()) * EFFICIENCYBARHEIGHT) / TileColossalBloodChest.MAX_EFFICIENCY);
+        int minusFactor = (int) (((float) (TileColossalBloodChest.MAX_EFFICIENCY - ((ContainerColossalBloodChest) getMenu()).getEfficiency()) * EFFICIENCYBARHEIGHT) / TileColossalBloodChest.MAX_EFFICIENCY);
         blit(matrixStack, EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
                 EFFICIENCYBARX, EFFICIENCYBARY + minusFactor, EFFICIENCYBARWIDTH, EFFICIENCYBARHEIGHT - minusFactor);
     }

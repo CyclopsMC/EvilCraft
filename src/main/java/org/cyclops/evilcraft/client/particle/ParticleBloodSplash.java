@@ -23,11 +23,11 @@ public class ParticleBloodSplash extends RainParticle {
 
     public ParticleBloodSplash(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn);
-        this.particleGravity = 0.04F;
+        this.gravity = 0.04F;
         if (ySpeedIn == 0.0D && (xSpeedIn != 0.0D || zSpeedIn != 0.0D)) {
-            this.motionX = xSpeedIn;
-            this.motionY = 0.1D;
-            this.motionZ = zSpeedIn;
+            this.xd = xSpeedIn;
+            this.yd = 0.1D;
+            this.zd = zSpeedIn;
         }
     }
 
@@ -38,7 +38,7 @@ public class ParticleBloodSplash extends RainParticle {
             float y_r = blockPos.getY() + random.nextFloat();
             float z_r = blockPos.getZ() + random.nextFloat();
 
-            Minecraft.getInstance().worldRenderer.addParticle(
+            Minecraft.getInstance().levelRenderer.addParticle(
                     RegistryEntries.PARTICLE_BLOOD_SPLASH, false,
                     x_r, y_r, z_r,
                     velocity == 0 ? 0 : random.nextInt(velocity),

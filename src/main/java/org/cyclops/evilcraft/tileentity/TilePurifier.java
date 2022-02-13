@@ -24,6 +24,9 @@ import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * Tile for the {@link BlockPurifier}..
  * @author rubensworks
@@ -89,16 +92,16 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     private Integer currentAction = -1;
 
     /* Copied from EnchantingTableTileEntity */
-    public int field_195522_a;
-    public float field_195523_f;
-    public float field_195524_g;
-    public float field_195525_h;
-    public float field_195526_i;
-    public float field_195527_j;
-    public float field_195528_k;
-    public float field_195529_l;
-    public float field_195530_m;
-    public float field_195531_n;
+    public int time;
+    public float flip;
+    public float oFlip;
+    public float flipT;
+    public float flipA;
+    public float open;
+    public float oOpen;
+    public float rot;
+    public float oRot;
+    public float tRot;
     
     /**
      * Make a new instance.
@@ -114,7 +117,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new SimpleInventory(inventorySize, stackSize) {
             @Override
-            public boolean isItemValidForSlot(int i, ItemStack itemStack) {
+            public boolean canPlaceItem(int i, ItemStack itemStack) {
                 if(i == 0) {
                     return itemStack.getCount() == 1 && getActions().isItemValidForMainSlot(itemStack);
                 } else if(i == 1) {
@@ -157,7 +160,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
         // Animation tick/display.
         if(finishedAnimation > 0) {
             finishedAnimation--;
-            if(world.isRemote()) {
+            if(level.isClientSide()) {
                 showEnchantedEffect();
             }
         }
@@ -239,7 +242,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
 
         /* Copied from EnchantingTableTileEntity */
         float f2;
-        for(f2 = this.field_195531_n - this.field_195529_l; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)) {
+        for(f2 = this.tRot - this.rot; f2 >= (float)Math.PI; f2 -= ((float)Math.PI * 2F)) {
             ;
         }
 
@@ -247,15 +250,15 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
             f2 += ((float)Math.PI * 2F);
         }
 
-        this.field_195529_l += f2 * 0.4F;
-        this.field_195527_j = MathHelper.clamp(this.field_195527_j, 0.0F, 1.0F);
-        ++this.field_195522_a;
-        this.field_195524_g = this.field_195523_f;
-        float f = (this.field_195525_h - this.field_195523_f) * 0.4F;
+        this.rot += f2 * 0.4F;
+        this.open = MathHelper.clamp(this.open, 0.0F, 1.0F);
+        ++this.time;
+        this.oFlip = this.flip;
+        float f = (this.flipT - this.flip) * 0.4F;
         float f3 = 0.2F;
         f = MathHelper.clamp(f, -0.2F, 0.2F);
-        this.field_195526_i += (f - this.field_195526_i) * 0.9F;
-        this.field_195523_f += this.field_195526_i;
+        this.flipA += (f - this.flipA) * 0.9F;
+        this.flip += this.flipA;
     }
     
     /**
@@ -263,7 +266,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The purify item.
      */
     public ItemStack getPurifyItem() {
-        return getInventory().getStackInSlot(SLOT_PURIFY);
+        return getInventory().getItem(SLOT_PURIFY);
     }
     
     /**
@@ -271,8 +274,8 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @param itemStack The purify item.
      */
     public void setPurifyItem(ItemStack itemStack) {
-        this.randomRotation = world.rand.nextFloat() * 360;
-        getInventory().setInventorySlotContents(SLOT_PURIFY, itemStack);
+        this.randomRotation = level.random.nextFloat() * 360;
+        getInventory().setItem(SLOT_PURIFY, itemStack);
     }
     
     /**
@@ -280,7 +283,7 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @return The book item.
      */
     public ItemStack getAdditionalItem() {
-        return getInventory().getStackInSlot(SLOT_ADDITIONAL);
+        return getInventory().getItem(SLOT_ADDITIONAL);
     }
     
     /**
@@ -288,21 +291,21 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
      * @param itemStack The book item.
      */
     public void setAdditionalItem(ItemStack itemStack) {
-        getInventory().setInventorySlotContents(SLOT_ADDITIONAL, itemStack);
+        getInventory().setItem(SLOT_ADDITIONAL, itemStack);
     }
     
     @OnlyIn(Dist.CLIENT)
     public void showEffect() {
         for (int i=0; i < 1; i++) {                
-            double particleX = getPos().getX() + 0.2 + world.rand.nextDouble() * 0.6;
-            double particleY = getPos().getY() + 0.2 + world.rand.nextDouble() * 0.6;
-            double particleZ = getPos().getZ() + 0.2 + world.rand.nextDouble() * 0.6;
+            double particleX = getBlockPos().getX() + 0.2 + level.random.nextDouble() * 0.6;
+            double particleY = getBlockPos().getY() + 0.2 + level.random.nextDouble() * 0.6;
+            double particleZ = getBlockPos().getZ() + 0.2 + level.random.nextDouble() * 0.6;
 
-            float particleMotionX = -0.01F + world.rand.nextFloat() * 0.02F;
+            float particleMotionX = -0.01F + level.random.nextFloat() * 0.02F;
             float particleMotionY = 0.01F;
-            float particleMotionZ = -0.01F + world.rand.nextFloat() * 0.02F;
+            float particleMotionZ = -0.01F + level.random.nextFloat() * 0.02F;
 
-            Minecraft.getInstance().worldRenderer.addParticle(
+            Minecraft.getInstance().levelRenderer.addParticle(
                     RegistryEntries.PARTICLE_BLOOD_BUBBLE, false,
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
@@ -310,17 +313,17 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     
     @OnlyIn(Dist.CLIENT)
     public void showEnchantingEffect() {
-        if(world.rand.nextInt(10) == 0) {
+        if(level.random.nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {                
-                double particleX = getPos().getX() + 0.45 + world.rand.nextDouble() * 0.1;
-                double particleY = getPos().getY() + 1.45 + world.rand.nextDouble() * 0.1;
-                double particleZ = getPos().getZ() + 0.45 + world.rand.nextDouble() * 0.1;
+                double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
+                double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
+                double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
                 
-                float particleMotionX = -0.4F + world.rand.nextFloat() * 0.8F;
-                float particleMotionY = -world.rand.nextFloat();
-                float particleMotionZ = -0.4F + world.rand.nextFloat() * 0.8F;
+                float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
+                float particleMotionY = -level.random.nextFloat();
+                float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
 
-                Minecraft.getInstance().worldRenderer.addParticle(
+                Minecraft.getInstance().levelRenderer.addParticle(
                         ParticleTypes.ENCHANT, false,
                         particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             }
@@ -330,15 +333,15 @@ public class TilePurifier extends TankInventoryTileEntity implements CyclopsTile
     @OnlyIn(Dist.CLIENT)
     private void showEnchantedEffect() {
         for (int i=0; i < 100; i++) {                
-            double particleX = getPos().getX() + 0.45 + world.rand.nextDouble() * 0.1;
-            double particleY = getPos().getY() + 1.45 + world.rand.nextDouble() * 0.1;
-            double particleZ = getPos().getZ() + 0.45 + world.rand.nextDouble() * 0.1;
+            double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
+            double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
+            double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
             
-            float particleMotionX = -0.4F + world.rand.nextFloat() * 0.8F;
-            float particleMotionY = -0.4F + world.rand.nextFloat() * 0.8F;
-            float particleMotionZ = -0.4F + world.rand.nextFloat() * 0.8F;
+            float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
+            float particleMotionY = -0.4F + level.random.nextFloat() * 0.8F;
+            float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
 
-            Minecraft.getInstance().worldRenderer.addParticle(
+            Minecraft.getInstance().levelRenderer.addParticle(
                     RegistryEntries.PARTICLE_MAGIC_FINISH, false,
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }

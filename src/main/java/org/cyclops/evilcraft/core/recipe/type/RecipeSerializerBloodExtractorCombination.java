@@ -17,20 +17,20 @@ public class RecipeSerializerBloodExtractorCombination extends ForgeRegistryEntr
         implements IRecipeSerializer<RecipeBloodExtractorCombination> {
 
     @Override
-    public RecipeBloodExtractorCombination read(ResourceLocation recipeId, JsonObject json) {
-        int maxCapacity = JSONUtils.getInt(json, "maxCapacity");
+    public RecipeBloodExtractorCombination fromJson(ResourceLocation recipeId, JsonObject json) {
+        int maxCapacity = JSONUtils.getAsInt(json, "maxCapacity");
         return new RecipeBloodExtractorCombination(recipeId, maxCapacity);
     }
 
     @Nullable
     @Override
-    public RecipeBloodExtractorCombination read(ResourceLocation recipeId, PacketBuffer buffer) {
+    public RecipeBloodExtractorCombination fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
         int maxCapacity = buffer.readInt();
         return new RecipeBloodExtractorCombination(recipeId, maxCapacity);
     }
 
     @Override
-    public void write(PacketBuffer buffer, RecipeBloodExtractorCombination recipe) {
+    public void toNetwork(PacketBuffer buffer, RecipeBloodExtractorCombination recipe) {
         buffer.writeInt(recipe.getMaxCapacity());
     }
 }

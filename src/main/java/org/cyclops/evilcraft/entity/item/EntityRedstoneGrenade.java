@@ -38,21 +38,21 @@ public class EntityRedstoneGrenade extends ThrowableEntity implements IRendersAs
 
     @Nonnull
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected void onImpact(RayTraceResult pos) {
+    protected void onHit(RayTraceResult pos) {
         if (pos.getType() == RayTraceResult.Type.BLOCK) {
-            BlockPos blockPos = ((BlockRayTraceResult) pos).getPos();
+            BlockPos blockPos = ((BlockRayTraceResult) pos).getBlockPos();
 
-            if (world.isAirBlock(blockPos.offset(((BlockRayTraceResult) pos).getFace()))) {
-                world.setBlockState(blockPos.add(((BlockRayTraceResult) pos).getFace().getDirectionVec()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.getDefaultState());
+            if (level.isEmptyBlock(blockPos.relative(((BlockRayTraceResult) pos).getDirection()))) {
+                level.setBlockAndUpdate(blockPos.offset(((BlockRayTraceResult) pos).getDirection().getNormal()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.defaultBlockState());
 
-                if (world.isRemote()) {
-                    Minecraft.getInstance().worldRenderer.addParticle(
-                            RedstoneParticleData.REDSTONE_DUST, false,
+                if (level.isClientSide()) {
+                    Minecraft.getInstance().levelRenderer.addParticle(
+                            RedstoneParticleData.REDSTONE, false,
                             blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 1, 0, 0);
                 }
             }
@@ -62,7 +62,7 @@ public class EntityRedstoneGrenade extends ThrowableEntity implements IRendersAs
     }
 
     @Override
-    protected void registerData() {
+    protected void defineSynchedData() {
 
     }
 

@@ -40,8 +40,8 @@ public class ItemBroomConfig extends ItemConfig {
                 EvilCraft._instance,
             "broom",
                 eConfig -> new ItemBroom(new Item.Properties()
-                        .maxStackSize(1)
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .stacksTo(1)
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

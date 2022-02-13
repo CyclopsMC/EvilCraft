@@ -36,98 +36,98 @@ public class EntityNoMob extends CreatureEntity {
 
     public EntityNoMob(EntityType<? extends EntityNoMob> type, World world) {
         super(type, world);
-        this.experienceValue = 5;
+        this.xpReward = 5;
     }
 
     /* DIRECT COPY OF MonsterEntity contents below. */
 
-    public SoundCategory getSoundCategory() {
+    public SoundCategory getSoundSource() {
         return SoundCategory.HOSTILE;
     }
 
-    public void livingTick() {
-        this.updateArmSwingProgress();
+    public void aiStep() {
+        this.updateSwingTime();
         this.idle();
-        super.livingTick();
+        super.aiStep();
     }
 
     protected void idle() {
         float f = this.getBrightness();
         if (f > 0.5F) {
-            this.idleTime += 2;
+            this.noActionTime += 2;
         }
 
     }
 
-    protected boolean isDespawnPeaceful() {
+    protected boolean shouldDespawnInPeaceful() {
         return true;
     }
 
     protected SoundEvent getSwimSound() {
-        return SoundEvents.ENTITY_HOSTILE_SWIM;
+        return SoundEvents.HOSTILE_SWIM;
     }
 
-    protected SoundEvent getSplashSound() {
-        return SoundEvents.ENTITY_HOSTILE_SPLASH;
+    protected SoundEvent getSwimSplashSound() {
+        return SoundEvents.HOSTILE_SPLASH;
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        return this.isInvulnerableTo(source) ? false : super.attackEntityFrom(source, amount);
+    public boolean hurt(DamageSource source, float amount) {
+        return this.isInvulnerableTo(source) ? false : super.hurt(source, amount);
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_HOSTILE_HURT;
+        return SoundEvents.HOSTILE_HURT;
     }
 
     public SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_HOSTILE_DEATH;
+        return SoundEvents.HOSTILE_DEATH;
     }
 
-    protected SoundEvent getFallSound(int heightIn) {
-        return heightIn > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.ENTITY_HOSTILE_SMALL_FALL;
+    protected SoundEvent getFallDamageSound(int heightIn) {
+        return heightIn > 4 ? SoundEvents.HOSTILE_BIG_FALL : SoundEvents.HOSTILE_SMALL_FALL;
     }
 
-    public float getBlockPathWeight(BlockPos pos, IWorldReader worldIn) {
+    public float getWalkTargetValue(BlockPos pos, IWorldReader worldIn) {
         return 0.5F - worldIn.getBrightness(pos);
     }
 
     public static boolean isValidLightLevel(IServerWorld worldIn, BlockPos pos, Random randomIn) {
-        if (worldIn.getLightFor(LightType.SKY, pos) > randomIn.nextInt(32)) {
+        if (worldIn.getBrightness(LightType.SKY, pos) > randomIn.nextInt(32)) {
             return false;
         } else {
-            int i = worldIn.getWorld().isThundering() ? worldIn.getNeighborAwareLightSubtracted(pos, 10) : worldIn.getLight(pos);
+            int i = worldIn.getLevel().isThundering() ? worldIn.getMaxLocalRawBrightness(pos, 10) : worldIn.getMaxLocalRawBrightness(pos);
             return i <= randomIn.nextInt(8);
         }
     }
 
     public static boolean canMonsterSpawnInLight(EntityType<? extends MonsterEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(worldIn, pos, randomIn) && canSpawnOn(type, worldIn, reason, pos, randomIn);
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(worldIn, pos, randomIn) && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
     }
 
     public static boolean canMonsterSpawn(EntityType<? extends MonsterEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
-        return worldIn.getDifficulty() != Difficulty.PEACEFUL && canSpawnOn(type, worldIn, reason, pos, randomIn);
+        return worldIn.getDifficulty() != Difficulty.PEACEFUL && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
     }
 
-    public static AttributeModifierMap.MutableAttribute func_234295_eP_() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.ATTACK_DAMAGE);
+    public static AttributeModifierMap.MutableAttribute createMonsterAttributes() {
+        return MobEntity.createMobAttributes().add(Attributes.ATTACK_DAMAGE);
     }
 
-    protected boolean canDropLoot() {
+    protected boolean shouldDropExperience() {
         return true;
     }
 
-    protected boolean func_230282_cS_() {
+    protected boolean shouldDropLoot() {
         return true;
     }
 
-    public boolean func_230292_f_(PlayerEntity p_230292_1_) {
+    public boolean isPreventingPlayerRest(PlayerEntity p_230292_1_) {
         return true;
     }
 
-    public ItemStack findAmmo(ItemStack shootable) {
+    public ItemStack getProjectile(ItemStack shootable) {
         if (shootable.getItem() instanceof ShootableItem) {
-            Predicate<ItemStack> predicate = ((ShootableItem)shootable.getItem()).getAmmoPredicate();
-            ItemStack itemstack = ShootableItem.getHeldAmmo(this, predicate);
+            Predicate<ItemStack> predicate = ((ShootableItem)shootable.getItem()).getSupportedHeldProjectiles();
+            ItemStack itemstack = ShootableItem.getHeldProjectile(this, predicate);
             return itemstack.isEmpty() ? new ItemStack(Items.ARROW) : itemstack;
         } else {
             return ItemStack.EMPTY;

@@ -25,16 +25,16 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     public void register(EntityDataManager dataManager) {
         this.dataManager = dataManager;
         EntityType<?> innerEntity = super.getInnerEntityType();
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : innerEntity.getRegistryName().toString());
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_REMAININGLIFE, super.getRemainingLife());
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_FROZENDURATION, super.getFrozenDuration());
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_GLOBALVENGEANCE, 0);
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_VENGEANCEPLAYERS, "");
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_ISSWARM, super.isSwarm() ? 1 : 0);
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_SWARMTIER, super.getSwarmTier());
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_BUILDUP, super.getBuildupDuration());
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_PLAYERID, super.getPlayerId());
-        dataManager.register(EntityVengeanceSpirit.WATCHERID_PLAYERNAME, super.getPlayerName());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : innerEntity.getRegistryName().toString());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_REMAININGLIFE, super.getRemainingLife());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_FROZENDURATION, super.getFrozenDuration());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_GLOBALVENGEANCE, 0);
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_VENGEANCEPLAYERS, "");
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_ISSWARM, super.isSwarm() ? 1 : 0);
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_SWARMTIER, super.getSwarmTier());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_BUILDUP, super.getBuildupDuration());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_PLAYERID, super.getPlayerId());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_PLAYERNAME, super.getPlayerName());
     }
 
     @Nullable

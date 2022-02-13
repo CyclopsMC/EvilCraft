@@ -37,21 +37,21 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
     public BlockBloodInfuser(Block.Properties properties) {
         super(properties, TileBloodInfuser::new);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(FACING, Direction.NORTH)
-                .with(ON, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(ON, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, ON);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState()
-                .with(FACING, context.getPlacementHorizontalFacing())
-                .with(ON, false);
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection())
+                .setValue(ON, false);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
-        ParticleBloodBubble.randomDisplayTick((TileWorking) worldIn.getTileEntity(pos), worldIn, pos,
+        ParticleBloodBubble.randomDisplayTick((TileWorking) worldIn.getBlockEntity(pos), worldIn, pos,
                 rand, BlockHelpers.getSafeBlockStateProperty(stateIn, FACING, Direction.NORTH));
         super.animateTick(stateIn, worldIn, pos, rand);
     }
@@ -78,7 +78,7 @@ public class BlockBloodInfuser extends BlockTileGuiTank {
     public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, FluidState fluid) {
         TileHelpers.getSafeTile(world, pos, TileBloodInfuser.class)
                 .ifPresent(tile -> {
-                    EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(tile.getXp()));
+                    EntityHelpers.spawnXpAtPlayer(player.level, player, (int) Math.floor(tile.getXp()));
                     tile.resetXp();
                 });
         return super.removedByPlayer(state, world, pos, player, willHarvest, fluid);

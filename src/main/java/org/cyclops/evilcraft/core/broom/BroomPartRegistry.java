@@ -118,7 +118,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     @Override
     public <P extends IBroomPart> P getPartFromItem(ItemStack item) {
         for (Map.Entry<IBroomPart, ItemStack> entry : partItems.entries()) {
-            if (ItemStack.areItemsEqual(item, entry.getValue()) && ItemStack.areItemStackTagsEqual(item, entry.getValue())) {
+            if (ItemStack.isSame(item, entry.getValue()) && ItemStack.tagMatches(item, entry.getValue())) {
                 return (P) entry.getKey();
             }
         }
@@ -207,13 +207,13 @@ public class BroomPartRegistry implements IBroomPartRegistry {
                 if (!modifiers.isEmpty()) {
                     if (MinecraftHelpers.isShifted()) {
                         event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types")
-                                .mergeStyle(TextFormatting.ITALIC));
+                                .withStyle(TextFormatting.ITALIC));
                         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                             event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                         }
                     } else {
                         event.getToolTip().add(new TranslationTextComponent("broom.parts." + Reference.MOD_ID + ".shiftinfo")
-                                .mergeStyle(TextFormatting.ITALIC));
+                                .withStyle(TextFormatting.ITALIC));
                     }
                 }
             }

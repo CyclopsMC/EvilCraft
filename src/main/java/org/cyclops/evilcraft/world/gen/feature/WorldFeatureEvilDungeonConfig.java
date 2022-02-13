@@ -28,7 +28,7 @@ public class WorldFeatureEvilDungeonConfig extends WorldFeatureConfig {
         super(
                 EvilCraft._instance,
                 "evil_dungeon",
-                eConfig -> new WorldFeatureEvilDungeon(NoFeatureConfig.field_236558_a_)
+                eConfig -> new WorldFeatureEvilDungeon(NoFeatureConfig.CODEC)
         );
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
@@ -40,8 +40,8 @@ public class WorldFeatureEvilDungeonConfig extends WorldFeatureConfig {
         CONFIGURED_FEATURE = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), getNamedId() + "_default"),
                 ((WorldFeatureEvilDungeon) getInstance())
-                        .withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)
-                        .range(256).square().func_242731_b(10));
+                        .configured(IFeatureConfig.NONE)
+                        .range(256).squared().count(10));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {

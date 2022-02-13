@@ -16,7 +16,7 @@ public class ItemBloodOrbConfig extends ItemConfig {
                 EvilCraft._instance,
                 "blood_orb_" + (filled ? "filled" : "empty"),
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

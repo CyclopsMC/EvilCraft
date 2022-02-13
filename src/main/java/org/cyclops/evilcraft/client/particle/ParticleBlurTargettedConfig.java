@@ -21,7 +21,7 @@ public class ParticleBlurTargettedConfig extends ParticleConfig<ParticleBlurTarg
         super(EvilCraft._instance, "blur_targetted", eConfig -> new ParticleType<ParticleBlurTargettedData>(false, ParticleBlurTargettedData.DESERIALIZER) {
 
             @Override
-            public Codec<ParticleBlurTargettedData> func_230522_e_() {
+            public Codec<ParticleBlurTargettedData> codec() {
                 return ParticleBlurTargettedData.CODEC;
             }
         });
@@ -40,7 +40,7 @@ public class ParticleBlurTargettedConfig extends ParticleConfig<ParticleBlurTarg
     public ParticleManager.IParticleMetaFactory<ParticleBlurTargettedData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleBlurTargettedData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleBlurTargetted particle = new ParticleBlurTargetted(particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

@@ -37,7 +37,7 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
     }
 
     @Override
-    public boolean generate(ISeedReader world, ChunkGenerator generator, Random random, BlockPos blockPos, NoFeatureConfig config) {
+    public boolean place(ISeedReader world, ChunkGenerator generator, Random random, BlockPos blockPos, NoFeatureConfig config) {
         int height = 3;
         int radiusX = random.nextInt(RADIUS_X_RAND) + RADIUS_X;
         int radiusZ = random.nextInt(RADIUS_Z_RAND) + RADIUS_Z;
@@ -55,7 +55,7 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                 	BlockPos loopPos = new BlockPos(xr, yr, zr);
 
                 	// Skip invalid chunk generation positions.
-                	if(!world.getChunkProvider().chunkExists(xr / 16, yr / 16)) {
+                	if(!world.getChunkSource().hasChunk(xr / 16, yr / 16)) {
                 		return false;
                 	}
                 	
@@ -65,7 +65,7 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                     if (yr == y + height + 1 && !material.isSolid())
                         return false;
                     if ((xr == x - radiusX - 1 || xr == x + radiusX + 1 || zr == z - radiusZ - 1 || zr == z + radiusZ + 1)
-                            && yr == y && world.isAirBlock(loopPos) && world.isAirBlock(loopPos.add(0, 1, 0)))
+                            && yr == y && world.isEmptyBlock(loopPos) && world.isEmptyBlock(loopPos.offset(0, 1, 0)))
                         ++openingCounter;
                 }
             }
@@ -83,13 +83,13 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                                 && yr != y + height + 1
                                 && zr != z + radiusZ + 1) {
                             world.removeBlock(loopPos, false);
-                        } else if (yr >= 0 && !world.getBlockState(loopPos.add(0, -1, 0)).getMaterial().isSolid()) {
+                        } else if (yr >= 0 && !world.getBlockState(loopPos.offset(0, -1, 0)).getMaterial().isSolid()) {
                             world.removeBlock(loopPos, false);
                         } else if (world.getBlockState(loopPos).getMaterial().isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
-                                world.setBlockState(loopPos, RegistryEntries.BLOCK_BLOODY_COBBLESTONE.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                                world.setBlock(loopPos, RegistryEntries.BLOCK_BLOODY_COBBLESTONE.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                             } else {
-                                world.setBlockState(loopPos, Blocks.COBBLESTONE.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                                world.setBlock(loopPos, Blocks.COBBLESTONE.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                             }
                         }
                     }
@@ -103,25 +103,25 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                 int zrr = z + random.nextInt(radiusZ * 2 + 1) - radiusZ;
                 BlockPos loopPos = new BlockPos(xrr, y, zrr);
 
-                if (world.isAirBlock(loopPos)) {
+                if (world.isEmptyBlock(loopPos)) {
                     int wallCounter = 0;
 
-                    if (world.getBlockState(loopPos.add(-1, 0, 0)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(-1, 0, 0)).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.add(1, 0, 0)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(1, 0, 0)).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.add(0, 0, -1)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(0, 0, -1)).getMaterial().isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.add(0, 0, 1)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(0, 0, 1)).getMaterial().isSolid())
                         ++wallCounter;
 
                     if (wallCounter == 1) {
-                        world.setBlockState(loopPos, Blocks.CHEST.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                        world.setBlock(loopPos, Blocks.CHEST.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                          // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
-                        LockableLootTileEntity.setLootTable(world, random, loopPos, LootTables.CHESTS_SIMPLE_DUNGEON);
+                        LockableLootTileEntity.setLootTable(world, random, loopPos, LootTables.SIMPLE_DUNGEON);
 
                         chests--;
                     }
@@ -132,11 +132,11 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
             for(int xs = x - 1; xs <= x + 1; xs += 2) {
                 for(int zs = z - 1; zs <= z + 1; zs += 2) {
                     BlockPos loopPos = new BlockPos(xs, y, zs);
-                    world.setBlockState(loopPos, Blocks.SPAWNER.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-                    TileEntity tile = world.getTileEntity(loopPos);
+                    world.setBlock(loopPos, Blocks.SPAWNER.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                    TileEntity tile = world.getBlockEntity(loopPos);
         
                     if (tile instanceof MobSpawnerTileEntity) {
-                        ((MobSpawnerTileEntity) tile).getSpawnerBaseLogic().setEntityType(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
+                        ((MobSpawnerTileEntity) tile).getSpawner().setEntityId(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

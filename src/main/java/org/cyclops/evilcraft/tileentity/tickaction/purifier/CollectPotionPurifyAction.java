@@ -44,11 +44,11 @@ public class CollectPotionPurifyAction implements IPurifierAction {
         if(tile.getPurifyItem().isEmpty() && !tile.getAdditionalItem().isEmpty() &&
                 tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
-            List<LivingEntity> entities = tile.getWorld().getEntitiesWithinAABB(LivingEntity.class,
-                    new AxisAlignedBB(tile.getPos(), tile.getPos().add(1, 2, 1))
+            List<LivingEntity> entities = tile.getLevel().getEntitiesOfClass(LivingEntity.class,
+                    new AxisAlignedBB(tile.getBlockPos(), tile.getBlockPos().offset(1, 2, 1))
             );
             for(LivingEntity entity : entities) {
-                for(EffectInstance potionEffect : entity.getActivePotionEffects()) {
+                for(EffectInstance potionEffect : entity.getActiveEffects()) {
                     if(!potionEffect.isAmbient()) {
                         return true;
                     }
@@ -61,24 +61,24 @@ public class CollectPotionPurifyAction implements IPurifierAction {
     @SuppressWarnings("unchecked")
     @Override
     public boolean work(TilePurifier tile) {
-        World world = tile.getWorld();
+        World world = tile.getLevel();
         int tick = tile.getTick();
 
         // Try removing bad enchants.
         if(tile.getPurifyItem().isEmpty() && !tile.getAdditionalItem().isEmpty()
                 && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
-            List<LivingEntity> entities = tile.getWorld().getEntitiesWithinAABB(LivingEntity.class,
-                    new AxisAlignedBB(tile.getPos(), tile.getPos().add(1, 2, 1))
+            List<LivingEntity> entities = tile.getLevel().getEntitiesOfClass(LivingEntity.class,
+                    new AxisAlignedBB(tile.getBlockPos(), tile.getBlockPos().offset(1, 2, 1))
             );
             for(LivingEntity entity : entities) {
-                if(!entity.getActivePotionEffects().isEmpty()) {
+                if(!entity.getActiveEffects().isEmpty()) {
                     if(tick >= PURIFY_DURATION) {
-                        if(!world.isRemote()) {
-                            for(EffectInstance potionEffect : entity.getActivePotionEffects()) {
+                        if(!world.isClientSide()) {
+                            for(EffectInstance potionEffect : entity.getActiveEffects()) {
                                 if(!potionEffect.isAmbient()) {
                                     // Remove effect from entity
-                                    entity.removePotionEffect(potionEffect.getPotion());
+                                    entity.removeEffect(potionEffect.getEffect());
 
                                     ItemStack itemStack = new ItemStack(Items.POTION);
 
@@ -87,7 +87,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                                     ListNBT tagList = new ListNBT();
                                     CompoundNBT potionTag = new CompoundNBT();
                                     itemStack.setTag(tag);
-                                    potionEffect.write(potionTag);
+                                    potionEffect.save(potionTag);
                                     tagList.add(potionTag);
                                     tag.put("CustomPotionEffects", tagList);
 
@@ -100,7 +100,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                         }
 
                     }
-                    if(world.isRemote()) {
+                    if(world.isClientSide()) {
                         tile.showEffect();
                     }
                 }

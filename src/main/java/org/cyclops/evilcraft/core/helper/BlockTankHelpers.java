@@ -26,6 +26,8 @@ import org.cyclops.evilcraft.core.fluid.SimulatedFluidStack;
 
 import javax.annotation.Nonnull;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 /**
  * Helpers related to blocks with tanks.
  * @author rubensworks
@@ -53,7 +55,7 @@ public class BlockTankHelpers {
                 .map(handler -> ((IFluidHandlerItemCapacity) handler).getCapacity())
                 .orElse(0);
         return DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity)
-                .mergeStyle(IInformationProvider.ITEM_PREFIX);
+                .withStyle(IInformationProvider.ITEM_PREFIX);
     }
 
     /**

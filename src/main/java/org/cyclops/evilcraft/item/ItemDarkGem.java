@@ -14,6 +14,8 @@ import org.cyclops.evilcraft.block.BlockFluidBlood;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Gem that drops from {@link BlockDarkOre}.
  * @author rubensworks
@@ -32,11 +34,11 @@ public class ItemDarkGem extends Item {
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
         // This will transform a dark gem into a blood infusion core when it finds 
         // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighbourhood.
-        if (!entityItem.world.isRemote()
-        		&& WorldHelpers.efficientTick(entityItem.world, TICK_MODULUS,
-        				(int) entityItem.getPosX(), (int) entityItem.getPosY(), (int) entityItem.getPosZ())) {
-            final BlockPos blockPos = entityItem.getPosition();
-            World world = entityItem.world;
+        if (!entityItem.level.isClientSide()
+        		&& WorldHelpers.efficientTick(entityItem.level, TICK_MODULUS,
+        				(int) entityItem.getX(), (int) entityItem.getY(), (int) entityItem.getZ())) {
+            final BlockPos blockPos = entityItem.blockPosition();
+            World world = entityItem.level;
             
             int amount = 0;
             if(isValidBlock(world, blockPos)) {
@@ -61,14 +63,14 @@ public class ItemDarkGem extends Item {
                             if(++amount == REQUIRED_BLOOD_BLOCKS) {
                                 // Spawn the new item
                                 entityItem.getItem().shrink(1);
-                                entityItem.entityDropItem(new ItemStack(RegistryEntries.ITEM_DARK_POWER_GEM));
+                                entityItem.spawnAtLocation(new ItemStack(RegistryEntries.ITEM_DARK_POWER_GEM));
 
                                 // Retrace coordinate steps and remove all those blocks + spawn particles
                                 for(int restep = 0; restep < amount; restep++) {
-                                    world.setBlockState(visited[restep], Blocks.AIR.getDefaultState());
-                                    if (world.isRemote())
-                                        BlockBloodStain.splash(world, visited[restep].add(0, -1, 0));
-                                    world.notifyNeighborsOfStateChange(visited[restep], Blocks.AIR);
+                                    world.setBlockAndUpdate(visited[restep], Blocks.AIR.defaultBlockState());
+                                    if (world.isClientSide())
+                                        BlockBloodStain.splash(world, visited[restep].offset(0, -1, 0));
+                                    world.updateNeighborsAt(visited[restep], Blocks.AIR);
                                 }
                                 return -1;
                             }

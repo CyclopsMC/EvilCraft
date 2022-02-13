@@ -16,7 +16,7 @@ public class ItemMaceOfDistortionConfig extends ItemConfig {
                 EvilCraft._instance,
             "mace_of_distortion",
                 eConfig -> new ItemMaceOfDistortion(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

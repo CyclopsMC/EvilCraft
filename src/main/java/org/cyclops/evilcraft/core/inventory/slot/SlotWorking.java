@@ -22,19 +22,19 @@ public class SlotWorking<T extends TileWorking<T, ?>> extends Slot {
     public SlotWorking(int index, int x, int y, ContainerTileWorking<T> container, World world) {
         super(container.getContainerInventory(), index, x, y);
         this.container = container;
-        this.lastSlotContents = getStack();
+        this.lastSlotContents = getItem();
         this.world = world;
     }
     
     @Override
-    public boolean isItemValid(ItemStack itemStack) {
+    public boolean mayPlace(ItemStack itemStack) {
         return !itemStack.isEmpty() && container.getTileWorkingMetadata().canConsume(itemStack, this.world);
     }
     
     @Override
     public ItemStack onTake(PlayerEntity player, ItemStack itemStack) {
         container.getTileSupplier().ifPresent(tile -> {
-            if(!ItemStack.areItemStackTagsEqual(itemStack, this.getStack())) {
+            if(!ItemStack.tagMatches(itemStack, this.getItem())) {
                 tile.resetWork();
             }
         });
@@ -42,13 +42,13 @@ public class SlotWorking<T extends TileWorking<T, ?>> extends Slot {
     }
     
     @Override
-    public void onSlotChanged() {
+    public void setChanged() {
         container.getTileSupplier().ifPresent(tile -> {
-            if(!ItemStack.areItemStackTagsEqual(lastSlotContents, this.getStack())) {
+            if(!ItemStack.tagMatches(lastSlotContents, this.getItem())) {
                 tile.resetWork();
             }
         });
-        lastSlotContents = this.getStack();
+        lastSlotContents = this.getItem();
         if(!lastSlotContents.isEmpty()) lastSlotContents = lastSlotContents.copy();
     }
 	

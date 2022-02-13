@@ -28,11 +28,11 @@ public class BlockPurifierConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "purifier",
-                eConfig -> new BlockPurifier(Block.Properties.create(Material.IRON)
-                        .hardnessAndResistance(2.5F)
+                eConfig -> new BlockPurifier(Block.Properties.of(Material.METAL)
+                        .strength(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

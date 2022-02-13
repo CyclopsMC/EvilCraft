@@ -60,27 +60,27 @@ public class ItemKineticator extends ItemBloodContainer {
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if(!ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, POWER_LEVELS, false) && !world.isRemote()) {
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if(!ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, POWER_LEVELS, false) && !world.isClientSide()) {
             ItemHelpers.toggleActivation(itemStack);
         }
         return MinecraftHelpers.successAction(itemStack);
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getTranslationKey() + ".info.attraction");
-        list.add(new TranslationTextComponent(getTranslationKey() + ".info.area", getArea(itemStack))
-                .mergeStyle(TextFormatting.BOLD));
+                getDescriptionId() + ".info.attraction");
+        list.add(new TranslationTextComponent(getDescriptionId() + ".info.area", getArea(itemStack))
+                .withStyle(TextFormatting.BOLD));
     }
 
     /**
@@ -111,7 +111,7 @@ public class ItemKineticator extends ItemBloodContainer {
     
     @Override
     public boolean onEntityItemUpdate(ItemStack itemStack, ItemEntity entityItem) {
-        kineticate(itemStack, entityItem.world, entityItem);
+        kineticate(itemStack, entityItem.level, entityItem);
         return super.onEntityItemUpdate(itemStack, entityItem);
     }
     
@@ -125,16 +125,16 @@ public class ItemKineticator extends ItemBloodContainer {
             boolean isPlayer = entity instanceof PlayerEntity;
         	
             // Center of the attraction
-            double x = entity.getPosX();
-            double y = entity.getPosY();
-            double z = entity.getPosZ();
+            double x = entity.getX();
+            double y = entity.getY();
+            double z = entity.getZ();
 
             // Not ticking every tick.
             if(0 == world.getGameTime() % ItemKineticatorConfig.tickHoldoff) {
                 // Get items in calculated area.
                 int area = getArea(itemStack);
-                AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).grow(area);
-                List<Entity> entities = world.getEntitiesInAABBexcluding(entity, box, new Predicate<Entity>() {
+                AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).inflate(area);
+                List<Entity> entities = world.getEntities(entity, box, new Predicate<Entity>() {
 
                     @Override
                     public boolean apply(Entity entity) {
@@ -147,12 +147,12 @@ public class ItemKineticator extends ItemBloodContainer {
                 // Move all those items in the direction of the player.
                 for(Entity moveEntity : entities) {
                     if(repelling ||
-                            (moveEntity instanceof ItemEntity && !((ItemEntity) moveEntity).cannotPickup()
+                            (moveEntity instanceof ItemEntity && !((ItemEntity) moveEntity).hasPickUpDelay()
                                     && canKineticateItem(((ItemEntity) moveEntity).getItem())) ||
                             (moveEntity instanceof ExperienceOrbEntity)) {
-                        double dx = moveEntity.getPosX() - x;
-                        double dy = moveEntity.getPosY() - (isPlayer ? (y + (world.isRemote() ? -1 : 1)) : y);
-                        double dz = moveEntity.getPosZ() - z;
+                        double dx = moveEntity.getX() - x;
+                        double dy = moveEntity.getY() - (isPlayer ? (y + (world.isClientSide() ? -1 : 1)) : y);
+                        double dz = moveEntity.getZ() - z;
                         double strength = -0.3;
                         if (isPlayer) {
                             strength = -1;
@@ -172,16 +172,16 @@ public class ItemKineticator extends ItemBloodContainer {
                             dx *= m;
                             dy *= m;
                             dz *= m;
-                            if (world.isRemote()) {
+                            if (world.isClientSide()) {
                                 showEntityMoved(world, entity, moveEntity, dx / 10, dy / 10, dz / 10);
                             } else {
                                 if (moveEntity instanceof ItemEntity && d < 5.0D) {
-                                    ((ItemEntity) moveEntity).setPickupDelay(repelling ? 5 : 0);
+                                    ((ItemEntity) moveEntity).setPickUpDelay(repelling ? 5 : 0);
                                 }
-                                moveEntity.setMotion(new Vector3d(dx, dy, dz)
-                                        .mul(strength, strength, strength));
-                                if(moveEntity.collidedHorizontally) {
-                                    moveEntity.setMotion(new Vector3d(moveEntity.getMotion().x, 0.3, moveEntity.getMotion().z));
+                                moveEntity.setDeltaMovement(new Vector3d(dx, dy, dz)
+                                        .multiply(strength, strength, strength));
+                                if(moveEntity.horizontalCollision) {
+                                    moveEntity.setDeltaMovement(new Vector3d(moveEntity.getDeltaMovement().x, 0.3, moveEntity.getDeltaMovement().z));
                                 }
                             }
                             // Not ticking every tick.
@@ -207,7 +207,7 @@ public class ItemKineticator extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     protected void showEntityMoved(World world, Entity player, Entity entity, double dx, double dy, double dz) {
-        Random rand = world.rand;
+        Random rand = world.random;
         float scale = 0.05F;
         float red = rand.nextFloat() * 0.03F + 0.5F;
         float green = rand.nextFloat() * 0.03F + (rand.nextBoolean() ? 0.5F : 0.3F);
@@ -215,7 +215,7 @@ public class ItemKineticator extends ItemBloodContainer {
         float ageMultiplier = (float) (rand.nextDouble() * 2.5D + 10D);
 
         world.addParticle(new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
-                entity.getPosX(), entity.getPosY(), entity.getPosZ(),
+                entity.getX(), entity.getY(), entity.getZ(),
                 -dx, -dy, -dz);
     }
     

@@ -24,11 +24,11 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "entangled_chalice",
-                eConfig -> new BlockEntangledChalice(Block.Properties.create(Material.IRON)
-                        .hardnessAndResistance(2.5F)
+                eConfig -> new BlockEntangledChalice(Block.Properties.of(Material.METAL)
+                        .strength(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup())
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> RenderItemStackTileEntityEntangledChalice::new))
         );
     }

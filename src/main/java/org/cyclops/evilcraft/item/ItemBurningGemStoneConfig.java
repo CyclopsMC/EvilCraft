@@ -20,9 +20,9 @@ public class ItemBurningGemStoneConfig extends ItemConfig {
                 EvilCraft._instance,
             "burning_gem_stone",
                 eConfig -> new ItemBurningGemStone(new Item.Properties()
-                        .maxStackSize(1)
+                        .stacksTo(1)
                         .setNoRepair()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

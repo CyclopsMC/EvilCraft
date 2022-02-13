@@ -11,6 +11,8 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import org.cyclops.evilcraft.RegistryEntries;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A dark apple that will apply a killing potion effect to the entity eating the apple.
  * After the potion effect is over, a portal will be spawned.
@@ -25,9 +27,9 @@ public class ItemDarkenedApple extends Item {
     public ItemDarkenedApple(Properties properties) {
         super(properties
                 .food((new Food.Builder())
-                        .hunger(0)
-                        .saturation(0)
-                        .setAlwaysEdible()
+                        .nutrition(0)
+                        .saturationMod(0)
+                        .alwaysEat()
                         .effect(() -> new EffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER), 1)
                         .build()));
     }
@@ -36,13 +38,13 @@ public class ItemDarkenedApple extends Item {
         return 64;
     }
 
-    public ActionResultType itemInteractionForEntity(ItemStack itemStack, PlayerEntity player, LivingEntity entity, Hand hand) {
+    public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity player, LivingEntity entity, Hand hand) {
         if(entity instanceof AnimalEntity && entity.getMaxHealth() <= 10) {
-            entity.addPotionEffect(new EffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER));
+            entity.addEffect(new EffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER));
             itemStack.shrink(1);
             return ActionResultType.CONSUME;
         }
-        return super.itemInteractionForEntity(itemStack, player, entity, hand);
+        return super.interactLivingEntity(itemStack, player, entity, hand);
     }
 
 }

@@ -19,7 +19,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 public class VillagerProfessionWerewolf extends VillagerProfession {
 
     public VillagerProfessionWerewolf(VillagerConfig eConfig) {
-        super(new ResourceLocation(Reference.MOD_ID, eConfig.getNamedId()).toString(), PointOfInterestType.BUTCHER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.ENTITY_VILLAGER_WORK_BUTCHER);
+        super(new ResourceLocation(Reference.MOD_ID, eConfig.getNamedId()).toString(), PointOfInterestType.BUTCHER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_BUTCHER);
         MinecraftForge.EVENT_BUS.addListener(this::onTrades);
     }
 

@@ -17,6 +17,8 @@ import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepa
 
 import java.util.Random;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 /**
  * Enchantment for letting tools break tools faster.
  * @author rubensworks
@@ -32,15 +34,15 @@ public class EnchantmentBreaking extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void breakingEvent(LivingAttackEvent event) {
-        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof LivingEntity) {
-            LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
-            Hand hand = entity.getActiveHand();
+        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) event.getSource().getEntity();
+            Hand hand = entity.getUsedItemHand();
             if (hand != null) {
-                ItemStack itemStack = entity.getHeldItem(hand);
+                ItemStack itemStack = entity.getItemInHand(hand);
                 int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
                 if (enchantmentListID > -1) {
                     EnchantmentBreaking.amplifyDamage(itemStack, enchantmentListID, new Random());
-                    entity.setHeldItem(hand, itemStack);
+                    entity.setItemInHand(hand, itemStack);
                     return;
                 }
             }
@@ -49,25 +51,25 @@ public class EnchantmentBreaking extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void breakingEvent(BlockEvent.BreakEvent event) {
-        if (!event.getPlayer().world.isRemote()) {
-            Hand hand = event.getPlayer().getActiveHand();
+        if (!event.getPlayer().level.isClientSide()) {
+            Hand hand = event.getPlayer().getUsedItemHand();
             if (hand != null) {
-                int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(hand), this);
-                ItemStack itemStack = event.getPlayer().getHeldItem(hand);
+                int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getItemInHand(hand), this);
+                ItemStack itemStack = event.getPlayer().getItemInHand(hand);
                 EnchantmentBreaking.amplifyDamage(itemStack, i, new Random());
-                event.getPlayer().setHeldItem(hand, itemStack);
+                event.getPlayer().setItemInHand(hand, itemStack);
             }
         }
     }
     
     @Override
-    public int getMinEnchantability(int level) {
+    public int getMinCost(int level) {
         return 1 + (level - 1) * 8;
     }
     
     @Override
-    public int getMaxEnchantability(int level) {
-        return super.getMinEnchantability(level) + 50;
+    public int getMaxCost(int level) {
+        return super.getMinCost(level) + 50;
     }
     
     @Override
@@ -102,10 +104,10 @@ public class EnchantmentBreaking extends Enchantment {
     public static void amplifyDamage(ItemStack itemStack, int enchantmentListID, Random random) {
         if(enchantmentListID > -1) {
             int level = EnchantmentHelpers.getEnchantmentLevel(itemStack, enchantmentListID);
-            int newDamage = itemStack.getDamage() + 2;
+            int newDamage = itemStack.getDamageValue() + 2;
             if(random.nextFloat() < 0.6F ? false : random.nextInt(level + 1) > 0
                     && newDamage <= itemStack.getMaxDamage()) {
-                itemStack.setDamage(newDamage);
+                itemStack.setDamageValue(newDamage);
             }
         }
     }

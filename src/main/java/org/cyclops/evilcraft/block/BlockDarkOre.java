@@ -43,18 +43,18 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     public BlockDarkOre(Block.Properties properties) {
         super(properties);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(GLOWING, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(GLOWING, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(GLOWING);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(GLOWING, false);
+        return this.defaultBlockState().setValue(GLOWING, false);
     }
 
     @Override
@@ -63,21 +63,21 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+    public void attack(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
         this.glow(worldIn, pos);
-        super.onBlockClicked(state, worldIn, pos, player);
+        super.attack(state, worldIn, pos, player);
     }
 
     @Override
-    public void onEntityWalk(World world, BlockPos pos, Entity entity) {
+    public void stepOn(World world, BlockPos pos, Entity entity) {
         this.glow(world, pos);
-        super.onEntityWalk(world, pos, entity);
+        super.stepOn(world, pos, entity);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
         this.glow(worldIn, pos);
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);
+        return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
     }
     
     private boolean isGlowing(World world, BlockPos blockPos) {
@@ -85,23 +85,23 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     private void glow(World world, BlockPos blockPos) {
-    	if (world.isRemote())
+    	if (world.isClientSide())
             this.sparkle(world, blockPos);
 
         if (!isGlowing(world, blockPos)) {
-            world.setBlockState(blockPos, getDefaultState().with(GLOWING, true), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos, defaultBlockState().setValue(GLOWING, true), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
     }
 
     @Override
-    public boolean ticksRandomly(BlockState state) {
-        return state.get(GLOWING);
+    public boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(GLOWING);
     }
 
     @Override
     public void tick(BlockState state, ServerWorld world, BlockPos blockPos, Random rand) {
         if (isGlowing(world, blockPos)) {
-            world.setBlockState(blockPos, getDefaultState().with(GLOWING, false), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos, defaultBlockState().setValue(GLOWING, false), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
     }
 
@@ -115,7 +115,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
 
     @OnlyIn(Dist.CLIENT)
     private void sparkle(World world, BlockPos blockPos) {
-        Random random = world.rand;
+        Random random = world.random;
         double offset = 0.0625D;
 
         for (int l = 0; l < 6; ++l) {
@@ -123,27 +123,27 @@ public class BlockDarkOre extends Block implements IInformationProvider {
             double sparkY = (double)((float)blockPos.getY() + random.nextFloat());
             double sparkZ = (double)((float)blockPos.getZ() + random.nextFloat());
 
-            if (l == 0 && !world.getBlockState(blockPos.add(0, 1, 0)).isNormalCube(world, blockPos.add(0, 1, 0))) {
+            if (l == 0 && !world.getBlockState(blockPos.offset(0, 1, 0)).isRedstoneConductor(world, blockPos.offset(0, 1, 0))) {
                 sparkY = (double)(blockPos.getY() + 1) + offset;
             }
 
-            if (l == 1 && !world.getBlockState(blockPos.add(0, -1, 0)).isNormalCube(world, blockPos.add(0, -1, 0))) {
+            if (l == 1 && !world.getBlockState(blockPos.offset(0, -1, 0)).isRedstoneConductor(world, blockPos.offset(0, -1, 0))) {
                 sparkY = (double)(blockPos.getY()) - offset;
             }
 
-            if (l == 2 && !world.getBlockState(blockPos.add(0, 0, 1)).isNormalCube(world, blockPos.add(0, 0, 1))) {
+            if (l == 2 && !world.getBlockState(blockPos.offset(0, 0, 1)).isRedstoneConductor(world, blockPos.offset(0, 0, 1))) {
                 sparkZ = (double)(blockPos.getZ() + 1) + offset;
             }
 
-            if (l == 3 && !world.getBlockState(blockPos.add(0, 0, -1)).isNormalCube(world, blockPos.add(0, 0, -1))) {
+            if (l == 3 && !world.getBlockState(blockPos.offset(0, 0, -1)).isRedstoneConductor(world, blockPos.offset(0, 0, -1))) {
                 sparkZ = (double)(blockPos.getZ()) - offset;
             }
 
-            if (l == 4 && !world.getBlockState(blockPos.add(1, 0, 0)).isNormalCube(world, blockPos.add(1, 0, 0))) {
+            if (l == 4 && !world.getBlockState(blockPos.offset(1, 0, 0)).isRedstoneConductor(world, blockPos.offset(1, 0, 0))) {
                 sparkX = (double)(blockPos.getX() + 1) + offset;
             }
 
-            if (l == 5 && !world.getBlockState(blockPos.add(-1, 0, 0)).isNormalCube(world, blockPos.add(-1, 0, 0))) {
+            if (l == 5 && !world.getBlockState(blockPos.offset(-1, 0, 0)).isRedstoneConductor(world, blockPos.offset(-1, 0, 0))) {
                 sparkX = (double)(blockPos.getX()) - offset;
             }
 
@@ -160,9 +160,9 @@ public class BlockDarkOre extends Block implements IInformationProvider {
 
     @Override
     public IFormattableTextComponent getInfo(ItemStack itemStack) {
-    	return new TranslationTextComponent(this.getTranslationKey()
+    	return new TranslationTextComponent(this.getDescriptionId()
                 + ".info.custom", 66)
-                .mergeStyle(INFO_PREFIX_STYLES);
+                .withStyle(INFO_PREFIX_STYLES);
     }
 
     @Override

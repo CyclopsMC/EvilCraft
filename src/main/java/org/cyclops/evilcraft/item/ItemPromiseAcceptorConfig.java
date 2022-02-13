@@ -22,7 +22,7 @@ public class ItemPromiseAcceptorConfig extends ItemConfig {
                 EvilCraft._instance,
                 "promise_acceptor_" + type.getName(),
                 eConfig -> new ItemPromiseAcceptor(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()), type)
+                        .tab(EvilCraft._instance.getDefaultItemGroup()), type)
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }

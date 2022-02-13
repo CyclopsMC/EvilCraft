@@ -11,6 +11,8 @@ import net.minecraftforge.common.ToolType;
 
 import java.util.Set;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A tool that can claw on blocks and entities.
  * @author rubensworks
@@ -19,18 +21,18 @@ import java.util.Set;
 public class ItemSpikeyClaws extends SwordItem {
 
     private static final Set<Material> APPLICABLE_MATERIALS = ImmutableSet.<Material>builder()
-            .add(Material.ORGANIC)
-            .add(Material.EARTH)
+            .add(Material.GRASS)
+            .add(Material.DIRT)
             .add(Material.LEAVES)
-            .add(Material.PLANTS)
-            .add(Material.GOURD)
+            .add(Material.PLANT)
+            .add(Material.VEGETABLE)
             .add(Material.SPONGE)
             .add(Material.WOOL)
             .add(Material.SAND)
-            .add(Material.CARPET)
+            .add(Material.CLOTH_DECORATION)
             .add(Material.CORAL)
+            .add(Material.TOP_SNOW)
             .add(Material.SNOW)
-            .add(Material.SNOW_BLOCK)
             .add(Material.CACTUS)
             .add(Material.CLAY)
             .add(Material.CAKE)

@@ -56,9 +56,9 @@ public class ExaltedCrafterOpenPacket extends PacketCodec {
 		if(itemIndex >= 0) {
 			ItemStack found;
 			if (mainHand) {
-				found = player.inventory.mainInventory.get(itemIndex);
+				found = player.inventory.items.get(itemIndex);
 			} else {
-				found = player.getHeldItemOffhand();
+				found = player.getOffhandItem();
 			}
 			if (!found.isEmpty() && found.getItem() instanceof ItemExaltedCrafter) {
 				((ItemExaltedCrafter) found.getItem()).openGuiForItemIndex(world, player, itemIndex, mainHand

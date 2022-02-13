@@ -22,8 +22,8 @@ public class ItemRejuvenatedFleshConfig extends ItemConfig {
                 EvilCraft._instance,
             "flesh_rejuvenated",
                 eConfig -> new ItemRejuvenatedFlesh(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(1))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(1))
         );
     }
     

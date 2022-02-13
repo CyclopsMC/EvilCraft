@@ -12,19 +12,21 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
+import net.minecraft.particles.IParticleData.IDeserializer;
+
 /**
  * @author rubensworks
  */
 public class ParticleFartData implements IParticleData {
 
     public static final IDeserializer<ParticleFartData> DESERIALIZER = new IDeserializer<ParticleFartData>() {
-        public ParticleFartData deserialize(ParticleType<ParticleFartData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleFartData fromCommand(ParticleType<ParticleFartData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             boolean rainbow = reader.readBoolean();
             return new ParticleFartData(rainbow);
         }
 
-        public ParticleFartData read(ParticleType<ParticleFartData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleFartData fromNetwork(ParticleType<ParticleFartData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleFartData(buffer.readBoolean());
         }
     };
@@ -50,12 +52,12 @@ public class ParticleFartData implements IParticleData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
+    public void writeToNetwork(PacketBuffer buffer) {
         buffer.writeBoolean(rainbow);
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %s",
                 ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
                 this.rainbow);

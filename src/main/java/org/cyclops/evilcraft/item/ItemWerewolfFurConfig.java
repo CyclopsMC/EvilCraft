@@ -16,7 +16,7 @@ public class ItemWerewolfFurConfig extends ItemConfig {
                 EvilCraft._instance,
                 "werewolf_fur",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

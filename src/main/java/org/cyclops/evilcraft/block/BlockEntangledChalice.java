@@ -58,23 +58,23 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	public static final ModelProperty<String> TANK_ID = new ModelProperty<>();
 	public static final ModelProperty<FluidStack> TANK_FLUID = new ModelProperty<>();
 
-	public static final VoxelShape SHAPE = Block.makeCuboidShape(0.125F * 16F, 0F, 0.125F * 16F, 0.875F * 16F, 1.0F * 16F, 0.875F * 16F);
+	public static final VoxelShape SHAPE = Block.box(0.125F * 16F, 0F, 0.125F * 16F, 0.875F * 16F, 1.0F * 16F, 0.875F * 16F);
 
     public BlockEntangledChalice(Block.Properties properties) {
         super(properties, TileEntangledChalice::new);
 
-		this.setDefaultState(this.stateContainer.getBaseState()
-				.with(DRAINING, false));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(DRAINING, false));
     }
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(DRAINING);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(DRAINING, false);
+		return this.defaultBlockState().setValue(DRAINING, false);
 	}
 
 	@Override
@@ -83,18 +83,18 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+	public ActionResultType use(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
 		if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
 			return ActionResultType.SUCCESS;
 		}
-		if (world.isRemote()) {
+		if (world.isClientSide()) {
 			String tankId = TileHelpers.getSafeTile(world, blockPos, TileEntangledChalice.class)
 					.map(TileEntangledChalice::getWorldTankId)
 					.orElse("null");
-			player.sendStatusMessage(new TranslationTextComponent(L10NHelpers.localize(
+			player.displayClientMessage(new TranslationTextComponent(L10NHelpers.localize(
 					"block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
 		}
-		return super.onBlockActivated(state, world, blockPos, player, hand, rayTraceResult);
+		return super.use(state, world, blockPos, player, hand, rayTraceResult);
 	}
     
     @Override
@@ -121,7 +121,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	@Override
 	public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
 		if(player.isCrouching()) {
-            if(!world.isRemote()) {
+            if(!world.isClientSide()) {
 				ItemStack activated = itemStack.copy();
 				if (isActivated(itemStack, world)) {
 					activated.getOrCreateTag().remove(ItemHelpers.NBT_KEY_ENABLED);
@@ -145,7 +145,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 
 	@Override
 	public int getLightValue(BlockState state, IBlockReader world, BlockPos blockPos) {
-		TileEntity tile = world.getTileEntity(blockPos);
+		TileEntity tile = world.getBlockEntity(blockPos);
 		if(tile != null && tile instanceof TileEntangledChalice) {
 			TileEntangledChalice tank = (TileEntangledChalice) tile;
 			Fluid fluidType = tank.getTank().getFluidType();
@@ -157,7 +157,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	}
 
 	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> list) {
+	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> list) {
 		// Can be null during startup
 		if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null) {
 			ItemStack itemStack = new ItemStack(this);

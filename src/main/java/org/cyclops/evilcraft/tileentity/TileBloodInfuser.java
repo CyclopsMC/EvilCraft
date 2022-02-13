@@ -149,19 +149,19 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
                     @Override
                     public Optional<RecipeBloodInfuser> getNewValue(Triple<ItemStack, Integer, Integer> key) {
                         IInventoryFluidTier recipeInput = new InventoryFluidTier(
-                                NonNullList.from(ItemStack.EMPTY, key.getLeft()),
-                                NonNullList.from(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, key.getMiddle())),
+                                NonNullList.of(ItemStack.EMPTY, key.getLeft()),
+                                NonNullList.of(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, key.getMiddle())),
                                 key.getRight());
 
                         // Make sure we always pick the highest tier when there are multiple matches
-                        return world.getRecipeManager().getRecipes(getRegistry(), recipeInput, getWorld()).stream()
+                        return level.getRecipeManager().getRecipesFor(getRegistry(), recipeInput, getLevel()).stream()
                                 .max(Comparator.comparingInt(RecipeBloodInfuser::getInputTier));
                     }
 
                     @Override
                     public boolean isKeyEqual(Triple<ItemStack, Integer, Integer> cacheKey, Triple<ItemStack, Integer, Integer> newKey) {
                         return cacheKey == null || newKey == null ||
-                                (ItemStack.areItemStacksEqual(cacheKey.getLeft(), newKey.getLeft()) &&
+                                (ItemStack.matches(cacheKey.getLeft(), newKey.getLeft()) &&
                                         cacheKey.getMiddle().equals(newKey.getMiddle()) &&
                                         cacheKey.getRight().equals(newKey.getRight()));
                     }
@@ -187,9 +187,9 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT data) {
+    public CompoundNBT save(CompoundNBT data) {
         data.putFloat("xp", xp);
-        return super.write(data);
+        return super.save(data);
     }
 
     @Override
@@ -200,7 +200,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 
     @Override
     public Direction getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getWorld().getBlockState(getPos()), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
+        return BlockHelpers.getSafeBlockStateProperty(getLevel().getBlockState(getBlockPos()), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
     }
     
     @Override
@@ -218,8 +218,8 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
     @Override
     public void onStateChanged() {
         sendUpdate();
-        world.setBlockState(getPos(), world.getBlockState(getPos()).with(BlockBloodInfuser.ON, isWorking()));
-        BlockHelpers.markForUpdate(getWorld(), getPos());
+        level.setBlockAndUpdate(getBlockPos(), level.getBlockState(getBlockPos()).setValue(BlockBloodInfuser.ON, isWorking()));
+        BlockHelpers.markForUpdate(getLevel(), getBlockPos());
     }
 
     @Override
@@ -254,7 +254,7 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 
     public void setXp(float xp) {
         this.xp = xp;
-        markDirty();
+        setChanged();
     }
 
     public float getXp() {
@@ -286,11 +286,11 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
 
             // Valid custom recipe
             IInventoryFluidTier recipeInput = new InventoryFluidTier(
-                    NonNullList.from(ItemStack.EMPTY, itemStack),
-                    NonNullList.from(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE)),
+                    NonNullList.of(ItemStack.EMPTY, itemStack),
+                    NonNullList.of(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE)),
                     Upgrades.TIERS);
             return world.getRecipeManager()
-                    .getRecipe(RegistryEntries.RECIPETYPE_BLOOD_INFUSER, recipeInput, world)
+                    .getRecipeFor(RegistryEntries.RECIPETYPE_BLOOD_INFUSER, recipeInput, world)
                     .isPresent();
         }
 
@@ -328,12 +328,12 @@ public class TileBloodInfuser extends TileWorking<TileBloodInfuser, MutableInt> 
         }
 
         @Override
-        public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        public boolean canPlaceItem(int slot, ItemStack itemStack) {
             if(slot == SLOT_INFUSE)
-                return tile.getTileWorkingMetadata().canConsume(itemStack, tile.getWorld());
+                return tile.getTileWorkingMetadata().canConsume(itemStack, tile.getLevel());
             if(slot == SLOT_CONTAINER)
                 return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
-            return super.isItemValidForSlot(slot, itemStack);
+            return super.canPlaceItem(slot, itemStack);
         }
     }
 

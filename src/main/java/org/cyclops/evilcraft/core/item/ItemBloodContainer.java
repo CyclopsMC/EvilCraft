@@ -30,6 +30,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * @author rubensworks
  */
@@ -43,8 +45,8 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
         IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack).orElse(null);
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
         FluidStack drained = fluidHandler.drain(FluidHelpers.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
@@ -53,20 +55,20 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
                 && (drained.getAmount() == FluidHelpers.BUCKET_VOLUME);
         boolean hasSpace = fluidStack.isEmpty()
                 || (fluidStack.getAmount() + FluidHelpers.BUCKET_VOLUME <= fluidHandler.getCapacity());
-        BlockRayTraceResult movingobjectpositionDrain = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.NONE);
-        BlockRayTraceResult movingobjectpositionFill = (BlockRayTraceResult) this.rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
+        BlockRayTraceResult movingobjectpositionDrain = (BlockRayTraceResult) this.getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.NONE);
+        BlockRayTraceResult movingobjectpositionFill = (BlockRayTraceResult) this.getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
 
         if (movingobjectpositionDrain != null && movingobjectpositionFill != null) {
             if (isPickupFluids() && movingobjectpositionFill.getType() == RayTraceResult.Type.BLOCK) {
                 // Fill the container and remove fluid blockState
-                BlockPos blockPos = movingobjectpositionFill.getPos();
+                BlockPos blockPos = movingobjectpositionFill.getBlockPos();
 
                 BlockState blockState = world.getBlockState(blockPos);
                 if (blockState.getBlock() instanceof FlowingFluidBlock
                         && ((FlowingFluidBlock) blockState.getBlock()).getFluid() == getFluid()
-                        && blockState.get(FlowingFluidBlock.LEVEL) == 0) {
+                        && blockState.getValue(FlowingFluidBlock.LEVEL) == 0) {
                     if(hasSpace) {
-                        world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 3);
+                        world.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
                         fluidHandler.fill(new FluidStack(getFluid(), FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
                     }
                     return MinecraftHelpers.successAction(itemStack);
@@ -75,10 +77,10 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
 
             // Drain container and place fluid blockState
             if (hasBucket && isPlaceFluids() && movingobjectpositionDrain.getType() == RayTraceResult.Type.BLOCK) {
-                BlockPos blockPos = movingobjectpositionFill.getPos();
+                BlockPos blockPos = movingobjectpositionFill.getBlockPos();
 
-                Direction direction = movingobjectpositionDrain.getFace();
-                blockPos = blockPos.add(direction.getDirectionVec());
+                Direction direction = movingobjectpositionDrain.getDirection();
+                blockPos = blockPos.offset(direction.getNormal());
 
                 if (this.tryPlaceContainedLiquid(world, blockPos, true)) {
                     fluidHandler.drain(FluidHelpers.BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
@@ -96,14 +98,14 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
             BlockState blockState = world.getBlockState(blockPos);
             Material material = blockState.getMaterial();
 
-            if (!world.isAirBlock(blockPos) && material.isSolid()) {
+            if (!world.isEmptyBlock(blockPos) && material.isSolid()) {
                 return false;
             } else {
-                if (!world.isRemote && !material.isSolid() && !material.isLiquid()) {
+                if (!world.isClientSide && !material.isSolid() && !material.isLiquid()) {
                     world.destroyBlock(blockPos, true);
                 }
 
-                world.setBlockState(blockPos, getFluid().getAttributes().getBlock(world, blockPos, getFluid().getDefaultState()), 3);
+                world.setBlock(blockPos, getFluid().getAttributes().getBlock(world, blockPos, getFluid().defaultFluidState()), 3);
 
                 return true;
             }
@@ -199,7 +201,7 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
      * @return The fluid that was drained.
      */
     public FluidStack consume(int amount, ItemStack itemStack, @Nullable PlayerEntity player) {
-        IFluidHandler.FluidAction fluidAction = player == null || (!player.isCreative() && !player.world.isRemote) ? IFluidHandler.FluidAction.EXECUTE : IFluidHandler.FluidAction.SIMULATE;
+        IFluidHandler.FluidAction fluidAction = player == null || (!player.isCreative() && !player.level.isClientSide) ? IFluidHandler.FluidAction.EXECUTE : IFluidHandler.FluidAction.SIMULATE;
         if (amount == 0) return FluidStack.EMPTY;
         FluidStack drained = FluidUtil.getFluidHandler(itemStack).orElseGet(null).drain(amount, fluidAction);
         if (!drained.isEmpty() && drained.getAmount() == amount) return drained;

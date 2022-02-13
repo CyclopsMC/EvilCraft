@@ -19,6 +19,8 @@ import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.item.ItemPromise;
 
+import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix.ItemButton;
+
 /**
  * Blood Infuser recipes.
  * @author rubensworks
@@ -68,7 +70,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
 
         // Prepare items
         int tick = getTick(gui);
-        ItemStack input = prepareItemStacks(recipe.getInputIngredient().getMatchingStacks(), tick);
+        ItemStack input = prepareItemStacks(recipe.getInputIngredient().getItems(), tick);
         ItemStack result = prepareItemStack(recipe.getOutputItem(), tick);
         ItemStack promise = null;
         if(recipe.getInputTier() > 0) {
@@ -91,7 +93,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
         FontRenderer fontRenderer = gui.getFontRenderer();
         FluidStack fluidStack = recipe.getInputFluid();
         String line = fluidStack.getAmount() + " mB";
-        IBidiRenderer.func_243258_a(fontRenderer, new StringTextComponent(line), 200)
-                .func_241866_c(matrixStack, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
+        IBidiRenderer.create(fontRenderer, new StringTextComponent(line), 200)
+                .renderLeftAlignedNoShadow(matrixStack, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
     }
 }

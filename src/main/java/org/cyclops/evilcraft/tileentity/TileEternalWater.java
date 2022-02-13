@@ -13,6 +13,10 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nonnull;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * Tile Entity for the eternal water blockState.
  * @author rubensworks
@@ -32,9 +36,9 @@ public class TileEternalWater extends CyclopsTileEntity implements CyclopsTileEn
 
 	@Override
 	protected void updateTileEntity() {
-		if(!getWorld().isRemote()) {
+		if(!getLevel().isClientSide()) {
             for(Direction direction : Direction.values()) {
-                TileHelpers.getCapability(getWorld(), getPos().offset(direction),
+                TileHelpers.getCapability(getLevel(), getBlockPos().relative(direction),
                         direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                         .ifPresent(handler -> handler.fill(WATER, IFluidHandler.FluidAction.EXECUTE));
             }

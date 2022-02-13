@@ -44,10 +44,10 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
     		int reducableDuration = originalReducableDuration;
     		
 	    	@SuppressWarnings("unchecked")
-			Iterator<EffectInstance> it = Lists.newLinkedList(player.getActivePotionEffects()).iterator();
+			Iterator<EffectInstance> it = Lists.newLinkedList(player.getActiveEffects()).iterator();
 	    	while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
 	    		EffectInstance effect = it.next();
-	    		Effect potion = effect.getPotion();
+	    		Effect potion = effect.getEffect();
 	    		
 	    		boolean shouldClear = true;
 	    		if(potion != null) {
@@ -64,10 +64,10 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
 	    			
 	    			reducableDuration -= toReduce;
 	    			if(remaining == toReduce) {
-	    				player.removePotionEffect(potion);
+	    				player.removeEffect(potion);
 	    			} else {
 						effect.duration = remaining - toReduce;
-						player.onChangedPotionEffect(effect, true);;
+						player.onEffectUpdated(effect, true);;
 	    				toDrain = (int) Math.ceil((double) (reductionMultiplier * amount)
 	    						* ((double) toReduce / (double) originalReducableDuration));
 	    			}
@@ -76,9 +76,9 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
 	    	}
     	}
 
-        if(ItemInvigoratingPendantConfig.fireUsage >= 0 && player.isBurning() &&
+        if(ItemInvigoratingPendantConfig.fireUsage >= 0 && player.isOnFire() &&
                 canConsume(ItemInvigoratingPendantConfig.fireUsage, itemStack, player)) {
-            player.extinguish();
+            player.clearFire();
             consume(ItemInvigoratingPendantConfig.fireUsage, itemStack, player);
         }
 	}
@@ -86,7 +86,7 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
 	@Override
     public void inventoryTick(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
         if(entity instanceof PlayerEntity
-        		&& WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getEntityId())) {
+        		&& WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getId())) {
         	clearBadEffects(itemStack, (PlayerEntity) entity);
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);

@@ -28,8 +28,8 @@ public class BlockEnvironmentalAccumulatorConfig extends BlockConfig {
 		super(
 				EvilCraft._instance,
 				"environmental_accumulator",
-				eConfig -> new BlockEnvironmentalAccumulator(Block.Properties.create(Material.ROCK)
-						.hardnessAndResistance(50.0F, 6000000.0F)
+				eConfig -> new BlockEnvironmentalAccumulator(Block.Properties.of(Material.STONE)
+						.strength(50.0F, 6000000.0F)
 						.sound(SoundType.METAL)),
 				getDefaultItemConstructor(EvilCraft._instance)
 		);

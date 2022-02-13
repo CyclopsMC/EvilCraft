@@ -58,13 +58,13 @@ public class BlockSpiritFurnaceConfig extends UpgradableBlockContainerConfig {
         super(
                 EvilCraft._instance,
             "spirit_furnace",
-                eConfig -> new BlockSpiritFurnace(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(5.0F)
+                eConfig -> new BlockSpiritFurnace(Block.Properties.of(Material.STONE)
+                        .strength(5.0F)
                         .sound(SoundType.STONE)
                         .harvestTool(ToolType.PICKAXE)
                         .harvestLevel(2)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

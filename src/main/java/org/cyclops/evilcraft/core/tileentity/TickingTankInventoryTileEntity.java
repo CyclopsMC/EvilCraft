@@ -12,6 +12,9 @@ import org.cyclops.evilcraft.core.tileentity.tickaction.TickComponent;
 
 import java.util.List;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * A TileEntity with Tank and Inventory that can tick.
  * It uses a list of {@link TickComponent} that are able to tick.
@@ -71,8 +74,8 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT data) {
-        data = super.write(data);
+    public CompoundNBT save(CompoundNBT data) {
+        data = super.save(data);
         data.putInt("currentState", currentState);
         ListNBT tickerList = new ListNBT();
         for(TickComponent<T, ITickAction<T>> ticker : tickers) {
@@ -90,17 +93,17 @@ public abstract class TickingTankInventoryTileEntity<T extends TankInventoryTile
         super.updateTileEntity();
         
         // Update tickers.
-        if(!world.isRemote()) {
-            boolean redstone = world.isBlockPowered(getPos());
+        if(!level.isClientSide()) {
+            boolean redstone = level.hasNeighborSignal(getBlockPos());
             for(TickComponent<T, ITickAction<T>> ticker : getTickers()) {
                 if(!(ticker.isRedstoneDisableable() && redstone)) {
-                    ticker.tick(getInventory().getStackInSlot(ticker.getSlot()), ticker.getSlot());
+                    ticker.tick(getInventory().getItem(ticker.getSlot()), ticker.getSlot());
                 }
             }
         }
 
         if (!this.hasJustWorked()) {
-            if (!world.isRemote()) {
+            if (!level.isClientSide()) {
                 // Update state server->clients.
                 int newState = getNewState();
                 if (newState != currentState) {

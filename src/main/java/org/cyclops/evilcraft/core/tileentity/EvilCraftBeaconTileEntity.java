@@ -61,7 +61,7 @@ public abstract class EvilCraftBeaconTileEntity extends CyclopsTileEntity implem
 	
 	@Override
     @OnlyIn(Dist.CLIENT)
-    public double getMaxRenderDistanceSquared() {
+    public double getViewDistance() {
         return 65536.0D;
     }
 	

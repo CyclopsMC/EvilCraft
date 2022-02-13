@@ -23,7 +23,7 @@ public class RenderNetherfish extends SilverfishRenderer {
     }
 
     @Override
-    public ResourceLocation getEntityTexture(SilverfishEntity entity) {
+    public ResourceLocation getTextureLocation(SilverfishEntity entity) {
         return texture;
     }
 

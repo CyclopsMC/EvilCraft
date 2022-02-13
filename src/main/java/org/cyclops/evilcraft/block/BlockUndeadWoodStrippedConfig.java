@@ -20,7 +20,7 @@ public class BlockUndeadWoodStrippedConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_wood_stripped",
-                eConfig -> Blocks.createLogBlock(MaterialColor.ORANGE_TERRACOTTA, MaterialColor.ORANGE_TERRACOTTA),
+                eConfig -> Blocks.log(MaterialColor.TERRACOTTA_ORANGE, MaterialColor.TERRACOTTA_ORANGE),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
@@ -29,8 +29,8 @@ public class BlockUndeadWoodStrippedConfig extends BlockConfig {
     public void onForgeRegistered() {
         super.onForgeRegistered();
         BlockHelpers.setFireInfo(getInstance(), 5, 20);
-        AxeItem.BLOCK_STRIPPING_MAP = Maps.newHashMap(AxeItem.BLOCK_STRIPPING_MAP);
-        AxeItem.BLOCK_STRIPPING_MAP.put(RegistryEntries.BLOCK_UNDEAD_WOOD, RegistryEntries.BLOCK_UNDEAD_WOOD_STRIPPED);
+        AxeItem.STRIPABLES = Maps.newHashMap(AxeItem.STRIPABLES);
+        AxeItem.STRIPABLES.put(RegistryEntries.BLOCK_UNDEAD_WOOD, RegistryEntries.BLOCK_UNDEAD_WOOD_STRIPPED);
     }
     
 }

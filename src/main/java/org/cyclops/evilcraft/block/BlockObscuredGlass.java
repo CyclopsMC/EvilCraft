@@ -18,7 +18,7 @@ public class BlockObscuredGlass extends AbstractGlassBlock {
     }
 
     @Override
-    public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public int getLightBlock(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return 10;
     }
 }

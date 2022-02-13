@@ -28,7 +28,7 @@ public class PotionEffectBroomCollision implements BroomModifier.ICollisionListe
     @Override
     public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
         if (entity instanceof LivingEntity && modifierValue > 0) {
-            ((LivingEntity) entity).addPotionEffect(
+            ((LivingEntity) entity).addEffect(
                     new EffectInstance(potion, (int) modifierValue, level));
         }
     }

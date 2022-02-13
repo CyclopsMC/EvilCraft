@@ -28,12 +28,12 @@ public class ItemBroomPart extends Item {
     }
 
     @Override
-    public String getTranslationKey(ItemStack itemStack) {
+    public String getDescriptionId(ItemStack itemStack) {
         IBroomPart part = getPart(itemStack);
         if(part != null) {
             return part.getTranslationKey();
         }
-        return super.getTranslationKey(itemStack);
+        return super.getDescriptionId(itemStack);
     }
 
     @Override
@@ -46,16 +46,16 @@ public class ItemBroomPart extends Item {
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         IBroomPart part = getPart(stack);
         if(part != null) {
             return part.isEffect();
         }
-        return super.hasEffect(stack);
+        return super.isFoil(stack);
     }
 
     @Override
-    public void fillItemGroup(ItemGroup creativeTabs, NonNullList<ItemStack> list) {
+    public void fillItemCategory(ItemGroup creativeTabs, NonNullList<ItemStack> list) {
         if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
         for (IBroomPart part : BroomParts.REGISTRY.getParts()) {
             for (ItemStack itemStack : BroomParts.REGISTRY.getItemsFromPart(part)) {

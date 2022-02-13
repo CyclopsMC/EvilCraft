@@ -21,17 +21,17 @@ public class BlockObscuredGlassConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "obscured_glass",
-                eConfig -> new BlockObscuredGlass(Block.Properties.create(Material.GLASS)
-                        .hardnessAndResistance(0.5F)
+                eConfig -> new BlockObscuredGlass(Block.Properties.of(Material.GLASS)
+                        .strength(0.5F)
                         .sound(SoundType.GLASS)
-                        .notSolid()),
+                        .noOcclusion()),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getTranslucent());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.translucent());
     }
     
 }

@@ -59,9 +59,9 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
             for (int zr = start; zr < getQuarterHeight(); ++zr) {
                 for (int xr = start; xr < getQuarterWidth(); ++xr) {
                     BlockWrapper wrapper = layer[(getQuarterWidth() - xr - 1) * getQuarterHeight() + zr];
-                    BlockPos posOffset = blockPos.add(xr * incX, layerHeight, zr * incZ);
+                    BlockPos posOffset = blockPos.offset(xr * incX, layerHeight, zr * incZ);
                     if (wrapper != null && (wrapper.chance > 0 && wrapper.chance >= r.nextFloat())) { // not an air blockState?
-                        world.setBlockState(blockPos.add(xr * incX, layerHeight, zr * incZ), wrapper.blockState, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                        world.setBlock(blockPos.offset(xr * incX, layerHeight, zr * incZ), wrapper.blockState, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                         if(wrapper.action != null) {
                             wrapper.action.run(world, posOffset);
                         }
@@ -86,7 +86,7 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
                 for (int xr = start; xr < getQuarterWidth(); ++xr) {
                     BlockWrapper wrapper = layer[(getQuarterWidth() - xr - 1) * getQuarterHeight() + zr];
                     if (wrapper != null) {
-                        BlockPos posOffset = pos.add(xr * incX, layerHeight, zr * incZ);
+                        BlockPos posOffset = pos.offset(xr * incX, layerHeight, zr * incZ);
                         if(wrapper.action != null && world.getBlockState(posOffset) == wrapper.blockState) {
                             wrapper.action.run(world, posOffset);
                         }
@@ -98,11 +98,11 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
 
     // init
     @Override
-    public boolean func_230383_a_(ISeedReader world, StructureManager structureManager, ChunkGenerator chunkGenerator,
+    public boolean postProcess(ISeedReader world, StructureManager structureManager, ChunkGenerator chunkGenerator,
                                   Random rand, MutableBoundingBox bounds, ChunkPos chunkPos, BlockPos pos) {
         int x = rand.nextInt(16);
         int z = rand.nextInt(16);
-        BlockPos blockPos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(0), this.getZWithOffset(x, z));
+        BlockPos blockPos = new BlockPos(this.getWorldX(x, z), this.getWorldY(0), this.getWorldZ(x, z));
         buildCorner(world, blockPos, 1, 1);
         buildCorner(world, blockPos, -1, 1);
         buildCorner(world, blockPos, 1, -1);
@@ -136,7 +136,7 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
          * @param block The blockState to wrap.
          */
         public BlockWrapper(Block block) {
-            this(block.getDefaultState());
+            this(block.defaultBlockState());
         }
 
         /**

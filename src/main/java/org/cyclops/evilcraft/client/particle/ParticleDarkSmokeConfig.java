@@ -21,7 +21,7 @@ public class ParticleDarkSmokeConfig extends ParticleConfig<ParticleDarkSmokeDat
         super(EvilCraft._instance, "dark_smoke", eConfig -> new ParticleType<ParticleDarkSmokeData>(false, ParticleDarkSmokeData.DESERIALIZER) {
 
             @Override
-            public Codec<ParticleDarkSmokeData> func_230522_e_() {
+            public Codec<ParticleDarkSmokeData> codec() {
                 return ParticleDarkSmokeData.CODEC;
             }
         });
@@ -40,7 +40,7 @@ public class ParticleDarkSmokeConfig extends ParticleConfig<ParticleDarkSmokeDat
     public ParticleManager.IParticleMetaFactory<ParticleDarkSmokeData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleDarkSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleDarkSmoke particle = new ParticleDarkSmoke(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.isEntityDead());
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

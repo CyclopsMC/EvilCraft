@@ -17,20 +17,20 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
 
     public ParticleDarkSmoke(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead) {
         super(world, x, y, z, motionX, motionY, motionZ);
-        this.motionX = motionX;
-        this.motionY = motionY;
-        this.motionZ = motionZ;
+        this.xd = motionX;
+        this.yd = motionY;
+        this.zd = motionZ;
 
-        particleScale = 1;
-        particleAlpha = rand.nextFloat() * 0.3F;
+        quadSize = 1;
+        alpha = random.nextFloat() * 0.3F;
 
-        particleRed = rand.nextFloat() * 0.05F + 0.1F;
-        particleGreen = rand.nextFloat() * 0.05F;
-        particleBlue = rand.nextFloat() * 0.05F + 0.1F;
+        rCol = random.nextFloat() * 0.05F + 0.1F;
+        gCol = random.nextFloat() * 0.05F;
+        bCol = random.nextFloat() * 0.05F + 0.1F;
 
-        particleGravity = -0.001F;
+        gravity = -0.001F;
 
-        this.maxAge = (int)(10.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
+        this.lifetime = (int)(10.0F / (this.random.nextFloat() * 0.9F + 0.1F));
 
         if (entityDead) {
             setDeathParticles();
@@ -43,50 +43,50 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
     }
 
     @Override
-    public float getScale(float p_217561_1_) {
-        return this.particleScale * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.maxAge * 32.0F, 0.0F, 1.0F);
+    public float getQuadSize(float p_217561_1_) {
+        return this.quadSize * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
 
     @Override
     public void tick() {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        if (this.age++ >= this.maxAge) {
-            this.setExpired();
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+        if (this.age++ >= this.lifetime) {
+            this.remove();
         } else {
-            this.motionY += 0.004D;
-            this.move(this.motionX, this.motionY, this.motionZ);
-            if (this.posY == this.prevPosY) {
-                this.motionX *= 1.1D;
-                this.motionZ *= 1.1D;
+            this.yd += 0.004D;
+            this.move(this.xd, this.yd, this.zd);
+            if (this.y == this.yo) {
+                this.xd *= 1.1D;
+                this.zd *= 1.1D;
             }
 
-            this.motionX *= (double)0.96F;
-            this.motionY *= (double)0.96F;
-            this.motionZ *= (double)0.96F;
+            this.xd *= (double)0.96F;
+            this.yd *= (double)0.96F;
+            this.zd *= (double)0.96F;
             if (this.onGround) {
-                this.motionX *= (double)0.7F;
-                this.motionZ *= (double)0.7F;
+                this.xd *= (double)0.7F;
+                this.zd *= (double)0.7F;
             }
 
         }
 
-        particleScale = (1 - (float)age / maxAge) * 2;
+        quadSize = (1 - (float)age / lifetime) * 2;
     }
 
 	/**
 	 * If the particles for this should be shown as death particles.
 	 */
 	public void setDeathParticles() {
-		motionX *= 2;
-        motionY *= 2;
-        motionZ *= 2;
-        particleGravity = 0.5F;
+		xd *= 2;
+        yd *= 2;
+        zd *= 2;
+        gravity = 0.5F;
         
-        particleRed = rand.nextFloat() * 0.33125F;
-        particleGreen = rand.nextFloat() * 0.022187F;
-        particleBlue = rand.nextFloat() * 0.3945F;
+        rCol = random.nextFloat() * 0.33125F;
+        gCol = random.nextFloat() * 0.022187F;
+        bCol = random.nextFloat() * 0.3945F;
 	}
 
 }

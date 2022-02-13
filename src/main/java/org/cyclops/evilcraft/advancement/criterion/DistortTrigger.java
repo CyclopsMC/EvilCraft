@@ -28,17 +28,17 @@ public class DistortTrigger extends AbstractCriterionTrigger<DistortTrigger.Inst
     }
 
     @Override
-    public Instance deserializeTrigger(JsonObject json, EntityPredicate.AndPredicate entityPredicate, ConditionArrayParser conditionsParser) {
+    public Instance createInstance(JsonObject json, EntityPredicate.AndPredicate entityPredicate, ConditionArrayParser conditionsParser) {
         JsonElement jsonElement = json.get("min_entities");
         int minEntities = 0;
         if (jsonElement != null && !jsonElement.isJsonNull()) {
-            minEntities = JSONUtils.getInt(json, "min_entities");
+            minEntities = JSONUtils.getAsInt(json, "min_entities");
         }
-        return new Instance(getId(), entityPredicate, minEntities, EntityPredicate.deserialize(json.get("entity")));
+        return new Instance(getId(), entityPredicate, minEntities, EntityPredicate.fromJson(json.get("entity")));
     }
 
     public void test(ServerPlayerEntity player, List<Entity> entities) {
-        this.triggerListeners(player, (instance) -> instance.test(player, entities));
+        this.trigger(player, (instance) -> instance.test(player, entities));
     }
 
     public static class Instance extends CriterionInstance implements ICriterionInstanceTestable<List<Entity>> {
@@ -55,7 +55,7 @@ public class DistortTrigger extends AbstractCriterionTrigger<DistortTrigger.Inst
         public boolean test(ServerPlayerEntity player, List<Entity> entities) {
             int count = 0;
             for (Entity entity : entities) {
-                if (this.entityPredicate.test(player, entity)) {
+                if (this.entityPredicate.matches(player, entity)) {
                     count++;
                 }
             }

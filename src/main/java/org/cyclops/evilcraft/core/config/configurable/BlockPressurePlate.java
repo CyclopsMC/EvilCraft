@@ -18,12 +18,12 @@ public abstract class BlockPressurePlate extends AbstractPressurePlateBlock {
 
     public BlockPressurePlate(Block.Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(POWERED, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(POWERED, Boolean.FALSE));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(POWERED);
     }
 

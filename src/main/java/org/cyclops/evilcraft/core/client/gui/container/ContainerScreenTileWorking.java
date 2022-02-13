@@ -34,18 +34,18 @@ public abstract class ContainerScreenTileWorking<C extends ContainerTileWorking<
 	
 	@Override
     protected boolean isShowProgress() {
-        return getContainer().getMaxProgress(0) > 0;
+        return getMenu().getMaxProgress(0) > 0;
     }
     
     @Override
     protected int getProgressXScaled(int width) {
-        return (int) Math.ceil((float)(getContainer().getProgress(0)) / (float)getContainer().getMaxProgress(0) * (float)width);
+        return (int) Math.ceil((float)(getMenu().getProgress(0)) / (float)getMenu().getMaxProgress(0) * (float)width);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float f, int x, int y) {
-        super.drawGuiContainerBackgroundLayer(matrixStack, f, x, y);
-        upgrades.drawBackground(matrixStack, guiLeft, guiTop);
+    protected void renderBg(MatrixStack matrixStack, float f, int x, int y) {
+        super.renderBg(matrixStack, f, x, y);
+        upgrades.drawBackground(matrixStack, leftPos, topPos);
     }
 
 }

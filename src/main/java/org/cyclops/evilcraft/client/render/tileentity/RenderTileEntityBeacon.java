@@ -32,25 +32,25 @@ public abstract class RenderTileEntityBeacon<T extends EvilCraftBeaconTileEntity
 	}
 	
 	protected void renderBeacon(T tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-		GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
-        GlStateManager.disableFog();
+		GlStateManager._alphaFunc(GL11.GL_GREATER, 0.1F);
+        GlStateManager._disableFog();
 		
         if (tile.isBeamActive())
         {
         	Vector4f beamColor = tile.getBeamColor();
-            BeaconTileEntityRenderer.renderBeamSegment(matrixStackIn, bufferIn, BEACON_TEXTURE, partialTicks, 1.0F,
-                    tile.getWorld().getGameTime(), 0, 256,
-                    new float[]{beamColor.getX(), beamColor.getY(), beamColor.getZ()}, isInnerBeam(tile) ? 0 : 0.2F, 0.25F);
+            BeaconTileEntityRenderer.renderBeaconBeam(matrixStackIn, bufferIn, BEACON_TEXTURE, partialTicks, 1.0F,
+                    tile.getLevel().getGameTime(), 0, 256,
+                    new float[]{beamColor.x(), beamColor.y(), beamColor.z()}, isInnerBeam(tile) ? 0 : 0.2F, 0.25F);
         }
 
-        GlStateManager.enableFog();
-        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.5F);
+        GlStateManager._enableFog();
+        GlStateManager._alphaFunc(GL11.GL_GREATER, 0.5F);
 	}
 
     protected abstract boolean isInnerBeam(T tile);
 
     @Override
-    public boolean isGlobalRenderer(T te) {
+    public boolean shouldRenderOffScreen(T te) {
         return true;
     }
 }

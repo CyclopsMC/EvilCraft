@@ -30,7 +30,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         if(tick >= getRequiredTicks(tile, recipe)) {
             if(recipe.isPresent()) {
                 if(addToProduceSlot(tile, recipe.get().getOutputItem().copy())) {
-                    tile.getInventory().decrStackSize(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
+                    tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                     tile.getTank().drain(getRequiredFluidAmount(tile, recipe), IFluidHandler.FluidAction.EXECUTE);
                     tile.addXp(recipe.get().getXp());
                 }

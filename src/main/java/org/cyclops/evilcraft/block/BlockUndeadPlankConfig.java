@@ -20,8 +20,8 @@ public class BlockUndeadPlankConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_planks",
-                eConfig -> new Block(Block.Properties.create(Material.WOOD)
-                        .hardnessAndResistance(2.0F)
+                eConfig -> new Block(Block.Properties.of(Material.WOOD)
+                        .strength(2.0F)
                         .sound(SoundType.WOOD)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

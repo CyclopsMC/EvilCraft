@@ -43,6 +43,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A portable crafting table with a built-in ender chest.
  * @author rubensworks
@@ -63,7 +65,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
     	return isEmpowered(itemStack);
     }
     
@@ -99,7 +101,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     	if(this.wooden) {
     		return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
     	}
-    	return player.getInventoryEnderChest();
+    	return player.getEnderChestInventory();
     }
     
     @Override
@@ -128,7 +130,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     @Nullable
     @Override
     public INamedContainerProvider getContainer(World world, PlayerEntity playerEntity, int itemIndex, Hand hand, ItemStack itemStack) {
-        return new NamedContainerProviderItem(itemIndex, hand, itemStack.getDisplayName(), ContainerExaltedCrafter::new);
+        return new NamedContainerProviderItem(itemIndex, hand, itemStack.getHoverName(), ContainerExaltedCrafter::new);
     }
 
     @Override
@@ -137,13 +139,13 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        if (world.isRemote()) {
-            world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(),
-                    this.wooden ? SoundEvents.BLOCK_CHEST_OPEN : SoundEvents.BLOCK_ENDER_CHEST_OPEN,
-                    SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        if (world.isClientSide()) {
+            world.playSound(player, player.getX(), player.getY(), player.getZ(),
+                    this.wooden ? SoundEvents.CHEST_OPEN : SoundEvents.ENDER_CHEST_OPEN,
+                    SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
         }
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 
     @Override
@@ -180,7 +182,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
                         index = slot.getByte("Slot");
                     }
                     if (index >= 0 && index < getSlots()) {
-                        itemStacks.set(index, ItemStack.read(slot));
+                        itemStacks.set(index, ItemStack.of(slot));
                     }
                 }
             }
@@ -196,7 +198,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
                     CompoundNBT slot = new CompoundNBT();
                     slots.add(slot);
                     slot.putByte("Slot", index);
-                    itemStack.write(slot);
+                    itemStack.save(slot);
                 }
             }
             rootTag.put(ItemExaltedCrafter.NBT_INVENTORY, slots);

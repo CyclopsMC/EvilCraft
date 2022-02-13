@@ -26,7 +26,7 @@ public class SlotRepairable extends Slot {
     }
     
     @Override
-    public boolean isItemValid(ItemStack itemStack) {
+    public boolean mayPlace(ItemStack itemStack) {
         return checkIsItemValid(itemStack);
     }
     

@@ -47,15 +47,15 @@ public class BlockSanguinaryPedestal extends BlockTile implements IBlockRarityPr
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
         TileHelpers.getSafeTile(worldIn, pos, TileSanguinaryPedestal.class)
                 .ifPresent(tile -> {
-                    player.sendStatusMessage(new StringTextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
-                            .appendString(" / ")
-                            .appendString(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
-                            .appendString(" mB"), true);
+                    player.displayClientMessage(new StringTextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
+                            .append(" / ")
+                            .append(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
+                            .append(" mB"), true);
                 });
-        return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);
+        return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
     }
 
     @Override

@@ -7,6 +7,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Blood reactant.
  * 
@@ -24,7 +26,7 @@ public class ItemPromiseAcceptor extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(ItemStack itemStack) {
+    public boolean isFoil(ItemStack itemStack) {
         return true;
     }
 

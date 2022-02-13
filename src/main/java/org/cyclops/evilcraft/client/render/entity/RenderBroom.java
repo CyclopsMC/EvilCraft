@@ -35,19 +35,19 @@ public class RenderBroom extends EntityRenderer<EntityBroom> {
 
         // Note: using entity.rotationYaw instead of yaw seems to fix some glitchyness when rendering
         // In case this causes other problems, you can replace it by the yaw again
-        float rotationYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
-        float rotationPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-rotationYaw));
-        matrixStackIn.rotate(Vector3f.XP.rotationDegrees(rotationPitch));
+        float rotationYaw = entity.yRotO + (entity.yRot - entity.yRotO) * partialTicks;
+        float rotationPitch = entity.xRotO + (entity.xRot - entity.xRotO) * partialTicks;
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotationYaw));
+        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotationPitch));
 
         matrixStackIn.scale(2, 2, 2);
-        Minecraft.getInstance().getItemRenderer().renderItem(getItemStack(entity),
+        Minecraft.getInstance().getItemRenderer().renderStatic(getItemStack(entity),
                 ItemCameraTransforms.TransformType.FIXED, packedLightIn,
                 OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
 	}
 
     @Override
-    public ResourceLocation getEntityTexture(EntityBroom entity) {
+    public ResourceLocation getTextureLocation(EntityBroom entity) {
         return null;
     }
 

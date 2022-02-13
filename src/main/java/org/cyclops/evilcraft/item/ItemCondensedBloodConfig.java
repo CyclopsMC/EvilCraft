@@ -17,6 +17,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nullable;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 /**
  * Config for the condensed blood.
  * @author rubensworks
@@ -32,7 +34,7 @@ public class ItemCondensedBloodConfig extends ItemConfig {
                 EvilCraft._instance,
             "condensed_blood",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())) {
+                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
                     @Override
                     public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
                         return new FluidWrapper(stack);
@@ -46,14 +48,14 @@ public class ItemCondensedBloodConfig extends ItemConfig {
         super.onForgeRegistered();
         if (injectLootTables) {
             LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/condensed_blood"),
-                    LootTables.CHESTS_SPAWN_BONUS_CHEST,
-                    LootTables.CHESTS_VILLAGE_VILLAGE_TOOLSMITH,
-                    LootTables.CHESTS_VILLAGE_VILLAGE_WEAPONSMITH,
-                    LootTables.CHESTS_VILLAGE_VILLAGE_SHEPHERD,
-                    LootTables.CHESTS_NETHER_BRIDGE,
-                    LootTables.CHESTS_SIMPLE_DUNGEON,
-                    LootTables.CHESTS_ABANDONED_MINESHAFT,
-                    LootTables.CHESTS_JUNGLE_TEMPLE);
+                    LootTables.SPAWN_BONUS_CHEST,
+                    LootTables.VILLAGE_TOOLSMITH,
+                    LootTables.VILLAGE_WEAPONSMITH,
+                    LootTables.VILLAGE_SHEPHERD,
+                    LootTables.NETHER_BRIDGE,
+                    LootTables.SIMPLE_DUNGEON,
+                    LootTables.ABANDONED_MINESHAFT,
+                    LootTables.JUNGLE_TEMPLE);
         }
     }
 

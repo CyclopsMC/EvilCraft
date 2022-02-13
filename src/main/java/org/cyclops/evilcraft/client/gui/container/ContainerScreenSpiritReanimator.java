@@ -111,17 +111,17 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
     
     @Override
 	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
-    	String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getTranslationKey() + ".help.invalid";
+    	String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getDescriptionId() + ".help.invalid";
     	List<ITextComponent> lines = Lists.newArrayList();
     	lines.add(new TranslationTextComponent(prefix));
-        String entityName = getContainer().getEntityName();
+        String entityName = getMenu().getEntityName();
         if (entityName == null) {
         	lines.add(new TranslationTextComponent(prefix + ".no_entity"));
         } else if (entityName.isEmpty()) {
             lines.add(new TranslationTextComponent(prefix + ".invalid_entity"));
         }
         else {
-        	ItemStack outputStack = getContainer().getContainerInventory().getStackInSlot(TileSpiritReanimator.SLOTS_OUTPUT);
+        	ItemStack outputStack = getMenu().getContainerInventory().getItem(TileSpiritReanimator.SLOTS_OUTPUT);
         	if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
                     && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName))) {
         		lines.add(new TranslationTextComponent(prefix + ".different_egg"));
@@ -130,10 +130,10 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
         if(lines.size() > 1) {
             this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
-	    	if(isPointInRegion(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
+	    	if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
-	    		mouseX -= guiLeft;
-	        	mouseY -= guiTop;
+	    		mouseX -= leftPos;
+	        	mouseY -= topPos;
 	            drawTooltip(lines, mouseX, mouseY);
 	        }
         }
@@ -146,7 +146,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
     
     @Override
     protected int getProgressYScaled(int height) {
-        return getContainer().getProgress(0) * PROGRESSHEIGHT / getContainer().getMaxProgress(0);
+        return getMenu().getProgress(0) * PROGRESSHEIGHT / getMenu().getMaxProgress(0);
     }
     
 }

@@ -21,7 +21,7 @@ public class ParticleDistortConfig extends ParticleConfig<ParticleDistortData> {
         super(EvilCraft._instance, "distort", eConfig -> new ParticleType<ParticleDistortData>(false, ParticleDistortData.DESERIALIZER) {
 
             @Override
-            public Codec<ParticleDistortData> func_230522_e_() {
+            public Codec<ParticleDistortData> codec() {
                 return ParticleDistortData.CODEC;
             }
         });
@@ -40,7 +40,7 @@ public class ParticleDistortConfig extends ParticleConfig<ParticleDistortData> {
     public ParticleManager.IParticleMetaFactory<ParticleDistortData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleDistortData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleDistort particle = new ParticleDistort(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getScale(), sprite);
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

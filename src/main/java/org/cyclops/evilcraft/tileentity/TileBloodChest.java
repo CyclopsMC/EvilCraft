@@ -45,6 +45,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * A chest that is able to repair tools with the use of blood.
  * Partially based on cpw's IronChests.
@@ -114,7 +117,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     @Override
     public Direction getRotation() {
         // World can be null during world loading
-        if (getWorld() == null) {
+        if (getLevel() == null) {
             return Direction.SOUTH;
         }
         return BlockHelpers.getSafeBlockStateProperty(getBlockState(), BlockBloodChest.FACING, Direction.SOUTH).getOpposite();
@@ -129,7 +132,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new SimpleInventory(inventorySize, stackSize) {
             @Override
-            public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
+            public boolean canPlaceItem(int slot, ItemStack itemstack) {
                 if(slot == SLOT_CONTAINER)
                     return SlotFluidContainer.checkIsItemValid(itemstack, RegistryEntries.FLUID_BLOOD);
                 else if(slot <= SLOTS_CHEST && slot >= 0)
@@ -138,19 +141,20 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             }
 
             @Override
-            public void openInventory(PlayerEntity entityPlayer) {
+            public void startOpen(PlayerEntity entityPlayer) {
                 triggerPlayerUsageChange(1);
             }
 
             @Override
-            public void closeInventory(PlayerEntity entityPlayer) {
+            public void stopOpen(PlayerEntity entityPlayer) {
                 triggerPlayerUsageChange(-1);
             }
 
             @Override
-            public boolean isUsableByPlayer(PlayerEntity entityPlayer) {
-                return super.isUsableByPlayer(entityPlayer)
-                        && !(world == null || world.getTileEntity(getPos()) != TileBloodChest.this);
+            public boolean stillValid(PlayerEntity entityPlayer) {
+                return false; // TODO: restore
+                /*return super.stillValid(entityPlayer)
+                        && !(level == null || level.getBlockEntity(getBlockPos()) != TileBloodChest.this);*/
             }
         };
     }
@@ -168,20 +172,20 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     @Override
     public void updateTileEntity() {
         super.updateTileEntity();
-        int x = getPos().getX();
-        int y = getPos().getY();
-        int z = getPos().getZ();
+        int x = getBlockPos().getX();
+        int y = getBlockPos().getY();
+        int z = getBlockPos().getZ();
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
-        if(world != null
-                && !this.world.isRemote()
+        if(level != null
+                && !this.level.isClientSide()
                 && this.playersUsing != 0
-                && WorldHelpers.efficientTick(world, TICK_MODULUS, this.getPos())/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
+                && WorldHelpers.efficientTick(level, TICK_MODULUS, this.getBlockPos())/*(this.ticksSinceSync + this.xCoord + this.yCoord + this.zCoord) % 200 == 0*/) {
             this.playersUsing = 0;
             float range = 5.0F;
 
             @SuppressWarnings("unchecked")
-            List<PlayerEntity> entities = this.world.getEntitiesWithinAABB(
+            List<PlayerEntity> entities = this.level.getEntitiesOfClass(
                     PlayerEntity.class,
                     new AxisAlignedBB(
                             (double)((float)x - range),
@@ -194,25 +198,25 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
                     );
 
             for(PlayerEntity player : entities) {
-                if (player.openContainer instanceof ContainerBloodChest) {
+                if (player.containerMenu instanceof ContainerBloodChest) {
                     ++this.playersUsing;
                 }
             }
             
-            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
+            level.blockEvent(getBlockPos(), getBlockState().getBlock(), 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.1F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            world.playSound(
+            level.playLocalSound(
                     (double) x + 0.5D,
                     (double) y + 0.5D,
                     (double) z + 0.5D,
-                    SoundEvents.BLOCK_CHEST_OPEN,
+                    SoundEvents.CHEST_OPEN,
                     SoundCategory.BLOCKS,
                     0.5F,
-                    world.rand.nextFloat() * 0.1F + 0.9F,
+                    level.random.nextFloat() * 0.1F + 0.9F,
                     false
             );
         }
@@ -228,14 +232,14 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                world.playSound(
+                level.playLocalSound(
                         (double) x + 0.5D,
                         (double) y + 0.5D,
                         (double) z + 0.5D,
-                        SoundEvents.BLOCK_CHEST_CLOSE,
+                        SoundEvents.CHEST_CLOSE,
                         SoundCategory.BLOCKS,
                         0.5F,
-                        world.rand.nextFloat() * 0.1F + 0.9F,
+                        level.random.nextFloat() * 0.1F + 0.9F,
                         false
                 );
             }
@@ -246,7 +250,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
 
     @Override
-    public boolean receiveClientEvent(int i, int j) {
+    public boolean triggerEvent(int i, int j) {
         if (i == 1) {
             playersUsing = j;
         }
@@ -254,9 +258,9 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
     }
     
     private void triggerPlayerUsageChange(int change) {
-        if (world != null) {
+        if (level != null) {
             playersUsing += change;
-            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
+            level.blockEvent(getBlockPos(), getBlockState().getBlock(), 1, playersUsing);
         }
     }
 
@@ -273,7 +277,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public float getLidAngle(float partialTicks) {
+    public float getOpenNess(float partialTicks) {
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 }

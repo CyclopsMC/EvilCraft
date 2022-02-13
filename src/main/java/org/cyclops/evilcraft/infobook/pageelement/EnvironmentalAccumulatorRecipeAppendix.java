@@ -25,6 +25,8 @@ import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumu
 import java.util.HashMap;
 import java.util.Map;
 
+import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix.ItemButton;
+
 /**
  * Blood Infuser recipes.
  * @author rubensworks
@@ -81,7 +83,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
 
         // Prepare items
         int tick = getTick(gui);
-        ItemStack input = prepareItemStacks(recipe.getInputIngredient().getMatchingStacks(), tick);
+        ItemStack input = prepareItemStacks(recipe.getInputIngredient().getItems(), tick);
         ItemStack result = prepareItemStack(recipe.getOutputItem(), tick);
 
         // Items
@@ -95,11 +97,11 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
         // Draw weathers
         Integer inputX = X_ICON_OFFSETS.get(recipe.getInputWeather());
         if(inputX != null) {
-            Minecraft.getInstance().getTextureManager().bindTexture(WEATHERS);
+            Minecraft.getInstance().getTextureManager().bind(WEATHERS);
             gui.blit(matrixStack, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
             gui.drawOuterBorder(matrixStack, x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
             Integer outputX = X_ICON_OFFSETS.get(recipe.getOutputWeather());
-            Minecraft.getInstance().getTextureManager().bindTexture(WEATHERS);
+            Minecraft.getInstance().getTextureManager().bind(WEATHERS);
             gui.blit(matrixStack, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
             gui.drawOuterBorder(matrixStack, x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
         }
@@ -112,8 +114,8 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
             int amount = AccumulateItemTickAction.getUsage(recipe.getCooldownTime());
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
-            IBidiRenderer.func_243258_a(fontRenderer, new StringTextComponent(line), 200)
-                    .func_241866_c(matrixStack, x + middle - 5, y + SLOT_SIZE, 9, 0);
+            IBidiRenderer.create(fontRenderer, new StringTextComponent(line), 200)
+                    .renderLeftAlignedNoShadow(matrixStack, x + middle - 5, y + SLOT_SIZE, 9, 0);
         }
     }
 }

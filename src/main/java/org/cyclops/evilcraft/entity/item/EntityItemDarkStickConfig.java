@@ -22,7 +22,7 @@ public class EntityItemDarkStickConfig extends EntityConfig<EntityItemDarkStick>
         super(
                 EvilCraft._instance,
                 "item_dark_stick",
-                eConfig -> EntityType.Builder.<EntityItemDarkStick>create(EntityItemDarkStick::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityItemDarkStick>of(EntityItemDarkStick::new, EntityClassification.MISC)
         );
     }
 

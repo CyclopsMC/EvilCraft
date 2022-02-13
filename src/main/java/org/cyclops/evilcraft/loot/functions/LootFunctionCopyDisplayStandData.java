@@ -29,8 +29,8 @@ public class LootFunctionCopyDisplayStandData extends LootFunction {
     }
 
     @Override
-    public ItemStack doApply(ItemStack itemStack, LootContext lootContext) {
-        TileEntity tile = lootContext.get(LootParameters.BLOCK_ENTITY);
+    public ItemStack run(ItemStack itemStack, LootContext lootContext) {
+        TileEntity tile = lootContext.getParamOrNull(LootParameters.BLOCK_ENTITY);
         if (tile instanceof TileDisplayStand) {
             ItemStack type = ((TileDisplayStand) tile).getDisplayStandType();
             BlockDisplayStand.setDisplayStandType(itemStack, type);
@@ -39,7 +39,7 @@ public class LootFunctionCopyDisplayStandData extends LootFunction {
     }
 
     @Override
-    public LootFunctionType getFunctionType() {
+    public LootFunctionType getType() {
         return TYPE;
     }
 

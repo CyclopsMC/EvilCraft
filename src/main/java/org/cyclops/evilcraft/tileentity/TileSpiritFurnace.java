@@ -54,6 +54,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.cyclops.evilcraft.core.tileentity.TileWorking.Inventory;
+
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
  * @author rubensworks
@@ -104,7 +106,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
     
     @NBTPersist(useDefaultValue = false)
-    private Vector3i size = LocationHelpers.copyLocation(Vector3i.NULL_VECTOR);
+    private Vector3i size = LocationHelpers.copyLocation(Vector3i.ZERO);
     @NBTPersist
     private Boolean forceHalt = false;
     @NBTPersist
@@ -182,22 +184,26 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new Inventory<TileSpiritFurnace>(inventorySize, stackSize, this) {
             @Override
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            public boolean canPlaceItem(int slot, ItemStack itemStack) {
                 if(slot == SLOT_BOX)
-                    return getTileWorkingMetadata().canConsume(itemStack, getWorld());
+                    return getTileWorkingMetadata().canConsume(itemStack, getLevel());
                 if(slot == SLOT_CONTAINER)
                     return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
-                return super.isItemValidForSlot(slot, itemStack);
+                return super.canPlaceItem(slot, itemStack);
             }
 
             @Override
-            public boolean canInsertItem(int slot, ItemStack itemStack, Direction side) {
-                return slot < 2 && super.canInsertItem(slot, itemStack, side);
+            public boolean canPlaceItemThroughFace(int slot, ItemStack itemStack, Direction side) {
+                // TODO: restore
+                return false;
+                // return slot < 2 && super.canPlaceItemThroughFace(slot, itemStack, side);
             }
 
             @Override
-            public boolean canExtractItem(int slot, ItemStack itemStack, Direction side) {
-                return slot >= 2 && super.canExtractItem(slot, itemStack, side);
+            public boolean canTakeItemThroughFace(int slot, ItemStack itemStack, Direction side) {
+                // TODO: restore
+                return false;
+                // return slot >= 2 && super.canTakeItemThroughFace(slot, itemStack, side);
             }
         };
     }
@@ -217,7 +223,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @return The entity or null if no box or invalid box.
      */
     public Entity getEntity() {
-    	ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+    	ItemStack boxStack = getInventory().getItem(getConsumeSlot());
         if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
             EntityType<?> id = BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(boxStack);
             if(id != null && id != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
@@ -225,7 +231,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
                 if(boxEntityCache != null && id == boxEntityCache.getType()) {
         			return boxEntityCache;
         		} else {
-                    Entity entity = id.create(world);
+                    Entity entity = id.create(level);
                     boxEntityCache = entity;
                     return entity;
         		}
@@ -235,7 +241,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     }
 
     public String getPlayerId() {
-        ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+        ItemStack boxStack = getInventory().getItem(getConsumeSlot());
         if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
             return BlockBoxOfEternalClosure.getPlayerId(boxStack);
         }
@@ -243,7 +249,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     }
 
     public String getPlayerName() {
-        ItemStack boxStack = getInventory().getStackInSlot(getConsumeSlot());
+        ItemStack boxStack = getInventory().getItem(getConsumeSlot());
         if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
             return BlockBoxOfEternalClosure.getPlayerName(boxStack);
         }
@@ -261,7 +267,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
     public Vector3i getEntitySize() {
     	Entity entity = getEntity();
     	if(entity == null) {
-    		return Vector3i.NULL_VECTOR;
+    		return Vector3i.ZERO;
     	}
     	return EntityHelpers.getEntitySize(entity);
     }
@@ -298,7 +304,7 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
      * @return If it is valid.
      */
     public static boolean canWork(World world, BlockPos location) {
-    	TileEntity tile = world.getTileEntity(location);
+    	TileEntity tile = world.getBlockEntity(location);
 		if(tile != null) {
 			return ((TileSpiritFurnace) tile).canWork();
 		}
@@ -370,9 +376,9 @@ public class TileSpiritFurnace extends TileWorking<TileSpiritFurnace, MutableDou
 
 		// Try placing the item inside the inventory slots.
 		while(!placed && i < slots.length) {
-			ItemStack produceStack = getInventory().getStackInSlot(slots[i]);
+			ItemStack produceStack = getInventory().getItem(slots[i]);
 	        if(produceStack.isEmpty()) {
-	            getInventory().setInventorySlotContents(slots[i], itemStack);
+	            getInventory().setItem(slots[i], itemStack);
 	            placed = true;
 	        } else {
 	            if(produceStack.getItem() == itemStack.getItem()

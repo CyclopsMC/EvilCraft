@@ -16,6 +16,7 @@ import net.minecraft.item.Rarity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -61,38 +62,38 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 
 	public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
 
-	public static final VoxelShape SHAPE_EW = Block.makeCuboidShape(0.25F * 16F, 0F, 0.0F, 0.75F * 16F, 0.43F * 16F, 1.0F * 16F);
-	public static final VoxelShape SHAPE_NS = Block.makeCuboidShape(0.0F, 0F, 0.25F * 16F, 1.0F * 16F, 0.43F * 16F, 0.75F * 16F);
+	public static final VoxelShape SHAPE_EW = Block.box(0.25F * 16F, 0F, 0.0F, 0.75F * 16F, 0.43F * 16F, 1.0F * 16F);
+	public static final VoxelShape SHAPE_NS = Block.box(0.0F, 0F, 0.25F * 16F, 1.0F * 16F, 0.43F * 16F, 0.75F * 16F);
 
 	public static ItemStack boxOfEternalClosureFilled;
 
 	public BlockBoxOfEternalClosure(Block.Properties properties) {
         super(properties, TileBoxOfEternalClosure::new);
 
-		this.setDefaultState(this.stateContainer.getBaseState()
-				.with(FACING, Direction.NORTH));
+		this.registerDefaultState(this.stateDefinition.any()
+				.setValue(FACING, Direction.NORTH));
 
 		MinecraftForge.EVENT_BUS.register(this);
     }
 
 	@Override
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
 	}
 
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		Direction rotation = state.get(FACING);
+		Direction rotation = state.getValue(FACING);
 		return rotation == Direction.EAST || rotation == Direction.WEST ? SHAPE_EW : SHAPE_NS;
 	}
     
     @Override
-    public BlockRenderType getRenderType(BlockState blockState) {
+    public BlockRenderType getRenderShape(BlockState blockState) {
     	return BlockRenderType.MODEL;
     }
 
@@ -169,7 +170,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
 	}
 
@@ -177,30 +178,30 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		if (!worldIn.isAreaLoaded(pos, 1))
 			return;
-		if (!state.isValidPosition(worldIn, pos)) {
+		if (!state.isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
 			worldIn.destroyBlock(pos, true);
 		}
 	}
 
 	@Override
-	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (!stateIn.isValidPosition(worldIn, currentPos)) {
-			worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+		if (!stateIn.isFaceSturdy(worldIn, currentPos.below(), Direction.UP)) {
+			worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
 		}
-		return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult blockRayTraceResult) {
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult blockRayTraceResult) {
 		return TileHelpers.getSafeTile(worldIn, pos, TileBoxOfEternalClosure.class)
 				.map(tile -> {
 					if (tile.isClosed()) {
 						tile.open();
 						return ActionResultType.SUCCESS;
 					}
-					return super.onBlockActivated(state, worldIn, pos, player, handIn, blockRayTraceResult);
+					return super.use(state, worldIn, pos, player, handIn, blockRayTraceResult);
 				})
-				.orElseGet(() -> super.onBlockActivated(state, worldIn, pos, player, handIn, blockRayTraceResult));
+				.orElseGet(() -> super.use(state, worldIn, pos, player, handIn, blockRayTraceResult));
 	}
 
 	@Override
@@ -211,7 +212,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	}
 
 	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
 		items.add(new ItemStack(this));
 		items.add(BlockBoxOfEternalClosure.boxOfEternalClosureFilled);
 	}
@@ -222,26 +223,26 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState blockState) {
+    public boolean hasAnalogOutputSignal(BlockState blockState) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos blockPos) {
-        if(world.getTileEntity(blockPos) != null) {
-            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getTileEntity(blockPos);
+    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
+        if(world.getBlockEntity(blockPos) != null) {
+            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getBlockEntity(blockPos);
             if(tile.hasSpirit()) {
                 return 15;
             }
         }
-        return super.getComparatorInputOverride(blockState, world, blockPos);
+        return super.getAnalogOutputSignal(blockState, world, blockPos);
     }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean addHitEffects(BlockState blockState, World world, RayTraceResult target, ParticleManager particleManager) {
 		if(target != null) {
-			RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.getDefaultState(), ((BlockRayTraceResult) target).getPos(), ((BlockRayTraceResult) target).getFace());
+			RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.defaultBlockState(), ((BlockRayTraceResult) target).getBlockPos(), ((BlockRayTraceResult) target).getDirection());
 		}
 		return true;
 	}
@@ -249,7 +250,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager particleManager) {
-		RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.getDefaultState(), pos, Direction.UP);
+		RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.defaultBlockState(), pos, Direction.UP);
 		return true;
 	}
 
@@ -258,5 +259,11 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	public boolean addLandingEffects(BlockState blockState, ServerWorld world, BlockPos blockPosition, BlockState iblockstate, LivingEntity entity, int numberOfParticles) {
 		//RenderHelpers.addBlockHitEffects(Minecraft.getInstance().particles, world, Blocks.OBSIDIAN.getDefaultState(), blockPosition, Direction.UP);
 		return true;
+	}
+
+	@Nullable
+	@Override
+	public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
+		return null; // TODO: rm
 	}
 }

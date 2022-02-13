@@ -15,12 +15,12 @@ import java.util.Random;
  * @author rubensworks
  */
 public class ItemsForEmeraldsTrade implements VillagerTrades.ITrade {
-    private final ItemStack field_221208_a;
+    private final ItemStack itemStack;
     private final int emeraldCount;
-    private final int field_221210_c;
-    private final int field_221211_d;
-    private final int field_221212_e;
-    private final float field_221213_f;
+    private final int numberOfItems;
+    private final int maxUses;
+    private final int villagerXp;
+    private final float priceMultiplier;
 
     public ItemsForEmeraldsTrade(Block p_i50528_1_, int p_i50528_2_, int p_i50528_3_, int p_i50528_4_, int p_i50528_5_) {
         this(new ItemStack(p_i50528_1_), p_i50528_2_, p_i50528_3_, p_i50528_4_, p_i50528_5_);
@@ -39,15 +39,15 @@ public class ItemsForEmeraldsTrade implements VillagerTrades.ITrade {
     }
 
     public ItemsForEmeraldsTrade(ItemStack p_i50532_1_, int p_i50532_2_, int p_i50532_3_, int p_i50532_4_, int p_i50532_5_, float p_i50532_6_) {
-        this.field_221208_a = p_i50532_1_;
+        this.itemStack = p_i50532_1_;
         this.emeraldCount = p_i50532_2_;
-        this.field_221210_c = p_i50532_3_;
-        this.field_221211_d = p_i50532_4_;
-        this.field_221212_e = p_i50532_5_;
-        this.field_221213_f = p_i50532_6_;
+        this.numberOfItems = p_i50532_3_;
+        this.maxUses = p_i50532_4_;
+        this.villagerXp = p_i50532_5_;
+        this.priceMultiplier = p_i50532_6_;
     }
 
     public MerchantOffer getOffer(Entity trader, Random rand) {
-        return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCount), new ItemStack(this.field_221208_a.getItem(), this.field_221210_c), this.field_221211_d, this.field_221212_e, this.field_221213_f);
+        return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCount), new ItemStack(this.itemStack.getItem(), this.numberOfItems), this.maxUses, this.villagerXp, this.priceMultiplier);
     }
 }

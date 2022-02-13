@@ -15,6 +15,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 
+import net.minecraft.enchantment.Enchantment.Rarity;
+
 /**
  * Enchantment that stop your tool from being usable when it only has durability left.
  * @author rubensworks
@@ -29,9 +31,9 @@ public class EnchantmentUnusing extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void unusingEvent(LivingAttackEvent event) {
-        if (!event.getEntity().getEntityWorld().isRemote() && event.getSource().getTrueSource() instanceof LivingEntity) {
-            LivingEntity entity = (LivingEntity) event.getSource().getTrueSource();
-            ItemStack itemStack = entity.getHeldItemMainhand();
+        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) event.getSource().getEntity();
+            ItemStack itemStack = entity.getMainHandItem();
             if (EnchantmentHelpers.doesEnchantApply(itemStack, this) > -1) {
                 if (EnchantmentUnusing.unuseTool(itemStack)) {
                     event.setCanceled(true);
@@ -44,25 +46,25 @@ public class EnchantmentUnusing extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void unusingEvent(BlockEvent.BreakEvent event) {
-        Hand hand = event.getPlayer().getActiveHand();
+        Hand hand = event.getPlayer().getUsedItemHand();
         if (hand != null) {
-            if (EnchantmentHelpers.doesEnchantApply(event.getPlayer().getHeldItem(hand), this) > -1) {
+            if (EnchantmentHelpers.doesEnchantApply(event.getPlayer().getItemInHand(hand), this) > -1) {
                 if (event.getPlayer() != null
-                        && EnchantmentUnusing.unuseTool(event.getPlayer().getHeldItem(hand))) {
+                        && EnchantmentUnusing.unuseTool(event.getPlayer().getItemInHand(hand))) {
                     event.setCanceled(true);
-                    event.getPlayer().stopActiveHand();
+                    event.getPlayer().releaseUsingItem();
                 }
             }
         }
     }
     
     @Override
-    public int getMinEnchantability(int par1) {
+    public int getMinCost(int par1) {
         return 10;
     }
     
     @Override
-    public int getMaxEnchantability(int par1) {
+    public int getMaxCost(int par1) {
         return 50;
     }
     
@@ -72,7 +74,7 @@ public class EnchantmentUnusing extends Enchantment {
     }
 
     @Override
-    public boolean canApply(ItemStack itemStack) {
+    public boolean canEnchant(ItemStack itemStack) {
         return !itemStack.isEmpty() && (!itemStack.getItem().getToolTypes(itemStack).isEmpty() || itemStack.getItem() instanceof SwordItem);
     }
     
@@ -83,8 +85,8 @@ public class EnchantmentUnusing extends Enchantment {
      */
     public static boolean unuseTool(ItemStack itemStack) {
         int damageBorder = itemStack.getMaxDamage() - 5;
-        if(itemStack.getDamage() >= damageBorder) {
-            itemStack.setDamage(damageBorder);
+        if(itemStack.getDamageValue() >= damageBorder) {
+            itemStack.setDamageValue(damageBorder);
             return true;
         }
         return false;

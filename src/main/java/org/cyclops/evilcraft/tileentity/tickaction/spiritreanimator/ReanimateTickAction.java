@@ -27,7 +27,7 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
     }
 
 	protected ItemStack getSpawnEgg(EntityType<?> entityType) {
-		return new ItemStack(SpawnEggItem.EGGS.get(entityType));
+		return new ItemStack(SpawnEggItem.BY_ID.get(entityType));
 	}
 
 	@Override
@@ -41,11 +41,11 @@ public class ReanimateTickAction implements ITickAction<TileSpiritReanimator> {
 				spawnEgg = getSpawnEgg(entityType);
 			}
 			if(!spawnEgg.isEmpty() && addToProduceSlot(tile, spawnEgg)) {
-				tile.getInventory().decrStackSize(TileSpiritReanimator.SLOT_EGG, 1);
+				tile.getInventory().removeItem(TileSpiritReanimator.SLOT_EGG, 1);
 			}
 			if(BlockSpiritReanimatorConfig.clearBoxContents) {
 				itemStack.setTag(new CompoundNBT());
-				tile.getInventory().setInventorySlotContents(TileSpiritReanimator.SLOT_BOX, itemStack);
+				tile.getInventory().setItem(TileSpiritReanimator.SLOT_BOX, itemStack);
 			}
 		}
 	}

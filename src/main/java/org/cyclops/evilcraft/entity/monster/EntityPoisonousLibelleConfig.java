@@ -41,17 +41,17 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
         super(
                 EvilCraft._instance,
             "poisonous_libelle",
-                eConfig -> EntityType.Builder.<EntityPoisonousLibelle>create(EntityPoisonousLibelle::new, EntityClassification.MONSTER)
-                        .size(0.5F, 0.45F)
-                        .immuneToFire(),
+                eConfig -> EntityType.Builder.<EntityPoisonousLibelle>of(EntityPoisonousLibelle::new, EntityClassification.MONSTER)
+                        .sized(0.5F, 0.45F)
+                        .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "poisonous_libelle_spawn_egg", Helpers.RGBToInt(57, 125, 27), Helpers.RGBToInt(196, 213, 57))
         );
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        if (event.getName().equals(Biomes.RIVER.getLocation())) {
-            event.getSpawns().getSpawner(getInstance().getClassification())
+        if (event.getName().equals(Biomes.RIVER.location())) {
+            event.getSpawns().getSpawner(getInstance().getCategory())
                     .add(new MobSpawnInfo.Spawners(getInstance(), 1, 1, 2));
         }
     }
@@ -65,10 +65,10 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.MAX_HEALTH, 1.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.625D)
-                .create());
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 1.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.625D)
+                .build());
     }
     
 }

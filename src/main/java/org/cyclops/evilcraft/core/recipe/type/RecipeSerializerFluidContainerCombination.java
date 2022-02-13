@@ -19,23 +19,23 @@ public class RecipeSerializerFluidContainerCombination extends ForgeRegistryEntr
         implements IRecipeSerializer<RecipeFluidContainerCombination> {
 
     @Override
-    public RecipeFluidContainerCombination read(ResourceLocation recipeId, JsonObject json) {
+    public RecipeFluidContainerCombination fromJson(ResourceLocation recipeId, JsonObject json) {
         Ingredient inputIngredient = RecipeSerializerHelpers.getJsonIngredient(json, "item", false);
-        int maxCapacity = JSONUtils.getInt(json, "maxCapacity");
+        int maxCapacity = JSONUtils.getAsInt(json, "maxCapacity");
         return new RecipeFluidContainerCombination(recipeId, inputIngredient, maxCapacity);
     }
 
     @Nullable
     @Override
-    public RecipeFluidContainerCombination read(ResourceLocation recipeId, PacketBuffer buffer) {
-        Ingredient inputIngredient = Ingredient.read(buffer);
+    public RecipeFluidContainerCombination fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+        Ingredient inputIngredient = Ingredient.fromNetwork(buffer);
         int maxCapacity = buffer.readInt();
         return new RecipeFluidContainerCombination(recipeId, inputIngredient, maxCapacity);
     }
 
     @Override
-    public void write(PacketBuffer buffer, RecipeFluidContainerCombination recipe) {
-        recipe.getFluidContainer().write(buffer);
+    public void toNetwork(PacketBuffer buffer, RecipeFluidContainerCombination recipe) {
+        recipe.getFluidContainer().toNetwork(buffer);
         buffer.writeInt(recipe.getMaxCapacity());
     }
 }

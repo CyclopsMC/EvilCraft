@@ -22,7 +22,7 @@ public class EntityRedstoneGrenadeConfig extends EntityConfig<EntityRedstoneGren
         super(
                 EvilCraft._instance,
             "redstone_grenade",
-                eConfig -> EntityType.Builder.<EntityRedstoneGrenade>create(EntityRedstoneGrenade::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityRedstoneGrenade>of(EntityRedstoneGrenade::new, EntityClassification.MISC)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }

@@ -38,7 +38,7 @@ public abstract class EntityItemIndestructable extends EntityItemExtended {
 	}
 
     @Override
-    public boolean isImmuneToFire() {
+    public boolean fireImmune() {
         return true;
     }
 

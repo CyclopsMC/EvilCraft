@@ -16,7 +16,7 @@ public class ItemDarkSpikeConfig extends ItemConfig {
                 EvilCraft._instance,
                 "dark_spike",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

@@ -30,8 +30,8 @@ public class ItemInvigoratingPendantConfig extends ItemConfig {
                 EvilCraft._instance,
                 "invigorating_pendant",
                 eConfig -> new ItemInvigoratingPendant(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(1))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(1))
         );
     }
 

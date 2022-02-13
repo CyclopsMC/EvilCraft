@@ -18,9 +18,9 @@ public class ItemBucketBloodConfig extends ItemConfig {
                 EvilCraft._instance,
                 "bucket_blood",
                 eConfig -> new BucketItem(() -> RegistryEntries.FLUID_BLOOD, new Item.Properties()
-                        .containerItem(Items.BUCKET)
-                        .maxStackSize(1)
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .craftRemainder(Items.BUCKET)
+                        .stacksTo(1)
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
 

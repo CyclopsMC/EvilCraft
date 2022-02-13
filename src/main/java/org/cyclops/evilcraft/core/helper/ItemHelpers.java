@@ -84,20 +84,20 @@ public class ItemHelpers {
      * @param fillBuckets If buckets should be filled.
      */
     public static void updateAutoFill(IFluidHandlerItem toDrain, World world, Entity entity, boolean fillBuckets) {
-    	if(entity instanceof PlayerEntity && !world.isRemote()) {
+    	if(entity instanceof PlayerEntity && !world.isClientSide()) {
             FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
             if(!tickFluid.isEmpty()) {
                 PlayerEntity player = (PlayerEntity) entity;
                 for (Hand hand : Hand.values()) {
-                    ItemStack held = player.getHeldItem(hand);
+                    ItemStack held = player.getItemInHand(hand);
                     if (!held.isEmpty() && (fillBuckets || held.getItem() != Items.BUCKET)) {
                         ItemStack toFill = held.split(1);
                         ItemStack filled = tryFillContainerForPlayer(toDrain, toFill, tickFluid, player);
                         if (!filled.isEmpty()) {
-                            if (player.getHeldItem(hand).isEmpty()) {
-                                player.setHeldItem(hand, filled);
+                            if (player.getItemInHand(hand).isEmpty()) {
+                                player.setItemInHand(hand, filled);
                             } else {
-                                player.addItemStackToInventory(filled);
+                                player.addItem(filled);
                             }
                         } else {
                             held.grow(1);
@@ -122,7 +122,7 @@ public class ItemHelpers {
             maxFill = FluidHelpers.BUCKET_VOLUME;
         }
         if(!toFill.isEmpty() && toFill != toDrain.getContainer() && FluidUtil.getFluidHandler(toFill) != null
-                && player.getItemInUseCount() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, false).isSuccess()) {
+                && player.getUseItemRemainingTicks() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, false).isSuccess()) {
             return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, true).getResult();
         }
         return ItemStack.EMPTY;

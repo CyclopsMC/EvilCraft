@@ -28,10 +28,10 @@ public class BlockGemStoneTorchConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "gem_stone_torch",
-                eConfig -> new TorchBlock(Block.Properties.create(Material.MISCELLANEOUS)
-                        .doesNotBlockMovement()
-                        .hardnessAndResistance(0)
-                        .setLightLevel((state) -> 14)
+                eConfig -> new TorchBlock(Block.Properties.of(Material.DECORATION)
+                        .noCollission()
+                        .strength(0)
+                        .lightLevel((state) -> 14)
                         .sound(SoundType.WOOD), ParticleTypes.FLAME),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
@@ -39,7 +39,7 @@ public class BlockGemStoneTorchConfig extends BlockConfig {
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

@@ -26,115 +26,115 @@ public class ModelWerewolf extends BipedModel<EntityWerewolf> {
      */
     public ModelWerewolf() {
         super(1.0F);
-        this.textureWidth = 64;
-        this.textureHeight = 135;
-        bipedHead = new ModelRenderer(this, 24, 0);
-        bipedHead.addBox(-5F, -10F, -5F, 10, 10, 10);
-        bipedHead.setRotationPoint(0F, -13F, 0F);
-        bipedHead.setTextureSize(64, 135);
-        bipedHead.mirror = true;
-        setRotation(bipedHead, 0F, 0F, 0F);
+        this.texWidth = 64;
+        this.texHeight = 135;
+        head = new ModelRenderer(this, 24, 0);
+        head.addBox(-5F, -10F, -5F, 10, 10, 10);
+        head.setPos(0F, -13F, 0F);
+        head.setTexSize(64, 135);
+        head.mirror = true;
+        setRotation(head, 0F, 0F, 0F);
         bipedEar1 = new ModelRenderer(this, 18, 0);
         bipedEar1.addBox(-4F, -14F, 2F, 2, 4, 1);
-        bipedEar1.setRotationPoint(0F, -13F, 0F);
-        bipedEar1.setTextureSize(64, 135);
+        bipedEar1.setPos(0F, -13F, 0F);
+        bipedEar1.setTexSize(64, 135);
         bipedEar1.mirror = true;
         setRotation(bipedEar1, 0F, 0F, 0F);
         bipedEar2 = new ModelRenderer(this, 12, 0);
         bipedEar2.addBox(2F, -14F, 2F, 2, 4, 1);
-        bipedEar2.setRotationPoint(0F, -13F, 0F);
-        bipedEar2.setTextureSize(64, 135);
+        bipedEar2.setPos(0F, -13F, 0F);
+        bipedEar2.setTexSize(64, 135);
         bipedEar2.mirror = true;
         setRotation(bipedEar2, 0F, 0F, 0F);
         Upper_Jaw = new ModelRenderer(this, 32, 122);
         Upper_Jaw.addBox(-3F, -7F, -11F, 6, 3, 10);
-        Upper_Jaw.setRotationPoint(0F, -13F, 0F);
-        Upper_Jaw.setTextureSize(64, 135);
+        Upper_Jaw.setPos(0F, -13F, 0F);
+        Upper_Jaw.setTexSize(64, 135);
         Upper_Jaw.mirror = true;
         setRotation(Upper_Jaw, 0F, 0F, 0F);
         Lower_Jaw = new ModelRenderer(this, 0, 122);
         Lower_Jaw.addBox(-3F, -4F, -10F, 6, 2, 10);
-        Lower_Jaw.setRotationPoint(0F, -13F, 0F);
-        Lower_Jaw.setTextureSize(64, 135);
+        Lower_Jaw.setPos(0F, -13F, 0F);
+        Lower_Jaw.setTexSize(64, 135);
         Lower_Jaw.mirror = true;
         setRotation(Lower_Jaw, 0.1745329F, 0F, 0F);
-        bipedBody = new ModelRenderer(this, 12, 20);
-        bipedBody.addBox(-7F, 0F, -6F, 14, 19, 12);
-        bipedBody.setRotationPoint(0F, -13F, 0F);
-        bipedBody.setTextureSize(64, 135);
-        bipedBody.mirror = true;
-        setRotation(bipedBody, 0F, 0F, 0F);
-        bipedRightArm = new ModelRenderer(this, 22, 51);
-        bipedRightArm.addBox(-4F, -2F, -16F, 4, 4, 17);
-        bipedRightArm.setRotationPoint(-7F, -8F, 0F);
-        bipedRightArm.setTextureSize(64, 135);
-        bipedRightArm.mirror = true;
-        setRotation(bipedRightArm, 0.1047198F, 0F, 0F);
-        bipedLeftArm = new ModelRenderer(this, 0, 72);
-        bipedLeftArm.addBox(0F, -2F, -16F, 4, 4, 17);
-        bipedLeftArm.setRotationPoint(7F, -8F, 0F);
-        bipedLeftArm.setTextureSize(64, 135);
-        bipedLeftArm.mirror = true;
-        setRotation(bipedLeftArm, 0.1047198F, 0F, 0F);
-        bipedRightLeg = new ModelRenderer(this, 44, 93);
-        bipedRightLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
-        bipedRightLeg.setRotationPoint(-3F, 6F, 0F);
-        bipedRightLeg.setTextureSize(64, 135);
-        bipedRightLeg.mirror = true;
-        setRotation(bipedRightLeg, 0F, 0F, 0F);
-        bipedLeftLeg = new ModelRenderer(this, 24, 93);
-        bipedLeftLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
-        bipedLeftLeg.setRotationPoint(3F, 6F, 0F);
-        bipedLeftLeg.setTextureSize(64, 135);
-        bipedLeftLeg.mirror = true;
-        setRotation(bipedLeftLeg, 0F, 0F, 0F);
+        body = new ModelRenderer(this, 12, 20);
+        body.addBox(-7F, 0F, -6F, 14, 19, 12);
+        body.setPos(0F, -13F, 0F);
+        body.setTexSize(64, 135);
+        body.mirror = true;
+        setRotation(body, 0F, 0F, 0F);
+        rightArm = new ModelRenderer(this, 22, 51);
+        rightArm.addBox(-4F, -2F, -16F, 4, 4, 17);
+        rightArm.setPos(-7F, -8F, 0F);
+        rightArm.setTexSize(64, 135);
+        rightArm.mirror = true;
+        setRotation(rightArm, 0.1047198F, 0F, 0F);
+        leftArm = new ModelRenderer(this, 0, 72);
+        leftArm.addBox(0F, -2F, -16F, 4, 4, 17);
+        leftArm.setPos(7F, -8F, 0F);
+        leftArm.setTexSize(64, 135);
+        leftArm.mirror = true;
+        setRotation(leftArm, 0.1047198F, 0F, 0F);
+        rightLeg = new ModelRenderer(this, 44, 93);
+        rightLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
+        rightLeg.setPos(-3F, 6F, 0F);
+        rightLeg.setTexSize(64, 135);
+        rightLeg.mirror = true;
+        setRotation(rightLeg, 0F, 0F, 0F);
+        leftLeg = new ModelRenderer(this, 24, 93);
+        leftLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
+        leftLeg.setPos(3F, 6F, 0F);
+        leftLeg.setTexSize(64, 135);
+        leftLeg.mirror = true;
+        setRotation(leftLeg, 0F, 0F, 0F);
     }
 
     @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         // Not sure why, but we need to redefine the body to be in its correct position
-        bipedBody = new ModelRenderer(this, 12, 20);
-        bipedBody.addBox(-7F, 0F, -6F, 14, 19, 12);
-        bipedBody.setRotationPoint(0F, -13F, 0F);
-        bipedBody.setTextureSize(64, 135);
-        bipedBody.mirror = true;
-        setRotation(bipedBody, 0F, 0F, 0F);
+        body = new ModelRenderer(this, 12, 20);
+        body.addBox(-7F, 0F, -6F, 14, 19, 12);
+        body.setPos(0F, -13F, 0F);
+        body.setTexSize(64, 135);
+        body.mirror = true;
+        setRotation(body, 0F, 0F, 0F);
 
-        bipedHead.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         bipedEar1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         bipedEar2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         Upper_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         Lower_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        bipedBody.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        bipedRightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        bipedLeftArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        bipedRightLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        bipedLeftLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        rightLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        leftLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     private void setRotation(ModelRenderer model, float x, float y, float z) {
-        model.rotateAngleX = x;
-        model.rotateAngleY = y;
-        model.rotateAngleZ = z;
+        model.xRot = x;
+        model.yRot = y;
+        model.zRot = z;
     }
 
     @Override
-    public void setRotationAngles(EntityWerewolf entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        bipedHead.setRotationPoint(0F, -13F, 0F);
-        bipedRightArm.setRotationPoint(-7F, -8F, 0F);
-        bipedLeftArm.setRotationPoint(7F, -8F, 0F);
-        bipedRightLeg.setRotationPoint(-3F, 6F, 0F);
-        bipedLeftLeg.setRotationPoint(3F, 6F, 0F);
+    public void setupAnim(EntityWerewolf entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        head.setPos(0F, -13F, 0F);
+        rightArm.setPos(-7F, -8F, 0F);
+        leftArm.setPos(7F, -8F, 0F);
+        rightLeg.setPos(-3F, 6F, 0F);
+        leftLeg.setPos(3F, 6F, 0F);
 
-        this.bipedEar1.rotateAngleY = this.bipedHead.rotateAngleY;
-        this.bipedEar1.rotateAngleX = this.bipedHead.rotateAngleX;
-        this.bipedEar2.rotateAngleY = this.bipedHead.rotateAngleY;
-        this.bipedEar2.rotateAngleX = this.bipedHead.rotateAngleX;
+        this.bipedEar1.yRot = this.head.yRot;
+        this.bipedEar1.xRot = this.head.xRot;
+        this.bipedEar2.yRot = this.head.yRot;
+        this.bipedEar2.xRot = this.head.xRot;
 
         float barkRotation = entityIn.getBarkProgressScaled(0.1745329F);
-        setRotation(Upper_Jaw, this.bipedHead.rotateAngleX + 0F, this.bipedHead.rotateAngleY + 0F, 0F);
-        setRotation(Lower_Jaw, this.bipedHead.rotateAngleX + barkRotation, this.bipedHead.rotateAngleY + 0F, 0F);
+        setRotation(Upper_Jaw, this.head.xRot + 0F, this.head.yRot + 0F, 0F);
+        setRotation(Lower_Jaw, this.head.xRot + barkRotation, this.head.yRot + 0F, 0F);
     }
 
 }

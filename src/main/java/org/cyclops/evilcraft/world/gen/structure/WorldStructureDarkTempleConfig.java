@@ -48,7 +48,7 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
         super(
                 EvilCraft._instance,
                 "dark_temple",
-                eConfig -> new WorldStructureDarkTemple(NoFeatureConfig.field_236558_a_)
+                eConfig -> new WorldStructureDarkTemple(NoFeatureConfig.CODEC)
         );
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
@@ -60,29 +60,29 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
         CONFIGURED_FEATURE = Registry.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE,
                 new ResourceLocation(getMod().getModId(), getNamedId() + "_default"),
                 ((WorldStructureDarkTemple) getInstance())
-                        .withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+                        .configured(IFeatureConfig.NONE));
 
-        Structure.NAME_STRUCTURE_BIMAP.put(getRegistryKey().getLocation().toString().toLowerCase(Locale.ROOT), getInstance());
+        Structure.STRUCTURES_REGISTRY.put(getRegistryKey().location().toString().toLowerCase(Locale.ROOT), getInstance());
 
         // MCP params: spacing, separation, salt
         StructureSeparationSettings settings = new StructureSeparationSettings(darkTempleSpacing, darkTempleSeparation, 370458167) {
             @Override
-            public int func_236668_a_() {
+            public int spacing() {
                 return darkTempleSpacing;
             }
 
             @Override
-            public int func_236671_b_() {
+            public int separation() {
                 return darkTempleSeparation;
             }
         };
 
-        ImmutableSet.of(DimensionSettings.field_242734_c, DimensionSettings.field_242735_d, DimensionSettings.field_242736_e,
-                DimensionSettings.field_242737_f, DimensionSettings.field_242738_g, DimensionSettings.field_242739_h)
+        ImmutableSet.of(DimensionSettings.OVERWORLD, DimensionSettings.AMPLIFIED, DimensionSettings.NETHER,
+                DimensionSettings.END, DimensionSettings.CAVES, DimensionSettings.FLOATING_ISLANDS)
                 .stream()
-                .map(WorldGenRegistries.NOISE_SETTINGS::getValueForKey)
-                .map(DimensionSettings::getStructures)
-                .map(DimensionStructuresSettings::func_236195_a_) // get map
+                .map(WorldGenRegistries.NOISE_GENERATOR_SETTINGS::get)
+                .map(DimensionSettings::structureSettings)
+                .map(DimensionStructuresSettings::structureConfig) // get map
                 .forEach(m -> m.put(getInstance(), settings));
     }
 

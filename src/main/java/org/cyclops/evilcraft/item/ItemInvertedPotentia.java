@@ -8,6 +8,8 @@ import net.minecraft.world.World;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.item.EntityItemEmpowerable;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * An inverted Potentia Sphere.
  * @author rubensworks
@@ -23,7 +25,7 @@ public class ItemInvertedPotentia extends Item implements IItemEmpowerable {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return isEmpowered(itemStack);
     }
     

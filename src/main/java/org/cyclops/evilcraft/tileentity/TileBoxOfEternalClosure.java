@@ -28,6 +28,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * A chest that is able to repair tools with the use of blood.
  * Partially based on cpw's IronChests.
@@ -113,7 +116,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	public void setPlayerId(String playerId) {
 		this.playerId = playerId;
-		markDirty();
+		setChanged();
 		sendUpdate();
 	}
 
@@ -123,13 +126,13 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
-		markDirty();
+		setChanged();
 		sendUpdate();
 	}
 
 	public void setSpiritTag(CompoundNBT tag) {
 		this.spiritTag = tag;
-		markDirty();
+		setChanged();
 		sendUpdate();
 	}
 
@@ -159,7 +162,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void onStateChanged(State oldState, State newState) {
-		// The unknown state means we're still initializing, so world doesn't exist yet
+		// The unknown state means we're still initializing, so level doesn't exist yet
 		// ignore this state
 		if (oldState == State.UNKNOWN) return;
 
@@ -181,7 +184,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void onBoxOpened() {
-		if (!world.isRemote() && hasSpirit())
+		if (!level.isClientSide() && hasSpirit())
 			releaseSpirit();
 	}
 
@@ -190,12 +193,12 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private void onBoxOpening() {
-		if (world.isRemote())
+		if (level.isClientSide())
 			playOpenSound();
 	}
 
 	private void onBoxClosing() {
-		if (world.isRemote())
+		if (level.isClientSide())
 			playCloseSound();
 	}
 
@@ -205,29 +208,29 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	private void releaseSpirit() {
 		EntityVengeanceSpirit spirit = createNewVengeanceSpirit();
-		world.addEntity(spirit);
+		level.addFreshEntity(spirit);
 		clearSpirit();
 	}
 
 	private void playOpenSound() {
 		float pitch = randomFloat(0.1f, 0.9f);
-		playSound(SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5f, pitch);
+		playSound(SoundEvents.CHEST_OPEN, SoundCategory.BLOCKS, 0.5f, pitch);
 	}
 
 	private void playCloseSound() {
 		float pitch = randomFloat(0.1f, 0.9f);
-		playSound(SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5f, pitch);
+		playSound(SoundEvents.CHEST_CLOSE, SoundCategory.BLOCKS, 0.5f, pitch);
 	}
 
 	private EntityVengeanceSpirit createNewVengeanceSpirit() {
-		Random rand = world.rand;
+		Random rand = level.random;
 
-		EntityVengeanceSpirit spirit = EntityVengeanceSpirit.fromNBT(getWorld(), getSpiritTag());
-		spirit.setPosition(getPos().getX() + rand.nextDouble(), getPos().getY() + rand.nextDouble(),
-				getPos().getZ() + rand.nextDouble());
+		EntityVengeanceSpirit spirit = EntityVengeanceSpirit.fromNBT(getLevel(), getSpiritTag());
+		spirit.setPos(getBlockPos().getX() + rand.nextDouble(), getBlockPos().getY() + rand.nextDouble(),
+				getBlockPos().getZ() + rand.nextDouble());
 		spirit.setFrozenDuration(0);
 		spirit.setGlobalVengeance(true);
-		spirit.setRemainingLife(MathHelper.nextInt(world.rand,
+		spirit.setRemainingLife(MathHelper.nextInt(level.random,
 				EntityVengeanceSpirit.REMAININGLIFE_MIN, EntityVengeanceSpirit.REMAININGLIFE_MAX));
 
 		return spirit;
@@ -239,11 +242,11 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private float randomFloat(float min, float max) {
-		return min + world.rand.nextFloat() * max;
+		return min + level.random.nextFloat() * max;
 	}
 
 	private void playSound(SoundEvent sound, SoundCategory category, float volume, float pitch) {
-		world.playSound(getPos().getX(), getPos().getY(), getPos().getZ(), sound, category, volume, pitch, false);
+		level.playLocalSound(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), sound, category, volume, pitch, false);
 	}
 
 	public void open() {
@@ -279,7 +282,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
         innerRotation++;
 
-		if (!world.isRemote())
+		if (!level.isClientSide())
 			updateTileEntityServer();
 		else
 			updateTileEntityClient();
@@ -308,22 +311,22 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	private void pullEntity() {
 		EntityVengeanceSpirit target = getTargetSpirit();
 		if(target != null) {
-			double dx = targetSpirit.getPosX() - getPos().getX() - 0.5D;
-			double dy = targetSpirit.getPosY() - getPos().getY() - 0.5D;
-			double dz = targetSpirit.getPosZ() - getPos().getZ() - 0.5D;
+			double dx = targetSpirit.getX() - getBlockPos().getX() - 0.5D;
+			double dy = targetSpirit.getY() - getBlockPos().getY() - 0.5D;
+			double dz = targetSpirit.getZ() - getBlockPos().getZ() - 0.5D;
 			double distance = (double)MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
 
 			if (!target.isAlive() || !target.isFrozen()) {
 				setTargetSpirit(null);
 			} else {
-				BlockPos blockPos = getPos();
+				BlockPos blockPos = getBlockPos();
 				AxisAlignedBB boxBoundingBox = getBlockState()
-						.getCollisionShape(world, blockPos)
-						.withOffset(blockPos.getX(), blockPos.getY(), blockPos.getZ())
-						.getBoundingBox();
+						.getCollisionShape(level, blockPos)
+						.move(blockPos.getX(), blockPos.getY(), blockPos.getZ())
+						.bounds();
 				AxisAlignedBB spiritBoundingBox = target
 						.getBoundingBox()
-						.grow(ABSORB_RADIUS);
+						.inflate(ABSORB_RADIUS);
 				boolean spiritTrapped = spiritBoundingBox.intersects(boxBoundingBox);
 
 				if(spiritTrapped) {
@@ -331,7 +334,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 					close();
 				} else {
 					double strength = (1D / (distance)) / 50D + 0.01D;
-					target.setMotion(target.getMotion().subtract(dx * strength, dy * strength, dz * strength));
+					target.setDeltaMovement(target.getDeltaMovement().subtract(dx * strength, dy * strength, dz * strength));
 				}
 			}
 		}
@@ -354,7 +357,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private boolean findsTargetEntity() {
-		return WorldHelpers.efficientTick(getWorld(), TICK_MODULUS, getPos())
+		return WorldHelpers.efficientTick(getLevel(), TICK_MODULUS, getBlockPos())
 				&& findNextEntity();
 	}
 
@@ -375,14 +378,14 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 	}
 
 	private boolean findNextEntity() {
-    	AxisAlignedBB box = new AxisAlignedBB(getPos().getX(), getPos().getY(), getPos().getZ(),
-				getPos().getX(), getPos().getY(), getPos().getZ()).grow(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
-		List<EntityVengeanceSpirit> entities = world.getEntitiesWithinAABB(EntityVengeanceSpirit.class, box);
+    	AxisAlignedBB box = new AxisAlignedBB(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(),
+				getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ()).inflate(TARGET_RADIUS, TARGET_RADIUS, TARGET_RADIUS);
+		List<EntityVengeanceSpirit> entities = level.getEntitiesOfClass(EntityVengeanceSpirit.class, box);
     	double minDistanceSquared = Math.pow(TARGET_RADIUS + 1, 2);
     	EntityVengeanceSpirit closest = null;
     	for(EntityVengeanceSpirit spirit : entities) {
     		if(spirit.isFrozen() && !spirit.isSwarm()) {
-	    		double distance = spirit.getDistanceSq(getPos().getX(), getPos().getY(), getPos().getZ());
+	    		double distance = spirit.distanceToSqr(getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
 	    		if(distance < minDistanceSquared) {
 					minDistanceSquared = distance;
 	    			closest = spirit;
@@ -394,8 +397,8 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     }
     
     protected void updateLight() {
-		BlockState blockState = getWorld().getBlockState(getPos());
-		world.notifyBlockUpdate(getPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+		BlockState blockState = getLevel().getBlockState(getBlockPos());
+		level.sendBlockUpdated(getBlockPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
     }
 
 	public float getLidAngle() {
@@ -426,10 +429,10 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 
 	public EntityVengeanceSpirit getTargetSpirit() {
 		// Make sure our target spirit is up-to-date with the server-synced target spirit ID.
-		if(getWorld().isRemote() && targetSpiritId == NO_TARGET) {
+		if(getLevel().isClientSide() && targetSpiritId == NO_TARGET) {
 			targetSpirit = null;
 		} else if(targetSpirit == null && targetSpiritId != NO_TARGET) {
-			setTargetSpirit((EntityVengeanceSpirit) getWorld().getEntityByID(targetSpiritId));
+			setTargetSpirit((EntityVengeanceSpirit) getLevel().getEntity(targetSpiritId));
 		}
 		return targetSpirit;
 	}
@@ -438,7 +441,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
 		EntityVengeanceSpirit old = this.targetSpirit;
 		this.targetSpirit = targetSpirit;
     	if(targetSpirit != null) {
-    		targetSpiritId = targetSpirit.getEntityId();
+    		targetSpiritId = targetSpirit.getId();
     	} else {
     		targetSpiritId = NO_TARGET;
     	}
@@ -469,7 +472,7 @@ public class TileBoxOfEternalClosure extends CyclopsTileEntity implements Cyclop
     protected void onSendUpdate() {
         super.onSendUpdate();
         // Trigger comparator update.
-        world.notifyNeighborsOfStateChange(getPos(), this.getBlockState().getBlock());
+        level.updateNeighborsAt(getBlockPos(), this.getBlockState().getBlock());
     }
 
 	@Override

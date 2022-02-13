@@ -35,8 +35,8 @@ public class BlockDarkOreConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "dark_ore",
-                eConfig -> new BlockDarkOre(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(3.0F)
+                eConfig -> new BlockDarkOre(Block.Properties.of(Material.STONE)
+                        .strength(3.0F)
                         .sound(SoundType.STONE)
                         .harvestTool(ToolType.PICKAXE)
                         .harvestLevel(2)),
@@ -47,7 +47,7 @@ public class BlockDarkOreConfig extends BlockConfig {
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
 
     @Override
@@ -57,8 +57,8 @@ public class BlockDarkOreConfig extends BlockConfig {
         CONFIGURED_FEATURE = Registry.register(WorldGenRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), getNamedId()),
                 Feature.ORE
-                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, getInstance().getDefaultState(), 4))
-                        .range(66).square().func_242731_b(7));
+                        .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, getInstance().defaultBlockState(), 4))
+                        .range(66).squared().count(7));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {

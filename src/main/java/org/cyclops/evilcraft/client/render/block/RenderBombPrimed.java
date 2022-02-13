@@ -25,10 +25,10 @@ public class RenderBombPrimed extends TNTRenderer {
     }
 
     public void render(TNTEntity entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         matrixStackIn.translate(0.0D, 0.5D, 0.0D);
-        if ((float)entityIn.getFuse() - partialTicks + 1.0F < 10.0F) {
-            float f = 1.0F - ((float)entityIn.getFuse() - partialTicks + 1.0F) / 10.0F;
+        if ((float)entityIn.getLife() - partialTicks + 1.0F < 10.0F) {
+            float f = 1.0F - ((float)entityIn.getLife() - partialTicks + 1.0F) / 10.0F;
             f = MathHelper.clamp(f, 0.0F, 1.0F);
             f = f * f;
             f = f * f;
@@ -36,11 +36,11 @@ public class RenderBombPrimed extends TNTRenderer {
             matrixStackIn.scale(f1, f1, f1);
         }
 
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(-90.0F));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
         matrixStackIn.translate(-0.5D, -0.5D, 0.5D);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(90.0F));
-        TNTMinecartRenderer.renderTntFlash(this.block.getDefaultState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
-        matrixStackIn.pop();
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+        TNTMinecartRenderer.renderWhiteSolidBlock(this.block.defaultBlockState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getLife() / 5 % 2 == 0);
+        matrixStackIn.popPose();
         //super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
     

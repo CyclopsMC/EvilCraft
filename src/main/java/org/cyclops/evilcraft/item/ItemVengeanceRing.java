@@ -42,10 +42,10 @@ public class ItemVengeanceRing extends Item {
 	// Array of effects, each element: potion ID, duration, potion level.
 	private static final List<Triple<Effect, Integer, Integer>> RING_POWERS =
 			Lists.<Triple<Effect, Integer, Integer>>newArrayList(
-					Triple.of(Effects.JUMP_BOOST, BONUS_POTION_DURATION, 2),
+					Triple.of(Effects.JUMP, BONUS_POTION_DURATION, 2),
 					Triple.of(Effects.INVISIBILITY, BONUS_POTION_DURATION, 1),
-					Triple.of(Effects.SPEED, BONUS_POTION_DURATION, 1),
-					Triple.of(Effects.HASTE, BONUS_POTION_DURATION, 1)
+					Triple.of(Effects.MOVEMENT_SPEED, BONUS_POTION_DURATION, 1),
+					Triple.of(Effects.DIG_SPEED, BONUS_POTION_DURATION, 1)
 			);
 
 	public ItemVengeanceRing(Item.Properties properties) {
@@ -53,18 +53,18 @@ public class ItemVengeanceRing extends Item {
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-		ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+		ItemStack itemStack = player.getItemInHand(hand);
         if(player.isCrouching()) {
-            if(!world.isRemote())
+            if(!world.isClientSide())
             	ItemHelpers.toggleActivation(itemStack);
             return MinecraftHelpers.successAction(itemStack);
         }
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 
 	@Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
     
@@ -82,14 +82,14 @@ public class ItemVengeanceRing extends Item {
 	public static void toggleVengeanceArea(World world, Entity entity, int area,
 			boolean enableVengeance, boolean spawnRandom, boolean forceGlobal) {
     	if(world.getDifficulty() != Difficulty.PEACEFUL) {
-	    	double x = entity.getPosX();
-	    	double y = entity.getPosY();
-	    	double z = entity.getPosZ();
-            BlockPos blockPos = entity.getPosition();
+	    	double x = entity.getX();
+	    	double y = entity.getY();
+	    	double z = entity.getZ();
+            BlockPos blockPos = entity.blockPosition();
 	    	
 	    	// Look for spirits in an area.
-	    	AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).grow(area, area, area);
-	    	List<EntityVengeanceSpirit> spirits = world.getEntitiesWithinAABB(EntityVengeanceSpirit.class, box,
+	    	AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).inflate(area, area, area);
+	    	List<EntityVengeanceSpirit> spirits = world.getEntitiesOfClass(EntityVengeanceSpirit.class, box,
 					new Predicate<Entity>() {
 
 						@Override
@@ -103,9 +103,9 @@ public class ItemVengeanceRing extends Item {
 	    	for(EntityVengeanceSpirit spirit : spirits) {
 	    		spirit.setEnabledVengeance((PlayerEntity) entity, enableVengeance);
 	    		if(enableVengeance) {
-	    			spirit.setAttackTarget((LivingEntity) entity);
-	    		} else if(spirit.getAttackTarget() == entity) {
-	    			spirit.setAttackTarget(null);
+	    			spirit.setTarget((LivingEntity) entity);
+	    		} else if(spirit.getTarget() == entity) {
+	    			spirit.setTarget(null);
 	    		}
 	    	}
 
@@ -118,9 +118,9 @@ public class ItemVengeanceRing extends Item {
 	    			} else {
 	    				spirit.setEnabledVengeance((PlayerEntity) entity, true);
 	    			}
-	    			spirit.setAttackTarget((LivingEntity) entity);
+	    			spirit.setTarget((LivingEntity) entity);
                     int chance = EntityVengeanceSpiritConfig.nonDegradedSpawnChance;
-                    spirit.setSwarm(chance <= 0 || world.rand.nextInt(chance) > 0);
+                    spirit.setSwarm(chance <= 0 || world.random.nextInt(chance) > 0);
 	    		}
 	    	}
     	}
@@ -132,14 +132,14 @@ public class ItemVengeanceRing extends Item {
      */
     public static void updateRingPowers(PlayerEntity player) {
     	for(Triple<Effect, Integer, Integer> power : RING_POWERS) {
-    		player.addPotionEffect(new EffectInstance(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
+    		player.addEffect(new EffectInstance(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
     	}
 	}
     
 	@Override
     public void inventoryTick(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof PlayerEntity && !world.isRemote()
-        		&& WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS, entity.getEntityId())) {
+        if(entity instanceof PlayerEntity && !world.isClientSide()
+        		&& WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS, entity.getId())) {
         	int area = ItemVengeanceRingConfig.areaOfEffect;
         	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true, false);
         	if(ItemHelpers.isActivated(itemStack)) {
@@ -151,10 +151,10 @@ public class ItemVengeanceRing extends Item {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-	public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-		super.addInformation(itemStack, world, list, flag);
+	public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+		super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-				getTranslationKey() + ".info.status");
+				getDescriptionId() + ".info.status");
     }
 
 }

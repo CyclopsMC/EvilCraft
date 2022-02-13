@@ -40,13 +40,13 @@ public class ModelBoxOfEternalClosure implements IUnbakedModel, IModelGeometry<M
     }
 
     @Override
-    public Collection<RenderMaterial> getTextures(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+    public Collection<RenderMaterial> getMaterials(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
         return Collections.emptyList();
     }
 
     @Nullable
     @Override
-    public IBakedModel bakeModel(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
+    public IBakedModel bake(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
                                  IModelTransform transform, ResourceLocation location) {
         ModelBoxOfEternalClosureBaked bakedModel = new ModelBoxOfEternalClosureBaked();
 
@@ -63,12 +63,12 @@ public class ModelBoxOfEternalClosure implements IUnbakedModel, IModelGeometry<M
 
     @Override
     public IBakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter, IModelTransform modelTransform, ItemOverrideList overrides, ResourceLocation modelLocation) {
-        return bakeModel(bakery, spriteGetter, modelTransform, modelLocation);
+        return bake(bakery, spriteGetter, modelTransform, modelLocation);
     }
 
     @Override
     public Collection<RenderMaterial> getTextures(IModelConfiguration owner, Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return getTextures(modelGetter, missingTextureErrors);
+        return getMaterials(modelGetter, missingTextureErrors);
     }
 
 }

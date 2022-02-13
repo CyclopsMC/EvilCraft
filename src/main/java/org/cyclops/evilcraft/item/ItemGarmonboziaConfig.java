@@ -18,10 +18,10 @@ public class ItemGarmonboziaConfig extends ItemConfig {
                 EvilCraft._instance,
             "garmonbozia",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
                         .rarity(Rarity.EPIC)) {
                     @Override
-                    public boolean hasEffect(ItemStack stack) {
+                    public boolean isFoil(ItemStack stack) {
                         return true;
                     }
                 }

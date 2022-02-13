@@ -39,14 +39,14 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
         super(
                 EvilCraft._instance,
             "colossal_blood_chest",
-                eConfig -> new BlockColossalBloodChest(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(5.0F)
+                eConfig -> new BlockColossalBloodChest(Block.Properties.of(Material.STONE)
+                        .strength(5.0F)
                         .sound(SoundType.WOOD)
                         .harvestTool(ToolType.AXE)
                         .harvestLevel(2)
-                        .notSolid()),
+                        .noOcclusion()),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup())
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> RenderItemStackTileEntityBloodChest::new))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
@@ -63,7 +63,7 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 /**
  * Safer version of {@link FluidHandlerItemCapacity} that makes sure that simulated fluidstacks are
  * not filled/drained without simulation. This must be used for tanks that are omni-present,

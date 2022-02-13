@@ -23,7 +23,7 @@ public class ParticleBubbleExtendedConfig extends ParticleConfig<ParticleBubbleE
         super(EvilCraft._instance, "bubble_extended", eConfig -> new ParticleType<ParticleBubbleExtendedData>(false, ParticleBubbleExtendedData.DESERIALIZER) {
 
             @Override
-            public Codec<ParticleBubbleExtendedData> func_230522_e_() {
+            public Codec<ParticleBubbleExtendedData> codec() {
                 return ParticleBubbleExtendedData.CODEC;
             }
         });
@@ -42,7 +42,7 @@ public class ParticleBubbleExtendedConfig extends ParticleConfig<ParticleBubbleE
     public ParticleManager.IParticleMetaFactory<ParticleBubbleExtendedData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleBubbleExtendedData>) (particleData, world, x, y, z, motionX, motionY, motionZ) -> {
             ParticleBubbleExtended particle = new ParticleBubbleExtended(world, x, y, z, motionX, motionY, motionZ, particleData.getGravity());
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

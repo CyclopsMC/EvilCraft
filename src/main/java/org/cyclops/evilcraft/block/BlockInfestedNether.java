@@ -26,15 +26,15 @@ public class BlockInfestedNether extends Block {
     }
 
     @Override
-    public void onPlayerDestroy(IWorld world, BlockPos blockPos, BlockState blockState) {
-        if (!world.isRemote()) {
+    public void destroy(IWorld world, BlockPos blockPos, BlockState blockState) {
+        if (!world.isClientSide()) {
             EntityNetherfish netherfish = new EntityNetherfish((World) world);
-            netherfish.setLocationAndAngles((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D, 0.0F, 0.0F);
-            world.addEntity(netherfish);
-            netherfish.spawnExplosionParticle();
+            netherfish.moveTo((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D, 0.0F, 0.0F);
+            world.addFreshEntity(netherfish);
+            netherfish.spawnAnim();
         }
 
-        super.onPlayerDestroy(world, blockPos, blockState);
+        super.destroy(world, blockPos, blockState);
     }
 
     @Nullable

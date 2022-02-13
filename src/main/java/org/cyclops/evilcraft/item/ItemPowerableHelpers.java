@@ -51,11 +51,11 @@ public class ItemPowerableHelpers {
      */
     public static boolean onPowerableItemItemRightClick(ItemStack itemStack, World world, PlayerEntity player, int powerLevels, boolean onSneak) {
         if(onSneak == player.isCrouching()) {
-            if(!world.isRemote()) {
+            if(!world.isClientSide()) {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
-                player.sendStatusMessage(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.set_power", newPower)
-                        .mergeStyle(TextFormatting.DARK_PURPLE), true);
+                player.displayClientMessage(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.set_power", newPower)
+                        .withStyle(TextFormatting.DARK_PURPLE), true);
             }
             return true;
         }
@@ -78,7 +78,7 @@ public class ItemPowerableHelpers {
      */
     public static void addPostInformation(ItemStack itemStack, List<ITextComponent> lines) {
         lines.add(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
-                .mergeStyle(TextFormatting.BOLD));
+                .withStyle(TextFormatting.BOLD));
     }
 	
 }

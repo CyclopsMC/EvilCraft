@@ -21,6 +21,8 @@ import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Promise item singleton.
  * Used for machine upgrades.
@@ -73,14 +75,14 @@ public class ItemPromise extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
             list.add(new TranslationTextComponent("item.evilcraft.promise.use_in")
-                    .mergeStyle(TextFormatting.DARK_GREEN));
+                    .withStyle(TextFormatting.DARK_GREEN));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
                 list.add(new TranslationTextComponent(upgradable.getTranslationKey())
-                        .mergeStyle(TextFormatting.ITALIC));
+                        .withStyle(TextFormatting.ITALIC));
             }
         }
     }

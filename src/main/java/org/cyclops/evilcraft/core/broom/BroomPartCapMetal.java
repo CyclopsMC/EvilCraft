@@ -5,6 +5,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
 
+import org.cyclops.evilcraft.api.broom.IBroomPart.BroomPartType;
+
 /**
  * A broom part for a metal cap
  * @author rubensworks

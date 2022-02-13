@@ -17,7 +17,7 @@ public class ItemPiercingVengeanceFocusConfig extends ItemConfig {
                 EvilCraft._instance,
             "piercing_vengeance_focus",
                 eConfig -> new ItemPiercingVengeanceFocus(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
                         .rarity(Rarity.RARE))
         );
     }

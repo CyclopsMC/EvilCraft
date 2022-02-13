@@ -16,7 +16,7 @@ public class ItemCreativeBloodDropConfig extends ItemConfig {
                 EvilCraft._instance,
             "creative_blood_drop",
                 eConfig -> new ItemCreativeBloodDrop(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

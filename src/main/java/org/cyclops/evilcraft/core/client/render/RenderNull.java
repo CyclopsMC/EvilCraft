@@ -24,7 +24,7 @@ public class RenderNull extends EntityRenderer<Entity> {
     }
 
     @Override
-    public ResourceLocation getEntityTexture(Entity entity) {
+    public ResourceLocation getTextureLocation(Entity entity) {
         return null;
     }
 

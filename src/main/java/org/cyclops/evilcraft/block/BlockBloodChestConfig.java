@@ -42,18 +42,18 @@ public class BlockBloodChestConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "blood_chest",
-                eConfig -> new BlockBloodChest(Block.Properties.create(Material.WOOD)
-                        .hardnessAndResistance(2.5F)
+                eConfig -> new BlockBloodChest(Block.Properties.of(Material.WOOD)
+                        .strength(2.5F)
                         .sound(SoundType.WOOD)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .group(EvilCraft._instance.getDefaultItemGroup())
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
                         .setISTER(() -> RenderItemStackTileEntityBloodChest::new))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

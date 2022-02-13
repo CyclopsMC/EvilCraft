@@ -28,20 +28,20 @@ public class FartKeyHandler implements IKeyHandler {
 	@Override
 	public void onKeyPressed(KeyBinding kb) {
 		ClientPlayerEntity player = Minecraft.getInstance().player;
-		GameSettings settings = Minecraft.getInstance().gameSettings;
+		GameSettings settings = Minecraft.getInstance().options;
 		
 		if (kb == Keys.FART) {
 			fartingEnabled = !fartingEnabled;
 			
 			if (fartingEnabled)
-				player.sendStatusMessage(new TranslationTextComponent("chat.evilcraft.command.farting_enabled")
-						.mergeStyle(TextFormatting.DARK_RED), true);
+				player.displayClientMessage(new TranslationTextComponent("chat.evilcraft.command.farting_enabled")
+						.withStyle(TextFormatting.DARK_RED), true);
 			else
-				player.sendStatusMessage(new TranslationTextComponent("chat.evilcraft.command.farting_disabled")
-						.mergeStyle(TextFormatting.DARK_RED), true);
+				player.displayClientMessage(new TranslationTextComponent("chat.evilcraft.command.farting_disabled")
+						.withStyle(TextFormatting.DARK_RED), true);
 		}
 		
-		if (fartingEnabled && kb == settings.keyBindSneak) {
+		if (fartingEnabled && kb == settings.keyShift) {
 			EvilCraft._instance.getPacketHandler().sendToServer(new FartPacket(player));
 		}
 	}

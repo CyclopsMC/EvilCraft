@@ -59,7 +59,7 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	public static final ModelProperty<FluidStack> TANK_FLUID = new ModelProperty<>();
 	public static final ModelProperty<Integer> TANK_CAPACITY = new ModelProperty<>();
 
-	public static final VoxelShape SHAPE = Block.makeCuboidShape(0.125F * 16F, 0.001F * 16F, 0.125F * 16F, 0.875F * 16F, 0.999F * 16F, 0.875F * 16F);
+	public static final VoxelShape SHAPE = Block.box(0.125F * 16F, 0.001F * 16F, 0.125F * 16F, 0.875F * 16F, 0.999F * 16F, 0.875F * 16F);
 
     public BlockDarkTank(Block.Properties properties) {
         super(properties, TileDarkTank::new);
@@ -73,39 +73,39 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	}
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState blockState) {
+    public boolean hasAnalogOutputSignal(BlockState blockState) {
             return true;
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos blockPos) {
-    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
+    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
+    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public boolean isSideInvisible(BlockState state, BlockState adjacentBlockState, Direction side) {
+	public boolean skipRendering(BlockState state, BlockState adjacentBlockState, Direction side) {
 		return false;
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
 		if (FluidUtil.interactWithFluidHandler(player, handIn, worldIn, pos, Direction.UP)) {
 			return ActionResultType.SUCCESS;
 		} else if (!player.isCrouching()) {
 			TileHelpers.getSafeTile(worldIn, pos, TileDarkTank.class)
 					.ifPresent(tile -> {
 						tile.setEnabled(!tile.isEnabled());
-						player.sendStatusMessage(new StringTextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
-								.appendString(" / ")
-								.appendString(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
-								.appendString(" mB"), true);
+						player.displayClientMessage(new StringTextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
+								.append(" / ")
+								.append(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
+								.append(" mB"), true);
 					});
 			return ActionResultType.SUCCESS;
 		}
-		return super.onBlockActivated(state, worldIn, pos, player, handIn, p_225533_6_);
+		return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	@Override
 	public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
 		if(player.isCrouching()) {
-            if(!world.isRemote()) {
+            if(!world.isClientSide()) {
             	ItemStack activated = itemStack.copy();
             	if (isActivated(itemStack, world)) {
 					activated.getOrCreateTag().remove(NBT_KEY_DRAINING);
@@ -154,7 +154,7 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	}
 
 	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> list) {
+	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> list) {
 		ItemStack itemStack = new ItemStack(this);
 
 		int capacityOriginal = TileDarkTank.BASE_CAPACITY;

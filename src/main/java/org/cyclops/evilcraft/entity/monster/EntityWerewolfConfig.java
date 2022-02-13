@@ -27,8 +27,8 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
         super(
                 EvilCraft._instance,
                 "werewolf",
-                eConfig -> EntityType.Builder.<EntityWerewolf>create(EntityWerewolf::new, EntityClassification.MONSTER)
-                        .size(0.6F, 2.9F),
+                eConfig -> EntityType.Builder.<EntityWerewolf>of(EntityWerewolf::new, EntityClassification.MONSTER)
+                        .sized(0.6F, 2.9F),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "werewolf_spawn_egg", Helpers.RGBToInt(105, 67, 18), Helpers.RGBToInt(57, 25, 10))
         );
     }
@@ -42,12 +42,12 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 35.0D)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 40.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 7.0D)
-                .create());
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.createMonsterAttributes()
+                .add(Attributes.FOLLOW_RANGE, 35.0D)
+                .add(Attributes.MAX_HEALTH, 40.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.4D)
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
+                .build());
     }
     
 }

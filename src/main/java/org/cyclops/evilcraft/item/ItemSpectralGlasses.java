@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Glasses that make you see spirits.
  * @author rubensworks
@@ -27,15 +29,15 @@ public class ItemSpectralGlasses extends ArmorItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand hand) {
-        ItemStack itemStackIn = playerIn.getHeldItem(hand);
-        ItemStack existingStack = playerIn.getItemStackFromSlot(getEquipmentSlot());
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand hand) {
+        ItemStack itemStackIn = playerIn.getItemInHand(hand);
+        ItemStack existingStack = playerIn.getItemBySlot(getSlot());
         if (existingStack.isEmpty()) {
-            playerIn.setItemStackToSlot(getEquipmentSlot(), itemStackIn.copy());
+            playerIn.setItemSlot(getSlot(), itemStackIn.copy());
             itemStackIn.shrink(1);
             return new ActionResult<ItemStack>(ActionResultType.SUCCESS, itemStackIn);
         }
-        return super.onItemRightClick(worldIn, playerIn, hand);
+        return super.use(worldIn, playerIn, hand);
     }
 
     public static class Material implements IArmorMaterial {
@@ -43,28 +45,28 @@ public class ItemSpectralGlasses extends ArmorItem {
         private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
 
         @Override
-        public int getDurability(EquipmentSlotType slotIn) {
+        public int getDurabilityForSlot(EquipmentSlotType slotIn) {
             return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * 15;
         }
 
         @Override
-        public int getDamageReductionAmount(EquipmentSlotType slotIn) {
+        public int getDefenseForSlot(EquipmentSlotType slotIn) {
             return new int[]{1, 4, 5, 2}[slotIn.getIndex()];
         }
 
         @Override
-        public int getEnchantability() {
+        public int getEnchantmentValue() {
             return 15;
         }
 
         @Override
-        public SoundEvent getSoundEvent() {
-            return SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
+        public SoundEvent getEquipSound() {
+            return SoundEvents.ARMOR_EQUIP_LEATHER;
         }
 
         @Override
-        public Ingredient getRepairMaterial() {
-            return Ingredient.fromItems(RegistryEntries.ITEM_DARK_GEM_CRUSHED);
+        public Ingredient getRepairIngredient() {
+            return Ingredient.of(RegistryEntries.ITEM_DARK_GEM_CRUSHED);
         }
 
         @Override

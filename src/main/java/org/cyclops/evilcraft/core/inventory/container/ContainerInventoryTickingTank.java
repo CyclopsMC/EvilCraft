@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
 import com.google.common.collect.Lists;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -63,4 +64,8 @@ public class ContainerInventoryTickingTank<T extends TickingTankInventoryTileEnt
         return variableFluidCapacity.get();
     }
 
+    @Override
+    public boolean stillValid(PlayerEntity p_75145_1_) {
+        return false; // TODO: rm
+    }
 }

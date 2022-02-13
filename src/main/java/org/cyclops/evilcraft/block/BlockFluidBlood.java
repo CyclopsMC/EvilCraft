@@ -28,16 +28,16 @@ public class BlockFluidBlood extends FlowingFluidBlock {
     }
 
     @Override
-    public boolean ticksRandomly(BlockState state) {
-        return state.get(LEVEL) == 0;
+    public boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(LEVEL) == 0;
     }
 
     @Override
     public void randomTick(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random) {
-        if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.get(LEVEL) == 0
-                && (!(world.isRaining() && world.getBiome(blockPos).getDownfall() > 0) || !world.canBlockSeeSky(blockPos))
+        if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.getValue(LEVEL) == 0
+                && (!(world.isRaining() && world.getBiome(blockPos).getDownfall() > 0) || !world.canSeeSkyFromBelowWater(blockPos))
                 && !isWaterInArea(world, blockPos)) {
-            world.setBlockState(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
         super.randomTick(blockState, world, blockPos, random);
     }

@@ -50,9 +50,9 @@ public class ItemWerewolfFlesh extends Item {
     public ItemWerewolfFlesh(Item.Properties properties, boolean humanoid) {
         super(properties
                 .food((new Food.Builder())
-                        .hunger(-5)
-                        .saturation(0)
-                        .setAlwaysEdible()
+                        .nutrition(-5)
+                        .saturationMod(0)
+                        .alwaysEat()
                         .build()));
         this.humanoid = humanoid;
         if (this.humanoid) {
@@ -85,7 +85,7 @@ public class ItemWerewolfFlesh extends Item {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return isPower(null);
     }
     
@@ -114,7 +114,7 @@ public class ItemWerewolfFlesh extends Item {
     }
     
     @Override
-    public ItemStack onItemUseFinish(ItemStack itemStack, @Nullable World world, LivingEntity entity) {
+    public ItemStack finishUsingItem(ItemStack itemStack, @Nullable World world, LivingEntity entity) {
         if(world != null && entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
             if (player instanceof ServerPlayerEntity) {
@@ -122,47 +122,47 @@ public class ItemWerewolfFlesh extends Item {
             }
             itemStack.shrink(1);
             if (isOwnCanibal(itemStack, player)) {
-                if (!world.isRemote()) {
-                    player.addPotionEffect(new EffectInstance(Effects.WITHER,
+                if (!world.isClientSide()) {
+                    player.addEffect(new EffectInstance(Effects.WITHER,
                             POISON_DURATION * 20, 1));
-                    player.addPotionEffect(new EffectInstance(Effects.BLINDNESS,
+                    player.addEffect(new EffectInstance(Effects.BLINDNESS,
                             getPowerDuration(itemStack) * 20, 1));
                 }
-                world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
-                        world.rand.nextFloat() * 0.1F + 0.9F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
+                        world.random.nextFloat() * 0.1F + 0.9F);
             } else if (isPower(world)) {
-                int foodLevel = getFood().getHealing();
-                float saturationLevel = getFood().getSaturation();
-                player.getFoodStats().addStats(foodLevel, saturationLevel);
-                if (!world.isRemote()) {
-                    player.addPotionEffect(new EffectInstance(Effects.STRENGTH,
+                int foodLevel = getFoodProperties().getNutrition();
+                float saturationLevel = getFoodProperties().getSaturationModifier();
+                player.getFoodData().eat(foodLevel, saturationLevel);
+                if (!world.isClientSide()) {
+                    player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addPotionEffect(new EffectInstance(Effects.SPEED,
+                    player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addPotionEffect(new EffectInstance(Effects.JUMP_BOOST,
+                    player.addEffect(new EffectInstance(Effects.JUMP,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION,
+                    player.addEffect(new EffectInstance(Effects.NIGHT_VISION,
                             getPowerDuration(itemStack) * 20, 2));
                 }
-                world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_WOLF_HOWL, SoundCategory.HOSTILE, 0.5F,
-                        world.rand.nextFloat() * 0.1F + 0.9F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HOWL, SoundCategory.HOSTILE, 0.5F,
+                        world.random.nextFloat() * 0.1F + 0.9F);
             } else {
-                if (!world.isRemote()) {
-                    player.addPotionEffect(new EffectInstance(Effects.POISON,
+                if (!world.isClientSide()) {
+                    player.addEffect(new EffectInstance(Effects.POISON,
                             POISON_DURATION * 20, 1));
                 }
-                world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
-                        world.rand.nextFloat() * 0.1F + 0.9F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
+                        world.random.nextFloat() * 0.1F + 0.9F);
             }
-            entity.onFoodEaten(world, itemStack);
+            entity.eat(world, itemStack);
         }
         return itemStack;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-    	super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    	super.appendHoverText(itemStack, world, list, flag);
     	if(isHumanFlesh(itemStack)) {
     		String player = TextFormatting.ITALIC + "None";
     		if(itemStack.hasTag()) {
@@ -172,8 +172,8 @@ public class ItemWerewolfFlesh extends Item {
                 }
     		}
     		list.add(new StringTextComponent("Player: ")
-                    .mergeStyle(TextFormatting.WHITE)
-                    .appendString(player));
+                    .withStyle(TextFormatting.WHITE)
+                    .append(player));
         }
     }
 
@@ -190,17 +190,17 @@ public class ItemWerewolfFlesh extends Item {
 
     public void dropHumanoidFleshEvent(LivingDeathEvent event) {
         if(event.getEntityLiving() instanceof ServerPlayerEntity
-                && !event.getEntityLiving().world.isRemote()
-                && event.getEntityLiving().world.rand.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
+                && !event.getEntityLiving().level.isClientSide()
+                && event.getEntityLiving().level.random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
             ItemStack itemStack = new ItemStack(this);
             CompoundNBT tag = itemStack.getOrCreateTag();
             NBTUtil.writeGameProfile(tag, player.getGameProfile());
-            double x = player.getPosX();
-            double y = player.getPosY();
-            double z = player.getPosZ();
-            ItemEntity entity = new ItemEntity(player.world, x, y, z, itemStack);
-            player.world.addEntity(entity);
+            double x = player.getX();
+            double y = player.getY();
+            double z = player.getZ();
+            ItemEntity entity = new ItemEntity(player.level, x, y, z, itemStack);
+            player.level.addFreshEntity(entity);
         }
     }
 

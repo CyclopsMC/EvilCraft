@@ -22,7 +22,7 @@ public class ItemBowlOfPromisesConfig extends ItemConfig {
                 EvilCraft._instance,
             "bowl_of_promises_" + type.getName(),
                 eConfig -> new ItemBowlOfPromises(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()), type)
+                        .tab(EvilCraft._instance.getDefaultItemGroup()), type)
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }

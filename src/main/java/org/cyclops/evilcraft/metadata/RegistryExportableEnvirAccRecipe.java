@@ -30,7 +30,7 @@ public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAb
         JsonObject object = new JsonObject();
 
         // Recipe object
-        ItemStack[] inputItems = recipe.getInputIngredient().getMatchingStacks();
+        ItemStack[] inputItems = recipe.getInputIngredient().getItems();
         JsonArray arrayInputs = new JsonArray();
         for (ItemStack input : inputItems) {
             arrayInputs.add(IRegistryExportable.serializeItemStack(input));

@@ -12,6 +12,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
+import net.minecraft.particles.IParticleData.IDeserializer;
+
 /**
  * @author rubensworks
  */
@@ -20,13 +22,13 @@ public class ParticleDarkSmokeData implements IParticleData {
     public static final IDeserializer<ParticleDarkSmokeData> DESERIALIZER = new IDeserializer<ParticleDarkSmokeData>() {
         public boolean entityDead;
 
-        public ParticleDarkSmokeData deserialize(ParticleType<ParticleDarkSmokeData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleDarkSmokeData fromCommand(ParticleType<ParticleDarkSmokeData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             entityDead = reader.readBoolean();
             return new ParticleDarkSmokeData(entityDead);
         }
 
-        public ParticleDarkSmokeData read(ParticleType<ParticleDarkSmokeData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleDarkSmokeData fromNetwork(ParticleType<ParticleDarkSmokeData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleDarkSmokeData(buffer.readBoolean());
         }
     };
@@ -52,12 +54,12 @@ public class ParticleDarkSmokeData implements IParticleData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
+    public void writeToNetwork(PacketBuffer buffer) {
         buffer.writeBoolean(entityDead);
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f",
                 ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
                 this.entityDead);

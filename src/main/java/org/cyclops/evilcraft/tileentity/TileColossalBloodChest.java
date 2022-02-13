@@ -64,6 +64,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.cyclops.evilcraft.core.tileentity.TileWorking.Inventory;
+
 /**
  * A machine that can infuse things with blood.
  * @author rubensworks
@@ -96,7 +98,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public static Metadata METADATA = new Metadata();
 
     @NBTPersist(useDefaultValue = false)
-    private Vector3i size = LocationHelpers.copyLocation(Vector3i.NULL_VECTOR);
+    private Vector3i size = LocationHelpers.copyLocation(Vector3i.ZERO);
     @NBTPersist(useDefaultValue = false)
     private Vector3i renderOffset = new Vector3i(0, 0, 0);
     @Getter
@@ -230,7 +232,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
      * @return If the structure is valid.
      */
     public boolean isStructureComplete() {
-        return !getSize().equals(Vector3i.NULL_VECTOR);
+        return !getSize().equals(Vector3i.ZERO);
     }
 
     public int getSizeSingular() {
@@ -294,50 +296,50 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     public void updateTileEntity() {
         resetSlotHistory();
         super.updateTileEntity();
-        if (world != null && !this.world.isRemote() && this.world.getGameTime() % BlockColossalBloodChestConfig.ticksPerDamage == 0) {
+        if (level != null && !this.level.isClientSide() && this.level.getGameTime() % BlockColossalBloodChestConfig.ticksPerDamage == 0) {
             int oldEfficiency = efficiency;
             efficiency = Math.max(0, efficiency - BlockColossalBloodChestConfig.baseConcurrentItems);
             if(oldEfficiency != efficiency) {
-                markDirty();
+                setChanged();
             }
         }
         // Resynchronize clients with the server state, the last condition makes sure
         // not all chests are synced at the same time.
-        if (world != null
-                && !this.world.isRemote()
+        if (level != null
+                && !this.level.isClientSide()
                 && this.playersUsing != 0
-                && WorldHelpers.efficientTick(world, TICK_MODULUS, getPos().hashCode())) {
+                && WorldHelpers.efficientTick(level, TICK_MODULUS, getBlockPos().hashCode())) {
             this.playersUsing = 0;
             float range = 5.0F;
             @SuppressWarnings("unchecked")
-            List<PlayerEntity> entities = this.world.getEntitiesWithinAABB(
+            List<PlayerEntity> entities = this.level.getEntitiesOfClass(
                     PlayerEntity.class,
                     new AxisAlignedBB(
-                            getPos().subtract(new Vector3i(range, range, range)),
-                            getPos().add(new Vector3i(1 + range, 1 + range, 1 + range))
+                            getBlockPos().subtract(new Vector3i(range, range, range)),
+                            getBlockPos().offset(new Vector3i(1 + range, 1 + range, 1 + range))
                     )
             );
 
             for(PlayerEntity player : entities) {
-                if (player.openContainer instanceof ContainerColossalBloodChest) {
+                if (player.containerMenu instanceof ContainerColossalBloodChest) {
                     ++this.playersUsing;
                 }
             }
 
-            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
+            level.blockEvent(getBlockPos(), getBlockState().getBlock(), 1, playersUsing);
         }
 
         prevLidAngle = lidAngle;
         float increaseAngle = 0.05F;
         if (playersUsing > 0 && lidAngle == 0.0F) {
-            world.playSound(
-                    (double) getPos().getX() + 0.5D,
-                    (double) getPos().getY() + 0.5D,
-                    (double) getPos().getZ() + 0.5D,
-                    SoundEvents.BLOCK_CHEST_OPEN,
+            level.playLocalSound(
+                    (double) getBlockPos().getX() + 0.5D,
+                    (double) getBlockPos().getY() + 0.5D,
+                    (double) getBlockPos().getZ() + 0.5D,
+                    SoundEvents.CHEST_OPEN,
                     SoundCategory.BLOCKS,
                     0.5F,
-                    world.rand.nextFloat() * 0.1F + 0.5F,
+                    level.random.nextFloat() * 0.1F + 0.5F,
                     false
             );
         }
@@ -353,14 +355,14 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
             }
             float closedAngle = 0.5F;
             if (lidAngle < closedAngle && preIncreaseAngle >= closedAngle) {
-                world.playSound(
-                        (double) getPos().getX() + 0.5D,
-                        (double) getPos().getY() + 0.5D,
-                        (double) getPos().getZ() + 0.5D,
-                        SoundEvents.BLOCK_CHEST_CLOSE,
+                level.playLocalSound(
+                        (double) getBlockPos().getX() + 0.5D,
+                        (double) getBlockPos().getY() + 0.5D,
+                        (double) getBlockPos().getZ() + 0.5D,
+                        SoundEvents.CHEST_CLOSE,
                         SoundCategory.BLOCKS,
                         0.5F,
-                        world.rand.nextFloat() * 0.1F + 0.5F,
+                        level.random.nextFloat() * 0.1F + 0.5F,
                         false
                 );
             }
@@ -371,7 +373,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     }
 
     @Override
-    public boolean receiveClientEvent(int i, int j) {
+    public boolean triggerEvent(int i, int j) {
         if (i == 1) {
             playersUsing = j;
         }
@@ -382,54 +384,56 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new Inventory<TileColossalBloodChest>(inventorySize, stackSize, this) {
             @Override
-            public void openInventory(PlayerEntity entityPlayer) {
+            public void startOpen(PlayerEntity entityPlayer) {
                 triggerPlayerUsageChange(1);
             }
 
             @Override
-            public void closeInventory(PlayerEntity entityPlayer) {
+            public void stopOpen(PlayerEntity entityPlayer) {
                 triggerPlayerUsageChange(-1);
             }
 
             @Override
-            public boolean isUsableByPlayer(PlayerEntity entityPlayer) {
-                return super.isUsableByPlayer(entityPlayer)
-                        && !(world == null || world.getTileEntity(getPos()) != tile);
+            public boolean stillValid(PlayerEntity entityPlayer) {
+                // TODO: restore
+                return false;
+                /*return super.stillValid(entityPlayer)
+                        && !(level == null || level.getBlockEntity(getBlockPos()) != tile);*/
             }
 
             @Override
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            public boolean canPlaceItem(int slot, ItemStack itemStack) {
                 if(slot == SLOT_CONTAINER)
                     return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
                 else if(slot <= SLOTS_CHEST && slot >= 0)
                     return SlotRepairable.checkIsItemValid(itemStack);
-                return super.isItemValidForSlot(slot, itemStack);
+                return super.canPlaceItem(slot, itemStack);
             }
         };
     }
 
     private void triggerPlayerUsageChange(int change) {
-        if (world != null) {
+        if (level != null) {
             playersUsing += change;
-            world.addBlockEvent(getPos(), getBlockState().getBlock(), 1, playersUsing);
+            level.blockEvent(getBlockPos(), getBlockState().getBlock(), 1, playersUsing);
         }
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(getPos().subtract(new Vector3i(3, 3, 3)), getPos().add(3, 6, 3));
+        return new AxisAlignedBB(getBlockPos().subtract(new Vector3i(3, 3, 3)), getBlockPos().offset(3, 6, 3));
     }
 
     public void setCenter(BlockPos center) {
         Direction rotation = Direction.NORTH;
-        if(center.getX() != getPos().getX()) {
-            rotation = DirectionHelpers.getEnumFacingFromXSign(center.getX() - getPos().getX());
-        } else if(center.getZ() != getPos().getZ()) {
-            rotation = DirectionHelpers.getEnumFacingFromZSing(center.getZ() - getPos().getZ());
+        if(center.getX() != getBlockPos().getX()) {
+            rotation = DirectionHelpers.getEnumFacingFromXSign(center.getX() - getBlockPos().getX());
+        } else if(center.getZ() != getBlockPos().getZ()) {
+            rotation = DirectionHelpers.getEnumFacingFromZSing(center.getZ() - getBlockPos().getZ());
         }
         this.setRotation(rotation);
-        this.renderOffset = getPos().subtract(center);
+        this.renderOffset = getBlockPos().subtract(center);
     }
 
     public void setRotation(Direction rotation) {
@@ -438,7 +442,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     public Direction getRotation() {
-        return Direction.byIndex(this.rotation);
+        return Direction.from3DDataValue(this.rotation);
     }
 
     public Vector3i getRenderOffset() {
@@ -470,7 +474,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public float getLidAngle(float partialTicks) {
+    public float getOpenNess(float partialTicks) {
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 

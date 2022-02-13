@@ -81,10 +81,10 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float f, int x, int y) {
-        super.drawGuiContainerBackgroundLayer(matrixStack, f, x, y);
+    protected void renderBg(MatrixStack matrixStack, float f, int x, int y) {
+        // super.renderBg(matrixStack, f, x, y); // TODO: restore
         if(isShowProgress()) {
-            this.blit(matrixStack, guiLeft + progressTargetX, guiTop + progressTargetY, progressX, progressY,
+            this.blit(matrixStack, leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
             		getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
@@ -93,23 +93,23 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     
 	protected void drawForgegroundString(MatrixStack matrixStack) {
 	    // MCP: drawString
-    	font.func_243248_b(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
+    	font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY) {
+    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
         drawForgegroundString(matrixStack);
         RenderHelpers.bindTexture(texture);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        FluidStack fluidStack = getContainer().getFluidStack();
-        if(shouldRenderTank(fluidStack) && getContainer().getFluidCapacity() > 0) {
-            int tankSize = Math.min(getContainer().getFluidCapacity(), Math.min(getContainer().getFluidCapacity(), fluidStack.getAmount()) * tankHeight / getContainer().getFluidCapacity());
+        GlStateManager._enableBlend();
+        GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager._color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        FluidStack fluidStack = getMenu().getFluidStack();
+        if(shouldRenderTank(fluidStack) && getMenu().getFluidCapacity() > 0) {
+            int tankSize = Math.min(getMenu().getFluidCapacity(), Math.min(getMenu().getFluidCapacity(), fluidStack.getAmount()) * tankHeight / getMenu().getFluidCapacity());
             drawTank(matrixStack, tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
         }
         drawAdditionalForeground(matrixStack, mouseX, mouseY);
-        GlStateManager.disableBlend();
+        GlStateManager._disableBlend();
     }
     
 	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
@@ -157,10 +157,10 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     }
     
 	protected void drawTooltips(int mouseX, int mouseY) {
-        FluidStack fluidStack = getContainer().getFluidStack();
-        if(isPointInRegion(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
+        FluidStack fluidStack = getMenu().getFluidStack();
+        if(isHovering(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
             ITextComponent fluidName = fluidStack.getDisplayName();
-            drawBarTooltipTank(fluidName, fluidStack, fluidStack.getAmount(), getContainer().getFluidCapacity(), mouseX, mouseY);
+            drawBarTooltipTank(fluidName, fluidStack, fluidStack.getAmount(), getMenu().getFluidCapacity(), mouseX, mouseY);
         }
     }
     

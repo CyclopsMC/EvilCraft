@@ -20,9 +20,9 @@ public class BlockDarkBrickStairsConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "dark_brick_stairs",
-                eConfig -> new StairsBlock(() -> RegistryEntries.BLOCK_DARK_BRICK.getDefaultState(),
-                        Block.Properties.create(Material.ROCK)
-                                .hardnessAndResistance(5.0F)
+                eConfig -> new StairsBlock(() -> RegistryEntries.BLOCK_DARK_BRICK.defaultBlockState(),
+                        Block.Properties.of(Material.STONE)
+                                .strength(5.0F)
                                 .sound(SoundType.STONE)
                                 .harvestTool(ToolType.PICKAXE)
                                 .harvestLevel(2)),

@@ -16,7 +16,7 @@ public class ItemBucketEternalWaterConfig extends ItemConfig {
                 EvilCraft._instance,
             "bucket_eternal_water",
                 eConfig -> new ItemBucketEternalWater(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

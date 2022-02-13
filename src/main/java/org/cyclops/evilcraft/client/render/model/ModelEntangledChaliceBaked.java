@@ -102,11 +102,11 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         // Colored gems
         int color = getColorSeed(this.id);
         for(BakedQuad quad : gemsModel.getQuads(blockState, facing, rand)) {
-            int[] data = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
+            int[] data = Arrays.copyOf(quad.getVertices(), quad.getVertices().length);
             for(int i = 0; i < data.length / 8; i++) {
                 data[i * 8 + 3] = color;
             }
-            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getFace(), quad.getSprite(), false));
+            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false));
         }
 
         // Fluid
@@ -149,8 +149,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture() {
-        return chaliceModel.getParticleTexture();
+    public TextureAtlasSprite getParticleIcon() {
+        return chaliceModel.getParticleIcon();
     }
 
     protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity) {
@@ -163,12 +163,22 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public boolean isSideLit() {
+    public boolean useAmbientOcclusion() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public boolean usesBlockLight() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public ItemCameraTransforms getItemCameraTransforms() {
+    public boolean isCustomRenderer() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public ItemCameraTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

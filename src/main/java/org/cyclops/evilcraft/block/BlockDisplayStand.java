@@ -70,25 +70,25 @@ public class BlockDisplayStand extends BlockTile {
     public static final ModelProperty<ItemStack> TYPE = new ModelProperty<>();
 
     public static final Map<Direction, VoxelShape> FACING_BOUNDS = ImmutableMap.<Direction, VoxelShape>builder()
-            .put(Direction.DOWN, Block.makeCuboidShape(0.375F * 16F, 0.0F, 0.375F * 16F, 0.625F * 16F, 0.5F * 16F, 0.625F * 16F))
-            .put(Direction.UP, Block.makeCuboidShape(0.375F * 16F, 0.5F * 16F, 0.375F * 16F, 0.625F * 16F, 1.0F * 16F, 0.625F * 16F))
-            .put(Direction.WEST, Block.makeCuboidShape(0.0F, 0.375F * 16F, 0.375F * 16F, 0.5F * 16F, 0.625F * 16F, 0.625F * 16F))
-            .put(Direction.EAST, Block.makeCuboidShape(0.5F * 16F, 0.375F * 16F, 0.375F * 16F, 1.0F * 16F, 0.625F * 16F, 0.625F * 16F))
-            .put(Direction.NORTH, Block.makeCuboidShape(0.375F * 16F, 0.375F * 16F, 0.0F, 0.625F * 16F, 0.625F * 16F, 0.5F * 16F))
-            .put(Direction.SOUTH, Block.makeCuboidShape(0.375F * 16F, 0.375F * 16F, 0.5F * 16F, 0.625F * 16F, 0.625F * 16F, 1.0F * 16F))
+            .put(Direction.DOWN, Block.box(0.375F * 16F, 0.0F, 0.375F * 16F, 0.625F * 16F, 0.5F * 16F, 0.625F * 16F))
+            .put(Direction.UP, Block.box(0.375F * 16F, 0.5F * 16F, 0.375F * 16F, 0.625F * 16F, 1.0F * 16F, 0.625F * 16F))
+            .put(Direction.WEST, Block.box(0.0F, 0.375F * 16F, 0.375F * 16F, 0.5F * 16F, 0.625F * 16F, 0.625F * 16F))
+            .put(Direction.EAST, Block.box(0.5F * 16F, 0.375F * 16F, 0.375F * 16F, 1.0F * 16F, 0.625F * 16F, 0.625F * 16F))
+            .put(Direction.NORTH, Block.box(0.375F * 16F, 0.375F * 16F, 0.0F, 0.625F * 16F, 0.625F * 16F, 0.5F * 16F))
+            .put(Direction.SOUTH, Block.box(0.375F * 16F, 0.375F * 16F, 0.5F * 16F, 0.625F * 16F, 0.625F * 16F, 1.0F * 16F))
             .build();
 
     public BlockDisplayStand(Block.Properties properties) {
         super(properties, TileDisplayStand::new);
         MinecraftForge.EVENT_BUS.register(this);
 
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(FACING, Direction.NORTH)
-                .with(AXIS_X, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(AXIS_X, false));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, AXIS_X);
     }
 
@@ -98,14 +98,14 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState blockState) {
+    public boolean hasAnalogOutputSignal(BlockState blockState) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos blockPos) {
+    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
         return TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
-                .map(tile -> !tile.getInventory().getStackInSlot(0).isEmpty() ? 15 : 0)
+                .map(tile -> !tile.getInventory().getItem(0).isEmpty() ? 15 : 0)
                 .orElse(0);
     }
 
@@ -113,26 +113,26 @@ public class BlockDisplayStand extends BlockTile {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState blockState = super.getStateForPlacement(context);
-        blockState = blockState.with(FACING, context.getFace().getOpposite());
-        Direction playerFacing = context.getPlayer().getHorizontalFacing();
+        blockState = blockState.setValue(FACING, context.getClickedFace().getOpposite());
+        Direction playerFacing = context.getPlayer().getDirection();
         boolean axisX;
-        if (context.getFace().getOpposite() == Direction.DOWN || context.getFace().getOpposite() == Direction.UP) {
+        if (context.getClickedFace().getOpposite() == Direction.DOWN || context.getClickedFace().getOpposite() == Direction.UP) {
             axisX = playerFacing.getAxis() == Direction.Axis.X;
         } else {
             axisX = playerFacing.getAxis() != Direction.Axis.X && playerFacing.getAxis() != Direction.Axis.Z;
         }
-        blockState = blockState.with(AXIS_X, axisX);
+        blockState = blockState.setValue(AXIS_X, axisX);
         return blockState;
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos blockPos, BlockState blockState, LivingEntity entity, ItemStack stack) {
-        super.onBlockPlacedBy(world, blockPos, blockState, entity, stack);
-        if (!world.isRemote()) {
+    public void setPlacedBy(World world, BlockPos blockPos, BlockState blockState, LivingEntity entity, ItemStack stack) {
+        super.setPlacedBy(world, blockPos, blockState, entity, stack);
+        if (!world.isClientSide()) {
             TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
                     .ifPresent(tile -> {
                         tile.setDisplayStandType(getDisplayStandType(stack));
-                        tile.setDirection(entity.getHorizontalFacing().getAxisDirection());
+                        tile.setDirection(entity.getDirection().getAxisDirection());
                     });
         }
     }
@@ -142,20 +142,20 @@ public class BlockDisplayStand extends BlockTile {
         return TileHelpers.getSafeTile(world, pos, TileDisplayStand.class)
                 .map(tile -> {
                     if (tile.getDirection() == Direction.AxisDirection.POSITIVE) {
-                        if (blockState.get(AXIS_X)) {
+                        if (blockState.getValue(AXIS_X)) {
                             tile.setDirection(Direction.AxisDirection.POSITIVE);
-                            return blockState.with(AXIS_X, false);
+                            return blockState.setValue(AXIS_X, false);
                         } else {
                             tile.setDirection(Direction.AxisDirection.NEGATIVE);
-                            return blockState.with(AXIS_X, true);
+                            return blockState.setValue(AXIS_X, true);
                         }
                     } else {
-                        if (blockState.get(AXIS_X)) {
+                        if (blockState.getValue(AXIS_X)) {
                             tile.setDirection(Direction.AxisDirection.NEGATIVE);
-                            return blockState.with(AXIS_X, false);
+                            return blockState.setValue(AXIS_X, false);
                         } else {
                             tile.setDirection(Direction.AxisDirection.POSITIVE);
-                            return blockState.with(AXIS_X, true);
+                            return blockState.setValue(AXIS_X, true);
                         }
                     }
                 })
@@ -163,9 +163,9 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> list) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> list) {
         try {
-            for (Item item : ItemTags.PLANKS.getAllElements()) {
+            for (Item item : ItemTags.PLANKS.getValues()) {
                 if (item instanceof BlockItem) {
                     BlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(new ItemStack(item));
                     list.add(getTypedDisplayStandItem(plankWoodBlockState));
@@ -209,26 +209,26 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if (world.isRemote()) {
+    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if (world.isClientSide()) {
             return ActionResultType.SUCCESS;
         } else {
             TileDisplayStand tile = TileHelpers.getSafeTile(world, pos, TileDisplayStand.class).orElse(null);
             if (tile != null) {
-                ItemStack tileStack = tile.getInventory().getStackInSlot(0);
-                if ((itemStack.isEmpty() || (ItemStack.areItemsEqual(itemStack, tileStack) && ItemStack.areItemStackTagsEqual(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
+                ItemStack tileStack = tile.getInventory().getItem(0);
+                if ((itemStack.isEmpty() || (ItemStack.isSame(itemStack, tileStack) && ItemStack.tagMatches(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
                     if(!itemStack.isEmpty()) {
                         tileStack.grow(itemStack.getCount());
                     }
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, tileStack);
-                    tile.getInventory().setInventorySlotContents(0, ItemStack.EMPTY);
+                    player.inventory.setItem(player.inventory.selected, tileStack);
+                    tile.getInventory().setItem(0, ItemStack.EMPTY);
                     tile.sendUpdate();
                     return ActionResultType.SUCCESS;
-                } else if (!itemStack.isEmpty() && tile.getInventory().getStackInSlot(0).isEmpty()) {
-                    tile.getInventory().setInventorySlotContents(0, itemStack.split(1));
+                } else if (!itemStack.isEmpty() && tile.getInventory().getItem(0).isEmpty()) {
+                    tile.getInventory().setItem(0, itemStack.split(1));
                     if (itemStack.getCount() <= 0)
-                        player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
+                        player.inventory.setItem(player.inventory.selected, ItemStack.EMPTY);
                     tile.sendUpdate();
                     return ActionResultType.SUCCESS;
                 }
@@ -239,17 +239,17 @@ public class BlockDisplayStand extends BlockTile {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
         ItemStack blockType = getDisplayStandType(stack);
         if (blockType != null) {
-            tooltip.add(((IFormattableTextComponent) blockType.getDisplayName())
-                    .mergeStyle(TextFormatting.GRAY));
+            tooltip.add(((IFormattableTextComponent) blockType.getHoverName())
+                    .withStyle(TextFormatting.GRAY));
         }
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
         return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
     }
 
@@ -257,25 +257,25 @@ public class BlockDisplayStand extends BlockTile {
     public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
         if (!worldIn.isAreaLoaded(pos, 1))
             return;
-        if (!state.isValidPosition(worldIn, pos)) {
+        if (!state.canSurvive(worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (!stateIn.isValidPosition(worldIn, currentPos)) {
-            worldIn.getPendingBlockTicks().scheduleTick(currentPos, this, 1);
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (!stateIn.canSurvive(worldIn, currentPos)) {
+            worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
         }
-        return super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
     @Override
-    public void onReplaced(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if (!world.isRemote() && oldState.getBlock() != newState.getBlock()) {
+    public void onRemove(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
             TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
                     .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
         }
-        super.onReplaced(oldState, world, blockPos, newState, isMoving);
+        super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 }

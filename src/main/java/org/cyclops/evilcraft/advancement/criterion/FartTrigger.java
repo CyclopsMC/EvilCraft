@@ -23,12 +23,12 @@ public class FartTrigger extends AbstractCriterionTrigger<FartTrigger.Instance> 
     }
 
     @Override
-    public Instance deserializeTrigger(JsonObject json, EntityPredicate.AndPredicate entityPredicate, ConditionArrayParser conditionsParser) {
+    public Instance createInstance(JsonObject json, EntityPredicate.AndPredicate entityPredicate, ConditionArrayParser conditionsParser) {
         return new Instance(getId(), entityPredicate);
     }
 
     public void test(ServerPlayerEntity player) {
-        this.triggerListeners(player, (instance) -> instance.test(player, null));
+        this.trigger(player, (instance) -> instance.test(player, null));
     }
 
     public static class Instance extends CriterionInstance implements ICriterionInstanceTestable<Void> {

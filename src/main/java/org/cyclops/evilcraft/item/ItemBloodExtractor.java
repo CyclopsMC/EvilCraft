@@ -56,17 +56,17 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     
     @Override
     public ActionResultType onItemUseFirst(ItemStack itemStack, ItemUseContext context) {
-        Block block = context.getWorld().getBlockState(context.getPos()).getBlock();
+        Block block = context.getLevel().getBlockState(context.getClickedPos()).getBlock();
         if(context.getPlayer().isCrouching()) {
 	        if(block instanceof BlockBloodStain) {
-	            Random random = context.getWorld().rand;
+	            Random random = context.getLevel().random;
 
                 // Fill the extractor a bit
-                TileHelpers.getCapability(context.getWorld(), context.getPos(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                TileHelpers.getCapability(context.getLevel(), context.getClickedPos(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                         .ifPresent((source) -> {
                             FluidStack moved = FluidUtil.tryFluidTransfer(FluidUtil.getFluidHandler(itemStack).orElse(null), source, Integer.MAX_VALUE, true);
-                            if (!moved.isEmpty() && context.getWorld().isRemote()) {
-                                ParticleBloodSplash.spawnParticles(context.getWorld(), context.getPos(), 5, 1 + random.nextInt(2));
+                            if (!moved.isEmpty() && context.getLevel().isClientSide()) {
+                                ParticleBloodSplash.spawnParticles(context.getLevel(), context.getClickedPos(), 5, 1 + random.nextInt(2));
                             }
                         });
 	            return ActionResultType.PASS;
@@ -76,27 +76,27 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     }
     
     @Override
-    public boolean hasEffect(ItemStack itemStack){
+    public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-                getTranslationKey() + ".info.auto_supply");
+                getDescriptionId() + ".info.auto_supply");
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
         if(!player.isCrouching()) {
-            return super.onItemRightClick(world, player, hand);
+            return super.use(world, player, hand);
         } else {
-            RayTraceResult target = this.rayTrace(world, player, RayTraceContext.FluidMode.ANY);
+            RayTraceResult target = this.getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.ANY);
             if(target == null || target.getType() == RayTraceResult.Type.MISS) {
-        		if(!world.isRemote()) {
+        		if(!world.isClientSide()) {
 		            ItemHelpers.toggleActivation(itemStack);
 		    	}
         	}
@@ -139,14 +139,14 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     }
 
     public void bloodObtainEvent(LivingDeathEvent event) {
-        Entity e = event.getSource().getTrueSource();
-        if(e != null && e instanceof ServerPlayerEntity && !e.world.isRemote()
+        Entity e = event.getSource().getEntity();
+        if(e != null && e instanceof ServerPlayerEntity && !e.level.isClientSide()
                 && event.getEntityLiving() != null) {
             float boost = 1.0F;
             ServerPlayerEntity player = (ServerPlayerEntity) e;
-            Hand hand = player.getActiveHand();
-            if(hand != null && player.getHeldItem(hand) != null
-                    && player.getHeldItem(hand).getItem() instanceof ItemVeinSword) {
+            Hand hand = player.getUsedItemHand();
+            if(hand != null && player.getItemInHand(hand) != null
+                    && player.getItemInHand(hand).getItem() instanceof ItemVeinSword) {
                 boost = (float) ItemVeinSwordConfig.extractionBoost;
             }
             float health = event.getEntityLiving().getMaxHealth();

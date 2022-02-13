@@ -8,6 +8,8 @@ import org.cyclops.evilcraft.api.broom.BroomModifier;
 
 import javax.annotation.Nullable;
 
+import org.cyclops.evilcraft.api.broom.IBroomPart.BroomPartType;
+
 /**
  * A broom part for a modifier
  * @author rubensworks

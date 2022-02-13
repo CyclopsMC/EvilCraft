@@ -39,7 +39,7 @@ public class PalingDegradation implements IDegradationEffect {
         List<Entity> entities = degradable.getAreaEntities();
         for(Entity entity : entities) {
             if(entity instanceof LivingEntity) {
-                ((LivingEntity) entity).addPotionEffect(
+                ((LivingEntity) entity).addEffect(
                         new EffectInstance(RegistryEntries.POTION_PALING,
                                 (int) degradable.getDegradation() * PALING_DURATION_MULTIPLIER, Math.min(10, (int) degradable.getDegradation() / 10)));
             }

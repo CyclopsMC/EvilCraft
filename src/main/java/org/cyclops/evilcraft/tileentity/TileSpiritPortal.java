@@ -20,6 +20,9 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Random;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * Machine that can accumulate the weather and put it in a bottle.
  * @author immortaleeb
@@ -43,32 +46,32 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
 		super.updateTileEntity();
         progress += 0.005f;
         if(progress > 1) {
-            world.removeBlock(getPos(), false);
+            level.removeBlock(getBlockPos(), false);
         }
-        if(world.isRemote()) {
+        if(level.isClientSide()) {
             int progressModifier = (int) (getProgress() * 40f) + 1;
-            if(world.rand.nextInt(5) == 0) {
-                world.playSound(getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
+            if(level.random.nextInt(5) == 0) {
+                level.playLocalSound(getBlockPos().getX() + 0.5F, getBlockPos().getY() + 0.5F, getBlockPos().getZ() + 0.5F,
                         EvilCraftSoundEvents.effect_vengeancebeam_base, SoundCategory.AMBIENT,
-                        0.5F + world.rand.nextFloat() * 0.2F, 1.0F, false);
+                        0.5F + level.random.nextFloat() * 0.2F, 1.0F, false);
             }
-            for(int i = 0; i < world.rand.nextInt(progressModifier); i++) {
+            for(int i = 0; i < level.random.nextInt(progressModifier); i++) {
                 showNewBlurParticle();
             }
         }
 
         // transform book if thrown in.
-        if(!world.isRemote()) {
-            for (ItemEntity entityItem : world.getEntitiesWithinAABB(ItemEntity.class,
+        if(!level.isClientSide()) {
+            for (ItemEntity entityItem : level.getEntitiesOfClass(ItemEntity.class,
                     new AxisAlignedBB(
-                            this.getPos().getX() - 0.5D, this.getPos().getY() - 0.5D, this.getPos().getZ() - 0.5D,
-                            this.getPos().getX() + 1.5D, this.getPos().getY() + 1.5D, this.getPos().getZ() + 1.5D))) {
+                            this.getBlockPos().getX() - 0.5D, this.getBlockPos().getY() - 0.5D, this.getBlockPos().getZ() - 0.5D,
+                            this.getBlockPos().getX() + 1.5D, this.getBlockPos().getY() + 1.5D, this.getBlockPos().getZ() + 1.5D))) {
                 if (entityItem.getItem().getItem() instanceof BookItem) {
-                    Entity entity = new ItemEntity(world, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(),
+                    Entity entity = new ItemEntity(level, entityItem.getX(), entityItem.getY(), entityItem.getZ(),
                             new ItemStack(RegistryEntries.ITEM_ORIGINS_OF_DARKNESS, entityItem.getItem().getCount()));
-                    entity.setMotion(entityItem.getMotion());
+                    entity.setDeltaMovement(entityItem.getDeltaMovement());
                     entityItem.remove();
-                    world.addEntity(entity);
+                    level.addFreshEntity(entity);
                 }
             }
         }
@@ -76,16 +79,16 @@ public class TileSpiritPortal extends CyclopsTileEntity implements CyclopsTileEn
 
     @OnlyIn(Dist.CLIENT)
     private void showNewBlurParticle() {
-        Random rand = world.rand;
+        Random rand = level.random;
         float scale = 0.6F - rand.nextFloat() * 0.3F;
         float red = rand.nextFloat() * 0.03F + 0.01F;
         float green = rand.nextFloat() * 0.03F;
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 10D);
 
-        Minecraft.getInstance().worldRenderer.addParticle(
+        Minecraft.getInstance().levelRenderer.addParticle(
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
-                getPos().getX() + 0.5F, getPos().getY() + 0.5F, getPos().getZ() + 0.5F,
+                getBlockPos().getX() + 0.5F, getBlockPos().getY() + 0.5F, getBlockPos().getZ() + 0.5F,
                 rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F);
     }
 

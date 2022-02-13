@@ -44,12 +44,12 @@ public class BlockEnvironmentalAccumulator extends BlockTile {
 	}
 
 	@Override
-	public boolean hasComparatorInputOverride(BlockState state) {
+	public boolean hasAnalogOutputSignal(BlockState state) {
 		return true;
 	}
 
 	@Override
-	public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
+	public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
 		return TileHelpers.getSafeTile(worldIn, pos, TileEnvironmentalAccumulator.class)
 				.map(tile -> tile.getState() == STATE_IDLE ? 15 : 0)
 				.orElse(0);

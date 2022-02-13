@@ -51,7 +51,7 @@ public class ContainerScreenBloodChest extends ContainerScreenContainerTankInven
     @Override
     protected void drawForgegroundString(MatrixStack matrixStack) {
         // MCP: drawString
-        font.func_243248_b(matrixStack, getName(), 28 + offsetX, 4 + offsetY, 4210752);
+        font.draw(matrixStack, getName(), 28 + offsetX, 4 + offsetY, 4210752);
     }
 
 }

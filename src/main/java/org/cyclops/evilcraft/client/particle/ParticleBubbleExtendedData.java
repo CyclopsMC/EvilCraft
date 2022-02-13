@@ -18,13 +18,13 @@ import java.util.Locale;
 public class ParticleBubbleExtendedData implements IParticleData {
 
     public static final IParticleData.IDeserializer<ParticleBubbleExtendedData> DESERIALIZER = new IParticleData.IDeserializer<ParticleBubbleExtendedData>() {
-        public ParticleBubbleExtendedData deserialize(ParticleType<ParticleBubbleExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleBubbleExtendedData fromCommand(ParticleType<ParticleBubbleExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float gravity = (float) reader.readDouble();
             return new ParticleBubbleExtendedData(gravity);
         }
 
-        public ParticleBubbleExtendedData read(ParticleType<ParticleBubbleExtendedData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleBubbleExtendedData fromNetwork(ParticleType<ParticleBubbleExtendedData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleBubbleExtendedData(buffer.readFloat());
         }
     };
@@ -50,12 +50,12 @@ public class ParticleBubbleExtendedData implements IParticleData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
+    public void writeToNetwork(PacketBuffer buffer) {
         buffer.writeFloat(gravity);
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f",
                 ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
                 this.gravity);

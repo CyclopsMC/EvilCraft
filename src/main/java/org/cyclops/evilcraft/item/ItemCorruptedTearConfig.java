@@ -16,7 +16,7 @@ public class ItemCorruptedTearConfig extends ItemConfig {
                 EvilCraft._instance,
             "corrupted_tear",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
     

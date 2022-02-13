@@ -18,8 +18,8 @@ public class BlockBloodyCobblestoneConfig extends BlockConfig {
         super(
             EvilCraft._instance,
             "bloody_cobblestone",
-                eConfig -> new Block(Block.Properties.create(Material.ROCK)
-                        .hardnessAndResistance(1.5F, 10.0F)
+                eConfig -> new Block(Block.Properties.of(Material.STONE)
+                        .strength(1.5F, 10.0F)
                         .sound(SoundType.STONE)
                         .harvestTool(ToolType.PICKAXE)
                         .harvestLevel(0)),

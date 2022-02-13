@@ -31,32 +31,32 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
     @Override
     @OnlyIn(Dist.CLIENT)
     protected void showNewBlurParticle() {
-    	float scale = 0.6F - rand.nextFloat() * 0.3F;
-    	float red = rand.nextFloat() * 0.03F + 0.1F;
-        float green = rand.nextFloat() * 0.03F;
-        float blue = rand.nextFloat() * 0.05F;
-        float ageMultiplier = (float) (rand.nextDouble() * 4.5D + 4D);
-        Vector3d motion = getMotion();
+    	float scale = 0.6F - random.nextFloat() * 0.3F;
+    	float red = random.nextFloat() * 0.03F + 0.1F;
+        float green = random.nextFloat() * 0.03F;
+        float blue = random.nextFloat() * 0.05F;
+        float ageMultiplier = (float) (random.nextDouble() * 4.5D + 4D);
+        Vector3d motion = getDeltaMovement();
 
-        Minecraft.getInstance().worldRenderer.addParticle(
+        Minecraft.getInstance().levelRenderer.addParticle(
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
-                getPosX(), getPosY(), getPosZ(),
+                getX(), getY(), getZ(),
                 deriveMotion(motion.x), deriveMotion(motion.y), deriveMotion(motion.z));
 	}
     
     private double deriveMotion(double motion) {
-    	return motion * 1D + (0.02D - rand.nextDouble() * 0.04D);
+    	return motion * 1D + (0.02D - random.nextDouble() * 0.04D);
     }
 
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof EntityVengeanceSpirit) {
-            if (this.func_234616_v_() instanceof LivingEntity) {
-                entity.attackEntityFrom(ExtendedDamageSource.vengeanceBeam((LivingEntity) this.func_234616_v_()), 1F);
+            if (this.getOwner() instanceof LivingEntity) {
+                entity.hurt(ExtendedDamageSource.vengeanceBeam((LivingEntity) this.getOwner()), 1F);
                 ((EntityVengeanceSpirit) entity).setRemainingLife(((EntityVengeanceSpirit) entity).getRemainingLife() + 10);
             }
         } else if (entity instanceof LivingEntity) {
             LivingEntity entityLiving = (LivingEntity) entity;
-            entityLiving.clearActivePotions();
+            entityLiving.removeAllEffects();
         }
     }
 }

@@ -37,25 +37,25 @@ public abstract class ContainerTileWorking<T extends TileWorking<T, ?>> extends 
         for(int i = slotStart; i < slotStart + upgradeSlots; i++) {
             addSlot(new SlotExtended(inventory, i, offsetX, offsetY + amount * ITEMBOX) {
 
-                private ItemStack lastSlotContents = getStack();
+                private ItemStack lastSlotContents = getItem();
 
                 @Override
-                public boolean isItemValid(ItemStack itemStack) {
-                    return super.isItemValid(itemStack) && getTileWorkingMetadata().canInsertItem(inventory, getSlotIndex(), itemStack);
+                public boolean mayPlace(ItemStack itemStack) {
+                    return super.mayPlace(itemStack) && getTileWorkingMetadata().canInsertItem(container, getSlotIndex(), itemStack);
                 }
 
                 @Override
-                public boolean canTakeStack(PlayerEntity playerIn) {
-                    return super.canTakeStack(player) &&
-                            getTileWorkingMetadata().canExtractItem(inventory, getSlotIndex(), getStack(), player.inventory.getItemStack());
+                public boolean mayPickup(PlayerEntity playerIn) {
+                    return super.mayPickup(player) &&
+                            getTileWorkingMetadata().canExtractItem(container, getSlotIndex(), getItem(), player.inventory.getCarried());
                 }
 
                 @Override
-                public void onSlotChanged() {
-                    if(!ItemStack.areItemStacksEqual(lastSlotContents, this.getStack())) {
-                        getTileSupplier().ifPresent(tile -> tile.onUpgradeSlotChanged(getSlotIndex(), lastSlotContents, this.getStack()));
+                public void setChanged() {
+                    if(!ItemStack.matches(lastSlotContents, this.getItem())) {
+                        getTileSupplier().ifPresent(tile -> tile.onUpgradeSlotChanged(getSlotIndex(), lastSlotContents, this.getItem()));
                     }
-                    lastSlotContents = this.getStack();
+                    lastSlotContents = this.getItem();
                     if(!lastSlotContents.isEmpty()) lastSlotContents = lastSlotContents.copy();
                 }
 

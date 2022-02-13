@@ -37,7 +37,7 @@ import java.util.Random;
  */
 public class BlockBloodStain extends BlockTile {
 
-    private static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
+    private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     public BlockBloodStain(Block.Properties properties) {
         super(properties, TileBloodStain::new);
@@ -45,12 +45,12 @@ public class BlockBloodStain extends BlockTile {
     }
 
     @Override
-    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+    public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
         return true;
     }
 
     @Override
-    public boolean isReplaceable(BlockState p_225541_1_, Fluid p_225541_2_) {
+    public boolean canBeReplaced(BlockState p_225541_1_, Fluid p_225541_2_) {
         return true;
     }
 
@@ -60,16 +60,16 @@ public class BlockBloodStain extends BlockTile {
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        BlockPos blockpos = pos.down();
+    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+        BlockPos blockpos = pos.below();
         BlockState blockstate = worldIn.getBlockState(blockpos);
-        return blockstate.isSolidSide(worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
+        return blockstate.isFaceSturdy(worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
     }
 
     @Override
     public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        if (!worldIn.isRemote) {
-            if (!state.isValidPosition(worldIn, pos)) {
+        if (!worldIn.isClientSide) {
+            if (!state.canSurvive(worldIn, pos)) {
                 worldIn.removeBlock(pos, false);
             }
         }
@@ -77,18 +77,18 @@ public class BlockBloodStain extends BlockTile {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+    public void attack(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
         splash(worldIn, pos);
-        super.onBlockClicked(state, worldIn, pos, player);
+        super.attack(state, worldIn, pos, player);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
-        if (entityIn.getMotion().length() > 0.1D) {
+    public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+        if (entityIn.getDeltaMovement().length() > 0.1D) {
             splash(worldIn, pos);
         }
-        super.onEntityCollision(state, worldIn, pos, entityIn);
+        super.entityInside(state, worldIn, pos, entityIn);
     }
 
     /**
@@ -99,12 +99,12 @@ public class BlockBloodStain extends BlockTile {
     @OnlyIn(Dist.CLIENT)
     public static void splash(World world, BlockPos blockPos) {
     	if(MinecraftHelpers.isClientSide()) {
-    		ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + world.rand.nextInt(1));
+    		ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
     	}
     }
     
     @Override
-    public void fillWithRain(World world, BlockPos blockPos) {
+    public void handleRain(World world, BlockPos blockPos) {
         world.removeBlock(blockPos, false);
     }
 
@@ -112,11 +112,11 @@ public class BlockBloodStain extends BlockTile {
     public void bloodStainedBlockEvent(LivingDeathEvent event) {
         if(event.getSource() == DamageSource.FALL
                 && !(event.getEntity() instanceof EntityVengeanceSpirit)) {
-            int x = MathHelper.floor(event.getEntity().getPosX());
-            int y = MathHelper.floor(event.getEntity().getPosY());
-            int z = MathHelper.floor(event.getEntity().getPosZ());
+            int x = MathHelper.floor(event.getEntity().getX());
+            int y = MathHelper.floor(event.getEntity().getY());
+            int z = MathHelper.floor(event.getEntity().getZ());
 
-            if (!event.getEntity().world.isRemote()) {
+            if (!event.getEntity().level.isClientSide()) {
                 event.getEntity().getServer().execute(() -> {
                     // Only in the next tick, to resolve #601.
                     // The problem is that Vanilla's logic for handling fall events caches the Block.
@@ -124,27 +124,27 @@ public class BlockBloodStain extends BlockTile {
                     // after which vanilla can still perform operators with this block.
                     // In some cases, this can result in inconsistencies, which can lead to crashes.
                     BlockPos pos = new BlockPos(x, y - 1, z);
-                    Block block = event.getEntity().world.getBlockState(pos).getBlock();
+                    Block block = event.getEntity().level.getBlockState(pos).getBlock();
 
                     int amount = (int) (BlockBloodStainConfig.bloodMBPerHP * event.getEntityLiving().getMaxHealth());
                     if (block != this) {
                         // Offset position by one
-                        pos = pos.add(0, 1, 0);
+                        pos = pos.offset(0, 1, 0);
 
                         // Add a new blood stain block
-                        if (event.getEntity().getEntityWorld().isAirBlock(pos) && isValidPosition(getDefaultState(), event.getEntity().getEntityWorld(), pos)) {
-                            event.getEntity().getEntityWorld().setBlockState(pos, getDefaultState());
+                        if (event.getEntity().getCommandSenderWorld().isEmptyBlock(pos) && canSurvive(defaultBlockState(), event.getEntity().getCommandSenderWorld(), pos)) {
+                            event.getEntity().getCommandSenderWorld().setBlockAndUpdate(pos, defaultBlockState());
                         }
                     }
                     // Add blood to existing block
-                    TileHelpers.getSafeTile(event.getEntity().getEntityWorld(), pos, TileBloodStain.class)
+                    TileHelpers.getSafeTile(event.getEntity().getCommandSenderWorld(), pos, TileBloodStain.class)
                             .ifPresent(tile -> tile.addAmount(amount));
                 });
             } else {
                 // Init particles
                 Random random = new Random();
                 BlockPos pos = new BlockPos(x, y, z);
-                ParticleBloodSplash.spawnParticles(event.getEntity().world, pos.add(0, 1, 0),
+                ParticleBloodSplash.spawnParticles(event.getEntity().level, pos.offset(0, 1, 0),
                         ((int) event.getEntityLiving().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
             }
         }

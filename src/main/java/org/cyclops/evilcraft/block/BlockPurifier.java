@@ -31,13 +31,13 @@ import org.cyclops.evilcraft.tileentity.TilePurifier;
  */
 public class BlockPurifier extends BlockTile implements IBlockTank {
 
-    private static final VoxelShape INSIDE = makeCuboidShape(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    protected static final VoxelShape SHAPE = VoxelShapes.combineAndSimplify(
-            VoxelShapes.fullCube(),
+    private static final VoxelShape INSIDE = box(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
+    protected static final VoxelShape SHAPE = VoxelShapes.join(
+            VoxelShapes.block(),
             VoxelShapes.or(
-                    makeCuboidShape(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D),
-                    makeCuboidShape(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D),
-                    makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D),
+                    box(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D),
+                    box(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D),
+                    box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D),
                     INSIDE),
             IBooleanFunction.ONLY_FIRST);
 
@@ -46,19 +46,19 @@ public class BlockPurifier extends BlockTile implements IBlockTank {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
-        if(world.isRemote()) {
+    public ActionResultType use(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
+        if(world.isClientSide()) {
             return ActionResultType.SUCCESS;
         } else {
-            ItemStack itemStack = player.inventory.getCurrentItem();
-            TilePurifier tile = (TilePurifier) world.getTileEntity(blockPos);
+            ItemStack itemStack = player.inventory.getSelected();
+            TilePurifier tile = (TilePurifier) world.getBlockEntity(blockPos);
             if(tile != null) {
                 if (itemStack.isEmpty() && !tile.getPurifyItem().isEmpty()) {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getPurifyItem());
+                    player.inventory.setItem(player.inventory.selected, tile.getPurifyItem());
                     tile.setPurifyItem(ItemStack.EMPTY);
                     return ActionResultType.SUCCESS;
                 } else if (itemStack.isEmpty() && !tile.getAdditionalItem().isEmpty()) {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, tile.getAdditionalItem());
+                    player.inventory.setItem(player.inventory.selected, tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
                     return ActionResultType.SUCCESS;
                 } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
@@ -85,29 +85,29 @@ public class BlockPurifier extends BlockTile implements IBlockTank {
         return SHAPE;
     }
 
-    public VoxelShape getRaytraceShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getInteractionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return INSIDE;
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState blockState) {
+    public boolean hasAnalogOutputSignal(BlockState blockState) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos blockPos) {
-        TilePurifier tile = (TilePurifier) world.getTileEntity(blockPos);
+    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
+        TilePurifier tile = (TilePurifier) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
     @Override
-    public void onReplaced(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if (!world.isRemote() && oldState.getBlock() != newState.getBlock()) {
+    public void onRemove(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
             TileHelpers.getSafeTile(world, blockPos, TilePurifier.class)
                     .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
         }
-        super.onReplaced(oldState, world, blockPos, newState, isMoving);
+        super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 
     @Override

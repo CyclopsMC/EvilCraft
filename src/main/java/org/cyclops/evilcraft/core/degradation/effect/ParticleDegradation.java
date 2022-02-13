@@ -33,18 +33,18 @@ public class ParticleDegradation implements IDegradationEffect {
         World world = degradable.getDegradationWorld();
         int radius = degradable.getRadius();
         
-        double xCoord = center.getX() - radius + 2 * radius * world.rand.nextFloat();
-        double yCoord = center.getY() - radius + 2 * radius * world.rand.nextFloat();
-        double zCoord = center.getZ() - radius + 2 * radius * world.rand.nextFloat();
+        double xCoord = center.getX() - radius + 2 * radius * world.random.nextFloat();
+        double yCoord = center.getY() - radius + 2 * radius * world.random.nextFloat();
+        double zCoord = center.getZ() - radius + 2 * radius * world.random.nextFloat();
         
         double particleX = xCoord;
         double particleY = yCoord;
         double particleZ = zCoord;
 
-        float particleMotionX = world.rand.nextFloat() * 1.4F - 0.7F;
+        float particleMotionX = world.random.nextFloat() * 1.4F - 0.7F;
         float particleMotionY = -0.2F;
-        float particleMotionZ = world.rand.nextFloat() * 1.4F - 0.7F;
-        Minecraft.getInstance().worldRenderer.addParticle(
+        float particleMotionZ = world.random.nextFloat() * 1.4F - 0.7F;
+        Minecraft.getInstance().levelRenderer.addParticle(
                 RegistryEntries.PARTICLE_DEGRADE, false,
                 particleX, particleY, particleZ,
                 particleMotionX, particleMotionY, particleMotionZ);

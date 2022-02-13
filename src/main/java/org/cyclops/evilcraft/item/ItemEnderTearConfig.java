@@ -23,8 +23,8 @@ public class ItemEnderTearConfig extends ItemConfig {
                 EvilCraft._instance,
             "ender_tear",
                 eConfig -> new Item(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(16))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(16))
         );
     }
 

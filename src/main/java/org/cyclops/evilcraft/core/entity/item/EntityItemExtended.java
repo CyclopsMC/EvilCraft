@@ -19,30 +19,30 @@ public abstract class EntityItemExtended extends ItemEntity {
 
     public EntityItemExtended(EntityType<? extends EntityItemExtended> type, World world) {
         super(type, world);
-        this.setPickupDelay(40);
+        this.setPickUpDelay(40);
     }
 
 	public EntityItemExtended(EntityType<? extends EntityItemExtended> type, World world, ItemEntity original) {
         super(type, world);
-        this.setPickupDelay(40);
-        this.setMotion(original.getMotion());
-        this.setPosition(original.getPosX(), original.getPosY(), original.getPosZ());
+        this.setPickUpDelay(40);
+        this.setDeltaMovement(original.getDeltaMovement());
+        this.setPos(original.getX(), original.getY(), original.getZ());
         this.setItem(original.getItem());
     }
 
     @Nonnull
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     // Needed for particle rendering
     @OnlyIn(Dist.CLIENT)
     @Override
-    public ItemEntity func_234273_t_() {
-        EntityItemExtended entity = (EntityItemExtended) getType().create(world);
+    public ItemEntity copy() {
+        EntityItemExtended entity = (EntityItemExtended) getType().create(level);
         entity.setItem(this.getItem().copy());
-        entity.copyLocationAndAnglesFrom(this);
+        entity.copyPosition(this);
         //entity.age = this.getAge();
         //entity.hoverStart = this.hoverStart;
         return entity;

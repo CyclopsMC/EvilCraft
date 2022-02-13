@@ -41,7 +41,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
     }
 
     @Override
-    public int getOpacity(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public int getLightBlock(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return 1;
     }
 
@@ -58,12 +58,12 @@ public class BlockUndeadLeaves extends LeavesBlock {
     }
 
     protected boolean canFormBloodStains(BlockState state) {
-        return BlockUndeadLeavesConfig.maxBloodStainAmount > 0 && !state.get(PERSISTENT) && state.get(DISTANCE) == 2;
+        return BlockUndeadLeavesConfig.maxBloodStainAmount > 0 && !state.getValue(PERSISTENT) && state.getValue(DISTANCE) == 2;
     }
 
     @Override
-    public boolean ticksRandomly(BlockState state) {
-        return super.ticksRandomly(state) || canFormBloodStains(state);
+    public boolean isRandomlyTicking(BlockState state) {
+        return super.isRandomlyTicking(state) || canFormBloodStains(state);
     }
 
     @Override
@@ -73,32 +73,32 @@ public class BlockUndeadLeaves extends LeavesBlock {
         if (canFormBloodStains(state)) {
             // Find a position below this block with air above it (or being a blood stain)
             int attempts = 20;
-            BlockPos itPos = pos.offset(Direction.DOWN);
+            BlockPos itPos = pos.relative(Direction.DOWN);
             while (attempts-- > 0) {
                 if (worldIn.getBlockState(itPos).getBlock() instanceof BlockBloodStain
-                        || (worldIn.isAirBlock(itPos) && RegistryEntries.BLOCK_BLOOD_STAIN.isValidPosition(state, worldIn, itPos))) {
+                        || (worldIn.isEmptyBlock(itPos) && RegistryEntries.BLOCK_BLOOD_STAIN.canSurvive(state, worldIn, itPos))) {
 
                     // Set the air block to a blood stain
                     BlockState blockState = worldIn.getBlockState(itPos);
                     if (blockState.isAir(worldIn, pos)) {
-                        blockState = RegistryEntries.BLOCK_BLOOD_STAIN.getDefaultState();
-                        worldIn.setBlockState(itPos, blockState);
+                        blockState = RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState();
+                        worldIn.setBlockAndUpdate(itPos, blockState);
                     }
 
                     // Add blood to existing stain
                     if (blockState.getBlock() instanceof BlockBloodStain) {
                         TileHelpers.getSafeTile(worldIn, itPos, TileBloodStain.class)
-                                .ifPresent(tile -> tile.addAmount(1 + worldIn.rand.nextInt(BlockUndeadLeavesConfig.maxBloodStainAmount)));
+                                .ifPresent(tile -> tile.addAmount(1 + worldIn.random.nextInt(BlockUndeadLeavesConfig.maxBloodStainAmount)));
                     }
 
                     break;
                 }
 
                 // Stop if we find any other block blocking the way
-                if (!worldIn.isAirBlock(itPos)) {
+                if (!worldIn.isEmptyBlock(itPos)) {
                     break;
                 } else {
-                    itPos = itPos.offset(Direction.DOWN);
+                    itPos = itPos.relative(Direction.DOWN);
                 }
             }
         }

@@ -11,13 +11,15 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
+import net.minecraft.particles.IParticleData.IDeserializer;
+
 /**
  * @author rubensworks
  */
 public class ParticleBlurTargettedData extends ParticleBlurData {
 
     public static final IDeserializer<ParticleBlurTargettedData> DESERIALIZER = new IDeserializer<ParticleBlurTargettedData>() {
-        public ParticleBlurTargettedData deserialize(ParticleType<ParticleBlurTargettedData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleBlurTargettedData fromCommand(ParticleType<ParticleBlurTargettedData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float red = (float)reader.readDouble();
             reader.expect(' ');
@@ -37,7 +39,7 @@ public class ParticleBlurTargettedData extends ParticleBlurData {
             return new ParticleBlurTargettedData(red, green, blue, scale, ageMultiplier, targetX, targetY, targetZ);
         }
 
-        public ParticleBlurTargettedData read(ParticleType<ParticleBlurTargettedData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleBlurTargettedData fromNetwork(ParticleType<ParticleBlurTargettedData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleBlurTargettedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
@@ -83,17 +85,17 @@ public class ParticleBlurTargettedData extends ParticleBlurData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
-        super.write(buffer);
+    public void writeToNetwork(PacketBuffer buffer) {
+        super.write(buffer); // TODO: to writeToNetwork
         buffer.writeFloat(targetX);
         buffer.writeFloat(targetY);
         buffer.writeFloat(targetZ);
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f %.2f %.2f",
-                super.getParameters(),
+                "", // TODO: restore super.writeToString()
                 this.targetX, this.targetY, this.targetZ);
     }
 }

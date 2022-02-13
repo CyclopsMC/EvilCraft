@@ -53,7 +53,7 @@ import java.util.Set;
  */
 public class EntityBroom extends Entity {
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityBroom.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>defineId(EntityBroom.class, DataSerializers.ITEM_STACK);
 
     /**
      * Speed for the broom (in all directions)
@@ -116,12 +116,12 @@ public class EntityBroom extends Entity {
 
     public EntityBroom(EntityType<? extends EntityBroom> type, World world, double x, double y, double z) {
         super(type, world);
-        setPosition(x, y, z);
-        setMotion(0, 0, 0);
-        recalculateSize();
-        this.prevPosX = x;
-        this.prevPosY = y;
-        this.prevPosZ = z;
+        setPos(x, y, z);
+        setDeltaMovement(0, 0, 0);
+        refreshDimensions();
+        this.xo = x;
+        this.yo = y;
+        this.zo = z;
         initBroomHoverTickOffset();
     }
 
@@ -131,37 +131,37 @@ public class EntityBroom extends Entity {
 
     @Nonnull
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    public EntitySize getSize(Pose poseIn) {
-        return EntitySize.flexible(1.5f, 0.6f);
+    public EntitySize getDimensions(Pose poseIn) {
+        return EntitySize.scalable(1.5f, 0.6f);
     }
 
     protected void initBroomHoverTickOffset() {
-        broomHoverTickOffset = rand.nextInt((int)Math.PI);
+        broomHoverTickOffset = random.nextInt((int)Math.PI);
     }
     
     @Override
-    public double getMountedYOffset() {
+    public double getPassengersRidingOffset() {
         return 0.0;
     }
 
     @Override
-    protected boolean canTriggerWalking() {
+    protected boolean isMovementNoisy() {
         return false;
     }
 
     @Override
-	public boolean canBeCollidedWith() {
+	public boolean isPickable() {
 		return isAlive();
 	}
     
     @Override
-    public ActionResultType processInitialInteract(PlayerEntity player, Hand hand) {
-        if (!this.world.isRemote() && !isBeingRidden() && !player.isCrouching()) {
+    public ActionResultType interact(PlayerEntity player, Hand hand) {
+        if (!this.level.isClientSide() && !isVehicle() && !player.isCrouching()) {
             player.startRiding(this);
             lastMounted = player;
         }
@@ -169,9 +169,9 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public void applyEntityCollision(Entity entityIn) {
-        if (!this.world.isRemote()) {
-            if (!entityIn.noClip && !this.noClip) {
+    public void push(Entity entityIn) {
+        if (!this.level.isClientSide()) {
+            if (!entityIn.noPhysics && !this.noPhysics) {
                 Entity controlling = this.getControllingPassenger();
                 if (entityIn != controlling) {
                     if (entityIn instanceof LivingEntity
@@ -186,7 +186,7 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
+    public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
         posRotationIncrements += 6;
         
         //this.yOffset = 0.0F;
@@ -205,20 +205,20 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (!this.world.isRemote() && this.isAlive()) {
+    public boolean hurt(DamageSource source, float amount) {
+        if (!this.level.isClientSide() && this.isAlive()) {
             if (this.isInvulnerableTo(source)) {
                 return false;
             }
-            if (source.getTrueSource() instanceof PlayerEntity && source.getTrueSource() != lastMounted) {
-                if (isBeingRidden()) {
+            if (source.getEntity() instanceof PlayerEntity && source.getEntity() != lastMounted) {
+                if (isVehicle()) {
                     this.stopRiding();
                 }
                 remove();
-                PlayerEntity player = (PlayerEntity) source.getTrueSource();
+                PlayerEntity player = (PlayerEntity) source.getEntity();
                 if (!player.isCreative()) {
                     ItemStack itemStack = getBroomStack().copy();
-                    this.entityDropItem(itemStack, 0.0F);
+                    this.spawnAtLocation(itemStack, 0.0F);
                 }
             }
         }
@@ -227,20 +227,20 @@ public class EntityBroom extends Entity {
 
     public void startAllowFlying(LivingEntity entity) {
         if(entity instanceof PlayerEntity) {
-            ((PlayerEntity) entity).abilities.allowFlying = true;
+            ((PlayerEntity) entity).abilities.mayfly = true;
         }
     }
 
     public void stopAllowFlying(LivingEntity entity) {
         if(entity instanceof PlayerEntity) {
-            ((PlayerEntity) entity).abilities.allowFlying = false;
+            ((PlayerEntity) entity).abilities.mayfly = false;
         }
     }
 
     @Override
     protected void addPassenger(Entity passenger) {
         super.addPassenger(passenger);
-        if(!world.isRemote() && passenger instanceof LivingEntity) {
+        if(!level.isClientSide() && passenger instanceof LivingEntity) {
             startAllowFlying((LivingEntity) passenger);
         }
     }
@@ -250,7 +250,7 @@ public class EntityBroom extends Entity {
     	super.tick();
 
         Entity rider = getControllingPassenger();
-        if (!world.isRemote() && !isBeingRidden() && lastMounted != null) {
+        if (!level.isClientSide() && !isVehicle() && lastMounted != null) {
             onDismount();
     		
     	} else if (rider instanceof LivingEntity) {
@@ -263,13 +263,13 @@ public class EntityBroom extends Entity {
              */
             lastMounted = (LivingEntity) rider;
             
-            prevPosX = getPosX();
-            prevPosY = getPosY();
-            prevPosZ = getPosZ();
-            prevRotationPitch = rotationPitch;
-            prevRotationYaw = rotationYaw;
+            xo = getX();
+            yo = getY();
+            zo = getZ();
+            xRotO = xRot;
+            yRotO = yRot;
             
-    	    if (!world.isRemote() || Minecraft.getInstance().player == lastMounted) {
+    	    if (!level.isClientSide() || Minecraft.getInstance().player == lastMounted) {
     	        updateMountedServer();
     	    } else {
     	        updateMountedClient();
@@ -280,17 +280,17 @@ public class EntityBroom extends Entity {
             }
 
             // Apply collisions
-            List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().grow(0.2, 0.0, 0.2));
+            List<Entity> list = this.level.getEntities(this, this.getBoundingBox().inflate(0.2, 0.0, 0.2));
             if (list != null && !list.isEmpty()) {
                 for (int l = 0; l < list.size(); ++l) {
                     Entity entity = list.get(l);
-                    if (entity != rider && entity.canBePushed() && !(entity instanceof EntityBroom)) {
+                    if (entity != rider && entity.isPushable() && !(entity instanceof EntityBroom)) {
                         for (Map.Entry<BroomModifier, Float> entry : getModifiers().entrySet()) {
                             for (BroomModifier.ICollisionListener listener : entry.getKey().getCollisionListeners()) {
                                 listener.onCollide(this, entity, entry.getValue());
                             }
                         }
-                        entity.applyEntityCollision(this);
+                        entity.push(this);
 
                         // Slow the broom down a bit
                         float toughnessModifier = 0.5F + (getModifier(BroomModifiers.STURDYNESS) / BroomModifiers.STURDYNESS.getMaxTierValue()  / 2F);
@@ -305,7 +305,7 @@ public class EntityBroom extends Entity {
                 }
             }
     	} else {
-            if(!this.world.isRemote() && rider == null) {
+            if(!this.level.isClientSide() && rider == null) {
                 this.collideWithNearbyEntities();
             }
     	    updateUnmounted();
@@ -321,7 +321,7 @@ public class EntityBroom extends Entity {
             if (player.isAlive() && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.isCreative())) {
                 // Return to inventory if he's not in creative mode
                 if (!player.isCreative()) {
-                    player.inventory.addItemStackToInventory(getBroomStack());
+                    player.inventory.add(getBroomStack());
                 }
                 this.remove();
             }
@@ -331,13 +331,13 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    protected boolean canFitPassenger(Entity passenger) {
+    protected boolean canAddPassenger(Entity passenger) {
         return this.getPassengers().size() < (1 + (getModifier(BroomModifiers.STICKY) / BroomModifiers.STICKY.getMaxTierValue()) * 3);
     }
 
     @Override
     protected void removePassenger(Entity passenger) {
-        if (!getEntityWorld().isRemote() && getControllingPassenger() == passenger) {
+        if (!getCommandSenderWorld().isClientSide() && getControllingPassenger() == passenger) {
             onDismount();
         }
         super.removePassenger(passenger);
@@ -345,8 +345,8 @@ public class EntityBroom extends Entity {
 
     @OnlyIn(Dist.CLIENT)
     public void showParticles(EntityBroom broom) {
-        World world = broom.world;
-        if (world.isRemote() && broom.lastMounted.moveForward != 0) {
+        World world = broom.level;
+        if (world.isClientSide() && broom.lastMounted.zza != 0) {
             // Emit particles
             int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
             Triple<Float, Float, Float> color = BroomModifier.getAverageColor(broom.getModifiers());
@@ -354,41 +354,41 @@ public class EntityBroom extends Entity {
                 float r = color.getLeft();
                 float g = color.getMiddle();
                 float b = color.getRight();
-                Vector3d motion = broom.getMotion();
-                Minecraft.getInstance().worldRenderer.addParticle(
+                Vector3d motion = broom.getDeltaMovement();
+                Minecraft.getInstance().levelRenderer.addParticle(
                         new ParticleColoredSmokeData(r, g, b), false,
-                        broom.getPosX() - motion.x * 1.5D + Math.random() * 0.4D - 0.2D,
-                        broom.getPosY() - motion.y * 1.5D + Math.random() * 0.4D - 0.2D,
-                        broom.getPosZ() - motion.z * 1.5D + Math.random() * 0.4D - 0.2D,
+                        broom.getX() - motion.x * 1.5D + Math.random() * 0.4D - 0.2D,
+                        broom.getY() - motion.y * 1.5D + Math.random() * 0.4D - 0.2D,
+                        broom.getZ() - motion.z * 1.5D + Math.random() * 0.4D - 0.2D,
                         motion.x / 10, motion.y / 10, motion.z / 10);
             }
         }
     }
 
     protected void collideWithNearbyEntities() {
-        List<Entity> list = this.world.getEntitiesInAABBexcluding(this, this.getBoundingBox().grow(0.20000000298023224D, 0.0D, 0.20000000298023224D),
-                EntityPredicates.NOT_SPECTATING.and(Entity::canBePushed));
+        List<Entity> list = this.level.getEntities(this, this.getBoundingBox().inflate(0.20000000298023224D, 0.0D, 0.20000000298023224D),
+                EntityPredicates.NO_SPECTATORS.and(Entity::isPushable));
         if (!list.isEmpty()){
             for (Entity entity : list) {
-                this.applyEntityCollision(entity);
+                this.push(entity);
             }
         }
     }
     
     protected void updateMountedClient() {
         if (newPosRotationIncrements > 0) {
-            double x = getPosX() + (newPosX - getPosX()) / newPosRotationIncrements;
-            double y = getPosY() + (newPosY - getPosY()) / newPosRotationIncrements;
-            double z = getPosZ() + (newPosZ - getPosZ()) / newPosRotationIncrements;
+            double x = getX() + (newPosX - getX()) / newPosRotationIncrements;
+            double y = getY() + (newPosY - getY()) / newPosRotationIncrements;
+            double z = getZ() + (newPosZ - getZ()) / newPosRotationIncrements;
             
-            float yaw = MathHelpers.normalizeAngle_180((float)(newRotationYaw - rotationYaw));
-            rotationYaw += yaw / newPosRotationIncrements;
-            rotationPitch += (newRotationPitch - rotationPitch) / newPosRotationIncrements;
+            float yaw = MathHelpers.normalizeAngle_180((float)(newRotationYaw - yRot));
+            yRot += yaw / newPosRotationIncrements;
+            xRot += (newRotationPitch - xRot) / newPosRotationIncrements;
             
             newPosRotationIncrements--;
             
-            setPosition(x, y, z);
-            setRotation(rotationYaw, rotationPitch);
+            setPos(x, y, z);
+            setRot(yRot, xRot);
         }
         
         move(MoverType.SELF, new Vector3d(0, getHoverOffset(), 0));
@@ -402,7 +402,7 @@ public class EntityBroom extends Entity {
 
     public void consume(int amount, LivingEntity entityLiving) {
         float efficiencyFactor = Math.min(0.9F, Math.max(0.0F, getModifier(BroomModifiers.EFFICIENCY) / BroomModifiers.EFFICIENCY.getMaxTierValue()));
-        if(world.rand.nextFloat() > efficiencyFactor) {
+        if(level.random.nextFloat() > efficiencyFactor) {
             ItemStack broomStack = getBroomStack();
             ((IBroom) broomStack.getItem()).consumeBroom(amount, broomStack, entityLiving);
             setBroomStack(broomStack);
@@ -417,50 +417,50 @@ public class EntityBroom extends Entity {
     protected void updateMountedServer() {
         if (!setLast) {
             setLast = true;
-            lastRotationYaw = rotationYaw;
-            lastRotationPitch = rotationPitch;
+            lastRotationYaw = yRot;
+            lastRotationPitch = xRot;
         }
 
         if (lastMounted instanceof PlayerEntity) {
             if (lastMounted instanceof ServerPlayerEntity) {
-                ((ServerPlayerEntity) lastMounted).connection.vehicleFloatingTickCount = 0;
+                ((ServerPlayerEntity) lastMounted).connection.aboveGroundVehicleTickCount = 0;
             }
         } else {
-            lastMounted.rotationYaw = lastMounted.rotationYawHead;
+            lastMounted.yRot = lastMounted.yHeadRot;
             // We have to hardcode this speed because the entity may already have ticked,
             // so we can't count on it having a predictable speed
-            lastMounted.moveForward = 0.5F;
+            lastMounted.zza = 0.5F;
         }
 
         // Rotate broom
-        rotationPitch = MathHelpers.normalizeAngle_180(lastMounted.rotationPitch);
-        rotationYaw = MathHelpers.normalizeAngle_180(lastMounted.rotationYaw);
+        xRot = MathHelpers.normalizeAngle_180(lastMounted.xRot);
+        yRot = MathHelpers.normalizeAngle_180(lastMounted.yRot);
 
         // Apply maneuverability modifier
         float maneuverabilityFactor = 1F - (getModifier(BroomModifiers.MANEUVERABILITY) / 2000F);
-        rotationPitch = rotationPitch * (1F - maneuverabilityFactor) + lastRotationPitch * maneuverabilityFactor;
+        xRot = xRot * (1F - maneuverabilityFactor) + lastRotationPitch * maneuverabilityFactor;
         // These if's are necessary to fix rotation when the yaw goes over the border of -180F;+180F
-        if(lastRotationYaw - rotationYaw > 180F) {
+        if(lastRotationYaw - yRot > 180F) {
             lastRotationYaw -= 360F;
         }
-        if(lastRotationYaw - rotationYaw < -180F) {
+        if(lastRotationYaw - yRot < -180F) {
             lastRotationYaw += 360F;
         }
-        rotationYaw = rotationYaw * (1F - maneuverabilityFactor) + lastRotationYaw * maneuverabilityFactor;
-        lastRotationPitch = rotationPitch;
-        lastRotationYaw = rotationYaw;
+        yRot = yRot * (1F - maneuverabilityFactor) + lastRotationYaw * maneuverabilityFactor;
+        lastRotationPitch = xRot;
+        lastRotationYaw = yRot;
         
         // Limit the angle under which the player can move up or down
-        if (rotationPitch > MAX_ANGLE)
-            rotationPitch = MAX_ANGLE;
-        else if (rotationPitch < MIN_ANGLE)
-            rotationPitch = MIN_ANGLE;
+        if (xRot > MAX_ANGLE)
+            xRot = MAX_ANGLE;
+        else if (xRot < MIN_ANGLE)
+            xRot = MIN_ANGLE;
         
-        setRotation(rotationYaw, rotationPitch);
+        setRot(yRot, xRot);
         
         // Handle player movement
-        double pitch = ((rotationPitch + 90) * Math.PI) / 180;
-        double yaw = ((rotationYaw + 90) * Math.PI) / 180;
+        double pitch = ((xRot + 90) * Math.PI) / 180;
+        double yaw = ((yRot + 90) * Math.PI) / 180;
         
         double x = Math.sin(pitch) * Math.cos(yaw);
         double z = Math.sin(pitch) * Math.sin(yaw);
@@ -471,7 +471,7 @@ public class EntityBroom extends Entity {
         playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
         int amount = ItemBroomConfig.bloodUsage;
         LivingEntity currentRidingEntity = getControllingPassenger() instanceof LivingEntity ? (LivingEntity) getControllingPassenger() : null;
-        float moveForward = canConsume(amount, currentRidingEntity) ? lastMounted.moveForward : lastMounted.moveForward / 10F;
+        float moveForward = canConsume(amount, currentRidingEntity) ? lastMounted.zza : lastMounted.zza / 10F;
         playerSpeed *= moveForward;
         if(moveForward != 0) {
             consume(amount, currentRidingEntity);
@@ -493,7 +493,7 @@ public class EntityBroom extends Entity {
         lastPlayerSpeed = playerSpeed;
 
         // Apply water speed
-        if (this.inWater) {
+        if (this.wasTouchingWater) {
             // Apply a log-scale
             float waterMovementFactor = MathHelper.clamp(
                     getModifier(BroomModifiers.SWIMMING) / BroomModifiers.SWIMMING.getMaxTierValue(), 0F, 1F);
@@ -501,16 +501,16 @@ public class EntityBroom extends Entity {
             playerSpeed *= waterMovementFactor;
         }
 
-        setMotion(getMotion()
-                .mul(0.1, 0.1, 0.1)
+        setDeltaMovement(getDeltaMovement()
+                .multiply(0.1, 0.1, 0.1)
                 .add(x * SPEED * playerSpeed, y * SPEED * playerSpeed * levitationModifier, z * SPEED * playerSpeed));
         
         // Update motion on client side to provide a hovering effect
-        if (world.isRemote()) {
-            setMotion(getMotion().add(0, getHoverOffset(), 0));
+        if (level.isClientSide()) {
+            setDeltaMovement(getDeltaMovement().add(0, getHoverOffset(), 0));
         }
 
-        move(MoverType.SELF, getMotion());
+        move(MoverType.SELF, getDeltaMovement());
     }
 
     public double getLastPlayerSpeed() {
@@ -522,13 +522,13 @@ public class EntityBroom extends Entity {
     }
 
     protected void updateUnmounted() {
-        if (world.isRemote()) {
+        if (level.isClientSide()) {
             move(MoverType.SELF, new Vector3d(0, getHoverOffset(), 0));
         }
     }
 
     protected double getHoverOffset() {
-        float x = world.getGameTime();
+        float x = level.getGameTime();
         float t = broomHoverTickOffset;
         double newHoverOffset = Math.cos(x / 10 + t) * Math.cos(x / 12 + t) * Math.cos(x / 15 + t) * MAX_COS_AMPLITUDE;
         
@@ -539,7 +539,7 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         // Makes sure the player doesn't get any fall damage when on the broom
         return false;
     }
@@ -550,26 +550,26 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    protected void registerData() {
-        dataManager.register(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BROOM));
+    protected void defineSynchedData() {
+        entityData.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BROOM));
     }
 
     @Override
-    protected void readAdditional(CompoundNBT nbttagcompound) {
+    protected void readAdditionalSaveData(CompoundNBT nbttagcompound) {
     	
     }
 
     @Override
-    protected void writeAdditional(CompoundNBT nbttagcompound) {
+    protected void addAdditionalSaveData(CompoundNBT nbttagcompound) {
     	
     }
 
     public void setBroomStack(ItemStack itemStack) {
-        dataManager.set(ITEMSTACK_INDEX, itemStack.copy());
+        entityData.set(ITEMSTACK_INDEX, itemStack.copy());
     }
 
     public ItemStack getBroomStack() {
-        ItemStack itemStack = dataManager.get(ITEMSTACK_INDEX);
+        ItemStack itemStack = entityData.get(ITEMSTACK_INDEX);
         if (itemStack.isEmpty()) {
             itemStack = new ItemStack(RegistryEntries.ITEM_BROOM);
         }
@@ -610,18 +610,18 @@ public class EntityBroom extends Entity {
     }
     
     @Override
-    public CompoundNBT writeWithoutTypeId(CompoundNBT tag) {
-        tag = super.writeWithoutTypeId(tag);
+    public CompoundNBT saveWithoutId(CompoundNBT tag) {
+        tag = super.saveWithoutId(tag);
         CompoundNBT broomItemTag = new CompoundNBT();
-        getBroomStack().write(broomItemTag);
+        getBroomStack().save(broomItemTag);
         tag.put("broomItem", broomItemTag);
         return tag;
     }
 
     @Override
-    public void read(CompoundNBT tagCompound) {
-        super.read(tagCompound);
-        ItemStack broomStack = ItemStack.read(tagCompound.getCompound("broomItem"));
+    public void load(CompoundNBT tagCompound) {
+        super.load(tagCompound);
+        ItemStack broomStack = ItemStack.of(tagCompound.getCompound("broomItem"));
         if (!broomStack.isEmpty()) {
             setBroomStack(broomStack);
         }

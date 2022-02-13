@@ -71,12 +71,12 @@ public class ContainerBloodInfuser extends ContainerTileWorking<TileBloodInfuser
 
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, TileBloodInfuser.SLOT_CONTAINER, SLOT_CONTAINER_X, SLOT_CONTAINER_Y, RegistryEntries.FLUID_BLOOD)); // Container emptier
-        addSlot(new SlotWorking<>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, this, playerInventory.player.world)); // Infuse slot
+        addSlot(new SlotWorking<>(TileBloodInfuser.SLOT_INFUSE, SLOT_INFUSE_X, SLOT_INFUSE_Y, this, playerInventory.player.level)); // Infuse slot
         addSlot(new SlotRemoveOnly(inventory, TileBloodInfuser.SLOT_INFUSE_RESULT, SLOT_INFUSE_RESULT_X, SLOT_INFUSE_RESULT_Y) {
             @Override
             public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
                 tileSupplier.ifPresent(tile -> {
-                    EntityHelpers.spawnXpAtPlayer(player.world, player, (int) Math.floor(tile.getXp()));
+                    EntityHelpers.spawnXpAtPlayer(player.level, player, (int) Math.floor(tile.getXp()));
                     tile.resetXp();
                     MinecraftForge.EVENT_BUS.post(new BloodInfuserRemoveEvent(player, stack));
                 });

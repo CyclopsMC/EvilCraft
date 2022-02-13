@@ -30,6 +30,8 @@ import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
  * WeatherContainerType which contains the actual data and functionality that
@@ -51,24 +53,24 @@ public class ItemBiomeExtract extends Item {
     }
 
     @Override
-    public String getTranslationKey(ItemStack itemStack) {
-        return super.getTranslationKey(itemStack) + (getBiome(itemStack) == null ? ".empty" : "");
+    public String getDescriptionId(ItemStack itemStack) {
+        return super.getDescriptionId(itemStack) + (getBiome(itemStack) == null ? ".empty" : "");
     }
 
     @Override
-    public UseAction getUseAction(ItemStack stack) {
+    public UseAction getUseAnimation(ItemStack stack) {
         return UseAction.BOW;
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if(!world.isRemote() && getBiome(itemStack) != null && !ItemBiomeExtractConfig.isUsageBlacklisted(getBiome(itemStack))) {
-            world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if(!world.isClientSide() && getBiome(itemStack) != null && !ItemBiomeExtractConfig.isUsageBlacklisted(getBiome(itemStack))) {
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
             // MCP: shoot
-            entity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
-            world.addEntity(entity);
+            entity.shootFromRotation(player, player.xRot, player.yRot, -20.0F, 0.5F, 1.0F);
+            world.addFreshEntity(entity);
             itemStack.shrink(1);
         }
 
@@ -77,12 +79,12 @@ public class ItemBiomeExtract extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        super.addInformation(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         Biome biome = getBiome(itemStack);
         if(biome != null) {
             // Biome name generation based on CreateBuffetWorldScreen
-            list.add(new TranslationTextComponent(getTranslationKey() + ".info.content",
+            list.add(new TranslationTextComponent(getDescriptionId() + ".info.content",
                     new TranslationTextComponent("biome." + biome.getRegistryName().getNamespace() + "." + biome.getRegistryName().getPath())));
         }
     }
@@ -93,9 +95,9 @@ public class ItemBiomeExtract extends Item {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void fillItemGroup(ItemGroup creativeTabs, NonNullList<ItemStack> list) {
+    public void fillItemCategory(ItemGroup creativeTabs, NonNullList<ItemStack> list) {
         if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
-        super.fillItemGroup(creativeTabs, list);
+        super.fillItemCategory(creativeTabs, list);
         if(ItemBiomeExtractConfig.creativeTabVariants) {
             for (Biome biome : getBiomes()) {
                 list.add(createItemStack(biome, 1));
@@ -153,9 +155,9 @@ public class ItemBiomeExtract extends Item {
         if(biome == null) {
             return Rarity.COMMON;
         } else {
-            return biome.getMobSpawnInfo().getCreatureSpawnProbability() <= 0.05F
+            return biome.getMobSettings().getCreatureProbability() <= 0.05F
                     ? Rarity.EPIC
-                    : (biome.getMobSpawnInfo().getCreatureSpawnProbability() <= 0.1F ? Rarity.RARE : Rarity.UNCOMMON);
+                    : (biome.getMobSettings().getCreatureProbability() <= 0.1F ? Rarity.RARE : Rarity.UNCOMMON);
         }
     }
 

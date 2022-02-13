@@ -90,27 +90,27 @@ public class RenderTileEntityDarkTank extends TileEntityRenderer<TileDarkTank> {
         float g = colorParts.getMiddle();
         float b = colorParts.getRight();
         float a = 1.0F;
-		Matrix4f matrix = matrixStackIn.getLast().getMatrix();
+		Matrix4f matrix = matrixStackIn.last().pose();
 		for (Direction side : DirectionHelpers.DIRECTIONS) {
 			TextureAtlasSprite icon = ModelDarkTankBaked.getFluidIcon(fluid, flowing, side);
-			IVertexBuilder vb = bufferIn.getBuffer(RenderType.getText(icon.getAtlasTexture().getTextureLocation()));
+			IVertexBuilder vb = bufferIn.getBuffer(RenderType.text(icon.atlas().location()));
 			float[][] c = coordinates[side.ordinal()];
-			float minV = icon.getMinV();
-			float maxV = (icon.getMaxV() - icon.getMinV()) * height + icon.getMinV();
-			float minU = icon.getMinU();
-			float maxU = icon.getMaxU();
+			float minV = icon.getV0();
+			float maxV = (icon.getV1() - icon.getV0()) * height + icon.getV0();
+			float minU = icon.getU0();
+			float maxU = icon.getU1();
 			if (side == Direction.WEST || side == Direction.SOUTH) {
 				// Flip up-side down
 				float tmp = minV;
 				minV = maxV;
 				maxV = tmp;
 			} else if (side == Direction.UP || side == Direction.DOWN) {
-				maxV = icon.getMaxV();
+				maxV = icon.getV1();
 			}
-            vb.pos(matrix, c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).tex(minU, maxV).lightmap(l2, i3).endVertex();
-			vb.pos(matrix, c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).tex(minU, minV).lightmap(l2, i3).endVertex();
-			vb.pos(matrix, c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).tex(maxU, minV).lightmap(l2, i3).endVertex();
-			vb.pos(matrix, c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).tex(maxU, maxV).lightmap(l2, i3).endVertex();
+            vb.vertex(matrix, c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).uv(minU, maxV).uv2(l2, i3).endVertex();
+			vb.vertex(matrix, c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).uv(minU, minV).uv2(l2, i3).endVertex();
+			vb.vertex(matrix, c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).uv(maxU, minV).uv2(l2, i3).endVertex();
+			vb.vertex(matrix, c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).uv(maxU, maxV).uv2(l2, i3).endVertex();
 		}
 	}
 	

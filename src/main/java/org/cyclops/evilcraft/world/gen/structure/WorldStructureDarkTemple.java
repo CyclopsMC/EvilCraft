@@ -36,6 +36,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Random;
 
+import net.minecraft.world.gen.feature.structure.Structure.IStartFactory;
+
 /**
  * Structure that generates Dark Temples.
  * @author immortaleeb
@@ -48,11 +50,11 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
     }
 
     @Override
-    protected boolean func_230363_a_(ChunkGenerator p_230363_1_, BiomeProvider p_230363_2_, long p_230363_3_, SharedSeedRandom p_230363_5_, int p_230363_6_, int p_230363_7_, Biome biome, ChunkPos p_230363_9_, NoFeatureConfig p_230363_10_) {
-        if (biome.getCategory() == Biome.Category.OCEAN) {
+    protected boolean isFeatureChunk(ChunkGenerator p_230363_1_, BiomeProvider p_230363_2_, long p_230363_3_, SharedSeedRandom p_230363_5_, int p_230363_6_, int p_230363_7_, Biome biome, ChunkPos p_230363_9_, NoFeatureConfig p_230363_10_) {
+        if (biome.getBiomeCategory() == Biome.Category.OCEAN) {
             return false;
         }
-        return super.func_230363_a_(p_230363_1_, p_230363_2_, p_230363_3_, p_230363_5_, p_230363_6_, p_230363_7_, biome, p_230363_9_, p_230363_10_);
+        return super.isFeatureChunk(p_230363_1_, p_230363_2_, p_230363_3_, p_230363_5_, p_230363_6_, p_230363_7_, biome, p_230363_9_, p_230363_10_);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
     }
 
     @Override
-    public GenerationStage.Decoration getDecorationStage() {
+    public GenerationStage.Decoration step() {
         return GenerationStage.Decoration.SURFACE_STRUCTURES;
     }
 
@@ -72,10 +74,10 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
 
         // MCP: init
         @Override
-        public void func_230364_a_(DynamicRegistries p_230364_1_, ChunkGenerator p_230364_2_, TemplateManager p_230364_3_, int chunkX, int chunkY, Biome p_230364_6_, NoFeatureConfig p_230364_7_) {
-            Piece piece = new Piece(this.rand, chunkX * 16, chunkY * 16);
-            this.components.add(piece);
-            this.recalculateStructureSize();
+        public void generatePieces(DynamicRegistries p_230364_1_, ChunkGenerator p_230364_2_, TemplateManager p_230364_3_, int chunkX, int chunkY, Biome p_230364_6_, NoFeatureConfig p_230364_7_) {
+            Piece piece = new Piece(this.random, chunkX * 16, chunkY * 16);
+            this.pieces.add(piece);
+            this.calculateBoundingBox();
         }
     }
 
@@ -100,9 +102,9 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
 
         @Override
         protected void generateLayers() {
-            BlockWrapper us = new BlockWrapper(Blocks.STONE_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.TOP));    // upside down stone slab
-            BlockWrapper rs = new BlockWrapper(Blocks.STONE_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.BOTTOM));
-            BlockWrapper ds = new BlockWrapper(Blocks.STONE_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.DOUBLE));
+            BlockWrapper us = new BlockWrapper(Blocks.STONE_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP));    // upside down stone slab
+            BlockWrapper rs = new BlockWrapper(Blocks.STONE_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.BOTTOM));
+            BlockWrapper ds = new BlockWrapper(Blocks.STONE_SLAB.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.DOUBLE));
             BlockWrapper cb = new BlockWrapper(Blocks.CHISELED_STONE_BRICKS);    // chiseled brick
             BlockWrapper sb = new BlockWrapper(Blocks.STONE_BRICKS);
             BlockWrapper cs = new BlockWrapper(Blocks.COBBLESTONE_SLAB);    // cobblestone slab
@@ -111,19 +113,19 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             BlockWrapper fe = new BlockWrapper(Blocks.DARK_OAK_FENCE);
             BlockWrapper to = new BlockWrapper(Blocks.TORCH);
             BlockWrapper cw = new BlockWrapper(Blocks.COBBLESTONE_WALL);
-            BlockWrapper lc = new BlockWrapper(Blocks.CHEST.getDefaultState(), (float) GeneralConfig.darkTempleChestChance);
+            BlockWrapper lc = new BlockWrapper(Blocks.CHEST.defaultBlockState(), (float) GeneralConfig.darkTempleChestChance);
             lc.action = (world, pos) -> {
                 Random rand = new Random();
                 // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
-                LockableLootTileEntity.setLootTable(world, rand, pos, LootTables.CHESTS_JUNGLE_TEMPLE);
+                LockableLootTileEntity.setLootTable(world, rand, pos, LootTables.JUNGLE_TEMPLE);
             };
-            BlockWrapper vi = new BlockWrapper(Blocks.VINE.getDefaultState(), 0.3F);
+            BlockWrapper vi = new BlockWrapper(Blocks.VINE.defaultBlockState(), 0.3F);
             vi.action = (world, pos) -> {
                 boolean atLeastOne = false;
                 for(Direction side : Direction.Plane.HORIZONTAL) {
-                    if(world.getBlockState(pos.offset(side)).isSolidSide(world, pos.offset(side), side.getOpposite())) {
-                        world.setBlockState(pos, Blocks.VINE.getDefaultState().with(
-                                VineBlock.FACING_TO_PROPERTY_MAP.get(side), true), 2);
+                    if(world.getBlockState(pos.relative(side)).isFaceSturdy(world, pos.relative(side), side.getOpposite())) {
+                        world.setBlock(pos, Blocks.VINE.defaultBlockState().setValue(
+                                VineBlock.PROPERTY_BY_DIRECTION.get(side), true), 2);
                         atLeastOne = true;
                     }
                 }
@@ -226,14 +228,14 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             // x- west
             // z- west
 
-            world.setBlockState(blockPos.add(3 * incX, 5, 4 * incZ), Blocks.STONE_STAIRS.getDefaultState()
-                    .with(StairsBlock.FACING, DirectionHelpers.getEnumFacingFromXSign(incX))
-                    .with(StairsBlock.HALF, Half.TOP)
-                    .with(StairsBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-            world.setBlockState(blockPos.add(4 * incX, 5, 3 * incZ), Blocks.STONE_STAIRS.getDefaultState()
-                    .with(StairsBlock.FACING, DirectionHelpers.getEnumFacingFromZSing(incZ))
-                    .with(StairsBlock.HALF, Half.TOP)
-                    .with(StairsBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos.offset(3 * incX, 5, 4 * incZ), Blocks.STONE_STAIRS.defaultBlockState()
+                    .setValue(StairsBlock.FACING, DirectionHelpers.getEnumFacingFromXSign(incX))
+                    .setValue(StairsBlock.HALF, Half.TOP)
+                    .setValue(StairsBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos.offset(4 * incX, 5, 3 * incZ), Blocks.STONE_STAIRS.defaultBlockState()
+                    .setValue(StairsBlock.FACING, DirectionHelpers.getEnumFacingFromZSing(incZ))
+                    .setValue(StairsBlock.HALF, Half.TOP)
+                    .setValue(StairsBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 
             // pillars to the ground
             int xx = 4 * incX;
@@ -241,7 +243,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             int pillarHeight = getPillarHeightForCornerAt(world, blockPos, incX, incZ);
 
             for (int yOffset = 0; yOffset < pillarHeight; yOffset++) {
-                world.setBlockState(blockPos.add(xx, -yOffset, zz), Blocks.COBBLESTONE.getDefaultState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                world.setBlock(blockPos.offset(xx, -yOffset, zz), Blocks.COBBLESTONE.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             }
         }
 
@@ -254,11 +256,11 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
          *         of the temple if it were centered at the given (x,y,z) location.
          */
         private int getPillarHeightForCornerAt(IWorld world, BlockPos blockPos, int incX, int incZ) {
-            BlockPos loopPos = blockPos.add(4 * incX, 0, 4 * incZ);
+            BlockPos loopPos = blockPos.offset(4 * incX, 0, 4 * incZ);
             int res = 0;
 
             while (!isSolidBlock(world, loopPos)) {
-                loopPos = loopPos.add(0, -1, 0);
+                loopPos = loopPos.offset(0, -1, 0);
                 res++;
             }
             return res;
@@ -270,7 +272,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
 
         private boolean isSolidBlock(BlockState blockState) {
             Material material = blockState.getMaterial();
-            return material.isSolid() && material.isOpaque();
+            return material.isSolid() && material.isSolidBlocking();
         }
     }
 

@@ -9,6 +9,9 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * Tile Entity for the entangled chalice.
  * @author rubensworks
@@ -75,9 +78,9 @@ public class TileEntangledChalice extends CyclopsTileEntity implements CyclopsTi
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT tag) {
+	public CompoundNBT save(CompoundNBT tag) {
 		tank.writeToNBT(tag, "tank");
-		return super.write(tag);
+		return super.save(tag);
 	}
 
 }

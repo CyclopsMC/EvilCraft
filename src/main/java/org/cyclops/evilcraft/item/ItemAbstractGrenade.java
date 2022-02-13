@@ -12,6 +12,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Abstract grenade class.
  * @author immortaleeb
@@ -24,18 +26,18 @@ public abstract class ItemAbstractGrenade extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
-        if(!world.isRemote()) {
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        if(!world.isClientSide()) {
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
-            world.playSound(player, player.getPosX(), player.getPosY(), player.getPosZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.MASTER, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.MASTER, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
             ThrowableEntity entity = getThrowableEntity(itemStack, world, player);
             // MCP: shoot
-            entity.func_234612_a_(player, player.rotationPitch, player.rotationYaw, -20.0F, 0.5F, 1.0F);
-            world.addEntity(entity);
+            entity.shootFromRotation(player, player.xRot, player.yRot, -20.0F, 0.5F, 1.0F);
+            world.addFreshEntity(entity);
         }
         return MinecraftHelpers.successAction(itemStack);
     }

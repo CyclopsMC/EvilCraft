@@ -35,7 +35,7 @@ public class ParticleBloodBubbleConfig extends ParticleConfig<BasicParticleType>
     public ParticleManager.IParticleMetaFactory<BasicParticleType> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<BasicParticleType>) (typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleBloodBubble particle = new ParticleBloodBubble(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

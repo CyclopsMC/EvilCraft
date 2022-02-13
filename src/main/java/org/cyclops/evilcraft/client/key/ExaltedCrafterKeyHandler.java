@@ -37,8 +37,8 @@ public class ExaltedCrafterKeyHandler implements IKeyHandler {
 				}
 			}
 			if(found == null) {
-				if (player.getHeldItemOffhand().getItem() instanceof ItemExaltedCrafter) {
-					found = Triple.of(0, Hand.OFF_HAND, player.getHeldItemOffhand());
+				if (player.getOffhandItem().getItem() instanceof ItemExaltedCrafter) {
+					found = Triple.of(0, Hand.OFF_HAND, player.getOffhandItem());
 				}
 			}
 			if(found != null) {

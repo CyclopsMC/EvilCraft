@@ -21,8 +21,8 @@ import javax.annotation.Nullable;
  */
 public class EntityItemDarkStick extends EntityItemDefinedRotation {
 
-	private static final DataParameter<Integer> WATCHERID_VALID = EntityDataManager.<Integer>createKey(EntityItemDarkStick.class, DataSerializers.VARINT);
-	private static final DataParameter<Float> WATCHERID_ANGLE = EntityDataManager.<Float>createKey(EntityItemDarkStick.class, DataSerializers.FLOAT);
+	private static final DataParameter<Integer> WATCHERID_VALID = EntityDataManager.<Integer>defineId(EntityItemDarkStick.class, DataSerializers.INT);
+	private static final DataParameter<Float> WATCHERID_ANGLE = EntityDataManager.<Float>defineId(EntityItemDarkStick.class, DataSerializers.FLOAT);
 
     private double lastPosX = -1;
     private double lastPosY = -1;
@@ -37,25 +37,25 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	}
 
 	@Override
-	public void registerData() {
-		super.registerData();
+	public void defineSynchedData() {
+		super.defineSynchedData();
         Float angle = MinecraftHelpers.isClientSide() ? null : loadRotation();
-		this.dataManager.register(WATCHERID_VALID, angle != null ? 1 : 0);
-		this.dataManager.register(WATCHERID_ANGLE, angle == null ? 0 : angle);
+		this.entityData.define(WATCHERID_VALID, angle != null ? 1 : 0);
+		this.entityData.define(WATCHERID_ANGLE, angle == null ? 0 : angle);
 	}
 
     protected boolean hasMoved() {
-        boolean moved = Math.abs(lastPosX - getPosX()) > 0.1F || Math.abs(lastPosZ - getPosZ()) > 0.1F;
-        lastPosX = getPosX();
-        lastPosY = getPosY();
-        lastPosZ = getPosZ();
+        boolean moved = Math.abs(lastPosX - getX()) > 0.1F || Math.abs(lastPosZ - getZ()) > 0.1F;
+        lastPosX = getX();
+        lastPosY = getY();
+        lastPosZ = getZ();
         return moved;
     }
 
 	@Override
 	public void tick() {
         super.tick();
-		if (!getEntityWorld().isRemote() && hasMoved()) {
+		if (!getCommandSenderWorld().isClientSide() && hasMoved()) {
             Float angle = loadRotation();
             setValid(angle != null);
 			setAngle(angle == null ? 0 : angle);
@@ -65,16 +65,16 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	@Nullable
 	private Float loadRotation() {
 		// MCP: findNearestStructure
-		BlockPos closest = ((ServerWorld)world).getChunkProvider().getChunkGenerator()
-				.func_235956_a_((ServerWorld) world, RegistryEntries.STRUCTURE_DARK_TEMPLE, new BlockPos(getPosX(), getPosY(), getPosZ()), 100, false);
+		BlockPos closest = ((ServerWorld)level).getChunkSource().getGenerator()
+				.findNearestMapFeature((ServerWorld) level, RegistryEntries.STRUCTURE_DARK_TEMPLE, new BlockPos(getX(), getY(), getZ()), 100, false);
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
-			double d = closest.distanceSq(new BlockPos((int) getPosX(), 0, (int) getPosZ()));
+			double d = closest.distSqr(new BlockPos((int) getX(), 0, (int) getZ()));
             if(d <= WorldHelpers.CHUNK_SIZE * WorldHelpers.CHUNK_SIZE) {
                 return null;
             }
-			BlockPos normalized = new BlockPos(closest.getX() - (int) getPosX(), 0,
-					closest.getZ() - (int) getPosZ());
+			BlockPos normalized = new BlockPos(closest.getX() - (int) getX(), 0,
+					closest.getZ() - (int) getZ());
 			return (float) (Math.atan2(normalized.getX(), normalized.getZ()) * 180 / Math.PI);
 		}
 		return null;
@@ -86,19 +86,19 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	}
 
 	public float getAngle() {
-		return dataManager.get(WATCHERID_ANGLE);
+		return entityData.get(WATCHERID_ANGLE);
 	}
 
 	protected void setAngle(float angle) {
-		this.dataManager.set(WATCHERID_ANGLE, angle);
+		this.entityData.set(WATCHERID_ANGLE, angle);
 	}
 
 	public boolean isValid() {
-		return dataManager.get(WATCHERID_VALID) == 1;
+		return entityData.get(WATCHERID_VALID) == 1;
 	}
 
 	protected void setValid(boolean valid) {
-		this.dataManager.set(WATCHERID_VALID, valid ? 1 : 0);
+		this.entityData.set(WATCHERID_VALID, valid ? 1 : 0);
 	}
 	
 }

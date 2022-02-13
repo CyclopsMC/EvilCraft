@@ -41,7 +41,7 @@ public class ItemBiomeExtractConfig extends ItemConfig {
                 EvilCraft._instance,
                 "biome_extract",
                 eConfig -> new ItemBiomeExtract(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }

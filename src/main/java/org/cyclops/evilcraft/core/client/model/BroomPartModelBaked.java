@@ -62,8 +62,18 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public boolean isSideLit() {
+    public boolean useAmbientOcclusion() {
+        return false; // TODO: rm
+    }
+
+    @Override
+    public boolean usesBlockLight() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
+    }
+
+    @Override
+    public boolean isCustomRenderer() {
+        return false; // TODO: rm
     }
 
     @Override
@@ -96,22 +106,22 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
         }*/
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
-            int[] vertexData = Arrays.copyOf(quad.getVertexData(), quad.getVertexData().length);
+            int[] vertexData = Arrays.copyOf(quad.getVertices(), quad.getVertices().length);
             for(int i = 0; i < vertexData.length / 8; i++) {
                 vertexData[i * 8 + 3] = color;
             }
-            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getFace(), quad.getSprite(), false));
+            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false));
         }
         return offsetQuads;
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture() {
+    public TextureAtlasSprite getParticleIcon() {
         return null;
     }
 
     @Override
-    public ItemCameraTransforms getItemCameraTransforms() {
+    public ItemCameraTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

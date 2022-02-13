@@ -109,7 +109,7 @@ public class EntityVengeanceSpiritData {
 
     public static EntityType<?> getRandomInnerEntity(Random rand) {
         List<EntityType<?>> entities = ForgeRegistries.ENTITIES.getValues().stream()
-                .filter(e -> e.getClassification() == EntityClassification.MONSTER)
+                .filter(e -> e.getCategory() == EntityClassification.MONSTER)
                 .collect(Collectors.toList());
         return entities.get(rand.nextInt(entities.size()));
     }

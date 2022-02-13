@@ -57,7 +57,7 @@ public class EntityWerewolf extends MonsterEntity {
     public EntityWerewolf(World world) {
         super(RegistryEntries.ENTITY_WEREWOLF, world);
 
-        this.stepHeight = 1.0F;
+        this.maxUpStep = 1.0F;
 
         // This sets the default villager profession ID.
         this.villagerNBTTagCompound.putString("ProfessionName", RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.getRegistryName().toString());
@@ -78,31 +78,31 @@ public class EntityWerewolf extends MonsterEntity {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void transformWerewolfVillager(LivingEvent.LivingUpdateEvent event) {
-        if(event.getEntity() instanceof VillagerEntity && !event.getEntity().world.isRemote()) {
+        if(event.getEntity() instanceof VillagerEntity && !event.getEntity().level.isClientSide()) {
             VillagerEntity villager = (VillagerEntity) event.getEntity();
-            if(EntityWerewolf.isWerewolfTime(event.getEntity().world)
+            if(EntityWerewolf.isWerewolfTime(event.getEntity().level)
                     && villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF
-                    && villager.world.getLightFor(LightType.SKY, villager.getPosition()) > 0) {
+                    && villager.level.getBrightness(LightType.SKY, villager.blockPosition()) > 0) {
                 EntityWerewolf.replaceVillager(villager);
             }
         }
     }
     
     @Override
-    protected float getSoundPitch() {
-        return super.getSoundPitch() * 0.75F;
+    protected float getVoicePitch() {
+        return super.getVoicePitch() * 0.75F;
     }
     
     @Override
-    public void writeAdditional(CompoundNBT NBTTagCompound) {
-        super.writeAdditional(NBTTagCompound);
+    public void addAdditionalSaveData(CompoundNBT NBTTagCompound) {
+        super.addAdditionalSaveData(NBTTagCompound);
         NBTTagCompound.put("villager", villagerNBTTagCompound);
         NBTTagCompound.putBoolean("fromVillager", fromVillager);
     }
 
     @Override
-    public void readAdditional(CompoundNBT NBTTagCompound) {
-        super.readAdditional(NBTTagCompound);
+    public void readAdditionalSaveData(CompoundNBT NBTTagCompound) {
+        super.readAdditionalSaveData(NBTTagCompound);
         this.villagerNBTTagCompound = NBTTagCompound.getCompound("villager");
         this.fromVillager = NBTTagCompound.getBoolean("fromVillager");
     }
@@ -113,17 +113,17 @@ public class EntityWerewolf extends MonsterEntity {
      * @return If it is werewolf party time.
      */
     public static boolean isWerewolfTime(World world) {
-        return world.getMoonFactor() == 1.0
-                && !world.isDaytime()
+        return world.getMoonBrightness() == 1.0
+                && !world.isDay()
                 && world.getDifficulty() != Difficulty.PEACEFUL;
     }
     
     private static void replaceEntity(MobEntity old, MobEntity neww, World world) {
-        neww.copyLocationAndAnglesFrom(old);
+        neww.copyPosition(old);
         old.remove();
 
-        world.addEntity(neww);
-        world.playEvent(null, 1016, old.getPosition(), 0);
+        world.addFreshEntity(neww);
+        world.levelEvent(null, 1016, old.blockPosition(), 0);
     }
     
     /**
@@ -131,11 +131,11 @@ public class EntityWerewolf extends MonsterEntity {
      */
     public void replaceWithVillager() {
         // MCP: byBiome
-        VillagerEntity villager = new VillagerEntity(EntityType.VILLAGER, this.world, VillagerType.func_242371_a(world.func_242406_i(this.getPosition())));
+        VillagerEntity villager = new VillagerEntity(EntityType.VILLAGER, this.level, VillagerType.byBiome(level.getBiomeName(this.blockPosition())));
         initializeWerewolfVillagerData(villager);
-        replaceEntity(this, villager, this.world);
+        replaceEntity(this, villager, this.level);
         try {
-            villager.readAdditional(villagerNBTTagCompound);
+            villager.readAdditionalSaveData(villagerNBTTagCompound);
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
@@ -144,8 +144,8 @@ public class EntityWerewolf extends MonsterEntity {
     public static void initializeWerewolfVillagerData(VillagerEntity villager) {
         villager.setVillagerData(villager
                 .getVillagerData()
-                .withLevel(2)
-                .withProfession(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF));
+                .setLevel(2)
+                .setProfession(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF));
     }
 
     /**
@@ -153,26 +153,26 @@ public class EntityWerewolf extends MonsterEntity {
      * @param villager The villager to replace.
      */
     public static void replaceVillager(VillagerEntity villager) {
-        EntityWerewolf werewolf = new EntityWerewolf(villager.world);
-        villager.writeAdditional(werewolf.getVillagerNBTTagCompound());
+        EntityWerewolf werewolf = new EntityWerewolf(villager.level);
+        villager.addAdditionalSaveData(werewolf.getVillagerNBTTagCompound());
         werewolf.setFromVillager(true);
-        replaceEntity(villager, werewolf, villager.world);
+        replaceEntity(villager, werewolf, villager.level);
     }
     
     @Override
-    public void livingTick() {
-        if(!world.isRemote() && (!isWerewolfTime(world) || world.getDifficulty() == Difficulty.PEACEFUL)) {
+    public void aiStep() {
+        if(!level.isClientSide() && (!isWerewolfTime(level) || level.getDifficulty() == Difficulty.PEACEFUL)) {
             replaceWithVillager();
         } else {
-            super.livingTick();
+            super.aiStep();
         }
         
         // Random barking
-        Random random = world.rand;
+        Random random = level.random;
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
             barkprogress++;
         } else if(barkprogress > -1) {
-            playSound(SoundEvents.ENTITY_WOLF_GROWL, 0.15F, 1.0F);
+            playSound(SoundEvents.WOLF_GROWL, 0.15F, 1.0F);
             barkprogress++;
             if(barkprogress > BARKLENGTH) {
                 barkprogress = -1;
@@ -193,38 +193,38 @@ public class EntityWerewolf extends MonsterEntity {
     }
 
     @Override
-    public ResourceLocation getLootTable() {
+    public ResourceLocation getDefaultLootTable() {
         return new ResourceLocation(Reference.MOD_ID, "entities/werewolf");
     }
 
     @Override
     public SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_WOLF_GROWL;
+        return SoundEvents.WOLF_GROWL;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.ENTITY_WOLF_HURT;
+        return SoundEvents.WOLF_HURT;
     }
 
     @Override
     public SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_WOLF_DEATH;
+        return SoundEvents.WOLF_DEATH;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState block) {
-        this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.ZOMBIE_STEP, 0.15F, 1.0F);
     }
     
     @Override
-    public CreatureAttribute getCreatureAttribute() {
+    public CreatureAttribute getMobType() {
         return CreatureAttribute.ARTHROPOD;
     }
 
     @Override
-    public boolean canDespawn(double distanceToClosestPlayer) {
-        return super.canDespawn(distanceToClosestPlayer) && !isFromVillager();
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return super.removeWhenFarAway(distanceToClosestPlayer) && !isFromVillager();
     }
 
     /**

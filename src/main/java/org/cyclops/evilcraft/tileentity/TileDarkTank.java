@@ -25,6 +25,9 @@ import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.ITickingTile;
+import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity.TickingTileComponent;
+
 /**
  * Tile Entity for the dark tank.
  * @author rubensworks
@@ -65,9 +68,9 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 	
 	@Override
 	protected void updateTileEntity() {
-		if(!getWorld().isRemote() && !getTank().isEmpty() && isEnabled()) {
+		if(!getLevel().isClientSide() && !getTank().isEmpty() && isEnabled()) {
 			Direction down = Direction.DOWN;
-			IFluidHandler handler = TileHelpers.getCapability(world, getPos().offset(down), down.getOpposite(),
+			IFluidHandler handler = TileHelpers.getCapability(level, getBlockPos().relative(down), down.getOpposite(),
 					CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
 			if(handler != null) {
 				FluidStack fluidStack = new FluidStack(getTank().getFluid(),
@@ -78,9 +81,9 @@ public class TileDarkTank extends TankInventoryTileEntity implements CyclopsTile
 				}
 			} else {
 				// Try to fill fluid container items below
-				List<Entity> entities = world.getEntitiesWithinAABB(Entity.class,
-						new AxisAlignedBB(getPos().offset(down), getPos().offset(down).add(1, 1, 1)),
-						EntityPredicates.IS_ALIVE);
+				List<Entity> entities = level.getEntitiesOfClass(Entity.class,
+						new AxisAlignedBB(getBlockPos().relative(down), getBlockPos().relative(down).offset(1, 1, 1)),
+						EntityPredicates.ENTITY_STILL_ALIVE);
 				for(Entity entity : entities) {
 					if(!getTank().isEmpty() && entity instanceof ItemEntity) {
 						ItemEntity item = (ItemEntity) entity;

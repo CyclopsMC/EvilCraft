@@ -36,13 +36,13 @@ public class ModelDisplayStand implements IUnbakedModel, IModelGeometry<ModelDis
     }
 
     @Override
-    public Collection<RenderMaterial> getTextures(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return this.blockModel.getTextures(modelGetter, missingTextureErrors);
+    public Collection<RenderMaterial> getMaterials(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+        return this.blockModel.getMaterials(modelGetter, missingTextureErrors);
     }
 
     @Nullable
     @Override
-    public IBakedModel bakeModel(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
+    public IBakedModel bake(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
                                  IModelTransform transform, ResourceLocation location) {
         throw new UnsupportedOperationException("Use bake instead");
     }
@@ -50,12 +50,12 @@ public class ModelDisplayStand implements IUnbakedModel, IModelGeometry<ModelDis
     @Override
     public IBakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
                             IModelTransform modelTransform, ItemOverrideList overrides, ResourceLocation modelLocation) {
-        return new ModelDisplayStandBaked(this.blockModel, this.blockModel.bakeModel(bakery, spriteGetter, modelTransform, modelLocation), owner, modelTransform);
+        return new ModelDisplayStandBaked(this.blockModel, this.blockModel.bake(bakery, spriteGetter, modelTransform, modelLocation), owner, modelTransform);
     }
 
     @Override
     public Collection<RenderMaterial> getTextures(IModelConfiguration owner, Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return getTextures(modelGetter, missingTextureErrors);
+        return getMaterials(modelGetter, missingTextureErrors);
     }
 
 }

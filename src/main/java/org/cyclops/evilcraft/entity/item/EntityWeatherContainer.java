@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
  */
 public class EntityWeatherContainer extends EntityThrowable {
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>createKey(EntityWeatherContainer.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>defineId(EntityWeatherContainer.class, DataSerializers.ITEM_STACK);
 
     public EntityWeatherContainer(EntityType<? extends EntityWeatherContainer> type, World world) {
         super(type, world);
@@ -45,37 +45,37 @@ public class EntityWeatherContainer extends EntityThrowable {
 
     @Nonnull
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     public static void playImpactSounds(World world) {
-        if (!world.isRemote()) {
+        if (!world.isClientSide()) {
             // Play evil sounds at the players in that world
-            for(Object o : world.getPlayers()) {
+            for(Object o : world.players()) {
                 PlayerEntity entityPlayer = (PlayerEntity) o;
-                world.playSound(entityPlayer, entityPlayer.getPosX(), entityPlayer.getPosY(), entityPlayer.getPosZ(), SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
-                world.playSound(entityPlayer, entityPlayer.getPosX(), entityPlayer.getPosY(), entityPlayer.getPosZ(), SoundEvents.ENTITY_GHAST_AMBIENT, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
-                world.playSound(entityPlayer, entityPlayer.getPosX(), entityPlayer.getPosY(), entityPlayer.getPosZ(), SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.WEATHER, 0.5F, 0.4F / (world.rand.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.PORTAL_TRAVEL, SoundCategory.WEATHER, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.GHAST_AMBIENT, SoundCategory.WEATHER, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.WITHER_DEATH, SoundCategory.WEATHER, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
             }
         }
     }
 
     @Override
-    protected void onImpact(RayTraceResult movingobjectposition) {
+    protected void onHit(RayTraceResult movingobjectposition) {
         if (movingobjectposition.getType() == RayTraceResult.Type.BLOCK) {
             ItemStack stack = getItem();
             ItemWeatherContainer.WeatherContainerType containerType = ItemWeatherContainer.getWeatherType(stack);
-            if (world instanceof ServerWorld) {
-                containerType.onUse((ServerWorld) world, stack);
+            if (level instanceof ServerWorld) {
+                containerType.onUse((ServerWorld) level, stack);
             }
 
-            playImpactSounds(world);
+            playImpactSounds(level);
 
             // Play sound and show particles of splash potion of harming
-            world.playSound(getPosX(), getPosY(), getPosZ(), SoundEvents.ENTITY_SPLASH_POTION_BREAK, SoundCategory.AMBIENT, 0.5F, 0.4F, false);
+            level.playLocalSound(getX(), getY(), getZ(), SoundEvents.SPLASH_POTION_BREAK, SoundCategory.AMBIENT, 0.5F, 0.4F, false);
             for (int i = 0; i < 3; i++) {
-                world.addParticle(ParticleTypes.EFFECT, getPosX(), getPosY(), getPosZ(), 0, 0, 0);
+                level.addParticle(ParticleTypes.EFFECT, getX(), getY(), getZ(), 0, 0, 0);
             }
 
             remove();
@@ -83,22 +83,22 @@ public class EntityWeatherContainer extends EntityThrowable {
     }
     
     @Override
-    protected float getGravityVelocity() {
+    protected float getGravity() {
         // The bigger, the faster the entity falls to the ground
         return 0.1F;
     }
     
     private void setItem(ItemStack stack) {
-        dataManager.set(ITEMSTACK_INDEX, stack);
+        entityData.set(ITEMSTACK_INDEX, stack);
     }
     
     @Override
-    protected void registerData() {
-        dataManager.register(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_WEATHER_CONTAINER));
+    protected void defineSynchedData() {
+        entityData.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_WEATHER_CONTAINER));
     }
 
     @Override
     public ItemStack getItem() {
-        return dataManager.get(ITEMSTACK_INDEX);
+        return entityData.get(ITEMSTACK_INDEX);
     }
 }

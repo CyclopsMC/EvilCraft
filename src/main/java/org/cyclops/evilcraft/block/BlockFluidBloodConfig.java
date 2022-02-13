@@ -19,11 +19,11 @@ public class BlockFluidBloodConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "blood",
-                eConfig -> new BlockFluidBlood(Block.Properties.create(Material.WATER)
-                        .doesNotBlockMovement()
-                        .hardnessAndResistance(100.0F)
+                eConfig -> new BlockFluidBlood(Block.Properties.of(Material.WATER)
+                        .noCollission()
+                        .strength(100.0F)
                         .noDrops()
-                        .tickRandomly()),
+                        .randomTicks()),
                 (eConfig, block) -> new BlockItem(block, new Item.Properties())
         );
     }

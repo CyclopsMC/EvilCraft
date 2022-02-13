@@ -12,19 +12,21 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
+import net.minecraft.particles.IParticleData.IDeserializer;
+
 /**
  * @author rubensworks
  */
 public class ParticleDistortData implements IParticleData {
 
     public static final IDeserializer<ParticleDistortData> DESERIALIZER = new IDeserializer<ParticleDistortData>() {
-        public ParticleDistortData deserialize(ParticleType<ParticleDistortData> particleType, StringReader reader) throws CommandSyntaxException {
+        public ParticleDistortData fromCommand(ParticleType<ParticleDistortData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float scale = (float) reader.readDouble();
             return new ParticleDistortData(scale);
         }
 
-        public ParticleDistortData read(ParticleType<ParticleDistortData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleDistortData fromNetwork(ParticleType<ParticleDistortData> particleTypeIn, PacketBuffer buffer) {
             return new ParticleDistortData(buffer.readFloat());
         }
     };
@@ -50,12 +52,12 @@ public class ParticleDistortData implements IParticleData {
     }
 
     @Override
-    public void write(PacketBuffer buffer) {
+    public void writeToNetwork(PacketBuffer buffer) {
         buffer.writeFloat(scale);
     }
 
     @Override
-    public String getParameters() {
+    public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f",
                 ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
                 this.scale);

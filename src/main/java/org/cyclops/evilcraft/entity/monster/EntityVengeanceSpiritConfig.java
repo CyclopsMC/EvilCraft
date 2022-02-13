@@ -51,9 +51,9 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
         super(
                 EvilCraft._instance,
                 "vengeance_spirit",
-                eConfig -> EntityType.Builder.<EntityVengeanceSpirit>create(EntityVengeanceSpirit::new, EntityClassification.MONSTER)
-                        .size(1, 1) // Dummy size, to avoid rare bounding box crashes before inner entity is init.
-                        .immuneToFire(),
+                eConfig -> EntityType.Builder.<EntityVengeanceSpirit>of(EntityVengeanceSpirit::new, EntityClassification.MONSTER)
+                        .sized(1, 1) // Dummy size, to avoid rare bounding box crashes before inner entity is init.
+                        .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "vengeance_spirit_spawn_egg", Helpers.RGBToInt(64, 16, 93), Helpers.RGBToInt(134, 60, 169))
         );
     }
@@ -80,12 +80,12 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 10.0D)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 10.0D)
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3125D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D)
-                .create());
+        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.createMonsterAttributes()
+                .add(Attributes.FOLLOW_RANGE, 10.0D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.3125D)
+                .add(Attributes.ATTACK_DAMAGE, 4.0D)
+                .build());
     }
     
 }

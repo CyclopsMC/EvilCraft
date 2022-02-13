@@ -32,7 +32,7 @@ public class RenderTileEntityBoxOfEternalClosure extends RendererTileEntityEndPo
 
 	private static final ResourceLocation beamTexture =
 			new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
-    private static final RenderType renderTypeBeam = RenderType.getEntitySmoothCutout(beamTexture);
+    private static final RenderType renderTypeBeam = RenderType.entitySmoothCutout(beamTexture);
 
     public RenderTileEntityBoxOfEternalClosure(TileEntityRendererDispatcher rendererDispatcherIn) {
         super(rendererDispatcherIn);
@@ -41,8 +41,8 @@ public class RenderTileEntityBoxOfEternalClosure extends RendererTileEntityEndPo
     @Override
     public void render(TileBoxOfEternalClosure tile, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         Direction direction = BlockHelpers.getSafeBlockStateProperty(
-                tile.getWorld().getBlockState(tile.getPos()), BlockBoxOfEternalClosure.FACING, Direction.NORTH);
-        matrixStackIn.push();
+                tile.getLevel().getBlockState(tile.getBlockPos()), BlockBoxOfEternalClosure.FACING, Direction.NORTH);
+        matrixStackIn.pushPose();
         short rotation = 0;
         if (direction == Direction.SOUTH) {
             rotation = -90;
@@ -58,49 +58,49 @@ public class RenderTileEntityBoxOfEternalClosure extends RendererTileEntityEndPo
         }
 
         matrixStackIn.translate(0.5F, 0.5F, 0.5F);
-        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(rotation));
+        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
         matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
         BlockState blockState = tile.getBlockState()
-                .with(BlockBoxOfEternalClosure.FACING, Direction.NORTH);
-        Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelRenderer().
-                renderModelBrightnessColor(matrixStackIn.getLast(), bufferIn.getBuffer(Atlases.getSolidBlockType()), blockState, ModelBoxOfEternalClosureBaked.boxModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+                .setValue(BlockBoxOfEternalClosure.FACING, Direction.NORTH);
+        Minecraft.getInstance().getBlockRenderer().getModelRenderer().
+                renderModel(matrixStackIn.last(), bufferIn.getBuffer(Atlases.solidBlockSheet()), blockState, ModelBoxOfEternalClosureBaked.boxModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
 
         // Render lid
         float angle = tile.getPreviousLidAngle()
                 + (tile.getLidAngle() - tile.getPreviousLidAngle()) * partialTicks;
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         matrixStackIn.translate(0.75F, 0.375F, 0F);
-        matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(-angle));
+        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(-angle));
         matrixStackIn.translate(-0.75F, -0.375F, 0F);
-        Minecraft.getInstance().getBlockRendererDispatcher().getBlockModelRenderer().
-                renderModelBrightnessColor(matrixStackIn.getLast(), bufferIn.getBuffer(Atlases.getSolidBlockType()), blockState, ModelBoxOfEternalClosureBaked.boxLidModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
-        matrixStackIn.pop();
+        Minecraft.getInstance().getBlockRenderer().getModelRenderer().
+                renderModel(matrixStackIn.last(), bufferIn.getBuffer(Atlases.solidBlockSheet()), blockState, ModelBoxOfEternalClosureBaked.boxLidModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+        matrixStackIn.popPose();
 
         // Render box inside
         if(angle > 0) {
             super.render(tile, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
         }
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
     	
     	// Optionally render beam
         // Copied from EnderCrystalRenderer
     	EntityVengeanceSpirit target = tile.getTargetSpirit();
     	if(target != null) {
-            float f = func_229051_a_(tile, partialTicks);
-            BlockPos blockpos = tile.getPos();
+            float f = getY(tile, partialTicks);
+            BlockPos blockpos = tile.getBlockPos();
 
-            float f3 = (float)target.getPosX() + 0.5F;
-            float f4 = (float)target.getPosY() + 0.5F - (target.getEyeHeight() / 2);
-            float f5 = (float)target.getPosZ()  + 0.5F;
+            float f3 = (float)target.getX() + 0.5F;
+            float f4 = (float)target.getY() + 0.5F - (target.getEyeHeight() / 2);
+            float f5 = (float)target.getZ()  + 0.5F;
             float f6 = (float)((double)f3 - blockpos.getX());
             float f7 = (float)((double)f4 - blockpos.getY());
             float f8 = (float)((double)f5 - blockpos.getZ());
 
             matrixStackIn.translate(f6, f7, f8);
             IRenderTypeBuffer bufferOverride = (type) -> bufferIn.getBuffer(renderTypeBeam);
-            EnderDragonRenderer.func_229059_a_(-f6, -f7 + f, -f8, partialTicks, tile.innerRotation, matrixStackIn, bufferOverride, combinedLightIn);
+            EnderDragonRenderer.renderCrystalBeams(-f6, -f7 + f, -f8, partialTicks, tile.innerRotation, matrixStackIn, bufferOverride, combinedLightIn);
         }
     }
 
@@ -109,7 +109,7 @@ public class RenderTileEntityBoxOfEternalClosure extends RendererTileEntityEndPo
         return direction == Direction.UP;
     }
 
-    public static float func_229051_a_(TileBoxOfEternalClosure p_229051_0_, float p_229051_1_) {
+    public static float getY(TileBoxOfEternalClosure p_229051_0_, float p_229051_1_) {
         float f = (float)p_229051_0_.innerRotation + p_229051_1_;
         float f1 = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
         f1 = (f1 * f1 + f1) * 0.4F;

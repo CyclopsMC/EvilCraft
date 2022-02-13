@@ -37,14 +37,14 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
     public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
         if(doAction) {
             // Repair the item
-            int newDamage = itemStack.getDamage() - 1;
-            itemStack.setDamage(newDamage);
+            int newDamage = itemStack.getDamageValue() - 1;
+            itemStack.setDamageValue(newDamage);
 
             // Add bad enchant with a certain chance
             if (!isBulk && BlockBloodChestConfig.addRandomBadEnchants && random.nextInt(CHANCE_RANDOM_ENCHANT) == 0
                     && BAD_ENCHANTS.size() > 0) {
                 Enchantment enchantment = BAD_ENCHANTS.get(random.nextInt(BAD_ENCHANTS.size()));
-                itemStack.addEnchantment(
+                itemStack.enchant(
                         enchantment,
                         enchantment.getMinLevel() + random.nextInt(
                                 enchantment.getMaxLevel() - enchantment.getMinLevel())

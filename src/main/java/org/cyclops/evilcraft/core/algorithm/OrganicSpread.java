@@ -106,7 +106,7 @@ public class OrganicSpread {
     }
 
     protected boolean isInArea(BlockPos center, BlockPos location) {
-        return Math.sqrt(center.distanceSq(location)) <= getRadius();
+        return Math.sqrt(center.distSqr(location)) <= getRadius();
     }
 
     protected boolean isBigEnough(Vector3d direction) {

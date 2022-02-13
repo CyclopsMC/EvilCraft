@@ -28,8 +28,8 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootFunction {
     }
 
     @Override
-    public ItemStack doApply(ItemStack itemStack, LootContext lootContext) {
-        TileEntity tile = lootContext.get(LootParameters.BLOCK_ENTITY);
+    public ItemStack run(ItemStack itemStack, LootContext lootContext) {
+        TileEntity tile = lootContext.getParamOrNull(LootParameters.BLOCK_ENTITY);
         if (tile instanceof TileBoxOfEternalClosure) {
             CompoundNBT tag = new CompoundNBT();
             tag.put(TileBoxOfEternalClosure.NBTKEY_SPIRIT, ((TileBoxOfEternalClosure) tile).getSpiritTag());
@@ -43,7 +43,7 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootFunction {
     }
 
     @Override
-    public LootFunctionType getFunctionType() {
+    public LootFunctionType getType() {
         return TYPE;
     }
 

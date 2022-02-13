@@ -12,6 +12,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * Double coal efficiency.
  * @author rubensworks
@@ -24,22 +26,22 @@ public class ItemBloodPotash extends Item {
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        ItemStack itemStack = context.getItem();
+    public ActionResultType useOn(ItemUseContext context) {
+        ItemStack itemStack = context.getItemInHand();
         boolean done = false;
         int attempts = 0;
         while (attempts < 2) {
-            done = BoneMealItem.applyBonemeal(itemStack.copy(), context.getWorld(), context.getPos(), context.getPlayer()) | done;
+            done = BoneMealItem.applyBonemeal(itemStack.copy(), context.getLevel(), context.getClickedPos(), context.getPlayer()) | done;
             attempts++;
         }
         if (done) {
             itemStack.shrink(1);
-            if (!context.getWorld().isRemote()) {
-                context.getWorld().playBroadcastSound(2005, context.getPos(), 0);
+            if (!context.getLevel().isClientSide()) {
+                context.getLevel().globalLevelEvent(2005, context.getClickedPos(), 0);
             }
             return ActionResultType.SUCCESS;
         }
-        return super.onItemUse(context);
+        return super.useOn(context);
     }
 
 }

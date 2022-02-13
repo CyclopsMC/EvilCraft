@@ -14,6 +14,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A bowl of promises.
  * @author rubensworks

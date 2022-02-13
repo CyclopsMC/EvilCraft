@@ -50,7 +50,7 @@ public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrga
 
     @Override
     public void spreadTo(World world, BlockPos location) {
-        if (!world.isRemote()) {
+        if (!world.isClientSide()) {
             EntityBiomeExtract.setBiome((ServerWorld) world, location, RegistryEntries.BIOME_DEGRADED);
             EntityBiomeExtract.updateChunkAfterBiomeChange(world, new ChunkPos(location));
         }

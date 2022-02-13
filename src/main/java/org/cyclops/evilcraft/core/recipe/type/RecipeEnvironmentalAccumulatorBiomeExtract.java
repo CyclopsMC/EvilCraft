@@ -25,7 +25,7 @@ public class RecipeEnvironmentalAccumulatorBiomeExtract extends RecipeEnvironmen
     }
 
     @Override
-    public ItemStack getCraftingResult(Inventory inventory) {
+    public ItemStack assemble(Inventory inventory) {
         Biome biome = inventory.getWorld().getBiome(inventory.getPos());
         if (ItemBiomeExtractConfig.isCraftingBlacklisted(biome)) {
             return RegistryEntries.ITEM_BIOME_EXTRACT.createItemStack(null, 1);

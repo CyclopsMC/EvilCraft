@@ -39,19 +39,19 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 
 	@Override
 	public boolean matches(CraftingInventory grid, World world) {
-		return !getCraftingResult(grid).isEmpty();
+		return !assemble(grid).isEmpty();
 	}
 	
 	@Override
-	public ItemStack getRecipeOutput() {
+	public ItemStack getResultItem() {
 		return new ItemStack(RegistryEntries.ITEM_BROOM);
 	}
 
 	@Override
 	public NonNullList<ItemStack> getRemainingItems(CraftingInventory inventory) {
-		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getSizeInventory(), ItemStack.EMPTY);
+		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
 		for (int i = 0; i < aitemstack.size(); ++i) {
-			ItemStack itemstack = inventory.getStackInSlot(i);
+			ItemStack itemstack = inventory.getItem(i);
 			aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getContainerItem(itemstack));
 		}
 
@@ -60,7 +60,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 			List<ItemStack> extraOutputs = result.getRight();
 			for (ItemStack extraOutput : extraOutputs) {
 				InventoryHelpers.tryReAddToStack(ForgeHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput,
-                        ForgeHooks.getCraftingPlayer().getActiveHand());
+                        ForgeHooks.getCraftingPlayer().getUsedItemHand());
 			}
 		}
 
@@ -79,7 +79,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 	}
 
 	protected Pair<ItemStack, List<ItemStack>> getResult(CraftingInventory grid) {
-		ItemStack output = getRecipeOutput().copy();
+		ItemStack output = getResultItem().copy();
 		List<ItemStack> extraOutputs = Lists.newLinkedList();
 
 		int existingBroomSlot = -1;
@@ -88,8 +88,8 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 		List<Map<BroomModifier, Float>> rawModifiers = Lists.newLinkedList();
 
 		// Loop over the grid and find an existing broom
-		for (int j = 0; j < grid.getSizeInventory(); j++) {
-			ItemStack element = grid.getStackInSlot(j);
+		for (int j = 0; j < grid.getContainerSize(); j++) {
+			ItemStack element = grid.getItem(j);
 			if (!element.isEmpty() && element.getItem() instanceof IBroom) {
 				Map<IBroomPart.BroomPartType, IBroomPart> currentExistingBroomParts = indexifyParts(BroomParts.REGISTRY.getBroomParts(element));
 				if(currentExistingBroomParts != null && areValidBroomParts(currentExistingBroomParts.values()) && element.getCount() == 1) {
@@ -105,8 +105,8 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 		}
 
 		// Loop over the grid and find parts and modifiers
-		for (int j = 0; j < grid.getSizeInventory(); j++) {
-			ItemStack element = grid.getStackInSlot(j);
+		for (int j = 0; j < grid.getContainerSize(); j++) {
+			ItemStack element = grid.getItem(j);
 			if (!element.isEmpty()) {
 				IBroomPart part = BroomParts.REGISTRY.getPartFromItem(element);
 				Map<BroomModifier, Float> modifier = BroomModifiers.REGISTRY.getModifiersFromItem(element);
@@ -171,7 +171,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public ItemStack getCraftingResult(CraftingInventory grid) {
+	public ItemStack assemble(CraftingInventory grid) {
 		Pair<ItemStack, List<ItemStack>> result = getResult(grid);
 		if(result == null) {
 			return ItemStack.EMPTY;
@@ -180,7 +180,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public boolean canFit(int width, int height) {
+	public boolean canCraftInDimensions(int width, int height) {
 		return width * height >= 1;
 	}
 

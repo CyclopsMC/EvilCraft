@@ -29,26 +29,26 @@ public class ItemNecromancerStaff extends ItemBloodContainer {
     }
     
     protected void throwNecromancersHead(LivingEntity entityLiving, Class<? extends MobEntity> mobType) {
-    	EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.world, entityLiving);
-    	if(!entityLiving.world.isRemote()) {
+    	EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.level, entityLiving);
+    	if(!entityLiving.level.isClientSide()) {
     		head.setMobType(mobType);
             // Last three params: pitch offset, velocity, inaccuracy
             // MCP: shoot
-            head.func_234612_a_(entityLiving, entityLiving.rotationPitch, entityLiving.rotationYaw, -20.0F, 0.5F, 1.0F);
-    		entityLiving.world.addEntity(head);
+            head.shootFromRotation(entityLiving, entityLiving.xRot, entityLiving.yRot, -20.0F, 0.5F, 1.0F);
+    		entityLiving.level.addFreshEntity(head);
         }
     }
     
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
 		if(canConsume(ItemNecromancerStaffConfig.usage, itemStack, player)) {
 			consume(ItemNecromancerStaffConfig.usage, itemStack, player);
 			Class<? extends MobEntity> mobType = ZombieEntity.class; // Other types might be allowed in the future.
 			throwNecromancersHead(player, mobType);
 			return MinecraftHelpers.successAction(itemStack);
 		}
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 
 }

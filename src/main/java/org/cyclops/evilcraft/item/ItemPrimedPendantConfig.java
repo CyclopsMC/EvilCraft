@@ -40,8 +40,8 @@ public class ItemPrimedPendantConfig extends ItemConfig {
                 EvilCraft._instance,
                 "primed_pendant",
                 eConfig -> new ItemPrimedPendant(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup())
-                        .maxStackSize(1))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())
+                        .stacksTo(1))
         );
     }
 

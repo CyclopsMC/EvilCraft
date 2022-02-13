@@ -27,7 +27,7 @@ import org.cyclops.evilcraft.tileentity.TileSpiritPortal;
  */
 public class BlockSpiritPortal extends BlockTile {
 
-    public static final VoxelShape SHAPE = Block.makeCuboidShape(0.4F * 16F, 0.4F * 16F, 0.4F * 16F, 0.6F * 16F, 0.6F * 16F, 0.6F * 16F);
+    public static final VoxelShape SHAPE = Block.box(0.4F * 16F, 0.4F * 16F, 0.4F * 16F, 0.6F * 16F, 0.6F * 16F, 0.6F * 16F);
 
 	public BlockSpiritPortal(Block.Properties properties) {
 		super(properties, TileSpiritPortal::new);
@@ -40,7 +40,7 @@ public class BlockSpiritPortal extends BlockTile {
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState blockState) {
+    public BlockRenderType getRenderShape(BlockState blockState) {
         return BlockRenderType.INVISIBLE;
     }
 
@@ -51,7 +51,7 @@ public class BlockSpiritPortal extends BlockTile {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void palingDeath(LivingDeathEvent event) {
         if(event.getSource() == ExtendedDamageSource.paling) {
-            tryPlacePortal(event.getEntityLiving().world, event.getEntityLiving().getPosition().add(0, 1, 0));
+            tryPlacePortal(event.getEntityLiving().level, event.getEntityLiving().blockPosition().offset(0, 1, 0));
         }
     }
 
@@ -60,7 +60,7 @@ public class BlockSpiritPortal extends BlockTile {
         for(RegionIterator it = new RegionIterator(blockPos, 1, true); it.hasNext() && attempts >= 0;) {
             BlockPos location = it.next();
             if(canReplaceBlock(world.getBlockState(location), world, blockPos)) {
-                world.setBlockState(location, RegistryEntries.BLOCK_SPIRIT_PORTAL.getDefaultState(),
+                world.setBlock(location, RegistryEntries.BLOCK_SPIRIT_PORTAL.defaultBlockState(),
                         MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                 return true;
             }

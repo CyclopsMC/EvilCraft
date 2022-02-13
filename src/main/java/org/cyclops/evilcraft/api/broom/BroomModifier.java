@@ -116,18 +116,18 @@ public class BroomModifier {
 
     public ITextComponent getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
         IFormattableTextComponent suffix = new TranslationTextComponent(getTranslationKey())
-                .appendString(": " + value);
+                .append(": " + value);
         if (bonusValue > 0) {
-            suffix = suffix.appendString(String.format(" (+%s)", bonusValue));
+            suffix = suffix.append(String.format(" (+%s)", bonusValue));
         }
         if (showMaxValue) {
-            suffix = suffix.appendString(String.format(" / %s", getMaxTierValue()));
+            suffix = suffix.append(String.format(" / %s", getMaxTierValue()));
         }
 
         IFormattableTextComponent ret = new StringTextComponent(prefix)
                 .append(suffix);
         for (TextFormatting format : getTooltipFormats()) {
-            ret = ret.mergeStyle(format);
+            ret = ret.withStyle(format);
         }
         return ret;
     }

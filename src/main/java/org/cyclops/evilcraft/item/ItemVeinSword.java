@@ -8,6 +8,8 @@ import net.minecraft.item.SwordItem;
 import net.minecraft.util.NonNullList;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A strong pickaxe that may call up spirits.
  * @author rubensworks
@@ -30,15 +32,15 @@ public class ItemVeinSword extends SwordItem {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             items.add(getEnchantedItemStack());
         }
     }
 
     public ItemStack getEnchantedItemStack() {
         ItemStack sword = new ItemStack(this);
-        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.LOOTING, LOOTING_LEVEL);
+        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.MOB_LOOTING, LOOTING_LEVEL);
         return sword;
     }
 

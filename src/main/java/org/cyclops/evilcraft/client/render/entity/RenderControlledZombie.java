@@ -24,7 +24,7 @@ public class RenderControlledZombie extends BipedRenderer<EntityControlledZombie
     }
     
     @Override
-    public ResourceLocation getEntityTexture(EntityControlledZombie entity) {
+    public ResourceLocation getTextureLocation(EntityControlledZombie entity) {
         return texture;
     }
 

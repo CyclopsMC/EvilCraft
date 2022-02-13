@@ -40,7 +40,7 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
     }
 
     @Override
-    public UseAction getUseAction(ItemStack itemStack) {
+    public UseAction getUseAnimation(ItemStack itemStack) {
         return UseAction.EAT;
     }
 
@@ -50,23 +50,23 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        ItemStack itemStack = player.getHeldItem(hand);
+    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
         if(canEat(itemStack) && player.canEat(false)) {
-            player.setActiveHand(hand);
+            player.startUsingItem(hand);
             return MinecraftHelpers.successAction(itemStack);
         }
         return new ActionResult<>(ActionResultType.FAIL, itemStack);
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack itemStack, World world, LivingEntity entity) {
+    public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
         FluidUtil.getFluidHandler(itemStack).orElseGet(null)
                 .drain(ItemRejuvenatedFleshConfig.biteUsage, IFluidHandler.FluidAction.EXECUTE);
         if(entity instanceof PlayerEntity) {
-            ((PlayerEntity) entity).getFoodStats().addStats(3, 0.5F);
+            ((PlayerEntity) entity).getFoodData().eat(3, 0.5F);
         }
-        world.playSound(null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
         return itemStack;
     }
 

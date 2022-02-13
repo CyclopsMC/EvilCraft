@@ -17,7 +17,7 @@ public class BlockUndeadLogConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_log",
-                eConfig -> Blocks.createLogBlock(MaterialColor.ORANGE_TERRACOTTA, MaterialColor.ORANGE_TERRACOTTA),
+                eConfig -> Blocks.log(MaterialColor.TERRACOTTA_ORANGE, MaterialColor.TERRACOTTA_ORANGE),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

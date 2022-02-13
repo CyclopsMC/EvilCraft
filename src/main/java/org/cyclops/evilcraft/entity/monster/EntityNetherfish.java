@@ -27,7 +27,7 @@ public class EntityNetherfish extends SilverfishEntity {
 
     public EntityNetherfish(EntityType<? extends EntityNetherfish> typeIn, World worldIn) {
         super(typeIn, worldIn);
-        this.experienceValue = 10;
+        this.xpReward = 10;
     }
 
     public EntityNetherfish(World world) {
@@ -41,82 +41,82 @@ public class EntityNetherfish extends SilverfishEntity {
     }
     
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean doHurtTarget(Entity entity) {
         // Ignite the attacked entity for a certain duration with a certain chance.
-        if(this.rand.nextFloat() < FIRE_CHANCE)
-            entity.setFire(this.rand.nextInt(MAX_FIRE_DURATION));
-        return super.attackEntityAsMob(entity);
+        if(this.random.nextFloat() < FIRE_CHANCE)
+            entity.setSecondsOnFire(this.random.nextInt(MAX_FIRE_DURATION));
+        return super.doHurtTarget(entity);
     }
     
     @Override
-    public void livingTick() {
-        if(this.world.isRemote() && rand.nextInt(30) == 0) {
+    public void aiStep() {
+        if(this.level.isClientSide() && random.nextInt(30) == 0) {
             for (int i = 0; i < 2; ++i) {
-                this.world.addParticle(ParticleTypes.FLAME, this.getPosX() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth(), this.getPosY() + this.rand.nextDouble() * (double)this.getHeight(), this.getPosZ() + (this.rand.nextDouble() - 0.5D) * (double)this.getWidth(), 0.0D, 0.0D, 0.0D);
+                this.level.addParticle(ParticleTypes.FLAME, this.getX() + (this.random.nextDouble() - 0.5D) * (double)this.getBbWidth(), this.getY() + this.random.nextDouble() * (double)this.getBbHeight(), this.getZ() + (this.random.nextDouble() - 0.5D) * (double)this.getBbWidth(), 0.0D, 0.0D, 0.0D);
             }
         }
-        super.livingTick();
+        super.aiStep();
     }
 
     class AIHideInStone extends RandomWalkingGoal {
 
-        private Direction field_179483_b;
-        private boolean field_179484_c;
+        private Direction selectedDirection;
+        private boolean doMerge;
         private static final String __OBFID = "CL_00002205";
 
         public AIHideInStone()
         {
             super(EntityNetherfish.this, 1.0D, 10);
-            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
 
         /**
          * Returns whether the EntityAIBase should begin execution.
          */
-        public boolean shouldExecute()
+        public boolean canUse()
         {
-            if (EntityNetherfish.this.getAttackTarget() != null) {
+            if (EntityNetherfish.this.getTarget() != null) {
                 return false;
-            } else if (!EntityNetherfish.this.getNavigator().noPath()) {
+            } else if (!EntityNetherfish.this.getNavigation().isDone()) {
                 return false;
             } else {
-                Random random = EntityNetherfish.this.getRNG();
+                Random random = EntityNetherfish.this.getRandom();
 
                 if (random.nextInt(10) == 0) {
-                    this.field_179483_b = Direction.getRandomDirection(random);
-                    BlockPos blockpos = (new BlockPos(EntityNetherfish.this.getPosX(), EntityNetherfish.this.getPosY() + 0.5D, EntityNetherfish.this.getPosZ())).offset(this.field_179483_b);
-                    BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.world.getBlockState(blockpos));
+                    this.selectedDirection = Direction.getRandom(random);
+                    BlockPos blockpos = (new BlockPos(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
+                    BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level.getBlockState(blockpos));
                     if (type != null) {
-                        this.field_179484_c = true;
+                        this.doMerge = true;
                         return true;
                     }
                 }
 
-                this.field_179484_c = false;
-                return super.shouldExecute();
+                this.doMerge = false;
+                return super.canUse();
             }
         }
 
         /**
          * Returns whether an in-progress EntityAIBase should continue executing
          */
-        public boolean shouldContinueExecuting()
+        public boolean canContinueToUse()
         {
-            return this.field_179484_c ? false : super.shouldContinueExecuting();
+            return this.doMerge ? false : super.canContinueToUse();
         }
 
         /**
          * Execute a one shot task or start executing a continuous task
          */
-        public void startExecuting() {
-            if (!this.field_179484_c) {
-                super.startExecuting();
+        public void start() {
+            if (!this.doMerge) {
+                super.start();
             } else {
-                BlockPos blockpos = (new BlockPos(EntityNetherfish.this.getPosX(), EntityNetherfish.this.getPosY() + 0.5D, EntityNetherfish.this.getPosZ())).offset(this.field_179483_b);
-                BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.world.getBlockState(blockpos));
+                BlockPos blockpos = (new BlockPos(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
+                BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level.getBlockState(blockpos));
                 if (type != null) {
-                    EntityNetherfish.this.world.setBlockState(blockpos, BlockInfestedNether.wrapBlock(type).getDefaultState());
-                    EntityNetherfish.this.spawnExplosionParticle();
+                    EntityNetherfish.this.level.setBlockAndUpdate(blockpos, BlockInfestedNether.wrapBlock(type).defaultBlockState());
+                    EntityNetherfish.this.spawnAnim();
                     EntityNetherfish.this.remove();
                 }
             }

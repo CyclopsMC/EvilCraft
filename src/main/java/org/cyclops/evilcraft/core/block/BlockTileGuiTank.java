@@ -27,6 +27,8 @@ import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
 import java.util.List;
 import java.util.function.Supplier;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 /**
  * Tank block with gui.
  * @author rubensworks
@@ -39,23 +41,23 @@ public abstract class BlockTileGuiTank extends BlockTileGui implements IInformat
     }
     
     @Override
-    public boolean hasComparatorInputOverride(BlockState blockState) {
+    public boolean hasAnalogOutputSignal(BlockState blockState) {
     	return true;
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos blockPos) {
-    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getTileEntity(blockPos);
+    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
+    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
     
     @Override
-    public ActionResultType onBlockActivated(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
             return ActionResultType.SUCCESS;
         }
-    	return super.onBlockActivated(blockState, world, blockPos, player, hand, rayTraceResult);
+    	return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
     }
     
     @Override
@@ -85,11 +87,11 @@ public abstract class BlockTileGuiTank extends BlockTileGui implements IInformat
 	}
 
     @Override
-    public void onReplaced(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if (!world.isRemote() && oldState.getBlock() != newState.getBlock()) {
+    public void onRemove(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+        if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
             TileHelpers.getSafeTile(world, blockPos, TankInventoryTileEntity.class)
                     .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
         }
-        super.onReplaced(oldState, world, blockPos, newState, isMoving);
+        super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 }

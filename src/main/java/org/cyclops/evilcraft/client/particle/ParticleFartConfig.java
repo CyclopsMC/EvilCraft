@@ -21,7 +21,7 @@ public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
         super(EvilCraft._instance, "fart", eConfig -> new ParticleType<ParticleFartData>(false, ParticleFartData.DESERIALIZER) {
 
             @Override
-            public Codec<ParticleFartData> func_230522_e_() {
+            public Codec<ParticleFartData> codec() {
                 return ParticleFartData.CODEC;
             }
         });
@@ -40,7 +40,7 @@ public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
     public ParticleManager.IParticleMetaFactory<ParticleFartData> getParticleMetaFactory() {
         return sprite -> (IParticleFactory<ParticleFartData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleFart particle = new ParticleFart(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getRainbow());
-            particle.selectSpriteRandomly(sprite);
+            particle.pickSprite(sprite);
             return particle;
         };
     }

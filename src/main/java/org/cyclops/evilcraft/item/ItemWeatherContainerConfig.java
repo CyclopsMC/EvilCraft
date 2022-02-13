@@ -26,7 +26,7 @@ public class ItemWeatherContainerConfig extends ItemConfig {
                 EvilCraft._instance,
             "weather_container",
                 eConfig -> new ItemWeatherContainer(new Item.Properties()
-                        .group(EvilCraft._instance.getDefaultItemGroup()))
+                        .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
     }
