@@ -3,47 +3,47 @@ package org.cyclops.evilcraft.loot.functions;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootFunction;
-import net.minecraft.loot.LootFunctionType;
-import net.minecraft.loot.LootParameters;
-import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
+import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 
 /**
  * Copies BOEC data to the item.
  * @author rubensworks
  */
-public class LootFunctionCopyBoxOfEternalClosureData extends LootFunction {
-    public static final LootFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_box_of_eternal_closure_data"), new LootFunctionCopyBoxOfEternalClosureData.Serializer());
+public class LootFunctionCopyBoxOfEternalClosureData extends LootItemConditionalFunction {
+    public static final LootItemFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_box_of_eternal_closure_data"), new LootFunctionCopyBoxOfEternalClosureData.Serializer());
 
-    protected LootFunctionCopyBoxOfEternalClosureData(ILootCondition[] conditionsIn) {
+    protected LootFunctionCopyBoxOfEternalClosureData(LootItemCondition[] conditionsIn) {
         super(conditionsIn);
     }
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        TileEntity tile = lootContext.getParamOrNull(LootParameters.BLOCK_ENTITY);
-        if (tile instanceof TileBoxOfEternalClosure) {
-            CompoundNBT tag = new CompoundNBT();
-            tag.put(TileBoxOfEternalClosure.NBTKEY_SPIRIT, ((TileBoxOfEternalClosure) tile).getSpiritTag());
-            String playerId = ((TileBoxOfEternalClosure) tile).getPlayerId();
-            tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, playerId == null ? "" : playerId);
-            String playerName = ((TileBoxOfEternalClosure) tile).getPlayerName();
-            tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, playerName == null ? "" : playerName);
+        BlockEntity tile = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
+        if (tile instanceof BlockEntityBoxOfEternalClosure) {
+            CompoundTag tag = new CompoundTag();
+            tag.put(BlockEntityBoxOfEternalClosure.NBTKEY_SPIRIT, ((BlockEntityBoxOfEternalClosure) tile).getSpiritTag());
+            String playerId = ((BlockEntityBoxOfEternalClosure) tile).getPlayerId();
+            tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, playerId == null ? "" : playerId);
+            String playerName = ((BlockEntityBoxOfEternalClosure) tile).getPlayerName();
+            tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, playerName == null ? "" : playerName);
             itemStack.setTag(tag);
         }
         return itemStack;
     }
 
     @Override
-    public LootFunctionType getType() {
+    public LootItemFunctionType getType() {
         return TYPE;
     }
 
@@ -51,7 +51,7 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootFunction {
         // Dummy call, to enforce class loading
     }
 
-    public static class Serializer extends LootFunction.Serializer<LootFunctionCopyBoxOfEternalClosureData> {
+    public static class Serializer extends LootItemConditionalFunction.Serializer<LootFunctionCopyBoxOfEternalClosureData> {
 
         @Override
         public void serialize(JsonObject jsonObject, LootFunctionCopyBoxOfEternalClosureData lootFunctionCopyId, JsonSerializationContext jsonSerializationContext) {
@@ -59,7 +59,7 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootFunction {
         }
 
         @Override
-        public LootFunctionCopyBoxOfEternalClosureData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, ILootCondition[] conditionsIn) {
+        public LootFunctionCopyBoxOfEternalClosureData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootItemCondition[] conditionsIn) {
             return new LootFunctionCopyBoxOfEternalClosureData(conditionsIn);
         }
     }

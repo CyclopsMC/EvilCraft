@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.entity.villager;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.village.PointOfInterestType;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
@@ -19,7 +19,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 public class VillagerProfessionWerewolf extends VillagerProfession {
 
     public VillagerProfessionWerewolf(VillagerConfig eConfig) {
-        super(new ResourceLocation(Reference.MOD_ID, eConfig.getNamedId()).toString(), PointOfInterestType.BUTCHER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_BUTCHER);
+        super(new ResourceLocation(Reference.MOD_ID, eConfig.getNamedId()).toString(), PoiType.BUTCHER, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_BUTCHER);
         MinecraftForge.EVENT_BUS.addListener(this::onTrades);
     }
 

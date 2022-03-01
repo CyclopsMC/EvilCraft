@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.entity.item.EntityLightningGrenade;
 
 /**
@@ -19,7 +19,7 @@ public class ItemLightningGrenade extends ItemAbstractGrenade {
     }
 
     @Override
-    protected ThrowableEntity getThrowableEntity(ItemStack itemStack, World world, PlayerEntity player) {
+    protected ThrowableProjectile getThrowableEntity(ItemStack itemStack, Level world, Player player) {
         return new EntityLightningGrenade(world, player);
     }
 }

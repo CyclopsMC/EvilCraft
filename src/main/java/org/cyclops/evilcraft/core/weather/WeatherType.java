@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.weather;
 
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import java.lang.reflect.Field;
 
@@ -50,25 +50,25 @@ public abstract class WeatherType {
      * @param world The world.
      * @return If it is active.
      */
-    public abstract boolean isActive(World world);
+    public abstract boolean isActive(Level world);
     
     /**
      * Activate this weather in the given world.
      * @param world The world.
      */
-    public abstract void activate(ServerWorld world);
+    public abstract void activate(ServerLevel world);
     /**
      * Deactivate this weather in the given world.
      * @param world The world.
      */
-    public abstract void deactivate(ServerWorld world);
+    public abstract void deactivate(ServerLevel world);
     
     /**
      * Activate or deactivate this weather in the given world.
      * @param world The world.
      * @param activate If the weather must be activated.
      */
-    public void activate(ServerWorld world, boolean activate) {
+    public void activate(ServerLevel world, boolean activate) {
         if (activate)
             activate(world);
         else
@@ -83,7 +83,7 @@ public abstract class WeatherType {
      *         or null in case no known active weather 
      *         type was found.
      */
-    public static WeatherType getActiveWeather(World world) {
+    public static WeatherType getActiveWeather(Level world) {
         for (WeatherType type : WEATHER_TYPES) {
             if (type.isActive(world))
                 return type;

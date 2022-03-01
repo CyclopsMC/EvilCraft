@@ -5,100 +5,59 @@
 // - ZeuX
 package org.cyclops.evilcraft.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import org.cyclops.evilcraft.entity.monster.EntityWerewolf;
 
 /**
  * @author Davivs69
  */
-public class ModelWerewolf extends BipedModel<EntityWerewolf> {
+public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
     //fields
-    ModelRenderer bipedEar1;
-    ModelRenderer bipedEar2;
-    ModelRenderer Upper_Jaw;
-    ModelRenderer Lower_Jaw;
+    ModelPart bipedEar1;
+    ModelPart bipedEar2;
+    ModelPart Upper_Jaw;
+    ModelPart Lower_Jaw;
 
     /**
      * Make a new instance.
      */
-    public ModelWerewolf() {
-        super(1.0F);
-        this.texWidth = 64;
-        this.texHeight = 135;
-        head = new ModelRenderer(this, 24, 0);
-        head.addBox(-5F, -10F, -5F, 10, 10, 10);
-        head.setPos(0F, -13F, 0F);
-        head.setTexSize(64, 135);
-        head.mirror = true;
+    public ModelWerewolf(ModelPart modelPart) {
+        super(modelPart);
         setRotation(head, 0F, 0F, 0F);
-        bipedEar1 = new ModelRenderer(this, 18, 0);
-        bipedEar1.addBox(-4F, -14F, 2F, 2, 4, 1);
-        bipedEar1.setPos(0F, -13F, 0F);
-        bipedEar1.setTexSize(64, 135);
-        bipedEar1.mirror = true;
+
+        bipedEar1 = modelPart.getChild("bipedEar1");
         setRotation(bipedEar1, 0F, 0F, 0F);
-        bipedEar2 = new ModelRenderer(this, 12, 0);
-        bipedEar2.addBox(2F, -14F, 2F, 2, 4, 1);
-        bipedEar2.setPos(0F, -13F, 0F);
-        bipedEar2.setTexSize(64, 135);
-        bipedEar2.mirror = true;
+        bipedEar2 = modelPart.getChild("bipedEar2");
         setRotation(bipedEar2, 0F, 0F, 0F);
-        Upper_Jaw = new ModelRenderer(this, 32, 122);
-        Upper_Jaw.addBox(-3F, -7F, -11F, 6, 3, 10);
-        Upper_Jaw.setPos(0F, -13F, 0F);
-        Upper_Jaw.setTexSize(64, 135);
-        Upper_Jaw.mirror = true;
+        Upper_Jaw = modelPart.getChild("Upper_Jaw");
         setRotation(Upper_Jaw, 0F, 0F, 0F);
-        Lower_Jaw = new ModelRenderer(this, 0, 122);
-        Lower_Jaw.addBox(-3F, -4F, -10F, 6, 2, 10);
-        Lower_Jaw.setPos(0F, -13F, 0F);
-        Lower_Jaw.setTexSize(64, 135);
-        Lower_Jaw.mirror = true;
+        Lower_Jaw = modelPart.getChild("Lower_Jaw");
         setRotation(Lower_Jaw, 0.1745329F, 0F, 0F);
-        body = new ModelRenderer(this, 12, 20);
-        body.addBox(-7F, 0F, -6F, 14, 19, 12);
-        body.setPos(0F, -13F, 0F);
-        body.setTexSize(64, 135);
-        body.mirror = true;
+
         setRotation(body, 0F, 0F, 0F);
-        rightArm = new ModelRenderer(this, 22, 51);
-        rightArm.addBox(-4F, -2F, -16F, 4, 4, 17);
-        rightArm.setPos(-7F, -8F, 0F);
-        rightArm.setTexSize(64, 135);
-        rightArm.mirror = true;
         setRotation(rightArm, 0.1047198F, 0F, 0F);
-        leftArm = new ModelRenderer(this, 0, 72);
-        leftArm.addBox(0F, -2F, -16F, 4, 4, 17);
-        leftArm.setPos(7F, -8F, 0F);
-        leftArm.setTexSize(64, 135);
-        leftArm.mirror = true;
         setRotation(leftArm, 0.1047198F, 0F, 0F);
-        rightLeg = new ModelRenderer(this, 44, 93);
-        rightLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
-        rightLeg.setPos(-3F, 6F, 0F);
-        rightLeg.setTexSize(64, 135);
-        rightLeg.mirror = true;
         setRotation(rightLeg, 0F, 0F, 0F);
-        leftLeg = new ModelRenderer(this, 24, 93);
-        leftLeg.addBox(-2.5F, 0F, -2.5F, 5, 18, 5);
-        leftLeg.setPos(3F, 6F, 0F);
-        leftLeg.setTexSize(64, 135);
-        leftLeg.mirror = true;
         setRotation(leftLeg, 0F, 0F, 0F);
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         // Not sure why, but we need to redefine the body to be in its correct position
-        body = new ModelRenderer(this, 12, 20);
+        /*body = new ModelPart(this, 12, 20);
         body.addBox(-7F, 0F, -6F, 14, 19, 12);
         body.setPos(0F, -13F, 0F);
         body.setTexSize(64, 135);
         body.mirror = true;
-        setRotation(body, 0F, 0F, 0F);
+        setRotation(body, 0F, 0F, 0F);*/
 
         head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         bipedEar1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -112,7 +71,7 @@ public class ModelWerewolf extends BipedModel<EntityWerewolf> {
         leftLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
-    private void setRotation(ModelRenderer model, float x, float y, float z) {
+    private void setRotation(ModelPart model, float x, float y, float z) {
         model.xRot = x;
         model.yRot = y;
         model.zRot = z;
@@ -135,6 +94,65 @@ public class ModelWerewolf extends BipedModel<EntityWerewolf> {
         float barkRotation = entityIn.getBarkProgressScaled(0.1745329F);
         setRotation(Upper_Jaw, this.head.xRot + 0F, this.head.yRot + 0F, 0F);
         setRotation(Lower_Jaw, this.head.xRot + barkRotation, this.head.yRot + 0F, 0F);
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        partdefinition.addOrReplaceChild("head", CubeListBuilder.create()
+                        .texOffs(24, 0)
+                        .addBox(-5F, -10F, -5F, 10, 10, 10)
+                        .mirror(),
+                PartPose.offset(0F, -13F, 0F));
+        partdefinition.addOrReplaceChild("bipedEar1", CubeListBuilder.create()
+                        .texOffs(18, 0)
+                        .addBox(-4F, -14F, 2F, 2, 4, 1)
+                        .mirror(),
+                PartPose.offset(0F, -13F, 0F));
+        partdefinition.addOrReplaceChild("bipedEar2", CubeListBuilder.create()
+                        .texOffs(12, 0)
+                        .addBox(2F, -14F, 2F, 2, 4, 1)
+                        .mirror(),
+                PartPose.offset(0F, -13F, 0F));
+        partdefinition.addOrReplaceChild("Upper_Jaw", CubeListBuilder.create()
+                        .texOffs(32, 122)
+                        .addBox(-3F, -7F, -11F, 6, 3, 10)
+                        .mirror(),
+                PartPose.offset(0F, -13F, 0F));
+        partdefinition.addOrReplaceChild("Lower_Jaw", CubeListBuilder.create()
+                        .texOffs(0, 122)
+                        .addBox(-3F, -4F, -10F, 6, 2, 10)
+                        .mirror(),
+                PartPose.offset(0F, -13F, 0F));
+        partdefinition.addOrReplaceChild("body", CubeListBuilder.create()
+                        .texOffs(12, 20)
+                        .addBox(-7F, 0F, -6F, 14, 19, 12)
+                        .mirror(),
+                PartPose.offset(0F, -13F, 0F));
+
+        partdefinition.addOrReplaceChild("right_arm", CubeListBuilder.create()
+                        .texOffs(22, 51)
+                        .addBox(-4F, -2F, -16F, 4, 4, 17)
+                        .mirror(),
+                PartPose.offset(-7F, -8F, 0F));
+        partdefinition.addOrReplaceChild("left_arm", CubeListBuilder.create()
+                        .texOffs(0, 72)
+                        .addBox(0F, -2F, -16F, 4, 4, 17)
+                        .mirror(),
+                PartPose.offset(7F, -8F, 0F));
+        partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create()
+                        .texOffs(44, 93)
+                        .addBox(-2.5F, 0F, -2.5F, 5, 18, 5)
+                        .mirror(),
+                PartPose.offset(-3F, 6F, 0F));
+        partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create()
+                        .texOffs(24, 93)
+                        .addBox(-2.5F, 0F, -2.5F, 5, 18, 5)
+                        .mirror(),
+                PartPose.offset(3F, 6F, 0F));
+
+        return LayerDefinition.create(meshdefinition, 64, 135);
     }
 
 }

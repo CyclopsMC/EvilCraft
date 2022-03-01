@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.monster.SilverfishEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.monster.Silverfish;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockInfestedNether;
 
@@ -20,17 +20,17 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class EntityNetherfish extends SilverfishEntity {
+public class EntityNetherfish extends Silverfish {
     
     private static final int MAX_FIRE_DURATION = 3;
     private static final double FIRE_CHANCE = 0.5;
 
-    public EntityNetherfish(EntityType<? extends EntityNetherfish> typeIn, World worldIn) {
+    public EntityNetherfish(EntityType<? extends EntityNetherfish> typeIn, Level worldIn) {
         super(typeIn, worldIn);
         this.xpReward = 10;
     }
 
-    public EntityNetherfish(World world) {
+    public EntityNetherfish(Level world) {
         this(RegistryEntries.ENTITY_NETHERFISH, world);
     }
 
@@ -58,7 +58,7 @@ public class EntityNetherfish extends SilverfishEntity {
         super.aiStep();
     }
 
-    class AIHideInStone extends RandomWalkingGoal {
+    class AIHideInStone extends RandomStrollGoal {
 
         private Direction selectedDirection;
         private boolean doMerge;
@@ -117,7 +117,7 @@ public class EntityNetherfish extends SilverfishEntity {
                 if (type != null) {
                     EntityNetherfish.this.level.setBlockAndUpdate(blockpos, BlockInfestedNether.wrapBlock(type).defaultBlockState());
                     EntityNetherfish.this.spawnAnim();
-                    EntityNetherfish.this.remove();
+                    EntityNetherfish.this.remove(RemovalReason.DISCARDED);
                 }
             }
         }

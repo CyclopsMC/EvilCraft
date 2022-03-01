@@ -2,18 +2,15 @@ package org.cyclops.evilcraft.core.client.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.world.World;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
@@ -34,11 +31,9 @@ import java.util.Random;
  * A baked broom part model.
  * @author rubensworks
  */
-@EqualsAndHashCode(callSuper = false)
-@Data
 public class BroomPartModelBaked extends DynamicItemAndBlockModel {
 
-    private final Map<IBroomPart, IBakedModel> broomPartModels = Maps.newHashMap();
+    private final Map<IBroomPart, BakedModel> broomPartModels = Maps.newHashMap();
     private final List<BakedQuad> quads;
     private final Random rand = new Random();
 
@@ -57,13 +52,8 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
         return this.quads;
     }
 
-    public void addBroomPartModel(IBroomPart part, IBakedModel bakedModel) {
+    public void addBroomPartModel(IBroomPart part, BakedModel bakedModel) {
         broomPartModels.put(part, bakedModel);
-    }
-
-    @Override
-    public boolean useAmbientOcclusion() {
-        return false; // TODO: rm
     }
 
     @Override
@@ -72,21 +62,16 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public boolean isCustomRenderer() {
-        return false; // TODO: rm
-    }
-
-    @Override
-    public IBakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull Random random, @Nonnull IModelData iModelData) {
+    public BakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull Random random, @Nonnull IModelData iModelData) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack, World world, LivingEntity entity) {
+    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
         IBroomPart part = BroomParts.REGISTRY.getPartFromItem(itemStack);
-        IBakedModel model = broomPartModels.get(part);
+        BakedModel model = broomPartModels.get(part);
         if (model != null) {
             quads.addAll(color(model.getQuads(null, getRenderingSide(), this.rand), part.getModelColor()));
         }
@@ -121,7 +106,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public ItemCameraTransforms getTransforms() {
+    public ItemTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

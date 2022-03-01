@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.RainParticle;
+import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.client.particle.SplashParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -22,9 +22,9 @@ import java.util.Random;
  * @see SplashParticle
  */
 @OnlyIn(Dist.CLIENT)
-public class ParticleBloodBubble extends RainParticle {
+public class ParticleBloodBubble extends WaterDropParticle {
 
-    public ParticleBloodBubble(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+    public ParticleBloodBubble(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn);
         this.gravity = 0.04F;
         if (ySpeedIn == 0.0D && (xSpeedIn != 0.0D || zSpeedIn != 0.0D)) {
@@ -58,7 +58,7 @@ public class ParticleBloodBubble extends RainParticle {
      * @param rotatedDirection The direction to emit the particles at.
      */
     @OnlyIn(Dist.CLIENT)
-    public static void randomDisplayTick(@Nullable TileWorking tile, World world, BlockPos blockPos, Random random, Direction rotatedDirection) {
+    public static void randomDisplayTick(@Nullable BlockEntityWorking tile, Level world, BlockPos blockPos, Random random, Direction rotatedDirection) {
         if(tile != null && random.nextInt(10) == 0) {
             if (tile.isVisuallyWorking()) {
                 for(int i = 0; i < 1 + random.nextInt(5); i++) {

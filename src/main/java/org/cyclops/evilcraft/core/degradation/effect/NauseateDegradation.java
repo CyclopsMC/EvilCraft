@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
@@ -40,7 +40,7 @@ public class NauseateDegradation implements IDegradationEffect {
         for(Entity entity : entities) {
             if(entity instanceof LivingEntity) {
                 ((LivingEntity) entity).addEffect(
-                        new EffectInstance(Effects.CONFUSION,
+                        new MobEffectInstance(MobEffects.CONFUSION,
                                 (int) degradable.getDegradation() * NAUSEA_DURATION_MULTIPLIER, 1));
             }
         }

@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -135,7 +135,7 @@ public class WorldSharedTankCache {
         if(!MinecraftHelpers.isClientSide()) {
             for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
 				EvilCraft._instance.getPacketHandler().sendToPlayer(
-						new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (ServerPlayerEntity) event.getPlayer());
+						new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (ServerPlayer) event.getPlayer());
             }
         }
     }
@@ -144,11 +144,11 @@ public class WorldSharedTankCache {
      * Read the cache.
      * @param tag The tag to read from.
      */
-    public void readFromNBT(CompoundNBT tag) {
+    public void readFromNBT(CompoundTag tag) {
         if(tag != null) {
-            ListNBT list = tag.getList("tankCache", 10);
+            ListTag list = tag.getList("tankCache", 10);
             for (int i = 0; i < list.size(); i++) {
-                CompoundNBT subTag = list.getCompound(i);
+                CompoundTag subTag = list.getCompound(i);
                 setTankContent(subTag.getString("key"),
                         FluidStack.loadFluidStackFromNBT(subTag.getCompound("value")));
             }
@@ -159,12 +159,12 @@ public class WorldSharedTankCache {
      * Write the cache.
      * @param tag The tag to write to.
      */
-    public void writeToNBT(CompoundNBT tag) {
-        ListNBT list = new ListNBT();
+    public void writeToNBT(CompoundTag tag) {
+        ListTag list = new ListTag();
         for(Map.Entry<String, FluidStack> entry : tankCache.entrySet()) {
-            CompoundNBT subTag = new CompoundNBT();
+            CompoundTag subTag = new CompoundTag();
             subTag.putString("key", removeMapID(entry.getKey()));
-            CompoundNBT fluidTag = new CompoundNBT();
+            CompoundTag fluidTag = new CompoundTag();
             entry.getValue().writeToNBT(fluidTag);
             subTag.put("value", fluidTag);
             list.add(subTag);

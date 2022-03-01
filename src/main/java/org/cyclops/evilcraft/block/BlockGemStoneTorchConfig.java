@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.block;
 
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.TorchBlock;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TorchBlock;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -39,7 +39,7 @@ public class BlockGemStoneTorchConfig extends BlockConfig {
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

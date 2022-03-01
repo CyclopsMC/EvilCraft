@@ -4,17 +4,17 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.ItemTransformVec3f;
+import net.minecraft.world.level.block.state.BlockState;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.model.data.IModelData;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
@@ -33,16 +33,16 @@ import java.util.Random;
 public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlockModel {
 
     // Default perspective transforms
-    protected static final ItemCameraTransforms TRANSFORMS = ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
-            ItemCameraTransforms.TransformType.GUI, new ItemTransformVec3f(
+    protected static final ItemTransforms TRANSFORMS = ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
+            ItemTransforms.TransformType.GUI, new ItemTransform(
                     new Vector3f(30, 135, 0),
                     new Vector3f(0, 0, 0),
                     new Vector3f(0.625f, 0.625f, 0.625f))
     ));
 
-    public static IBakedModel boxModel;
-    public static IBakedModel boxLidModel;
-    public static IBakedModel boxLidRotatedModel;
+    public static BakedModel boxModel;
+    public static BakedModel boxLidModel;
+    public static BakedModel boxLidRotatedModel;
 
     private final boolean isOpen;
 
@@ -51,7 +51,7 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
         this.isOpen = false;
     }
 
-    public ModelBoxOfEternalClosureBaked(boolean isOpen, ItemStack itemStack, World world, LivingEntity entity) {
+    public ModelBoxOfEternalClosureBaked(boolean isOpen, ItemStack itemStack, Level world, LivingEntity entity) {
         super(itemStack, world, entity);
         this.isOpen = isOpen;
     }
@@ -75,12 +75,12 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     }
 
     @Override
-    public IBakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
+    public BakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
         return null;
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack, World world, LivingEntity entity) {
+    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
         return new ModelBoxOfEternalClosureBaked(BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack) == null,
                 itemStack, world, entity);
     }
@@ -91,22 +91,12 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     }
 
     @Override
-    public boolean useAmbientOcclusion() {
-        return false; // TODO: rm
-    }
-
-    @Override
     public boolean usesBlockLight() {
         return false; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public boolean isCustomRenderer() {
-        return false; // TODO: rm
-    }
-
-    @Override
-    public ItemCameraTransforms getTransforms() {
+    public ItemTransforms getTransforms() {
         return TRANSFORMS;
     }
 }

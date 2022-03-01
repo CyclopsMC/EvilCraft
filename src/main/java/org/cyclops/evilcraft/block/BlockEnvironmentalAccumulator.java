@@ -1,19 +1,25 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import org.cyclops.cyclopscore.block.BlockTile;
-import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.evilcraft.tileentity.TileEnvironmentalAccumulator;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntityEnvironmentalAccumulator;
+
+import javax.annotation.Nullable;
 
 /**
  * Block that can collect the weather and stuff.
  * @author immortaleeb
  *
  */
-public class BlockEnvironmentalAccumulator extends BlockTile {
+public class BlockEnvironmentalAccumulator extends BlockWithEntity {
     
     /**
      * State indicating the environmental accumulator is idle.
@@ -40,7 +46,13 @@ public class BlockEnvironmentalAccumulator extends BlockTile {
     public static final int STATE_FINISHED_PROCESSING_ITEM = 3;
 
 	public BlockEnvironmentalAccumulator(Block.Properties properties) {
-		super(properties, TileEnvironmentalAccumulator::new);
+		super(properties, BlockEntityEnvironmentalAccumulator::new);
+	}
+
+	@Override
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+		return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR, new BlockEntityEnvironmentalAccumulator.Ticker());
 	}
 
 	@Override
@@ -49,8 +61,8 @@ public class BlockEnvironmentalAccumulator extends BlockTile {
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
-		return TileHelpers.getSafeTile(worldIn, pos, TileEnvironmentalAccumulator.class)
+	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+		return BlockEntityHelpers.get(worldIn, pos, BlockEntityEnvironmentalAccumulator.class)
 				.map(tile -> tile.getState() == STATE_IDLE ? 15 : 0)
 				.orElse(0);
 	}

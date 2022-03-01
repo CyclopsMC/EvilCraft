@@ -1,22 +1,28 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
 import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
-import org.cyclops.evilcraft.core.block.BlockTileGuiTank;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
-import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
+import org.cyclops.evilcraft.core.block.BlockWithEntityGuiTank;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -24,13 +30,13 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class BlockSpiritReanimator extends BlockTileGuiTank {
+public class BlockSpiritReanimator extends BlockWithEntityGuiTank {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
     public static final BooleanProperty ON = BooleanProperty.create("on");
 
     public BlockSpiritReanimator(Block.Properties properties) {
-        super(properties, TileSpiritReanimator::new);
+        super(properties, BlockEntitySpiritReanimator::new);
 
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
@@ -38,12 +44,18 @@ public class BlockSpiritReanimator extends BlockTileGuiTank {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SPIRIT_REANIMATOR, level.isClientSide ? new BlockEntitySpiritReanimator.TickerClient<>() : new BlockEntitySpiritReanimator.TickerServer<BlockEntitySpiritReanimator, MutableDouble>());
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, ON);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState()
                 .setValue(FACING, context.getHorizontalDirection())
                 .setValue(ON, false);
@@ -51,13 +63,13 @@ public class BlockSpiritReanimator extends BlockTileGuiTank {
 
     @Override
     public int getDefaultCapacity() {
-        return TileSpiritReanimator.LIQUID_PER_SLOT;
+        return BlockEntitySpiritReanimator.LIQUID_PER_SLOT;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState blockState, World world, BlockPos blockPos, Random random) {
-        ParticleBloodBubble.randomDisplayTick((TileWorking) world.getBlockEntity(blockPos), world, blockPos,
+    public void animateTick(BlockState blockState, Level world, BlockPos blockPos, Random random) {
+        ParticleBloodBubble.randomDisplayTick((BlockEntityWorking) world.getBlockEntity(blockPos), world, blockPos,
                 random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, Direction.NORTH));
         super.animateTick(blockState, world, blockPos, random);
     }

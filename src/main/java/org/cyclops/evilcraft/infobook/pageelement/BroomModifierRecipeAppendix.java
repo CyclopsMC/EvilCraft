@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.IBidiRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
@@ -68,7 +68,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, MatrixStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, PoseStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
         int tick = getTick(gui);
         Pair<ItemStack, Float> value = modifierValues.get(tick % modifierValues.size());
 
@@ -83,9 +83,9 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void drawString(ScreenInfoBook gui, MatrixStack matrixStack, String string, int x, int y) {
-        FontRenderer fontRenderer = gui.getFontRenderer();
-        IBidiRenderer.create(fontRenderer, new StringTextComponent(string), 200)
+    protected void drawString(ScreenInfoBook gui, PoseStack matrixStack, String string, int x, int y) {
+        Font fontRenderer = gui.getFont();
+        MultiLineLabel.create(fontRenderer, new TextComponent(string), 200)
                 .renderLeftAlignedNoShadow(matrixStack, x, y, 9, 0);
     }
 }

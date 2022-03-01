@@ -2,13 +2,10 @@ package org.cyclops.evilcraft.core.client.model;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import net.minecraft.client.renderer.model.BlockModel;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.VanillaResourceType;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
 /**
@@ -17,12 +14,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
  */
 public class ModelLoaderBroomPart implements IModelLoader<BroomPartModel> {
     @Override
-    public IResourceType getResourceType() {
-        return VanillaResourceType.MODELS;
-    }
-
-    @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
 
     }
 
@@ -30,7 +22,7 @@ public class ModelLoaderBroomPart implements IModelLoader<BroomPartModel> {
     public BroomPartModel read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
         BroomPartModel model = new BroomPartModel();
         for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
-            ModelLoader.addSpecialModel(partModel);
+            ForgeModelBakery.addSpecialModel(partModel);
         }
         return model;
     }

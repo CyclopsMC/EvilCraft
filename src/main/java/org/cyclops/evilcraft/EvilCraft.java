@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft;
 
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
@@ -17,8 +17,6 @@ import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
 import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.IClientProxy;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
-import org.cyclops.cyclopscore.world.gen.IRetroGenRegistry;
-import org.cyclops.cyclopscore.world.gen.RetroGenRegistry;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
@@ -26,8 +24,12 @@ import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import org.cyclops.evilcraft.block.*;
+import org.cyclops.evilcraft.blockentity.*;
+import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
+import org.cyclops.evilcraft.blockentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.client.gui.container.ContainerScreenMainMenuEvilifier;
 import org.cyclops.evilcraft.client.particle.*;
+import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.broom.BroomModifierRegistry;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.broom.BroomParts;
@@ -42,7 +44,6 @@ import org.cyclops.evilcraft.core.degradation.effect.SoundDegradationConfig;
 import org.cyclops.evilcraft.core.degradation.effect.TerraformDegradationConfig;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.recipe.type.*;
-import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.enchantment.EnchantmentBreakingConfig;
 import org.cyclops.evilcraft.enchantment.EnchantmentLifeStealingConfig;
 import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTipConfig;
@@ -86,9 +87,6 @@ import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.potion.PotionPalingConfig;
 import org.cyclops.evilcraft.proxy.ClientProxy;
 import org.cyclops.evilcraft.proxy.CommonProxy;
-import org.cyclops.evilcraft.tileentity.*;
-import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
-import org.cyclops.evilcraft.tileentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.world.biome.BiomeDegradedConfig;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatureEvilDungeonConfig;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatures;
@@ -119,7 +117,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         // Create registries
         getRegistryManager().addRegistry(IDegradationRegistry.class, new DegradationRegistry());
         getRegistryManager().addRegistry(IBloodChestRepairActionRegistry.class, new BloodChestRepairActionRegistry());
-        getRegistryManager().addRegistry(IRetroGenRegistry.class, new RetroGenRegistry(this));
         getRegistryManager().addRegistry(IBroomPartRegistry.class, new BroomPartRegistry());
         getRegistryManager().addRegistry(IBroomModifierRegistry.class, new BroomModifierRegistry());
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
@@ -160,7 +157,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
     }
 
     @Override
-    public ItemGroup constructDefaultItemGroup() {
+    public CreativeModeTab constructDefaultCreativeModeTab() {
         return new ItemGroupMod(this, () -> RegistryEntries.ITEM_DARK_GEM);
     }
 
@@ -195,17 +192,17 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new BlockFluidBloodConfig());
         configHandler.addConfigurable(new BlockDarkOreConfig());
         configHandler.addConfigurable(new BlockDarkConfig());
-        configHandler.addConfigurable(new BlockBloodStainConfig());
+        configHandler.addConfigurable(new org.cyclops.evilcraft.block.BlockBloodStainConfig());
         configHandler.addConfigurable(new BlockLightningBombConfig());
         //configHandler.addConfigurable(new ContainedFluxConfig());
-        configHandler.addConfigurable(new BlockBloodInfuserConfig());
+        configHandler.addConfigurable(new org.cyclops.evilcraft.block.BlockBloodInfuserConfig());
         configHandler.addConfigurable(new BlockBloodyCobblestoneConfig());
         for (BlockInfestedNether.Type type : BlockInfestedNether.Type.values()) {
             configHandler.addConfigurable(new BlockInfestedNetherConfig(type));
         }
         configHandler.addConfigurable(new BlockHardenedBloodConfig());
         configHandler.addConfigurable(new BlockObscuredGlassConfig());
-        configHandler.addConfigurable(new BlockBloodChestConfig());
+        configHandler.addConfigurable(new org.cyclops.evilcraft.block.BlockBloodChestConfig());
         configHandler.addConfigurable(new BlockEnvironmentalAccumulatorConfig());
         configHandler.addConfigurable(new BlockUndeadLeavesConfig());
         configHandler.addConfigurable(new BlockUndeadLogConfig());
@@ -235,7 +232,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new BlockEternalWaterConfig());
         configHandler.addConfigurable(new BlockBloodWaxedCoalConfig());
         configHandler.addConfigurable(new BlockSpiritPortalConfig());
-        configHandler.addConfigurable(new BlockColossalBloodChestConfig());
+        configHandler.addConfigurable(new org.cyclops.evilcraft.block.BlockColossalBloodChestConfig());
         configHandler.addConfigurable(new BlockReinforcedUndeadPlankConfig());
         configHandler.addConfigurable(new BlockSanguinaryEnvironmentalAccumulatorConfig());
         configHandler.addConfigurable(new BlockDisplayStandConfig());
@@ -322,23 +319,23 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new ItemSpectralGlassesConfig());
 
         // Tile Entities
-        configHandler.addConfigurable(new TileBloodChestConfig());
-        configHandler.addConfigurable(new TileBloodInfuserConfig());
-        configHandler.addConfigurable(new TileBloodStainConfig());
-        configHandler.addConfigurable(new TileBoxOfEternalClosureConfig());
-        configHandler.addConfigurable(new TileColossalBloodChestConfig());
-        configHandler.addConfigurable(new TileDarkTankConfig());
-        configHandler.addConfigurable(new TileDisplayStandConfig());
-        configHandler.addConfigurable(new TileEntangledChaliceConfig());
-        configHandler.addConfigurable(new TileEnvironmentalAccumulatorConfig());
-        configHandler.addConfigurable(new TileEternalWaterConfig());
-        configHandler.addConfigurable(new TileInvisibleRedstoneConfig());
-        configHandler.addConfigurable(new TilePurifierConfig());
-        configHandler.addConfigurable(new TileSanguinaryEnvironmentalAccumulatorConfig());
-        configHandler.addConfigurable(new TileSanguinaryPedestalConfig());
-        configHandler.addConfigurable(new TileSpiritFurnaceConfig());
-        configHandler.addConfigurable(new TileSpiritPortalConfig());
-        configHandler.addConfigurable(new TileSpiritReanimatorConfig());
+        configHandler.addConfigurable(new BlockEntityBloodChestConfig());
+        configHandler.addConfigurable(new BlockEntityBloodInfuserConfig());
+        configHandler.addConfigurable(new BlockEntityBloodStainConfig());
+        configHandler.addConfigurable(new BlockEntityBoxOfEternalClosureConfig());
+        configHandler.addConfigurable(new BlockEntityColossalBloodChestConfig());
+        configHandler.addConfigurable(new BlockEntityDarkTankConfig());
+        configHandler.addConfigurable(new BlockEntityDisplayStandConfig());
+        configHandler.addConfigurable(new BlockEntityEntangledChaliceConfig());
+        configHandler.addConfigurable(new BlockEntityEnvironmentalAccumulatorConfig());
+        configHandler.addConfigurable(new BlockEntityEternalWaterConfig());
+        configHandler.addConfigurable(new BlockEntityInvisibleRedstoneConfig());
+        configHandler.addConfigurable(new BlockEntityPurifierConfig());
+        configHandler.addConfigurable(new BlockEntitySanguinaryEnvironmentalAccumulatorConfig());
+        configHandler.addConfigurable(new BlockEntitySanguinaryPedestalConfig());
+        configHandler.addConfigurable(new BlockEntitySpiritFurnaceConfig());
+        configHandler.addConfigurable(new BlockEntitySpiritPortalConfig());
+        configHandler.addConfigurable(new BlockEntitySpiritReanimatorConfig());
 
         // Entities
         // Item
@@ -358,7 +355,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new EntityNetherfishConfig());
         configHandler.addConfigurable(new EntityPoisonousLibelleConfig());
         configHandler.addConfigurable(new EntityVengeanceSpiritConfig());
-        configHandler.addConfigurable(new BlockBoxOfEternalClosureConfig()); // This is a block, but depends on vengeance spirit.
+        configHandler.addConfigurable(new org.cyclops.evilcraft.block.BlockBoxOfEternalClosureConfig()); // This is a block, but depends on vengeance spirit.
         configHandler.addConfigurable(new EntityControlledZombieConfig());
         // Villager
         configHandler.addConfigurable(new VillagerProfessionWerewolfConfig());

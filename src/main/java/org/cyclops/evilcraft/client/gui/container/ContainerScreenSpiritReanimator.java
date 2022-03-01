@@ -1,20 +1,20 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimator;
-import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
+import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<ContainerSpiritReanimator, TileSpiritReanimator> {
+public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<ContainerSpiritReanimator, BlockEntitySpiritReanimator> {
     
     /**
      * Texture width.
@@ -93,15 +93,15 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
      */
     public static final int PROGRESS_INVALIDY = 24;
 
-    public ContainerScreenSpiritReanimator(ContainerSpiritReanimator container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenSpiritReanimator(ContainerSpiritReanimator container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
     }
 
     @Override
-    protected ITextComponent getName() {
-        return new TranslationTextComponent("block.evilcraft.spirit_reanimator");
+    protected Component getName() {
+        return new TranslatableComponent("block.evilcraft.spirit_reanimator");
     }
 
     @Override
@@ -110,21 +110,21 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
     }
     
     @Override
-	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
+	protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
     	String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getDescriptionId() + ".help.invalid";
-    	List<ITextComponent> lines = Lists.newArrayList();
-    	lines.add(new TranslationTextComponent(prefix));
+    	List<Component> lines = Lists.newArrayList();
+    	lines.add(new TranslatableComponent(prefix));
         String entityName = getMenu().getEntityName();
         if (entityName == null) {
-        	lines.add(new TranslationTextComponent(prefix + ".no_entity"));
+        	lines.add(new TranslatableComponent(prefix + ".no_entity"));
         } else if (entityName.isEmpty()) {
-            lines.add(new TranslationTextComponent(prefix + ".invalid_entity"));
+            lines.add(new TranslatableComponent(prefix + ".invalid_entity"));
         }
         else {
-        	ItemStack outputStack = getMenu().getContainerInventory().getItem(TileSpiritReanimator.SLOTS_OUTPUT);
+        	ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
         	if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
                     && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName))) {
-        		lines.add(new TranslationTextComponent(prefix + ".different_egg"));
+        		lines.add(new TranslatableComponent(prefix + ".different_egg"));
         	}
         }
         if(lines.size() > 1) {
@@ -134,7 +134,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
                     mouseX, mouseY)) {
 	    		mouseX -= leftPos;
 	        	mouseY -= topPos;
-	            drawTooltip(lines, mouseX, mouseY);
+	            drawTooltip(lines, matrixStack, mouseX, mouseY);
 	        }
         }
     }

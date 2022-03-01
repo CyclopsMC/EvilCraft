@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Interface for items that are empowerable.

@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.entity.item.EntityItemIndestructable;
 
@@ -13,11 +13,11 @@ import org.cyclops.evilcraft.core.entity.item.EntityItemIndestructable;
  */
 public class EntityItemUndespawnable extends EntityItemIndestructable {
 
-	public EntityItemUndespawnable(World world, ItemEntity original) {
+	public EntityItemUndespawnable(Level world, ItemEntity original) {
 		super(RegistryEntries.ENTITY_ITEM_UNDESPAWNABLE, world, original);
 	}
 
-	public EntityItemUndespawnable(EntityType<? extends EntityItemUndespawnable> type, World world) {
+	public EntityItemUndespawnable(EntityType<? extends EntityItemUndespawnable> type, Level world) {
 		super(type, world);
 	}
 	

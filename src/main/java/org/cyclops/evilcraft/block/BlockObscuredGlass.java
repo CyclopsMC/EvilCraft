@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.AbstractGlassBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.AbstractGlassBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 
 /**
  * Glass that holds back some light.
@@ -18,7 +18,7 @@ public class BlockObscuredGlass extends AbstractGlassBlock {
     }
 
     @Override
-    public int getLightBlock(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return 10;
     }
 }

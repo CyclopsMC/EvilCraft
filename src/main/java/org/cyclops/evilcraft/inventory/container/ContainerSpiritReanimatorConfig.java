@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.client.gui.IHasContainer;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.gui.ScreenFactorySafe;
@@ -20,12 +20,12 @@ public class ContainerSpiritReanimatorConfig extends GuiConfig<ContainerSpiritRe
     public ContainerSpiritReanimatorConfig() {
         super(EvilCraft._instance,
                 "spirit_reanimator",
-                eConfig -> new ContainerType<>(ContainerSpiritReanimator::new));
+                eConfig -> new MenuType<>(ContainerSpiritReanimator::new));
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public <U extends Screen & IHasContainer<ContainerSpiritReanimator>> ScreenManager.IScreenFactory<ContainerSpiritReanimator, U> getScreenFactory() {
+    public <U extends Screen & MenuAccess<ContainerSpiritReanimator>> MenuScreens.ScreenConstructor<ContainerSpiritReanimator, U> getScreenFactory() {
         return new ScreenFactorySafe<>(ContainerScreenSpiritReanimator::new);
     }
 

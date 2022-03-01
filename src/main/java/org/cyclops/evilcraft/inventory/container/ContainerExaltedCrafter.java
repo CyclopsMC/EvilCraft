@@ -1,19 +1,19 @@
 package org.cyclops.evilcraft.inventory.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.CraftResultInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.CraftingResultSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.server.SSetSlotPacket;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.ResultContainer;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.ResultSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
@@ -49,27 +49,27 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
     public static final String BUTTON_BALANCE = "balance";
     public static final String BUTTON_TOGGLERETURN = "toggleReturn";
     
-    private final World world;
+    private final Level world;
     private final NBTCraftingGrid craftingGrid;
-    private final CraftResultInventory result;
+    private final ResultContainer result;
     private boolean initialized;
 
-    public ContainerExaltedCrafter(int id, PlayerInventory inventory, PacketBuffer packetBuffer) {
+    public ContainerExaltedCrafter(int id, Inventory inventory, FriendlyByteBuf packetBuffer) {
         this(id, inventory, readItemIndex(packetBuffer), readHand(packetBuffer));
     }
 
-    public ContainerExaltedCrafter(int id, PlayerInventory inventory, int itemIndex, Hand hand) {
+    public ContainerExaltedCrafter(int id, Inventory inventory, int itemIndex, InteractionHand hand) {
         super(RegistryEntries.CONTAINER_EXALTED_CRAFTER, id, inventory, itemIndex, hand);
         initialized = false;
         this.world = player.level;
-        this.result = new CraftResultInventory();
+        this.result = new ResultContainer();
         this.craftingGrid = new NBTCraftingGrid(player, itemIndex, hand, this);
         
         this.addCraftingGrid(player, craftingGrid);
         this.addInventory(getItem().getSupplementaryInventory(player, InventoryHelpers.getItemFromIndex(player, itemIndex, hand), itemIndex, hand),
         		0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
         		CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
-        this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+        this.addPlayerInventory(player.getInventory(), INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         
         initialized = true;
         this.slotsChanged(craftingGrid);
@@ -179,9 +179,9 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
         }
     }
     
-    protected void addCraftingGrid(PlayerEntity player, NBTCraftingGrid grid) {
+    protected void addCraftingGrid(Player player, NBTCraftingGrid grid) {
     	this.addInventory(grid, 0, GRID_OFFSET_X, GRID_OFFSET_Y, GRID_ROWS, GRID_COLUMNS);
-    	this.addSlot(new CraftingResultSlot(player, grid, result, 0, 124, 35));
+    	this.addSlot(new ResultSlot(player, grid, result, 0, 124, 35));
     }
 
 	@Override
@@ -190,25 +190,19 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
 	}
 	
 	@Override
-	public void slotsChanged(IInventory inventory) {
+	public void slotsChanged(Container inventory) {
         if(initialized && !this.world.isClientSide()) {
             ItemStack itemstack = ItemStack.EMPTY;
 
             // Slightly altered logic from Container#slotChangedCraftingGrid
-            ICraftingRecipe irecipe = world.getServer().getRecipeManager().getRecipeFor(IRecipeType.CRAFTING, craftingGrid, world).orElse(null);
-            if (irecipe != null && result.setRecipeUsed(world, (ServerPlayerEntity) player, irecipe)) {
+            CraftingRecipe irecipe = world.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingGrid, world).orElse(null);
+            if (irecipe != null && result.setRecipeUsed(world, (ServerPlayer) player, irecipe)) {
                 itemstack = irecipe.assemble(craftingGrid);
             }
             result.setItem(0, itemstack);
-            ((ServerPlayerEntity) this.player).connection.send(new SSetSlotPacket(this.containerId, 9, itemstack));
+            ((ServerPlayer) this.player).connection.send(new ClientboundContainerSetSlotPacket(this.containerId, getStateId(), 9, itemstack));
 
             craftingGrid.save();
 		}
     }
-
-    @Override
-    public boolean stillValid(PlayerEntity p_75145_1_) {
-        return false; // TODO: rm
-    }
-
 }

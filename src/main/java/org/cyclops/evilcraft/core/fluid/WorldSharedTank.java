@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -47,13 +47,13 @@ public class WorldSharedTank extends SingleUseTank {
     }
     
     @Override
-    public void writeTankToNBT(CompoundNBT nbt) {
+    public void writeTankToNBT(CompoundTag nbt) {
         super.writeTankToNBT(nbt);
         nbt.putString(NBT_TANKID, tankID);
     }
 
     @Override
-    public void readTankFromNBT(CompoundNBT nbt) {
+    public void readTankFromNBT(CompoundTag nbt) {
         super.readTankFromNBT(nbt);
         tankID = nbt.getString(NBT_TANKID);
     }
@@ -179,13 +179,13 @@ public class WorldSharedTank extends SingleUseTank {
         }
 
         @Override
-        public void readFromNBT(CompoundNBT tag) {
+        public void readFromNBT(CompoundTag tag) {
             super.readFromNBT(tag);
             WorldSharedTankCache.getInstance().readFromNBT(tag);
         }
 
         @Override
-        public void writeToNBT(CompoundNBT tag) {
+        public void writeToNBT(CompoundTag tag) {
             super.writeToNBT(tag);
             WorldSharedTankCache.getInstance().writeToNBT(tag);
         }

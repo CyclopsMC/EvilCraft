@@ -1,28 +1,28 @@
 package org.cyclops.evilcraft.core.entity.item;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IRendersAsItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.projectile.ItemSupplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
- * An extension of {@link ThrowableEntity} that now
+ * An extension of {@link ThrowableProjectile} that now
  * also has an inner {@link ItemStack} that must be implemented.
  * @author rubensworks
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
-public abstract class EntityThrowable extends ThrowableEntity implements IRendersAsItem {
+@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
+public abstract class EntityThrowable extends ThrowableProjectile implements ItemSupplier {
 
-    public EntityThrowable(EntityType<? extends EntityThrowable> type, World world) {
+    public EntityThrowable(EntityType<? extends EntityThrowable> type, Level world) {
         super(type, world);
     }
 
-    public EntityThrowable(EntityType<? extends EntityThrowable> type, World world, LivingEntity entity) {
+    public EntityThrowable(EntityType<? extends EntityThrowable> type, Level world, LivingEntity entity) {
         super(type, entity, world);
     }
 

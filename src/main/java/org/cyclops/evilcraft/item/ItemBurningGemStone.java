@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * A dark gem that somehow caught fire.
@@ -40,7 +40,7 @@ public class ItemBurningGemStone extends Item {
      * @param simulate If damaging should be simulated.
      * @return If a burning gem stone was found and damaged.
      */
-	public static boolean damageForPlayer(PlayerEntity player, int swarmTier, boolean simulate) {
+	public static boolean damageForPlayer(Player player, int swarmTier, boolean simulate) {
 		PlayerInventoryIterator it = new PlayerInventoryIterator(player);
 		while(it.hasNext()) {
             Pair<Integer, ItemStack> current = it.nextIndexed();
@@ -48,7 +48,7 @@ public class ItemBurningGemStone extends Item {
 			if(!itemStack.isEmpty() && itemStack.getItem() == RegistryEntries.ITEM_BURNING_GEM_STONE) {
 				if(!simulate) {
 					itemStack.hurtAndBreak(1 + swarmTier, player, (p) -> {
-                        p.inventory.setItem(current.getLeft(), ItemStack.EMPTY);
+                        p.getInventory().setItem(current.getLeft(), ItemStack.EMPTY);
                         MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(p, itemStack, null));
                     });
                     player.causeFoodExhaustion(10);

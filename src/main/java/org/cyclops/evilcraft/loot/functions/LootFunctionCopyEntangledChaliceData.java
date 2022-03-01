@@ -3,37 +3,36 @@ package org.cyclops.evilcraft.loot.functions;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootFunction;
-import net.minecraft.loot.LootFunctionType;
-import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootParameters;
-import net.minecraft.loot.functions.ILootFunction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
-import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 
 /**
  * Copies entangled chalice data to the item.
  * @author rubensworks
  */
-public class LootFunctionCopyEntangledChaliceData extends LootFunction {
-    public static final LootFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_entangled_chalice_data"), new LootFunctionCopyEntangledChaliceData.Serializer());
+public class LootFunctionCopyEntangledChaliceData extends LootItemConditionalFunction {
+    public static final LootItemFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_entangled_chalice_data"), new LootFunctionCopyEntangledChaliceData.Serializer());
 
-    protected LootFunctionCopyEntangledChaliceData(ILootCondition[] conditionsIn) {
+    protected LootFunctionCopyEntangledChaliceData(LootItemCondition[] conditionsIn) {
         super(conditionsIn);
     }
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        TileEntity tile = lootContext.getParamOrNull(LootParameters.BLOCK_ENTITY);
-        if (tile instanceof TileEntangledChalice) {
-            String tankId = ((TileEntangledChalice) tile).getWorldTankId();
+        BlockEntity tile = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
+        if (tile instanceof BlockEntityEntangledChalice) {
+            String tankId = ((BlockEntityEntangledChalice) tile).getWorldTankId();
             ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
             fluidHandler.setTankID(tankId);
         }
@@ -41,7 +40,7 @@ public class LootFunctionCopyEntangledChaliceData extends LootFunction {
     }
 
     @Override
-    public LootFunctionType getType() {
+    public LootItemFunctionType getType() {
         return TYPE;
     }
 
@@ -49,7 +48,7 @@ public class LootFunctionCopyEntangledChaliceData extends LootFunction {
         // Dummy call, to enforce class loading
     }
 
-    public static class Serializer extends LootFunction.Serializer<LootFunctionCopyEntangledChaliceData> {
+    public static class Serializer extends LootItemConditionalFunction.Serializer<LootFunctionCopyEntangledChaliceData> {
 
         @Override
         public void serialize(JsonObject jsonObject, LootFunctionCopyEntangledChaliceData lootFunctionCopyId, JsonSerializationContext jsonSerializationContext) {
@@ -57,7 +56,7 @@ public class LootFunctionCopyEntangledChaliceData extends LootFunction {
         }
 
         @Override
-        public LootFunctionCopyEntangledChaliceData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, ILootCondition[] conditionsIn) {
+        public LootFunctionCopyEntangledChaliceData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootItemCondition[] conditionsIn) {
             return new LootFunctionCopyEntangledChaliceData(conditionsIn);
         }
     }

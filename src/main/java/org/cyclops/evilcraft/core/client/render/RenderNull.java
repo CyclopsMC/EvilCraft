@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.client.render;
 
-import net.minecraft.client.renderer.culling.ClippingHelper;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Renderer for nothing, simple.
@@ -14,12 +14,12 @@ import net.minecraft.util.ResourceLocation;
  */
 public class RenderNull extends EntityRenderer<Entity> {
 
-    public RenderNull(EntityRendererManager renderManager) {
-        super(renderManager);
+    public RenderNull(EntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override
-    public boolean shouldRender(Entity livingEntityIn, ClippingHelper camera, double camX, double camY, double camZ) {
+    public boolean shouldRender(Entity livingEntityIn, Frustum camera, double camX, double camY, double camZ) {
         return false;
     }
 

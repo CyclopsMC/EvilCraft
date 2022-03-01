@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import net.minecraft.client.renderer.RenderSkyboxCube;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.CubeMap;
+import net.minecraft.resources.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.helper.obfuscation.ObfuscationHelpers;
 
@@ -22,7 +22,7 @@ public class ContainerScreenMainMenuEvilifier {
     public static void evilifyMainMenu() {
         Random random = new Random();
         if(random.nextInt(EVIL_MAINMENU_CHANCE) == 0) {
-            ObfuscationHelpers.setPanoramaResources(new RenderSkyboxCube(
+            ObfuscationHelpers.setPanoramaResources(new CubeMap(
                     new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUIBACKGROUNDS + "evil_panorama")));
         }
     }

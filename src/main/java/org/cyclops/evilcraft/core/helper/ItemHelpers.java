@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.core.helper;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -40,9 +40,9 @@ public class ItemHelpers {
      * @param itemStack The item to toggle.
      */
     public static void toggleActivation(ItemStack itemStack) {
-        CompoundNBT tag = itemStack.getTag();
+        CompoundTag tag = itemStack.getTag();
         if(tag == null) {
-            tag = new CompoundNBT();
+            tag = new CompoundTag();
             itemStack.setTag(tag);
         }
         tag.putBoolean(NBT_KEY_ENABLED, !isActivated(itemStack));
@@ -68,9 +68,9 @@ public class ItemHelpers {
      * @param tag The tag in NBT for storing this value.
      */
     public static void setNBTInt(ItemStack itemStack, int integer, String tag) {
-        CompoundNBT tagCompound = itemStack.getTag();
+        CompoundTag tagCompound = itemStack.getTag();
         if(tagCompound == null) {
-            tagCompound = new CompoundNBT();
+            tagCompound = new CompoundTag();
             itemStack.setTag(tagCompound);
         }
         tagCompound.putInt(tag, integer);
@@ -83,12 +83,12 @@ public class ItemHelpers {
      * @param entity The entity that holds this item.
      * @param fillBuckets If buckets should be filled.
      */
-    public static void updateAutoFill(IFluidHandlerItem toDrain, World world, Entity entity, boolean fillBuckets) {
-    	if(entity instanceof PlayerEntity && !world.isClientSide()) {
+    public static void updateAutoFill(IFluidHandlerItem toDrain, Level world, Entity entity, boolean fillBuckets) {
+    	if(entity instanceof Player && !world.isClientSide()) {
             FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
             if(!tickFluid.isEmpty()) {
-                PlayerEntity player = (PlayerEntity) entity;
-                for (Hand hand : Hand.values()) {
+                Player player = (Player) entity;
+                for (InteractionHand hand : InteractionHand.values()) {
                     ItemStack held = player.getItemInHand(hand);
                     if (!held.isEmpty() && (fillBuckets || held.getItem() != Items.BUCKET)) {
                         ItemStack toFill = held.split(1);
@@ -116,7 +116,7 @@ public class ItemHelpers {
      * @param player The player that is the owner of toFill.
      * @return The filled container
      */
-    public static ItemStack tryFillContainerForPlayer(IFluidHandlerItem toDrain, ItemStack toFill, FluidStack tickFluid, PlayerEntity player) {
+    public static ItemStack tryFillContainerForPlayer(IFluidHandlerItem toDrain, ItemStack toFill, FluidStack tickFluid, Player player) {
         int maxFill = MB_FILL_PERTICK;
         if (toFill.getItem() == Items.BUCKET) {
             maxFill = FluidHelpers.BUCKET_VOLUME;

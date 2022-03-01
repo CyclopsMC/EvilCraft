@@ -1,35 +1,35 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockDisplayReader;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
-import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
+import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
 
 import javax.annotation.Nullable;
 
@@ -50,38 +50,38 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ACTIVE);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(ACTIVE, false);
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState blockState) {
-        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false) ? BlockRenderType.ENTITYBLOCK_ANIMATED : super.getRenderShape(blockState);
+    public RenderShape getRenderShape(BlockState blockState) {
+        return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false) ? RenderShape.ENTITYBLOCK_ANIMATED : super.getRenderShape(blockState);
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState blockState, IBlockReader blockReader, BlockPos blockPos) {
+    public boolean propagatesSkylightDown(BlockState blockState, BlockGetter blockReader, BlockPos blockPos) {
         return BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false);
     }
 
     @Override
-    public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos,
-                                    EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType) {
+    public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos,
+                                    SpawnPlacements.Type type, @Nullable EntityType<?> entityType) {
         return false;
     }
 
     @Override
-    public boolean shouldDisplayFluidOverlay(BlockState blockState, IBlockDisplayReader world, BlockPos pos, FluidState fluidState) {
+    public boolean shouldDisplayFluidOverlay(BlockState blockState, BlockAndTintGetter world, BlockPos pos, FluidState fluidState) {
         return true;
     }
 
     @Override
-    public void setPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
         if(!world.captureBlockSnapshots) {
             BlockColossalBloodChest.triggerDetector(world, pos, true);
@@ -89,7 +89,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public void onPlace(BlockState blockStateNew, World world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
+    public void onPlace(BlockState blockStateNew, Level world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
         super.onPlace(blockStateNew, world, blockPos, blockStateOld, isMoving);
         if(!world.captureBlockSnapshots && blockStateNew.getBlock() != blockStateOld.getBlock() && !blockStateNew.getValue(ACTIVE)) {
             BlockColossalBloodChest.triggerDetector(world, blockPos, true);
@@ -97,39 +97,39 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public void destroy(IWorld worldIn, BlockPos pos, BlockState state) {
+    public void destroy(LevelAccessor worldIn, BlockPos pos, BlockState state) {
         super.destroy(worldIn, pos, state);
         if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) BlockColossalBloodChest.triggerDetector(worldIn, pos, false);
     }
 
     @Override
-    public void onBlockExploded(BlockState state, World world, BlockPos pos, Explosion explosion) {
+    public void onBlockExploded(BlockState state, Level world, BlockPos pos, Explosion explosion) {
         if(BlockHelpers.getSafeBlockStateProperty(state, ACTIVE, false)) BlockColossalBloodChest.triggerDetector(world, pos, false);
         // IForgeBlock.super.onBlockExploded(state, world, pos, explosion);
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-        getBlock().wasExploded(world, pos, explosion);
+        wasExploded(world, pos, explosion);
     }
 
     @Override
-    public void onDetect(IWorldReader world, BlockPos location, Vector3i size, boolean valid, BlockPos originCorner) {
+    public void onDetect(LevelReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !BlockHelpers.getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
-            ((World) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            ((Level) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
-                TileColossalBloodChest.detectStructure((World) world, location, size, valid, originCorner);
+                BlockEntityColossalBloodChest.detectStructure((Level) world, location, size, valid, originCorner);
             }
         }
     }
 
     @Override
-    public ActionResultType use(BlockState blockState, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
+    public InteractionResult use(BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult p_225533_6_) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
-            TileColossalBloodChest.getCubeDetector().detect(world, blockPos, null, new CubeDetector.IValidationAction() {
+            BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, new CubeDetector.IValidationAction() {
 
                 @Override
-                public ITextComponent onValidate(BlockPos location, BlockState blockState) {
+                public Component onValidate(BlockPos location, BlockState blockState) {
                     if(blockState.getBlock() instanceof BlockColossalBloodChest) {
                         tileLocationWrapper.set(location);
                     }
@@ -145,7 +145,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
             return super.use(blockState, world, blockPos, player, hand, p_225533_6_);
         } else {
             BlockColossalBloodChest.addPlayerChatError(world, blockPos, player, hand);
-            return ActionResultType.FAIL;
+            return InteractionResult.FAIL;
         }
     }
 

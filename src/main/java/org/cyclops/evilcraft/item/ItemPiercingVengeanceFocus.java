@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeam;
 
 /**
@@ -23,7 +23,7 @@ public class ItemPiercingVengeanceFocus extends ItemAbstractFocus {
     }
 
     @Override
-    protected ThrowableEntity newBeamEntity(LivingEntity player) {
+    protected ThrowableProjectile newBeamEntity(LivingEntity player) {
         return new EntityAttackVengeanceBeam(player.level, player);
     }
 }

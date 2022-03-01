@@ -1,18 +1,18 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Abstract grenade class.
@@ -26,21 +26,21 @@ public abstract class ItemAbstractGrenade extends Item {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!world.isClientSide()) {
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.MASTER, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundSource.MASTER, 0.5F, 0.4F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
 
-            ThrowableEntity entity = getThrowableEntity(itemStack, world, player);
+            ThrowableProjectile entity = getThrowableEntity(itemStack, world, player);
             // MCP: shoot
-            entity.shootFromRotation(player, player.xRot, player.yRot, -20.0F, 0.5F, 1.0F);
+            entity.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
             world.addFreshEntity(entity);
         }
         return MinecraftHelpers.successAction(itemStack);
     }
     
-    protected abstract ThrowableEntity getThrowableEntity(ItemStack itemStack, World world, PlayerEntity player);
+    protected abstract ThrowableProjectile getThrowableEntity(ItemStack itemStack, Level world, Player player);
 }

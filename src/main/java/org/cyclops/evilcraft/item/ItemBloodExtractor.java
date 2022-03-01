@@ -1,21 +1,21 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,7 +29,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
@@ -55,24 +55,24 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     }
     
     @Override
-    public ActionResultType onItemUseFirst(ItemStack itemStack, ItemUseContext context) {
+    public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
         Block block = context.getLevel().getBlockState(context.getClickedPos()).getBlock();
         if(context.getPlayer().isCrouching()) {
 	        if(block instanceof BlockBloodStain) {
 	            Random random = context.getLevel().random;
 
                 // Fill the extractor a bit
-                TileHelpers.getCapability(context.getLevel(), context.getClickedPos(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                         .ifPresent((source) -> {
                             FluidStack moved = FluidUtil.tryFluidTransfer(FluidUtil.getFluidHandler(itemStack).orElse(null), source, Integer.MAX_VALUE, true);
                             if (!moved.isEmpty() && context.getLevel().isClientSide()) {
                                 ParticleBloodSplash.spawnParticles(context.getLevel(), context.getClickedPos(), 5, 1 + random.nextInt(2));
                             }
                         });
-	            return ActionResultType.PASS;
+	            return InteractionResult.PASS;
 	        }
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
     
     @Override
@@ -82,20 +82,20 @@ public class ItemBloodExtractor extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.auto_supply");
     }
     
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!player.isCrouching()) {
             return super.use(world, player, hand);
         } else {
-            RayTraceResult target = this.getPlayerPOVHitResult(world, player, RayTraceContext.FluidMode.ANY);
-            if(target == null || target.getType() == RayTraceResult.Type.MISS) {
+            HitResult target = this.getPlayerPOVHitResult(world, player, ClipContext.Fluid.ANY);
+            if(target == null || target.getType() == HitResult.Type.MISS) {
         		if(!world.isClientSide()) {
 		            ItemHelpers.toggleActivation(itemStack);
 		    	}
@@ -112,8 +112,8 @@ public class ItemBloodExtractor extends ItemBloodContainer {
      * @param minimumMB The minimum amount to fill. (inclusive)
      * @param maximumMB The maximum amount to fill. (exclusive)
      */
-    public static void fillForAllBloodExtractors(PlayerEntity player, int minimumMB, int maximumMB) {
-        int toFill = minimumMB + random.nextInt(Math.max(1, maximumMB - minimumMB));
+    public static void fillForAllBloodExtractors(Player player, int minimumMB, int maximumMB) {
+        int toFill = minimumMB + player.getRandom().nextInt(Math.max(1, maximumMB - minimumMB));
         PlayerInventoryIterator it = new PlayerInventoryIterator(player);
         while(it.hasNext() && toFill > 0) {
             ItemStack itemStack = it.next();
@@ -126,7 +126,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     }
     
     @Override
-    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean par5) {
+    public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean par5) {
     	if(ItemHelpers.isActivated(itemStack)) {
     		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack).orElse(null), world, entity, ItemBloodExtractorConfig.autoFillBuckets);
     	}
@@ -140,18 +140,18 @@ public class ItemBloodExtractor extends ItemBloodContainer {
 
     public void bloodObtainEvent(LivingDeathEvent event) {
         Entity e = event.getSource().getEntity();
-        if(e != null && e instanceof ServerPlayerEntity && !e.level.isClientSide()
+        if(e != null && e instanceof ServerPlayer && !e.level.isClientSide()
                 && event.getEntityLiving() != null) {
             float boost = 1.0F;
-            ServerPlayerEntity player = (ServerPlayerEntity) e;
-            Hand hand = player.getUsedItemHand();
+            ServerPlayer player = (ServerPlayer) e;
+            InteractionHand hand = player.getUsedItemHand();
             if(hand != null && player.getItemInHand(hand) != null
                     && player.getItemInHand(hand).getItem() instanceof ItemVeinSword) {
                 boost = (float) ItemVeinSwordConfig.extractionBoost;
             }
             float health = event.getEntityLiving().getMaxHealth();
-            int minimumMB = MathHelper.floor(health * (float) ItemBloodExtractorConfig.minimumMobMultiplier * boost);
-            int maximumMB = MathHelper.floor(health * (float) ItemBloodExtractorConfig.maximumMobMultiplier * boost);
+            int minimumMB = Mth.floor(health * (float) ItemBloodExtractorConfig.minimumMobMultiplier * boost);
+            int maximumMB = Mth.floor(health * (float) ItemBloodExtractorConfig.maximumMobMultiplier * boost);
             ItemBloodExtractor.fillForAllBloodExtractors(player, minimumMB, maximumMB);
         }
     }

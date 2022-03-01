@@ -1,24 +1,23 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IRendersAsItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.projectile.ItemSupplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemLightningGrenade;
@@ -30,37 +29,38 @@ import javax.annotation.Nonnull;
  * @author rubensworks
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
-public class EntityLightningGrenade extends ThrowableEntity implements IRendersAsItem {
+@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
+public class EntityLightningGrenade extends ThrowableProjectile implements ItemSupplier {
 
-    public EntityLightningGrenade(World world, LivingEntity entity) {
+    public EntityLightningGrenade(Level world, LivingEntity entity) {
         super(RegistryEntries.ENTITY_LIGHTNING_GRENADE, entity, world);
     }
 
-    public EntityLightningGrenade(EntityType<? extends EntityLightningGrenade> type, World world) {
+    public EntityLightningGrenade(EntityType<? extends EntityLightningGrenade> type, Level world) {
         super(type, world);
     }
 
     @Nonnull
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected void onHit(RayTraceResult par1MovingObjectPosition) {
-        if (par1MovingObjectPosition.getType() == RayTraceResult.Type.ENTITY) {
-            ((EntityRayTraceResult) par1MovingObjectPosition).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+    protected void onHit(HitResult par1MovingObjectPosition) {
+        if (par1MovingObjectPosition.getType() == HitResult.Type.ENTITY) {
+            ((EntityHitResult) par1MovingObjectPosition).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
         }
 
         if (!this.level.isClientSide()) {
-            if (this.getOwner() != null && this.getOwner() instanceof ServerPlayerEntity) {
-                EntityHelpers.onEntityCollided(this.level, new BlockPos(par1MovingObjectPosition.getLocation()), this);
-                LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(level);
+            if (this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
+                BlockPos pos = new BlockPos(par1MovingObjectPosition.getLocation());
+                EntityHelpers.onEntityCollided(this.level, pos, this.level.getBlockState(pos), this);
+                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
                 bolt.moveTo(this.getX(), this.getY(), this.getZ());
             }
 
-            this.remove();
+            this.remove(RemovalReason.DISCARDED);
         } else {
             for (int i = 0; i < 32; ++i) {
                 Minecraft.getInstance().levelRenderer.addParticle(

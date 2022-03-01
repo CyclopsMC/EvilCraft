@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
-import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
+import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 
 import java.util.Set;
 

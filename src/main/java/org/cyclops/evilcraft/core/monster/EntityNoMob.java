@@ -1,27 +1,27 @@
 package org.cyclops.evilcraft.core.monster;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.ShootableItem;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ProjectileWeaponItem;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.Level;
 
 import java.util.Random;
 import java.util.function.Predicate;
@@ -30,19 +30,19 @@ import java.util.function.Predicate;
  * A mob without the {@link net.minecraft.entity.monster.IMob} interface.
  * @author rubensworks
  */
-public class EntityNoMob extends CreatureEntity {
+public class EntityNoMob extends PathfinderMob {
 
     // Contents copied from {@link MonsterEntity}
 
-    public EntityNoMob(EntityType<? extends EntityNoMob> type, World world) {
+    public EntityNoMob(EntityType<? extends EntityNoMob> type, Level world) {
         super(type, world);
         this.xpReward = 5;
     }
 
     /* DIRECT COPY OF MonsterEntity contents below. */
 
-    public SoundCategory getSoundSource() {
-        return SoundCategory.HOSTILE;
+    public SoundSource getSoundSource() {
+        return SoundSource.HOSTILE;
     }
 
     public void aiStep() {
@@ -87,12 +87,12 @@ public class EntityNoMob extends CreatureEntity {
         return heightIn > 4 ? SoundEvents.HOSTILE_BIG_FALL : SoundEvents.HOSTILE_SMALL_FALL;
     }
 
-    public float getWalkTargetValue(BlockPos pos, IWorldReader worldIn) {
+    public float getWalkTargetValue(BlockPos pos, LevelReader worldIn) {
         return 0.5F - worldIn.getBrightness(pos);
     }
 
-    public static boolean isValidLightLevel(IServerWorld worldIn, BlockPos pos, Random randomIn) {
-        if (worldIn.getBrightness(LightType.SKY, pos) > randomIn.nextInt(32)) {
+    public static boolean isValidLightLevel(ServerLevelAccessor worldIn, BlockPos pos, Random randomIn) {
+        if (worldIn.getBrightness(LightLayer.SKY, pos) > randomIn.nextInt(32)) {
             return false;
         } else {
             int i = worldIn.getLevel().isThundering() ? worldIn.getMaxLocalRawBrightness(pos, 10) : worldIn.getMaxLocalRawBrightness(pos);
@@ -100,16 +100,16 @@ public class EntityNoMob extends CreatureEntity {
         }
     }
 
-    public static boolean canMonsterSpawnInLight(EntityType<? extends MonsterEntity> type, IServerWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
+    public static boolean canMonsterSpawnInLight(EntityType<? extends Monster> type, ServerLevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && isValidLightLevel(worldIn, pos, randomIn) && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
     }
 
-    public static boolean canMonsterSpawn(EntityType<? extends MonsterEntity> type, IWorld worldIn, SpawnReason reason, BlockPos pos, Random randomIn) {
+    public static boolean canMonsterSpawn(EntityType<? extends Monster> type, LevelAccessor worldIn, MobSpawnType reason, BlockPos pos, Random randomIn) {
         return worldIn.getDifficulty() != Difficulty.PEACEFUL && checkMobSpawnRules(type, worldIn, reason, pos, randomIn);
     }
 
-    public static AttributeModifierMap.MutableAttribute createMonsterAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.ATTACK_DAMAGE);
+    public static AttributeSupplier.Builder createMonsterAttributes() {
+        return Mob.createMobAttributes().add(Attributes.ATTACK_DAMAGE);
     }
 
     protected boolean shouldDropExperience() {
@@ -120,14 +120,14 @@ public class EntityNoMob extends CreatureEntity {
         return true;
     }
 
-    public boolean isPreventingPlayerRest(PlayerEntity p_230292_1_) {
+    public boolean isPreventingPlayerRest(Player p_230292_1_) {
         return true;
     }
 
     public ItemStack getProjectile(ItemStack shootable) {
-        if (shootable.getItem() instanceof ShootableItem) {
-            Predicate<ItemStack> predicate = ((ShootableItem)shootable.getItem()).getSupportedHeldProjectiles();
-            ItemStack itemstack = ShootableItem.getHeldProjectile(this, predicate);
+        if (shootable.getItem() instanceof ProjectileWeaponItem) {
+            Predicate<ItemStack> predicate = ((ProjectileWeaponItem)shootable.getItem()).getSupportedHeldProjectiles();
+            ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
             return itemstack.isEmpty() ? new ItemStack(Items.ARROW) : itemstack;
         } else {
             return ItemStack.EMPTY;

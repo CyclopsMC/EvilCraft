@@ -1,33 +1,34 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
-import org.cyclops.evilcraft.tileentity.TileBloodStain;
 
 import java.util.Random;
 
@@ -35,17 +36,17 @@ import java.util.Random;
  * A blood stain that can rest on other blocks.
  * @author rubensworks
  */
-public class BlockBloodStain extends BlockTile {
+public class BlockBloodStain extends BlockWithEntity {
 
     private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     public BlockBloodStain(Block.Properties properties) {
-        super(properties, TileBloodStain::new);
+        super(properties, BlockEntityBloodStain::new);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
-    public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
         return true;
     }
 
@@ -55,19 +56,19 @@ public class BlockBloodStain extends BlockTile {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         BlockPos blockpos = pos.below();
         BlockState blockstate = worldIn.getBlockState(blockpos);
         return blockstate.isFaceSturdy(worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
     }
 
     @Override
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         if (!worldIn.isClientSide) {
             if (!state.canSurvive(worldIn, pos)) {
                 worldIn.removeBlock(pos, false);
@@ -77,14 +78,14 @@ public class BlockBloodStain extends BlockTile {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void attack(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+    public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
         splash(worldIn, pos);
         super.attack(state, worldIn, pos, player);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
         if (entityIn.getDeltaMovement().length() > 0.1D) {
             splash(worldIn, pos);
         }
@@ -97,14 +98,14 @@ public class BlockBloodStain extends BlockTile {
      * @param blockPos The position.
      */
     @OnlyIn(Dist.CLIENT)
-    public static void splash(World world, BlockPos blockPos) {
+    public static void splash(Level world, BlockPos blockPos) {
     	if(MinecraftHelpers.isClientSide()) {
     		ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
     	}
     }
     
     @Override
-    public void handleRain(World world, BlockPos blockPos) {
+    public void handlePrecipitation(BlockState blockState, Level world, BlockPos blockPos, Biome.Precipitation precipitation) {
         world.removeBlock(blockPos, false);
     }
 
@@ -112,9 +113,9 @@ public class BlockBloodStain extends BlockTile {
     public void bloodStainedBlockEvent(LivingDeathEvent event) {
         if(event.getSource() == DamageSource.FALL
                 && !(event.getEntity() instanceof EntityVengeanceSpirit)) {
-            int x = MathHelper.floor(event.getEntity().getX());
-            int y = MathHelper.floor(event.getEntity().getY());
-            int z = MathHelper.floor(event.getEntity().getZ());
+            int x = Mth.floor(event.getEntity().getX());
+            int y = Mth.floor(event.getEntity().getY());
+            int z = Mth.floor(event.getEntity().getZ());
 
             if (!event.getEntity().level.isClientSide()) {
                 event.getEntity().getServer().execute(() -> {
@@ -137,7 +138,7 @@ public class BlockBloodStain extends BlockTile {
                         }
                     }
                     // Add blood to existing block
-                    TileHelpers.getSafeTile(event.getEntity().getCommandSenderWorld(), pos, TileBloodStain.class)
+                    BlockEntityHelpers.get(event.getEntity().getCommandSenderWorld(), pos, BlockEntityBloodStain.class)
                             .ifPresent(tile -> tile.addAmount(amount));
                 });
             } else {

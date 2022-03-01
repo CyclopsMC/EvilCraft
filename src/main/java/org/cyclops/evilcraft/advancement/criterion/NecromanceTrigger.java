@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.advancement.criterion;
 
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.criterion.AbstractCriterionTrigger;
-import net.minecraft.advancements.criterion.CriterionInstance;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.loot.ConditionArrayParser;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.resources.ResourceLocation;
 import org.cyclops.cyclopscore.advancement.criterion.ICriterionInstanceTestable;
 import org.cyclops.evilcraft.Reference;
 
@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.Reference;
  * Triggers when a player uses the Necromancer Staff.
  * @author rubensworks
  */
-public class NecromanceTrigger extends AbstractCriterionTrigger<NecromanceTrigger.Instance> {
+public class NecromanceTrigger extends SimpleCriterionTrigger<NecromanceTrigger.Instance> {
     private final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "necromance");
 
     @Override
@@ -24,24 +24,24 @@ public class NecromanceTrigger extends AbstractCriterionTrigger<NecromanceTrigge
     }
 
     @Override
-    public Instance createInstance(JsonObject json, EntityPredicate.AndPredicate entityPredicate, ConditionArrayParser conditionsParser) {
+    public Instance createInstance(JsonObject json, EntityPredicate.Composite entityPredicate, DeserializationContext conditionsParser) {
         return new Instance(getId(), entityPredicate, EntityPredicate.fromJson(json.get("entity")));
     }
 
-    public void test(ServerPlayerEntity player, Entity entity) {
+    public void test(ServerPlayer player, Entity entity) {
         this.trigger(player, (instance) -> instance.test(player, entity));
     }
 
-    public static class Instance extends CriterionInstance implements ICriterionInstanceTestable<Entity> {
+    public static class Instance extends AbstractCriterionTriggerInstance implements ICriterionInstanceTestable<Entity> {
 
         private final EntityPredicate entityPredicate;
 
-        public Instance(ResourceLocation criterionIn, EntityPredicate.AndPredicate player, EntityPredicate entityPredicate) {
+        public Instance(ResourceLocation criterionIn, EntityPredicate.Composite player, EntityPredicate entityPredicate) {
             super(criterionIn, player);
             this.entityPredicate = entityPredicate;
         }
 
-        public boolean test(ServerPlayerEntity player, Entity entity) {
+        public boolean test(ServerPlayer player, Entity entity) {
             return this.entityPredicate.matches(player, entity);
         }
     }

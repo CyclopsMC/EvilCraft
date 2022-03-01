@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;

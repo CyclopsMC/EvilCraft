@@ -1,52 +1,54 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.block.BlockTile;
-import org.cyclops.evilcraft.tileentity.TileEternalWater;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntityEternalWater;
+
+import javax.annotation.Nullable;
 
 /**
  * Block for {@link BlockEternalWaterConfig}.
  * @author rubensworks
  */
-public class BlockEternalWater extends BlockTile {
+public class BlockEternalWater extends BlockWithEntity {
 
     public BlockEternalWater(Block.Properties properties) {
-        super(properties, TileEternalWater::new);
+        super(properties, BlockEntityEternalWater::new);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
-    public boolean canBeReplacedByLeaves(BlockState state, IWorldReader world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public boolean canBeReplacedByLogs(BlockState state, IWorldReader world, BlockPos pos) {
-        return false;
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ETERNAL_WATER, new BlockEntityEternalWater.TickerServer());
     }
 
     @Override
@@ -55,36 +57,36 @@ public class BlockEternalWater extends BlockTile {
     }
 
     @Override
-    public boolean canBeReplaced(BlockState state, BlockItemUseContext useContext) {
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
         return false;
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos blockPos, PlayerEntity player,
-                                             Hand hand, BlockRayTraceResult p_225533_6_) {
-        ItemStack itemStack = player.inventory.getSelected();
+    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player,
+                                             InteractionHand hand, BlockHitResult p_225533_6_) {
+        ItemStack itemStack = player.getInventory().getSelected();
         if (!itemStack.isEmpty()) {
             if (itemStack.getItem() == Items.BUCKET) {
                 if (!world.isClientSide()) {
                     itemStack.shrink(1);
                     if (itemStack.isEmpty()) {
                         player.setItemInHand(hand, new ItemStack(Items.WATER_BUCKET));
-                    } else if (!player.inventory.add(new ItemStack(Items.WATER_BUCKET))) {
+                    } else if (!player.getInventory().add(new ItemStack(Items.WATER_BUCKET))) {
                         player.drop(new ItemStack(Items.WATER_BUCKET), false);
                     }
-                    world.playSound((PlayerEntity)null, blockPos, SoundEvents.BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.playSound(null, blockPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
             } else {
                 FluidUtil.getFluidHandler(itemStack)
-                        .ifPresent(fluidHandler -> fluidHandler.fill(TileEternalWater.WATER, IFluidHandler.FluidAction.EXECUTE));
+                        .ifPresent(fluidHandler -> fluidHandler.fill(BlockEntityEternalWater.WATER, IFluidHandler.FluidAction.EXECUTE));
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
-    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         super.onRemove(state, worldIn, pos, newState, isMoving);
         // When removing this block, it will drop water, so forcefully set to air instead.
         if (!worldIn.isClientSide() && newState.getBlock() == Blocks.WATER) {
@@ -95,8 +97,8 @@ public class BlockEternalWater extends BlockTile {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void stopFillWithEternalWaterBlock(FillBucketEvent event) {
-        if (event.getTarget() != null && event.getTarget().getType() == RayTraceResult.Type.BLOCK) {
-            Block block = event.getWorld().getBlockState(((BlockRayTraceResult) event.getTarget()).getBlockPos()).getBlock();
+        if (event.getTarget() != null && event.getTarget().getType() == HitResult.Type.BLOCK) {
+            Block block = event.getWorld().getBlockState(((BlockHitResult) event.getTarget()).getBlockPos()).getBlock();
             if (block instanceof BlockEternalWater) {
                 event.setCanceled(true);
             }

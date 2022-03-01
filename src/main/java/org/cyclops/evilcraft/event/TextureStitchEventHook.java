@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.event;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -24,6 +24,6 @@ public class TextureStitchEventHook {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public void onTextureHookPre(TextureStitchEvent.Pre event) {
-        RenderHelpers.EMPTYICON = event.getMap().getSprite(new ResourceLocation(Reference.MOD_ID, EMPTY_ICON_NAME));
+        RenderHelpers.EMPTYICON = event.getAtlas().getSprite(new ResourceLocation(Reference.MOD_ID, EMPTY_ICON_NAME));
     }
 }

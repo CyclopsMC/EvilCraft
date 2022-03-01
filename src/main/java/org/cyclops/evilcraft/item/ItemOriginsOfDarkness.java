@@ -1,19 +1,19 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.inventory.container.NamedContainerProviderItem;
 import org.cyclops.cyclopscore.item.ItemGui;
 import org.cyclops.evilcraft.inventory.container.ContainerOriginsOfDarkness;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * A simple orb that can be filled with blood.
@@ -28,13 +28,13 @@ public class ItemOriginsOfDarkness extends ItemGui {
 
     @Nullable
     @Override
-    public INamedContainerProvider getContainer(World world, PlayerEntity playerEntity, int itemIndex, Hand hand, ItemStack itemStack) {
+    public MenuProvider getContainer(Level world, Player playerEntity, int itemIndex, InteractionHand hand, ItemStack itemStack) {
         return new NamedContainerProviderItem(itemIndex, hand,
-                new TranslationTextComponent("gui.cyclopscore.infobook"), ContainerOriginsOfDarkness::new);
+                new TranslatableComponent("gui.cyclopscore.infobook"), ContainerOriginsOfDarkness::new);
     }
 
     @Override
-    public Class<? extends Container> getContainerClass(World world, PlayerEntity playerEntity, ItemStack itemStack) {
+    public Class<? extends AbstractContainerMenu> getContainerClass(Level world, Player playerEntity, ItemStack itemStack) {
         return ContainerOriginsOfDarkness.class;
     }
 

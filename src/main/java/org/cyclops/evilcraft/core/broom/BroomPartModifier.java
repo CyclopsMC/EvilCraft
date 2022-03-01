@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.broom;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
@@ -30,7 +30,7 @@ public class BroomPartModifier extends BroomPartBase {
 
     @Nullable
     @Override
-    public ITextComponent getTooltipLine(String prefix) {
+    public Component getTooltipLine(String prefix) {
         return null;
     }
 

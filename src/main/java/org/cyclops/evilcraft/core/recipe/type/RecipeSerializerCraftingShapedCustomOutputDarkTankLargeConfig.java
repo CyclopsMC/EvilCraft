@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.EvilCraft;

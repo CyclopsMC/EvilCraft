@@ -1,24 +1,22 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemVengeanceRing;
-import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
-
-import net.minecraft.enchantment.Enchantment.Rarity;
+import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.DamageableItemRepairAction;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -28,7 +26,7 @@ import net.minecraft.enchantment.Enchantment.Rarity;
 public class EnchantmentVengeance extends Enchantment {
 
     public EnchantmentVengeance() {
-        super(Rarity.COMMON, EnchantmentType.BREAKABLE, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        super(Rarity.COMMON, EnchantmentCategory.BREAKABLE, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -66,9 +64,9 @@ public class EnchantmentVengeance extends Enchantment {
 
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
-        PlayerEntity player = event.getPlayer();
+        Player player = event.getPlayer();
         if (player != null && !player.level.isClientSide()) {
-            Hand hand = event.getPlayer().getUsedItemHand();
+            InteractionHand hand = event.getPlayer().getUsedItemHand();
             if (hand != null) {
                 ItemStack heldItem = player.getItemInHand(hand);
                 int level = getEnchantLevel(heldItem);
@@ -82,9 +80,9 @@ public class EnchantmentVengeance extends Enchantment {
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
         Entity entity = event.getSource().getEntity();
-        if (entity instanceof PlayerEntity && !entity.level.isClientSide()) {
-            PlayerEntity player = (PlayerEntity) entity;
-            Hand hand = player.getUsedItemHand();
+        if (entity instanceof Player && !entity.level.isClientSide()) {
+            Player player = (Player) entity;
+            InteractionHand hand = player.getUsedItemHand();
             if (hand != null) {
                 ItemStack heldItem = player.getItemInHand(hand);
                 int level = getEnchantLevel(heldItem);
@@ -102,7 +100,7 @@ public class EnchantmentVengeance extends Enchantment {
         return EnchantmentHelper.getItemEnchantmentLevel(RegistryEntries.ENCHANTMENT_VENGEANCE, itemStack);
     }
 
-    public static void apply(World world, int level, LivingEntity entity) {
+    public static void apply(Level world, int level, LivingEntity entity) {
         if (level > 0) {
             int chance = Math.max(1, EnchantmentVengeanceConfig.vengeanceChance / level);
             if (chance > 0 && world.random.nextInt(chance) == 0) {

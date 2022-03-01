@@ -1,17 +1,17 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockDisplayReader;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -21,11 +21,10 @@ import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockMo
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.block.BlockDarkTankConfig;
-import org.cyclops.evilcraft.tileentity.TileDarkTank;
+import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -40,21 +39,21 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     private final int capacity;
     private final FluidStack fluidStack;
 
-    public ModelDarkTankBaked(IBakedModel baseModel) {
+    public ModelDarkTankBaked(BakedModel baseModel) {
         super(baseModel);
         this.capacity = 0;
         this.fluidStack = null;
     }
 
-    public ModelDarkTankBaked(IBakedModel baseModel, int capacity, FluidStack fluidStack,
+    public ModelDarkTankBaked(BakedModel baseModel, int capacity, FluidStack fluidStack,
                               BlockState blockState, Direction facing, Random rand, IModelData modelData) {
         super(baseModel, blockState, facing, rand, modelData);
         this.capacity = capacity;
         this.fluidStack = fluidStack;
     }
 
-    public ModelDarkTankBaked(IBakedModel baseModel, int capacity, FluidStack fluidStack,
-                              ItemStack itemStack, World world, LivingEntity entity) {
+    public ModelDarkTankBaked(BakedModel baseModel, int capacity, FluidStack fluidStack,
+                              ItemStack itemStack, Level world, LivingEntity entity) {
         super(baseModel, itemStack, world, entity);
         this.capacity = capacity;
         this.fluidStack = fluidStack;
@@ -74,26 +73,26 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull IBlockDisplayReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
-        return TileHelpers.getSafeTile(world, pos, TileDarkTank.class)
+    public IModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+        return BlockEntityHelpers.get(world, pos, BlockEntityDarkTank.class)
                 .map(tile -> {
                     ModelDataMap.Builder builder = new ModelDataMap.Builder();
-                    builder.withInitial(BlockDarkTank.TANK_FLUID, tile.getTank().getFluid());
-                    builder.withInitial(BlockDarkTank.TANK_CAPACITY, tile.getTank().getCapacity());
+                    builder.withInitial(org.cyclops.evilcraft.block.BlockDarkTank.TANK_FLUID, tile.getTank().getFluid());
+                    builder.withInitial(org.cyclops.evilcraft.block.BlockDarkTank.TANK_CAPACITY, tile.getTank().getCapacity());
                     return (IModelData) builder.build();
                 })
                 .orElse(EmptyModelData.INSTANCE);
     }
 
     @Override
-    public IBakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
-        int capacity = ModelHelpers.getSafeProperty(modelData, BlockDarkTank.TANK_CAPACITY, 0);
-        FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockDarkTank.TANK_FLUID, FluidStack.EMPTY);
+    public BakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
+        int capacity = ModelHelpers.getSafeProperty(modelData, org.cyclops.evilcraft.block.BlockDarkTank.TANK_CAPACITY, 0);
+        FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, org.cyclops.evilcraft.block.BlockDarkTank.TANK_FLUID, FluidStack.EMPTY);
         return new ModelDarkTankBaked(baseModel, capacity, fluidStack, state, side, rand, modelData);
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack, World world, LivingEntity entity) {
+    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
         IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack).orElse(null);
         if(!itemStack.isEmpty() && fluidHandler != null) {
             int capacity = fluidHandler.getCapacity();
@@ -177,22 +176,12 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     @Override
-    public boolean useAmbientOcclusion() {
-        return false; // TODO: rm
-    }
-
-    @Override
     public boolean usesBlockLight() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public boolean isCustomRenderer() {
-        return false; // TODO: rm
-    }
-
-    @Override
-    public ItemCameraTransforms getTransforms() {
+    public ItemTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

@@ -1,13 +1,14 @@
 package org.cyclops.evilcraft.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.resources.ResourceLocation;
+import com.mojang.math.Vector3f;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStick;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStickConfig;
 
@@ -19,12 +20,12 @@ import org.cyclops.evilcraft.entity.item.EntityItemDarkStickConfig;
  */
 public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
 
-	public RenderDarkStick(EntityRendererManager renderManager, EntityItemDarkStickConfig config) {
-	    super(renderManager);
+	public RenderDarkStick(EntityRendererProvider.Context renderContext, EntityItemDarkStickConfig config) {
+	    super(renderContext);
 	}
 
 	@Override
-	public void render(EntityItemDarkStick entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(EntityItemDarkStick entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         float rotation;
         if (entity.isValid()) {
             rotation = entity.getAngle();

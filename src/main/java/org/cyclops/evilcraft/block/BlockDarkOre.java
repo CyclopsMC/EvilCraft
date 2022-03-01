@@ -1,24 +1,24 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -48,43 +48,43 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(GLOWING);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(GLOWING, false);
     }
 
     @Override
-    public int getExpDrop(BlockState state, net.minecraft.world.IWorldReader world, BlockPos pos, int fortune, int silktouch) {
+    public int getExpDrop(BlockState state, net.minecraft.world.level.LevelReader world, BlockPos pos, int fortune, int silktouch) {
         return silktouch == 0 ? 1 + RANDOM.nextInt(INCREASE_XP) : 0;
     }
 
     @Override
-    public void attack(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+    public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
         this.glow(worldIn, pos);
         super.attack(state, worldIn, pos, player);
     }
 
     @Override
-    public void stepOn(World world, BlockPos pos, Entity entity) {
+    public void stepOn(Level world, BlockPos pos, BlockState blockState, Entity entity) {
         this.glow(world, pos);
-        super.stepOn(world, pos, entity);
+        super.stepOn(world, pos, blockState, entity);
     }
 
     @Override
-    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult p_225533_6_) {
         this.glow(worldIn, pos);
         return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
     }
     
-    private boolean isGlowing(World world, BlockPos blockPos) {
+    private boolean isGlowing(Level world, BlockPos blockPos) {
         return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), GLOWING, true);
     }
 
-    private void glow(World world, BlockPos blockPos) {
+    private void glow(Level world, BlockPos blockPos) {
     	if (world.isClientSide())
             this.sparkle(world, blockPos);
 
@@ -99,7 +99,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos blockPos, Random rand) {
+    public void tick(BlockState state, ServerLevel world, BlockPos blockPos, Random rand) {
         if (isGlowing(world, blockPos)) {
             world.setBlock(blockPos, defaultBlockState().setValue(GLOWING, false), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
@@ -107,14 +107,14 @@ public class BlockDarkOre extends Block implements IInformationProvider {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState stateIn, World world, BlockPos blockPos, Random rand) {
+    public void animateTick(BlockState stateIn, Level world, BlockPos blockPos, Random rand) {
         if (isGlowing(world, blockPos)) {
             this.sparkle(world, blockPos);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void sparkle(World world, BlockPos blockPos) {
+    private void sparkle(Level world, BlockPos blockPos) {
         Random random = world.random;
         double offset = 0.0625D;
 
@@ -159,15 +159,15 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    public IFormattableTextComponent getInfo(ItemStack itemStack) {
-    	return new TranslationTextComponent(this.getDescriptionId()
+    public MutableComponent getInfo(ItemStack itemStack) {
+    	return new TranslatableComponent(this.getDescriptionId()
                 + ".info.custom", 66)
                 .withStyle(INFO_PREFIX_STYLES);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void provideInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag iTooltipFlag) {
+    public void provideInformation(ItemStack itemStack, Level world, List<Component> list, TooltipFlag iTooltipFlag) {
 
     }
 

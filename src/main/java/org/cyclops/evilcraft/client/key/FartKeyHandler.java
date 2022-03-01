@@ -1,16 +1,14 @@
 package org.cyclops.evilcraft.client.key;
 
-import net.minecraft.client.GameSettings;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.client.Options;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.key.IKeyHandler;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.network.packet.FartPacket;
 
@@ -26,19 +24,19 @@ public class FartKeyHandler implements IKeyHandler {
 	private boolean fartingEnabled = false;
 	
 	@Override
-	public void onKeyPressed(KeyBinding kb) {
-		ClientPlayerEntity player = Minecraft.getInstance().player;
-		GameSettings settings = Minecraft.getInstance().options;
+	public void onKeyPressed(KeyMapping kb) {
+		LocalPlayer player = Minecraft.getInstance().player;
+		Options settings = Minecraft.getInstance().options;
 		
 		if (kb == Keys.FART) {
 			fartingEnabled = !fartingEnabled;
 			
 			if (fartingEnabled)
-				player.displayClientMessage(new TranslationTextComponent("chat.evilcraft.command.farting_enabled")
-						.withStyle(TextFormatting.DARK_RED), true);
+				player.displayClientMessage(new TranslatableComponent("chat.evilcraft.command.farting_enabled")
+						.withStyle(ChatFormatting.DARK_RED), true);
 			else
-				player.displayClientMessage(new TranslationTextComponent("chat.evilcraft.command.farting_disabled")
-						.withStyle(TextFormatting.DARK_RED), true);
+				player.displayClientMessage(new TranslatableComponent("chat.evilcraft.command.farting_disabled")
+						.withStyle(ChatFormatting.DARK_RED), true);
 		}
 		
 		if (fartingEnabled && kb == settings.keyShift) {

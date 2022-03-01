@@ -1,10 +1,9 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.material.Material;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -20,12 +19,10 @@ public class BlockDarkBrickStairsConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "dark_brick_stairs",
-                eConfig -> new StairsBlock(() -> RegistryEntries.BLOCK_DARK_BRICK.defaultBlockState(),
+                eConfig -> new StairBlock(() -> RegistryEntries.BLOCK_DARK_BRICK.defaultBlockState(),
                         Block.Properties.of(Material.STONE)
                                 .strength(5.0F)
-                                .sound(SoundType.STONE)
-                                .harvestTool(ToolType.PICKAXE)
-                                .harvestLevel(2)),
+                                .sound(SoundType.STONE)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.fluid;
 
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.tileentity.CyclopsTileEntity;
+import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 

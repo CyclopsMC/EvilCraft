@@ -1,27 +1,37 @@
 package org.cyclops.evilcraft.world.gen.structure;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.DimensionSettings;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.StructureFeature;
-import net.minecraft.world.gen.feature.structure.IStructurePieceType;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.settings.DimensionStructuresSettings;
-import net.minecraft.world.gen.settings.StructureSeparationSettings;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.FlatLevelSource;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.feature.StructurePieceType;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.StructureSettings;
+import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.WorldStructureConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Config for the {@link WorldStructureDarkTemple}.
@@ -41,31 +51,31 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
     @ConfigurableProperty(category = "worldgeneration", comment = "Minimum distance between dark temples in chunks, must be smaller than spacing.", configLocation = ModConfig.Type.SERVER)
     public static int darkTempleSeparation = 16;
 
-    public static final IStructurePieceType PIECE_TYPE = Registry.register(Registry.STRUCTURE_PIECE, "evilcraft:dark_temple_piece", WorldStructureDarkTemple.Piece::new);
-    public static StructureFeature<?, ?> CONFIGURED_FEATURE;
+    public static final StructurePieceType PIECE_TYPE = Registry.register(Registry.STRUCTURE_PIECE, "evilcraft:dark_temple_piece", (StructurePieceType) (StructurePieceType.ContextlessType) WorldStructureDarkTemple.Piece::new);
+    public static ConfiguredStructureFeature<?, ?> CONFIGURED_FEATURE;
 
     public WorldStructureDarkTempleConfig() {
         super(
                 EvilCraft._instance,
                 "dark_temple",
-                eConfig -> new WorldStructureDarkTemple(NoFeatureConfig.CODEC)
+                eConfig -> new WorldStructureDarkTemple(NoneFeatureConfiguration.CODEC)
         );
-        MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
+        MinecraftForge.EVENT_BUS.addListener(this::addDimensionalSpacing);
     }
 
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
 
-        CONFIGURED_FEATURE = Registry.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE,
+        CONFIGURED_FEATURE = Registry.register(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE,
                 new ResourceLocation(getMod().getModId(), getNamedId() + "_default"),
                 ((WorldStructureDarkTemple) getInstance())
-                        .configured(IFeatureConfig.NONE));
+                        .configured(FeatureConfiguration.NONE));
 
-        Structure.STRUCTURES_REGISTRY.put(getRegistryKey().location().toString().toLowerCase(Locale.ROOT), getInstance());
+        StructureFeature.STRUCTURES_REGISTRY.put(getResourceKey().location().toString().toLowerCase(Locale.ROOT), getInstance());
 
         // MCP params: spacing, separation, salt
-        StructureSeparationSettings settings = new StructureSeparationSettings(darkTempleSpacing, darkTempleSeparation, 370458167) {
+        StructureFeatureConfiguration settings = new StructureFeatureConfiguration(darkTempleSpacing, darkTempleSeparation, 370458167) {
             @Override
             public int spacing() {
                 return darkTempleSpacing;
@@ -77,18 +87,59 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
             }
         };
 
-        ImmutableSet.of(DimensionSettings.OVERWORLD, DimensionSettings.AMPLIFIED, DimensionSettings.NETHER,
-                DimensionSettings.END, DimensionSettings.CAVES, DimensionSettings.FLOATING_ISLANDS)
+        ImmutableSet.of(NoiseGeneratorSettings.OVERWORLD, NoiseGeneratorSettings.AMPLIFIED, NoiseGeneratorSettings.NETHER,
+                NoiseGeneratorSettings.END, NoiseGeneratorSettings.CAVES, NoiseGeneratorSettings.FLOATING_ISLANDS)
                 .stream()
-                .map(WorldGenRegistries.NOISE_GENERATOR_SETTINGS::get)
-                .map(DimensionSettings::structureSettings)
-                .map(DimensionStructuresSettings::structureConfig) // get map
+                .map(BuiltinRegistries.NOISE_GENERATOR_SETTINGS::get)
+                .map(NoiseGeneratorSettings::structureSettings)
+                .map(StructureSettings::structureConfig) // get map
                 .forEach(m -> m.put(getInstance(), settings));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        if (WorldStructureDarkTempleConfig.enabled && event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER) {
-            event.getGeneration().getStructures().add(() -> CONFIGURED_FEATURE);
+    }
+
+    // Based on https://github.com/VazkiiMods/Quark/blob/ace90bfcc26db4c50a179f026134e2577987c2b1/src/main/java/vazkii/quark/content/world/module/BigDungeonModule.java
+    public void addDimensionalSpacing(final WorldEvent.Load event) {
+        if(WorldStructureDarkTempleConfig.enabled && event.getWorld() instanceof ServerLevel serverLevel){
+            ChunkGenerator chunkGenerator = serverLevel.getChunkSource().getGenerator();
+            if(chunkGenerator instanceof FlatLevelSource && serverLevel.dimension().equals(Level.OVERWORLD))
+                return;
+
+            StructureSettings worldStructureConfig = chunkGenerator.getSettings();
+            HashMap<StructureFeature<?>, HashMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> STStructureToMultiMap = new HashMap<>();
+
+            for (Map.Entry<ResourceKey<Biome>, Biome> biomeEntry : serverLevel.registryAccess().ownedRegistryOrThrow(Registry.BIOME_REGISTRY).entrySet()) {
+                if (biomeEntry.getValue().getBiomeCategory() != Biome.BiomeCategory.THEEND && biomeEntry.getValue().getBiomeCategory() != Biome.BiomeCategory.NETHER)
+                    associateBiomeToConfiguredStructure(STStructureToMultiMap, CONFIGURED_FEATURE, biomeEntry.getKey());
+            }
+
+            ImmutableMap.Builder<StructureFeature<?>, ImmutableMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> tempStructureToMultiMap = ImmutableMap.builder();
+            // worldStructureConfig.configuredStructures.entrySet().stream().filter(entry -> !STStructureToMultiMap.containsKey(entry.getKey())).forEach(tempStructureToMultiMap::put); // TODO: at
+
+            STStructureToMultiMap.forEach((key, value) -> tempStructureToMultiMap.put(key, ImmutableMultimap.copyOf(value)));
+            // worldStructureConfig.configuredStructures = tempStructureToMultiMap.build();  // TODO: at
+
+            Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(worldStructureConfig.structureConfig());
+            tempMap.putIfAbsent(getInstance(), StructureSettings.DEFAULTS.get(getInstance()));
+            // worldStructureConfig.structureConfig = tempMap;  // TODO: at
         }
+    }
+
+    private static void associateBiomeToConfiguredStructure(Map<StructureFeature<?>, HashMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> STStructureToMultiMap, ConfiguredStructureFeature<?, ?> configuredStructureFeature, ResourceKey<Biome> biomeRegistryKey) {
+        STStructureToMultiMap.putIfAbsent(configuredStructureFeature.feature, HashMultimap.create());
+        HashMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> configuredStructureToBiomeMultiMap = STStructureToMultiMap.get(configuredStructureFeature.feature);
+        if(configuredStructureToBiomeMultiMap.containsValue(biomeRegistryKey))
+            EvilCraft.clog(String.format("""
+					Detected 2 ConfiguredStructureFeatures that share the same base StructureFeature trying to be added to same biome. One will be prevented from spawning.
+					This issue happens with vanilla too and is why a Snowy Village and Plains Village cannot spawn in the same biome because they both use the Village base structure.
+					The two conflicting ConfiguredStructures are: %s, %s
+					The biome that is attempting to be shared: %s
+					""",
+                    BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.getId(configuredStructureFeature),
+                    BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.getId(configuredStructureToBiomeMultiMap.entries().stream().filter(e -> e.getValue() == biomeRegistryKey).findFirst().get().getKey()),
+                    biomeRegistryKey), org.apache.logging.log4j.Level.ERROR);
+
+        else configuredStructureToBiomeMultiMap.put(configuredStructureFeature, biomeRegistryKey);
     }
 }

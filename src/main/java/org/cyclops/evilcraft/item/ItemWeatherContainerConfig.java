@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -13,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import net.minecraft.enchantment.Enchantment.Rarity;
+import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 
 /**
  * Enchantment that steals the HP when hit another Entity.
@@ -23,14 +23,14 @@ import net.minecraft.enchantment.Enchantment.Rarity;
 public class EnchantmentLifeStealing extends Enchantment {
 
     public EnchantmentLifeStealing() {
-        super(Rarity.UNCOMMON, EnchantmentType.WEAPON, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        super(Rarity.UNCOMMON, EnchantmentCategory.WEAPON, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
         MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void stealLife(LivingAttackEvent event) {
-        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getSource().getEntity();
+        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof Player) {
+            Player player = (Player) event.getSource().getEntity();
             ItemStack itemStack = player.getMainHandItem();
             int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
             if (enchantmentListID > -1) {

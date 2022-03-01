@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.core.Vec3i;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
-import org.cyclops.evilcraft.tileentity.TileSanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
+import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryEnvironmentalAccumulator;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +21,7 @@ import java.util.function.Supplier;
  * @author rubensworks
  *
  */
-public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWorking<TileSanguinaryEnvironmentalAccumulator> {
+public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWorking<BlockEntitySanguinaryEnvironmentalAccumulator> {
 
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
@@ -48,25 +48,25 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
     private static final int UPGRADE_INVENTORY_OFFSET_Y = 6;
 
     private final Supplier<Boolean> variableCanWork;
-    private final Supplier<List<Vector3i>> variableInvalidLocations;
+    private final Supplier<List<Vec3i>> variableInvalidLocations;
 
-    public ContainerSanguinaryEnvironmentalAccumulator(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new Inventory(TileSanguinaryEnvironmentalAccumulator.SLOTS + TileSanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES), Optional.empty());
+    public ContainerSanguinaryEnvironmentalAccumulator(int id, Inventory playerInventory) {
+        this(id, playerInventory, new SimpleContainer(BlockEntitySanguinaryEnvironmentalAccumulator.SLOTS + BlockEntitySanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES), Optional.empty());
     }
 
-    public ContainerSanguinaryEnvironmentalAccumulator(int id, PlayerInventory playerInventory, IInventory inventory,
-                                                       Optional<TileSanguinaryEnvironmentalAccumulator> tileSupplier) {
+    public ContainerSanguinaryEnvironmentalAccumulator(int id, Inventory playerInventory, Container inventory,
+                                                       Optional<BlockEntitySanguinaryEnvironmentalAccumulator> tileSupplier) {
         super(RegistryEntries.CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR, id, playerInventory, inventory, tileSupplier,
-                TileSanguinaryEnvironmentalAccumulator.TICKERS, TileSanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES);
+                BlockEntitySanguinaryEnvironmentalAccumulator.TICKERS, BlockEntitySanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES);
 
         this.variableCanWork = registerSyncedVariable(Boolean.class, () -> getTileSupplier().get().canWork());
         this.variableInvalidLocations = (Supplier) registerSyncedVariable(List.class, () -> getTileSupplier().get().getInvalidLocations());
 
         // Adding inventory
-        addSlot(new SlotWorking<>(TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE, SLOT_ACCUMULATE_X, SLOT_ACCUMULATE_Y, this, playerInventory.player.level)); // Accumulate slot
-        addSlot(new SlotRemoveOnly(inventory, TileSanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT, SLOT_ACCUMULATE_RESULT_X, SLOT_ACCUMULATE_RESULT_Y)); // Accumulate result slot
+        addSlot(new SlotWorking<>(BlockEntitySanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE, SLOT_ACCUMULATE_X, SLOT_ACCUMULATE_Y, this, playerInventory.player.level)); // Accumulate slot
+        addSlot(new SlotRemoveOnly(inventory, BlockEntitySanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT, SLOT_ACCUMULATE_RESULT_X, SLOT_ACCUMULATE_RESULT_Y)); // Accumulate result slot
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSanguinaryEnvironmentalAccumulator.SLOTS);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, BlockEntitySanguinaryEnvironmentalAccumulator.SLOTS);
 
         this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
@@ -75,12 +75,12 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
         return variableCanWork.get();
     }
 
-    public List<Vector3i> getInvalidLocations() {
+    public List<Vec3i> getInvalidLocations() {
         return variableInvalidLocations.get();
     }
 
     @Override
-    public TileWorking.Metadata getTileWorkingMetadata() {
-        return TileSanguinaryEnvironmentalAccumulator.METADATA;
+    public BlockEntityWorking.Metadata getTileWorkingMetadata() {
+        return BlockEntitySanguinaryEnvironmentalAccumulator.METADATA;
     }
 }

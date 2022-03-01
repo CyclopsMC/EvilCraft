@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.api.tileentity.bloodchest;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Random;

@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.algorithm;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 import java.util.Random;
 
@@ -15,7 +15,7 @@ public class OrganicSpread {
     
     private static Random random = new Random();
     
-    private World world;
+    private Level world;
     private int dimensions;
     private int radius;
     private IOrganicSpreadable spreadable;
@@ -27,7 +27,7 @@ public class OrganicSpread {
      * @param radius The radius in which the spreading should happen.
      * @param spreadable The spreadable object.
      */
-    public OrganicSpread(World world, int dimensions, int radius, IOrganicSpreadable spreadable) {
+    public OrganicSpread(Level world, int dimensions, int radius, IOrganicSpreadable spreadable) {
         this.world = world;
         this.setDimensions(dimensions);
         this.setRadius(radius);
@@ -81,11 +81,11 @@ public class OrganicSpread {
      * @param startLocation The location to start spreading from.
      */
     public void spreadTick(BlockPos startLocation) {
-        Vector3d newLocation = new Vector3d(startLocation.getX(), startLocation.getY(), startLocation.getZ());
+        Vec3 newLocation = new Vec3(startLocation.getX(), startLocation.getY(), startLocation.getZ());
         BlockPos newLocationConcrete = new BlockPos(newLocation);
 
         // Safely get a random direction.
-        Vector3d direction = getRandomDirection();
+        Vec3 direction = getRandomDirection();
         int attempts = 10;
         while(!isBigEnough(direction) && attempts > 0) {
             direction = getRandomDirection();
@@ -109,7 +109,7 @@ public class OrganicSpread {
         return Math.sqrt(center.distSqr(location)) <= getRadius();
     }
 
-    protected boolean isBigEnough(Vector3d direction) {
+    protected boolean isBigEnough(Vec3 direction) {
         float MIN = 0.3F;
         return Math.abs(direction.x) >= MIN || Math.abs(direction.y) >= MIN || Math.abs(direction.z) >= MIN;
     }
@@ -118,8 +118,8 @@ public class OrganicSpread {
      * Get a random direction to spread in.
      * @return An array of a choice of -1;0;1 per coordinate index.
      */
-    protected Vector3d getRandomDirection() {
-        return new Vector3d((random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2);
+    protected Vec3 getRandomDirection() {
+        return new Vec3((random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2, (random.nextFloat() * 2 - 1) / 2);
     }
 
     /**
@@ -135,13 +135,13 @@ public class OrganicSpread {
          * @param location The location.
          * @return If it is spread to.
          */
-        public boolean isDone(World world, BlockPos location);
+        public boolean isDone(Level world, BlockPos location);
         /**
          * Spread to a given location.
          * @param world The world.
          * @param location The location.
          */
-        public void spreadTo(World world, BlockPos location);
+        public void spreadTo(Level world, BlockPos location);
         
     }
 

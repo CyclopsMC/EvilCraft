@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -20,7 +20,7 @@ public class BlockUndeadFenceGateConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_fence_gate",
-                eConfig -> new FenceGateBlock(AbstractBlock.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
+                eConfig -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
                         .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)),
                 getDefaultItemConstructor(EvilCraft._instance)

@@ -1,11 +1,10 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.IBidiRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
@@ -18,8 +17,6 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.item.ItemPromise;
-
-import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix.ItemButton;
 
 /**
  * Blood Infuser recipes.
@@ -64,7 +61,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, MatrixStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, PoseStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(matrixStack, x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
@@ -90,10 +87,10 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
         renderItem(gui, matrixStack, x + middle, y + SLOT_OFFSET_Y, new ItemStack(RegistryEntries.BLOCK_BLOOD_INFUSER), mx, my, false, null);
 
         // Blood amount text
-        FontRenderer fontRenderer = gui.getFontRenderer();
+        Font fontRenderer = gui.getFont();
         FluidStack fluidStack = recipe.getInputFluid();
         String line = fluidStack.getAmount() + " mB";
-        IBidiRenderer.create(fontRenderer, new StringTextComponent(line), 200)
+        MultiLineLabel.create(fontRenderer, new TextComponent(line), 200)
                 .renderLeftAlignedNoShadow(matrixStack, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
     }
 }

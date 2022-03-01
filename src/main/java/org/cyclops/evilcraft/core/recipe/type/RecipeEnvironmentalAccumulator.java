@@ -1,16 +1,15 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.weather.WeatherType;
@@ -19,7 +18,7 @@ import org.cyclops.evilcraft.core.weather.WeatherType;
  * Environmental Accumulator recipe
  * @author rubensworks
  */
-public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironmentalAccumulator.Inventory> {
+public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmentalAccumulator.Inventory> {
 
     private final ResourceLocation id;
     private final Ingredient inputIngredient;
@@ -85,7 +84,7 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironment
     }
 
     @Override
-    public boolean matches(RecipeEnvironmentalAccumulator.Inventory inv, World worldIn) {
+    public boolean matches(RecipeEnvironmentalAccumulator.Inventory inv, Level worldIn) {
         return inputIngredient.test(inv.getItem(0))
                 && inputWeather.isActive(worldIn);
     }
@@ -96,7 +95,7 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironment
         ItemStack itemStack = getResultItem().copy();
         if (!inputStack.isEmpty() && inputStack.hasTag()) {
             if(!itemStack.hasTag()) {
-                itemStack.setTag(new CompoundNBT());
+                itemStack.setTag(new CompoundTag());
             }
             for (String key : inputStack.getTag().getAllKeys()) {
                 if(!itemStack.getTag().contains(key)) {
@@ -123,27 +122,27 @@ public class RecipeEnvironmentalAccumulator implements IRecipe<RecipeEnvironment
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR;
     }
 
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR;
     }
 
-    public static interface Inventory extends IInventory {
-        public World getWorld();
+    public static interface Inventory extends Container {
+        public Level getWorld();
         public BlockPos getPos();
     }
 
-    public static class InventoryDummy extends net.minecraft.inventory.Inventory implements Inventory {
+    public static class InventoryDummy extends net.minecraft.world.SimpleContainer implements Inventory {
         public InventoryDummy(ItemStack... stacksIn) {
             super(stacksIn);
         }
 
         @Override
-        public World getWorld() {
+        public Level getWorld() {
             return null;
         }
 

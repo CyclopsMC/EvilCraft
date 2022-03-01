@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Items;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.Items;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
@@ -11,8 +11,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritReanimator;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
-import org.cyclops.evilcraft.tileentity.TileSpiritReanimator;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
+import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  * @author rubensworks
  *
  */
-public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritReanimator> {
+public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntitySpiritReanimator> {
     
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
@@ -69,26 +69,26 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
 
     private final Supplier<String> variableEntityName;
 
-    public ContainerSpiritReanimator(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new Inventory(TileSpiritReanimator.SLOTS + TileSpiritReanimator.INVENTORY_SIZE_UPGRADES), Optional.empty());
+    public ContainerSpiritReanimator(int id, Inventory playerInventory) {
+        this(id, playerInventory, new SimpleContainer(BlockEntitySpiritReanimator.SLOTS + BlockEntitySpiritReanimator.INVENTORY_SIZE_UPGRADES), Optional.empty());
     }
 
-    public ContainerSpiritReanimator(int id, PlayerInventory playerInventory, IInventory inventory,
-                                  Optional<TileSpiritReanimator> tileSupplier) {
+    public ContainerSpiritReanimator(int id, Inventory playerInventory, Container inventory,
+                                  Optional<BlockEntitySpiritReanimator> tileSupplier) {
         super(RegistryEntries.CONTAINER_SPIRIT_REANIMATOR, id, playerInventory, inventory, tileSupplier,
-                TileSpiritReanimator.TICKERS, TileSpiritReanimator.INVENTORY_SIZE_UPGRADES);
+                BlockEntitySpiritReanimator.TICKERS, BlockEntitySpiritReanimator.INVENTORY_SIZE_UPGRADES);
 
         this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : getTileSupplier().get().getEntityType().getRegistryName().toString());
 
         // Adding inventory
-        addSlot(new SlotFluidContainer(inventory, TileSpiritReanimator.SLOT_CONTAINER,
+        addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritReanimator.SLOT_CONTAINER,
         		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
         		RegistryEntries.FLUID_BLOOD)); // Container emptier
-        addSlot(new SlotWorking<TileSpiritReanimator>(TileSpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level)); // Box slot
-        addSlot(new SlotSingleItem(inventory, TileSpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
-        addSlot(new SlotRemoveOnly(inventory, TileSpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
+        addSlot(new SlotWorking<BlockEntitySpiritReanimator>(BlockEntitySpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level)); // Box slot
+        addSlot(new SlotSingleItem(inventory, BlockEntitySpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
+        addSlot(new SlotRemoveOnly(inventory, BlockEntitySpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileSpiritReanimator.SLOTS);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, BlockEntitySpiritReanimator.SLOTS);
 
         this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
@@ -99,8 +99,8 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<TileSpiritRe
     }
 
     @Override
-    public TileWorking.Metadata getTileWorkingMetadata() {
-        return TileSpiritReanimator.METADATA;
+    public BlockEntityWorking.Metadata getTileWorkingMetadata() {
+        return BlockEntitySpiritReanimator.METADATA;
     }
     
 }

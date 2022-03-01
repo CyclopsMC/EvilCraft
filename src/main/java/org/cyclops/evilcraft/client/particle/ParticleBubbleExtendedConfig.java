@@ -1,11 +1,9 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.world.World;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
@@ -32,15 +30,15 @@ public class ParticleBubbleExtendedConfig extends ParticleConfig<ParticleBubbleE
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public IParticleFactory<ParticleBubbleExtendedData> getParticleFactory() {
+    public ParticleProvider<ParticleBubbleExtendedData> getParticleFactory() {
         return null;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public ParticleManager.IParticleMetaFactory<ParticleBubbleExtendedData> getParticleMetaFactory() {
-        return sprite -> (IParticleFactory<ParticleBubbleExtendedData>) (particleData, world, x, y, z, motionX, motionY, motionZ) -> {
+    public ParticleEngine.SpriteParticleRegistration<ParticleBubbleExtendedData> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<ParticleBubbleExtendedData>) (particleData, world, x, y, z, motionX, motionY, motionZ) -> {
             ParticleBubbleExtended particle = new ParticleBubbleExtended(world, x, y, z, motionX, motionY, motionZ, particleData.getGravity());
             particle.pickSprite(sprite);
             return particle;

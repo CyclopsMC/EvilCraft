@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -15,13 +15,13 @@ import java.util.Optional;
  *
  * @param <T> The type of tile.
  */
-public abstract class ContainerTickingChest<T extends TickingTankInventoryTileEntity<T>> extends ContainerInventoryTickingTank<T> {
+public abstract class ContainerTickingChest<T extends BlockEntityTickingTankInventory<T>> extends ContainerInventoryTickingTank<T> {
     
     private int offsetX;
     private int offsetY;
 
-    public ContainerTickingChest(@Nullable ContainerType<?> type, int id, PlayerInventory playerInventory,
-                                         IInventory inventory, Optional<T> tileSupplier, int tickers,
+    public ContainerTickingChest(@Nullable MenuType<?> type, int id, Inventory playerInventory,
+                                         Container inventory, Optional<T> tileSupplier, int tickers,
                                  int rows, int columns, int offsetX, int offsetY) {
         super(type, id, playerInventory, inventory, tileSupplier, tickers);
         this.offsetX = offsetX;
@@ -45,7 +45,7 @@ public abstract class ContainerTickingChest<T extends TickingTankInventoryTileEn
      * @param column The column for the slot.
      * @return The new slot instance.
      */
-    public abstract Slot makeSlot(IInventory inventory, int index, int row, int column);
+    public abstract Slot makeSlot(Container inventory, int index, int row, int column);
     
     
     

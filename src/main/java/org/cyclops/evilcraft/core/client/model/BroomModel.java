@@ -2,14 +2,14 @@ package org.cyclops.evilcraft.core.client.model;
 
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.IModelTransform;
-import net.minecraft.client.renderer.model.IUnbakedModel;
-import net.minecraft.client.renderer.model.ItemOverrideList;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.geometry.IModelGeometry;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
@@ -25,7 +25,7 @@ import java.util.function.Function;
  * Model for a variant of a broom item.
  * @author rubensworks
  */
-public class BroomModel implements IUnbakedModel, IModelGeometry<BroomModel> {
+public class BroomModel implements UnbakedModel, IModelGeometry<BroomModel> {
 
     @Override
     public Collection<ResourceLocation> getDependencies() {
@@ -35,20 +35,20 @@ public class BroomModel implements IUnbakedModel, IModelGeometry<BroomModel> {
     }
 
     @Override
-    public Collection<RenderMaterial> getMaterials(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+    public Collection<Material> getMaterials(Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
         return Collections.emptyList();
     }
 
     @Nullable
     @Override
-    public IBakedModel bake(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
-                                 IModelTransform transform, ResourceLocation location) {
+    public BakedModel bake(ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter,
+                                 ModelState transform, ResourceLocation location) {
         BroomModelBaked bakedModel = new BroomModelBaked();
 
         // Add aspects to baked model.
         for(IBroomPart part : BroomParts.REGISTRY.getParts()) {
             try {
-                IBakedModel bakedAspectModel = bakery.getBakedModel(BroomParts.REGISTRY.getPartModel(part), transform, spriteGetter);
+                BakedModel bakedAspectModel = bakery.bake(BroomParts.REGISTRY.getPartModel(part), transform, spriteGetter);
                 BroomModelBaked.addBroomModel(part, bakedAspectModel);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,12 +59,12 @@ public class BroomModel implements IUnbakedModel, IModelGeometry<BroomModel> {
     }
 
     @Override
-    public IBakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter, IModelTransform modelTransform, ItemOverrideList overrides, ResourceLocation modelLocation) {
+    public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
         return bake(bakery, spriteGetter, modelTransform, modelLocation);
     }
 
     @Override
-    public Collection<RenderMaterial> getTextures(IModelConfiguration owner, Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+    public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
         return getMaterials(modelGetter, missingTextureErrors);
     }
 }

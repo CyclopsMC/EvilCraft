@@ -1,19 +1,18 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.util.Mth;
 
 /**
  * An effect for magical particles.
  * @author rubensworks
  *
  */
-public class ParticleDegrade extends SpriteTexturedParticle {
+public class ParticleDegrade extends TextureSheetParticle {
 
-    public ParticleDegrade(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    public ParticleDegrade(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.lifetime = 40;
         this.alpha = 0.4F;
@@ -23,13 +22,13 @@ public class ParticleDegrade extends SpriteTexturedParticle {
     }
 
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
     public float getQuadSize(float p_217561_1_) {
-        return this.quadSize * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
+        return this.quadSize * Mth.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
     
     @Override

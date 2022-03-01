@@ -1,24 +1,23 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.item.UseAction;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -29,8 +28,6 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
@@ -58,18 +55,18 @@ public class ItemBiomeExtract extends Item {
     }
 
     @Override
-    public UseAction getUseAnimation(ItemStack stack) {
-        return UseAction.BOW;
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.BOW;
     }
 
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!world.isClientSide() && getBiome(itemStack) != null && !ItemBiomeExtractConfig.isUsageBlacklisted(getBiome(itemStack))) {
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundSource.PLAYERS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
             // MCP: shoot
-            entity.shootFromRotation(player, player.xRot, player.yRot, -20.0F, 0.5F, 1.0F);
+            entity.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
             world.addFreshEntity(entity);
             itemStack.shrink(1);
         }
@@ -79,13 +76,13 @@ public class ItemBiomeExtract extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
         Biome biome = getBiome(itemStack);
         if(biome != null) {
             // Biome name generation based on CreateBuffetWorldScreen
-            list.add(new TranslationTextComponent(getDescriptionId() + ".info.content",
-                    new TranslationTextComponent("biome." + biome.getRegistryName().getNamespace() + "." + biome.getRegistryName().getPath())));
+            list.add(new TranslatableComponent(getDescriptionId() + ".info.content",
+                    new TranslatableComponent("biome." + biome.getRegistryName().getNamespace() + "." + biome.getRegistryName().getPath())));
         }
     }
 
@@ -95,7 +92,7 @@ public class ItemBiomeExtract extends Item {
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
-    public void fillItemCategory(ItemGroup creativeTabs, NonNullList<ItemStack> list) {
+    public void fillItemCategory(CreativeModeTab creativeTabs, NonNullList<ItemStack> list) {
         if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
         super.fillItemCategory(creativeTabs, list);
         if(ItemBiomeExtractConfig.creativeTabVariants) {
@@ -142,7 +139,7 @@ public class ItemBiomeExtract extends Item {
     public ItemStack createItemStack(Biome biome, int amount) {
         ItemStack itemStack = new ItemStack(this, amount);
         if(biome != null) {
-            CompoundNBT tag = new CompoundNBT();
+            CompoundTag tag = new CompoundTag();
             tag.putString(NBT_BIOMEKEY, biome.getRegistryName().toString());
             itemStack.setTag(tag);
         }
@@ -162,7 +159,7 @@ public class ItemBiomeExtract extends Item {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             if(renderPass == 0) {

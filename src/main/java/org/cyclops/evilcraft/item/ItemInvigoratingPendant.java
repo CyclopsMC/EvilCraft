@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
@@ -36,18 +36,17 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
      * @param itemStack The pendant to drain.
      * @param player The player to receive the powers.
      */
-    public void clearBadEffects(ItemStack itemStack, PlayerEntity player) {
+    public void clearBadEffects(ItemStack itemStack, Player player) {
     	int amount = ItemInvigoratingPendantConfig.usage;
     	if(canConsume(amount, itemStack, player)) {
     		
     		int originalReducableDuration = ItemInvigoratingPendantConfig.reduceDuration * MinecraftHelpers.SECOND_IN_TICKS;
     		int reducableDuration = originalReducableDuration;
-    		
-	    	@SuppressWarnings("unchecked")
-			Iterator<EffectInstance> it = Lists.newLinkedList(player.getActiveEffects()).iterator();
+
+			Iterator<MobEffectInstance> it = Lists.newLinkedList(player.getActiveEffects()).iterator();
 	    	while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
-	    		EffectInstance effect = it.next();
-	    		Effect potion = effect.getEffect();
+	    		MobEffectInstance effect = it.next();
+	    		MobEffect potion = effect.getEffect();
 	    		
 	    		boolean shouldClear = true;
 	    		if(potion != null) {
@@ -67,7 +66,7 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
 	    				player.removeEffect(potion);
 	    			} else {
 						effect.duration = remaining - toReduce;
-						player.onEffectUpdated(effect, true);;
+						player.onEffectUpdated(effect, true, null);
 	    				toDrain = (int) Math.ceil((double) (reductionMultiplier * amount)
 	    						* ((double) toReduce / (double) originalReducableDuration));
 	    			}
@@ -84,10 +83,10 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
 	}
     
 	@Override
-    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof PlayerEntity
+    public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
+        if(entity instanceof Player
         		&& WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getId())) {
-        	clearBadEffects(itemStack, (PlayerEntity) entity);
+        	clearBadEffects(itemStack, (Player) entity);
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);
     }

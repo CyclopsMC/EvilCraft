@@ -1,10 +1,9 @@
 package org.cyclops.evilcraft.client.particle;
 
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.BubbleParticle;
-import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.world.World;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -14,11 +13,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * @author Ruben Taelman
  */
 @OnlyIn(Dist.CLIENT)
-public class ParticleBubbleExtended extends SpriteTexturedParticle {
+public class ParticleBubbleExtended extends TextureSheetParticle {
 
     private final float gravity;
 
-    public ParticleBubbleExtended(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, float gravity) {
+    public ParticleBubbleExtended(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, float gravity) {
         super(world, x, y, z);
         this.setSize(0.02F, 0.02F);
         this.quadSize *= this.random.nextFloat() * 0.6F + 0.2F;
@@ -46,7 +45,7 @@ public class ParticleBubbleExtended extends SpriteTexturedParticle {
     }
 
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 }

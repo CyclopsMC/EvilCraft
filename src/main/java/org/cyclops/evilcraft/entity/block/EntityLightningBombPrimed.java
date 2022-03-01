@@ -1,17 +1,16 @@
 package org.cyclops.evilcraft.entity.block;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockLightningBomb;
 
@@ -24,19 +23,19 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class EntityLightningBombPrimed extends TNTEntity {
+public class EntityLightningBombPrimed extends PrimedTnt {
     
     private static final float EXPLOSION_STRENGTH = 1.0f;
 
     @Nullable
     private LivingEntity placer;
 
-    public EntityLightningBombPrimed(EntityType<? extends EntityLightningBombPrimed> type, World world) {
+    public EntityLightningBombPrimed(EntityType<? extends EntityLightningBombPrimed> type, Level world) {
         super(type, world);
         setFuse();
     }
 
-    public EntityLightningBombPrimed(World world, double x, double y, double z, @Nullable LivingEntity placer) {
+    public EntityLightningBombPrimed(Level world, double x, double y, double z, @Nullable LivingEntity placer) {
         this(RegistryEntries.ENTITY_LIGHTNING_BOMB_PRIMED, world);
         this.setPos(x, y, z);
         double d0 = world.random.nextDouble() * (double)((float)Math.PI * 2F);
@@ -51,7 +50,7 @@ public class EntityLightningBombPrimed extends TNTEntity {
 
     @Nonnull
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -78,24 +77,24 @@ public class EntityLightningBombPrimed extends TNTEntity {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.5D, 0.7D));
         }
 
-        if (this.getLife() - 1 <= 0) {
-            this.remove();
+        if (this.getFuse() - 1 <= 0) {
+            this.remove(RemovalReason.KILLED);
 
             if (!this.level.isClientSide()) {
                 this.explode(this.level, this.getX(), this.getY(), this.getZ());
             }
         } else {
-            setFuse(getLife() - 1);
+            setFuse(getFuse() - 1);
             this.doWaterSplashEffect();
             level.addParticle(ParticleTypes.SMOKE,
                     this.getX(), this.getY() + 0.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 
-    private void explode(World world, double x, double y, double z) {
+    private void explode(Level world, double x, double y, double z) {
         if (!world.isClientSide()) {
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), EXPLOSION_STRENGTH, Explosion.Mode.DESTROY);
-            LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+            this.level.explode(this, this.getX(), this.getY(), this.getZ(), EXPLOSION_STRENGTH, Explosion.BlockInteraction.DESTROY);
+            LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world);
             bolt.moveTo(x, y, z);
         } else {
             Random rand = new Random();

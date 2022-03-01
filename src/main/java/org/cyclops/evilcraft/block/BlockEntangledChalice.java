@@ -1,47 +1,51 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
-import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -50,7 +54,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class BlockEntangledChalice extends BlockTile implements IInformationProvider, IBlockTank, IBlockRarityProvider {
+public class BlockEntangledChalice extends BlockWithEntity implements IInformationProvider, IBlockTank, IBlockRarityProvider {
 
 	public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
 
@@ -61,56 +65,62 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	public static final VoxelShape SHAPE = Block.box(0.125F * 16F, 0F, 0.125F * 16F, 0.875F * 16F, 1.0F * 16F, 0.875F * 16F);
 
     public BlockEntangledChalice(Block.Properties properties) {
-        super(properties, TileEntangledChalice::new);
+        super(properties, BlockEntityEntangledChalice::new);
 
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(DRAINING, false));
     }
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+		return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE, new BlockEntityEntangledChalice.TickerServer());
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(DRAINING);
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(DRAINING, false);
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+	public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
 		if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		if (world.isClientSide()) {
-			String tankId = TileHelpers.getSafeTile(world, blockPos, TileEntangledChalice.class)
-					.map(TileEntangledChalice::getWorldTankId)
+			String tankId = BlockEntityHelpers.get(world, blockPos, BlockEntityEntangledChalice.class)
+					.map(BlockEntityEntangledChalice::getWorldTankId)
 					.orElse("null");
-			player.displayClientMessage(new TranslationTextComponent(L10NHelpers.localize(
+			player.displayClientMessage(new TranslatableComponent(L10NHelpers.localize(
 					"block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
 		}
 		return super.use(state, world, blockPos, player, hand, rayTraceResult);
 	}
     
     @Override
-    public IFormattableTextComponent getInfo(ItemStack itemStack) {
+    public MutableComponent getInfo(ItemStack itemStack) {
         return BlockTankHelpers.getInfoTank(itemStack);
     }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void provideInformation(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag iTooltipFlag) {
+	public void provideInformation(ItemStack itemStack, Level world, List<Component> list, TooltipFlag iTooltipFlag) {
 
 	}
 	
 	@Override
 	public int getDefaultCapacity() {
-		return TileEntangledChalice.BASE_CAPACITY;
+		return BlockEntityEntangledChalice.BASE_CAPACITY;
 	}
 	
 	@Override
@@ -119,7 +129,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	}
 	
 	@Override
-	public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
+	public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player) {
 		if(player.isCrouching()) {
             if(!world.isClientSide()) {
 				ItemStack activated = itemStack.copy();
@@ -139,15 +149,15 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	}
 
 	@Override
-	public boolean isActivated(ItemStack itemStack, World world) {
+	public boolean isActivated(ItemStack itemStack, Level world) {
 		return ItemHelpers.isActivated(itemStack);
 	}
 
 	@Override
-	public int getLightValue(BlockState state, IBlockReader world, BlockPos blockPos) {
-		TileEntity tile = world.getBlockEntity(blockPos);
-		if(tile != null && tile instanceof TileEntangledChalice) {
-			TileEntangledChalice tank = (TileEntangledChalice) tile;
+	public int getLightEmission(BlockState state, BlockGetter world, BlockPos blockPos) {
+		BlockEntity tile = world.getBlockEntity(blockPos);
+		if(tile != null && tile instanceof BlockEntityEntangledChalice) {
+			BlockEntityEntangledChalice tank = (BlockEntityEntangledChalice) tile;
 			Fluid fluidType = tank.getTank().getFluidType();
 			if(fluidType != null) {
 				return (int) Math.min(15, tank.getFillRatio() * fluidType.getAttributes().getLuminosity());
@@ -157,7 +167,7 @@ public class BlockEntangledChalice extends BlockTile implements IInformationProv
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> list) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
 		// Can be null during startup
 		if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null) {
 			ItemStack itemStack = new ItemStack(this);

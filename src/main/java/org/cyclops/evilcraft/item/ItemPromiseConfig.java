@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -9,7 +9,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
+import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 
 /**
  * Config for the {@link ItemPromise}.

@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.core.broom;
 
 import lombok.Data;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -61,9 +61,9 @@ public class BroomPartBase implements IBroomPart {
 
     @Nullable
     @Override
-    public ITextComponent getTooltipLine(String prefix) {
-        return new StringTextComponent(prefix)
-                .append(new TranslationTextComponent(getTranslationKey()));
+    public Component getTooltipLine(String prefix) {
+        return new TextComponent(prefix)
+                .append(new TranslatableComponent(getTranslationKey()));
     }
 
     @Override

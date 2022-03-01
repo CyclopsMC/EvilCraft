@@ -1,32 +1,27 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -41,9 +36,6 @@ import org.cyclops.evilcraft.inventory.container.ContainerExaltedCrafter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 /**
  * A portable crafting table with a built-in ender chest.
@@ -97,7 +89,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
      * @param hand The used hand.
      * @return The inventory.
      */
-    public IInventory getSupplementaryInventory(PlayerEntity player, ItemStack itemStack, int itemIndex, Hand hand) {
+    public Container getSupplementaryInventory(Player player, ItemStack itemStack, int itemIndex, InteractionHand hand) {
     	if(this.wooden) {
     		return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
     	}
@@ -110,7 +102,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
     
     @Override
-    public Entity createEntity(World world, Entity location, ItemStack itemStack) {
+    public Entity createEntity(Level world, Entity location, ItemStack itemStack) {
     	return new EntityItemEmpowerable(world, (ItemEntity) location);
     }
 
@@ -129,27 +121,27 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
 
     @Nullable
     @Override
-    public INamedContainerProvider getContainer(World world, PlayerEntity playerEntity, int itemIndex, Hand hand, ItemStack itemStack) {
+    public MenuProvider getContainer(Level world, Player playerEntity, int itemIndex, InteractionHand hand, ItemStack itemStack) {
         return new NamedContainerProviderItem(itemIndex, hand, itemStack.getHoverName(), ContainerExaltedCrafter::new);
     }
 
     @Override
-    public Class<? extends Container> getContainerClass(World world, PlayerEntity playerEntity, ItemStack itemStack) {
+    public Class<? extends AbstractContainerMenu> getContainerClass(Level world, Player playerEntity, ItemStack itemStack) {
         return ContainerExaltedCrafter.class;
     }
 
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         if (world.isClientSide()) {
             world.playSound(player, player.getX(), player.getY(), player.getZ(),
                     this.wooden ? SoundEvents.CHEST_OPEN : SoundEvents.ENDER_CHEST_OPEN,
-                    SoundCategory.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+                    SoundSource.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
         }
         return super.use(world, player, hand);
     }
 
     @Override
-    public ICapabilityProvider initCapabilities(final ItemStack stack, CompoundNBT nbt) {
+    public ICapabilityProvider initCapabilities(final ItemStack stack, CompoundTag nbt) {
         final IItemHandler itemHandler = new ItemHandler(stack);
         return new ICapabilityProvider() {
             @Override
@@ -170,11 +162,11 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
 
         protected NonNullList<ItemStack> getItemList() {
             NonNullList<ItemStack> itemStacks = NonNullList.withSize(getSlots(), ItemStack.EMPTY);
-            CompoundNBT rootTag = itemStack.getTag();
-            if (rootTag != null && rootTag.contains(ItemExaltedCrafter.NBT_INVENTORY, Constants.NBT.TAG_LIST)) {
-                ListNBT nbttaglist = rootTag.getList(ItemExaltedCrafter.NBT_INVENTORY, Constants.NBT.TAG_COMPOUND);
+            CompoundTag rootTag = itemStack.getTag();
+            if (rootTag != null && rootTag.contains(ItemExaltedCrafter.NBT_INVENTORY, Tag.TAG_LIST)) {
+                ListTag nbttaglist = rootTag.getList(ItemExaltedCrafter.NBT_INVENTORY, Tag.TAG_COMPOUND);
                 for (int j = 0; j < nbttaglist.size(); ++j) {
-                    CompoundNBT slot = nbttaglist.getCompound(j);
+                    CompoundTag slot = nbttaglist.getCompound(j);
                     int index;
                     if (slot.contains("index")) {
                         index = slot.getInt("index");
@@ -190,12 +182,12 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
         }
 
         protected void setItemList(NonNullList<ItemStack> itemStacks) {
-            CompoundNBT rootTag = itemStack.getOrCreateTag();
-            ListNBT slots = new ListNBT();
+            CompoundTag rootTag = itemStack.getOrCreateTag();
+            ListTag slots = new ListTag();
             for (byte index = 0; index < getSlots(); ++index) {
                 ItemStack itemStack = itemStacks.get(index);
                 if (!itemStack.isEmpty() && itemStack.getCount() > 0) {
-                    CompoundNBT slot = new CompoundNBT();
+                    CompoundTag slot = new CompoundTag();
                     slots.add(slot);
                     slot.putByte("Slot", index);
                     itemStack.save(slot);

@@ -4,18 +4,18 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockDisplayReader;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -24,12 +24,12 @@ import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
-import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
+import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -50,8 +50,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     public static final ResourceLocation chaliceModelName = new ResourceLocation(Reference.MOD_ID, "block/chalice");;
     public static final ResourceLocation gemsModelName = new ResourceLocation(Reference.MOD_ID, "block/gems");;
 
-    public static IBakedModel chaliceModel;
-    public static IBakedModel gemsModel;
+    public static BakedModel chaliceModel;
+    public static BakedModel gemsModel;
 
     private final String id;
     private final FluidStack fluidStack;
@@ -68,7 +68,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         this.fluidStack = fluidStack;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, ItemStack itemStack, World world, LivingEntity entity) {
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, ItemStack itemStack, Level world, LivingEntity entity) {
         super(itemStack, world, entity);
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
@@ -111,7 +111,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
         // Fluid
         if(!fluidStack.isEmpty()) {
-            quads.addAll(getFluidQuads(fluidStack, TileEntangledChalice.BASE_CAPACITY));
+            quads.addAll(getFluidQuads(fluidStack, BlockEntityEntangledChalice.BASE_CAPACITY));
         }
 
         return quads;
@@ -119,8 +119,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull IBlockDisplayReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
-        return TileHelpers.getSafeTile(world, pos, TileEntangledChalice.class)
+    public IModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+        return BlockEntityHelpers.get(world, pos, BlockEntityEntangledChalice.class)
                 .map(tile -> {
                     ModelDataMap.Builder builder = new ModelDataMap.Builder();
                     builder.withInitial(BlockEntangledChalice.TANK_FLUID, tile.getTank().getFluid());
@@ -131,7 +131,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public IBakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
+    public BakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
         String tankId = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_ID, "");
         FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
         if(!BlockEntangledChaliceConfig.staticBlockRendering) {
@@ -141,7 +141,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack, World world, LivingEntity entity) {
+    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
         String id = FluidUtil.getFluidHandler(itemStack)
                 .map((h -> ((ItemEntangledChalice.FluidHandler) h).getTankID()))
                 .orElse("");
@@ -163,22 +163,12 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public boolean useAmbientOcclusion() {
-        return false; // TODO: rm
-    }
-
-    @Override
     public boolean usesBlockLight() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public boolean isCustomRenderer() {
-        return false; // TODO: rm
-    }
-
-    @Override
-    public ItemCameraTransforms getTransforms() {
+    public ItemTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 }

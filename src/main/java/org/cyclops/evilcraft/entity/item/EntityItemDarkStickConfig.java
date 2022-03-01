@@ -1,10 +1,11 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -22,13 +23,13 @@ public class EntityItemDarkStickConfig extends EntityConfig<EntityItemDarkStick>
         super(
                 EvilCraft._instance,
                 "item_dark_stick",
-                eConfig -> EntityType.Builder.<EntityItemDarkStick>of(EntityItemDarkStick::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityItemDarkStick>of(EntityItemDarkStick::new, MobCategory.MISC)
         );
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public EntityRenderer<EntityItemDarkStick> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
-        return new RenderDarkStick(renderManager, this);
+    public EntityRenderer<EntityItemDarkStick> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+        return new RenderDarkStick(renderContext, this);
     }
 }

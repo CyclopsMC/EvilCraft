@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 
 /**
@@ -30,10 +30,10 @@ public class ItemMaceOfDestruction extends ItemMace {
     }
 
     @Override
-    protected void use(World world, LivingEntity entity, int itemUsedCount, int power) {
+    protected void use(Level world, LivingEntity entity, int itemUsedCount, int power) {
         if(!world.isClientSide()) {
-            Vector3d v = entity.getLookAngle();
-            world.explode(entity, entity.getX() + v.x * 2, entity.getY() + entity.getEyeHeight() + v.y * 2, entity.getZ() + v.z * 2, ((float) itemUsedCount) / 20 + power, Explosion.Mode.DESTROY);
+            Vec3 v = entity.getLookAngle();
+            world.explode(entity, entity.getX() + v.x * 2, entity.getY() + entity.getEyeHeight() + v.y * 2, entity.getZ() + v.z * 2, ((float) itemUsedCount) / 20 + power, Explosion.BlockInteraction.DESTROY);
         }
     }
 }

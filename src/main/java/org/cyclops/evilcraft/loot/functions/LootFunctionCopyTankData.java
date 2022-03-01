@@ -3,15 +3,14 @@ package org.cyclops.evilcraft.loot.functions;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootFunction;
-import net.minecraft.loot.LootFunctionType;
-import net.minecraft.loot.conditions.ILootCondition;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootParameters;
-import net.minecraft.loot.functions.ILootFunction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
@@ -22,16 +21,16 @@ import org.cyclops.evilcraft.Reference;
  * Copies fluid tank data to the item.
  * @author rubensworks
  */
-public class LootFunctionCopyTankData extends LootFunction {
-    public static final LootFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_tank_data"), new LootFunctionCopyTankData.Serializer());
+public class LootFunctionCopyTankData extends LootItemConditionalFunction {
+    public static final LootItemFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_tank_data"), new LootFunctionCopyTankData.Serializer());
 
-    protected LootFunctionCopyTankData(ILootCondition[] conditionsIn) {
+    protected LootFunctionCopyTankData(LootItemCondition[] conditionsIn) {
         super(conditionsIn);
     }
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        TileEntity tile = lootContext.getParamOrNull(LootParameters.BLOCK_ENTITY);
+        BlockEntity tile = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
         tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                 .ifPresent(fluidHandlerTile -> {
                     itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
@@ -48,7 +47,7 @@ public class LootFunctionCopyTankData extends LootFunction {
     }
 
     @Override
-    public LootFunctionType getType() {
+    public LootItemFunctionType getType() {
         return TYPE;
     }
 
@@ -56,7 +55,7 @@ public class LootFunctionCopyTankData extends LootFunction {
         // Dummy call, to enforce class loading
     }
 
-    public static class Serializer extends LootFunction.Serializer<LootFunctionCopyTankData> {
+    public static class Serializer extends LootItemConditionalFunction.Serializer<LootFunctionCopyTankData> {
 
         @Override
         public void serialize(JsonObject jsonObject, LootFunctionCopyTankData lootFunctionCopyId, JsonSerializationContext jsonSerializationContext) {
@@ -64,7 +63,7 @@ public class LootFunctionCopyTankData extends LootFunction {
         }
 
         @Override
-        public LootFunctionCopyTankData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, ILootCondition[] conditionsIn) {
+        public LootFunctionCopyTankData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootItemCondition[] conditionsIn) {
             return new LootFunctionCopyTankData(conditionsIn);
         }
     }

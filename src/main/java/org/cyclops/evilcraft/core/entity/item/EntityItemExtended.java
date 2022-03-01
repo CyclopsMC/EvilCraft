@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.core.entity.item;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
@@ -17,12 +17,12 @@ import javax.annotation.Nonnull;
  */
 public abstract class EntityItemExtended extends ItemEntity {
 
-    public EntityItemExtended(EntityType<? extends EntityItemExtended> type, World world) {
+    public EntityItemExtended(EntityType<? extends EntityItemExtended> type, Level world) {
         super(type, world);
         this.setPickUpDelay(40);
     }
 
-	public EntityItemExtended(EntityType<? extends EntityItemExtended> type, World world, ItemEntity original) {
+	public EntityItemExtended(EntityType<? extends EntityItemExtended> type, Level world, ItemEntity original) {
         super(type, world);
         this.setPickUpDelay(40);
         this.setDeltaMovement(original.getDeltaMovement());
@@ -32,7 +32,7 @@ public abstract class EntityItemExtended extends ItemEntity {
 
     @Nonnull
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 

@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.InteractionHand;
 import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -13,21 +13,16 @@ import org.cyclops.evilcraft.RegistryEntries;
  */
 public class ContainerOriginsOfDarkness extends ItemInventoryContainer {
 
-    public ContainerOriginsOfDarkness(int id, PlayerInventory inventory, PacketBuffer packetBuffer) {
+    public ContainerOriginsOfDarkness(int id, Inventory inventory, FriendlyByteBuf packetBuffer) {
         this(id, inventory, readItemIndex(packetBuffer), readHand(packetBuffer));
     }
 
-    public ContainerOriginsOfDarkness(int id, PlayerInventory playerInventory, int itemIndex, Hand hand) {
+    public ContainerOriginsOfDarkness(int id, Inventory playerInventory, int itemIndex, InteractionHand hand) {
         super(RegistryEntries.CONTAINER_ORIGINS_OF_DARKNESS, id, playerInventory, itemIndex, hand);
     }
 
     @Override
     protected int getSizeInventory() {
         return 0;
-    }
-
-    @Override
-    public boolean stillValid(PlayerEntity p_75145_1_) {
-        return false; // TODO: rm
     }
 }

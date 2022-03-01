@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
 import com.google.common.collect.Maps;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -103,7 +103,7 @@ public class TerraformDegradation extends StochasticDegradationEffect {
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        World world = degradable.getDegradationWorld();
+        Level world = degradable.getDegradationWorld();
         
         BlockPos blockPos = LocationHelpers.getRandomPointInSphere(
                 degradable.getLocation(), degradable.getRadius());

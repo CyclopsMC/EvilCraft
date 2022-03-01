@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.proxy;
 
-import net.minecraft.client.GameSettings;
+import net.minecraft.client.Options;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
@@ -18,7 +18,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
-import org.cyclops.evilcraft.client.render.tileentity.RenderTileEntityPurifier;
+import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntityPurifier;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBoxOfEternalClosure;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
@@ -49,9 +49,9 @@ public class ClientProxy extends ClientProxyComponent {
 
 	@Override
 	public void registerKeyBindings(IKeyRegistry keyRegistry) {
-		GameSettings settings = Minecraft.getInstance().options;
+		Options settings = Minecraft.getInstance().options;
 
-		for (KeyBinding key : Keys.KEYS)
+		for (KeyMapping key : Keys.KEYS)
 			ClientRegistry.registerKeyBinding(key);
 
 		// Fart key
@@ -73,8 +73,8 @@ public class ClientProxy extends ClientProxyComponent {
 	}
 
 	public void onPreTextureStitch(TextureStitchEvent.Pre event) {
-		if (event.getMap().location().equals(RenderTileEntityPurifier.TEXTURE_BLOOK.atlasLocation())) {
-			event.addSprite(RenderTileEntityPurifier.TEXTURE_BLOOK.texture());
+		if (event.getAtlas().location().equals(RenderBlockEntityPurifier.TEXTURE_BLOOK.atlasLocation())) {
+			event.addSprite(RenderBlockEntityPurifier.TEXTURE_BLOOK.texture());
 		}
 	}
 

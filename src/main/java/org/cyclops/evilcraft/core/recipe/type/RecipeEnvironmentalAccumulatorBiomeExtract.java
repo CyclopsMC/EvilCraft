@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.biome.Biome;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.item.ItemBiomeExtractConfig;
@@ -20,7 +20,7 @@ public class RecipeEnvironmentalAccumulatorBiomeExtract extends RecipeEnvironmen
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_BIOME_EXTRACT;
     }
 

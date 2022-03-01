@@ -2,10 +2,10 @@ package org.cyclops.evilcraft.entity.monster;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
@@ -75,7 +75,7 @@ public class EntityVengeanceSpiritData {
         setSwarmTier(getRandomSwarmTier(random));
     }
 
-    public void readNBT(CompoundNBT tag) {
+    public void readNBT(CompoundTag tag) {
         setInnerEntityType(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(tag.getString(NBTKEY_INNER_ENTITY))));
         setRemainingLife(tag.getInt(NBTKEY_REMAINING_LIFE));
         setFrozenDuration(tag.getInt(NBTKEY_FROZEN_DURATION));
@@ -86,7 +86,7 @@ public class EntityVengeanceSpiritData {
         setPlayerName(tag.getString(NBTKEY_PLAYER_NAME));
     }
 
-    public CompoundNBT writeNBT(CompoundNBT tag) {
+    public CompoundTag writeNBT(CompoundTag tag) {
         if (getInnerEntityType() != null)
             tag.putString(NBTKEY_INNER_ENTITY, getInnerEntityType().getRegistryName().toString());
         tag.putInt(NBTKEY_REMAINING_LIFE, getRemainingLife());
@@ -109,7 +109,7 @@ public class EntityVengeanceSpiritData {
 
     public static EntityType<?> getRandomInnerEntity(Random rand) {
         List<EntityType<?>> entities = ForgeRegistries.ENTITIES.getValues().stream()
-                .filter(e -> e.getCategory() == EntityClassification.MONSTER)
+                .filter(e -> e.getCategory() == MobCategory.MONSTER)
                 .collect(Collectors.toList());
         return entities.get(rand.nextInt(entities.size()));
     }
@@ -119,7 +119,7 @@ public class EntityVengeanceSpiritData {
     }
 
     @Nullable
-    public static EntityType<?> getSpiritType(@Nullable CompoundNBT tag) {
+    public static EntityType<?> getSpiritType(@Nullable CompoundTag tag) {
         if(tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             if (!innerEntity.isEmpty()) {
@@ -129,7 +129,7 @@ public class EntityVengeanceSpiritData {
         return null;
     }
 
-    public static EntityVengeanceSpiritData fromNBT(CompoundNBT tag) {
+    public static EntityVengeanceSpiritData fromNBT(CompoundTag tag) {
         EntityVengeanceSpiritData data = new EntityVengeanceSpiritData();
         data.readNBT(tag);
         return data;

@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.util.ResourceLocation;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.resources.ResourceLocation;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 
 /**
@@ -17,9 +17,9 @@ public abstract class WidgetTab {
     protected int posY;
     private int u;
     private int v;
-    protected ContainerScreen gui;
+    protected AbstractContainerScreen gui;
 
-    public WidgetTab(int width, int height, int posX, int posY, int u, int v, ContainerScreen gui) {
+    public WidgetTab(int width, int height, int posX, int posY, int u, int v, AbstractContainerScreen gui) {
         this.width = width;
         this.height = height;
         this.posX = posX;
@@ -37,7 +37,7 @@ public abstract class WidgetTab {
      * @param x Origin X.
      * @param y Origin Y.
      */
-    public void drawBackground(MatrixStack matrixStack, int x, int y) {
+    public void drawBackground(PoseStack matrixStack, int x, int y) {
         RenderHelpers.bindTexture(getResourceLocation());
         gui.blit(matrixStack, x + posX, y + posY, u, v, width, height);
     }

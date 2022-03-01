@@ -1,8 +1,7 @@
 package org.cyclops.evilcraft.core.client.render;
 
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
@@ -13,10 +12,10 @@ import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
  *
  */
 @OnlyIn(Dist.CLIENT)
-public class RenderThrowable extends SpriteRenderer<EntityThrowable> {
+public class RenderThrowable extends ThrownItemRenderer<EntityThrowable> {
 
-    public RenderThrowable(EntityRendererManager renderManager, ItemRenderer renderItem) {
-        super(renderManager, renderItem);
+    public RenderThrowable(EntityRendererProvider.Context context) {
+        super(context);
     }
 
 }

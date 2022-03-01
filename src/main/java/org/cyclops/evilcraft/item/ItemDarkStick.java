@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStick;
 
 /**
@@ -24,7 +24,7 @@ public class ItemDarkStick extends Item {
     }
 
     @Override
-    public Entity createEntity(World world, Entity location, ItemStack itemStack) {
+    public Entity createEntity(Level world, Entity location, ItemStack itemStack) {
         return new EntityItemDarkStick(world, (ItemEntity) location);
     }
 

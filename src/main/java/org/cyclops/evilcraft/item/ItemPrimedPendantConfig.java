@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.item.Item;
-import net.minecraft.potion.Effect;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.effect.MobEffect;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -45,7 +45,7 @@ public class ItemPrimedPendantConfig extends ItemConfig {
         );
     }
 
-    public static double getMultiplier(Effect potion) {
+    public static double getMultiplier(MobEffect potion) {
         Map<Integer, Double> multipliers = Maps.newHashMap();
         multipliers.clear();
         for(String line : potionMultipliers) {

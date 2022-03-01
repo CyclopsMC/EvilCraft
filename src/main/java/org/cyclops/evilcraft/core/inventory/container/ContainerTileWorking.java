@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.inventory.slot.SlotExtended;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -16,10 +16,10 @@ import java.util.Optional;
  * Container for TileWorking instances.
  * @author rubensworks
  */
-public abstract class ContainerTileWorking<T extends TileWorking<T, ?>> extends ContainerInventoryTickingTank<T> {
+public abstract class ContainerTileWorking<T extends BlockEntityWorking<T, ?>> extends ContainerInventoryTickingTank<T> {
 
-    public ContainerTileWorking(@Nullable ContainerType<?> type, int id, PlayerInventory playerInventory,
-                                IInventory inventory, Optional<T> tileSupplier, int tickers, int upgradeSlots) {
+    public ContainerTileWorking(@Nullable MenuType<?> type, int id, Inventory playerInventory,
+                                Container inventory, Optional<T> tileSupplier, int tickers, int upgradeSlots) {
         super(type, id, playerInventory, inventory, tileSupplier, tickers);
         this.offsetX = ContainerScreenTileWorking.UPGRADES_OFFSET_X;
     }
@@ -28,11 +28,11 @@ public abstract class ContainerTileWorking<T extends TileWorking<T, ?>> extends 
         return getTileWorkingMetadata().isUpgradeSlotEnabled(this.inventory, getTileWorkingMetadata().getBasicInventorySize() + slot);
     }
 
-    public abstract TileWorking.Metadata getTileWorkingMetadata();
+    public abstract BlockEntityWorking.Metadata getTileWorkingMetadata();
 
 
     public void addUpgradeInventory(int offsetX, int offsetY, int slotStart) {
-        int upgradeSlots = TileWorking.INVENTORY_SIZE_UPGRADES;
+        int upgradeSlots = BlockEntityWorking.INVENTORY_SIZE_UPGRADES;
         int amount = 0;
         for(int i = slotStart; i < slotStart + upgradeSlots; i++) {
             addSlot(new SlotExtended(inventory, i, offsetX, offsetY + amount * ITEMBOX) {
@@ -45,9 +45,9 @@ public abstract class ContainerTileWorking<T extends TileWorking<T, ?>> extends 
                 }
 
                 @Override
-                public boolean mayPickup(PlayerEntity playerIn) {
+                public boolean mayPickup(Player playerIn) {
                     return super.mayPickup(player) &&
-                            getTileWorkingMetadata().canExtractItem(container, getSlotIndex(), getItem(), player.inventory.getCarried());
+                            getTileWorkingMetadata().canExtractItem(container, getSlotIndex(), getItem(), getCarried());
                 }
 
                 @Override

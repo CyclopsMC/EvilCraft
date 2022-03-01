@@ -1,15 +1,15 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -25,12 +25,10 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
-import org.cyclops.evilcraft.tileentity.TileEntangledChalice;
+import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 /**
  * Specialized item for the {@link BlockEntangledChalice} blockState.
@@ -50,9 +48,9 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
     }
 
     @Override
-    protected void autofill(int itemSlot, IFluidHandlerItem source, World world, Entity entity) {
-        if(entity instanceof PlayerEntity && !world.isClientSide()) {
-            PlayerEntity player = (PlayerEntity) entity;
+    protected void autofill(int itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
+        if(entity instanceof Player && !world.isClientSide()) {
+            Player player = (Player) entity;
             FluidStack tickFluid;
             PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
             do {
@@ -62,7 +60,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
                     ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, toFill, tickFluid, player);
                     if (!filled.isEmpty()) {
                         it.replace(filled);
-                        player.inventory.setItem(itemSlot, source.getContainer());
+                        player.getInventory().setItem(itemSlot, source.getContainer());
                     }
                 }
             } while(tickFluid != null && tickFluid.getAmount() > 0 && it.hasNext());
@@ -70,27 +68,27 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
     }
 
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
-        return new FluidHandler(stack, TileEntangledChalice.BASE_CAPACITY);
+    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
+        return new FluidHandler(stack, BlockEntityEntangledChalice.BASE_CAPACITY);
     }
 
     @Override
-    protected boolean itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
+    protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
         super.itemStackDataToTile(itemStack, tile);
         // Convert tank id
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler.getTankID();
-        ((TileEntangledChalice) tile).setWorldTankId(tankId);
+        ((BlockEntityEntangledChalice) tile).setWorldTankId(tankId);
         return true;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack itemStack, @Nullable Level worldIn, List<Component> list, TooltipFlag flagIn) {
         super.appendHoverText(itemStack, worldIn, list, flagIn);
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
-        list.add(new TranslationTextComponent("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
+        list.add(new TranslatableComponent("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
     }
 
     public static String tankIdToNameParts(String tankId) {
@@ -131,7 +129,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
          * @return The tank id.
          */
         public String getTankID() {
-            CompoundNBT tag = getContainer().getTag();
+            CompoundTag tag = getContainer().getTag();
             if(tag != null) {
                 if (!tag.contains(WorldSharedTank.NBT_TANKID)) {
                     tag.putString(WorldSharedTank.NBT_TANKID, "");
@@ -146,7 +144,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
          * @param tankID The tank id.
          */
         public void setTankID(String tankID) {
-            CompoundNBT tag = getContainer().getOrCreateTag();
+            CompoundTag tag = getContainer().getOrCreateTag();
             tag.putString(WorldSharedTank.NBT_TANKID, tankID);
         }
 

@@ -1,19 +1,19 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.block.BlockState;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockDisplayReader;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.client.model.IModelConfiguration;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -21,12 +21,12 @@ import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.core.client.model.ModelConfigurationRetextured;
-import org.cyclops.evilcraft.tileentity.TileDisplayStand;
+import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -35,6 +35,18 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockElement;
+import net.minecraft.client.renderer.block.model.BlockElementFace;
+import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.BlockModelRotation;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.SimpleBakedModel;
+
 /**
  * The dynamic item model for the display stand.
  * Inspired by TCon's dynamic tool table retexturing.
@@ -42,20 +54,20 @@ import java.util.stream.Collectors;
  */
 public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
-    private static final Map<Direction, ModelRotation> ROTATIONS = ImmutableMap.<Direction, ModelRotation>builder()
-            .put(Direction.NORTH, ModelRotation.X270_Y0)
-            .put(Direction.SOUTH, ModelRotation.X90_Y0)
-            .put(Direction.WEST, ModelRotation.X90_Y90)
-            .put(Direction.EAST, ModelRotation.X270_Y90)
-            .put(Direction.UP, ModelRotation.X180_Y0)
-            .put(Direction.DOWN, ModelRotation.X0_Y0)
+    private static final Map<Direction, BlockModelRotation> ROTATIONS = ImmutableMap.<Direction, BlockModelRotation>builder()
+            .put(Direction.NORTH, BlockModelRotation.X270_Y0)
+            .put(Direction.SOUTH, BlockModelRotation.X90_Y0)
+            .put(Direction.WEST, BlockModelRotation.X90_Y90)
+            .put(Direction.EAST, BlockModelRotation.X270_Y90)
+            .put(Direction.UP, BlockModelRotation.X180_Y0)
+            .put(Direction.DOWN, BlockModelRotation.X0_Y0)
             .build();
 
-    private final SingleCache<ResourceLocation, IBakedModel> modelCache = new SingleCache<>(new SingleCache.ICacheUpdater<ResourceLocation, IBakedModel>() {
+    private final SingleCache<ResourceLocation, BakedModel> modelCache = new SingleCache<>(new SingleCache.ICacheUpdater<ResourceLocation, BakedModel>() {
         @Override
-        public IBakedModel getNewValue(ResourceLocation textureName) {
+        public BakedModel getNewValue(ResourceLocation textureName) {
             return bakeModel(new ModelConfigurationRetextured(owner, textureName), blockModel.getElements(), transform,
-                    ItemOverrideList.EMPTY, ModelLoader.defaultTextureGetter(), new ResourceLocation(Reference.MOD_ID, "dummy"));
+                    ItemOverrides.EMPTY, ForgeModelBakery.instance().getSpriteMap()::getSprite, new ResourceLocation(Reference.MOD_ID, "dummy"));
         }
 
         @Override
@@ -65,12 +77,12 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     });
 
     private final BlockModel blockModel;
-    private final IBakedModel untexturedBakedModel;
+    private final BakedModel untexturedBakedModel;
     private final TextureAtlasSprite texture;
     private final IModelConfiguration owner;
-    private final IModelTransform transform;
+    private final ModelState transform;
 
-    public ModelDisplayStandBaked(BlockModel blockModel, IBakedModel untexturedBakedModel, IModelConfiguration owner, IModelTransform transform) {
+    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, IModelConfiguration owner, ModelState transform) {
         super(true, false);
         this.blockModel = blockModel;
         this.untexturedBakedModel = untexturedBakedModel;
@@ -79,7 +91,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         this.texture = null;
     }
 
-    public ModelDisplayStandBaked(BlockModel blockModel, IBakedModel untexturedBakedModel, TextureAtlasSprite texture, boolean item, IModelConfiguration owner, IModelTransform transform) {
+    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, TextureAtlasSprite texture, boolean item, IModelConfiguration owner, ModelState transform) {
         super(false, item);
         this.blockModel = blockModel;
         this.untexturedBakedModel = untexturedBakedModel;
@@ -93,7 +105,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         return this.texture;
     }
 
-    protected IBakedModel handleDisplayStandType(ItemStack displayStandType, boolean item) {
+    protected BakedModel handleDisplayStandType(ItemStack displayStandType, boolean item) {
         if (displayStandType != null && !displayStandType.isEmpty()) {
             // Get reference texture
             BlockState blockState = BlockHelpers.getBlockStateFromItemStack(displayStandType);
@@ -105,14 +117,14 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     }
 
     // Inspired by TCon's TableModel, SimpleBlockModel and RetexturedModel
-    public static IBakedModel bakeModel(IModelConfiguration modelConfiguration, List<BlockPart> blockParts, IModelTransform transform,
-                                        ItemOverrideList overrides, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
+    public static BakedModel bakeModel(IModelConfiguration modelConfiguration, List<BlockElement> blockParts, ModelState transform,
+                                        ItemOverrides overrides, Function<Material, TextureAtlasSprite> spriteGetter,
                                         ResourceLocation modelName) {
         TextureAtlasSprite particle = spriteGetter.apply(modelConfiguration.resolveTexture("particle"));
         SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(modelConfiguration, overrides).particle(particle);
-        for(BlockPart blockPart : blockParts) {
+        for(BlockElement blockPart : blockParts) {
             for(Direction direction : blockPart.faces.keySet()) {
-                BlockPartFace blockPartFace = blockPart.faces.get(direction);
+                BlockElementFace blockPartFace = blockPart.faces.get(direction);
 
                 // Remove mandatory hash at start of texture name
                 String texture = blockPartFace.texture;
@@ -134,8 +146,8 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull IBlockDisplayReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
-        return TileHelpers.getSafeTile(world, pos, TileDisplayStand.class)
+    public IModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+        return BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class)
                 .map(tile -> {
                     ModelDataMap.Builder builder = new ModelDataMap.Builder();
                     builder.withInitial(BlockDisplayStand.DIRECTION, tile.getDirection());
@@ -146,12 +158,12 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public IBakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
+    public BakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
         return handleDisplayStandType(ModelHelpers.getSafeProperty(modelData, BlockDisplayStand.TYPE, ItemStack.EMPTY), false);
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack, World world, LivingEntity entity) {
+    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
         return handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.getDisplayStandType(itemStack), true);
     }
 
@@ -164,27 +176,17 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public boolean useAmbientOcclusion() {
-        return false; // TODO: rm
-    }
-
-    @Override
     public boolean usesBlockLight() {
         return true ; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
     }
 
     @Override
-    public boolean isCustomRenderer() {
-        return false; // TODO: rm
-    }
-
-    @Override
-    public ItemCameraTransforms getTransforms() {
+    public ItemTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 
     @Override
-    public TextureAtlasSprite getParticleTexture(@Nonnull IModelData data) {
+    public TextureAtlasSprite getParticleIcon(@Nonnull IModelData data) {
         return handleDisplayStandType(ModelHelpers.getSafeProperty(data, BlockDisplayStand.TYPE, ItemStack.EMPTY), false)
                 .getParticleIcon();
     }

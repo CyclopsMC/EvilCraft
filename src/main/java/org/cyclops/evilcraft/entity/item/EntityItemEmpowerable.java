@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.entity.item.EntityItemIndestructable;
 import org.cyclops.evilcraft.item.IItemEmpowerable;
@@ -14,11 +14,11 @@ import org.cyclops.evilcraft.item.IItemEmpowerable;
  */
 public class EntityItemEmpowerable extends EntityItemIndestructable {
 
-	public EntityItemEmpowerable(EntityType<? extends EntityItemEmpowerable> type, World world) {
+	public EntityItemEmpowerable(EntityType<? extends EntityItemEmpowerable> type, Level world) {
 		super(type, world);
 	}
 
-	public EntityItemEmpowerable(World world, ItemEntity original) {
+	public EntityItemEmpowerable(Level world, ItemEntity original) {
 		super(RegistryEntries.ENTITY_ITEM_EMPOWERABLE, world, original);
 	}
 	

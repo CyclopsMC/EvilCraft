@@ -1,25 +1,24 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.item.UseAction;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -29,8 +28,6 @@ import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
 
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
@@ -51,7 +48,7 @@ public class ItemWeatherContainer extends Item {
     }
 
     public static WeatherContainerType getWeatherType(ItemStack itemStack) {
-        CompoundNBT tag = itemStack.getTag();
+        CompoundTag tag = itemStack.getTag();
         if (tag != null) {
             try {
                 return WeatherContainerType.valueOf(tag.getString("weather"));
@@ -61,23 +58,23 @@ public class ItemWeatherContainer extends Item {
     }
 
     public static void setWeatherType(ItemStack itemStack, WeatherContainerType type) {
-        CompoundNBT tag = itemStack.getOrCreateTag();
+        CompoundTag tag = itemStack.getOrCreateTag();
         tag.putString("weather", type.name());
     }
 
     @Override
-    public UseAction getUseAnimation(ItemStack itemStack) {
-        return UseAction.BOW;
+    public UseAnim getUseAnimation(ItemStack itemStack) {
+        return UseAnim.BOW;
     }
     
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!world.isClientSide() && getWeatherType(itemStack) != WeatherContainerType.EMPTY) {
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
             EntityWeatherContainer entity = new EntityWeatherContainer(world, player, itemStack.copy());
             // MCP: shoot
-            entity.shootFromRotation(player, player.xRot, player.yRot, -20.0F, 0.5F, 1.0F);
+            entity.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
             world.addFreshEntity(entity);
             
             itemStack.shrink(1);
@@ -91,7 +88,7 @@ public class ItemWeatherContainer extends Item {
      * @param world The world.
      * @param itemStack The weather container that was thrown.
      */
-    public void onUse(ServerWorld world, ItemStack itemStack) {
+    public void onUse(ServerLevel world, ItemStack itemStack) {
         getWeatherType(itemStack).onUse(world, itemStack);
     }
     
@@ -100,19 +97,19 @@ public class ItemWeatherContainer extends Item {
      * @param world The world.
      * @param itemStack The weather container that was filled.
      */
-    public void onFill(ServerWorld world, ItemStack itemStack) {
+    public void onFill(ServerLevel world, ItemStack itemStack) {
         getWeatherType(itemStack).onFill(world, itemStack);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         WeatherContainerType type = getWeatherType(itemStack);
         list.add(type.description.withStyle(type.damageColor));
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             for (WeatherContainerType type : WeatherContainerType.values()) {
                 ItemStack stack = new ItemStack(this);
@@ -133,31 +130,31 @@ public class ItemWeatherContainer extends Item {
         /**
          * Empty weather container.
          */
-        EMPTY(null, "empty", TextFormatting.GRAY, Helpers.RGBToInt(125, 125, 125), Rarity.COMMON),
+        EMPTY(null, "empty", ChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125), Rarity.COMMON),
         /**
          * Clear weather container.
          */
-        CLEAR(WeatherType.CLEAR, "clear", TextFormatting.AQUA, Helpers.RGBToInt(30, 150, 230), Rarity.UNCOMMON),
+        CLEAR(WeatherType.CLEAR, "clear", ChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230), Rarity.UNCOMMON),
         /**
          * Rain weather container.
          */
-        RAIN(WeatherType.RAIN, "rain", TextFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255), Rarity.UNCOMMON),
+        RAIN(WeatherType.RAIN, "rain", ChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255), Rarity.UNCOMMON),
         /**
          * Lightning weather container.
          */
-        LIGHTNING(WeatherType.LIGHTNING, "lightning", TextFormatting.GOLD, Helpers.RGBToInt(255, 215, 0), Rarity.RARE);
+        LIGHTNING(WeatherType.LIGHTNING, "lightning", ChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0), Rarity.RARE);
         
         private final WeatherType type;
         
-        private final IFormattableTextComponent description;
-        private final TextFormatting damageColor;
+        private final MutableComponent description;
+        private final ChatFormatting damageColor;
         private final int damageRenderColor;
         private final Rarity rarity;
         
-        private WeatherContainerType(WeatherType type, String description, TextFormatting damageColor, int damageRenderColor, Rarity rarity) {
+        private WeatherContainerType(WeatherType type, String description, ChatFormatting damageColor, int damageRenderColor, Rarity rarity) {
             this.type = type;
             
-            this.description = new TranslationTextComponent("weather_container." + Reference.MOD_ID + "." + description);
+            this.description = new TranslatableComponent("weather_container." + Reference.MOD_ID + "." + description);
             this.damageColor = damageColor;
             this.damageRenderColor = damageRenderColor;
             this.rarity = rarity;
@@ -168,7 +165,7 @@ public class ItemWeatherContainer extends Item {
          * @param world The world.
          * @param containerStack The weather container that was filled.
          */
-        public void onFill(ServerWorld world, ItemStack containerStack) {
+        public void onFill(ServerLevel world, ItemStack containerStack) {
             WeatherContainerType currentWeatherType = EMPTY;
             
             // Find the weather container type who's weather is currently active
@@ -187,7 +184,7 @@ public class ItemWeatherContainer extends Item {
          * @param world The world.
          * @param containerStack The weather container that was thrown.
          */
-        public void onUse(ServerWorld world, ItemStack containerStack) {
+        public void onUse(ServerLevel world, ItemStack containerStack) {
             if (world.isClientSide())
                 return;
             
@@ -219,7 +216,7 @@ public class ItemWeatherContainer extends Item {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             return renderPass > 0 ? 16777215 : getWeatherType(itemStack).damageRenderColor;

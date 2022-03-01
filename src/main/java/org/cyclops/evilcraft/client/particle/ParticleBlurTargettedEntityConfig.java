@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
@@ -30,15 +30,15 @@ public class ParticleBlurTargettedEntityConfig extends ParticleConfig<ParticleBl
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public IParticleFactory<ParticleBlurTargettedEntityData> getParticleFactory() {
+    public ParticleProvider<ParticleBlurTargettedEntityData> getParticleFactory() {
         return null;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public ParticleManager.IParticleMetaFactory<ParticleBlurTargettedEntityData> getParticleMetaFactory() {
-        return sprite -> (IParticleFactory<ParticleBlurTargettedEntityData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
+    public ParticleEngine.SpriteParticleRegistration<ParticleBlurTargettedEntityData> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<ParticleBlurTargettedEntityData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleBlurTargettedEntity particle = new ParticleBlurTargettedEntity(particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
             particle.pickSprite(sprite);
             return particle;

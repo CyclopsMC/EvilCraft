@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.metadata;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.metadata.IRegistryExportable;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;

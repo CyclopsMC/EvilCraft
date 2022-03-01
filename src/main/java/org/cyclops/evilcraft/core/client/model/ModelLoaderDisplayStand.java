@@ -2,11 +2,9 @@ package org.cyclops.evilcraft.core.client.model;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import net.minecraft.client.renderer.model.BlockModel;
-import net.minecraft.resources.IResourceManager;
+import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.VanillaResourceType;
 import org.cyclops.evilcraft.client.render.model.ModelDisplayStand;
 
 /**
@@ -16,12 +14,7 @@ import org.cyclops.evilcraft.client.render.model.ModelDisplayStand;
 public class ModelLoaderDisplayStand implements IModelLoader<ModelDisplayStand> {
 
     @Override
-    public IResourceType getResourceType() {
-        return VanillaResourceType.MODELS;
-    }
-
-    @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
 
     }
 

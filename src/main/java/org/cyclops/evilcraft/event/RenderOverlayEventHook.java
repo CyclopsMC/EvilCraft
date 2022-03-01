@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.event;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.MainWindow;
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -38,7 +38,7 @@ public class RenderOverlayEventHook {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
-        PlayerEntity player = Minecraft.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         if (GeneralConfig.bloodGuiOverlay && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
             if (filledHeight < 0 || WorldHelpers.efficientTick(player.level, 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
@@ -62,12 +62,12 @@ public class RenderOverlayEventHook {
 
             if (filledHeight > 0) {
                 RenderOverlayEventHook.OverlayPosition overlayPosition = RenderOverlayEventHook.OverlayPosition.values()[
-                        MathHelper.clamp(GeneralConfig.bloodGuiOverlayPosition, 0, RenderOverlayEventHook.OverlayPosition.values().length - 1)];
-                MainWindow resolution = event.getWindow();
+                        Mth.clamp(GeneralConfig.bloodGuiOverlayPosition, 0, RenderOverlayEventHook.OverlayPosition.values().length - 1)];
+                Window resolution = event.getWindow();
                 int x = overlayPosition.getX(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetX;
                 int y = overlayPosition.getY(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetY;
 
-                GlStateManager._pushMatrix();
+                event.getMatrixStack().pushPose();
                 GlStateManager._enableBlend();
                 GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderHelpers.bindTexture(BLOOD_OVERLAY);
@@ -76,7 +76,7 @@ public class RenderOverlayEventHook {
                 Minecraft.getInstance().gui.blit(event.getMatrixStack(), x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
 
                 GlStateManager._disableBlend();
-                GlStateManager._popMatrix();
+                event.getMatrixStack().popPose();
             }
         }
     }
@@ -85,51 +85,51 @@ public class RenderOverlayEventHook {
 
         NE {
             @Override
-            public int getX(MainWindow resolution, int width, int height) {
+            public int getX(Window resolution, int width, int height) {
                 return resolution.getGuiScaledWidth() - width;
             }
 
             @Override
-            public int getY(MainWindow resolution, int width, int height) {
+            public int getY(Window resolution, int width, int height) {
                 return 0;
             }
         },
         SE {
             @Override
-            public int getX(MainWindow resolution, int width, int height) {
+            public int getX(Window resolution, int width, int height) {
                 return resolution.getGuiScaledWidth() - width;
             }
 
             @Override
-            public int getY(MainWindow resolution, int width, int height) {
+            public int getY(Window resolution, int width, int height) {
                 return resolution.getGuiScaledHeight() - height;
             }
         },
         SW {
             @Override
-            public int getX(MainWindow resolution, int width, int height) {
+            public int getX(Window resolution, int width, int height) {
                 return 0;
             }
 
             @Override
-            public int getY(MainWindow resolution, int width, int height) {
+            public int getY(Window resolution, int width, int height) {
                 return resolution.getGuiScaledHeight() - height;
             }
         },
         NW {
             @Override
-            public int getX(MainWindow resolution, int width, int height) {
+            public int getX(Window resolution, int width, int height) {
                 return 0;
             }
 
             @Override
-            public int getY(MainWindow resolution, int width, int height) {
+            public int getY(Window resolution, int width, int height) {
                 return 0;
             }
         };
 
-        public abstract int getX(MainWindow resolution, int width, int height);
-        public abstract int getY(MainWindow resolution, int width, int height);
+        public abstract int getX(Window resolution, int width, int height);
+        public abstract int getY(Window resolution, int width, int height);
 
     }
 }

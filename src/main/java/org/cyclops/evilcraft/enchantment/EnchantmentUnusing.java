@@ -1,21 +1,17 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
-
-import net.minecraft.enchantment.Enchantment.Rarity;
 
 /**
  * Enchantment that stop your tool from being usable when it only has durability left.
@@ -25,7 +21,7 @@ import net.minecraft.enchantment.Enchantment.Rarity;
 public class EnchantmentUnusing extends Enchantment {
 
     public EnchantmentUnusing() {
-        super(Rarity.VERY_RARE, EnchantmentType.BREAKABLE, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        super(Rarity.VERY_RARE, EnchantmentCategory.BREAKABLE, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -46,7 +42,7 @@ public class EnchantmentUnusing extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void unusingEvent(BlockEvent.BreakEvent event) {
-        Hand hand = event.getPlayer().getUsedItemHand();
+        InteractionHand hand = event.getPlayer().getUsedItemHand();
         if (hand != null) {
             if (EnchantmentHelpers.doesEnchantApply(event.getPlayer().getItemInHand(hand), this) > -1) {
                 if (event.getPlayer() != null
@@ -75,7 +71,7 @@ public class EnchantmentUnusing extends Enchantment {
 
     @Override
     public boolean canEnchant(ItemStack itemStack) {
-        return !itemStack.isEmpty() && (!itemStack.getItem().getToolTypes(itemStack).isEmpty() || itemStack.getItem() instanceof SwordItem);
+        return itemStack.isDamageableItem();
     }
     
     /**

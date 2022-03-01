@@ -1,28 +1,28 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.villager.VillagerType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -37,24 +37,24 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class EntityWerewolf extends MonsterEntity {
+public class EntityWerewolf extends Monster {
 
     static {
         MinecraftForge.EVENT_BUS.register(EntityWerewolf.class);
     }
 
-    private CompoundNBT villagerNBTTagCompound = new CompoundNBT();
+    private CompoundTag villagerNBTTagCompound = new CompoundTag();
     private boolean fromVillager = false;
     
     private static final int BARKCHANCE = 1000;
     private static final int BARKLENGTH = 40;
     private static int barkprogress = -1;
 
-    public EntityWerewolf(EntityType<? extends EntityWerewolf> type,  World world) {
+    public EntityWerewolf(EntityType<? extends EntityWerewolf> type,  Level world) {
         super(type, world);
     }
 
-    public EntityWerewolf(World world) {
+    public EntityWerewolf(Level world) {
         super(RegistryEntries.ENTITY_WEREWOLF, world);
 
         this.maxUpStep = 1.0F;
@@ -67,41 +67,41 @@ public class EntityWerewolf extends MonsterEntity {
     protected void registerGoals() {
         super.registerGoals();
 
-        this.goalSelector.addGoal(2, new SwimGoal(this));
-        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new FloatGoal(this));
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
 
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void transformWerewolfVillager(LivingEvent.LivingUpdateEvent event) {
-        if(event.getEntity() instanceof VillagerEntity && !event.getEntity().level.isClientSide()) {
-            VillagerEntity villager = (VillagerEntity) event.getEntity();
+        if(event.getEntity() instanceof Villager && !event.getEntity().level.isClientSide()) {
+            Villager villager = (Villager) event.getEntity();
             if(EntityWerewolf.isWerewolfTime(event.getEntity().level)
                     && villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF
-                    && villager.level.getBrightness(LightType.SKY, villager.blockPosition()) > 0) {
+                    && villager.level.getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
                 EntityWerewolf.replaceVillager(villager);
             }
         }
     }
     
     @Override
-    protected float getVoicePitch() {
+    public float getVoicePitch() {
         return super.getVoicePitch() * 0.75F;
     }
     
     @Override
-    public void addAdditionalSaveData(CompoundNBT NBTTagCompound) {
+    public void addAdditionalSaveData(CompoundTag NBTTagCompound) {
         super.addAdditionalSaveData(NBTTagCompound);
         NBTTagCompound.put("villager", villagerNBTTagCompound);
         NBTTagCompound.putBoolean("fromVillager", fromVillager);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT NBTTagCompound) {
+    public void readAdditionalSaveData(CompoundTag NBTTagCompound) {
         super.readAdditionalSaveData(NBTTagCompound);
         this.villagerNBTTagCompound = NBTTagCompound.getCompound("villager");
         this.fromVillager = NBTTagCompound.getBoolean("fromVillager");
@@ -112,15 +112,15 @@ public class EntityWerewolf extends MonsterEntity {
      * @param world The world.
      * @return If it is werewolf party time.
      */
-    public static boolean isWerewolfTime(World world) {
+    public static boolean isWerewolfTime(Level world) {
         return world.getMoonBrightness() == 1.0
                 && !world.isDay()
                 && world.getDifficulty() != Difficulty.PEACEFUL;
     }
     
-    private static void replaceEntity(MobEntity old, MobEntity neww, World world) {
+    private static void replaceEntity(Mob old, Mob neww, Level world) {
         neww.copyPosition(old);
-        old.remove();
+        old.remove(RemovalReason.DISCARDED);
 
         world.addFreshEntity(neww);
         world.levelEvent(null, 1016, old.blockPosition(), 0);
@@ -131,7 +131,7 @@ public class EntityWerewolf extends MonsterEntity {
      */
     public void replaceWithVillager() {
         // MCP: byBiome
-        VillagerEntity villager = new VillagerEntity(EntityType.VILLAGER, this.level, VillagerType.byBiome(level.getBiomeName(this.blockPosition())));
+        Villager villager = new Villager(EntityType.VILLAGER, this.level, VillagerType.byBiome(level.getBiomeName(this.blockPosition())));
         initializeWerewolfVillagerData(villager);
         replaceEntity(this, villager, this.level);
         try {
@@ -141,7 +141,7 @@ public class EntityWerewolf extends MonsterEntity {
         }
     }
 
-    public static void initializeWerewolfVillagerData(VillagerEntity villager) {
+    public static void initializeWerewolfVillagerData(Villager villager) {
         villager.setVillagerData(villager
                 .getVillagerData()
                 .setLevel(2)
@@ -152,7 +152,7 @@ public class EntityWerewolf extends MonsterEntity {
      * Replace the given villager with a werewolf and store the data of that villager.
      * @param villager The villager to replace.
      */
-    public static void replaceVillager(VillagerEntity villager) {
+    public static void replaceVillager(Villager villager) {
         EntityWerewolf werewolf = new EntityWerewolf(villager.level);
         villager.addAdditionalSaveData(werewolf.getVillagerNBTTagCompound());
         werewolf.setFromVillager(true);
@@ -218,8 +218,8 @@ public class EntityWerewolf extends MonsterEntity {
     }
     
     @Override
-    public CreatureAttribute getMobType() {
-        return CreatureAttribute.ARTHROPOD;
+    public MobType getMobType() {
+        return MobType.ARTHROPOD;
     }
 
     @Override
@@ -231,7 +231,7 @@ public class EntityWerewolf extends MonsterEntity {
      * Get the villager data.
      * @return Villager data.
      */
-    public CompoundNBT getVillagerNBTTagCompound() {
+    public CompoundTag getVillagerNBTTagCompound() {
         return villagerNBTTagCompound;
     }
     

@@ -1,11 +1,12 @@
 package org.cyclops.evilcraft.entity.block;
 
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.TNTEntity;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -28,14 +29,14 @@ public class EntityLightningBombPrimedConfig extends EntityConfig<EntityLightnin
         super(
                 EvilCraft._instance,
                 "lightning_bomb_primed",
-                eConfig -> EntityType.Builder.<EntityLightningBombPrimed>of(EntityLightningBombPrimed::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityLightningBombPrimed>of(EntityLightningBombPrimed::new, MobCategory.MISC)
         );
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<TNTEntity> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
-        return new RenderBombPrimed(renderManager, RegistryEntries.BLOCK_LIGHTNING_BOMB_PRIMED);
+    public EntityRenderer<PrimedTnt> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+        return new RenderBombPrimed(renderContext, RegistryEntries.BLOCK_LIGHTNING_BOMB_PRIMED);
     }
     
 }

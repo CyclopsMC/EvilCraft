@@ -1,30 +1,29 @@
 package org.cyclops.evilcraft;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.potion.Effect;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraftforge.registries.ObjectHolder;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.block.BlockDarkBloodBrick;
-import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.block.BlockReinforcedUndeadPlank;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
+import org.cyclops.evilcraft.blockentity.*;
 import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedData;
 import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedEntityData;
 import org.cyclops.evilcraft.client.particle.ParticleBubbleExtendedData;
@@ -69,7 +68,6 @@ import org.cyclops.evilcraft.item.ItemBiomeExtract;
 import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
 import org.cyclops.evilcraft.item.ItemVeinSword;
 import org.cyclops.evilcraft.item.ItemVengeancePickaxe;
-import org.cyclops.evilcraft.tileentity.*;
 
 /**
  * Referenced registry entries.
@@ -169,7 +167,7 @@ public class RegistryEntries {
     public static final Item ITEM_WEREWOLF_FUR = null;
 
     @ObjectHolder("evilcraft:blood")
-    public static final FlowingFluidBlock BLOCK_BLOOD = null;
+    public static final LiquidBlock BLOCK_BLOOD = null;
     @ObjectHolder("evilcraft:blood_chest")
     public static final Block BLOCK_BLOOD_CHEST = null;
     @ObjectHolder("evilcraft:blood_infuser")
@@ -187,7 +185,7 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:dark_brick")
     public static final Block BLOCK_DARK_BRICK = null;
     @ObjectHolder("evilcraft:dark_tank")
-    public static final BlockDarkTank BLOCK_DARK_TANK = null;
+    public static final org.cyclops.evilcraft.block.BlockDarkTank BLOCK_DARK_TANK = null;
     @ObjectHolder("evilcraft:display_stand")
     public static final BlockDisplayStand BLOCK_DISPLAY_STAND = null;
     @ObjectHolder("evilcraft:entangled_chalice")
@@ -213,7 +211,7 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:lightning_bomb")
     public static final Block BLOCK_LIGHTNING_BOMB_PRIMED = null;
     @ObjectHolder("evilcraft:poison")
-    public static final FlowingFluidBlock BLOCK_POISON = null;
+    public static final LiquidBlock BLOCK_POISON = null;
     @ObjectHolder("evilcraft:purifier")
     public static final Block BLOCK_PURIFIER = null;
     @ObjectHolder("evilcraft:reinforced_undead_planks")
@@ -246,39 +244,39 @@ public class RegistryEntries {
     public static final Block BLOCK_UNDEAD_SAPLING = null;
 
     @ObjectHolder("evilcraft:blood_chest")
-    public static final TileEntityType<TileBloodChest> TILE_ENTITY_BLOOD_CHEST = null;
+    public static final BlockEntityType<BlockEntityBloodChest> BLOCK_ENTITY_BLOOD_CHEST = null;
     @ObjectHolder("evilcraft:blood_infuser")
-    public static final TileEntityType<TileBloodInfuser> TILE_ENTITY_BLOOD_INFUSER = null;
+    public static final BlockEntityType<BlockEntityBloodInfuser> BLOCK_ENTITY_BLOOD_INFUSER = null;
     @ObjectHolder("evilcraft:blood_stain")
-    public static final TileEntityType<TileBloodStain> TILE_ENTITY_BLOOD_STAIN = null;
+    public static final BlockEntityType<BlockEntityBloodStain> BLOCK_ENTITY_BLOOD_STAIN = null;
     @ObjectHolder("evilcraft:box_of_eternal_closure")
-    public static final TileEntityType<TileBoxOfEternalClosure> TILE_ENTITY_BOX_OF_ETERNAL_CLOSURE = null;
+    public static final BlockEntityType<BlockEntityBoxOfEternalClosure> BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE = null;
     @ObjectHolder("evilcraft:colossal_blood_chest")
-    public static final TileEntityType<TileColossalBloodChest> TILE_ENTITY_COLOSSAL_BLOOD_CHEST = null;
+    public static final BlockEntityType<BlockEntityColossalBloodChest> BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST = null;
     @ObjectHolder("evilcraft:dark_tank")
-    public static final TileEntityType<TileDarkTank> TILE_ENTITY_DARK_TANK = null;
+    public static final BlockEntityType<BlockEntityDarkTank> BLOCK_ENTITY_DARK_TANK = null;
     @ObjectHolder("evilcraft:display_stand")
-    public static final TileEntityType<TileDisplayStand> TILE_ENTITY_DISPLAY_STAND = null;
+    public static final BlockEntityType<BlockEntityDisplayStand> BLOCK_ENTITY_DISPLAY_STAND = null;
     @ObjectHolder("evilcraft:entangled_chalice")
-    public static final TileEntityType<TileEntangledChalice> TILE_ENTITY_ENTANGLED_CHALICE = null;
+    public static final BlockEntityType<BlockEntityEntangledChalice> BLOCK_ENTITY_ENTANGLED_CHALICE = null;
     @ObjectHolder("evilcraft:environmental_accumulator")
-    public static final TileEntityType<TileEnvironmentalAccumulator> TILE_ENTITY_ENVIRONMENTAL_ACCUMULATOR = null;
+    public static final BlockEntityType<BlockEntityEnvironmentalAccumulator> BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR = null;
     @ObjectHolder("evilcraft:eternal_water")
-    public static final TileEntityType<TileEternalWater> TILE_ENTITY_ETERNAL_WATER = null;
+    public static final BlockEntityType<BlockEntityEternalWater> BLOCK_ENTITY_ETERNAL_WATER = null;
     @ObjectHolder("evilcraft:invisible_redstone")
-    public static final TileEntityType<TileInvisibleRedstone> TILE_ENTITY_INVISIBLE_REDSTONE = null;
+    public static final BlockEntityType<BlockEntityInvisibleRedstone> BLOCK_ENTITY_INVISIBLE_REDSTONE = null;
     @ObjectHolder("evilcraft:purifier")
-    public static final TileEntityType<TileDisplayStand> TILE_ENTITY_PURIFIER = null;
+    public static final BlockEntityType<BlockEntityPurifier> BLOCK_ENTITY_PURIFIER = null;
     @ObjectHolder("evilcraft:sanguinary_environmental_accumulator")
-    public static final TileEntityType<TileSanguinaryEnvironmentalAccumulator> TILE_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
+    public static final BlockEntityType<BlockEntitySanguinaryEnvironmentalAccumulator> BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
     @ObjectHolder("evilcraft:sanguinary_pedestal")
-    public static final TileEntityType<TileSanguinaryPedestal> TILE_ENTITY_SANGUINARY_PEDESTAL = null;
+    public static final BlockEntityType<BlockEntitySanguinaryPedestal> BLOCK_ENTITY_SANGUINARY_PEDESTAL = null;
     @ObjectHolder("evilcraft:spirit_furnace")
-    public static final TileEntityType<TileSpiritFurnace> TILE_ENTITY_SPIRIT_FURNACE = null;
+    public static final BlockEntityType<BlockEntitySpiritFurnace> BLOCK_ENTITY_SPIRIT_FURNACE = null;
     @ObjectHolder("evilcraft:spirit_portal")
-    public static final TileEntityType<TileSpiritPortal> TILE_ENTITY_SPIRIT_PORTAL = null;
+    public static final BlockEntityType<BlockEntitySpiritPortal> BLOCK_ENTITY_SPIRIT_PORTAL = null;
     @ObjectHolder("evilcraft:spirit_reanimator")
-    public static final TileEntityType<TileSpiritReanimator> TILE_ENTITY_SPIRIT_REANIMATOR = null;
+    public static final BlockEntityType<BlockEntitySpiritReanimator> BLOCK_ENTITY_SPIRIT_REANIMATOR = null;
 
     @ObjectHolder("evilcraft:blood")
     public static final FlowingFluid FLUID_BLOOD = null;
@@ -286,7 +284,7 @@ public class RegistryEntries {
     public static final FlowingFluid FLUID_POISON = null;
 
     @ObjectHolder("evilcraft:paling")
-    public static final Effect POTION_PALING = null;
+    public static final MobEffect POTION_PALING = null;
 
     @ObjectHolder("evilcraft:vengeance")
     public static final Enchantment ENCHANTMENT_VENGEANCE = null;
@@ -294,42 +292,42 @@ public class RegistryEntries {
     public static final Enchantment ENCHANTMENT_LIFE_STEALING = null;
 
     @ObjectHolder("evilcraft:blood_chest")
-    public static final ContainerType<ContainerBloodChest> CONTAINER_BLOOD_CHEST = null;
+    public static final MenuType<ContainerBloodChest> CONTAINER_BLOOD_CHEST = null;
     @ObjectHolder("evilcraft:blood_infuser")
-    public static final ContainerType<ContainerBloodInfuser> CONTAINER_BLOOD_INFUSER = null;
+    public static final MenuType<ContainerBloodInfuser> CONTAINER_BLOOD_INFUSER = null;
     @ObjectHolder("evilcraft:colossal_blood_chest")
-    public static final ContainerType<ContainerColossalBloodChest> CONTAINER_COLOSSAL_BLOOD_CHEST = null;
+    public static final MenuType<ContainerColossalBloodChest> CONTAINER_COLOSSAL_BLOOD_CHEST = null;
     @ObjectHolder("evilcraft:exalted_crafter")
-    public static final ContainerType<ContainerExaltedCrafter> CONTAINER_EXALTED_CRAFTER = null;
+    public static final MenuType<ContainerExaltedCrafter> CONTAINER_EXALTED_CRAFTER = null;
     @ObjectHolder("evilcraft:origins_of_darkness")
-    public static final ContainerType<ContainerOriginsOfDarkness> CONTAINER_ORIGINS_OF_DARKNESS = null;
+    public static final MenuType<ContainerOriginsOfDarkness> CONTAINER_ORIGINS_OF_DARKNESS = null;
     @ObjectHolder("evilcraft:primed_pendant")
-    public static final ContainerType<ContainerPrimedPendant> CONTAINER_PRIMED_PENDANT = null;
+    public static final MenuType<ContainerPrimedPendant> CONTAINER_PRIMED_PENDANT = null;
     @ObjectHolder("evilcraft:sanguinary_environmental_accumulator")
-    public static final ContainerType<ContainerSanguinaryEnvironmentalAccumulator> CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
+    public static final MenuType<ContainerSanguinaryEnvironmentalAccumulator> CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
     @ObjectHolder("evilcraft:spirit_furnace")
-    public static final ContainerType<ContainerSpiritFurnace> CONTAINER_SPIRIT_FURNACE = null;
+    public static final MenuType<ContainerSpiritFurnace> CONTAINER_SPIRIT_FURNACE = null;
     @ObjectHolder("evilcraft:spirit_reanimator")
-    public static final ContainerType<ContainerSpiritReanimator> CONTAINER_SPIRIT_REANIMATOR = null;
+    public static final MenuType<ContainerSpiritReanimator> CONTAINER_SPIRIT_REANIMATOR = null;
 
     // Recipe types are not Forge registries unfortunately...
-    public static IRecipeType<RecipeBloodInfuser> RECIPETYPE_BLOOD_INFUSER = null;
-    public static IRecipeType<RecipeEnvironmentalAccumulator> RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = null;
+    public static RecipeType<RecipeBloodInfuser> RECIPETYPE_BLOOD_INFUSER = null;
+    public static RecipeType<RecipeEnvironmentalAccumulator> RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = null;
 
     @ObjectHolder("evilcraft:blood_infuser")
-    public static final IRecipeSerializer<RecipeBloodInfuser> RECIPESERIALIZER_BLOOD_INFUSER = null;
+    public static final RecipeSerializer<RecipeBloodInfuser> RECIPESERIALIZER_BLOOD_INFUSER = null;
     @ObjectHolder("evilcraft:environmental_accumulator")
-    public static final IRecipeSerializer<RecipeEnvironmentalAccumulator> RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR = null;
+    public static final RecipeSerializer<RecipeEnvironmentalAccumulator> RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR = null;
     @ObjectHolder("evilcraft:crafting_special_bloodextractor_combination")
-    public static final IRecipeSerializer<RecipeBloodExtractorCombination> RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION = null;
+    public static final RecipeSerializer<RecipeBloodExtractorCombination> RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION = null;
     @ObjectHolder("evilcraft:crafting_special_fluidcontainer_combination")
-    public static final IRecipeSerializer<RecipeFluidContainerCombination> RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION = null;
+    public static final RecipeSerializer<RecipeFluidContainerCombination> RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION = null;
     @ObjectHolder("evilcraft:crafting_special_dead_bush")
-    public static final IRecipeSerializer<RecipeDeadBush> RECIPESERIALIZER_DEAD_BUSH = null;
+    public static final RecipeSerializer<RecipeDeadBush> RECIPESERIALIZER_DEAD_BUSH = null;
     @ObjectHolder("evilcraft:crafting_special_broom_part_combination")
-    public static final IRecipeSerializer<RecipeBroomPartCombination> RECIPESERIALIZER_BROOM_PART_COMBINATION = null;
+    public static final RecipeSerializer<RecipeBroomPartCombination> RECIPESERIALIZER_BROOM_PART_COMBINATION = null;
     @ObjectHolder("evilcraft:environmental_accumulator_biome_extract")
-    public static final IRecipeSerializer<RecipeEnvironmentalAccumulatorBiomeExtract> RECIPESERIALIZER_BIOME_EXTRACT = null;
+    public static final RecipeSerializer<RecipeEnvironmentalAccumulatorBiomeExtract> RECIPESERIALIZER_BIOME_EXTRACT = null;
 
     @ObjectHolder("cyclopscore:blur")
     public static final ParticleType<ParticleBlurData> PARTICLE_BLUR = null;
@@ -338,9 +336,9 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:blur_targetted_entity")
     public static final ParticleType<ParticleBlurTargettedEntityData> PARTICLE_BLUR_TARGETTED_ENTITY = null;
     @ObjectHolder("evilcraft:blood_bubble")
-    public static final BasicParticleType PARTICLE_BLOOD_BUBBLE = null;
+    public static final SimpleParticleType PARTICLE_BLOOD_BUBBLE = null;
     @ObjectHolder("evilcraft:blood_splash")
-    public static final BasicParticleType PARTICLE_BLOOD_SPLASH = null;
+    public static final SimpleParticleType PARTICLE_BLOOD_SPLASH = null;
     @ObjectHolder("evilcraft:bubble_extended")
     public static final ParticleType<ParticleBubbleExtendedData> PARTICLE_BUBBLE_EXTENDED = null;
     @ObjectHolder("evilcraft:colored_smoke")
@@ -348,7 +346,7 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:dark_smoke")
     public static final ParticleType<ParticleDarkSmokeData> PARTICLE_DARK_SMOKE = null;
     @ObjectHolder("evilcraft:degrade")
-    public static final BasicParticleType PARTICLE_DEGRADE = null;
+    public static final SimpleParticleType PARTICLE_DEGRADE = null;
     @ObjectHolder("evilcraft:distort")
     public static final ParticleType<ParticleDistortData> PARTICLE_DISTORT = null;
     @ObjectHolder("evilcraft:explosion_extended")
@@ -356,7 +354,7 @@ public class RegistryEntries {
     @ObjectHolder("evilcraft:fart")
     public static final ParticleType<ParticleFartData> PARTICLE_FART = null;
     @ObjectHolder("evilcraft:magic_finish")
-    public static final BasicParticleType PARTICLE_MAGIC_FINISH = null;
+    public static final SimpleParticleType PARTICLE_MAGIC_FINISH = null;
 
     @ObjectHolder("evilcraft:controlled_zombie")
     public static final EntityType<? extends EntityControlledZombie> ENTITY_CONTROLLED_ZOMBIE = null;
@@ -402,5 +400,5 @@ public class RegistryEntries {
     public static final Biome BIOME_DEGRADED = null;
 
     @ObjectHolder("evilcraft:dark_temple")
-    public static final Structure<?> STRUCTURE_DARK_TEMPLE = null;
+    public static final StructureFeature<?> STRUCTURE_DARK_TEMPLE = null;
 }

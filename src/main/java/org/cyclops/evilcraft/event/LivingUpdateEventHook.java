@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.event;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,10 +26,10 @@ public class LivingUpdateEventHook {
     }
 
     private void dieWithoutAnyReason(LivingUpdateEvent event) {
-        if(event.getEntity() instanceof PlayerEntity && GeneralConfig.dieWithoutAnyReason
+        if(event.getEntity() instanceof Player && GeneralConfig.dieWithoutAnyReason
         		&& event.getEntity().level.random.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0
         		&& !event.getEntity().level.isClientSide()) {
-            PlayerEntity entity = (PlayerEntity) event.getEntity();
+            Player entity = (Player) event.getEntity();
             entity.hurt(ExtendedDamageSource.dieWithoutAnyReason, Float.MAX_VALUE);
         }
     }

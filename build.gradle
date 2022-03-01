@@ -6,13 +6,13 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'com.github.jengelman.gradle.plugins:shadow:4.0.4'
     }
 }
 
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0'
 	id 'com.github.kt3k.coveralls' version '2.10.2'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -41,8 +41,9 @@ group = "org.cyclops.evilcraft"
 archivesBaseName = "EvilCraft"
 
 // Set Java details
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+compileJava.options.compilerArgs << "-Xmaxerrs" << "9999"
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 // Load secrets
 def getSecrets() {

@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Items;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Hand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.Items;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.InteractionHand;
 import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -22,15 +22,15 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<ItemPrimedPen
     private static final int SLOT_X = 80;
     private static final int SLOT_Y = 35;
 
-    public ContainerPrimedPendant(int id, PlayerInventory inventory, PacketBuffer packetBuffer) {
+    public ContainerPrimedPendant(int id, Inventory inventory, FriendlyByteBuf packetBuffer) {
         this(id, inventory, readItemIndex(packetBuffer), readHand(packetBuffer));
     }
 
-    public ContainerPrimedPendant(int id, PlayerInventory inventory, int itemIndex, Hand hand) {
+    public ContainerPrimedPendant(int id, Inventory inventory, int itemIndex, InteractionHand hand) {
         super(RegistryEntries.CONTAINER_PRIMED_PENDANT, id, inventory, itemIndex, hand);
         addSlot(new SlotSingleItem(getItem().getSupplementaryInventory(player, getItemStack(player), itemIndex, hand),
                 0, SLOT_X, SLOT_Y, Items.POTION));
-        this.addPlayerInventory(player.inventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
+        this.addPlayerInventory(player.getInventory(), INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<ItemPrimedPen
     }
 
     @Override
-    public boolean stillValid(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         return true;
     }
 }

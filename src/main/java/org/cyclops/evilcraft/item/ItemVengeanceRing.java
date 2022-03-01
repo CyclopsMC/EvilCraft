@@ -2,22 +2,22 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Triple;
@@ -40,12 +40,12 @@ public class ItemVengeanceRing extends Item {
 	private static final int BONUS_TICK_MODULUS = 5;
 	private static final int BONUS_POTION_DURATION = 3 * 20;
 	// Array of effects, each element: potion ID, duration, potion level.
-	private static final List<Triple<Effect, Integer, Integer>> RING_POWERS =
-			Lists.<Triple<Effect, Integer, Integer>>newArrayList(
-					Triple.of(Effects.JUMP, BONUS_POTION_DURATION, 2),
-					Triple.of(Effects.INVISIBILITY, BONUS_POTION_DURATION, 1),
-					Triple.of(Effects.MOVEMENT_SPEED, BONUS_POTION_DURATION, 1),
-					Triple.of(Effects.DIG_SPEED, BONUS_POTION_DURATION, 1)
+	private static final List<Triple<MobEffect, Integer, Integer>> RING_POWERS =
+			Lists.<Triple<MobEffect, Integer, Integer>>newArrayList(
+					Triple.of(MobEffects.JUMP, BONUS_POTION_DURATION, 2),
+					Triple.of(MobEffects.INVISIBILITY, BONUS_POTION_DURATION, 1),
+					Triple.of(MobEffects.MOVEMENT_SPEED, BONUS_POTION_DURATION, 1),
+					Triple.of(MobEffects.DIG_SPEED, BONUS_POTION_DURATION, 1)
 			);
 
 	public ItemVengeanceRing(Item.Properties properties) {
@@ -53,7 +53,7 @@ public class ItemVengeanceRing extends Item {
     }
     
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		ItemStack itemStack = player.getItemInHand(hand);
         if(player.isCrouching()) {
             if(!world.isClientSide())
@@ -79,7 +79,7 @@ public class ItemVengeanceRing extends Item {
      * is of no use of spawnRandom is not true.
      */
     @SuppressWarnings("unchecked")
-	public static void toggleVengeanceArea(World world, Entity entity, int area,
+	public static void toggleVengeanceArea(Level world, Entity entity, int area,
 			boolean enableVengeance, boolean spawnRandom, boolean forceGlobal) {
     	if(world.getDifficulty() != Difficulty.PEACEFUL) {
 	    	double x = entity.getX();
@@ -88,7 +88,7 @@ public class ItemVengeanceRing extends Item {
             BlockPos blockPos = entity.blockPosition();
 	    	
 	    	// Look for spirits in an area.
-	    	AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).inflate(area, area, area);
+	    	AABB box = new AABB(x, y, z, x, y, z).inflate(area, area, area);
 	    	List<EntityVengeanceSpirit> spirits = world.getEntitiesOfClass(EntityVengeanceSpirit.class, box,
 					new Predicate<Entity>() {
 
@@ -101,7 +101,7 @@ public class ItemVengeanceRing extends Item {
 	    	
 	    	// Vengeance all the spirits in the neighbourhood
 	    	for(EntityVengeanceSpirit spirit : spirits) {
-	    		spirit.setEnabledVengeance((PlayerEntity) entity, enableVengeance);
+	    		spirit.setEnabledVengeance((Player) entity, enableVengeance);
 	    		if(enableVengeance) {
 	    			spirit.setTarget((LivingEntity) entity);
 	    		} else if(spirit.getTarget() == entity) {
@@ -116,7 +116,7 @@ public class ItemVengeanceRing extends Item {
 	    			if(forceGlobal) {
 	    				spirit.setGlobalVengeance(true);
 	    			} else {
-	    				spirit.setEnabledVengeance((PlayerEntity) entity, true);
+	    				spirit.setEnabledVengeance((Player) entity, true);
 	    			}
 	    			spirit.setTarget((LivingEntity) entity);
                     int chance = EntityVengeanceSpiritConfig.nonDegradedSpawnChance;
@@ -130,20 +130,20 @@ public class ItemVengeanceRing extends Item {
      * Give bonus abilities to the given player.
      * @param player The player to receive the powers.
      */
-    public static void updateRingPowers(PlayerEntity player) {
-    	for(Triple<Effect, Integer, Integer> power : RING_POWERS) {
-    		player.addEffect(new EffectInstance(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
+    public static void updateRingPowers(Player player) {
+    	for(Triple<MobEffect, Integer, Integer> power : RING_POWERS) {
+    		player.addEffect(new MobEffectInstance(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
     	}
 	}
     
 	@Override
-    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof PlayerEntity && !world.isClientSide()
+    public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
+        if(entity instanceof Player && !world.isClientSide()
         		&& WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS, entity.getId())) {
         	int area = ItemVengeanceRingConfig.areaOfEffect;
         	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true, false);
         	if(ItemHelpers.isActivated(itemStack)) {
-        		updateRingPowers((PlayerEntity) entity);
+        		updateRingPowers((Player) entity);
         	}
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);
@@ -151,7 +151,7 @@ public class ItemVengeanceRing extends Item {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-	public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+	public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
 				getDescriptionId() + ".info.status");

@@ -1,19 +1,19 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 
-import net.minecraft.enchantment.Enchantment.Rarity;
+import net.minecraft.world.item.enchantment.Enchantment.Rarity;
 
 /**
  * Enchantment that poisons the attacked entity.
@@ -25,7 +25,7 @@ public class EnchantmentPoisonTip extends Enchantment {
     private static final int POISON_BASE_DURATION = 2;
 
     public EnchantmentPoisonTip() {
-        super(Rarity.RARE, EnchantmentType.BOW, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        super(Rarity.RARE, EnchantmentCategory.BOW, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -64,7 +64,7 @@ public class EnchantmentPoisonTip extends Enchantment {
      * @param level The level of the enchant.
      */
     public static void poison(LivingEntity entity, int level) {
-        entity.addEffect(new EffectInstance(Effects.POISON, POISON_BASE_DURATION * 20 * (level + 1), 1));
+        entity.addEffect(new MobEffectInstance(MobEffects.POISON, POISON_BASE_DURATION * 20 * (level + 1), 1));
     }
 
 }

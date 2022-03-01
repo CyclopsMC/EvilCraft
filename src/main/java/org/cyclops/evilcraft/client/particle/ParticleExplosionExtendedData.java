@@ -4,23 +4,23 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.client.particle.ParticleDropColoredData;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
-import net.minecraft.particles.IParticleData.IDeserializer;
+import net.minecraft.core.particles.ParticleOptions.Deserializer;
 
 /**
  * @author rubensworks
  */
-public class ParticleExplosionExtendedData implements IParticleData {
+public class ParticleExplosionExtendedData implements ParticleOptions {
 
-    public static final IDeserializer<ParticleExplosionExtendedData> DESERIALIZER = new IDeserializer<ParticleExplosionExtendedData>() {
+    public static final Deserializer<ParticleExplosionExtendedData> DESERIALIZER = new Deserializer<ParticleExplosionExtendedData>() {
         public ParticleExplosionExtendedData fromCommand(ParticleType<ParticleExplosionExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float r = (float) reader.readDouble();
@@ -33,7 +33,7 @@ public class ParticleExplosionExtendedData implements IParticleData {
             return new ParticleExplosionExtendedData(r, g, b, alpha);
         }
 
-        public ParticleExplosionExtendedData fromNetwork(ParticleType<ParticleExplosionExtendedData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleExplosionExtendedData fromNetwork(ParticleType<ParticleExplosionExtendedData> particleTypeIn, FriendlyByteBuf buffer) {
             return new ParticleExplosionExtendedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
@@ -80,7 +80,7 @@ public class ParticleExplosionExtendedData implements IParticleData {
     }
 
     @Override
-    public void writeToNetwork(PacketBuffer buffer) {
+    public void writeToNetwork(FriendlyByteBuf buffer) {
         buffer.writeFloat(r);
         buffer.writeFloat(g);
         buffer.writeFloat(b);

@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.entity.effect;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -20,11 +20,11 @@ import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
  */
 public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
 
-    public EntityAttackVengeanceBeam(EntityType<? extends EntityAttackVengeanceBeam> type, World world) {
+    public EntityAttackVengeanceBeam(EntityType<? extends EntityAttackVengeanceBeam> type, Level world) {
         super(type, world);
     }
 
-    public EntityAttackVengeanceBeam(World world, LivingEntity entity) {
+    public EntityAttackVengeanceBeam(Level world, LivingEntity entity) {
         super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM, world, entity);
     }
 
@@ -36,7 +36,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
         float green = random.nextFloat() * 0.03F;
         float blue = random.nextFloat() * 0.05F;
         float ageMultiplier = (float) (random.nextDouble() * 4.5D + 4D);
-        Vector3d motion = getDeltaMovement();
+        Vec3 motion = getDeltaMovement();
 
         Minecraft.getInstance().levelRenderer.addParticle(
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,

@@ -1,25 +1,25 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IRendersAsItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.IPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ItemSupplier;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
+import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemBloodPearlOfTeleportation;
 import org.cyclops.evilcraft.item.ItemBloodPearlOfTeleportationConfig;
@@ -31,36 +31,36 @@ import javax.annotation.Nonnull;
  * @author rubensworks
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = IRendersAsItem.class)
-public class EntityBloodPearl extends ThrowableEntity implements IRendersAsItem {
+@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
+public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplier {
 
-    public EntityBloodPearl(EntityType<? extends EntityBloodPearl> type, World world) {
+    public EntityBloodPearl(EntityType<? extends EntityBloodPearl> type, Level world) {
         super(type, world);
     }
 
-    public EntityBloodPearl(World world, LivingEntity entity) {
+    public EntityBloodPearl(Level world, LivingEntity entity) {
         super(RegistryEntries.ENTITY_BLOOD_PEARL, entity, world);
     }
 
     @Nonnull
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected void onHit(RayTraceResult position) {
-        if (position.getType() == RayTraceResult.Type.ENTITY) {
-            ((EntityRayTraceResult) position).getEntity()
+    protected void onHit(HitResult position) {
+        if (position.getType() == HitResult.Type.ENTITY) {
+            ((EntityHitResult) position).getEntity()
                     .hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
         }
 
         if (!this.level.isClientSide()) {
-            if (this.getOwner() != null && this.getOwner() instanceof ServerPlayerEntity) {
-                ServerPlayerEntity entityplayermp = (ServerPlayerEntity)this.getOwner();
+            if (this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
+                ServerPlayer entityplayermp = (ServerPlayer)this.getOwner();
 
                 if (entityplayermp.connection.connection.isConnected() && entityplayermp.level == this.level) {
-                    EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, this.getX(), this.getY(), this.getZ(), 0.0F);
+                    EntityTeleportEvent event = new EntityTeleportEvent(entityplayermp, this.getX(), this.getY(), this.getZ());
                     if (!MinecraftForge.EVENT_BUS.post(event)) {
                         if (this.getOwner().isPassenger()) {
                             this.getOwner().stopRiding();
@@ -68,14 +68,13 @@ public class EntityBloodPearl extends ThrowableEntity implements IRendersAsItem 
     
                         this.getOwner().teleportTo(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                         this.getOwner().fallDistance = 0.0F;
-                        this.getOwner().hurt(DamageSource.FALL, event.getAttackDamage());
-                        ((LivingEntity) this.getOwner()).addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN,
+                        ((LivingEntity) this.getOwner()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
                         		ItemBloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }
                 }
             }
 
-            this.remove();
+            this.remove(RemovalReason.DISCARDED);
         } else {
             for (int i = 0; i < 32; ++i) {
                 Minecraft.getInstance().levelRenderer.addParticle(

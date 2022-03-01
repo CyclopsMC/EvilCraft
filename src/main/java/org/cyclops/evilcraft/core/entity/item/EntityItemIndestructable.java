@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.entity.item;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.Level;
 
 /**
  * An indestructible version of the {@link ItemEntity}.
@@ -13,12 +13,12 @@ import net.minecraft.world.World;
  */
 public abstract class EntityItemIndestructable extends EntityItemExtended {
 
-	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, World world, ItemEntity original) {
+	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, Level world, ItemEntity original) {
         super(type, world, original);
         init();
     }
 
-	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, World world) {
+	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, Level world) {
         super(type, world);
         init();
     }

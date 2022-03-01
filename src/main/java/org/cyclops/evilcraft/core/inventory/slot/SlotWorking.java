@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.core.inventory.slot;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
 /**
  * Slot that is used for only accepting workable items.
@@ -13,13 +13,13 @@ import org.cyclops.evilcraft.core.tileentity.TileWorking;
  * @param <T> The tile type.
  *
  */
-public class SlotWorking<T extends TileWorking<T, ?>> extends Slot {
+public class SlotWorking<T extends BlockEntityWorking<T, ?>> extends Slot {
 
 	protected ContainerTileWorking<T> container;
     private ItemStack lastSlotContents = null;
-    private final World world;
+    private final Level world;
 
-    public SlotWorking(int index, int x, int y, ContainerTileWorking<T> container, World world) {
+    public SlotWorking(int index, int x, int y, ContainerTileWorking<T> container, Level world) {
         super(container.getContainerInventory(), index, x, y);
         this.container = container;
         this.lastSlotContents = getItem();
@@ -32,13 +32,13 @@ public class SlotWorking<T extends TileWorking<T, ?>> extends Slot {
     }
     
     @Override
-    public ItemStack onTake(PlayerEntity player, ItemStack itemStack) {
+    public void onTake(Player player, ItemStack itemStack) {
         container.getTileSupplier().ifPresent(tile -> {
             if(!ItemStack.tagMatches(itemStack, this.getItem())) {
                 tile.resetWork();
             }
         });
-        return super.onTake(player, itemStack);
+        super.onTake(player, itemStack);
     }
     
     @Override

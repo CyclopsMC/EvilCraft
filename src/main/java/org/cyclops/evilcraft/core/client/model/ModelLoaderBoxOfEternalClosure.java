@@ -2,11 +2,9 @@ package org.cyclops.evilcraft.core.client.model;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import net.minecraft.resources.IResourceManager;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraftforge.client.model.ForgeModelBakery;
 import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.VanillaResourceType;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
 
 /**
@@ -16,21 +14,16 @@ import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
 public class ModelLoaderBoxOfEternalClosure implements IModelLoader<ModelBoxOfEternalClosure> {
 
     @Override
-    public IResourceType getResourceType() {
-        return VanillaResourceType.MODELS;
-    }
-
-    @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
 
     }
 
     @Override
     public ModelBoxOfEternalClosure read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
         ModelBoxOfEternalClosure model = new ModelBoxOfEternalClosure();
-        ModelLoader.addSpecialModel(ModelBoxOfEternalClosure.boxModel);
-        ModelLoader.addSpecialModel(ModelBoxOfEternalClosure.boxLidModel);
-        ModelLoader.addSpecialModel(ModelBoxOfEternalClosure.boxLidRotatedModel);
+        ForgeModelBakery.addSpecialModel(ModelBoxOfEternalClosure.boxModel);
+        ForgeModelBakery.addSpecialModel(ModelBoxOfEternalClosure.boxLidModel);
+        ForgeModelBakery.addSpecialModel(ModelBoxOfEternalClosure.boxLidRotatedModel);
         return model;
     }
 }

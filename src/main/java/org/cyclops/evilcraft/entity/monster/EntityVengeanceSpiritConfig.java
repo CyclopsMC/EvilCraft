@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.entity.monster;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -51,17 +51,18 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
         super(
                 EvilCraft._instance,
                 "vengeance_spirit",
-                eConfig -> EntityType.Builder.<EntityVengeanceSpirit>of(EntityVengeanceSpirit::new, EntityClassification.MONSTER)
+                eConfig -> EntityType.Builder.<EntityVengeanceSpirit>of(EntityVengeanceSpirit::new, MobCategory.MONSTER)
                         .sized(1, 1) // Dummy size, to avoid rare bounding box crashes before inner entity is init.
                         .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "vengeance_spirit_spawn_egg", Helpers.RGBToInt(64, 16, 93), Helpers.RGBToInt(134, 60, 169))
         );
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributesModification);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<? super EntityVengeanceSpirit> getRender(EntityRendererManager entityRendererManager, ItemRenderer itemRenderer) {
-        return new RenderVengeanceSpirit(entityRendererManager, this);
+    public EntityRenderer<? super EntityVengeanceSpirit> getRender(EntityRendererProvider.Context renderContext, ItemRenderer itemRenderer) {
+        return new RenderVengeanceSpirit(renderContext, this);
     }
 
     @Override
@@ -77,15 +78,23 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
         });
     }
 
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        GlobalEntityTypeAttributes.put(getInstance(), MonsterEntity.createMonsterAttributes()
-                .add(Attributes.FOLLOW_RANGE, 10.0D)
-                .add(Attributes.MAX_HEALTH, 10.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.3125D)
-                .add(Attributes.ATTACK_DAMAGE, 4.0D)
-                .build());
+    public void onEntityAttributesModification(EntityAttributeModificationEvent event) {
+        // Copied from Monster.createMonsterAttributes()
+        event.add(getInstance(), Attributes.ATTACK_DAMAGE);
+        event.add(getInstance(), Attributes.FOLLOW_RANGE, 16.0D);
+        event.add(getInstance(), Attributes.ATTACK_KNOCKBACK);
+        event.add(getInstance(), Attributes.MAX_HEALTH);
+        event.add(getInstance(), Attributes.KNOCKBACK_RESISTANCE);
+        event.add(getInstance(), Attributes.MOVEMENT_SPEED);
+        event.add(getInstance(), Attributes.ARMOR);
+        event.add(getInstance(), Attributes.ARMOR_TOUGHNESS);
+        event.add(getInstance(), net.minecraftforge.common.ForgeMod.SWIM_SPEED.get());
+        event.add(getInstance(), net.minecraftforge.common.ForgeMod.NAMETAG_DISTANCE.get());
+        event.add(getInstance(), net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
+
+        event.add(getInstance(), Attributes.FOLLOW_RANGE, 10.0D);
+        event.add(getInstance(), Attributes.MAX_HEALTH, 10.0D);
+        event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.3125D);
+        event.add(getInstance(), Attributes.ATTACK_DAMAGE, 4.0D);
     }
-    
 }

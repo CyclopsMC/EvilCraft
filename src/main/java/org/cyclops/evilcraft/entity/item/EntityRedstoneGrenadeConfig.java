@@ -1,11 +1,12 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.SpriteRenderer;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -22,15 +23,15 @@ public class EntityRedstoneGrenadeConfig extends EntityConfig<EntityRedstoneGren
         super(
                 EvilCraft._instance,
             "redstone_grenade",
-                eConfig -> EntityType.Builder.<EntityRedstoneGrenade>of(EntityRedstoneGrenade::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityRedstoneGrenade>of(EntityRedstoneGrenade::new, MobCategory.MISC)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<EntityRedstoneGrenade> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
-        return new SpriteRenderer<>(renderManager, renderItem);
+    public EntityRenderer<EntityRedstoneGrenade> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+        return new ThrownItemRenderer<>(renderContext);
     }
     
 }

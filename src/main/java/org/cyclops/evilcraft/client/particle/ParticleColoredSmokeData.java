@@ -4,22 +4,22 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
-import net.minecraft.particles.IParticleData.IDeserializer;
+import net.minecraft.core.particles.ParticleOptions.Deserializer;
 
 /**
  * @author rubensworks
  */
-public class ParticleColoredSmokeData implements IParticleData {
+public class ParticleColoredSmokeData implements ParticleOptions {
 
-    public static final IDeserializer<ParticleColoredSmokeData> DESERIALIZER = new IDeserializer<ParticleColoredSmokeData>() {
+    public static final Deserializer<ParticleColoredSmokeData> DESERIALIZER = new Deserializer<ParticleColoredSmokeData>() {
         public ParticleColoredSmokeData fromCommand(ParticleType<ParticleColoredSmokeData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float r = (float) reader.readDouble();
@@ -30,7 +30,7 @@ public class ParticleColoredSmokeData implements IParticleData {
             return new ParticleColoredSmokeData(r, g, b);
         }
 
-        public ParticleColoredSmokeData fromNetwork(ParticleType<ParticleColoredSmokeData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleColoredSmokeData fromNetwork(ParticleType<ParticleColoredSmokeData> particleTypeIn, FriendlyByteBuf buffer) {
             return new ParticleColoredSmokeData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
@@ -70,7 +70,7 @@ public class ParticleColoredSmokeData implements IParticleData {
     }
 
     @Override
-    public void writeToNetwork(PacketBuffer buffer) {
+    public void writeToNetwork(FriendlyByteBuf buffer) {
         buffer.writeFloat(r);
         buffer.writeFloat(g);
         buffer.writeFloat(b);

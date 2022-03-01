@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -21,18 +21,18 @@ import javax.annotation.Nullable;
  */
 public class EntityItemDarkStick extends EntityItemDefinedRotation {
 
-	private static final DataParameter<Integer> WATCHERID_VALID = EntityDataManager.<Integer>defineId(EntityItemDarkStick.class, DataSerializers.INT);
-	private static final DataParameter<Float> WATCHERID_ANGLE = EntityDataManager.<Float>defineId(EntityItemDarkStick.class, DataSerializers.FLOAT);
+	private static final EntityDataAccessor<Integer> WATCHERID_VALID = SynchedEntityData.<Integer>defineId(EntityItemDarkStick.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Float> WATCHERID_ANGLE = SynchedEntityData.<Float>defineId(EntityItemDarkStick.class, EntityDataSerializers.FLOAT);
 
     private double lastPosX = -1;
     private double lastPosY = -1;
     private double lastPosZ = -1;
 
-	public EntityItemDarkStick(EntityType<? extends EntityItemDarkStick> type, World world) {
+	public EntityItemDarkStick(EntityType<? extends EntityItemDarkStick> type, Level world) {
 		super(type, world);
 	}
 
-	public EntityItemDarkStick(World world, ItemEntity original) {
+	public EntityItemDarkStick(Level world, ItemEntity original) {
 		super(RegistryEntries.ENTITY_ITEM_DARK_STICK, world, original);
 	}
 
@@ -65,8 +65,8 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 	@Nullable
 	private Float loadRotation() {
 		// MCP: findNearestStructure
-		BlockPos closest = ((ServerWorld)level).getChunkSource().getGenerator()
-				.findNearestMapFeature((ServerWorld) level, RegistryEntries.STRUCTURE_DARK_TEMPLE, new BlockPos(getX(), getY(), getZ()), 100, false);
+		BlockPos closest = ((ServerLevel)level).getChunkSource().getGenerator()
+				.findNearestMapFeature((ServerLevel) level, RegistryEntries.STRUCTURE_DARK_TEMPLE, new BlockPos(getX(), getY(), getZ()), 100, false);
         if(closest != null) {
 			closest = new BlockPos(closest.getX(), 0, closest.getZ());
 			double d = closest.distSqr(new BlockPos((int) getX(), 0, (int) getZ()));

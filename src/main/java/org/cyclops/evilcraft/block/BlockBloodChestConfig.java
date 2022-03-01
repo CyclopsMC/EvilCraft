@@ -1,21 +1,25 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.item.Item;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.render.tileentity.RenderItemStackTileEntityBloodChest;
+import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntityBloodChest;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Config for the {@link BlockBloodChest}.
@@ -46,14 +50,19 @@ public class BlockBloodChestConfig extends BlockConfig {
                         .strength(2.5F)
                         .sound(SoundType.WOOD)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
-                        .setISTER(() -> RenderItemStackTileEntityBloodChest::new))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
+                    @OnlyIn(Dist.CLIENT)
+                    @Override
+                    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+                        consumer.accept(new RenderItemStackBlockEntityBloodChest.ItemRenderProperties());
+                    }
+                }
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

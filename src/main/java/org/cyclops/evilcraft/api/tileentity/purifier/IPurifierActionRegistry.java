@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.api.tileentity.purifier;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.init.IRegistry;
-import org.cyclops.evilcraft.tileentity.TilePurifier;
+import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 
 /**
  * Registry for {@link IPurifierAction} instances.
@@ -35,7 +35,7 @@ public interface IPurifierActionRegistry extends IRegistry {
      * @param tile The Purifier tile.
      * @return The action id for the workable action.
      */
-    public int canWork(TilePurifier tile);
+    public int canWork(BlockEntityPurifier tile);
     
     /**
      * Execute a valid Purifier action for the given Purifier tile.
@@ -43,6 +43,6 @@ public interface IPurifierActionRegistry extends IRegistry {
      * @param tile The Purifier tile.
      * @return If work is done
      */
-    public boolean work(int actionId, TilePurifier tile);
+    public boolean work(int actionId, BlockEntityPurifier tile);
     
 }

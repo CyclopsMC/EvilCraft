@@ -1,20 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.RegistryEntries;
-
-import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 /**
  * A bowl of promises.
@@ -44,7 +35,7 @@ public class ItemBowlOfPromises extends Item {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             if(((ItemBowlOfPromises) itemStack.getItem()).type.isActive() && renderPass == 0) {

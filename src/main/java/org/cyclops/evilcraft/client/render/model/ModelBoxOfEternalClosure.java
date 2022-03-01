@@ -2,14 +2,14 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.IModelTransform;
-import net.minecraft.client.renderer.model.IUnbakedModel;
-import net.minecraft.client.renderer.model.ItemOverrideList;
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.geometry.IModelGeometry;
 import org.cyclops.evilcraft.Reference;
@@ -24,7 +24,7 @@ import java.util.function.Function;
  * Model the box of eternal closure.
  * @author rubensworks
  */
-public class ModelBoxOfEternalClosure implements IUnbakedModel, IModelGeometry<ModelBoxOfEternalClosure> {
+public class ModelBoxOfEternalClosure implements UnbakedModel, IModelGeometry<ModelBoxOfEternalClosure> {
 
     public static ResourceLocation boxModel = new ResourceLocation(Reference.MOD_ID, "block/box");
     public static ResourceLocation boxLidModel = new ResourceLocation(Reference.MOD_ID, "block/box_lid");
@@ -40,20 +40,20 @@ public class ModelBoxOfEternalClosure implements IUnbakedModel, IModelGeometry<M
     }
 
     @Override
-    public Collection<RenderMaterial> getMaterials(Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+    public Collection<Material> getMaterials(Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
         return Collections.emptyList();
     }
 
     @Nullable
     @Override
-    public IBakedModel bake(ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter,
-                                 IModelTransform transform, ResourceLocation location) {
+    public BakedModel bake(ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter,
+                                 ModelState transform, ResourceLocation location) {
         ModelBoxOfEternalClosureBaked bakedModel = new ModelBoxOfEternalClosureBaked();
 
         try {
-            ModelBoxOfEternalClosureBaked.boxModel = bakery.getBakedModel(boxModel, transform, spriteGetter);
-            ModelBoxOfEternalClosureBaked.boxLidModel = bakery.getBakedModel(boxLidModel, transform, spriteGetter);
-            ModelBoxOfEternalClosureBaked.boxLidRotatedModel = bakery.getBakedModel(boxLidRotatedModel, transform, spriteGetter);
+            ModelBoxOfEternalClosureBaked.boxModel = bakery.bake(boxModel, transform, spriteGetter);
+            ModelBoxOfEternalClosureBaked.boxLidModel = bakery.bake(boxLidModel, transform, spriteGetter);
+            ModelBoxOfEternalClosureBaked.boxLidRotatedModel = bakery.bake(boxLidRotatedModel, transform, spriteGetter);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,12 +62,12 @@ public class ModelBoxOfEternalClosure implements IUnbakedModel, IModelGeometry<M
     }
 
     @Override
-    public IBakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<RenderMaterial, TextureAtlasSprite> spriteGetter, IModelTransform modelTransform, ItemOverrideList overrides, ResourceLocation modelLocation) {
+    public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
         return bake(bakery, spriteGetter, modelTransform, modelLocation);
     }
 
     @Override
-    public Collection<RenderMaterial> getTextures(IModelConfiguration owner, Function<ResourceLocation, IUnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
+    public Collection<Material> getTextures(IModelConfiguration owner, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
         return getMaterials(modelGetter, missingTextureErrors);
     }
 

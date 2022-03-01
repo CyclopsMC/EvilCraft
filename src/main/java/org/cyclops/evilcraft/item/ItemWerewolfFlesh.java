@@ -1,28 +1,27 @@
 package org.cyclops.evilcraft.item;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Food;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTUtil;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -49,7 +48,7 @@ public class ItemWerewolfFlesh extends Item {
 
     public ItemWerewolfFlesh(Item.Properties properties, boolean humanoid) {
         super(properties
-                .food((new Food.Builder())
+                .food((new FoodProperties.Builder())
                         .nutrition(-5)
                         .saturationMod(0)
                         .alwaysEat()
@@ -70,11 +69,11 @@ public class ItemWerewolfFlesh extends Item {
      * @param world The world.
      * @return If it is day in the world, checked with the world time.
      */
-    public static boolean isDay(World world) {
+    public static boolean isDay(Level world) {
         return world.getDayTime() % MINECRAFT_DAY < MINECRAFT_DAY / 2;
     }
     
-    private boolean isPower(World world) {
+    private boolean isPower(Level world) {
         return world == null ? power : (power = !isDay(world));
     }
     
@@ -90,7 +89,7 @@ public class ItemWerewolfFlesh extends Item {
     }
     
     @Override
-    public void inventoryTick(ItemStack itemStack, World world, Entity player, int par4, boolean par5) {
+    public void inventoryTick(ItemStack itemStack, Level world, Entity player, int par4, boolean par5) {
         isPower(world);
     }
     
@@ -105,53 +104,53 @@ public class ItemWerewolfFlesh extends Item {
     	return this.humanoid;
     }
     
-    private boolean isOwnCanibal(ItemStack itemStack, PlayerEntity player) {
+    private boolean isOwnCanibal(ItemStack itemStack, Player player) {
     	if(itemStack.hasTag()) {
-			GameProfile profile = NBTUtil.readGameProfile(itemStack.getTag());
+			GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
 			return player.getGameProfile().equals(profile);
 		}
     	return false;
     }
     
     @Override
-    public ItemStack finishUsingItem(ItemStack itemStack, @Nullable World world, LivingEntity entity) {
-        if(world != null && entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entity;
-            if (player instanceof ServerPlayerEntity) {
-                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayerEntity) player, itemStack);
+    public ItemStack finishUsingItem(ItemStack itemStack, @Nullable Level world, LivingEntity entity) {
+        if(world != null && entity instanceof Player) {
+            Player player = (Player) entity;
+            if (player instanceof ServerPlayer) {
+                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, itemStack);
             }
             itemStack.shrink(1);
             if (isOwnCanibal(itemStack, player)) {
                 if (!world.isClientSide()) {
-                    player.addEffect(new EffectInstance(Effects.WITHER,
+                    player.addEffect(new MobEffectInstance(MobEffects.WITHER,
                             POISON_DURATION * 20, 1));
-                    player.addEffect(new EffectInstance(Effects.BLINDNESS,
+                    player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,
                             getPowerDuration(itemStack) * 20, 1));
                 }
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundSource.HOSTILE, 0.5F,
                         world.random.nextFloat() * 0.1F + 0.9F);
             } else if (isPower(world)) {
                 int foodLevel = getFoodProperties().getNutrition();
                 float saturationLevel = getFoodProperties().getSaturationModifier();
                 player.getFoodData().eat(foodLevel, saturationLevel);
                 if (!world.isClientSide()) {
-                    player.addEffect(new EffectInstance(Effects.DAMAGE_BOOST,
+                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addEffect(new EffectInstance(Effects.MOVEMENT_SPEED,
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addEffect(new EffectInstance(Effects.JUMP,
+                    player.addEffect(new MobEffectInstance(MobEffects.JUMP,
                             getPowerDuration(itemStack) * 20, 2));
-                    player.addEffect(new EffectInstance(Effects.NIGHT_VISION,
+                    player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,
                             getPowerDuration(itemStack) * 20, 2));
                 }
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HOWL, SoundCategory.HOSTILE, 0.5F,
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HOWL, SoundSource.HOSTILE, 0.5F,
                         world.random.nextFloat() * 0.1F + 0.9F);
             } else {
                 if (!world.isClientSide()) {
-                    player.addEffect(new EffectInstance(Effects.POISON,
+                    player.addEffect(new MobEffectInstance(MobEffects.POISON,
                             POISON_DURATION * 20, 1));
                 }
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundCategory.HOSTILE, 0.5F,
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundSource.HOSTILE, 0.5F,
                         world.random.nextFloat() * 0.1F + 0.9F);
             }
             entity.eat(world, itemStack);
@@ -161,24 +160,24 @@ public class ItemWerewolfFlesh extends Item {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
     	super.appendHoverText(itemStack, world, list, flag);
     	if(isHumanFlesh(itemStack)) {
-    		String player = TextFormatting.ITALIC + "None";
+    		String player = ChatFormatting.ITALIC + "None";
     		if(itemStack.hasTag()) {
-    			GameProfile profile = NBTUtil.readGameProfile(itemStack.getTag());
+    			GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
     			if (profile != null) {
                     player = profile.getName();
                 }
     		}
-    		list.add(new StringTextComponent("Player: ")
-                    .withStyle(TextFormatting.WHITE)
+    		list.add(new TextComponent("Player: ")
+                    .withStyle(ChatFormatting.WHITE)
                     .append(player));
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             if (((ItemWerewolfFlesh) itemStack.getItem()).isHumanFlesh(itemStack)) {
@@ -189,13 +188,13 @@ public class ItemWerewolfFlesh extends Item {
     }
 
     public void dropHumanoidFleshEvent(LivingDeathEvent event) {
-        if(event.getEntityLiving() instanceof ServerPlayerEntity
+        if(event.getEntityLiving() instanceof ServerPlayer
                 && !event.getEntityLiving().level.isClientSide()
                 && event.getEntityLiving().level.random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
-            ServerPlayerEntity player = (ServerPlayerEntity) event.getEntityLiving();
+            ServerPlayer player = (ServerPlayer) event.getEntityLiving();
             ItemStack itemStack = new ItemStack(this);
-            CompoundNBT tag = itemStack.getOrCreateTag();
-            NBTUtil.writeGameProfile(tag, player.getGameProfile());
+            CompoundTag tag = itemStack.getOrCreateTag();
+            NbtUtils.writeGameProfile(tag, player.getGameProfile());
             double x = player.getX();
             double y = player.getY();
             double z = player.getZ();

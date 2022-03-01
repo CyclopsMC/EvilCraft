@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.fluid;
 
 
-import net.minecraft.item.Rarity;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import org.cyclops.cyclopscore.config.extendedconfig.FluidConfig;
 import org.cyclops.evilcraft.EvilCraft;

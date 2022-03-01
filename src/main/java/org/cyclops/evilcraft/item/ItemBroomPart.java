@@ -1,11 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.NonNullList;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
@@ -55,7 +54,7 @@ public class ItemBroomPart extends Item {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup creativeTabs, NonNullList<ItemStack> list) {
+    public void fillItemCategory(CreativeModeTab creativeTabs, NonNullList<ItemStack> list) {
         if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
         for (IBroomPart part : BroomParts.REGISTRY.getParts()) {
             for (ItemStack itemStack : BroomParts.REGISTRY.getItemsFromPart(part)) {
@@ -67,7 +66,7 @@ public class ItemBroomPart extends Item {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             IBroomPart part = ItemBroomPart.getPart(itemStack);

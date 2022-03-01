@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.MaterialColor;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.EvilCraft;

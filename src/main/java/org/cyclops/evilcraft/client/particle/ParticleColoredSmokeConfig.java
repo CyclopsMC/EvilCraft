@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
@@ -30,15 +30,15 @@ public class ParticleColoredSmokeConfig extends ParticleConfig<ParticleColoredSm
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public IParticleFactory<ParticleColoredSmokeData> getParticleFactory() {
+    public ParticleProvider<ParticleColoredSmokeData> getParticleFactory() {
         return null;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public ParticleManager.IParticleMetaFactory<ParticleColoredSmokeData> getParticleMetaFactory() {
-        return sprite -> (IParticleFactory<ParticleColoredSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
+    public ParticleEngine.SpriteParticleRegistration<ParticleColoredSmokeData> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<ParticleColoredSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleColoredSmoke particle = new ParticleColoredSmoke(worldIn, x, y, z,
                     particleData.getR(), particleData.getG(), particleData.getB(),
                     xSpeed, ySpeed, zSpeed);

@@ -1,26 +1,26 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemModelsProperties;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.client.renderer.item.ItemPropertyFunction;
+import net.minecraft.world.item.Item;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * A base focus item.
@@ -40,9 +40,9 @@ public abstract class ItemAbstractFocus extends Item {
 
     @OnlyIn(Dist.CLIENT)
     protected void registerProperties() {
-        ItemModelsProperties.register(this, new ResourceLocation("pull"), new IItemPropertyGetter() {
+        ItemProperties.register(this, new ResourceLocation("pull"), new ItemPropertyFunction() {
             @OnlyIn(Dist.CLIENT)
-            public float call(ItemStack stack, ClientWorld worldIn, LivingEntity entityIn) {
+            public float call(ItemStack stack, ClientLevel worldIn, LivingEntity entityIn, int id) {
                 if (entityIn == null) {
                     return 0.0F;
                 } else {
@@ -51,9 +51,9 @@ public abstract class ItemAbstractFocus extends Item {
                 }
             }
         });
-        ItemModelsProperties.register(this, new ResourceLocation("pulling"), new IItemPropertyGetter() {
+        ItemProperties.register(this, new ResourceLocation("pulling"), new ItemPropertyFunction() {
             @OnlyIn(Dist.CLIENT)
-            public float call(ItemStack stack, ClientWorld worldIn, LivingEntity entityIn) {
+            public float call(ItemStack stack, ClientLevel worldIn, LivingEntity entityIn, int id) {
                 return entityIn != null && entityIn.isUsingItem() && entityIn.getUseItem() == stack ? 1.0F : 0.0F;
             }
         });
@@ -64,10 +64,10 @@ public abstract class ItemAbstractFocus extends Item {
     }
     
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
 		if(getItemInUseDuration(player) > 0) {
-			return new ActionResult<ItemStack>(ActionResultType.FAIL, itemStack);
+			return new InteractionResultHolder<ItemStack>(InteractionResult.FAIL, itemStack);
 		} else {
             player.startUsingItem(hand);
 		}
@@ -75,8 +75,8 @@ public abstract class ItemAbstractFocus extends Item {
     }
 
     @Override
-    public UseAction getUseAnimation(ItemStack itemStack) {
-        return UseAction.BOW;
+    public UseAnim getUseAnimation(ItemStack itemStack) {
+        return UseAnim.BOW;
     }
 
     @Override
@@ -85,25 +85,25 @@ public abstract class ItemAbstractFocus extends Item {
     }
 
     @Override
-	public void releaseUsing(ItemStack itemStack, World world, LivingEntity player, int duration) {
+	public void releaseUsing(ItemStack itemStack, Level world, LivingEntity player, int duration) {
     	if(player.level.isClientSide() && getItemInUseDuration(player) > 6) {
 	    	// Play stop sound
 	    	player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_stop, 0.6F + player.level.random.nextFloat() * 0.2F, 1.0F);
     	}
     }
 
-    protected abstract ThrowableEntity newBeamEntity(LivingEntity player);
+    protected abstract ThrowableProjectile newBeamEntity(LivingEntity player);
 
     @Override
     public void onUsingTick(ItemStack itemStack, LivingEntity player, int remaining) {
         int duration = getUseDuration(itemStack) - remaining;
         if(duration > 6) {
     		if(WorldHelpers.efficientTick(player.level, TICK_MODULUS, player.getId())) {
-                ThrowableEntity beam = newBeamEntity(player);
+                ThrowableProjectile beam = newBeamEntity(player);
 		    	if(!player.level.isClientSide()) {
                     // Last three params: pitch offset, velocity, inaccuracy
                     // MCP: shoot
-                    beam.shootFromRotation(player, player.xRot, player.yRot, 0F, 0.5F, 1.0F);
+                    beam.shootFromRotation(player, player.getXRot(), player.getYRot(), 0F, 0.5F, 1.0F);
 		    		player.level.addFreshEntity(beam);
 		        }
     		}

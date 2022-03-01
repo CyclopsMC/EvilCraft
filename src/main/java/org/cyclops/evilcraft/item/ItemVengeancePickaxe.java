@@ -1,20 +1,20 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.core.NonNullList;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Map;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -24,7 +24,7 @@ import net.minecraft.item.Item.Properties;
 public class ItemVengeancePickaxe extends PickaxeItem {
 
     public ItemVengeancePickaxe(Properties properties) {
-        super(ItemTier.DIAMOND, 1, -2.8F, properties);
+        super(Tiers.DIAMOND, 1, -2.8F, properties);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ItemVengeancePickaxe extends PickaxeItem {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (this.allowdedIn(group)) {
             items.add(getEnchantedItemStack());
         }

@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,19 +10,19 @@ import javax.annotation.Nullable;
 
 public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
 
-    private EntityDataManager dataManager;
+    private SynchedEntityData dataManager;
 
-    public EntityVengeanceSpiritSyncedData(EntityDataManager dataManager) {
+    public EntityVengeanceSpiritSyncedData(SynchedEntityData dataManager) {
         super();
         register(dataManager);
     }
 
-    public EntityVengeanceSpiritSyncedData(EntityDataManager dataManager, EntityType<?> innerEntity) {
+    public EntityVengeanceSpiritSyncedData(SynchedEntityData dataManager, EntityType<?> innerEntity) {
         super(innerEntity);
         register(dataManager);
     }
 
-    public void register(EntityDataManager dataManager) {
+    public void register(SynchedEntityData dataManager) {
         this.dataManager = dataManager;
         EntityType<?> innerEntity = super.getInnerEntityType();
         dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : innerEntity.getRegistryName().toString());

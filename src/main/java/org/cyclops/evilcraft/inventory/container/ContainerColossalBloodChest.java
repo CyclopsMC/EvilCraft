@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Slot;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.inventory.Slot;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
-import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
+import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
  * @author rubensworks
  *
  */
-public class ContainerColossalBloodChest extends ContainerTileWorking<TileColossalBloodChest> {
+public class ContainerColossalBloodChest extends ContainerTileWorking<BlockEntityColossalBloodChest> {
 
     private static final int INVENTORY_OFFSET_X = 28;
     private static final int INVENTORY_OFFSET_Y = 107;
@@ -52,22 +52,22 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
 
     private final Supplier<Integer> variableEfficiency;
 
-    public ContainerColossalBloodChest(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new Inventory(TileColossalBloodChest.SLOTS + TileColossalBloodChest.INVENTORY_SIZE_UPGRADES), Optional.empty());
+    public ContainerColossalBloodChest(int id, Inventory playerInventory) {
+        this(id, playerInventory, new SimpleContainer(BlockEntityColossalBloodChest.SLOTS + BlockEntityColossalBloodChest.INVENTORY_SIZE_UPGRADES), Optional.empty());
     }
 
-    public ContainerColossalBloodChest(int id, PlayerInventory playerInventory,
-                                       IInventory inventory, Optional<TileColossalBloodChest> tileSupplier) {
+    public ContainerColossalBloodChest(int id, Inventory playerInventory,
+                                       Container inventory, Optional<BlockEntityColossalBloodChest> tileSupplier) {
         super(RegistryEntries.CONTAINER_COLOSSAL_BLOOD_CHEST, id, playerInventory, inventory, tileSupplier,
-                TileColossalBloodChest.TICKERS, TileColossalBloodChest.INVENTORY_SIZE_UPGRADES);
+                BlockEntityColossalBloodChest.TICKERS, BlockEntityColossalBloodChest.INVENTORY_SIZE_UPGRADES);
         // Adding inventory
-        addSlot(new SlotFluidContainer(inventory, TileColossalBloodChest.SLOT_CONTAINER,
+        addSlot(new SlotFluidContainer(inventory, BlockEntityColossalBloodChest.SLOT_CONTAINER,
         		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
                 RegistryEntries.FLUID_BLOOD)); // Container emptier
         
         addChestSlots(CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
 
-        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, TileColossalBloodChest.SLOTS);
+        this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, BlockEntityColossalBloodChest.SLOTS);
 
         this.addPlayerInventory(playerInventory, INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
         this.addPlayerArmorInventory(playerInventory, ARMOR_INVENTORY_OFFSET_X, ARMOR_INVENTORY_OFFSET_Y);
@@ -87,12 +87,12 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<TileColoss
         }
     }
 
-    protected Slot makeSlot(IInventory inventory, int index, int row, int column) {
+    protected Slot makeSlot(Container inventory, int index, int row, int column) {
         return new SlotRepairable(inventory, index, row, column);
     }
 
     @Override
-    public TileWorking.Metadata getTileWorkingMetadata() {
-        return TileColossalBloodChest.METADATA;
+    public BlockEntityWorking.Metadata getTileWorkingMetadata() {
+        return BlockEntityColossalBloodChest.METADATA;
     }
 }

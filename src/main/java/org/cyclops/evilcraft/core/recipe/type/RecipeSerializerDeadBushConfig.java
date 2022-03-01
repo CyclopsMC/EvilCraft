@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -13,7 +13,7 @@ public class RecipeSerializerDeadBushConfig extends RecipeConfig<RecipeDeadBush>
     public RecipeSerializerDeadBushConfig() {
         super(EvilCraft._instance,
                 "crafting_special_dead_bush",
-                eConfig -> new SpecialRecipeSerializer<>(RecipeDeadBush::new));
+                eConfig -> new SimpleRecipeSerializer<>(RecipeDeadBush::new));
     }
 
 }

@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.potion;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 
@@ -11,10 +11,10 @@ import org.cyclops.evilcraft.ExtendedDamageSource;
  * @author rubensworks
  *
  */
-public class PotionPaling extends Effect {
+public class PotionPaling extends MobEffect {
 
     public PotionPaling() {
-        super(EffectType.HARMFUL, Helpers.RGBToInt(56, 25, 97));
+        super(MobEffectCategory.HARMFUL, Helpers.RGBToInt(56, 25, 97));
     }
 
     @Override

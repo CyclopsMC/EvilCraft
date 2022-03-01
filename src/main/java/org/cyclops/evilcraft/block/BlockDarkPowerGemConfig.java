@@ -1,9 +1,8 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -20,9 +19,7 @@ public class BlockDarkPowerGemConfig extends BlockConfig {
             "dark_power_gem_block",
                 eConfig -> new Block(Block.Properties.of(Material.STONE)
                         .strength(5.0F)
-                        .sound(SoundType.METAL)
-                        .harvestTool(ToolType.PICKAXE)
-                        .harvestLevel(2)),
+                        .sound(SoundType.METAL)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

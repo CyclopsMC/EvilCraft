@@ -4,18 +4,18 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -163,7 +163,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         if(!broomStack.isEmpty()) {
             List<IBroomPart> parts = Lists.newArrayList();
             if(broomStack.hasTag()) {
-                ListNBT tags = broomStack.getTag().getList(NBT_TAG_NAME, Constants.NBT.TAG_STRING);
+                ListTag tags = broomStack.getTag().getList(NBT_TAG_NAME, Tag.TAG_STRING);
                 for (int i = 0; i < tags.size(); i++) {
                     String id = tags.getString(i);
                     IBroomPart part = getPart(new ResourceLocation(id));
@@ -187,12 +187,12 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public void setBroomParts(ItemStack broomStack, Collection<IBroomPart> broomParts) {
-        ListNBT list = new ListNBT();
+        ListTag list = new ListTag();
         for (IBroomPart broomPart : broomParts) {
-            list.add(StringNBT.valueOf(broomPart.getId().toString()));
+            list.add(StringTag.valueOf(broomPart.getId().toString()));
         }
         if(!broomStack.hasTag()) {
-            broomStack.setTag(new CompoundNBT());
+            broomStack.setTag(new CompoundTag());
         }
         broomStack.getTag().put(NBT_TAG_NAME, list);
     }
@@ -206,14 +206,14 @@ public class BroomPartRegistry implements IBroomPartRegistry {
                 Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
                 if (!modifiers.isEmpty()) {
                     if (MinecraftHelpers.isShifted()) {
-                        event.getToolTip().add(new TranslationTextComponent("broom.modifiers." + Reference.MOD_ID + ".types")
-                                .withStyle(TextFormatting.ITALIC));
+                        event.getToolTip().add(new TranslatableComponent("broom.modifiers." + Reference.MOD_ID + ".types")
+                                .withStyle(ChatFormatting.ITALIC));
                         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                             event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                         }
                     } else {
-                        event.getToolTip().add(new TranslationTextComponent("broom.parts." + Reference.MOD_ID + ".shiftinfo")
-                                .withStyle(TextFormatting.ITALIC));
+                        event.getToolTip().add(new TranslatableComponent("broom.parts." + Reference.MOD_ID + ".shiftinfo")
+                                .withStyle(ChatFormatting.ITALIC));
                     }
                 }
             }

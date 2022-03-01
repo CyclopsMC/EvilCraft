@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.audio.SimpleSound;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import org.cyclops.cyclopscore.infobook.ScreenInfoBook;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.Reference;
@@ -21,13 +21,8 @@ public class ContainerScreenOriginsOfDarkness extends ScreenInfoBook<ContainerOr
     public static final int X_OFFSET_OUTER = 20;
     public static final int X_OFFSET_INNER = 7;
 
-    public ContainerScreenOriginsOfDarkness(ContainerOriginsOfDarkness container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenOriginsOfDarkness(ContainerOriginsOfDarkness container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title, OriginsOfDarknessBook.getInstance());
-    }
-
-    @Override
-    protected void renderBg(MatrixStack p_230450_1_, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
-        // TODO: rm
     }
 
     @Override
@@ -61,12 +56,12 @@ public class ContainerScreenOriginsOfDarkness extends ScreenInfoBook<ContainerOr
     }
 
     @Override
-    public void playPageFlipSound(SoundHandler soundHandler) {
-        soundHandler.play(SimpleSound.forUI(EvilCraftSoundEvents.effect_page_flipsingle, 1.0F));
+    public void playPageFlipSound(SoundManager soundHandler) {
+        soundHandler.play(SimpleSoundInstance.forUI(EvilCraftSoundEvents.effect_page_flipsingle, 1.0F));
     }
 
     @Override
-    public void playPagesFlipSound(SoundHandler soundHandler) {
-        soundHandler.play(SimpleSound.forUI(EvilCraftSoundEvents.effect_page_flipmultiple, 1.0F));
+    public void playPagesFlipSound(SoundManager soundHandler) {
+        soundHandler.play(SimpleSoundInstance.forUI(EvilCraftSoundEvents.effect_page_flipmultiple, 1.0F));
     }
 }

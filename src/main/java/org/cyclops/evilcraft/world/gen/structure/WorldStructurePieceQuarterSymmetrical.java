@@ -1,18 +1,19 @@
 package org.cyclops.evilcraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.structure.IStructurePieceType;
-import net.minecraft.world.gen.feature.structure.ScatteredStructurePiece;
-import net.minecraft.world.gen.feature.structure.StructureManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.StructurePieceType;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.ScatteredFeaturePiece;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 
 import java.util.List;
@@ -21,17 +22,17 @@ import java.util.Random;
 /**
  * @author rubensworks
  */
-public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStructurePiece {
+public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredFeaturePiece {
 
     private final List<Integer> layerHeights = Lists.newArrayList();
     private final List<BlockWrapper[]> layers = Lists.newArrayList();
 
-    protected WorldStructurePieceQuarterSymmetrical(IStructurePieceType structurePieceTypeIn, Random rand, int xIn, int yIn, int zIn, int widthIn, int heightIn, int depthIn) {
-        super(structurePieceTypeIn, rand, xIn, yIn, zIn, widthIn, heightIn, depthIn);
+    protected WorldStructurePieceQuarterSymmetrical(StructurePieceType structurePieceTypeIn, int xIn, int yIn, int zIn, int widthIn, int heightIn, int depthIn, Direction direction) {
+        super(structurePieceTypeIn, xIn, yIn, zIn, widthIn, heightIn, depthIn, direction);
         generateLayers();
     }
 
-    protected WorldStructurePieceQuarterSymmetrical(IStructurePieceType structurePieceTypeIn, CompoundNBT nbt) {
+    protected WorldStructurePieceQuarterSymmetrical(StructurePieceType structurePieceTypeIn, CompoundTag nbt) {
         super(structurePieceTypeIn, nbt);
         generateLayers();
     }
@@ -47,7 +48,7 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
         layers.add(layer);
     }
 
-    protected void buildCorner(IWorld world, BlockPos blockPos, int incX, int incZ) {
+    protected void buildCorner(LevelAccessor world, BlockPos blockPos, int incX, int incZ) {
         Random r = new Random();
         for (int i = 0; i < layerHeights.size(); ++i) {
             int layerHeight = layerHeights.get(i);
@@ -74,7 +75,7 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
         postBuildCorner(world, blockPos, incX, incZ);
     }
 
-    protected void postBuildCorner(IWorld world, BlockPos pos, int incX, int incZ) {
+    protected void postBuildCorner(LevelAccessor world, BlockPos pos, int incX, int incZ) {
         for (int i = 0; i < layerHeights.size(); ++i) {
             int layerHeight = layerHeights.get(i);
             BlockWrapper[] layer = layers.get(i);
@@ -98,8 +99,8 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
 
     // init
     @Override
-    public boolean postProcess(ISeedReader world, StructureManager structureManager, ChunkGenerator chunkGenerator,
-                                  Random rand, MutableBoundingBox bounds, ChunkPos chunkPos, BlockPos pos) {
+    public void postProcess(WorldGenLevel world, StructureFeatureManager structureManager, ChunkGenerator chunkGenerator,
+                                  Random rand, BoundingBox bounds, ChunkPos chunkPos, BlockPos pos) {
         int x = rand.nextInt(16);
         int z = rand.nextInt(16);
         BlockPos blockPos = new BlockPos(this.getWorldX(x, z), this.getWorldY(0), this.getWorldZ(x, z));
@@ -107,7 +108,6 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
         buildCorner(world, blockPos, -1, 1);
         buildCorner(world, blockPos, 1, -1);
         buildCorner(world, blockPos, -1, -1);
-        return true;
     }
 
     /**
@@ -159,6 +159,6 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredStr
     }
 
     public static interface IBlockAction {
-        public void run(IWorld world, BlockPos pos);
+        public void run(LevelAccessor world, BlockPos pos);
     }
 }

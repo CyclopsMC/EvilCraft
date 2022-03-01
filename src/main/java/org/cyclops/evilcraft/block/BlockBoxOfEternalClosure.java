@@ -1,61 +1,55 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.Constants;
-import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritData;
-import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
-import static org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure.NBTKEY_SPIRIT;
+import static org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure.NBTKEY_SPIRIT;
 
 /**
  * A box that can hold beings from higher dimensions.
  * @author rubensworks
  *
  */
-public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityProvider {
+public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockRarityProvider {
 
 	public static final String FORGOTTEN_PLAYER = "Forgotten Player";
 	private static final int LIGHT_LEVEL = 6;
@@ -68,7 +62,7 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	public static ItemStack boxOfEternalClosureFilled;
 
 	public BlockBoxOfEternalClosure(Block.Properties properties) {
-        super(properties, TileBoxOfEternalClosure::new);
+        super(properties, BlockEntityBoxOfEternalClosure::new);
 
 		this.registerDefaultState(this.stateDefinition.any()
 				.setValue(FACING, Direction.NORTH));
@@ -77,24 +71,30 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
     }
 
 	@Override
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+		return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE, level.isClientSide ? new BlockEntityBoxOfEternalClosure.TickerClient() : new BlockEntityBoxOfEternalClosure.TickerServer());
+	}
+
+	@Override
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		Direction rotation = state.getValue(FACING);
 		return rotation == Direction.EAST || rotation == Direction.WEST ? SHAPE_EW : SHAPE_NS;
 	}
     
     @Override
-    public BlockRenderType getRenderShape(BlockState blockState) {
-    	return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState blockState) {
+    	return RenderShape.MODEL;
     }
 
 	@Nullable
@@ -110,8 +110,8 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
     }
 
     @Nullable
-	public static EntityType<?> getSpiritTypeRaw(@Nullable CompoundNBT tag) {
-		return TileBoxOfEternalClosure.getSpiritType(tag);
+	public static EntityType<?> getSpiritTypeRaw(@Nullable CompoundTag tag) {
+		return BlockEntityBoxOfEternalClosure.getSpiritType(tag);
 	}
     
     /**
@@ -119,8 +119,8 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
      * @param itemStack The box.
      */
     public static void setVengeanceSwarmContent(ItemStack itemStack) {
-    	CompoundNBT tag = new CompoundNBT();
-    	CompoundNBT spiritTag = new CompoundNBT();
+    	CompoundTag tag = new CompoundTag();
+    	CompoundTag spiritTag = new CompoundTag();
 
 		EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
 		spiritData.setSwarm(true);
@@ -137,14 +137,14 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	 * @param playerId The player id to set.
 	 */
 	public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
-		CompoundNBT tag = new CompoundNBT();
-		CompoundNBT spiritTag = new CompoundNBT();
+		CompoundTag tag = new CompoundTag();
+		CompoundTag spiritTag = new CompoundTag();
 
 		EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
 		spiritData.setPlayerId(playerId.toString());
 		spiritData.setPlayerName(FORGOTTEN_PLAYER);
-		tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
-		tag.putString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
+		tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
+		tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
 		spiritData.writeNBT(spiritTag);
 
 		tag.put(NBTKEY_SPIRIT, spiritTag);
@@ -152,15 +152,15 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	}
 
 	public static String getPlayerName(ItemStack itemStack) {
-		if(itemStack.hasTag() && itemStack.getTag().contains(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME, Constants.NBT.TAG_STRING)) {
-			return itemStack.getTag().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME);
+		if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, Tag.TAG_STRING)) {
+			return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME);
 		}
 		return "";
 	}
 
 	public static String getPlayerId(ItemStack itemStack) {
-		if(itemStack.hasTag() && itemStack.getTag().contains(TileBoxOfEternalClosure.NBTKEY_PLAYERID, Constants.NBT.TAG_STRING)) {
-			return itemStack.getTag().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERID);
+		if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, Tag.TAG_STRING)) {
+			return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID);
 		}
 		return "";
 	}
@@ -170,12 +170,12 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
 		return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
 		if (!worldIn.isAreaLoaded(pos, 1))
 			return;
 		if (!state.isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
@@ -184,20 +184,20 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	}
 
 	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
 		if (!stateIn.isFaceSturdy(worldIn, currentPos.below(), Direction.UP)) {
-			worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
+			worldIn.scheduleTick(currentPos, this, 1);
 		}
 		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult blockRayTraceResult) {
-		return TileHelpers.getSafeTile(worldIn, pos, TileBoxOfEternalClosure.class)
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult blockRayTraceResult) {
+		return BlockEntityHelpers.get(worldIn, pos, BlockEntityBoxOfEternalClosure.class)
 				.map(tile -> {
 					if (tile.isClosed()) {
 						tile.open();
-						return ActionResultType.SUCCESS;
+						return InteractionResult.SUCCESS;
 					}
 					return super.use(state, worldIn, pos, player, handIn, blockRayTraceResult);
 				})
@@ -205,16 +205,16 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
 	}
 
 	@Override
-	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-		return TileHelpers.getSafeTile(world, pos, TileBoxOfEternalClosure.class)
-				.map(tile -> tile.getLidAngle() > 0 ? LIGHT_LEVEL : super.getLightValue(state, world, pos))
+	public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
+		return BlockEntityHelpers.get(world, pos, BlockEntityBoxOfEternalClosure.class)
+				.map(tile -> tile.getLidAngle() > 0 ? LIGHT_LEVEL : super.getLightEmission(state, world, pos))
 				.orElse(0);
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
 		items.add(new ItemStack(this));
-		items.add(BlockBoxOfEternalClosure.boxOfEternalClosureFilled);
+		items.add(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.boxOfEternalClosureFilled);
 	}
 
     @Override
@@ -228,42 +228,13 @@ public class BlockBoxOfEternalClosure extends BlockTile implements IBlockRarityP
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
+    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
         if(world.getBlockEntity(blockPos) != null) {
-            TileBoxOfEternalClosure tile = (TileBoxOfEternalClosure) world.getBlockEntity(blockPos);
+            BlockEntityBoxOfEternalClosure tile = (BlockEntityBoxOfEternalClosure) world.getBlockEntity(blockPos);
             if(tile.hasSpirit()) {
                 return 15;
             }
         }
         return super.getAnalogOutputSignal(blockState, world, blockPos);
     }
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public boolean addHitEffects(BlockState blockState, World world, RayTraceResult target, ParticleManager particleManager) {
-		if(target != null) {
-			RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.defaultBlockState(), ((BlockRayTraceResult) target).getBlockPos(), ((BlockRayTraceResult) target).getDirection());
-		}
-		return true;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager particleManager) {
-		RenderHelpers.addBlockHitEffects(particleManager, (ClientWorld) world, Blocks.OBSIDIAN.defaultBlockState(), pos, Direction.UP);
-		return true;
-	}
-
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public boolean addLandingEffects(BlockState blockState, ServerWorld world, BlockPos blockPosition, BlockState iblockstate, LivingEntity entity, int numberOfParticles) {
-		//RenderHelpers.addBlockHitEffects(Minecraft.getInstance().particles, world, Blocks.OBSIDIAN.getDefaultState(), blockPosition, Direction.UP);
-		return true;
-	}
-
-	@Nullable
-	@Override
-	public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
-		return null; // TODO: rm
-	}
 }

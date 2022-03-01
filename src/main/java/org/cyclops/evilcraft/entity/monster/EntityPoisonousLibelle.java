@@ -1,23 +1,23 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.FlyingEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.FlyingMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -32,7 +32,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
+public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
 
     static {
         MinecraftForge.EVENT_BUS.register(EntityPoisonousLibelle.class);
@@ -74,12 +74,12 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
     private static final int MAXHEIGHT = 80;
     private float randomYawVelocity;
 
-    public EntityPoisonousLibelle(EntityType<? extends EntityPoisonousLibelle> typeIn, World worldIn) {
+    public EntityPoisonousLibelle(EntityType<? extends EntityPoisonousLibelle> typeIn, Level worldIn) {
         super(typeIn, worldIn);
         this.xpReward = 10;
     }
 
-    public EntityPoisonousLibelle(World world) {
+    public EntityPoisonousLibelle(Level world) {
         this(RegistryEntries.ENTITY_POISONOUS_LIBELLE, world);
     }
 
@@ -113,8 +113,8 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
     }
 
     @Override
-    public CreatureAttribute getMobType() {
-        return CreatureAttribute.ARTHROPOD;
+    public MobType getMobType() {
+        return MobType.ARTHROPOD;
     }
 
     @Override
@@ -130,19 +130,19 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
         float f1;
 
         if (this.level.isClientSide()) {
-            f = MathHelper.cos(this.animTime * (float)Math.PI * 2.0F);
-            f1 = MathHelper.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
+            f = Mth.cos(this.animTime * (float)Math.PI * 2.0F);
+            f1 = Mth.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F && this.random.nextInt(45) == 0) {
                 this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.BAT_AMBIENT,
-                        SoundCategory.AMBIENT, 0.1F, 0.8F + this.random.nextFloat() * 0.3F);
+                        SoundSource.AMBIENT, 0.1F, 0.8F + this.random.nextFloat() * 0.3F);
             }
         }
 
         this.prevAnimTime = this.animTime;
 
-        Vector3d m = getDeltaMovement();
-        f = 0.2F / (MathHelper.sqrt(m.x * m.x + m.z * m.z) * 10.0F + 1.0F);
+        Vec3 m = getDeltaMovement();
+        f = 0.2F / (Mth.sqrt((float) (m.x * m.x + m.z * m.z)) * 10.0F + 1.0F);
         f *= (float)Math.pow(2.0D, m.y);
 
         this.animTime += f;
@@ -160,13 +160,13 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 distanceX = this.getX() + (this.lerpX - this.getX()) / (double)this.lerpSteps;
                 distanceY = this.getY() + (this.lerpY - this.getY()) / (double)this.lerpSteps;
                 distanceZ = this.getZ() + (this.lerpZ - this.getZ()) / (double)this.lerpSteps;
-                distance = MathHelper.wrapDegrees(this.lerpYRot - (double) this.yRot);
-                this.yRot = (float)((double)this.yRot + distance / (double)this.lerpSteps);
+                distance = Mth.wrapDegrees(this.lerpYRot - (double) this.getYRot());
+                this.setYRot((float)((double)this.getYRot() + distance / (double)this.lerpSteps));
                 // MCP: newPosX should probably be interpPitch
-                this.xRot = (float)((double)this.xRot + (this.targetX - (double)this.xRot) / (double)this.lerpSteps);
+                this.setXRot((float)((double)this.getXRot() + (this.targetX - (double)this.getXRot()) / (double)this.lerpSteps));
                 --this.lerpSteps;
                 this.setPos(distanceX, distanceY, distanceZ);
-                this.setRot(this.yRot, this.xRot);
+                this.setRot(this.getYRot(), this.getXRot());
             }
         } else {
             // Calc distance to target
@@ -204,7 +204,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 this.setNewTarget();
             }
 
-            distanceY /= (double) MathHelper.sqrt(distanceX * distanceX + distanceZ * distanceZ);
+            distanceY /= (double) Mth.sqrt((float) (distanceX * distanceX + distanceZ * distanceZ));
             limitDistanceY = 0.6F;
 
             if (distanceY < (double)(-limitDistanceY)) {
@@ -216,9 +216,9 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
             }
 
             setDeltaMovement(getDeltaMovement().add(0, distanceY * 0.1D, 0));
-            this.yRot = MathHelper.wrapDegrees(this.yRot);
+            this.setYRot(Mth.wrapDegrees(this.getYRot()));
             double newYaw = 180.0D - Math.atan2(distanceX, distanceZ) * 180.0D / Math.PI;
-            double differenceYaw = MathHelper.wrapDegrees(newYaw - (double)this.yRot);
+            double differenceYaw = Mth.wrapDegrees(newYaw - (double)this.getYRot());
 
             limitDifferenceYaw = 50.0D;
             
@@ -230,8 +230,8 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                 differenceYaw = -limitDifferenceYaw;
             }
 
-            Vector3d distanceVector = new Vector3d(this.targetX - this.getX(), this.targetY - this.getY(), this.targetZ - this.getZ()).normalize();
-            Vector3d rotationVector = new Vector3d((double)MathHelper.sin(this.yRot * (float)Math.PI / 180.0F), m.y, (double)(-MathHelper.cos(this.yRot * (float)Math.PI / 180.0F))).normalize();
+            Vec3 distanceVector = new Vec3(this.targetX - this.getX(), this.targetY - this.getY(), this.targetZ - this.getZ()).normalize();
+            Vec3 rotationVector = new Vec3((double)Mth.sin(this.getYRot() * (float)Math.PI / 180.0F), m.y, (double)(-Mth.cos(this.getYRot() * (float)Math.PI / 180.0F))).normalize();
             float dynamicMotionMultiplier = (float)(rotationVector.dot(distanceVector) + 0.5D) / 1.5F;
 
             if (dynamicMotionMultiplier < 0.0F) {
@@ -239,7 +239,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
             }
 
             this.randomYawVelocity *= 0.8F;
-            float motionDistanceHeightPlaneFloat = MathHelper.sqrt(m.x * m.x + m.z * m.z) * 1.0F + 1.0F;
+            float motionDistanceHeightPlaneFloat = Mth.sqrt((float) (m.x * m.x + m.z * m.z)) * 1.0F + 1.0F;
             double motionDistanceHeightPlane = Math.sqrt(m.x * m.x + m.z * m.z) * 1.0D + 1.0D;
 
             if (motionDistanceHeightPlane > 40.0D) {
@@ -247,19 +247,19 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
             }
 
             this.randomYawVelocity = (float)((double)this.randomYawVelocity + differenceYaw * (0.7D / motionDistanceHeightPlane / (double)motionDistanceHeightPlaneFloat));
-            this.yRot += this.randomYawVelocity * 0.1F;
+            this.setYRot(this.getYRot() + this.randomYawVelocity * 0.1F);
             float scaledMotionDistanceHeightPlane = (float)(2.0D / (motionDistanceHeightPlane + 1.0D));
             float staticMotionMultiplier = 0.03F;
-            this.moveRelative(staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), new Vector3d(0.0D, 0.0D, -1.0D));
+            this.moveRelative(staticMotionMultiplier * (dynamicMotionMultiplier * scaledMotionDistanceHeightPlane + (1.0F - scaledMotionDistanceHeightPlane)), new Vec3(0.0D, 0.0D, -1.0D));
 
             this.move(MoverType.SELF, getDeltaMovement());
 
-            Vector3d vec3d3 = this.getDeltaMovement().normalize();
+            Vec3 vec3d3 = this.getDeltaMovement().normalize();
             double d6 = 0.8D + 0.15D * (vec3d3.dot(rotationVector) + 1.0D) / 2.0D;
             this.setDeltaMovement(this.getDeltaMovement().multiply(d6, 0.91F, d6));
         }
 
-        this.yBodyRot = this.yRot;
+        this.yBodyRot = this.getYRot();
         
         if (!this.level.isClientSide() && this.hurtTime == 0 && this.isAlive()) {
             this.attackEntitiesInList(this.level.getEntities(this, this.getBoundingBox().inflate(1.0D, 0.0D, 1.0D)));
@@ -277,7 +277,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
         }
         
         if (!this.level.isClientSide() && this.level.getDifficulty() == Difficulty.PEACEFUL) {
-            this.remove();
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 
@@ -287,8 +287,8 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
             if(chance > 0 && level.random.nextInt(chance) == 0) {
                 if (entity instanceof LivingEntity) {
                     boolean shouldAttack = true;
-                    if (entity instanceof PlayerEntity) {
-                        if (((PlayerEntity) entity).isCreative()) {
+                    if (entity instanceof Player) {
+                        if (((Player) entity).isCreative()) {
                             shouldAttack = false;
                             setNewTarget();
                         }
@@ -296,7 +296,7 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
                     if (shouldAttack) {
                         if (EntityPoisonousLibelleConfig.hasAttackDamage)
                             entity.hurt(DamageSource.mobAttack(this), 0.5F);
-                        ((LivingEntity) entity).addEffect(new EffectInstance(Effects.POISON, POISON_DURATION * 20, 1));
+                        ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION * 20, 1));
                     }
                 }
             }
@@ -310,8 +310,8 @@ public class EntityPoisonousLibelle extends FlyingEntity implements IMob {
         if (this.random.nextInt(2) == 0 && !this.level.players().isEmpty() && !this.level.isDay()) {
             this.target = (Entity)this.level.players().get(this.random.nextInt(this.level.players().size()));
             targetSet = true;
-            if(target instanceof PlayerEntity) {
-                if(((PlayerEntity)target).isCreative()) {
+            if(target instanceof Player) {
+                if(((Player)target).isCreative()) {
                     targetSet = false;
                 }
             }

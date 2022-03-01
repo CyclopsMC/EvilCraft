@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.helper;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.IFormattableTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,7 +17,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacityConfig;
+import org.cyclops.cyclopscore.Capabilities;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.item.IInformationProvider;
@@ -25,8 +25,6 @@ import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.fluid.SimulatedFluidStack;
 
 import javax.annotation.Nonnull;
-
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 /**
  * Helpers related to blocks with tanks.
@@ -48,7 +46,7 @@ public class BlockTankHelpers {
      * @return Information for that itemStack.
      */
     @OnlyIn(Dist.CLIENT)
-    public static IFormattableTextComponent getInfoTank(ItemStack itemStack) {
+    public static MutableComponent getInfoTank(ItemStack itemStack) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
         int amount = fluidStack.getAmount();
         int capacity = FluidUtil.getFluidHandler(itemStack)
@@ -64,10 +62,10 @@ public class BlockTankHelpers {
      * @param itemStack The input itemstack.
      * @return The resulting itemstack.
      */
-    public static ItemStack tileDataToItemStack(TileEntity tile, ItemStack itemStack) {
+    public static ItemStack tileDataToItemStack(BlockEntity tile, ItemStack itemStack) {
         IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
         if (fluidHandlerTile != null) {
-            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY).orElse(null);
+            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM_CAPACITY).orElse(null);
             if (fluidHandlerItemCapacity != null) {
                 if (fluidHandlerTile instanceof IFluidTank) {
                     IFluidTank fluidTank = (IFluidTank) fluidHandlerTile;
@@ -91,10 +89,10 @@ public class BlockTankHelpers {
      * @param itemStack The itemstack.
      * @param tile The tile that has already been removed from the world.
      */
-    public static void itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
+    public static void itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
         IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
         if (fluidHandlerTile != null) {
-            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(FluidHandlerItemCapacityConfig.CAPABILITY).orElse(null);
+            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM_CAPACITY).orElse(null);
             if (fluidHandlerItemCapacity != null) {
                 if (fluidHandlerTile instanceof FluidTank) {
                     FluidTank fluidTank = (FluidTank) fluidHandlerTile;

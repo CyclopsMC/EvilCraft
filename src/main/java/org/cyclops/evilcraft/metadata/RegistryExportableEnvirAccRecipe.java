@@ -2,20 +2,19 @@ package org.cyclops.evilcraft.metadata;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.metadata.IRegistryExportable;
 import org.cyclops.cyclopscore.metadata.RegistryExportableRecipeAbstract;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
-import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 
 /**
  * Environmental accumulator recipe exporter.
  */
-public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAbstract<IRecipeType<RecipeEnvironmentalAccumulator>, RecipeEnvironmentalAccumulator, RecipeEnvironmentalAccumulator.Inventory> {
+public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAbstract<RecipeType<RecipeEnvironmentalAccumulator>, RecipeEnvironmentalAccumulator, RecipeEnvironmentalAccumulator.Inventory> {
 
     public RegistryExportableEnvirAccRecipe() {
         super(() -> RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR);

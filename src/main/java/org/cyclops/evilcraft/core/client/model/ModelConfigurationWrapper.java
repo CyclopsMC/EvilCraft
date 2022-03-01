@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.client.model;
 
-import net.minecraft.client.renderer.model.IModelTransform;
-import net.minecraft.client.renderer.model.IUnbakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.RenderMaterial;
+import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.resources.model.Material;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.geometry.IModelGeometryPart;
 
@@ -23,7 +23,7 @@ public class ModelConfigurationWrapper implements IModelConfiguration {
 
     @Nullable
     @Override
-    public IUnbakedModel getOwnerModel() {
+    public UnbakedModel getOwnerModel() {
         return this.wrapped.getOwnerModel();
     }
 
@@ -38,7 +38,7 @@ public class ModelConfigurationWrapper implements IModelConfiguration {
     }
 
     @Override
-    public RenderMaterial resolveTexture(String name) {
+    public Material resolveTexture(String name) {
         return this.wrapped.resolveTexture(name);
     }
 
@@ -58,12 +58,12 @@ public class ModelConfigurationWrapper implements IModelConfiguration {
     }
 
     @Override
-    public ItemCameraTransforms getCameraTransforms() {
+    public ItemTransforms getCameraTransforms() {
         return this.wrapped.getCameraTransforms();
     }
 
     @Override
-    public IModelTransform getCombinedTransform() {
+    public ModelState getCombinedTransform() {
         return this.wrapped.getCombinedTransform();
     }
 

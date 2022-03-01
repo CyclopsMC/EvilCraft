@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.block;
 
-import net.minecraft.item.Rarity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Implement this interface at blocks to make them show rarity colors in item mode.

@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.render.entity;
 
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import org.cyclops.evilcraft.core.client.render.entity.RenderModelLiving;
 import org.cyclops.evilcraft.entity.monster.EntityWerewolf;
 import org.cyclops.evilcraft.entity.monster.EntityWerewolfConfig;
@@ -13,8 +13,8 @@ import org.cyclops.evilcraft.entity.monster.EntityWerewolfConfig;
  */
 public class RenderWerewolf extends RenderModelLiving<EntityWerewolf, ModelWerewolf> {
 
-	public RenderWerewolf(EntityRendererManager renderManager, EntityWerewolfConfig config, ModelWerewolf model, float par2) {
-	    super(renderManager, config, model, par2);
+	public RenderWerewolf(EntityRendererProvider.Context renderContext, EntityWerewolfConfig config, ModelWerewolf model, float par2) {
+	    super(renderContext, config, model, par2);
 	}
 
 }

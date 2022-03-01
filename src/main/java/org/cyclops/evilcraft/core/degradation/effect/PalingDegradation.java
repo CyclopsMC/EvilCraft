@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
@@ -40,7 +40,7 @@ public class PalingDegradation implements IDegradationEffect {
         for(Entity entity : entities) {
             if(entity instanceof LivingEntity) {
                 ((LivingEntity) entity).addEffect(
-                        new EffectInstance(RegistryEntries.POTION_PALING,
+                        new MobEffectInstance(RegistryEntries.POTION_PALING,
                                 (int) degradable.getDegradation() * PALING_DURATION_MULTIPLIER, Math.min(10, (int) degradable.getDegradation() / 10)));
             }
         }

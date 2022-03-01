@@ -2,13 +2,13 @@ package org.cyclops.evilcraft.api.broom;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -31,7 +31,7 @@ public class BroomModifier {
     private final float tierValue;
     private final int maxTiers;
     private final boolean baseModifier;
-    private final List<TextFormatting> tooltipFormats;
+    private final List<ChatFormatting> tooltipFormats;
     private final int modelColor;
     private final int bakedQuadModelColor;
 
@@ -40,7 +40,7 @@ public class BroomModifier {
 
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
-                         List<TextFormatting> tooltipFormats, int modelColor) {
+                         List<ChatFormatting> tooltipFormats, int modelColor) {
         this.id = id;
         this.type = type;
         this.defaultValue = defaultValue;
@@ -52,13 +52,13 @@ public class BroomModifier {
         this.bakedQuadModelColor = prepareColor(modelColor, baseModifier);
 
         if (isBaseModifier()) {
-            this.tooltipFormats.add(TextFormatting.ITALIC);
+            this.tooltipFormats.add(ChatFormatting.ITALIC);
         }
     }
 
     public BroomModifier(ResourceLocation id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
-                         TextFormatting singleFormat, int modelColor) {
+                         ChatFormatting singleFormat, int modelColor) {
         this(id, type, defaultValue, tierValue, maxTiers, baseModifier, Lists.newArrayList(singleFormat), modelColor);
     }
 
@@ -110,12 +110,12 @@ public class BroomModifier {
         return this != BroomModifiers.MODIFIER_COUNT;
     }
 
-    public ITextComponent getTooltipLine(String prefix, float value, float bonusValue) {
+    public Component getTooltipLine(String prefix, float value, float bonusValue) {
         return getTooltipLine(prefix, value, bonusValue, true);
     }
 
-    public ITextComponent getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
-        IFormattableTextComponent suffix = new TranslationTextComponent(getTranslationKey())
+    public Component getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
+        MutableComponent suffix = new TranslatableComponent(getTranslationKey())
                 .append(": " + value);
         if (bonusValue > 0) {
             suffix = suffix.append(String.format(" (+%s)", bonusValue));
@@ -124,9 +124,9 @@ public class BroomModifier {
             suffix = suffix.append(String.format(" / %s", getMaxTierValue()));
         }
 
-        IFormattableTextComponent ret = new StringTextComponent(prefix)
+        MutableComponent ret = new TextComponent(prefix)
                 .append(suffix);
-        for (TextFormatting format : getTooltipFormats()) {
+        for (ChatFormatting format : getTooltipFormats()) {
             ret = ret.withStyle(format);
         }
         return ret;
@@ -141,7 +141,7 @@ public class BroomModifier {
         return baseModifier;
     }
 
-    public List<TextFormatting> getTooltipFormats() {
+    public List<ChatFormatting> getTooltipFormats() {
         return tooltipFormats;
     }
 

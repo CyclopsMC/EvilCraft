@@ -1,15 +1,16 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.IBidiRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
+import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -20,12 +21,10 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
-import org.cyclops.evilcraft.tileentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
+import org.cyclops.evilcraft.blockentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix.ItemButton;
 
 /**
  * Blood Infuser recipes.
@@ -76,7 +75,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, MatrixStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, PoseStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
         boolean sanguinary = (getTick(gui) % 2) == 1;
         int middle = (width - SLOT_SIZE) / 2;
         gui.drawArrowRight(matrixStack, x + middle - 3, y + SLOT_OFFSET_Y + 2);
@@ -97,11 +96,11 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
         // Draw weathers
         Integer inputX = X_ICON_OFFSETS.get(recipe.getInputWeather());
         if(inputX != null) {
-            Minecraft.getInstance().getTextureManager().bind(WEATHERS);
+            RenderHelpers.bindTexture(WEATHERS);
             gui.blit(matrixStack, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
             gui.drawOuterBorder(matrixStack, x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
             Integer outputX = X_ICON_OFFSETS.get(recipe.getOutputWeather());
-            Minecraft.getInstance().getTextureManager().bind(WEATHERS);
+            RenderHelpers.bindTexture(WEATHERS);
             gui.blit(matrixStack, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
             gui.drawOuterBorder(matrixStack, x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
         }
@@ -110,11 +109,11 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
             renderItem(gui, matrixStack, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
 
             // Blood amount text
-            FontRenderer fontRenderer = gui.getFontRenderer();
+            Font fontRenderer = gui.getFont();
             int amount = AccumulateItemTickAction.getUsage(recipe.getCooldownTime());
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
-            IBidiRenderer.create(fontRenderer, new StringTextComponent(line), 200)
+            MultiLineLabel.create(fontRenderer, new TextComponent(line), 200)
                     .renderLeftAlignedNoShadow(matrixStack, x + middle - 5, y + SLOT_SIZE, 9, 0);
         }
     }

@@ -1,18 +1,18 @@
 package org.cyclops.evilcraft.world.gen.feature;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.loot.LootTables;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.tileentity.MobSpawnerTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.DungeonsFeature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.MonsterRoomFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -23,7 +23,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class WorldFeatureEvilDungeon extends DungeonsFeature {
+public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
     
     private static final int RADIUS_X = 3;
     private static final int RADIUS_X_RAND = 4;
@@ -32,12 +32,16 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
     private static final int CHESTS = 2;
     private static final int CHESTS_RAND = 2;
 
-    public WorldFeatureEvilDungeon(Codec<NoFeatureConfig> config) {
+    public WorldFeatureEvilDungeon(Codec<NoneFeatureConfiguration> config) {
         super(config);
     }
 
     @Override
-    public boolean place(ISeedReader world, ChunkGenerator generator, Random random, BlockPos blockPos, NoFeatureConfig config) {
+    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
+        WorldGenLevel world = context.level();
+        BlockPos blockPos = context.origin();
+        Random random = context.random();
+
         int height = 3;
         int radiusX = random.nextInt(RADIUS_X_RAND) + RADIUS_X;
         int radiusZ = random.nextInt(RADIUS_Z_RAND) + RADIUS_Z;
@@ -121,7 +125,7 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                     if (wallCounter == 1) {
                         world.setBlock(loopPos, Blocks.CHEST.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                          // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
-                        LockableLootTileEntity.setLootTable(world, random, loopPos, LootTables.SIMPLE_DUNGEON);
+                        RandomizableContainerBlockEntity.setLootTable(world, random, loopPos, BuiltInLootTables.SIMPLE_DUNGEON);
 
                         chests--;
                     }
@@ -133,10 +137,10 @@ public class WorldFeatureEvilDungeon extends DungeonsFeature {
                 for(int zs = z - 1; zs <= z + 1; zs += 2) {
                     BlockPos loopPos = new BlockPos(xs, y, zs);
                     world.setBlock(loopPos, Blocks.SPAWNER.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
-                    TileEntity tile = world.getBlockEntity(loopPos);
+                    BlockEntity tile = world.getBlockEntity(loopPos);
         
-                    if (tile instanceof MobSpawnerTileEntity) {
-                        ((MobSpawnerTileEntity) tile).getSpawner().setEntityId(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
+                    if (tile instanceof SpawnerBlockEntity) {
+                        ((SpawnerBlockEntity) tile).getSpawner().setEntityId(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

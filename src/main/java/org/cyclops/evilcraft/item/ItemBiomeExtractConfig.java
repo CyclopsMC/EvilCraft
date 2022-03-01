@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

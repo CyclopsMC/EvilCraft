@@ -5,34 +5,28 @@ import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.properties.Property;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.client.renderer.entity.BipedRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.ArrowLayer;
-import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
-import net.minecraft.client.renderer.entity.layers.HeadLayer;
-import net.minecraft.client.renderer.entity.layers.HeldItemLayer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritConfig;
-import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
 
 /**
  * Renderer for a vengeance spirit
@@ -45,20 +39,20 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 	private final RenderPlayerSpirit playerRenderer;
 	private final Map<GameProfile, GameProfile> checkedProfiles = Maps.newHashMap();
 
-    public RenderVengeanceSpirit(EntityRendererManager renderManager, EntityVengeanceSpiritConfig config) {
-        super(renderManager);
-		playerRenderer = new RenderPlayerSpirit(renderManager);
+    public RenderVengeanceSpirit(EntityRendererProvider.Context context, EntityVengeanceSpiritConfig config) {
+        super(context);
+		playerRenderer = new RenderPlayerSpirit(context);
     }
 
 	@Override
-	public void render(EntityVengeanceSpirit spirit, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+	public void render(EntityVengeanceSpirit spirit, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
     	super.render(spirit, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-		MobEntity innerEntity = spirit.getInnerEntity();
+		Mob innerEntity = spirit.getInnerEntity();
 		if(innerEntity != null && spirit.isVisible()) {
 			EntityRenderer render = entityRenderDispatcher.renderers.get(innerEntity.getType());
 			if(render != null && !spirit.isSwarm()) {
 				// Override the render type buffer so that it always returns buffers with alpha blend
-				IRenderTypeBuffer bufferSub = renderType -> {
+				MultiBufferSource bufferSub = renderType -> {
 					float uv = spirit.isFrozen() ? ((float)spirit.tickCount + partialTicks) * 0.01F : 1;
 					renderType = RenderType.energySwirl((spirit.isPlayer() ? playerRenderer : render).getTextureLocation(innerEntity), uv, uv);
 					return bufferIn.getBuffer(renderType);
@@ -104,21 +98,21 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 		return null;
 	}
 
-	public static class RenderPlayerSpirit extends BipedRenderer<MobEntity, PlayerModel<MobEntity>> {
+	public static class RenderPlayerSpirit extends LivingEntityRenderer<Mob, PlayerModel<Mob>> {
 
 		@Setter
 		private ResourceLocation playerTexture;
 
-		public RenderPlayerSpirit(EntityRendererManager renderManager) {
-			super(renderManager, new PlayerModel<>(0.0F, false), 0.5F);
-			this.addLayer(new BipedArmorLayer<>(this, new BipedModel(0.5F), new BipedModel(1.0F)));
-			this.addLayer(new HeldItemLayer(this));
-			this.addLayer(new ArrowLayer(this));
-			this.addLayer(new HeadLayer<>(this));
+		public RenderPlayerSpirit(EntityRendererProvider.Context context) {
+			super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
+			this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+			this.addLayer(new ItemInHandLayer<>(this));
+			this.addLayer(new ArrowLayer<>(context, this));
+			this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
 		}
 
 		@Override
-		public ResourceLocation getTextureLocation(MobEntity entity) {
+		public ResourceLocation getTextureLocation(Mob entity) {
 			return playerTexture;
 		}
 

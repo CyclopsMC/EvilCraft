@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.tileentity.tickaction.purifier.DisenchantPurifyAction;
+import org.cyclops.evilcraft.blockentity.tickaction.purifier.DisenchantPurifyAction;
 
 /**
  * Config for the Blook.

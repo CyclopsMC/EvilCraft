@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.api.gameevent;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Event;
 
 /**
@@ -10,7 +10,7 @@ import net.minecraftforge.eventbus.api.Event;
  */
 public class BloodInfuserRemoveEvent extends Event {
 
-    public final PlayerEntity player;
+    public final Player player;
     public final ItemStack output;
 
     /**
@@ -18,7 +18,7 @@ public class BloodInfuserRemoveEvent extends Event {
      * @param player The player removing the item.
      * @param output The item that was picked up from the output slot.
      */
-    public BloodInfuserRemoveEvent(PlayerEntity player, ItemStack output) {
+    public BloodInfuserRemoveEvent(Player player, ItemStack output) {
         this.player = player;
         this.output = output;
     }

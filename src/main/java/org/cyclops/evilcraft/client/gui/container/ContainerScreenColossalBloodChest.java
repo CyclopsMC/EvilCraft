@@ -1,23 +1,23 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
-import org.cyclops.evilcraft.tileentity.TileColossalBloodChest;
+import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
 
 /**
  * GUI for the {@link BlockColossalBloodChest}.
  * @author rubensworks
  *
  */
-public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorking<ContainerColossalBloodChest, TileColossalBloodChest> {
+public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorking<ContainerColossalBloodChest, BlockEntityColossalBloodChest> {
 
     /**
      * Texture width.
@@ -78,14 +78,14 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
      */
     public static final int EFFICIENCYBARTARGETY = 82;
 
-    public ContainerScreenColossalBloodChest(ContainerColossalBloodChest container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenColossalBloodChest(ContainerColossalBloodChest container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
     }
 
     @Override
-    protected ITextComponent getName() {
-        return new TranslationTextComponent("block.evilcraft.colossal_blood_chest");
+    protected Component getName() {
+        return new TranslatableComponent("block.evilcraft.colossal_blood_chest");
     }
 
     @Override
@@ -104,17 +104,17 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
     }
 
     @Override
-    protected void drawForgegroundString(MatrixStack matrixStack) {
+    protected void drawForgegroundString(PoseStack matrixStack) {
         // MCP: drawString
         font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
 
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         super.renderLabels(matrixStack, mouseX, mouseY);
 
         RenderHelpers.bindTexture(texture);
-        int minusFactor = (int) (((float) (TileColossalBloodChest.MAX_EFFICIENCY - ((ContainerColossalBloodChest) getMenu()).getEfficiency()) * EFFICIENCYBARHEIGHT) / TileColossalBloodChest.MAX_EFFICIENCY);
+        int minusFactor = (int) (((float) (BlockEntityColossalBloodChest.MAX_EFFICIENCY - ((ContainerColossalBloodChest) getMenu()).getEfficiency()) * EFFICIENCYBARHEIGHT) / BlockEntityColossalBloodChest.MAX_EFFICIENCY);
         blit(matrixStack, EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
                 EFFICIENCYBARX, EFFICIENCYBARY + minusFactor, EFFICIENCYBARWIDTH, EFFICIENCYBARHEIGHT - minusFactor);
     }

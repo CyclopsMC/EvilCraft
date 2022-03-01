@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.Rarity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 

@@ -1,18 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BoneMealItem;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BoneMealItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 
 /**
  * Double coal efficiency.
@@ -26,7 +18,7 @@ public class ItemBloodPotash extends Item {
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
+    public InteractionResult useOn(UseOnContext context) {
         ItemStack itemStack = context.getItemInHand();
         boolean done = false;
         int attempts = 0;
@@ -39,7 +31,7 @@ public class ItemBloodPotash extends Item {
             if (!context.getLevel().isClientSide()) {
                 context.getLevel().globalLevelEvent(2005, context.getClickedPos(), 0);
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
     }

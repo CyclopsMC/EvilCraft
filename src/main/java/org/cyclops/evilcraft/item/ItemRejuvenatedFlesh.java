@@ -1,17 +1,17 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.item.UseAction;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -40,8 +40,8 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
     }
 
     @Override
-    public UseAction getUseAnimation(ItemStack itemStack) {
-        return UseAction.EAT;
+    public UseAnim getUseAnimation(ItemStack itemStack) {
+        return UseAnim.EAT;
     }
 
     protected boolean canEat(ItemStack itemStack) {
@@ -50,23 +50,23 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
     }
 
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(canEat(itemStack) && player.canEat(false)) {
             player.startUsingItem(hand);
             return MinecraftHelpers.successAction(itemStack);
         }
-        return new ActionResult<>(ActionResultType.FAIL, itemStack);
+        return new InteractionResultHolder<>(InteractionResult.FAIL, itemStack);
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemStack, World world, LivingEntity entity) {
+    public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
         FluidUtil.getFluidHandler(itemStack).orElseGet(null)
                 .drain(ItemRejuvenatedFleshConfig.biteUsage, IFluidHandler.FluidAction.EXECUTE);
-        if(entity instanceof PlayerEntity) {
-            ((PlayerEntity) entity).getFoodData().eat(3, 0.5F);
+        if(entity instanceof Player) {
+            ((Player) entity).getFoodData().eat(3, 0.5F);
         }
-        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
         return itemStack;
     }
 

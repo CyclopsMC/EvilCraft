@@ -4,9 +4,9 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -15,16 +15,16 @@ import java.util.Locale;
 /**
  * @author rubensworks
  */
-public class ParticleBubbleExtendedData implements IParticleData {
+public class ParticleBubbleExtendedData implements ParticleOptions {
 
-    public static final IParticleData.IDeserializer<ParticleBubbleExtendedData> DESERIALIZER = new IParticleData.IDeserializer<ParticleBubbleExtendedData>() {
+    public static final ParticleOptions.Deserializer<ParticleBubbleExtendedData> DESERIALIZER = new ParticleOptions.Deserializer<ParticleBubbleExtendedData>() {
         public ParticleBubbleExtendedData fromCommand(ParticleType<ParticleBubbleExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float gravity = (float) reader.readDouble();
             return new ParticleBubbleExtendedData(gravity);
         }
 
-        public ParticleBubbleExtendedData fromNetwork(ParticleType<ParticleBubbleExtendedData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleBubbleExtendedData fromNetwork(ParticleType<ParticleBubbleExtendedData> particleTypeIn, FriendlyByteBuf buffer) {
             return new ParticleBubbleExtendedData(buffer.readFloat());
         }
     };
@@ -50,7 +50,7 @@ public class ParticleBubbleExtendedData implements IParticleData {
     }
 
     @Override
-    public void writeToNetwork(PacketBuffer buffer) {
+    public void writeToNetwork(FriendlyByteBuf buffer) {
         buffer.writeFloat(gravity);
     }
 

@@ -2,22 +2,23 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
@@ -58,7 +59,7 @@ public class ItemMaceOfDistortion extends ItemMace {
     }
     
     @SuppressWarnings("unchecked")
-    protected void distortEntities(World world, LivingEntity initiator, int itemUsedCount, int power) {
+    protected void distortEntities(Level world, LivingEntity initiator, int itemUsedCount, int power) {
         // Center of the knockback
         double x = initiator.getX();
         double y = initiator.getY();
@@ -66,20 +67,20 @@ public class ItemMaceOfDistortion extends ItemMace {
         
         // Get the entities in the given area
         double area = getArea(itemUsedCount);
-        AxisAlignedBB box = new AxisAlignedBB(x, y, z, x, y, z).inflate(area);
+        AABB box = new AABB(x, y, z, x, y, z).inflate(area);
         List<Entity> entities = world.getEntities(initiator, box);
         
         // Do knockback and damage to the list of entities
         boolean onePlayer = false;
         for(Entity entity : entities) {
-        	if(entity instanceof PlayerEntity) {
+        	if(entity instanceof Player) {
         		onePlayer = true;
         	}
             distortEntity(world, initiator, entity, x, y, z, itemUsedCount, power);
         }
 
-        if (initiator instanceof ServerPlayerEntity) {
-            Advancements.DISTORT.test((ServerPlayerEntity) initiator, entities);
+        if (initiator instanceof ServerPlayer) {
+            Advancements.DISTORT.test((ServerPlayer) initiator, entities);
         }
     }
     
@@ -94,14 +95,14 @@ public class ItemMaceOfDistortion extends ItemMace {
      * @param itemUsedCount The distortion usage power.
      * @param power The current power.
      */
-    public void distortEntity(World world, @Nullable LivingEntity initiator, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
+    public void distortEntity(Level world, @Nullable LivingEntity initiator, Entity entity, double x, double y, double z, int itemUsedCount, int power) {
         double inverseStrength = initiator != null ? entity.distanceTo(initiator) / (itemUsedCount + 1) : 0.1;
         double knock = power + itemUsedCount / 200 + 1.0D;
 
         double dx = entity.getX() - x;
         double dy = entity.getY() + (double)entity.getEyeHeight() - y;
         double dz = entity.getZ() - z;
-        double d = (double) MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
+        double d = Mth.sqrt((float) (dx * dx + dy * dy + dz * dz));
 
         // No knockback is possible when the absolute distance is zero.
         if (d != 0.0D) {
@@ -115,8 +116,8 @@ public class ItemMaceOfDistortion extends ItemMace {
                 if(initiator == null) {
                     damageSource = ExtendedDamageSource.distorted;
                 } else {
-                    if(initiator instanceof PlayerEntity) {
-                        damageSource = DamageSource.playerAttack((PlayerEntity) initiator);
+                    if(initiator instanceof Player) {
+                        damageSource = DamageSource.playerAttack((Player) initiator);
                     } else {
                         damageSource = DamageSource.mobAttack(initiator);
                     }
@@ -136,18 +137,18 @@ public class ItemMaceOfDistortion extends ItemMace {
     }
     
     @OnlyIn(Dist.CLIENT)
-    public static void showEntityDistored(World world, LivingEntity initiator, Entity entity, int power) {
+    public static void showEntityDistored(Level world, LivingEntity initiator, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
-        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
         if(initiator != null) {
-            world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundCategory.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
         }
         // Fake explosion effect.
-        world.addParticle(ParticleTypes.EXPLOSION, entity.getX(), entity.getY() + random.nextFloat(), entity.getZ(), 1.0D, 0.0D, 0.0D);
+        world.addParticle(ParticleTypes.EXPLOSION, entity.getX(), entity.getY() + world.random.nextFloat(), entity.getZ(), 1.0D, 0.0D, 0.0D);
     }
     
     @OnlyIn(Dist.CLIENT)
-    protected void animateOutOfEnergy(World world, PlayerEntity player) {
+    protected void animateOutOfEnergy(Level world, Player player) {
         double xCoord = player.getX();
         double yCoord = player.getY();
         double zCoord = player.getZ();
@@ -157,27 +158,25 @@ public class ItemMaceOfDistortion extends ItemMace {
         float particleMotionZ = world.random.nextFloat() * 0.2F - 0.1F;
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
         
-        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundCategory.RECORDS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.RECORDS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
     }
 
     @Override
     public int getItemEnchantability(ItemStack itemStack) {
         return 15;
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     @Override
-    public Multimap getAttributeModifiers(EquipmentSlotType slot, ItemStack itemStack) {
-        if (slot == EquipmentSlotType.MAINHAND) {
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack itemStack) {
+        if (slot == EquipmentSlot.MAINHAND) {
             return ImmutableMultimap.of(Attributes.ATTACK_DAMAGE,
                     new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", MELEE_DAMAGE, AttributeModifier.Operation.ADDITION));
         }
         return super.getAttributeModifiers(slot, itemStack);
     }
-    
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+
     @Override
-    protected void use(World world, LivingEntity entity, int itemUsedCount, int power) {
+    protected void use(Level world, LivingEntity entity, int itemUsedCount, int power) {
         distortEntities(world, entity, itemUsedCount, power);
     }
 }

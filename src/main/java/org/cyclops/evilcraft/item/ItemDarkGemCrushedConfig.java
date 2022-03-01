@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;

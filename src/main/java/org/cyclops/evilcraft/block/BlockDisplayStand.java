@@ -1,39 +1,42 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelProperty;
@@ -42,11 +45,13 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
+import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.evilcraft.tileentity.TileDisplayStand;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -58,7 +63,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class BlockDisplayStand extends BlockTile {
+public class BlockDisplayStand extends BlockWithEntity {
 
     private static final String NBT_TYPE = "displayStandType";
 
@@ -79,7 +84,7 @@ public class BlockDisplayStand extends BlockTile {
             .build();
 
     public BlockDisplayStand(Block.Properties properties) {
-        super(properties, TileDisplayStand::new);
+        super(properties, BlockEntityDisplayStand::new);
         MinecraftForge.EVENT_BUS.register(this);
 
         this.registerDefaultState(this.stateDefinition.any()
@@ -88,12 +93,18 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DISPLAY_STAND, new BlockEntityTickerDelayed<>());
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, AXIS_X);
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return FACING_BOUNDS.get(BlockHelpers.getSafeBlockStateProperty(state, FACING, Direction.DOWN));
     }
 
@@ -103,15 +114,15 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
-        return TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
+    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
+        return BlockEntityHelpers.get(world, blockPos, BlockEntityDisplayStand.class)
                 .map(tile -> !tile.getInventory().getItem(0).isEmpty() ? 15 : 0)
                 .orElse(0);
     }
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState blockState = super.getStateForPlacement(context);
         blockState = blockState.setValue(FACING, context.getClickedFace().getOpposite());
         Direction playerFacing = context.getPlayer().getDirection();
@@ -126,10 +137,10 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public void setPlacedBy(World world, BlockPos blockPos, BlockState blockState, LivingEntity entity, ItemStack stack) {
+    public void setPlacedBy(Level world, BlockPos blockPos, BlockState blockState, LivingEntity entity, ItemStack stack) {
         super.setPlacedBy(world, blockPos, blockState, entity, stack);
         if (!world.isClientSide()) {
-            TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
+            BlockEntityHelpers.get(world, blockPos, BlockEntityDisplayStand.class)
                     .ifPresent(tile -> {
                         tile.setDisplayStandType(getDisplayStandType(stack));
                         tile.setDirection(entity.getDirection().getAxisDirection());
@@ -138,8 +149,8 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public BlockState rotate(BlockState blockState, IWorld world, BlockPos pos, Rotation direction) {
-        return TileHelpers.getSafeTile(world, pos, TileDisplayStand.class)
+    public BlockState rotate(BlockState blockState, LevelAccessor world, BlockPos pos, Rotation direction) {
+        return BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class)
                 .map(tile -> {
                     if (tile.getDirection() == Direction.AxisDirection.POSITIVE) {
                         if (blockState.getValue(AXIS_X)) {
@@ -163,7 +174,7 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> list) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
         try {
             for (Item item : ItemTags.PLANKS.getValues()) {
                 if (item instanceof BlockItem) {
@@ -177,15 +188,15 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     public ItemStack getTypedDisplayStandItem(BlockState blockState) {
-        INBT blockTag = BlockHelpers.serializeBlockState(blockState);
+        Tag blockTag = BlockHelpers.serializeBlockState(blockState);
         ItemStack itemStack = new ItemStack(this);
-        CompoundNBT tag = itemStack.getOrCreateTag();
+        CompoundTag tag = itemStack.getOrCreateTag();
         tag.put(NBT_TYPE, blockTag);
         return itemStack;
     }
 
     public ItemStack getDisplayStandType(ItemStack displayStandStack) {
-        CompoundNBT tag = displayStandStack.getTag();
+        CompoundTag tag = displayStandStack.getTag();
         if (tag != null && tag.contains(NBT_TYPE)) {
             BlockState blockState = BlockHelpers.deserializeBlockState(tag.getCompound(NBT_TYPE));
             return BlockHelpers.getItemStackFromBlockState(blockState);
@@ -194,7 +205,7 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     public static void setDisplayStandType(ItemStack displayStandStack, ItemStack type) {
-        CompoundNBT tag = displayStandStack.getOrCreateTag();
+        CompoundTag tag = displayStandStack.getOrCreateTag();
         tag.put(NBT_TYPE, BlockHelpers.serializeBlockState(BlockHelpers.getBlockStateFromItemStack(type)));
     }
 
@@ -209,52 +220,52 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult p_225533_6_) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (world.isClientSide()) {
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
-            TileDisplayStand tile = TileHelpers.getSafeTile(world, pos, TileDisplayStand.class).orElse(null);
+            BlockEntityDisplayStand tile = BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class).orElse(null);
             if (tile != null) {
                 ItemStack tileStack = tile.getInventory().getItem(0);
                 if ((itemStack.isEmpty() || (ItemStack.isSame(itemStack, tileStack) && ItemStack.tagMatches(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
                     if(!itemStack.isEmpty()) {
                         tileStack.grow(itemStack.getCount());
                     }
-                    player.inventory.setItem(player.inventory.selected, tileStack);
+                    player.getInventory().setItem(player.getInventory().selected, tileStack);
                     tile.getInventory().setItem(0, ItemStack.EMPTY);
                     tile.sendUpdate();
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 } else if (!itemStack.isEmpty() && tile.getInventory().getItem(0).isEmpty()) {
                     tile.getInventory().setItem(0, itemStack.split(1));
                     if (itemStack.getCount() <= 0)
-                        player.inventory.setItem(player.inventory.selected, ItemStack.EMPTY);
+                        player.getInventory().setItem(player.getInventory().selected, ItemStack.EMPTY);
                     tile.sendUpdate();
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
-        return ActionResultType.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
         ItemStack blockType = getDisplayStandType(stack);
         if (blockType != null) {
-            tooltip.add(((IFormattableTextComponent) blockType.getHoverName())
-                    .withStyle(TextFormatting.GRAY));
+            tooltip.add(((MutableComponent) blockType.getHoverName())
+                    .withStyle(ChatFormatting.GRAY));
         }
     }
 
     @Override
-    public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
         return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
         if (!worldIn.isAreaLoaded(pos, 1))
             return;
         if (!state.canSurvive(worldIn, pos)) {
@@ -263,17 +274,17 @@ public class BlockDisplayStand extends BlockTile {
     }
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
         if (!stateIn.canSurvive(worldIn, currentPos)) {
-            worldIn.getBlockTicks().scheduleTick(currentPos, this, 1);
+            worldIn.scheduleTick(currentPos, this, 1);
         }
         return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
     }
 
     @Override
-    public void onRemove(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
         if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            TileHelpers.getSafeTile(world, blockPos, TileDisplayStand.class)
+            BlockEntityHelpers.get(world, blockPos, BlockEntityDisplayStand.class)
                     .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
         }
         super.onRemove(oldState, world, blockPos, newState, isMoving);

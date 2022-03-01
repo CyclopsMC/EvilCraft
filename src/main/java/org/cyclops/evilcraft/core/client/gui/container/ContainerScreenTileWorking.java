@@ -1,19 +1,19 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.chat.Component;
 import org.cyclops.evilcraft.client.gui.container.WidgetUpgradeTab;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
-import org.cyclops.evilcraft.core.tileentity.TileWorking;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
 /**
- * A GUI container that has support for the display of {@link TileWorking}.
+ * A GUI container that has support for the display of {@link BlockEntityWorking}.
  * @author rubensworks
  *
- * @param <T> The {@link TileWorking} class, mostly just the extension class.
+ * @param <T> The {@link BlockEntityWorking} class, mostly just the extension class.
  */
-public abstract class ContainerScreenTileWorking<C extends ContainerTileWorking<T>, T extends TileWorking<T, ?>>
+public abstract class ContainerScreenTileWorking<C extends ContainerTileWorking<T>, T extends BlockEntityWorking<T, ?>>
         extends ContainerScreenContainerTankInventory<C, T>
         implements WidgetUpgradeTab.SlotEnabledCallback {
 
@@ -21,7 +21,7 @@ public abstract class ContainerScreenTileWorking<C extends ContainerTileWorking<
 
     private WidgetUpgradeTab upgrades;
 
-    public ContainerScreenTileWorking(C container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenTileWorking(C container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.upgrades = new WidgetUpgradeTab(this, this);
         this.offsetX = UPGRADES_OFFSET_X;
@@ -43,7 +43,7 @@ public abstract class ContainerScreenTileWorking<C extends ContainerTileWorking<
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float f, int x, int y) {
+    protected void renderBg(PoseStack matrixStack, float f, int x, int y) {
         super.renderBg(matrixStack, f, x, y);
         upgrades.drawBackground(matrixStack, leftPos, topPos);
     }

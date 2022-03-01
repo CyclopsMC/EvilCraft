@@ -6,17 +6,17 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicLongMap;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.renderer.model.BakedQuad;
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.model.ItemTransformVec3f;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.Direction;
+import com.mojang.math.Vector3f;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.model.data.IModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
@@ -42,35 +42,35 @@ import java.util.Random;
 public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     // Default perspective transforms
-    protected static final ItemCameraTransforms PERSPECTIVE_TRANSFORMS =
+    protected static final ItemTransforms PERSPECTIVE_TRANSFORMS =
             ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
-                    ItemCameraTransforms.TransformType.THIRD_PERSON_RIGHT_HAND,
-                    new ItemTransformVec3f(
+                    ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND,
+                    new ItemTransform(
                             new Vector3f(90, 180, 90),
                             new Vector3f(0, 0, 0),
                             new Vector3f(1, 1, 1)
                     ),
-                    ItemCameraTransforms.TransformType.THIRD_PERSON_LEFT_HAND,
-                    new ItemTransformVec3f(
+                    ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND,
+                    new ItemTransform(
                             new Vector3f(90, 180, 90),
                             new Vector3f(0, 0, 0),
                             new Vector3f(1, 1, 1)
                     ),
-                    ItemCameraTransforms.TransformType.FIRST_PERSON_LEFT_HAND,
-                    new ItemTransformVec3f(
+                    ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND,
+                    new ItemTransform(
                             new Vector3f(10, 190, 100),
                             new Vector3f(0.25F, -0.025F, 0),
                             new Vector3f(1, 1, 1)
                     ),
-                    ItemCameraTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,
-                    new ItemTransformVec3f(
+                    ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,
+                    new ItemTransform(
                             new Vector3f(10, 190, 100),
                             new Vector3f(0.25F, -0.025F, 0),
                             new Vector3f(1, 1, 1)
                     )
             ));
 
-    private static final Map<IBroomPart, IBakedModel> broomPartModels = Maps.newHashMap();
+    private static final Map<IBroomPart, BakedModel> broomPartModels = Maps.newHashMap();
 
     private final List<BakedQuad> quads;
     private final Random rand = new Random();
@@ -91,17 +91,12 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public IBakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull Random random, @Nonnull IModelData iModelData) {
+    public BakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull Random random, @Nonnull IModelData iModelData) {
         throw new UnsupportedOperationException();
     }
 
-    public static void addBroomModel(IBroomPart part, IBakedModel bakedModel) {
+    public static void addBroomModel(IBroomPart part, BakedModel bakedModel) {
         broomPartModels.put(part, bakedModel);
-    }
-
-    @Override
-    public boolean useAmbientOcclusion() {
-        return false; // TODO: rm
     }
 
     @Override
@@ -110,17 +105,12 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public boolean isCustomRenderer() {
-        return false; // TODO: rm
-    }
-
-    @Override
     public TextureAtlasSprite getParticleIcon() {
         return null;
     }
 
     @Override
-    public IBakedModel handleItemState(ItemStack itemStack, World world, LivingEntity entity) {
+    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
         IBroomPart rod = null;
@@ -133,7 +123,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
         AtomicLongMap<IBroomPart.BroomPartType> partTypeOccurences = AtomicLongMap.create();
         for (IBroomPart part : parts) {
-            IBakedModel model = broomPartModels.get(part);
+            BakedModel model = broomPartModels.get(part);
             if (model != null) {
                 List<BakedQuad> originalQuads = model.getQuads(null, null, this.rand);
                 int typeIndex = (int) partTypeOccurences.getAndIncrement(part.getType());
@@ -171,7 +161,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public ItemCameraTransforms getTransforms() {
+    public ItemTransforms getTransforms() {
         return PERSPECTIVE_TRANSFORMS;
     }
 }

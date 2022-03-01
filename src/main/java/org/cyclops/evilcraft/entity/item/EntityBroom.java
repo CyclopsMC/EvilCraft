@@ -4,31 +4,31 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -53,7 +53,7 @@ import java.util.Set;
  */
 public class EntityBroom extends Entity {
 
-    private static final DataParameter<ItemStack> ITEMSTACK_INDEX = EntityDataManager.<ItemStack>defineId(EntityBroom.class, DataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<ItemStack> ITEMSTACK_INDEX = SynchedEntityData.<ItemStack>defineId(EntityBroom.class, EntityDataSerializers.ITEM_STACK);
 
     /**
      * Speed for the broom (in all directions)
@@ -109,12 +109,12 @@ public class EntityBroom extends Entity {
 
     private Map<BroomModifier, Float> cachedModifiers = null;
 
-    public EntityBroom(EntityType<? extends EntityBroom> type, World world) {
+    public EntityBroom(EntityType<? extends EntityBroom> type, Level world) {
         this(type, world, 0.0, 0.0, 0.0);
         initBroomHoverTickOffset();
     }
 
-    public EntityBroom(EntityType<? extends EntityBroom> type, World world, double x, double y, double z) {
+    public EntityBroom(EntityType<? extends EntityBroom> type, Level world, double x, double y, double z) {
         super(type, world);
         setPos(x, y, z);
         setDeltaMovement(0, 0, 0);
@@ -125,19 +125,19 @@ public class EntityBroom extends Entity {
         initBroomHoverTickOffset();
     }
 
-    public EntityBroom(World world, double x, double y, double z) {
+    public EntityBroom(Level world, double x, double y, double z) {
         this(RegistryEntries.ENTITY_BROOM, world, x, y, z);
     }
 
     @Nonnull
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    public EntitySize getDimensions(Pose poseIn) {
-        return EntitySize.scalable(1.5f, 0.6f);
+    public EntityDimensions getDimensions(Pose poseIn) {
+        return EntityDimensions.scalable(1.5f, 0.6f);
     }
 
     protected void initBroomHoverTickOffset() {
@@ -150,22 +150,17 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    protected boolean isMovementNoisy() {
-        return false;
-    }
-
-    @Override
 	public boolean isPickable() {
 		return isAlive();
 	}
     
     @Override
-    public ActionResultType interact(PlayerEntity player, Hand hand) {
+    public InteractionResult interact(Player player, InteractionHand hand) {
         if (!this.level.isClientSide() && !isVehicle() && !player.isCrouching()) {
             player.startRiding(this);
             lastMounted = player;
         }
-    	return ActionResultType.SUCCESS;
+    	return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -175,7 +170,7 @@ public class EntityBroom extends Entity {
                 Entity controlling = this.getControllingPassenger();
                 if (entityIn != controlling) {
                     if (entityIn instanceof LivingEntity
-                            && !(entityIn instanceof PlayerEntity)
+                            && !(entityIn instanceof Player)
                             && controlling == null
                             && !entityIn.isPassenger()) {
                         entityIn.startRiding(this);
@@ -210,12 +205,12 @@ public class EntityBroom extends Entity {
             if (this.isInvulnerableTo(source)) {
                 return false;
             }
-            if (source.getEntity() instanceof PlayerEntity && source.getEntity() != lastMounted) {
+            if (source.getEntity() instanceof Player && source.getEntity() != lastMounted) {
                 if (isVehicle()) {
                     this.stopRiding();
                 }
-                remove();
-                PlayerEntity player = (PlayerEntity) source.getEntity();
+                remove(RemovalReason.DISCARDED);
+                Player player = (Player) source.getEntity();
                 if (!player.isCreative()) {
                     ItemStack itemStack = getBroomStack().copy();
                     this.spawnAtLocation(itemStack, 0.0F);
@@ -226,14 +221,14 @@ public class EntityBroom extends Entity {
     }
 
     public void startAllowFlying(LivingEntity entity) {
-        if(entity instanceof PlayerEntity) {
-            ((PlayerEntity) entity).abilities.mayfly = true;
+        if(entity instanceof Player) {
+            ((Player) entity).getAbilities().mayfly = true;
         }
     }
 
     public void stopAllowFlying(LivingEntity entity) {
-        if(entity instanceof PlayerEntity) {
-            ((PlayerEntity) entity).abilities.mayfly = false;
+        if(entity instanceof Player) {
+            ((Player) entity).getAbilities().mayfly = false;
         }
     }
 
@@ -266,8 +261,8 @@ public class EntityBroom extends Entity {
             xo = getX();
             yo = getY();
             zo = getZ();
-            xRotO = xRot;
-            yRotO = yRot;
+            xRotO = getXRot();
+            yRotO = getYRot();
             
     	    if (!level.isClientSide() || Minecraft.getInstance().player == lastMounted) {
     	        updateMountedServer();
@@ -314,16 +309,16 @@ public class EntityBroom extends Entity {
 
     private void onDismount() {
         // The player dismounted, give him his broom back if he's not in creative mode
-        if (lastMounted instanceof PlayerEntity) {
+        if (lastMounted instanceof Player) {
             stopAllowFlying(lastMounted);
-            PlayerEntity player = (PlayerEntity) lastMounted;
+            Player player = (Player) lastMounted;
             // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
             if (player.isAlive() && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.isCreative())) {
                 // Return to inventory if he's not in creative mode
                 if (!player.isCreative()) {
-                    player.inventory.add(getBroomStack());
+                    player.getInventory().add(getBroomStack());
                 }
-                this.remove();
+                this.remove(RemovalReason.DISCARDED);
             }
         }
 
@@ -345,7 +340,7 @@ public class EntityBroom extends Entity {
 
     @OnlyIn(Dist.CLIENT)
     public void showParticles(EntityBroom broom) {
-        World world = broom.level;
+        Level world = broom.level;
         if (world.isClientSide() && broom.lastMounted.zza != 0) {
             // Emit particles
             int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
@@ -354,7 +349,7 @@ public class EntityBroom extends Entity {
                 float r = color.getLeft();
                 float g = color.getMiddle();
                 float b = color.getRight();
-                Vector3d motion = broom.getDeltaMovement();
+                Vec3 motion = broom.getDeltaMovement();
                 Minecraft.getInstance().levelRenderer.addParticle(
                         new ParticleColoredSmokeData(r, g, b), false,
                         broom.getX() - motion.x * 1.5D + Math.random() * 0.4D - 0.2D,
@@ -367,7 +362,7 @@ public class EntityBroom extends Entity {
 
     protected void collideWithNearbyEntities() {
         List<Entity> list = this.level.getEntities(this, this.getBoundingBox().inflate(0.20000000298023224D, 0.0D, 0.20000000298023224D),
-                EntityPredicates.NO_SPECTATORS.and(Entity::isPushable));
+                EntitySelector.NO_SPECTATORS.and(Entity::isPushable));
         if (!list.isEmpty()){
             for (Entity entity : list) {
                 this.push(entity);
@@ -381,17 +376,17 @@ public class EntityBroom extends Entity {
             double y = getY() + (newPosY - getY()) / newPosRotationIncrements;
             double z = getZ() + (newPosZ - getZ()) / newPosRotationIncrements;
             
-            float yaw = MathHelpers.normalizeAngle_180((float)(newRotationYaw - yRot));
-            yRot += yaw / newPosRotationIncrements;
-            xRot += (newRotationPitch - xRot) / newPosRotationIncrements;
+            float yaw = MathHelpers.normalizeAngle_180((float)(newRotationYaw - getYRot()));
+            setYRot(getYRot() + yaw / newPosRotationIncrements);
+            setXRot((float) (getXRot() + (newRotationPitch - getXRot()) / newPosRotationIncrements));
             
             newPosRotationIncrements--;
             
             setPos(x, y, z);
-            setRot(yRot, xRot);
+            setRot(getYRot(), getXRot());
         }
         
-        move(MoverType.SELF, new Vector3d(0, getHoverOffset(), 0));
+        move(MoverType.SELF, new Vec3(0, getHoverOffset(), 0));
     }
 
     public boolean canConsume(int amount, LivingEntity entityLiving) {
@@ -417,50 +412,50 @@ public class EntityBroom extends Entity {
     protected void updateMountedServer() {
         if (!setLast) {
             setLast = true;
-            lastRotationYaw = yRot;
-            lastRotationPitch = xRot;
+            lastRotationYaw = getYRot();
+            lastRotationPitch = getXRot();
         }
 
-        if (lastMounted instanceof PlayerEntity) {
-            if (lastMounted instanceof ServerPlayerEntity) {
-                ((ServerPlayerEntity) lastMounted).connection.aboveGroundVehicleTickCount = 0;
+        if (lastMounted instanceof Player) {
+            if (lastMounted instanceof ServerPlayer) {
+                ((ServerPlayer) lastMounted).connection.aboveGroundVehicleTickCount = 0;
             }
         } else {
-            lastMounted.yRot = lastMounted.yHeadRot;
+            lastMounted.setYRot(lastMounted.yHeadRot);
             // We have to hardcode this speed because the entity may already have ticked,
             // so we can't count on it having a predictable speed
             lastMounted.zza = 0.5F;
         }
 
         // Rotate broom
-        xRot = MathHelpers.normalizeAngle_180(lastMounted.xRot);
-        yRot = MathHelpers.normalizeAngle_180(lastMounted.yRot);
+        setXRot(MathHelpers.normalizeAngle_180(lastMounted.getXRot()));
+        setYRot(MathHelpers.normalizeAngle_180(lastMounted.getYRot()));
 
         // Apply maneuverability modifier
         float maneuverabilityFactor = 1F - (getModifier(BroomModifiers.MANEUVERABILITY) / 2000F);
-        xRot = xRot * (1F - maneuverabilityFactor) + lastRotationPitch * maneuverabilityFactor;
+        setXRot(getXRot() * (1F - maneuverabilityFactor) + lastRotationPitch * maneuverabilityFactor);
         // These if's are necessary to fix rotation when the yaw goes over the border of -180F;+180F
-        if(lastRotationYaw - yRot > 180F) {
+        if(lastRotationYaw - getYRot() > 180F) {
             lastRotationYaw -= 360F;
         }
-        if(lastRotationYaw - yRot < -180F) {
+        if(lastRotationYaw - getYRot() < -180F) {
             lastRotationYaw += 360F;
         }
-        yRot = yRot * (1F - maneuverabilityFactor) + lastRotationYaw * maneuverabilityFactor;
-        lastRotationPitch = xRot;
-        lastRotationYaw = yRot;
+        setYRot(getYRot() * (1F - maneuverabilityFactor) + lastRotationYaw * maneuverabilityFactor);
+        lastRotationPitch = getXRot();
+        lastRotationYaw = getYRot();
         
         // Limit the angle under which the player can move up or down
-        if (xRot > MAX_ANGLE)
-            xRot = MAX_ANGLE;
-        else if (xRot < MIN_ANGLE)
-            xRot = MIN_ANGLE;
+        if (getXRot() > MAX_ANGLE)
+            setXRot(MAX_ANGLE);
+        else if (getXRot() < MIN_ANGLE)
+            setXRot(MIN_ANGLE);
         
-        setRot(yRot, xRot);
+        setRot(getYRot(), getXRot());
         
         // Handle player movement
-        double pitch = ((xRot + 90) * Math.PI) / 180;
-        double yaw = ((yRot + 90) * Math.PI) / 180;
+        double pitch = ((getXRot() + 90) * Math.PI) / 180;
+        double yaw = ((getYRot() + 90) * Math.PI) / 180;
         
         double x = Math.sin(pitch) * Math.cos(yaw);
         double z = Math.sin(pitch) * Math.sin(yaw);
@@ -495,7 +490,7 @@ public class EntityBroom extends Entity {
         // Apply water speed
         if (this.wasTouchingWater) {
             // Apply a log-scale
-            float waterMovementFactor = MathHelper.clamp(
+            float waterMovementFactor = Mth.clamp(
                     getModifier(BroomModifiers.SWIMMING) / BroomModifiers.SWIMMING.getMaxTierValue(), 0F, 1F);
             waterMovementFactor = (float) Math.log10(1 + waterMovementFactor * 9);
             playerSpeed *= waterMovementFactor;
@@ -523,7 +518,7 @@ public class EntityBroom extends Entity {
 
     protected void updateUnmounted() {
         if (level.isClientSide()) {
-            move(MoverType.SELF, new Vector3d(0, getHoverOffset(), 0));
+            move(MoverType.SELF, new Vec3(0, getHoverOffset(), 0));
         }
     }
 
@@ -539,7 +534,7 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource damageSource) {
         // Makes sure the player doesn't get any fall damage when on the broom
         return false;
     }
@@ -555,12 +550,12 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundNBT nbttagcompound) {
+    protected void readAdditionalSaveData(CompoundTag nbttagcompound) {
     	
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundNBT nbttagcompound) {
+    protected void addAdditionalSaveData(CompoundTag nbttagcompound) {
     	
     }
 
@@ -610,16 +605,16 @@ public class EntityBroom extends Entity {
     }
     
     @Override
-    public CompoundNBT saveWithoutId(CompoundNBT tag) {
+    public CompoundTag saveWithoutId(CompoundTag tag) {
         tag = super.saveWithoutId(tag);
-        CompoundNBT broomItemTag = new CompoundNBT();
+        CompoundTag broomItemTag = new CompoundTag();
         getBroomStack().save(broomItemTag);
         tag.put("broomItem", broomItemTag);
         return tag;
     }
 
     @Override
-    public void load(CompoundNBT tagCompound) {
+    public void load(CompoundTag tagCompound) {
         super.load(tagCompound);
         ItemStack broomStack = ItemStack.of(tagCompound.getCompound("broomItem"));
         if (!broomStack.isEmpty()) {

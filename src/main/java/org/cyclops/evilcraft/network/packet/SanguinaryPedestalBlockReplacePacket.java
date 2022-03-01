@@ -1,15 +1,12 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -51,14 +48,14 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
     
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void actionClient(World world, PlayerEntity player) {
-		world.playLocalSound(x, y, z, RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState().getSoundType().getBreakSound(), SoundCategory.BLOCKS, 0.1F + world.random.nextFloat() * 0.5F,
+	public void actionClient(Level world, Player player) {
+		world.playLocalSound(x, y, z, RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState().getSoundType().getBreakSound(), SoundSource.BLOCKS, 0.1F + world.random.nextFloat() * 0.5F,
     			0.9F + world.random.nextFloat() * 0.1F, false);
 		ParticleBloodSplash.spawnParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.random.nextInt(2), 1 + world.random.nextInt(2));
 	}
 
 	@Override
-	public void actionServer(World world, ServerPlayerEntity player) {
+	public void actionServer(Level world, ServerPlayer player) {
 
 	}
 	

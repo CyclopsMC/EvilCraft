@@ -5,10 +5,15 @@
 // - ZeuX
 package org.cyclops.evilcraft.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelle;
 
 import java.util.LinkedList;
@@ -19,65 +24,34 @@ import java.util.List;
  */
 public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
     //fields
-    ModelRenderer head;
-    ModelRenderer body;
-    ModelRenderer ass;
-    ModelRenderer Right_L_wing;
-    ModelRenderer Left_L_wing;
-    ModelRenderer Right_M_wing;
-    ModelRenderer Left_M_wing;
+    ModelPart head;
+    ModelPart body;
+    ModelPart ass;
+    ModelPart Right_L_wing;
+    ModelPart Left_L_wing;
+    ModelPart Right_M_wing;
+    ModelPart Left_M_wing;
     
-    private List<ModelRenderer> wings_left = new LinkedList<ModelRenderer>();
-    private List<ModelRenderer> wings_right = new LinkedList<ModelRenderer>();
+    private List<ModelPart> wings_left = new LinkedList<ModelPart>();
+    private List<ModelPart> wings_right = new LinkedList<ModelPart>();
 
     /**
      * Make a new instance.
      */
-    public ModelPoisonousLibelle() {
-        this.texWidth = 64;
-        this.texHeight = 32;
-
-        head = new ModelRenderer(this, 25, 0);
-        head.addBox(-1.5F, -1.5F, -1.5F, 3, 3, 3);
-        head.setPos(0.5F, 10F, 7F);
-        head.setTexSize(64, 135);
-        head.mirror = true;
+    public ModelPoisonousLibelle(ModelPart modelPart) {
+        head = modelPart.getChild("head");
         setRotation(head, 0F, 0F, 0F);
-        body = new ModelRenderer(this, 38, 0);
-        body.addBox(-1F, -1F, -11F, 2, 2, 11);
-        body.setPos(0.5F, 10F, 6F);
-        body.setTexSize(64, 135);
-        body.mirror = true;
+        body = modelPart.getChild("body");
         setRotation(body, 0F, 0F, 0F);
-        ass = new ModelRenderer(this, 1, 0);
-        ass.addBox(-0.5F, -0.5F, -10F, 1, 1, 10);
-        ass.setPos(0.5F, 10F, -5F);
-        ass.setTexSize(64, 135);
-        ass.mirror = true;
+        ass = modelPart.getChild("ass");
         setRotation(ass, 0F, 0F, 0F);
-        Right_L_wing = new ModelRenderer(this, 0, 17);
-        Right_L_wing.addBox(-8F, 0F, -2F, 8, 1, 4);
-        Right_L_wing.setPos(0F, 9F, 3F);
-        Right_L_wing.setTexSize(64, 135);
-        Right_L_wing.mirror = true;
+        Right_L_wing = modelPart.getChild("Right_L_wing");
         setRotation(Right_L_wing, 0F, 0F, 0.2617994F);
-        Left_L_wing = new ModelRenderer(this, 24, 17);
-        Left_L_wing.addBox(0F, 0F, -2F, 8, 1, 4);
-        Left_L_wing.setPos(0.5F, 9F, 3F);
-        Left_L_wing.setTexSize(64, 135);
-        Left_L_wing.mirror = true;
+        Left_L_wing = modelPart.getChild("Left_L_wing");
         setRotation(Left_L_wing, 0F, 0F, -0.2617994F);
-        Right_M_wing = new ModelRenderer(this, 0, 23);
-        Right_M_wing.addBox(-6F, 0F, -1.5F, 6, 1, 3);
-        Right_M_wing.setPos(0F, 9F, -2F);
-        Right_M_wing.setTexSize(64, 135);
-        Right_M_wing.mirror = true;
+        Right_M_wing = modelPart.getChild("Right_M_wing");
         setRotation(Right_M_wing, 0F, 0F, 0.2617994F);
-        Left_M_wing = new ModelRenderer(this, 18, 23);
-        Left_M_wing.addBox(0F, 0F, -1.5F, 6, 1, 3);
-        Left_M_wing.setPos(1F, 9F, -2F);
-        Left_M_wing.setTexSize(64, 135);
-        Left_M_wing.mirror = true;
+        Left_M_wing = modelPart.getChild("Left_M_wing");
         setRotation(Left_M_wing, 0F, 0F, -0.2617994F);
         
         wings_left.add(Left_L_wing);
@@ -86,7 +60,7 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
         wings_right.add(Right_M_wing);
     }
 
-    private void setRotation(ModelRenderer model, float x, float y, float z) {
+    private void setRotation(ModelPart model, float x, float y, float z) {
         model.xRot = x;
         model.yRot = y;
         model.zRot = z;
@@ -99,14 +73,14 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
         rotateWings(wings_right, wingRotation);
     }
     
-    private void rotateWings(List<ModelRenderer> wings, float rotation) {
-        for(ModelRenderer wing : wings) {
+    private void rotateWings(List<ModelPart> wings, float rotation) {
+        for(ModelPart wing : wings) {
             setRotation(wing, 0F, 0F, rotation);
         }
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         ass.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -114,5 +88,48 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
         Left_L_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         Right_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         Left_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+
+        partdefinition.addOrReplaceChild("head", CubeListBuilder.create()
+                        .texOffs(25, 0)
+                        .addBox(-1.5F, -1.5F, -1.5F, 3, 3, 3)
+                        .mirror(),
+                PartPose.offset(0.5F, 10F, 7F));
+        partdefinition.addOrReplaceChild("body", CubeListBuilder.create()
+                        .texOffs(38, 0)
+                        .addBox(-1F, -1F, -11F, 2, 2, 11)
+                        .mirror(),
+                PartPose.offset(0.5F, 10F, 6F));
+        partdefinition.addOrReplaceChild("ass", CubeListBuilder.create()
+                        .texOffs(1, 0)
+                        .addBox(-0.5F, -0.5F, -10F, 1, 1, 10)
+                        .mirror(),
+                PartPose.offset(0.5F, 10F, -5F));
+        partdefinition.addOrReplaceChild("Right_L_wing", CubeListBuilder.create()
+                        .texOffs(0, 17)
+                        .addBox(-8F, 0F, -2F, 8, 1, 4)
+                        .mirror(),
+                PartPose.offset(0F, 9F, 3F));
+        partdefinition.addOrReplaceChild("Left_L_wing", CubeListBuilder.create()
+                        .texOffs(24, 17)
+                        .addBox(0F, 0F, -2F, 8, 1, 4)
+                        .mirror(),
+                PartPose.offset(0.5F, 9F, 3F));
+        partdefinition.addOrReplaceChild("Right_M_wing", CubeListBuilder.create()
+                        .texOffs(0, 23)
+                        .addBox(-6F, 0F, -1.5F, 6, 1, 3)
+                        .mirror(),
+                PartPose.offset(0F, 9F, -2F));
+        partdefinition.addOrReplaceChild("Left_M_wing", CubeListBuilder.create()
+                        .texOffs(18, 23)
+                        .addBox(0F, 0F, -1.5F, 6, 1, 3)
+                        .mirror(),
+                PartPose.offset(1F, 9F, -2F));
+
+        return LayerDefinition.create(meshdefinition, 64, 135);
     }
 }

@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.client.gui.IHasContainer;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.gui.ScreenFactorySafe;
@@ -20,12 +20,12 @@ public class ContainerSpiritFurnaceConfig extends GuiConfig<ContainerSpiritFurna
     public ContainerSpiritFurnaceConfig() {
         super(EvilCraft._instance,
                 "spirit_furnace",
-                eConfig -> new ContainerType<>(ContainerSpiritFurnace::new));
+                eConfig -> new MenuType<>(ContainerSpiritFurnace::new));
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public <U extends Screen & IHasContainer<ContainerSpiritFurnace>> ScreenManager.IScreenFactory<ContainerSpiritFurnace, U> getScreenFactory() {
+    public <U extends Screen & MenuAccess<ContainerSpiritFurnace>> MenuScreens.ScreenConstructor<ContainerSpiritFurnace, U> getScreenFactory() {
         return new ScreenFactorySafe<>(ContainerScreenSpiritFurnace::new);
     }
 

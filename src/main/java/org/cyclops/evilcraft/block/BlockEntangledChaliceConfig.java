@@ -1,14 +1,19 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IItemRenderProperties;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.render.tileentity.RenderItemStackTileEntityEntangledChalice;
+import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
+
+import java.util.function.Consumer;
 
 /**
  * Config for the {@link BlockEntangledChalice}.
@@ -28,8 +33,13 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
                         .strength(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
-                        .setISTER(() -> RenderItemStackTileEntityEntangledChalice::new))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
+                    @OnlyIn(Dist.CLIENT)
+                    @Override
+                    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+                        consumer.accept(new RenderItemStackBlockEntityEntangledChalice.ItemRenderProperties());
+                    }
+                }
         );
     }
 }

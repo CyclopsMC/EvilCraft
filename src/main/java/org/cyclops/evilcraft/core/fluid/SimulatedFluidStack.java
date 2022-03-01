@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
@@ -13,7 +13,7 @@ public class SimulatedFluidStack extends FluidStack {
         super(fluid, amount);
     }
 
-    public SimulatedFluidStack(Fluid fluid, int amount, CompoundNBT nbt) {
+    public SimulatedFluidStack(Fluid fluid, int amount, CompoundTag nbt) {
         super(fluid, amount, nbt);
     }
 

@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.item.EntityItemEmpowerable;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * An inverted Potentia Sphere.
@@ -45,7 +45,7 @@ public class ItemInvertedPotentia extends Item implements IItemEmpowerable {
     }
     
     @Override
-    public Entity createEntity(World world, Entity location, ItemStack itemStack) {
+    public Entity createEntity(Level world, Entity location, ItemStack itemStack) {
     	return new EntityItemEmpowerable(world, (ItemEntity) location);
     }
 

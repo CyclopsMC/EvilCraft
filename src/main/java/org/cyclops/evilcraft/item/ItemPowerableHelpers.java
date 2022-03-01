@@ -1,12 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
@@ -49,13 +48,13 @@ public class ItemPowerableHelpers {
      * @param onSneak If the action should be executed for a sneaking player.
      * @return If the power level was changed.
      */
-    public static boolean onPowerableItemItemRightClick(ItemStack itemStack, World world, PlayerEntity player, int powerLevels, boolean onSneak) {
+    public static boolean onPowerableItemItemRightClick(ItemStack itemStack, Level world, Player player, int powerLevels, boolean onSneak) {
         if(onSneak == player.isCrouching()) {
             if(!world.isClientSide()) {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
-                player.displayClientMessage(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.set_power", newPower)
-                        .withStyle(TextFormatting.DARK_PURPLE), true);
+                player.displayClientMessage(new TranslatableComponent("item." + Reference.MOD_ID + ".powerable.set_power", newPower)
+                        .withStyle(ChatFormatting.DARK_PURPLE), true);
             }
             return true;
         }
@@ -67,7 +66,7 @@ public class ItemPowerableHelpers {
      * @param itemStack The itemstack with a power
      * @param lines The lines to add the information to.
      */
-    public static void addPreInformation(ItemStack itemStack, List<ITextComponent> lines) {
+    public static void addPreInformation(ItemStack itemStack, List<Component> lines) {
         L10NHelpers.addOptionalInfo(lines, "item." + Reference.MOD_ID + ".powerable");
     }
 
@@ -76,9 +75,9 @@ public class ItemPowerableHelpers {
      * @param itemStack The itemstack with a power
      * @param lines The lines to add the information to.
      */
-    public static void addPostInformation(ItemStack itemStack, List<ITextComponent> lines) {
-        lines.add(new TranslationTextComponent("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
-                .withStyle(TextFormatting.BOLD));
+    public static void addPostInformation(ItemStack itemStack, List<Component> lines) {
+        lines.add(new TranslatableComponent("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
+                .withStyle(ChatFormatting.BOLD));
     }
 	
 }

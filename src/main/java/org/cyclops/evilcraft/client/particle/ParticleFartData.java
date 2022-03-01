@@ -4,29 +4,29 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
-import net.minecraft.particles.IParticleData.IDeserializer;
+import net.minecraft.core.particles.ParticleOptions.Deserializer;
 
 /**
  * @author rubensworks
  */
-public class ParticleFartData implements IParticleData {
+public class ParticleFartData implements ParticleOptions {
 
-    public static final IDeserializer<ParticleFartData> DESERIALIZER = new IDeserializer<ParticleFartData>() {
+    public static final Deserializer<ParticleFartData> DESERIALIZER = new Deserializer<ParticleFartData>() {
         public ParticleFartData fromCommand(ParticleType<ParticleFartData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             boolean rainbow = reader.readBoolean();
             return new ParticleFartData(rainbow);
         }
 
-        public ParticleFartData fromNetwork(ParticleType<ParticleFartData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleFartData fromNetwork(ParticleType<ParticleFartData> particleTypeIn, FriendlyByteBuf buffer) {
             return new ParticleFartData(buffer.readBoolean());
         }
     };
@@ -52,7 +52,7 @@ public class ParticleFartData implements IParticleData {
     }
 
     @Override
-    public void writeToNetwork(PacketBuffer buffer) {
+    public void writeToNetwork(FriendlyByteBuf buffer) {
         buffer.writeBoolean(rainbow);
     }
 

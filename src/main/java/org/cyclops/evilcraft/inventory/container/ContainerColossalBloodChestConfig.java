@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.client.gui.IHasContainer;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.gui.ScreenFactorySafe;
@@ -20,12 +20,12 @@ public class ContainerColossalBloodChestConfig extends GuiConfig<ContainerColoss
     public ContainerColossalBloodChestConfig() {
         super(EvilCraft._instance,
                 "colossal_blood_chest",
-                eConfig -> new ContainerType<>(ContainerColossalBloodChest::new));
+                eConfig -> new MenuType<>(ContainerColossalBloodChest::new));
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public <U extends Screen & IHasContainer<ContainerColossalBloodChest>> ScreenManager.IScreenFactory<ContainerColossalBloodChest, U> getScreenFactory() {
+    public <U extends Screen & MenuAccess<ContainerColossalBloodChest>> MenuScreens.ScreenConstructor<ContainerColossalBloodChest, U> getScreenFactory() {
         return new ScreenFactorySafe<>(ContainerScreenColossalBloodChest::new);
     }
 

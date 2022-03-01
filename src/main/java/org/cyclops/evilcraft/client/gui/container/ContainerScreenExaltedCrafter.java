@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.cyclopscore.client.gui.component.button.ButtonText;
 import org.cyclops.cyclopscore.client.gui.container.ContainerScreenExtended;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -27,7 +27,7 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
     private ButtonText buttonClear;
     private ButtonText buttonBalance;
 
-    public ContainerScreenExaltedCrafter(ContainerExaltedCrafter container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenExaltedCrafter(ContainerExaltedCrafter container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
     }
 
@@ -52,7 +52,7 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
     }
 
     protected boolean handleKeyCode(int keyCode, int scanCode) {
-        InputMappings.Input inputCode = InputMappings.getKey(keyCode, scanCode);
+        InputConstants.Key inputCode = InputConstants.getKey(keyCode, scanCode);
         if (Keys.EXALTEDCRAFTING.isActiveAndMatches(inputCode)) {
             if (MinecraftHelpers.isShifted()) {
                 this.buttonBalance.onPress();
@@ -73,37 +73,32 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
 	@Override
     public void init() {
     	super.init();
-    	this.buttonClear = addButton(new ButtonText( this.leftPos + 88,  this.topPos + 58, 13, 12,
-                new TranslationTextComponent("gui.exalted_crafting.clear"), new StringTextComponent("C"),
+    	this.buttonClear = addRenderableWidget(new ButtonText( this.leftPos + 88,  this.topPos + 58, 13, 12,
+                new TranslatableComponent("gui.exalted_crafting.clear"), new TextComponent("C"),
                 createServerPressable(ContainerExaltedCrafter.BUTTON_CLEAR, (button) -> {}), true));
-        this.buttonBalance = addButton(new ButtonText(this.leftPos + 103, this.topPos + 58, 13, 12,
-                new TranslationTextComponent("gui.exalted_crafting.balance"), new StringTextComponent("B"),
+        this.buttonBalance = addRenderableWidget(new ButtonText(this.leftPos + 103, this.topPos + 58, 13, 12,
+                new TranslatableComponent("gui.exalted_crafting.balance"), new TextComponent("B"),
                 createServerPressable(ContainerExaltedCrafter.BUTTON_BALANCE, (button) -> {}), true));
-        addButton(new ButtonText(this.leftPos + 36, this.topPos + 70, 40, 12,
-                new TranslationTextComponent("gui.exalted_crafting.toggle_return"), new StringTextComponent("..."),
+        addRenderableWidget(new ButtonText(this.leftPos + 36, this.topPos + 70, 40, 12,
+                new TranslatableComponent("gui.exalted_crafting.toggle_return"), new TextComponent("..."),
                 createServerPressable(ContainerExaltedCrafter.BUTTON_TOGGLERETURN, (button) -> {}), true) {
             @Override
-            public ITextComponent getText() {
-                return new StringTextComponent(container.isReturnToInnerInventory() ? "inner" : "player");
+            public Component getText() {
+                return new TextComponent(container.isReturnToInnerInventory() ? "inner" : "player");
             }
         });
     }
     
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+    protected void renderLabels(PoseStack matrixStack, int x, int y) {
     	// super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-    	ItemStack itemStack = container.getItemStack(inventory.player);
-    	ITextComponent name = new TranslationTextComponent("gui.exalted_crafting");
+    	ItemStack itemStack = container.getItemStack(getMinecraft().player);
+    	Component name = new TranslatableComponent("gui.exalted_crafting");
     	if(itemStack.hasCustomHoverName()) {
     		name = itemStack.getHoverName();
     	}
         // MCP: drawString
         this.font.draw(matrixStack, name, 28, 6, 4210752);
-    }
-
-    @Override
-    protected void renderBg(MatrixStack p_230450_1_, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
-        // TODO: rm
     }
 
 }

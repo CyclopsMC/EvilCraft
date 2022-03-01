@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.api.broom;
 
 import com.google.common.collect.Lists;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import org.cyclops.evilcraft.Reference;
 
 import javax.annotation.Nullable;
@@ -37,7 +37,7 @@ public interface IBroomPart {
      * @return The line, null if no line should be shown
      */
     @Nullable
-    public ITextComponent getTooltipLine(String prefix);
+    public Component getTooltipLine(String prefix);
 
     /**
      * @return The length of this part (1.0F = 1 block)

@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
@@ -30,15 +30,15 @@ public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public IParticleFactory<ParticleFartData> getParticleFactory() {
+    public ParticleProvider<ParticleFartData> getParticleFactory() {
         return null;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public ParticleManager.IParticleMetaFactory<ParticleFartData> getParticleMetaFactory() {
-        return sprite -> (IParticleFactory<ParticleFartData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
+    public ParticleEngine.SpriteParticleRegistration<ParticleFartData> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<ParticleFartData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleFart particle = new ParticleFart(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getRainbow());
             particle.pickSprite(sprite);
             return particle;

@@ -1,28 +1,25 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelProperty;
@@ -31,19 +28,17 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
-import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.cyclops.evilcraft.core.block.IBlockTank;
-import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
-import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
-import org.cyclops.evilcraft.tileentity.TileDarkTank;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 
-import java.util.List;
+import javax.annotation.Nullable;
 import java.util.Locale;
 
 /**
@@ -51,7 +46,7 @@ import java.util.Locale;
  * @author rubensworks
  *
  */
-public class BlockDarkTank extends BlockTile implements IBlockTank {
+public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
 
 	public static final String NBT_KEY_DRAINING = "enabled";
 
@@ -62,13 +57,19 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	public static final VoxelShape SHAPE = Block.box(0.125F * 16F, 0.001F * 16F, 0.125F * 16F, 0.875F * 16F, 0.999F * 16F, 0.875F * 16F);
 
     public BlockDarkTank(Block.Properties properties) {
-        super(properties, TileDarkTank::new);
+        super(properties, BlockEntityDarkTank::new);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+		return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DARK_TANK, new BlockEntityDarkTank.TickerServer());
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
@@ -78,8 +79,8 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
-    	TankInventoryTileEntity tile = (TankInventoryTileEntity) world.getBlockEntity(blockPos);
+    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
+    	BlockEntityTankInventory tile = (BlockEntityTankInventory) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
@@ -91,26 +92,26 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult p_225533_6_) {
 		if (FluidUtil.interactWithFluidHandler(player, handIn, worldIn, pos, Direction.UP)) {
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		} else if (!player.isCrouching()) {
-			TileHelpers.getSafeTile(worldIn, pos, TileDarkTank.class)
+			BlockEntityHelpers.get(worldIn, pos, BlockEntityDarkTank.class)
 					.ifPresent(tile -> {
 						tile.setEnabled(!tile.isEnabled());
-						player.displayClientMessage(new StringTextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
+						player.displayClientMessage(new TextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
 								.append(" / ")
 								.append(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
 								.append(" mB"), true);
 					});
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
 		return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
 	}
 
 	@Override
-	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-		return TileHelpers.getSafeTile(world, pos, TileDarkTank.class)
+	public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
+		return BlockEntityHelpers.get(world, pos, BlockEntityDarkTank.class)
 				.map(tile -> tile.getTank().getFluidType() != null
 						? (int) Math.min(15, tile.getFillRatio() * tile.getTank().getFluidType()
 							.getAttributes().getLuminosity(tile.getTank().getFluid()) * 15)
@@ -120,7 +121,7 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 
 	@Override
 	public int getDefaultCapacity() {
-		return TileDarkTank.BASE_CAPACITY;
+		return BlockEntityDarkTank.BASE_CAPACITY;
 	}
 
 	@Override
@@ -129,7 +130,7 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	}
 	
 	@Override
-	public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
+	public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player) {
 		if(player.isCrouching()) {
             if(!world.isClientSide()) {
             	ItemStack activated = itemStack.copy();
@@ -149,15 +150,15 @@ public class BlockDarkTank extends BlockTile implements IBlockTank {
 	}
 
 	@Override
-	public boolean isActivated(ItemStack itemStack, World world) {
+	public boolean isActivated(ItemStack itemStack, Level world) {
 		return itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_DRAINING);
 	}
 
 	@Override
-	public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> list) {
+	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
 		ItemStack itemStack = new ItemStack(this);
 
-		int capacityOriginal = TileDarkTank.BASE_CAPACITY;
+		int capacityOriginal = BlockEntityDarkTank.BASE_CAPACITY;
 		int capacity = capacityOriginal;
 		int lastCapacity;
 		do{

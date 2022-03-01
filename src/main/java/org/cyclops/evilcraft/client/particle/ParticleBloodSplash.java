@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.RainParticle;
+import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.client.particle.SplashParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -19,9 +19,9 @@ import java.util.Random;
  * @see SplashParticle
  */
 @OnlyIn(Dist.CLIENT)
-public class ParticleBloodSplash extends RainParticle {
+public class ParticleBloodSplash extends WaterDropParticle {
 
-    public ParticleBloodSplash(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+    public ParticleBloodSplash(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn);
         this.gravity = 0.04F;
         if (ySpeedIn == 0.0D && (xSpeedIn != 0.0D || zSpeedIn != 0.0D)) {
@@ -31,7 +31,7 @@ public class ParticleBloodSplash extends RainParticle {
         }
     }
 
-    public static void spawnParticles(World world, BlockPos blockPos, int velocity, int amount) {
+    public static void spawnParticles(Level world, BlockPos blockPos, int velocity, int amount) {
         Random random = new Random();
         for (int i = 0; i < amount; i++) {
             float x_r = blockPos.getX() + random.nextFloat();

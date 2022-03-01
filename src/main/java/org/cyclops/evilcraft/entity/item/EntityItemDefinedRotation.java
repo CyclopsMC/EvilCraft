@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.core.entity.item.EntityItemExtended;
 
 /**
@@ -12,11 +12,11 @@ import org.cyclops.evilcraft.core.entity.item.EntityItemExtended;
  */
 public abstract class EntityItemDefinedRotation extends EntityItemExtended {
 
-	public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, World world, ItemEntity original) {
+	public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, Level world, ItemEntity original) {
         super(type, world, original);
     }
 
-	public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, World world) {
+	public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, Level world) {
 		super(type, world);
 	}
 	

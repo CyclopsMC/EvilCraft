@@ -1,20 +1,18 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.MobSpawnInfo;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import org.cyclops.evilcraft.core.degradation.StochasticDegradationEffect;
 
-import java.util.Random;
+import java.util.Optional;
 
 /**
  * Degradation that will eventually spawn mobs in the area.
@@ -37,23 +35,23 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     @SuppressWarnings("unchecked")
     @Override
     public void runServerSide(IDegradable degradable) {
-        ServerWorld world = (ServerWorld) degradable.getDegradationWorld();
+        ServerLevel world = (ServerLevel) degradable.getDegradationWorld();
         BlockPos spawn = LocationHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
         float x = spawn.getX() + 0.5F;
         float y = spawn.getY();
         float z = spawn.getZ() + 0.5F;
-        MobSpawnInfo.Spawners spawnlistentry = WeightedRandom.getRandomItem(new Random(), world.getBiome(spawn).getMobSettings().getMobs(EntityClassification.MONSTER));
-        MobEntity entityliving;
+        Optional<MobSpawnSettings.SpawnerData> spawnlistentry = world.getBiome(spawn).getMobSettings().getMobs(MobCategory.MONSTER).getRandom(world.random);
+        Mob entityliving;
 
         try {
-            entityliving = (MobEntity)spawnlistentry.type.create(world);
+            entityliving = (Mob)spawnlistentry.get().type.create(world);
         } catch (Exception exception) {
             exception.printStackTrace();
             return;
         }
 
         entityliving.moveTo((double)x, (double)y, (double)z, world.random.nextFloat() * 360.0F, 0.0F);
-        EntityHelpers.spawnEntity(world, entityliving, SpawnReason.MOB_SUMMONED);
+        EntityHelpers.spawnEntity(world, entityliving, MobSpawnType.MOB_SUMMONED);
     }
 
 }

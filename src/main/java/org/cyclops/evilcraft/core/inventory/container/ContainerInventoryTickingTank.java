@@ -1,13 +1,12 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.inventory.container.InventoryContainer;
-import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.function.Supplier;
  *
  * @param <T> The TickingTankInventoryTileEntity class.
  */
-public class ContainerInventoryTickingTank<T extends TickingTankInventoryTileEntity<T>> extends InventoryContainer {
+public class ContainerInventoryTickingTank<T extends BlockEntityTickingTankInventory<T>> extends InventoryContainer {
 
     private final Optional<T> tileSupplier;
     private final List<Supplier<Integer>> variablesMaxProgress;
@@ -28,8 +27,8 @@ public class ContainerInventoryTickingTank<T extends TickingTankInventoryTileEnt
     private final Supplier<FluidStack> variableFluidStack;
     private final Supplier<Integer> variableFluidCapacity;
 
-    public ContainerInventoryTickingTank(@Nullable ContainerType<?> type, int id, PlayerInventory playerInventory,
-                                         IInventory inventory, Optional<T> tileSupplier, int tickers) {
+    public ContainerInventoryTickingTank(@Nullable MenuType<?> type, int id, Inventory playerInventory,
+                                         Container inventory, Optional<T> tileSupplier, int tickers) {
         super(type, id, playerInventory, inventory);
         this.variablesMaxProgress = Lists.newArrayList();
         this.variablesProgress = Lists.newArrayList();
@@ -62,10 +61,5 @@ public class ContainerInventoryTickingTank<T extends TickingTankInventoryTileEnt
 
     public int getFluidCapacity() {
         return variableFluidCapacity.get();
-    }
-
-    @Override
-    public boolean stillValid(PlayerEntity p_75145_1_) {
-        return false; // TODO: rm
     }
 }

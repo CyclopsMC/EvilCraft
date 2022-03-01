@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.helper;
 
-import net.minecraft.client.renderer.texture.AtlasTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -22,5 +22,5 @@ public class RenderHelpers {
     /**
      * Texture sheet of all blocks.
      */
-    public static ResourceLocation TEXTURE_MAP = AtlasTexture.LOCATION_BLOCKS;
+    public static ResourceLocation TEXTURE_MAP = TextureAtlas.LOCATION_BLOCKS;
 }

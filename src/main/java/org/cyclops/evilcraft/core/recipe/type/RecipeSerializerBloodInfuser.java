@@ -2,12 +2,12 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
@@ -18,24 +18,24 @@ import javax.annotation.Nullable;
  * Recipe serializer for blood infuser recipes
  * @author rubensworks
  */
-public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSerializer<?>>
-        implements IRecipeSerializer<RecipeBloodInfuser> {
+public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<RecipeSerializer<?>>
+        implements RecipeSerializer<RecipeBloodInfuser> {
 
     @Override
     public RecipeBloodInfuser fromJson(ResourceLocation recipeId, JsonObject json) {
-        JsonObject result = JSONUtils.getAsJsonObject(json, "result");
+        JsonObject result = GsonHelper.getAsJsonObject(json, "result");
 
         // Input
         Ingredient inputIngredient = RecipeSerializerHelpers.getJsonIngredient(json, "item", false);
         FluidStack inputFluid = RecipeSerializerHelpers.getJsonFluidStack(json, "fluid", false);
-        int inputTier = JSONUtils.getAsInt(json, "tier", 0);
+        int inputTier = GsonHelper.getAsInt(json, "tier", 0);
 
         // Output
         ItemStack outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);
 
         // Other stuff
-        int duration = JSONUtils.getAsInt(json, "duration");
-        float xp = JSONUtils.getAsFloat(json, "xp", 0);
+        int duration = GsonHelper.getAsInt(json, "duration");
+        float xp = GsonHelper.getAsFloat(json, "xp", 0);
 
         // Validation
         if (inputIngredient.isEmpty() && inputFluid.isEmpty()) {
@@ -59,7 +59,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSeri
 
     @Nullable
     @Override
-    public RecipeBloodInfuser fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
+    public RecipeBloodInfuser fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
         // Input
         Ingredient inputIngredient = Ingredient.fromNetwork(buffer);
         FluidStack inputFluid = FluidStack.readFromPacket(buffer);
@@ -76,7 +76,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<IRecipeSeri
     }
 
     @Override
-    public void toNetwork(PacketBuffer buffer, RecipeBloodInfuser recipe) {
+    public void toNetwork(FriendlyByteBuf buffer, RecipeBloodInfuser recipe) {
         // Input
         recipe.getInputIngredient().toNetwork(buffer);
         recipe.getInputFluid().writeToPacket(buffer);

@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import org.cyclops.evilcraft.core.degradation.StochasticDegradationEffect;
@@ -32,11 +32,11 @@ public class SoundDegradation extends StochasticDegradationEffect {
     @Override
     public void runServerSide(IDegradable degradable) {
         Random random = degradable.getDegradationWorld().random;
-        World world = degradable.getDegradationWorld();
+        Level world = degradable.getDegradationWorld();
         for(Entity entity : degradable.getAreaEntities()) {
-            if(entity instanceof PlayerEntity) {
-                world.playSound((PlayerEntity) entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLAZE_AMBIENT, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-                world.playSound((PlayerEntity) entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDER_DRAGON_FLAP, SoundCategory.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            if(entity instanceof Player) {
+                world.playSound((Player) entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BLAZE_AMBIENT, SoundSource.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                world.playSound((Player) entity, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENDER_DRAGON_FLAP, SoundSource.AMBIENT, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
             }
         }
     }

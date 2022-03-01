@@ -1,18 +1,18 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * A ring that allows the player to walk faster with a double step height.
@@ -42,10 +42,10 @@ public class ItemEffortlessRing extends Item {
      * @param itemStack The item.
      * @param player The player.
      */
-    public void adjustParameters(ItemStack itemStack, PlayerEntity player) {
+    public void adjustParameters(ItemStack itemStack, Player player) {
         // Speed
         if(player.zza > 0 && player.isOnGround()) {
-            player.moveRelative(player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS, new Vector3d(0, 0, 1));
+            player.moveRelative(player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS, new Vec3(0, 0, 1));
         }
 
         // Step height
@@ -61,8 +61,8 @@ public class ItemEffortlessRing extends Item {
     }
 
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
-        if(event.getEntityLiving() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+        if(event.getEntityLiving() instanceof Player) {
+            Player player = (Player) event.getEntityLiving();
             if(ItemStackHelpers.hasPlayerItem(player, this)) {
                 player.setDeltaMovement(player.getDeltaMovement().add(0, JUMP_HEIGHT_FACTOR, 0));;
             }
@@ -71,8 +71,8 @@ public class ItemEffortlessRing extends Item {
 
     public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
         // Reset the step height.
-        if(event.getEntityLiving() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+        if(event.getEntityLiving() instanceof Player) {
+            Player player = (Player) event.getEntityLiving();
             if(player.getPersistentData().contains(PLAYER_NBT_KEY)) {
                 if (!ItemStackHelpers.hasPlayerItem(player, this)) {
                     player.maxUpStep = player.getPersistentData().getFloat(PLAYER_NBT_KEY);
@@ -83,8 +83,8 @@ public class ItemEffortlessRing extends Item {
     }
 
     public void onPlayerFall(LivingFallEvent event) {
-        if(event.getEntityLiving() instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+        if(event.getEntityLiving() instanceof Player) {
+            Player player = (Player) event.getEntityLiving();
             if(ItemStackHelpers.hasPlayerItem(player, this)) {
                 event.setDistance(event.getDistance() - FALLDISTANCE_REDUCTION);
             }
@@ -92,9 +92,9 @@ public class ItemEffortlessRing extends Item {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if(entityIn instanceof PlayerEntity) {
-            adjustParameters(stack, (PlayerEntity) entityIn);
+    public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+        if(entityIn instanceof Player) {
+            adjustParameters(stack, (Player) entityIn);
         }
         super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
     }

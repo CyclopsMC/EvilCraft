@@ -1,91 +1,103 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.FluidUtil;
-import org.cyclops.cyclopscore.block.BlockTile;
+import org.cyclops.cyclopscore.block.BlockWithEntity;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.TileHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.core.block.IBlockTank;
-import org.cyclops.evilcraft.tileentity.TilePurifier;
+
+import javax.annotation.Nullable;
 
 /**
  * Block that can remove bad enchants from items.
  * @author rubensworks
  *
  */
-public class BlockPurifier extends BlockTile implements IBlockTank {
+public class BlockPurifier extends BlockWithEntity implements IBlockTank {
 
     private static final VoxelShape INSIDE = box(2.0D, 4.0D, 2.0D, 14.0D, 16.0D, 14.0D);
-    protected static final VoxelShape SHAPE = VoxelShapes.join(
-            VoxelShapes.block(),
-            VoxelShapes.or(
+    protected static final VoxelShape SHAPE = Shapes.join(
+            Shapes.block(),
+            Shapes.or(
                     box(0.0D, 0.0D, 4.0D, 16.0D, 3.0D, 12.0D),
                     box(4.0D, 0.0D, 0.0D, 12.0D, 3.0D, 16.0D),
                     box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D),
                     INSIDE),
-            IBooleanFunction.ONLY_FIRST);
+            BooleanOp.ONLY_FIRST);
 
     public BlockPurifier(Block.Properties properties) {
-        super(properties, TilePurifier::new);
+        super(properties, BlockEntityPurifier::new);
     }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos blockPos, PlayerEntity player, Hand hand, BlockRayTraceResult p_225533_6_) {
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_PURIFIER, new BlockEntityPurifier.Ticker());
+    }
+
+    @Override
+    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult p_225533_6_) {
         if(world.isClientSide()) {
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
-            ItemStack itemStack = player.inventory.getSelected();
-            TilePurifier tile = (TilePurifier) world.getBlockEntity(blockPos);
+            ItemStack itemStack = player.getInventory().getSelected();
+            BlockEntityPurifier tile = (BlockEntityPurifier) world.getBlockEntity(blockPos);
             if(tile != null) {
                 if (itemStack.isEmpty() && !tile.getPurifyItem().isEmpty()) {
-                    player.inventory.setItem(player.inventory.selected, tile.getPurifyItem());
+                    player.getInventory().setItem(player.getInventory().selected, tile.getPurifyItem());
                     tile.setPurifyItem(ItemStack.EMPTY);
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 } else if (itemStack.isEmpty() && !tile.getAdditionalItem().isEmpty()) {
-                    player.inventory.setItem(player.inventory.selected, tile.getAdditionalItem());
+                    player.getInventory().setItem(player.getInventory().selected, tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
                     copy.setCount(1);
                     tile.setAdditionalItem(copy);
                     itemStack.shrink(1);
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 } else if(!itemStack.isEmpty() && tile.getActions().isItemValidForMainSlot(itemStack) && tile.getPurifyItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
                     copy.setCount(1);
                     tile.setPurifyItem(copy);
                     itemStack.shrink(1);
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
         }
-        return ActionResultType.FAIL;
+        return InteractionResult.FAIL;
     }
 
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
-    public VoxelShape getInteractionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getInteractionShape(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return INSIDE;
     }
 
@@ -95,16 +107,16 @@ public class BlockPurifier extends BlockTile implements IBlockTank {
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState blockState, World world, BlockPos blockPos) {
-        TilePurifier tile = (TilePurifier) world.getBlockEntity(blockPos);
+    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
+        BlockEntityPurifier tile = (BlockEntityPurifier) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
 
     @Override
-    public void onRemove(BlockState oldState, World world, BlockPos blockPos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
         if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            TileHelpers.getSafeTile(world, blockPos, TilePurifier.class)
+            BlockEntityHelpers.get(world, blockPos, BlockEntityPurifier.class)
                     .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
         }
         super.onRemove(oldState, world, blockPos, newState, isMoving);
@@ -112,7 +124,7 @@ public class BlockPurifier extends BlockTile implements IBlockTank {
 
     @Override
     public int getDefaultCapacity() {
-        return FluidHelpers.BUCKET_VOLUME * TilePurifier.MAX_BUCKETS;
+        return FluidHelpers.BUCKET_VOLUME * BlockEntityPurifier.MAX_BUCKETS;
     }
 
     @Override
@@ -121,12 +133,12 @@ public class BlockPurifier extends BlockTile implements IBlockTank {
     }
 
     @Override
-    public ItemStack toggleActivation(ItemStack itemStack, World world, PlayerEntity player) {
+    public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player) {
         return itemStack;
     }
 
     @Override
-    public boolean isActivated(ItemStack itemStack, World world) {
+    public boolean isActivated(ItemStack itemStack, Level world) {
         return false;
     }
 }

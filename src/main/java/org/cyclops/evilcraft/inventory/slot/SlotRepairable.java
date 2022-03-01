@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.inventory.slot;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 
@@ -20,7 +20,7 @@ public class SlotRepairable extends Slot {
      * @param x X coordinate.
      * @param y Y coordinate.
      */
-    public SlotRepairable(IInventory inventory, int index, int x,
+    public SlotRepairable(Container inventory, int index, int x,
             int y) {
         super(inventory, index, x, y);
     }

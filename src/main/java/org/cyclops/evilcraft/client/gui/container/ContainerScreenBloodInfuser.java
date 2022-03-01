@@ -1,21 +1,21 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockBloodInfuser;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodInfuser;
-import org.cyclops.evilcraft.tileentity.TileBloodInfuser;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 
 /**
  * GUI for the {@link BlockBloodInfuser}.
  * @author rubensworks
  *
  */
-public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<ContainerBloodInfuser, TileBloodInfuser> {
+public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<ContainerBloodInfuser, BlockEntityBloodInfuser> {
     
     /**
      * Texture width.
@@ -76,15 +76,15 @@ public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<Cont
      */
     public static final int PROGRESSTARGETY = 36;
 
-    public ContainerScreenBloodInfuser(ContainerBloodInfuser container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenBloodInfuser(ContainerBloodInfuser container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
     }
 
     @Override
-    protected ITextComponent getName() {
-        return new TranslationTextComponent("block.evilcraft.blood_infuser");
+    protected Component getName() {
+        return new TranslatableComponent("block.evilcraft.blood_infuser");
     }
 
     @Override

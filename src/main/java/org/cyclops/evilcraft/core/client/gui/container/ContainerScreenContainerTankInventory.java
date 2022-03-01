@@ -1,20 +1,21 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.util.Direction;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.ContainerScreenExtended;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.evilcraft.core.inventory.container.ContainerInventoryTickingTank;
-import org.cyclops.evilcraft.core.tileentity.TankInventoryTileEntity;
-import org.cyclops.evilcraft.core.tileentity.TickingTankInventoryTileEntity;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -23,9 +24,9 @@ import java.util.List;
  * A GUI container that has support for the display of inventories and a tank.
  * @author rubensworks
  *
- * @param <T> The {@link TankInventoryTileEntity} class, mostly just the extension class.
+ * @param <T> The {@link BlockEntityTankInventory} class, mostly just the extension class.
  */
-public abstract class ContainerScreenContainerTankInventory<C extends ContainerInventoryTickingTank<T>, T extends TickingTankInventoryTileEntity<T>>
+public abstract class ContainerScreenContainerTankInventory<C extends ContainerInventoryTickingTank<T>, T extends BlockEntityTickingTankInventory<T>>
         extends ContainerScreenExtended<C> {
 	
     private boolean showTank = false;
@@ -44,7 +45,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     private int progressTargetX;
     private int progressTargetY;
 
-    public ContainerScreenContainerTankInventory(C container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenContainerTankInventory(C container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
     }
 
@@ -81,28 +82,28 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float f, int x, int y) {
-        // super.renderBg(matrixStack, f, x, y); // TODO: restore
+    protected void renderBg(PoseStack matrixStack, float f, int x, int y) {
+        super.renderBg(matrixStack, f, x, y);
         if(isShowProgress()) {
             this.blit(matrixStack, leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
             		getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
 
-    protected abstract ITextComponent getName();
+    protected abstract Component getName();
     
-	protected void drawForgegroundString(MatrixStack matrixStack) {
+	protected void drawForgegroundString(PoseStack matrixStack) {
 	    // MCP: drawString
     	font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
     
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         drawForgegroundString(matrixStack);
         RenderHelpers.bindTexture(texture);
         GlStateManager._enableBlend();
         GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager._color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         FluidStack fluidStack = getMenu().getFluidStack();
         if(shouldRenderTank(fluidStack) && getMenu().getFluidCapacity() > 0) {
             int tankSize = Math.min(getMenu().getFluidCapacity(), Math.min(getMenu().getFluidCapacity(), fluidStack.getAmount()) * tankHeight / getMenu().getFluidCapacity());
@@ -112,14 +113,14 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         GlStateManager._disableBlend();
     }
     
-	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
+	protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
     	
     }
     
     @Override
-    public void drawCurrentScreen(MatrixStack matrixStack, int mouseX, int mouseY, float gameTicks) {
+    public void drawCurrentScreen(PoseStack matrixStack, int mouseX, int mouseY, float gameTicks) {
         super.drawCurrentScreen(matrixStack, mouseX, mouseY, gameTicks);
-        drawTooltips(mouseX, mouseY);
+        drawTooltips(matrixStack, mouseX, mouseY);
     }
     
 	protected boolean shouldRenderTank(FluidStack fluidStack) {
@@ -128,7 +129,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         return fluidStack.getAmount() > 0;
     }
     
-	protected void drawTank(MatrixStack matrixStack, int xOffset, int yOffset, Fluid fluid, int level) {
+	protected void drawTank(PoseStack matrixStack, int xOffset, int yOffset, Fluid fluid, int level) {
         if(fluid != null) {
             FluidStack stack = new FluidStack(fluid, 1);
             TextureAtlasSprite icon = RenderHelpers.getFluidIcon(stack, Direction.UP);
@@ -156,19 +157,19 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         }
     }
     
-	protected void drawTooltips(int mouseX, int mouseY) {
+	protected void drawTooltips(PoseStack poseStack, int mouseX, int mouseY) {
         FluidStack fluidStack = getMenu().getFluidStack();
         if(isHovering(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
-            ITextComponent fluidName = fluidStack.getDisplayName();
-            drawBarTooltipTank(fluidName, fluidStack, fluidStack.getAmount(), getMenu().getFluidCapacity(), mouseX, mouseY);
+            Component fluidName = fluidStack.getDisplayName();
+            drawBarTooltipTank(poseStack, fluidName, fluidStack, fluidStack.getAmount(), getMenu().getFluidCapacity(), mouseX, mouseY);
         }
     }
     
-	protected void drawBarTooltipTank(ITextComponent name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
-        List<ITextComponent> lines = Lists.newArrayList();
+	protected void drawBarTooltipTank(PoseStack poseStack, Component name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
+        List<Component> lines = Lists.newArrayList();
         lines.add(name);
         lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));
-        drawTooltip(lines, x, y);
+        drawTooltip(lines, poseStack, x, y);
     }
 
 }

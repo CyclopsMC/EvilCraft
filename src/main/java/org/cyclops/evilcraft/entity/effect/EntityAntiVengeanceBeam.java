@@ -1,22 +1,22 @@
 package org.cyclops.evilcraft.entity.effect;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -31,30 +31,30 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class EntityAntiVengeanceBeam extends ThrowableEntity {
+public class EntityAntiVengeanceBeam extends ThrowableProjectile {
 	
 	private static final int MAX_AGE = 10 * 20;
     
     private int age = 0;
     private int soundTick = 0;
 
-    public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, World world) {
+    public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, Level world) {
         super(type, world);
         setDeltaMovement(getDeltaMovement().multiply(0.25, 0.25, 0.25));
     }
 
-    public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, World world, LivingEntity entity) {
+    public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, Level world, LivingEntity entity) {
         super(type, entity, world);
         setDeltaMovement(getDeltaMovement().multiply(0.25, 0.25, 0.25));
     }
 
-    public EntityAntiVengeanceBeam(World world, LivingEntity entity) {
+    public EntityAntiVengeanceBeam(Level world, LivingEntity entity) {
         super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM, entity, world);
     }
 
     @Nonnull
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
     
@@ -64,8 +64,8 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
     }
 
     @Nullable
-    protected EntityRayTraceResult rayTraceEntities(Vector3d startVec, Vector3d endVec) {
-        return ProjectileHelper.getEntityHitResult(this.level, this, startVec, endVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D),
+    protected EntityHitResult rayTraceEntities(Vec3 startVec, Vec3 endVec) {
+        return ProjectileUtil.getEntityHitResult(this.level, this, startVec, endVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D),
                 (entity) -> !entity.isSpectator() && entity.isAlive() && entity.isPickable() && (entity != this.getOwner()));
     }
 
@@ -76,12 +76,12 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
 
     @Override
     public void tick() {
-        Vector3d motion = getDeltaMovement();
-    	Vector3d vec3 = new Vector3d(this.getX(), this.getY(), this.getZ());
-        Vector3d vec31 = new Vector3d(this.getX(), this.getY(), this.getZ()).add(motion);
-        EntityRayTraceResult entityRayTraceResult = this.rayTraceEntities(vec3, vec31);
-        vec3 = new Vector3d(this.getX(), this.getY(), this.getZ());
-        vec31 = new Vector3d(this.getX(), this.getY(), this.getZ()).add(motion);
+        Vec3 motion = getDeltaMovement();
+    	Vec3 vec3 = new Vec3(this.getX(), this.getY(), this.getZ());
+        Vec3 vec31 = new Vec3(this.getX(), this.getY(), this.getZ()).add(motion);
+        EntityHitResult entityRayTraceResult = this.rayTraceEntities(vec3, vec31);
+        vec3 = new Vec3(this.getX(), this.getY(), this.getZ());
+        vec31 = new Vec3(this.getX(), this.getY(), this.getZ()).add(motion);
         
         soundTick++;
         if(soundTick > 3 && this.getId() % 10 == 0) {
@@ -97,8 +97,8 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
             for (Entity entity1 : list) {
                 if (entity1 instanceof EntityVengeanceSpirit && !((EntityVengeanceSpirit) entity1).isSwarm()) {
                     float f = 0.3F;
-                    AxisAlignedBB axisalignedbb = entity1.getBoundingBox().inflate((double) f);
-                    EntityRayTraceResult movingobjectposition1 = ProjectileHelper.getEntityHitResult(level, this, vec3, vec31, axisalignedbb, (e) -> true);
+                    AABB axisalignedbb = entity1.getBoundingBox().inflate((double) f);
+                    EntityHitResult movingobjectposition1 = ProjectileUtil.getEntityHitResult(level, this, vec3, vec31, axisalignedbb, (e) -> true);
 
                     if (movingobjectposition1 != null) {
                         double d1 = vec3.distanceTo(movingobjectposition1.getLocation());
@@ -112,7 +112,7 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
             }
 
             if (entity != null) {
-                entityRayTraceResult = new EntityRayTraceResult(entity);
+                entityRayTraceResult = new EntityHitResult(entity);
             }
         } else {
         	for(int i = 0; i < level.random.nextInt(5) + 5; i++) {
@@ -121,7 +121,7 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
         	if(soundTick == 1) {
 	        	// Play beam sound
 	        	level.playLocalSound(getX(), getY(), getZ(),
-                        EvilCraftSoundEvents.effect_vengeancebeam_base, SoundCategory.NEUTRAL,
+                        EvilCraftSoundEvents.effect_vengeancebeam_base, SoundSource.NEUTRAL,
                         0.5F + level.random.nextFloat() * 0.2F, 1.0F, false);
         	}
         }
@@ -131,7 +131,7 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
         }
     	
     	if(age++ > MAX_AGE) {
-    		this.remove();
+    		this.remove(RemovalReason.DISCARDED);
     	}
     	
     	super.tick();
@@ -144,7 +144,7 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
         float green = random.nextFloat() * 0.03F;
         float blue = random.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (random.nextDouble() * 6.5D + 4D);
-        Vector3d motion = getDeltaMovement();
+        Vec3 motion = getDeltaMovement();
 
         Minecraft.getInstance().levelRenderer.addParticle(
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
@@ -157,22 +157,22 @@ public class EntityAntiVengeanceBeam extends ThrowableEntity {
     }
 
     protected void applyHitEffect(Entity entity) {
-        if (entity instanceof EntityVengeanceSpirit) {
-            Vector3d motion = getDeltaMovement();
-            ((EntityVengeanceSpirit) entity).onHit(getX(), getY(), getZ(), motion.x, motion.y, motion.z);
-            if (getOwner() instanceof ServerPlayerEntity) {
-                ((EntityVengeanceSpirit) entity).addEntanglingPlayer((ServerPlayerEntity) getOwner());
+        if (entity instanceof EntityVengeanceSpirit spirit) {
+            Vec3 motion = getDeltaMovement();
+            spirit.onHit(getX(), getY(), getZ(), motion.x, motion.y, motion.z);
+            if (getOwner() instanceof ServerPlayer owner) {
+                spirit.addEntanglingPlayer(owner);
             }
         }
     }
 
     @Override
-    protected void onHit(RayTraceResult position) {
+    protected void onHit(HitResult position) {
         if (!this.level.isClientSide()) {
-            if (position.getType() == RayTraceResult.Type.ENTITY && this.getOwner() != null && this.getOwner() instanceof ServerPlayerEntity) {
-                applyHitEffect(((EntityRayTraceResult) position).getEntity());
+            if (position.getType() == HitResult.Type.ENTITY && this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
+                applyHitEffect(((EntityHitResult) position).getEntity());
             }
         }
-        this.remove();
+        this.remove(RemovalReason.DISCARDED);
     }
 }

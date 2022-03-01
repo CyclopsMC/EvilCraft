@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import org.cyclops.cyclopscore.client.gui.container.ContainerScreenExtended;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.inventory.container.ContainerPrimedPendant;
@@ -19,7 +19,7 @@ public class ContainerScreenPrimedPendant extends ContainerScreenExtended<Contai
 
 	private static final int TEXTUREHEIGHT = 165;
 
-    public ContainerScreenPrimedPendant(ContainerPrimedPendant container, PlayerInventory inventory, ITextComponent title) {
+    public ContainerScreenPrimedPendant(ContainerPrimedPendant container, Inventory inventory, Component title) {
         super(container, inventory, title);
     }
 
@@ -34,16 +34,11 @@ public class ContainerScreenPrimedPendant extends ContainerScreenExtended<Contai
     }
 
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+    protected void renderLabels(PoseStack matrixStack, int x, int y) {
         // super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-        ItemStack itemStack = container.getItemStack(inventory.player);
+        ItemStack itemStack = container.getItemStack(getMinecraft().player);
         // MCP: drawString
         this.font.draw(matrixStack, itemStack.getHoverName(), 28, 6, 4210752);
-    }
-
-    @Override
-    protected void renderBg(MatrixStack p_230450_1_, float p_230450_2_, int p_230450_3_, int p_230450_4_) {
-        // TODO: rm
     }
 
 }

@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -44,14 +44,14 @@ public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrga
     }
 
     @Override
-    public boolean isDone(World world, BlockPos location) {
+    public boolean isDone(Level world, BlockPos location) {
         return world.getBiome(location) == RegistryEntries.BIOME_DEGRADED;
     }
 
     @Override
-    public void spreadTo(World world, BlockPos location) {
+    public void spreadTo(Level world, BlockPos location) {
         if (!world.isClientSide()) {
-            EntityBiomeExtract.setBiome((ServerWorld) world, location, RegistryEntries.BIOME_DEGRADED);
+            EntityBiomeExtract.setBiome((ServerLevel) world, location, RegistryEntries.BIOME_DEGRADED);
             EntityBiomeExtract.updateChunkAfterBiomeChange(world, new ChunkPos(location));
         }
     }

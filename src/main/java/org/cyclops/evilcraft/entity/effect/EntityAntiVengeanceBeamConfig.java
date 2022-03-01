@@ -1,11 +1,12 @@
 package org.cyclops.evilcraft.entity.effect;
 
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -23,15 +24,15 @@ public class EntityAntiVengeanceBeamConfig extends EntityConfig<EntityAntiVengea
         super(
                 EvilCraft._instance,
                 "anti_vengeance_beam",
-                eConfig -> EntityType.Builder.<EntityAntiVengeanceBeam>of(EntityAntiVengeanceBeam::new, EntityClassification.MISC)
+                eConfig -> EntityType.Builder.<EntityAntiVengeanceBeam>of(EntityAntiVengeanceBeam::new, MobCategory.MISC)
                         .setShouldReceiveVelocityUpdates(true)
         );
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<Entity> getRender(EntityRendererManager renderManager, ItemRenderer renderItem) {
-    	return new RenderNull(renderManager);
+    public EntityRenderer<Entity> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+    	return new RenderNull(renderContext);
     }
     
 }

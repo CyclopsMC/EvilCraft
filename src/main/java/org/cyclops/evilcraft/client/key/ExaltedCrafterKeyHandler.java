@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.client.key;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,20 +25,20 @@ import org.cyclops.evilcraft.network.packet.ExaltedCrafterOpenPacket;
 public class ExaltedCrafterKeyHandler implements IKeyHandler {
 	
 	@Override
-	public void onKeyPressed(KeyBinding kb) {
-		ClientPlayerEntity player = Minecraft.getInstance().player;
+	public void onKeyPressed(KeyMapping kb) {
+		LocalPlayer player = Minecraft.getInstance().player;
 		if(kb == Keys.EXALTEDCRAFTING) {
-			Triple<Integer, Hand, ItemStack> found = null;
+			Triple<Integer, InteractionHand, ItemStack> found = null;
 			PlayerInventoryIterator it = new PlayerInventoryIterator(player);
 			while(it.hasNext() && found == null) {
 				Pair<Integer, ItemStack> pair = it.nextIndexed();
 				if(pair.getRight() != null && pair.getRight().getItem() instanceof ItemExaltedCrafter) {
-					found = Triple.of(pair.getLeft(), Hand.MAIN_HAND, pair.getRight());
+					found = Triple.of(pair.getLeft(), InteractionHand.MAIN_HAND, pair.getRight());
 				}
 			}
 			if(found == null) {
 				if (player.getOffhandItem().getItem() instanceof ItemExaltedCrafter) {
-					found = Triple.of(0, Hand.OFF_HAND, player.getOffhandItem());
+					found = Triple.of(0, InteractionHand.OFF_HAND, player.getOffhandItem());
 				}
 			}
 			if(found != null) {

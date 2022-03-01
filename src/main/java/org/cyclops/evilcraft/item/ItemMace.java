@@ -3,24 +3,24 @@ package org.cyclops.evilcraft.item;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
@@ -36,7 +36,7 @@ import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 
 import java.util.List;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * An abstract powerable mace.
@@ -59,26 +59,26 @@ public abstract class ItemMace extends ItemBloodContainer {
         this.meleeDamage = meleeDamage;
     }
     
-    protected boolean isUsable(ItemStack itemStack, PlayerEntity player) {
+    protected boolean isUsable(ItemStack itemStack, Player player) {
         return canConsume(1, itemStack, player);
     }
     
     @Override
     public boolean hurtEnemy(ItemStack itemStack, LivingEntity attacked, LivingEntity attacker) {
-        if(attacker instanceof PlayerEntity && isUsable(itemStack, (PlayerEntity) attacker)) {
+        if(attacker instanceof Player && isUsable(itemStack, (Player) attacker)) {
             FluidUtil.getFluidHandler(itemStack).orElseGet(null).drain(hitUsage, IFluidHandler.FluidAction.EXECUTE);
         }
         return true;
     }
     
     @Override
-    public boolean onLeftClickEntity(ItemStack itemStack, PlayerEntity player, Entity entity) {
+    public boolean onLeftClickEntity(ItemStack itemStack, Player player, Entity entity) {
         return !isUsable(itemStack, player);
     }
 
     @Override
-    public UseAction getUseAnimation(ItemStack stack) {
-        return UseAction.BOW;
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.BOW;
     }
     
     @Override
@@ -87,7 +87,7 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
     
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, this.powerLevels, true)) {
             return MinecraftHelpers.successAction(itemStack);
@@ -98,16 +98,16 @@ public abstract class ItemMace extends ItemBloodContainer {
             } else {
                 if(world.isClientSide()) {
                     animateOutOfEnergy(world, player);
-                    return new ActionResult<ItemStack>(ActionResultType.FAIL, itemStack);
+                    return new InteractionResultHolder<ItemStack>(InteractionResult.FAIL, itemStack);
                 }
             }
         }
-        return new ActionResult<ItemStack>(ActionResultType.PASS, itemStack);
+        return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, itemStack);
     }
     
     @Override
     public void onUsingTick(ItemStack itemStack, LivingEntity player, int duration) {
-        World world = player.level;
+        Level world = player.level;
         if(world.isClientSide() && duration % 2 == 0) {
             showUsingItemTick(world, itemStack, player, duration);
         }
@@ -115,14 +115,14 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
     
     @OnlyIn(Dist.CLIENT)
-    protected void showUsingItemTick(World world, ItemStack itemStack, LivingEntity entity, int duration) {
+    protected void showUsingItemTick(Level world, ItemStack itemStack, LivingEntity entity, int duration) {
         int itemUsedCount = getUseDuration(itemStack) - duration;
         double area = getArea(itemUsedCount);
         int points = (int) (Math.pow(area, 0.55)) * 2 + 1;
         int particleChance = 5 * (this.powerLevels - getPower(itemStack));
         for(double point = -points; point <= points; point++) {
             for(double pointHeight = -points; pointHeight <= points; pointHeight+=0.5F) {
-                if(random.nextInt(particleChance) == 0) {
+                if(world.random.nextInt(particleChance) == 0) {
                     double u = Math.PI * (point / points);
                     double v = -2 * Math.PI * (pointHeight / points);
 
@@ -171,7 +171,7 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void showUsedItemTick(World world, LivingEntity player, int power) {
+    protected void showUsedItemTick(Level world, LivingEntity player, int power) {
         int particles = (power + 1) * (power + 1) * (power + 1) * 10;
         for(int i = 0; i < particles; i++) {
             double x = player.getX() - 0.5F + world.random.nextDouble();
@@ -202,10 +202,10 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public void releaseUsing(ItemStack itemStack, World world, LivingEntity entity, int itemInUseCount) {
-        if(entity instanceof PlayerEntity) {
+    public void releaseUsing(ItemStack itemStack, Level world, LivingEntity entity, int itemInUseCount) {
+        if(entity instanceof Player) {
             IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack).orElse(null);
-            PlayerEntity player = (PlayerEntity) entity;
+            Player player = (Player) entity;
             // Actual usage length
             int itemUsedCount = getUseDuration(itemStack) - itemInUseCount;
 
@@ -239,10 +239,10 @@ public abstract class ItemMace extends ItemBloodContainer {
      * @param itemUsedCount The charge count
      * @param power The configured power level
      */
-    protected abstract void use(World world, LivingEntity entity, int itemUsedCount, int power);
+    protected abstract void use(Level world, LivingEntity entity, int itemUsedCount, int power);
     
     @OnlyIn(Dist.CLIENT)
-    protected void animateOutOfEnergy(World world, LivingEntity entity) {
+    protected void animateOutOfEnergy(Level world, LivingEntity entity) {
         double xCoord = entity.getX();
         double yCoord = entity.getY();
         double zCoord = entity.getZ();
@@ -253,7 +253,7 @@ public abstract class ItemMace extends ItemBloodContainer {
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
         
         world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.NOTE_BLOCK_BASEDRUM,
-                SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+                SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
     }
     
     @Override
@@ -262,8 +262,8 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack itemStack) {
-        if (slot == EquipmentSlotType.MAINHAND) {
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack itemStack) {
+        if (slot == EquipmentSlot.MAINHAND) {
             return ImmutableMultimap.of(Attributes.ATTACK_DAMAGE,
                     new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.meleeDamage, AttributeModifier.Operation.ADDITION));
         }
@@ -272,7 +272,7 @@ public abstract class ItemMace extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         ItemPowerableHelpers.addPreInformation(itemStack, list);
         super.appendHoverText(itemStack, world, list, flag);
         ItemPowerableHelpers.addPostInformation(itemStack, list);

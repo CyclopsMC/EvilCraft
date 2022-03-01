@@ -4,21 +4,21 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleType;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
-import net.minecraft.particles.IParticleData.IDeserializer;
+import net.minecraft.core.particles.ParticleOptions.Deserializer;
 
 /**
  * @author rubensworks
  */
 public class ParticleBlurTargettedData extends ParticleBlurData {
 
-    public static final IDeserializer<ParticleBlurTargettedData> DESERIALIZER = new IDeserializer<ParticleBlurTargettedData>() {
+    public static final Deserializer<ParticleBlurTargettedData> DESERIALIZER = new Deserializer<ParticleBlurTargettedData>() {
         public ParticleBlurTargettedData fromCommand(ParticleType<ParticleBlurTargettedData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float red = (float)reader.readDouble();
@@ -39,7 +39,7 @@ public class ParticleBlurTargettedData extends ParticleBlurData {
             return new ParticleBlurTargettedData(red, green, blue, scale, ageMultiplier, targetX, targetY, targetZ);
         }
 
-        public ParticleBlurTargettedData fromNetwork(ParticleType<ParticleBlurTargettedData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleBlurTargettedData fromNetwork(ParticleType<ParticleBlurTargettedData> particleTypeIn, FriendlyByteBuf buffer) {
             return new ParticleBlurTargettedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
         }
     };
@@ -85,8 +85,8 @@ public class ParticleBlurTargettedData extends ParticleBlurData {
     }
 
     @Override
-    public void writeToNetwork(PacketBuffer buffer) {
-        super.write(buffer); // TODO: to writeToNetwork
+    public void writeToNetwork(FriendlyByteBuf buffer) {
+        super.writeToNetwork(buffer);
         buffer.writeFloat(targetX);
         buffer.writeFloat(targetY);
         buffer.writeFloat(targetZ);
@@ -95,7 +95,7 @@ public class ParticleBlurTargettedData extends ParticleBlurData {
     @Override
     public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f %.2f %.2f",
-                "", // TODO: restore super.writeToString()
+                super.writeToString(),
                 this.targetX, this.targetY, this.targetZ);
     }
 }

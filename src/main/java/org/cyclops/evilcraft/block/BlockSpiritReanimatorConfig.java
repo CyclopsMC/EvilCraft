@@ -1,16 +1,15 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
-import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 
 import java.util.Set;
 
@@ -36,9 +35,7 @@ public class BlockSpiritReanimatorConfig extends UpgradableBlockContainerConfig 
             "spirit_reanimator",
                 eConfig -> new BlockSpiritReanimator(Block.Properties.of(Material.STONE)
                         .strength(5.0F)
-                        .sound(SoundType.STONE)
-                        .harvestTool(ToolType.PICKAXE)
-                        .harvestLevel(2)),
+                        .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );

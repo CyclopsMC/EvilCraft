@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.weather;
 
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 /**
  * Special class that represents any weather type.
@@ -13,17 +13,17 @@ public class WeatherTypeAny extends WeatherType {
     }
 
     @Override
-    public boolean isActive(World world) {
+    public boolean isActive(Level world) {
         return true;
     }
 
     @Override
-    public void activate(ServerWorld world) {
+    public void activate(ServerLevel world) {
         // No implementation
     }
 
     @Override
-    public void deactivate(ServerWorld world) {
+    public void deactivate(ServerLevel world) {
         // No implementation
     }
 }

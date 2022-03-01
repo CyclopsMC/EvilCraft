@@ -1,13 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
-
-import net.minecraft.item.Item.Properties;
 
 /**
  * Blood reactant.
@@ -35,7 +32,7 @@ public class ItemPromiseAcceptor extends Item {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             return ((ItemPromiseAcceptor) itemStack.getItem()).getType().getColor();

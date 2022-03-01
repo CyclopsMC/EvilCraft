@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
 import org.cyclops.cyclopscore.client.particle.ParticleBlur;
 
 /**
@@ -15,7 +14,7 @@ public class ParticleBlurTargetted extends ParticleBlur {
 	private final double targetY;
 	private final double targetZ;
 
-	public ParticleBlurTargetted(ParticleBlurTargettedData data, ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+	public ParticleBlurTargetted(ParticleBlurTargettedData data, ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
 		super(data, world, x, y, z, motionX, motionY, motionZ);
 		this.targetX = data.getTargetX();
 		this.targetY = data.getTargetY();

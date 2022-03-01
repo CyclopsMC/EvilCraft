@@ -1,22 +1,21 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.block.BlockBloodChest;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenContainerTankInventory;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodChest;
-import org.cyclops.evilcraft.tileentity.TileBloodChest;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
 
 /**
- * GUI for the {@link BlockBloodChest}.
+ * GUI for the {@link org.cyclops.evilcraft.block.BlockBloodChest}.
  * @author rubensworks
  *
  */
-public class ContainerScreenBloodChest extends ContainerScreenContainerTankInventory<ContainerBloodChest, TileBloodChest> {
+public class ContainerScreenBloodChest extends ContainerScreenContainerTankInventory<ContainerBloodChest, BlockEntityBloodChest> {
 
     private static final int TEXTUREWIDTH = 196;
 	//private static final int TEXTUREHEIGHT = 166;
@@ -28,14 +27,14 @@ public class ContainerScreenBloodChest extends ContainerScreenContainerTankInven
     private static final int TANKTARGETX = 63;
     private static final int TANKTARGETY = 72;
 
-    public ContainerScreenBloodChest(ContainerBloodChest container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenBloodChest(ContainerBloodChest container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
     }
 
     @Override
-    protected ITextComponent getName() {
-        return new TranslationTextComponent("block.evilcraft.blood_chest");
+    protected Component getName() {
+        return new TranslatableComponent("block.evilcraft.blood_chest");
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ContainerScreenBloodChest extends ContainerScreenContainerTankInven
     }
 
     @Override
-    protected void drawForgegroundString(MatrixStack matrixStack) {
+    protected void drawForgegroundString(PoseStack matrixStack) {
         // MCP: drawString
         font.draw(matrixStack, getName(), 28 + offsetX, 4 + offsetY, 4210752);
     }

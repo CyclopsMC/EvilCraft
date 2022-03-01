@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.client.model;
 
-import net.minecraft.client.renderer.model.RenderMaterial;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 
@@ -10,7 +10,7 @@ import net.minecraftforge.client.model.ModelLoaderRegistry;
  * @author rubensworks
  */
 public class ModelConfigurationRetextured extends ModelConfigurationWrapper {
-    private final RenderMaterial material;
+    private final Material material;
 
     public ModelConfigurationRetextured(IModelConfiguration wrapped, ResourceLocation texture) {
         super(wrapped);
@@ -23,7 +23,7 @@ public class ModelConfigurationRetextured extends ModelConfigurationWrapper {
     }
 
     @Override
-    public RenderMaterial resolveTexture(String name) {
+    public Material resolveTexture(String name) {
         return material;
     }
 }

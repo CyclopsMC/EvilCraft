@@ -1,23 +1,26 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.render.tileentity.RenderItemStackTileEntityBloodChest;
+import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntityBloodChest;
+import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
-import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Config for the {@link BlockColossalBloodChest}.
@@ -42,12 +45,15 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
                 eConfig -> new BlockColossalBloodChest(Block.Properties.of(Material.STONE)
                         .strength(5.0F)
                         .sound(SoundType.WOOD)
-                        .harvestTool(ToolType.AXE)
-                        .harvestLevel(2)
                         .noOcclusion()),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
-                        .setISTER(() -> RenderItemStackTileEntityBloodChest::new))
+                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
+                    @Override
+                    @OnlyIn(Dist.CLIENT)
+                    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+                        consumer.accept(new RenderItemStackBlockEntityBloodChest.ItemRenderProperties());
+                    }
+                }
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
@@ -63,7 +69,7 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(getInstance(), RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
     
 }

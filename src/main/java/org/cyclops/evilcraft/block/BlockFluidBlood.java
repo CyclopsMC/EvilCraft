@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -19,7 +19,7 @@ import java.util.Random;
  * @author rubensworks
  *
  */
-public class BlockFluidBlood extends FlowingFluidBlock {
+public class BlockFluidBlood extends LiquidBlock {
     
     private static final int CHANCE_HARDEN = 3;
 
@@ -33,7 +33,7 @@ public class BlockFluidBlood extends FlowingFluidBlock {
     }
 
     @Override
-    public void randomTick(BlockState blockState, ServerWorld world, BlockPos blockPos, Random random) {
+    public void randomTick(BlockState blockState, ServerLevel world, BlockPos blockPos, Random random) {
         if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.getValue(LEVEL) == 0
                 && (!(world.isRaining() && world.getBiome(blockPos).getDownfall() > 0) || !world.canSeeSkyFromBelowWater(blockPos))
                 && !isWaterInArea(world, blockPos)) {
@@ -42,7 +42,7 @@ public class BlockFluidBlood extends FlowingFluidBlock {
         super.randomTick(blockState, world, blockPos, random);
     }
 
-    protected boolean isWaterInArea(World world, BlockPos blockPos) {
+    protected boolean isWaterInArea(Level world, BlockPos blockPos) {
         return WorldHelpers.foldArea(world, 4, blockPos,
                 (input, world1, blockPos1) -> input || world1.getBlockState(blockPos1).getBlock() == Blocks.WATER, false);
     }

@@ -4,29 +4,29 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
 
-import net.minecraft.particles.IParticleData.IDeserializer;
+import net.minecraft.core.particles.ParticleOptions.Deserializer;
 
 /**
  * @author rubensworks
  */
-public class ParticleDistortData implements IParticleData {
+public class ParticleDistortData implements ParticleOptions {
 
-    public static final IDeserializer<ParticleDistortData> DESERIALIZER = new IDeserializer<ParticleDistortData>() {
+    public static final Deserializer<ParticleDistortData> DESERIALIZER = new Deserializer<ParticleDistortData>() {
         public ParticleDistortData fromCommand(ParticleType<ParticleDistortData> particleType, StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
             float scale = (float) reader.readDouble();
             return new ParticleDistortData(scale);
         }
 
-        public ParticleDistortData fromNetwork(ParticleType<ParticleDistortData> particleTypeIn, PacketBuffer buffer) {
+        public ParticleDistortData fromNetwork(ParticleType<ParticleDistortData> particleTypeIn, FriendlyByteBuf buffer) {
             return new ParticleDistortData(buffer.readFloat());
         }
     };
@@ -52,7 +52,7 @@ public class ParticleDistortData implements IParticleData {
     }
 
     @Override
-    public void writeToNetwork(PacketBuffer buffer) {
+    public void writeToNetwork(FriendlyByteBuf buffer) {
         buffer.writeFloat(scale);
     }
 

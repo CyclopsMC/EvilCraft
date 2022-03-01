@@ -1,18 +1,18 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Vec3i;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnace;
-import org.cyclops.evilcraft.tileentity.TileSpiritFurnace;
+import org.cyclops.evilcraft.blockentity.BlockEntitySpiritFurnace;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<ContainerSpiritFurnace, TileSpiritFurnace> {
+public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<ContainerSpiritFurnace, BlockEntitySpiritFurnace> {
     
     /**
      * Texture width.
@@ -92,15 +92,15 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
      */
     public static final int PROGRESS_INVALIDY = 18;
 
-    public ContainerScreenSpiritFurnace(ContainerSpiritFurnace container, PlayerInventory playerInventory, ITextComponent title) {
+    public ContainerScreenSpiritFurnace(ContainerSpiritFurnace container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.setTank(TANKWIDTH, TANKHEIGHT, TANKX, TANKY, TANKTARGETX, TANKTARGETY);
         this.setProgress(PROGRESSWIDTH, PROGRESSHEIGHT, PROGRESSX, PROGRESSY, PROGRESSTARGETX, PROGRESSTARGETY);
     }
 
     @Override
-    protected ITextComponent getName() {
-        return new TranslationTextComponent("block.evilcraft.spirit_furnace");
+    protected Component getName() {
+        return new TranslatableComponent("block.evilcraft.spirit_furnace");
     }
 
     @Override
@@ -108,7 +108,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
         return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png");
     }
     
-    private String prettyPrintSize(@Nullable Vector3i size) {
+    private String prettyPrintSize(@Nullable Vec3i size) {
         if (size == null) {
             return "Loading...";
         }
@@ -116,20 +116,20 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
     }
     
     @Override
-	protected void drawAdditionalForeground(MatrixStack matrixStack, int mouseX, int mouseY) {
+	protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
     	String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getDescriptionId() + ".help.invalid";
-    	List<ITextComponent> lines = Lists.newArrayList();
-    	lines.add(new TranslationTextComponent(prefix));
+    	List<Component> lines = Lists.newArrayList();
+    	lines.add(new TranslatableComponent(prefix));
         if (!getMenu().hasEntity()) {
-        	lines.add(new TranslationTextComponent(prefix + ".no_entity"));
+        	lines.add(new TranslatableComponent(prefix + ".no_entity"));
         } else if (!getMenu().isSizeValidForEntity()) {
-        	lines.add(new TranslationTextComponent(prefix + ".content_size", prettyPrintSize(getMenu().getInnerSize())));
-        	lines.add(new TranslationTextComponent(prefix + ".required_size", prettyPrintSize(getMenu().getEntitySize())));
+        	lines.add(new TranslatableComponent(prefix + ".content_size", prettyPrintSize(getMenu().getInnerSize())));
+        	lines.add(new TranslatableComponent(prefix + ".required_size", prettyPrintSize(getMenu().getEntitySize())));
         } else if (getMenu().isForceHalt()) {
-        	lines.add(new TranslationTextComponent(prefix + ".force_halt"));
+        	lines.add(new TranslatableComponent(prefix + ".force_halt"));
         }
         else if (getMenu().isCaughtError()) {
-        	lines.add(new TranslationTextComponent(prefix + ".caught_error"));
+        	lines.add(new TranslatableComponent(prefix + ".caught_error"));
         }
         if (lines.size() > 1) {
         	this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
@@ -138,7 +138,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
                     mouseX, mouseY)) {
 	    		mouseX -= leftPos;
 	        	mouseY -= topPos;
-	            drawTooltip(lines, mouseX, mouseY);
+	            drawTooltip(lines, matrixStack, mouseX, mouseY);
 	        }
         }
     }

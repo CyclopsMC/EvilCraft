@@ -2,10 +2,8 @@ package org.cyclops.evilcraft.core.client.model;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import net.minecraft.resources.IResourceManager;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraftforge.client.model.IModelLoader;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.VanillaResourceType;
 
 /**
  * Custom model loader for the broom item.
@@ -14,12 +12,7 @@ import net.minecraftforge.resource.VanillaResourceType;
 public class ModelLoaderBroom implements IModelLoader<BroomModel> {
 
     @Override
-    public IResourceType getResourceType() {
-        return VanillaResourceType.MODELS;
-    }
-
-    @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
 
     }
 

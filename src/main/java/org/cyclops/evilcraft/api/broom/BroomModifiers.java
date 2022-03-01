@@ -1,33 +1,33 @@
 package org.cyclops.evilcraft.api.broom;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.network.play.client.CPlayerDiggingPacket;
-import net.minecraft.network.play.server.SChangeBlockPacket;
-import net.minecraft.potion.Effects;
-import net.minecraft.potion.Potion;
-import net.minecraft.tags.ITag;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -35,7 +35,6 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSource;
@@ -102,66 +101,66 @@ public class BroomModifiers {
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "modifier_count"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 3, true,
-                TextFormatting.BOLD, Helpers.RGBToInt(0, 0, 0)));
+                ChatFormatting.BOLD, Helpers.RGBToInt(0, 0, 0)));
         REGISTRY.overrideDefaultModifierPart(MODIFIER_COUNT, null);
         SPEED = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "speed"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                TextFormatting.RED, Helpers.RGBToInt(230, 20, 20)));
+                ChatFormatting.RED, Helpers.RGBToInt(230, 20, 20)));
         ACCELERATION = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "acceleration"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                TextFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
+                ChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
         MANEUVERABILITY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "maneuverability"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                TextFormatting.YELLOW, Helpers.RGBToInt(160, 160, 20)));
+                ChatFormatting.YELLOW, Helpers.RGBToInt(160, 160, 20)));
         LEVITATION = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "levitation"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                TextFormatting.WHITE, Helpers.RGBToInt(230, 230, 230)));
+                ChatFormatting.WHITE, Helpers.RGBToInt(230, 230, 230)));
 
         // Optional modifiers
         DAMAGE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "damage"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                TextFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
+                ChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         PARTICLES = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "particles"),
                 BroomModifier.Type.ADDITIVE, 0F, 50F, 1, false,
-                TextFormatting.LIGHT_PURPLE, Helpers.RGBToInt(160, 20, 160)));
+                ChatFormatting.LIGHT_PURPLE, Helpers.RGBToInt(160, 20, 160)));
         FLAME = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "flame"),
                 BroomModifier.Type.ADDITIVE, 0F, 4F, 3, false,
-                TextFormatting.GOLD, Helpers.RGBToInt(100, 100, 0)));
+                ChatFormatting.GOLD, Helpers.RGBToInt(100, 100, 0)));
         SMASH = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "smash"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 2, false,
-                TextFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
+                ChatFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
         BOUNCY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "bouncy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                TextFormatting.GREEN, Helpers.RGBToInt(20, 200, 60)));
+                ChatFormatting.GREEN, Helpers.RGBToInt(20, 200, 60)));
         WITHERER = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "witherer"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                TextFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
+                ChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
         HUNGERER = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "hungerer"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                TextFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
+                ChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
         KAMIKAZE = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "kamikaze"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                TextFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
+                ChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
         WITHERSHIELD = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "withershield"),
                 BroomModifier.Type.ADDITIVE, 0F, 5F, 4, false,
-                TextFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
+                ChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
         STURDYNESS = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "sturdyness"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                TextFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
+                ChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
         /*LUCK = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "luck"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
@@ -169,19 +168,19 @@ public class BroomModifiers {
         EFFICIENCY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "efficiency"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                TextFormatting.DARK_RED, Helpers.RGBToInt(92, 29, 29)));
+                ChatFormatting.DARK_RED, Helpers.RGBToInt(92, 29, 29)));
         SWIMMING = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "swimming"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                TextFormatting.AQUA, Helpers.RGBToInt(150, 150, 235)));
+                ChatFormatting.AQUA, Helpers.RGBToInt(150, 150, 235)));
         ICY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "icy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                TextFormatting.WHITE, Helpers.RGBToInt(220, 220, 240)));
+                ChatFormatting.WHITE, Helpers.RGBToInt(220, 220, 240)));
         STICKY = REGISTRY.registerModifier(new BroomModifier(
                 new ResourceLocation(Reference.MOD_ID, "sticky"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                TextFormatting.GOLD, Helpers.RGBToInt(78, 58, 12)));
+                ChatFormatting.GOLD, Helpers.RGBToInt(78, 58, 12)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -204,8 +203,8 @@ public class BroomModifiers {
         SMASH.addTickListener(new BroomModifier.ITickListener() {
             @Override
             public void onTick(EntityBroom broom, float modifierValue) {
-                double pitch = ((broom.xRot + 90) * Math.PI) / 180;
-                double yaw = ((broom.yRot + 90) * Math.PI) / 180;
+                double pitch = ((broom.getXRot() + 90) * Math.PI) / 180;
+                double yaw = ((broom.getYRot() + 90) * Math.PI) / 180;
                 double x = Math.sin(pitch) * Math.cos(yaw);
                 double z = Math.sin(pitch) * Math.sin(yaw);
                 double y = Math.cos(pitch);
@@ -219,11 +218,11 @@ public class BroomModifiers {
                         broom.getBoundingBox().maxX + x - r,
                         broom.getBoundingBox().maxY + y - r + 1D,
                         broom.getBoundingBox().maxZ + z - r);
-                World world = broom.level;
+                Level world = broom.level;
                 float maxHardness = modifierValue;
                 float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
                 LivingEntity ridingEntity = broom.getControllingPassenger() instanceof LivingEntity ? (LivingEntity) broom.getControllingPassenger() : null;
-                PlayerEntity player = broom.getControllingPassenger() instanceof PlayerEntity ? (PlayerEntity) broom.getControllingPassenger() : null;
+                Player player = broom.getControllingPassenger() instanceof Player ? (Player) broom.getControllingPassenger() : null;
 
                 if (world.hasChunksAt(blockpos, blockpos1)) {
                     for (int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
@@ -233,7 +232,7 @@ public class BroomModifiers {
                                 BlockState blockState = world.getBlockState(pos);
                                 FluidState fluidState = world.getFluidState(pos);
                                 Block block = blockState.getBlock();
-                                if (!blockState.getBlock().isAir(blockState, world, pos) && broom.canConsume(ItemBroomConfig.bloodUsageBlockBreak, ridingEntity)) {
+                                if (!world.isEmptyBlock(pos) && broom.canConsume(ItemBroomConfig.bloodUsageBlockBreak, ridingEntity)) {
                                     float hardness = blockState.getDestroySpeed(world, pos);
                                     if (hardness > 0F && hardness <= maxHardness) {
                                         broom.consume(ItemBroomConfig.bloodUsageBlockBreak, ridingEntity);
@@ -246,31 +245,31 @@ public class BroomModifiers {
 
                                             // Destroy the block
                                             if (!broom.level.isClientSide()) {
-                                                ServerPlayerEntity playerMp = (ServerPlayerEntity) player;
-                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayerEntity) player, pos);
+                                                ServerPlayer playerMp = (ServerPlayer) player;
+                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos);
                                                 if (expToDrop >= 0) {
                                                     // Block breaking sequence
                                                     block.playerWillDestroy(world, pos, blockState, player);
-                                                    if(block.removedByPlayer(blockState, world, pos, player, true, fluidState)) {
+                                                    if(block.onDestroyedByPlayer(blockState, world, pos, player, true, fluidState)) {
                                                         block.destroy(world, pos, blockState);
                                                         block.playerDestroy(world, player, pos, blockState, world.getBlockEntity(pos), ItemStack.EMPTY);
-                                                        block.popExperience((ServerWorld) world, pos, expToDrop);
+                                                        block.popExperience((ServerLevel) world, pos, expToDrop);
                                                     }
 
                                                     // Send block change packet to the client
-                                                    playerMp.connection.send(new SChangeBlockPacket(world, pos));
+                                                    playerMp.connection.send(new ClientboundBlockUpdatePacket(world, pos));
                                                 }
-                                            } else if (Minecraft.getInstance().hitResult.getType() == RayTraceResult.Type.BLOCK) {
+                                            } else if (Minecraft.getInstance().hitResult.getType() == HitResult.Type.BLOCK) {
                                                 // Play sound and client-side block breaking sequence
                                                 world.globalLevelEvent(2001, pos, Block.getId(blockState));
-                                                if(block.removedByPlayer(blockState, world, pos, player, true, fluidState)) {
+                                                if(block.onDestroyedByPlayer(blockState, world, pos, player, true, fluidState)) {
                                                     block.destroy(world, pos, blockState);
                                                 }
 
                                                 // Tell the server we are done with breaking this block
-                                                Minecraft.getInstance().getConnection().send(new CPlayerDiggingPacket(
-                                                        CPlayerDiggingPacket.Action.STOP_DESTROY_BLOCK, pos,
-                                                        ((BlockRayTraceResult) Minecraft.getInstance().hitResult).getDirection()));
+                                                Minecraft.getInstance().getConnection().send(new ServerboundPlayerActionPacket(
+                                                        ServerboundPlayerActionPacket.Action.STOP_DESTROY_BLOCK, pos,
+                                                        ((BlockHitResult) Minecraft.getInstance().hitResult).getDirection()));
                                             }
                                         }
 
@@ -292,7 +291,7 @@ public class BroomModifiers {
                     double dx = entity.getX() - broom.getX();
                     double dy = entity.getY() + (double)entity.getEyeHeight() - broom.getY();
                     double dz = entity.getZ() - broom.getZ();
-                    double d = (double) MathHelper.sqrt(dx * dx + dy * dy + dz * dz);
+                    double d = (double) Mth.sqrt((float) (dx * dx + dy * dy + dz * dz));
                     if (d != 0.0D) {
                         dx /= d;
                         dy /= d;
@@ -307,20 +306,20 @@ public class BroomModifiers {
                 }
             }
         });
-        WITHERER.addCollisionListener(new PotionEffectBroomCollision(Effects.WITHER));
-        HUNGERER.addCollisionListener(new PotionEffectBroomCollision(Effects.HUNGER));
+        WITHERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.WITHER));
+        HUNGERER.addCollisionListener(new PotionEffectBroomCollision(MobEffects.HUNGER));
         KAMIKAZE.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
-                World world = broom.level;
+                Level world = broom.level;
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
                 if (power > 0 && broom.getControllingPassenger() != null) {
                     broom.stopRiding();
-                    world.explode(null, broom.getX(), broom.getY(), broom.getZ(), power, Explosion.Mode.DESTROY);
+                    world.explode(null, broom.getX(), broom.getY(), broom.getZ(), power, Explosion.BlockInteraction.DESTROY);
                 }
             }
         });
-        ICY.addCollisionListener(new PotionEffectBroomCollision(Effects.MOVEMENT_SLOWDOWN, 2));
+        ICY.addCollisionListener(new PotionEffectBroomCollision(MobEffects.MOVEMENT_SLOWDOWN, 2));
         STICKY.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
@@ -389,7 +388,7 @@ public class BroomModifiers {
 
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getEntityLiving() != null && event.getEntityLiving().getVehicle() instanceof EntityBroom
-                && event.getSource().getDirectEntity() instanceof ProjectileEntity) {
+                && event.getSource().getDirectEntity() instanceof Projectile) {
             EntityBroom broom = (EntityBroom) event.getEntityLiving().getVehicle();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
             if (modifierValue > 0 && modifierValue > broom.level.random.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
@@ -399,13 +398,13 @@ public class BroomModifiers {
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
-        ITag<Item> tag = ItemTags.getAllTags().getTag(name);
+        Tag<Item> tag = ItemTags.getAllTags().getTag(name);
         if (tag != null) {
             for (Item item : tag.getValues()) {
                 REGISTRY.registerModifiersItem(modifier, value, new ItemStack(item));
             }
         } else {
-            EvilCraft.clog(String.format("Broom modifiers could not find a tag instance for %s", name), Level.WARN);
+            EvilCraft.clog(String.format("Broom modifiers could not find a tag instance for %s", name), org.apache.logging.log4j.Level.WARN);
         }
     }
 

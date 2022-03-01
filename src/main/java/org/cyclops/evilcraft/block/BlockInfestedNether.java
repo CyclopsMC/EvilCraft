@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityNetherfish;
 
@@ -26,9 +26,9 @@ public class BlockInfestedNether extends Block {
     }
 
     @Override
-    public void destroy(IWorld world, BlockPos blockPos, BlockState blockState) {
+    public void destroy(LevelAccessor world, BlockPos blockPos, BlockState blockState) {
         if (!world.isClientSide()) {
-            EntityNetherfish netherfish = new EntityNetherfish((World) world);
+            EntityNetherfish netherfish = new EntityNetherfish((Level) world);
             netherfish.moveTo((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D, 0.0F, 0.0F);
             world.addFreshEntity(netherfish);
             netherfish.spawnAnim();

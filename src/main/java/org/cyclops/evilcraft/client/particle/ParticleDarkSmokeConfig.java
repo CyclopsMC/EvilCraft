@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.particles.ParticleType;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
@@ -30,15 +30,15 @@ public class ParticleDarkSmokeConfig extends ParticleConfig<ParticleDarkSmokeDat
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public IParticleFactory<ParticleDarkSmokeData> getParticleFactory() {
+    public ParticleProvider<ParticleDarkSmokeData> getParticleFactory() {
         return null;
     }
 
     @OnlyIn(Dist.CLIENT)
     @Nullable
     @Override
-    public ParticleManager.IParticleMetaFactory<ParticleDarkSmokeData> getParticleMetaFactory() {
-        return sprite -> (IParticleFactory<ParticleDarkSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
+    public ParticleEngine.SpriteParticleRegistration<ParticleDarkSmokeData> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<ParticleDarkSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
             ParticleDarkSmoke particle = new ParticleDarkSmoke(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.isEntityDead());
             particle.pickSprite(sprite);
             return particle;

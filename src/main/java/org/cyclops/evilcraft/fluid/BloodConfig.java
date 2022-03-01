@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.fluid;
 
-import net.minecraft.item.Rarity;
+import net.minecraft.world.item.Rarity;
 import org.cyclops.cyclopscore.config.extendedconfig.FluidConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;

@@ -1,15 +1,15 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 import org.cyclops.evilcraft.entity.item.EntityBloodPearl;
@@ -26,23 +26,23 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
     }
     
     @Override
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(canConsume(100, itemStack, player)) {
             this.consume(100, itemStack, player);
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
             
             if (!world.isClientSide()) {
             	EntityBloodPearl pearl = new EntityBloodPearl(world, player);
                 // MCP: shoot
-                pearl.shootFromRotation(player, player.xRot, player.yRot, 0.0F, 1.0F, 0.0F);
+                pearl.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 0.0F);
                 pearl.setDeltaMovement(pearl.getDeltaMovement().multiply(3, 3, 3));
                 world.addFreshEntity(pearl);
             }
 
             return MinecraftHelpers.successAction(itemStack);
         }
-        return new ActionResult<ItemStack>(ActionResultType.PASS, itemStack);
+        return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, itemStack);
     }
 
     @Override

@@ -1,21 +1,18 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.util.Mth;
 
 /**
  * A fart special effect.
  * @author immortaleeb
  *
  */
-public class ParticleFart extends SpriteTexturedParticle {
+public class ParticleFart extends TextureSheetParticle {
 
-    public ParticleFart(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
+    public ParticleFart(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
         super(world, x, y, z, motionX, motionY, motionZ);
 
         quadSize = 0.25F;
@@ -61,13 +58,13 @@ public class ParticleFart extends SpriteTexturedParticle {
     }
 
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
     public float getQuadSize(float p_217561_1_) {
-        return this.quadSize * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
+        return this.quadSize * Mth.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
 
 }

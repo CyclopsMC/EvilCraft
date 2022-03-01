@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.helper.obfuscation;
 
-import net.minecraft.client.gui.screen.MainMenuScreen;
-import net.minecraft.client.renderer.RenderSkyboxCube;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.renderer.CubeMap;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -18,8 +18,8 @@ public class ObfuscationHelpers {
 	 * Set the private static 'PANORAMA_RESOURCES' field from @link{v}
 	 * @param titlePanoramaPaths The panorama path.
 	 */
-	public static void setPanoramaResources(RenderSkyboxCube titlePanoramaPaths) {
-		Field field = ObfuscationReflectionHelper.findField(MainMenuScreen.class, "CUBE_MAP");
+	public static void setPanoramaResources(CubeMap titlePanoramaPaths) {
+		Field field = ObfuscationReflectionHelper.findField(TitleScreen.class, "CUBE_MAP");
 		
 		Field modifiersField;
 		try {

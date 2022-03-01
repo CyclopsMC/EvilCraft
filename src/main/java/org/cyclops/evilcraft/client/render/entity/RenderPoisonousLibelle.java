@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import org.cyclops.evilcraft.core.client.render.entity.RenderModelLiving;
 import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelle;
 import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelleConfig;
@@ -15,12 +16,12 @@ import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelleConfig;
  */
 public class RenderPoisonousLibelle extends RenderModelLiving<EntityPoisonousLibelle, ModelPoisonousLibelle> {
 
-	public RenderPoisonousLibelle(EntityRendererManager renderManager, EntityPoisonousLibelleConfig config, ModelPoisonousLibelle model, float par2) {
-	    super(renderManager, config, model, par2);
+	public RenderPoisonousLibelle(EntityRendererProvider.Context renderContext, EntityPoisonousLibelleConfig config, ModelPoisonousLibelle model, float par2) {
+	    super(renderContext, config, model, par2);
 	}
 
     @Override
-    protected void scale(EntityPoisonousLibelle entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+    protected void scale(EntityPoisonousLibelle entitylivingbaseIn, PoseStack matrixStackIn, float partialTickTime) {
         super.scale(entitylivingbaseIn, matrixStackIn, partialTickTime);
         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180F));
         matrixStackIn.scale(-0.5F, 0.5F, -0.5F);

@@ -1,27 +1,24 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.core.tileentity.upgrade.Upgrades;
+import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.item.Item.Properties;
 
 /**
  * Promise item singleton.
@@ -75,14 +72,14 @@ public class ItemPromise extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
-            list.add(new TranslationTextComponent("item.evilcraft.promise.use_in")
-                    .withStyle(TextFormatting.DARK_GREEN));
+            list.add(new TranslatableComponent("item.evilcraft.promise.use_in")
+                    .withStyle(ChatFormatting.DARK_GREEN));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
-                list.add(new TranslationTextComponent(upgradable.getTranslationKey())
-                        .withStyle(TextFormatting.ITALIC));
+                list.add(new TranslatableComponent(upgradable.getTranslationKey())
+                        .withStyle(ChatFormatting.ITALIC));
             }
         }
     }
@@ -138,7 +135,7 @@ public class ItemPromise extends Item {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             Upgrades.Upgrade upgrade = ((ItemPromise) itemStack.getItem()).getUpgrade(itemStack);

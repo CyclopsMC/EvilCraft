@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
@@ -14,7 +14,7 @@ import org.cyclops.evilcraft.block.BlockFluidBlood;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Gem that drops from {@link BlockDarkOre}.
@@ -38,7 +38,7 @@ public class ItemDarkGem extends Item {
         		&& WorldHelpers.efficientTick(entityItem.level, TICK_MODULUS,
         				(int) entityItem.getX(), (int) entityItem.getY(), (int) entityItem.getZ())) {
             final BlockPos blockPos = entityItem.blockPosition();
-            World world = entityItem.level;
+            Level world = entityItem.level;
             
             int amount = 0;
             if(isValidBlock(world, blockPos)) {
@@ -50,10 +50,10 @@ public class ItemDarkGem extends Item {
                 amount++;
 
                 // Search in neighbourhood
-                WorldHelpers.foldArea(world, 3, blockPos, new WorldHelpers.WorldFoldingFunction<Integer, Integer, World>() {
+                WorldHelpers.foldArea(world, 3, blockPos, new WorldHelpers.WorldFoldingFunction<Integer, Integer, Level>() {
                     @Nullable
                     @Override
-                    public Integer apply(@Nullable Integer amount, World world, BlockPos pos) {
+                    public Integer apply(@Nullable Integer amount, Level world, BlockPos pos) {
                         if(amount == null || amount == -1) return amount;
                         if(!(pos.getX() == blockPos.getX() && pos.getY() == blockPos.getY() && pos.getZ() == blockPos.getZ()) && isValidBlock(world, pos)) {
                             // Save next coordinate
@@ -83,7 +83,7 @@ public class ItemDarkGem extends Item {
         return false;
     }
     
-    private boolean isValidBlock(World world, BlockPos blockPos) {
+    private boolean isValidBlock(Level world, BlockPos blockPos) {
         // Not working: world.getFluidState(blockPos).getFluid() == RegistryEntries.FLUID_BLOOD
         return world.getBlockState(blockPos).getBlock() instanceof BlockFluidBlood
                 && world.getFluidState(blockPos).isSource();

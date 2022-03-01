@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -14,7 +14,7 @@ import org.cyclops.evilcraft.RegistryEntries;
  * Blood Infuser recipe
  * @author rubensworks
  */
-public class RecipeBloodInfuser implements IRecipe<IInventoryFluidTier> {
+public class RecipeBloodInfuser implements Recipe<IInventoryFluidTier> {
 
     private final ResourceLocation id;
     private final Ingredient inputIngredient;
@@ -61,7 +61,7 @@ public class RecipeBloodInfuser implements IRecipe<IInventoryFluidTier> {
     }
 
     @Override
-    public boolean matches(IInventoryFluidTier inv, World worldIn) {
+    public boolean matches(IInventoryFluidTier inv, Level worldIn) {
         return this.getInputTier() <= inv.getTier()
                 && inputIngredient.test(inv.getItem(0))
                 && inputFluid.getFluid() == inv.getFluidHandler().getFluidInTank(0).getFluid()
@@ -89,12 +89,12 @@ public class RecipeBloodInfuser implements IRecipe<IInventoryFluidTier> {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_BLOOD_INFUSER;
     }
 
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return RegistryEntries.RECIPETYPE_BLOOD_INFUSER;
     }
 }

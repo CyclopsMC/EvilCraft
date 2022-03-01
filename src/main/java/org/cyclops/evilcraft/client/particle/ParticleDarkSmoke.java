@@ -1,21 +1,19 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SmokeParticle;
-import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.util.Mth;
 
 /**
  * Orbiting dark smoke effect.
  * @author rubensworks
  * @see SmokeParticle
  */
-public class ParticleDarkSmoke extends SpriteTexturedParticle {
+public class ParticleDarkSmoke extends TextureSheetParticle {
 
-    public ParticleDarkSmoke(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead) {
+    public ParticleDarkSmoke(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead) {
         super(world, x, y, z, motionX, motionY, motionZ);
         this.xd = motionX;
         this.yd = motionY;
@@ -38,13 +36,13 @@ public class ParticleDarkSmoke extends SpriteTexturedParticle {
     }
 
     @Override
-    public IParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override
     public float getQuadSize(float p_217561_1_) {
-        return this.quadSize * MathHelper.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
+        return this.quadSize * Mth.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
 
     @Override

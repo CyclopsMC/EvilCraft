@@ -1,21 +1,19 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.color.IItemColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
@@ -39,12 +37,12 @@ public class ItemPoisonBottle extends Item {
     }
 
     public void onPoisonRightClick(PlayerInteractEvent.RightClickBlock event) {
-        Hand hand = event.getPlayer().getUsedItemHand();
+        InteractionHand hand = event.getPlayer().getUsedItemHand();
         // Return poison bottle instead of water bottle when right clicking poison fluid source with empty bottle.
         if(hand != null && !event.getPlayer().getItemInHand(hand).isEmpty() &&
                 event.getPlayer().getItemInHand(hand).getItem() == Items.GLASS_BOTTLE) {
-            RayTraceResult pos = this.getPlayerPOVHitResult(event.getWorld(), event.getPlayer(), RayTraceContext.FluidMode.SOURCE_ONLY);
-            if(pos != null && pos.getType() == RayTraceResult.Type.BLOCK) {
+            HitResult pos = this.getPlayerPOVHitResult(event.getWorld(), event.getPlayer(), ClipContext.Fluid.SOURCE_ONLY);
+            if(pos != null && pos.getType() == HitResult.Type.BLOCK) {
                 BlockPos blockPos = new BlockPos(pos.getLocation());
                 if(event.getWorld().mayInteract(event.getPlayer(), blockPos) &&
                         event.getPlayer().mayUseItemAt(blockPos, event.getFace(), event.getPlayer().getItemInHand(hand)) &&
@@ -61,14 +59,14 @@ public class ItemPoisonBottle extends Item {
 
     @Nullable
     @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
         FluidHandlerItemStackSimple.SwapEmpty capabilityProvider = new FluidHandlerItemStackSimple.SwapEmpty(stack, new ItemStack(Items.GLASS_BOTTLE), FluidHelpers.BUCKET_VOLUME);
         capabilityProvider.fill(new FluidStack(RegistryEntries.FLUID_POISON, FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
         return capabilityProvider;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements IItemColor {
+    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             return renderPass == 0 ? Helpers.RGBToInt(77, 117, 15) : -1;

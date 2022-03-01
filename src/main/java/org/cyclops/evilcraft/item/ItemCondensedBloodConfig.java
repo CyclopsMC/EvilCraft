@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.loot.LootTables;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
@@ -36,7 +36,7 @@ public class ItemCondensedBloodConfig extends ItemConfig {
                 eConfig -> new Item(new Item.Properties()
                         .tab(EvilCraft._instance.getDefaultItemGroup())) {
                     @Override
-                    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
+                    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
                         return new FluidWrapper(stack);
                     }
                 }
@@ -48,14 +48,14 @@ public class ItemCondensedBloodConfig extends ItemConfig {
         super.onForgeRegistered();
         if (injectLootTables) {
             LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/condensed_blood"),
-                    LootTables.SPAWN_BONUS_CHEST,
-                    LootTables.VILLAGE_TOOLSMITH,
-                    LootTables.VILLAGE_WEAPONSMITH,
-                    LootTables.VILLAGE_SHEPHERD,
-                    LootTables.NETHER_BRIDGE,
-                    LootTables.SIMPLE_DUNGEON,
-                    LootTables.ABANDONED_MINESHAFT,
-                    LootTables.JUNGLE_TEMPLE);
+                    BuiltInLootTables.SPAWN_BONUS_CHEST,
+                    BuiltInLootTables.VILLAGE_TOOLSMITH,
+                    BuiltInLootTables.VILLAGE_WEAPONSMITH,
+                    BuiltInLootTables.VILLAGE_SHEPHERD,
+                    BuiltInLootTables.NETHER_BRIDGE,
+                    BuiltInLootTables.SIMPLE_DUNGEON,
+                    BuiltInLootTables.ABANDONED_MINESHAFT,
+                    BuiltInLootTables.JUNGLE_TEMPLE);
         }
     }
 

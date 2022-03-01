@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -17,7 +17,7 @@ import org.cyclops.evilcraft.RegistryEntries;
  * @author rubensworks
  *
  */
-public class BlockFluidPoison extends FlowingFluidBlock {
+public class BlockFluidPoison extends LiquidBlock {
 
     
     private static final int POISON_DURATION = 5;
@@ -27,9 +27,9 @@ public class BlockFluidPoison extends FlowingFluidBlock {
     }
 
     @Override
-    public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if(entity instanceof LivingEntity && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
-            ((LivingEntity)entity).addEffect(new EffectInstance(Effects.POISON, POISON_DURATION * 20, 1));
+            ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION * 20, 1));
         }
         super.entityInside(state, world, pos, entity);
     }

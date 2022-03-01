@@ -1,22 +1,21 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.IParticleRenderType;
-import net.minecraft.client.particle.PoofParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ExplodeParticle;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
 
 /**
- * An extended {@link PoofParticle}
+ * An extended {@link ExplodeParticle}
  * @author rubensworks
  *
  */
-public class ParticleExplosionExtended extends PoofParticle {
+public class ParticleExplosionExtended extends ExplodeParticle {
 
-	public ParticleExplosionExtended(ClientWorld world, double x, double y, double z,
+	public ParticleExplosionExtended(ClientLevel world, double x, double y, double z,
 									 double motionX, double motionY, double motionZ,
 									 float red, float green, float blue, float alpha,
-									 IAnimatedSprite sprite) {
+									 SpriteSet sprite) {
 		super(world, x, y, z, motionX, motionY, motionZ, sprite);
 		this.rCol = red;
 		this.gCol = green;
@@ -25,8 +24,8 @@ public class ParticleExplosionExtended extends PoofParticle {
 	}
 
 	@Override
-	public IParticleRenderType getRenderType() {
-		return IParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+	public ParticleRenderType getRenderType() {
+		return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
 	}
 
 }

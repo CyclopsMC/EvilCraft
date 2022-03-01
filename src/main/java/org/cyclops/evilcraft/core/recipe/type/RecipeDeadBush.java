@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.SpecialRecipe;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.Tags;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -20,14 +20,14 @@ import org.cyclops.evilcraft.RegistryEntries;
  * @author rubensworks
  *
  */
-public class RecipeDeadBush extends SpecialRecipe {
+public class RecipeDeadBush extends CustomRecipe {
 
 	public RecipeDeadBush(ResourceLocation id) {
 		super(id);
 	}
 
 	@Override
-	public boolean matches(CraftingInventory inv, World worldIn) {
+	public boolean matches(CraftingContainer inv, Level worldIn) {
 		int bushes = 0;
 		int shears = 0;
 		for (int i = 0; i < inv.getContainerSize(); i++) {
@@ -42,7 +42,7 @@ public class RecipeDeadBush extends SpecialRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory inv) {
+	public ItemStack assemble(CraftingContainer inv) {
 		return getResultItem().copy();
 	}
 
@@ -62,14 +62,14 @@ public class RecipeDeadBush extends SpecialRecipe {
 	}
 
 	@Override
-	public NonNullList<ItemStack> getRemainingItems(CraftingInventory inv) {
+	public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv) {
 		NonNullList<ItemStack> stacks = NonNullList.create();
 		for (int i = 0; i < inv.getContainerSize(); i++) {
 			ItemStack itemStack = inv.getItem(i);
 			if (itemStack.getItem() == Items.SHEARS) {
 				itemStack = itemStack.copy();
 
-				PlayerEntity craftingPlayer = ForgeHooks.getCraftingPlayer();
+				Player craftingPlayer = ForgeHooks.getCraftingPlayer();
 				if (craftingPlayer != null) {
 					// Regular item damaging if there is a player executing the recipe
 					itemStack.hurtAndBreak(1, craftingPlayer, (p) ->{});
@@ -90,7 +90,7 @@ public class RecipeDeadBush extends SpecialRecipe {
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return RegistryEntries.RECIPESERIALIZER_DEAD_BUSH;
 	}
 }

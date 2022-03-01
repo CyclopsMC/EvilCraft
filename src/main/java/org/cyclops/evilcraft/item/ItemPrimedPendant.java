@@ -1,31 +1,30 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.PotionUtils;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.stats.Stat;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemStack;
@@ -51,18 +50,18 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, World world, List<ITextComponent> list, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
         ItemStack potionStack = getPotionStack(itemStack);
         if(!potionStack.isEmpty()) {
-            List<EffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
-            for(EffectInstance potionEffect : potionEffects) {
-                TranslationTextComponent textComponent = new TranslationTextComponent(super.getDescriptionId(itemStack) + ".potion",
-                        new TranslationTextComponent(potionEffect.getDescriptionId()),
-                        new TranslationTextComponent("enchantment.level." + (potionEffect.getAmplifier() + 1)));
+            List<MobEffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
+            for(MobEffectInstance potionEffect : potionEffects) {
+                TranslatableComponent textComponent = new TranslatableComponent(super.getDescriptionId(itemStack) + ".potion",
+                        new TranslatableComponent(potionEffect.getDescriptionId()),
+                        new TranslatableComponent("enchantment.level." + (potionEffect.getAmplifier() + 1)));
                 Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
                 if (multiplier != null && multiplier < 0) {
-                    textComponent.withStyle(TextFormatting.STRIKETHROUGH);
+                    textComponent.withStyle(ChatFormatting.STRIKETHROUGH);
                 }
                 list.add(textComponent);
             }
@@ -71,14 +70,14 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void inventoryTick(ItemStack itemStack, World world, Entity entity, int par4, boolean par5) {
-        if(entity instanceof PlayerEntity
+    public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
+        if(entity instanceof Player
                 && world.getGameTime() % TICK_MODULUS == 0) {
-            PlayerEntity player = (PlayerEntity) entity;
+            Player player = (Player) entity;
             ItemStack potionStack = getPotionStack(itemStack);
             if(!potionStack.isEmpty()) {
-                List<EffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
-                for(EffectInstance potionEffect : potionEffects) {
+                List<MobEffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
+                for(MobEffectInstance potionEffect : potionEffects) {
                     int toDrain = ItemPrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
                     Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
                     if(multiplier != null) {
@@ -86,7 +85,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
                     }
                     if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
                         player.addEffect(
-                                new EffectInstance(potionEffect.getEffect(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
+                                new MobEffectInstance(potionEffect.getEffect(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
                                         !potionEffect.getCurativeItems().isEmpty(), true));
                         consume(toDrain, itemStack, player);
                     }
@@ -101,7 +100,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     }
 
     public ItemStack getPotionStack(ItemStack itemStack) {
-        IInventory inventory = getSupplementaryInventory(itemStack);
+        Container inventory = getSupplementaryInventory(itemStack);
         return inventory.getItem(0);
     }
 
@@ -119,7 +118,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
      * @param hand The hand the item is in.
      * @return The inventory.
      */
-    public IInventory getSupplementaryInventory(PlayerEntity player, ItemStack itemStack, int itemIndex, Hand hand) {
+    public Container getSupplementaryInventory(Player player, ItemStack itemStack, int itemIndex, InteractionHand hand) {
         return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 1, 64, "inventoryItem");
     }
 
@@ -128,33 +127,33 @@ public class ItemPrimedPendant extends ItemBloodContainer {
      * @param itemStack The item stack.
      * @return The inventory.
      */
-    public IInventory getSupplementaryInventory(ItemStack itemStack) {
+    public Container getSupplementaryInventory(ItemStack itemStack) {
         return new NBTSimpleInventoryItemStack(itemStack, 1, 64, "inventoryItem");
     }
 
     // --- TODO: copy of ItemGui methods, clean this up with Cyclops for 1.8 ---
 
     @Nullable
-    public INamedContainerProvider getContainer(World world, PlayerEntity playerEntity, int itemIndex, Hand hand, ItemStack itemStack) {
+    public MenuProvider getContainer(Level world, Player playerEntity, int itemIndex, InteractionHand hand, ItemStack itemStack) {
         return new NamedContainerProviderItem(itemIndex, hand,
                 itemStack.getHoverName(), ContainerPrimedPendant::new);
     }
 
-    public Class<? extends Container> getContainerClass(World world, PlayerEntity playerEntity, ItemStack itemStack) {
+    public Class<? extends AbstractContainerMenu> getContainerClass(Level world, Player playerEntity, ItemStack itemStack) {
         return ContainerPrimedPendant.class;
     }
 
-    public boolean onDroppedByPlayer(ItemStack itemstack, PlayerEntity player) {
-        if (!itemstack.isEmpty() && player instanceof ServerPlayerEntity && player.containerMenu != null && player.containerMenu.getClass() == this.getContainerClass(player.level, player, itemstack)) {
+    public boolean onDroppedByPlayer(ItemStack itemstack, Player player) {
+        if (!itemstack.isEmpty() && player instanceof ServerPlayer && player.containerMenu != null && player.containerMenu.getClass() == this.getContainerClass(player.level, player, itemstack)) {
             player.closeContainer();
         }
 
         return super.onDroppedByPlayer(itemstack, player);
     }
 
-    public void openGuiForItemIndex(World world, ServerPlayerEntity player, int itemIndex, Hand hand) {
+    public void openGuiForItemIndex(Level world, ServerPlayer player, int itemIndex, InteractionHand hand) {
         if (!world.isClientSide()) {
-            INamedContainerProvider containerProvider = this.getContainer(world, player, itemIndex, hand, player.getItemInHand(hand));
+            MenuProvider containerProvider = this.getContainer(world, player, itemIndex, hand, player.getItemInHand(hand));
             if (containerProvider != null) {
                 NetworkHooks.openGui(player, containerProvider, (packetBuffer) -> {
                     this.writeExtraGuiData(packetBuffer, world, player, itemIndex, hand);
@@ -168,9 +167,9 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     }
 
-    public void writeExtraGuiData(PacketBuffer packetBuffer, World world, ServerPlayerEntity player, int itemIndex, Hand hand) {
+    public void writeExtraGuiData(FriendlyByteBuf packetBuffer, Level world, ServerPlayer player, int itemIndex, InteractionHand hand) {
         packetBuffer.writeInt(itemIndex);
-        packetBuffer.writeBoolean(hand == Hand.MAIN_HAND);
+        packetBuffer.writeBoolean(hand == InteractionHand.MAIN_HAND);
     }
 
     @Nullable
@@ -178,16 +177,16 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         return null;
     }
 
-    public ActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (player instanceof FakePlayer) {
-            return new ActionResult(ActionResultType.FAIL, itemStack);
+            return new InteractionResultHolder(InteractionResult.FAIL, itemStack);
         } else {
-            if (player instanceof ServerPlayerEntity) {
-                this.openGuiForItemIndex(world, (ServerPlayerEntity)player, player.inventory.selected, hand);
+            if (player instanceof ServerPlayer) {
+                this.openGuiForItemIndex(world, (ServerPlayer)player, player.getInventory().selected, hand);
             }
 
-            return new ActionResult(ActionResultType.SUCCESS, itemStack);
+            return new InteractionResultHolder(InteractionResult.SUCCESS, itemStack);
         }
     }
 

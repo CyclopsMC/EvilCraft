@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -24,7 +24,7 @@ import org.cyclops.evilcraft.item.ItemBloodExtractor;
  * @author rubensworks
  *
  */
-public class RecipeBloodExtractorCombination extends SpecialRecipe {
+public class RecipeBloodExtractorCombination extends CustomRecipe {
 
 	private final int maxCapacity;
 
@@ -38,7 +38,7 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public boolean matches(CraftingInventory grid, World world) {
+	public boolean matches(CraftingContainer grid, Level world) {
 		return !assemble(grid).isEmpty();
 	}
 	
@@ -48,7 +48,7 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public NonNullList<ItemStack> getRemainingItems(CraftingInventory inventory) {
+	public NonNullList<ItemStack> getRemainingItems(CraftingContainer inventory) {
 		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
 
 		for (int i = 0; i < aitemstack.size(); ++i) {
@@ -60,12 +60,12 @@ public class RecipeBloodExtractorCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return RegistryEntries.RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION;
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory grid) {
+	public ItemStack assemble(CraftingContainer grid) {
 		ItemStack output = getResultItem().copy();
 
 		int totalCapacity = 0;

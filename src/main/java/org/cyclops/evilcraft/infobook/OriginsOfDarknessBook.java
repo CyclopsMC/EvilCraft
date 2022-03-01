@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.infobook;
 
 import com.google.common.collect.Maps;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoBook;
 import org.cyclops.cyclopscore.infobook.InfoBookParser;

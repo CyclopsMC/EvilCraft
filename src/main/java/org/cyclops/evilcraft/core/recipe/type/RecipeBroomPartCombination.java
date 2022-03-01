@@ -4,13 +4,13 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
@@ -31,14 +31,14 @@ import java.util.Set;
  * @author rubensworks
  *
  */
-public class RecipeBroomPartCombination extends SpecialRecipe {
+public class RecipeBroomPartCombination extends CustomRecipe {
 
 	public RecipeBroomPartCombination(ResourceLocation id) {
 		super(id);
 	}
 
 	@Override
-	public boolean matches(CraftingInventory grid, World world) {
+	public boolean matches(CraftingContainer grid, Level world) {
 		return !assemble(grid).isEmpty();
 	}
 	
@@ -48,7 +48,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public NonNullList<ItemStack> getRemainingItems(CraftingInventory inventory) {
+	public NonNullList<ItemStack> getRemainingItems(CraftingContainer inventory) {
 		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
 		for (int i = 0; i < aitemstack.size(); ++i) {
 			ItemStack itemstack = inventory.getItem(i);
@@ -78,7 +78,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 		return map;
 	}
 
-	protected Pair<ItemStack, List<ItemStack>> getResult(CraftingInventory grid) {
+	protected Pair<ItemStack, List<ItemStack>> getResult(CraftingContainer grid) {
 		ItemStack output = getResultItem().copy();
 		List<ItemStack> extraOutputs = Lists.newLinkedList();
 
@@ -171,7 +171,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingInventory grid) {
+	public ItemStack assemble(CraftingContainer grid) {
 		Pair<ItemStack, List<ItemStack>> result = getResult(grid);
 		if(result == null) {
 			return ItemStack.EMPTY;
@@ -185,7 +185,7 @@ public class RecipeBroomPartCombination extends SpecialRecipe {
 	}
 
 	@Override
-	public IRecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<?> getSerializer() {
 		return RegistryEntries.RECIPESERIALIZER_BROOM_PART_COMBINATION;
 	}
 

@@ -1,15 +1,16 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.PushReaction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootParameters;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.List;
@@ -29,8 +30,8 @@ public class BlockHardenedBlood extends Block {
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
         if (drops.isEmpty()) {
-            ServerWorld world = builder.getLevel();
-            BlockPos blockPos = new BlockPos(builder.getOptionalParameter(LootParameters.ORIGIN));
+            ServerLevel world = builder.getLevel();
+            BlockPos blockPos = new BlockPos(builder.getOptionalParameter(LootContextParams.ORIGIN));
             Material material = world.getBlockState(blockPos.offset(0, -1, 0)).getMaterial();
 
             if (material.blocksMotion() || material.isLiquid()) {
@@ -44,9 +45,9 @@ public class BlockHardenedBlood extends Block {
     public PushReaction getPistonPushReaction(BlockState blockState) {
         return PushReaction.NORMAL;
     }
-    
+
     @Override
-    public void handleRain(World world, BlockPos blockPos) {
+    public void handlePrecipitation(BlockState blockState, Level world, BlockPos blockPos, Biome.Precipitation precipitation) {
         world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.defaultBlockState());
     }
 }

@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.api.broom;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.init.IRegistry;
 
 import javax.annotation.Nullable;

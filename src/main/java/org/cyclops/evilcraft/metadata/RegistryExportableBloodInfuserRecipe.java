@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.metadata;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.metadata.IRegistryExportable;
 import org.cyclops.cyclopscore.metadata.RegistryExportableRecipeAbstract;
@@ -14,7 +14,7 @@ import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 /**
  * Blood infuser recipe exporter.
  */
-public class RegistryExportableBloodInfuserRecipe extends RegistryExportableRecipeAbstract<IRecipeType<RecipeBloodInfuser>, RecipeBloodInfuser, IInventoryFluidTier> {
+public class RegistryExportableBloodInfuserRecipe extends RegistryExportableRecipeAbstract<RecipeType<RecipeBloodInfuser>, RecipeBloodInfuser, IInventoryFluidTier> {
 
     protected RegistryExportableBloodInfuserRecipe() {
         super(() -> RegistryEntries.RECIPETYPE_BLOOD_INFUSER);

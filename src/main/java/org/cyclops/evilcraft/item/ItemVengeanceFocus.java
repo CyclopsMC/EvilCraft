@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeam;
 
-import net.minecraft.item.Item.Properties;
+import net.minecraft.world.item.Item.Properties;
 
 /**
  * Focus that is able to direct rays of the sun to entangle vengeance spirits.
@@ -18,7 +18,7 @@ public class ItemVengeanceFocus extends ItemAbstractFocus {
     }
 
     @Override
-    protected ThrowableEntity newBeamEntity(LivingEntity player) {
+    protected ThrowableProjectile newBeamEntity(LivingEntity player) {
         return new EntityAntiVengeanceBeam(player.level, player);
     }
 }

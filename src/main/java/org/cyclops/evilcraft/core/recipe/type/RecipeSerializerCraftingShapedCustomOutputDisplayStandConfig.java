@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.tags.ItemTags;
 import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
 import org.cyclops.cyclopscore.helper.BlockHelpers;

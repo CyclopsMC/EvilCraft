@@ -1,26 +1,23 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
-import org.cyclops.evilcraft.tileentity.TileBoxOfEternalClosure;
+import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import net.minecraft.item.Item.Properties;
 
 public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
 
@@ -29,37 +26,37 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
     }
 
     @Override
-    protected boolean itemStackDataToTile(ItemStack itemStack, TileEntity tile) {
-        if (tile instanceof TileBoxOfEternalClosure && itemStack.hasTag()) {
-            ((TileBoxOfEternalClosure) tile).setSpiritTag(itemStack.getTag().getCompound(TileBoxOfEternalClosure.NBTKEY_SPIRIT));
-            ((TileBoxOfEternalClosure) tile).setPlayerId(itemStack.getTag().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERID));
-            ((TileBoxOfEternalClosure) tile).setPlayerName(itemStack.getTag().getString(TileBoxOfEternalClosure.NBTKEY_PLAYERNAME));
-            ((TileBoxOfEternalClosure) tile).initializeState();
+    protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
+        if (tile instanceof BlockEntityBoxOfEternalClosure && itemStack.hasTag()) {
+            ((BlockEntityBoxOfEternalClosure) tile).setSpiritTag(itemStack.getTag().getCompound(BlockEntityBoxOfEternalClosure.NBTKEY_SPIRIT));
+            ((BlockEntityBoxOfEternalClosure) tile).setPlayerId(itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID));
+            ((BlockEntityBoxOfEternalClosure) tile).setPlayerName(itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME));
+            ((BlockEntityBoxOfEternalClosure) tile).initializeState();
         }
         return true;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(getInfo(stack));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 
     @OnlyIn(Dist.CLIENT)
-    public ITextComponent getInfo(ItemStack itemStack) {
-        ITextComponent content = new TranslationTextComponent("general." + Reference.MOD_ID + ".info.empty")
-                .withStyle(TextFormatting.ITALIC);
-        if(BlockBoxOfEternalClosure.hasPlayer(itemStack)) {
-            content = new StringTextComponent(BlockBoxOfEternalClosure.getPlayerName(itemStack));
+    public Component getInfo(ItemStack itemStack) {
+        Component content = new TranslatableComponent("general." + Reference.MOD_ID + ".info.empty")
+                .withStyle(ChatFormatting.ITALIC);
+        if(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.hasPlayer(itemStack)) {
+            content = new TextComponent(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.getPlayerName(itemStack));
         } else {
-            EntityType<?> spiritType = BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack);
+            EntityType<?> spiritType = org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack);
             if (spiritType != null) {
                 content = spiritType.getDescription();
             }
         }
-        return new TranslationTextComponent(getDescriptionId() + ".info.content")
-                .withStyle(TextFormatting.LIGHT_PURPLE)
+        return new TranslatableComponent(getDescriptionId() + ".info.content")
+                .withStyle(ChatFormatting.LIGHT_PURPLE)
                 .append(content);
     }
 }

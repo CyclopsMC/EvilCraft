@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.event;
 
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,18 +39,18 @@ public class EntityStruckByLightningEventHook {
             	if(!empowerable.isEmpowered(entity.getItem())) {
             		entity.setItem(empowerable.empower(entity.getItem()));
             		event.setCanceled(true);
-            		event.getLightning().remove();
+            		event.getLightning().remove(Entity.RemovalReason.DISCARDED);
             	}
             }
         }
     }
     
-    private LightningBoltEntity lastLightningBolt;
-    private Set<VillagerEntity> affectedVillagers;
+    private LightningBolt lastLightningBolt;
+    private Set<Villager> affectedVillagers;
 
     private void transformVillager(EntityStruckByLightningEvent event) {
-        if (event.getEntity() instanceof VillagerEntity) {
-            VillagerEntity entity = (VillagerEntity) event.getEntity();
+        if (event.getEntity() instanceof Villager) {
+            Villager entity = (Villager) event.getEntity();
             if(lastLightningBolt != event.getLightning()) {
                 lastLightningBolt = event.getLightning();
                 affectedVillagers = new HashSet<>();

@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.loot.LootTables;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;
@@ -36,14 +36,14 @@ public class ItemOriginsOfDarknessConfig extends ItemConfig {
         super.onForgeRegistered();
         if (injectLootTables) {
             LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/origins_of_darkness"),
-                    LootTables.SPAWN_BONUS_CHEST,
-                    LootTables.VILLAGE_TOOLSMITH,
-                    LootTables.VILLAGE_WEAPONSMITH,
-                    LootTables.VILLAGE_SHEPHERD,
-                    LootTables.SIMPLE_DUNGEON,
-                    LootTables.ABANDONED_MINESHAFT,
-                    LootTables.JUNGLE_TEMPLE,
-                    LootTables.IGLOO_CHEST);
+                    BuiltInLootTables.SPAWN_BONUS_CHEST,
+                    BuiltInLootTables.VILLAGE_TOOLSMITH,
+                    BuiltInLootTables.VILLAGE_WEAPONSMITH,
+                    BuiltInLootTables.VILLAGE_SHEPHERD,
+                    BuiltInLootTables.SIMPLE_DUNGEON,
+                    BuiltInLootTables.ABANDONED_MINESHAFT,
+                    BuiltInLootTables.JUNGLE_TEMPLE,
+                    BuiltInLootTables.IGLOO_CHEST);
         }
     }
 }

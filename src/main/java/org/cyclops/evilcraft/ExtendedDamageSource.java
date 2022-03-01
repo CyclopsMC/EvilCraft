@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
 /**
@@ -28,7 +28,7 @@ public class ExtendedDamageSource extends DamageSource{
      * @param world The world.
      * @return A new damage source instance.
      */
-    public static ExtendedDamageSource spikedDamage(ServerWorld world) {
+    public static ExtendedDamageSource spikedDamage(ServerLevel world) {
         return new ExtendedDamageSource("spiked", FakePlayerFactory.getMinecraft(world));
     }
     /**
@@ -43,10 +43,10 @@ public class ExtendedDamageSource extends DamageSource{
     public static ExtendedDamageSource broomDamage(final LivingEntity attacker) {
         return new ExtendedDamageSource("broom", attacker) {
             @Override
-            public ITextComponent getLocalizedDeathMessage(LivingEntity defender) {
+            public Component getLocalizedDeathMessage(LivingEntity defender) {
                 String s = "death.attack." + this.msgId;
                 String s1 = s + ".player";
-                return new TranslationTextComponent(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()});
+                return new TranslatableComponent(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()});
             }
         };
     }

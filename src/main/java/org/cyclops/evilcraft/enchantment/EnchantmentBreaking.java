@@ -1,23 +1,20 @@
 package org.cyclops.evilcraft.enchantment;
 
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
-import org.cyclops.evilcraft.tileentity.tickaction.bloodchest.DamageableItemRepairAction;
+import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.DamageableItemRepairAction;
 
 import java.util.Random;
-
-import net.minecraft.enchantment.Enchantment.Rarity;
 
 /**
  * Enchantment for letting tools break tools faster.
@@ -27,7 +24,7 @@ import net.minecraft.enchantment.Enchantment.Rarity;
 public class EnchantmentBreaking extends Enchantment {
 
     public EnchantmentBreaking() {
-        super(Rarity.COMMON, EnchantmentType.BREAKABLE, new EquipmentSlotType[] {EquipmentSlotType.MAINHAND});
+        super(Rarity.COMMON, EnchantmentCategory.BREAKABLE, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -36,7 +33,7 @@ public class EnchantmentBreaking extends Enchantment {
     public void breakingEvent(LivingAttackEvent event) {
         if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getEntity();
-            Hand hand = entity.getUsedItemHand();
+            InteractionHand hand = entity.getUsedItemHand();
             if (hand != null) {
                 ItemStack itemStack = entity.getItemInHand(hand);
                 int enchantmentListID = EnchantmentHelpers.doesEnchantApply(itemStack, this);
@@ -52,7 +49,7 @@ public class EnchantmentBreaking extends Enchantment {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void breakingEvent(BlockEvent.BreakEvent event) {
         if (!event.getPlayer().level.isClientSide()) {
-            Hand hand = event.getPlayer().getUsedItemHand();
+            InteractionHand hand = event.getPlayer().getUsedItemHand();
             if (hand != null) {
                 int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getItemInHand(hand), this);
                 ItemStack itemStack = event.getPlayer().getItemInHand(hand);

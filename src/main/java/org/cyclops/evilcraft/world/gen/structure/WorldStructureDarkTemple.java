@@ -1,34 +1,30 @@
 package org.cyclops.evilcraft.world.gen.structure;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.VineBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.loot.LootTables;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.properties.Half;
-import net.minecraft.state.properties.SlabType;
-import net.minecraft.state.properties.StairsShape;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructureStart;
-import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.level.block.state.properties.StairsShape;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.GeneralConfig;
@@ -36,57 +32,40 @@ import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Random;
 
-import net.minecraft.world.gen.feature.structure.Structure.IStartFactory;
-
 /**
  * Structure that generates Dark Temples.
  * @author immortaleeb
  * @author rubensworks
  */
-public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
+public class WorldStructureDarkTemple extends StructureFeature<NoneFeatureConfiguration> {
 
-    public WorldStructureDarkTemple(Codec<NoFeatureConfig> configFactoryIn) {
-        super(configFactoryIn);
+    public WorldStructureDarkTemple(Codec<NoneFeatureConfiguration> configFactoryIn) {
+        super(configFactoryIn, PieceGeneratorSupplier.simple(WorldStructureDarkTemple::checkLocation, WorldStructureDarkTemple::generatePieces));
     }
 
-    @Override
-    protected boolean isFeatureChunk(ChunkGenerator p_230363_1_, BiomeProvider p_230363_2_, long p_230363_3_, SharedSeedRandom p_230363_5_, int p_230363_6_, int p_230363_7_, Biome biome, ChunkPos p_230363_9_, NoFeatureConfig p_230363_10_) {
-        if (biome.getBiomeCategory() == Biome.Category.OCEAN) {
+    private static <C extends FeatureConfiguration> boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> context) {
+        if (!context.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG)) {
             return false;
+        } else {
+            return context.getLowestY(21, 21) >= context.chunkGenerator().getSeaLevel();
         }
-        return super.isFeatureChunk(p_230363_1_, p_230363_2_, p_230363_3_, p_230363_5_, p_230363_6_, p_230363_7_, biome, p_230363_9_, p_230363_10_);
+    }
+
+    private static void generatePieces(StructurePiecesBuilder builder, PieceGenerator.Context<NoneFeatureConfiguration> context) {
+        builder.addPiece(new Piece(context.random(), context.chunkPos().getMinBlockX(), context.chunkPos().getMinBlockZ()));
     }
 
     @Override
-    public IStartFactory<NoFeatureConfig> getStartFactory() {
-        return Start::new;
-    }
-
-    @Override
-    public GenerationStage.Decoration step() {
-        return GenerationStage.Decoration.SURFACE_STRUCTURES;
-    }
-
-    public static class Start extends StructureStart<NoFeatureConfig> {
-        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox bounds, int references, long seed) {
-            super(structure, chunkPosX, chunkPosZ, bounds, references, seed);
-        }
-
-        // MCP: init
-        @Override
-        public void generatePieces(DynamicRegistries p_230364_1_, ChunkGenerator p_230364_2_, TemplateManager p_230364_3_, int chunkX, int chunkY, Biome p_230364_6_, NoFeatureConfig p_230364_7_) {
-            Piece piece = new Piece(this.random, chunkX * 16, chunkY * 16);
-            this.pieces.add(piece);
-            this.calculateBoundingBox();
-        }
+    public GenerationStep.Decoration step() {
+        return GenerationStep.Decoration.SURFACE_STRUCTURES;
     }
 
     public static class Piece extends WorldStructurePieceQuarterSymmetrical {
         public Piece(Random random, int x, int z) {
-            super(WorldStructureDarkTempleConfig.PIECE_TYPE, random, x, 9 + WorldStructureDarkTempleConfig.darkTempleMinHeight + random.nextInt(WorldStructureDarkTempleConfig.darkTempleMaxHeight - WorldStructureDarkTempleConfig.darkTempleMinHeight), z, 9, 9, 9);
+            super(WorldStructureDarkTempleConfig.PIECE_TYPE, x, 9 + WorldStructureDarkTempleConfig.darkTempleMinHeight + random.nextInt(WorldStructureDarkTempleConfig.darkTempleMaxHeight - WorldStructureDarkTempleConfig.darkTempleMinHeight), z, 9, 9, 9, getRandomHorizontalDirection(random));
         }
 
-        public Piece(TemplateManager templateManager, CompoundNBT tag) {
+        public Piece(CompoundTag tag) {
             super(WorldStructureDarkTempleConfig.PIECE_TYPE, tag);
         }
 
@@ -117,7 +96,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             lc.action = (world, pos) -> {
                 Random rand = new Random();
                 // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
-                LockableLootTileEntity.setLootTable(world, rand, pos, LootTables.JUNGLE_TEMPLE);
+                RandomizableContainerBlockEntity.setLootTable(world, rand, pos, BuiltInLootTables.JUNGLE_TEMPLE);
             };
             BlockWrapper vi = new BlockWrapper(Blocks.VINE.defaultBlockState(), 0.3F);
             vi.action = (world, pos) -> {
@@ -220,7 +199,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        protected void postBuildCorner(IWorld world, BlockPos blockPos, int incX, int incZ) {
+        protected void postBuildCorner(LevelAccessor world, BlockPos blockPos, int incX, int incZ) {
             // Place upside down stairs in corners
 
             // x+ east
@@ -229,13 +208,13 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             // z- west
 
             world.setBlock(blockPos.offset(3 * incX, 5, 4 * incZ), Blocks.STONE_STAIRS.defaultBlockState()
-                    .setValue(StairsBlock.FACING, DirectionHelpers.getEnumFacingFromXSign(incX))
-                    .setValue(StairsBlock.HALF, Half.TOP)
-                    .setValue(StairsBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                    .setValue(StairBlock.FACING, DirectionHelpers.getEnumFacingFromXSign(incX))
+                    .setValue(StairBlock.HALF, Half.TOP)
+                    .setValue(StairBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             world.setBlock(blockPos.offset(4 * incX, 5, 3 * incZ), Blocks.STONE_STAIRS.defaultBlockState()
-                    .setValue(StairsBlock.FACING, DirectionHelpers.getEnumFacingFromZSing(incZ))
-                    .setValue(StairsBlock.HALF, Half.TOP)
-                    .setValue(StairsBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                    .setValue(StairBlock.FACING, DirectionHelpers.getEnumFacingFromZSing(incZ))
+                    .setValue(StairBlock.HALF, Half.TOP)
+                    .setValue(StairBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
 
             // pillars to the ground
             int xx = 4 * incX;
@@ -255,7 +234,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
          * @return Returns the height of a pillar in one of the corners, specified by (incX, incZ),
          *         of the temple if it were centered at the given (x,y,z) location.
          */
-        private int getPillarHeightForCornerAt(IWorld world, BlockPos blockPos, int incX, int incZ) {
+        private int getPillarHeightForCornerAt(LevelAccessor world, BlockPos blockPos, int incX, int incZ) {
             BlockPos loopPos = blockPos.offset(4 * incX, 0, 4 * incZ);
             int res = 0;
 
@@ -266,7 +245,7 @@ public class WorldStructureDarkTemple extends Structure<NoFeatureConfig> {
             return res;
         }
 
-        private boolean isSolidBlock(IWorld world, BlockPos blockPos) {
+        private boolean isSolidBlock(LevelAccessor world, BlockPos blockPos) {
             return isSolidBlock(world.getBlockState(blockPos));
         }
 

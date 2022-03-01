@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.init.ModBase;
@@ -53,27 +53,27 @@ public class FartPacket extends PlayerPositionPacket {
      * Creates a FartPacket which contains the player data.
      * @param player The player data.
      */
-    public FartPacket(PlayerEntity player) {
+    public FartPacket(Player player) {
         super(player);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void actionClient(World world, PlayerEntity player) {
+    public void actionClient(Level world, Player player) {
         if(GeneralConfig.farting)
             super.actionClient(world, player);
 
     }
 
     @Override
-    protected void performClientAction(World world, PlayerEntity player) {
+    protected void performClientAction(Level world, Player player) {
         spawnFartParticles(world, player, position, true);
     }
     
     @OnlyIn(Dist.CLIENT)
     private void spawnFartParticles(
-            World world, PlayerEntity player,
-            Vector3d pos, boolean isClientSidePlayer) {
+            Level world, Player player,
+            Vec3 pos, boolean isClientSidePlayer) {
         
         if (player == null)
             return;
@@ -83,7 +83,7 @@ public class FartPacket extends PlayerPositionPacket {
         boolean rainbow = hasRainbowFart(player);
         
         // Make corrections for the player rotation
-        double yaw = (player.yRot * Math.PI) / 180;
+        double yaw = (player.getYRot() * Math.PI) / 180;
         double playerXOffset = Math.sin(yaw) * 0.7;
         double playerZOffset = -Math.cos(yaw) * 0.7;
         
@@ -110,13 +110,13 @@ public class FartPacket extends PlayerPositionPacket {
      * @param player The player to check.
      * @return If that player has rainbow farts.
      */
-    public boolean hasRainbowFart(PlayerEntity player) {
+    public boolean hasRainbowFart(Player player) {
         return player.getGameProfile() != null
                 && ALLOW_RAINBOW_FARTS.contains(player.getGameProfile().getId());
     }
 
     @Override
-    public void actionServer(World world, ServerPlayerEntity player) {
+    public void actionServer(Level world, ServerPlayer player) {
         if(GeneralConfig.farting) {
             Advancements.FART.test(player);
             super.actionServer(world, player);
@@ -124,7 +124,7 @@ public class FartPacket extends PlayerPositionPacket {
     }
 
     @Override
-    protected PlayerPositionPacket create(PlayerEntity player, int range) {
+    protected PlayerPositionPacket create(Player player, int range) {
         return new FartPacket(player);
     }
 

@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.client.render.entity;
 
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
 import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.Reference;
 
@@ -16,12 +16,12 @@ import org.cyclops.evilcraft.Reference;
  * @param <T> The type of entity.
  * @param <M> The model that will be rendered.
  */
-public abstract class RenderModelLiving<T extends MobEntity, M extends EntityModel<T>> extends MobRenderer<T, M> {
+public abstract class RenderModelLiving<T extends Mob, M extends EntityModel<T>> extends MobRenderer<T, M> {
 
     private ResourceLocation texture;
 
-    public RenderModelLiving(EntityRendererManager renderManager, ExtendedConfig<?, ?> config, M model, float par2) {
-        super(renderManager, model, par2);
+    public RenderModelLiving(EntityRendererProvider.Context context, ExtendedConfig<?, ?> config, M model, float par2) {
+        super(context, model, par2);
         texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
 
