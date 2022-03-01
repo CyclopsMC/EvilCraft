@@ -19,7 +19,7 @@ import org.cyclops.evilcraft.RegistryEntries;
  */
 public class BlockFluidPoison extends LiquidBlock {
 
-    
+
     private static final int POISON_DURATION = 5;
 
     public BlockFluidPoison(Block.Properties builder) {

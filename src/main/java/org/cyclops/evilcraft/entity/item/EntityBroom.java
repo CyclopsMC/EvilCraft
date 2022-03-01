@@ -47,7 +47,7 @@ import java.util.Set;
 
 /**
  * Entity for a broom
- * 
+ *
  * @author immortaleeb
  *
  */
@@ -59,25 +59,25 @@ public class EntityBroom extends Entity {
      * Speed for the broom (in all directions)
      */
     public static final double SPEED = 0.4;
-    
+
     /**
-     * Maximum angle of the broom between the XZ-plane and the Y-axis 
+     * Maximum angle of the broom between the XZ-plane and the Y-axis
      * (in degrees, -90 = completely up, +90 = completely down)
      * This limits the angle under which the player can move up or down
      */
     public static final float MAX_ANGLE = 60.0F;
     /**
-     * Minimum angle of the broom between the XZ-plane and the Y-axis 
+     * Minimum angle of the broom between the XZ-plane and the Y-axis
      * (in degrees, -90 = completely up, +90 = completely down)
      * This limits the angle under which the player can move up or down
      */
     public static final float MIN_ANGLE = -60.0F;
-    
+
     /**
      * Maximum amplitude of the cosine functions which generate the hovering effect
      */
     private static final float MAX_COS_AMPLITUDE = 0.2f;
-    
+
     /**
      * The player that last mounted this broom (used to detect dismounting)
      */
@@ -94,11 +94,11 @@ public class EntityBroom extends Entity {
     private double newRotationYaw;
     private double newRotationPitch;
     private int newPosRotationIncrements;
-    
+
     // This value adds a random value to the world tick in the calculations of the hover offset of a broom
     // This makes sure that all brooms don't reach the highest and lowest hovering points at the same time
     private int broomHoverTickOffset;
-    
+
     /**
      * This variable holds the last hover offset
      * that was set by this broom during its last
@@ -143,24 +143,24 @@ public class EntityBroom extends Entity {
     protected void initBroomHoverTickOffset() {
         broomHoverTickOffset = random.nextInt((int)Math.PI);
     }
-    
+
     @Override
     public double getPassengersRidingOffset() {
         return 0.0;
     }
 
     @Override
-	public boolean isPickable() {
-		return isAlive();
-	}
-    
+    public boolean isPickable() {
+        return isAlive();
+    }
+
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         if (!this.level.isClientSide() && !isVehicle() && !player.isCrouching()) {
             player.startRiding(this);
             lastMounted = player;
         }
-    	return InteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -183,7 +183,7 @@ public class EntityBroom extends Entity {
     @Override
     public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
         posRotationIncrements += 6;
-        
+
         //this.yOffset = 0.0F;
         this.newPosX = x;
         this.newPosY = y;
@@ -242,13 +242,13 @@ public class EntityBroom extends Entity {
 
     @Override
     public void tick() {
-    	super.tick();
+        super.tick();
 
         Entity rider = getControllingPassenger();
         if (!level.isClientSide() && !isVehicle() && lastMounted != null) {
             onDismount();
-    		
-    	} else if (rider instanceof LivingEntity) {
+
+        } else if (rider instanceof LivingEntity) {
             /*
              * If we ever have the problem that a player can dismount without
              * getting the broom back in his inventory and removing the entity from the world
@@ -257,18 +257,18 @@ public class EntityBroom extends Entity {
              * and thus the dismounting code is never executed
              */
             lastMounted = (LivingEntity) rider;
-            
+
             xo = getX();
             yo = getY();
             zo = getZ();
             xRotO = getXRot();
             yRotO = getYRot();
-            
-    	    if (!level.isClientSide() || Minecraft.getInstance().player == lastMounted) {
-    	        updateMountedServer();
-    	    } else {
-    	        updateMountedClient();
-    	    }
+
+            if (!level.isClientSide() || Minecraft.getInstance().player == lastMounted) {
+                updateMountedServer();
+            } else {
+                updateMountedClient();
+            }
 
             if(MinecraftHelpers.isClientSide() && getModifier(BroomModifiers.PARTICLES) > 0) {
                 showParticles(this);
@@ -299,12 +299,12 @@ public class EntityBroom extends Entity {
                     listener.onTick(this, entry.getValue());
                 }
             }
-    	} else {
+        } else {
             if(!this.level.isClientSide() && rider == null) {
                 this.collideWithNearbyEntities();
             }
-    	    updateUnmounted();
-    	}
+            updateUnmounted();
+        }
     }
 
     private void onDismount() {
@@ -369,23 +369,23 @@ public class EntityBroom extends Entity {
             }
         }
     }
-    
+
     protected void updateMountedClient() {
         if (newPosRotationIncrements > 0) {
             double x = getX() + (newPosX - getX()) / newPosRotationIncrements;
             double y = getY() + (newPosY - getY()) / newPosRotationIncrements;
             double z = getZ() + (newPosZ - getZ()) / newPosRotationIncrements;
-            
+
             float yaw = MathHelpers.normalizeAngle_180((float)(newRotationYaw - getYRot()));
             setYRot(getYRot() + yaw / newPosRotationIncrements);
             setXRot((float) (getXRot() + (newRotationPitch - getXRot()) / newPosRotationIncrements));
-            
+
             newPosRotationIncrements--;
-            
+
             setPos(x, y, z);
             setRot(getYRot(), getXRot());
         }
-        
+
         move(MoverType.SELF, new Vec3(0, getHoverOffset(), 0));
     }
 
@@ -403,9 +403,9 @@ public class EntityBroom extends Entity {
             setBroomStack(broomStack);
         }
     }
-    
+
     /**
-     * Called on the server side for all players or on the client side when the 
+     * Called on the server side for all players or on the client side when the
      * player mounted on the broom is the local player, so movement is as smooth as
      * possible.
      */
@@ -444,19 +444,19 @@ public class EntityBroom extends Entity {
         setYRot(getYRot() * (1F - maneuverabilityFactor) + lastRotationYaw * maneuverabilityFactor);
         lastRotationPitch = getXRot();
         lastRotationYaw = getYRot();
-        
+
         // Limit the angle under which the player can move up or down
         if (getXRot() > MAX_ANGLE)
             setXRot(MAX_ANGLE);
         else if (getXRot() < MIN_ANGLE)
             setXRot(MIN_ANGLE);
-        
+
         setRot(getYRot(), getXRot());
-        
+
         // Handle player movement
         double pitch = ((getXRot() + 90) * Math.PI) / 180;
         double yaw = ((getYRot() + 90) * Math.PI) / 180;
-        
+
         double x = Math.sin(pitch) * Math.cos(yaw);
         double z = Math.sin(pitch) * Math.sin(yaw);
         double y = Math.cos(pitch);
@@ -499,7 +499,7 @@ public class EntityBroom extends Entity {
         setDeltaMovement(getDeltaMovement()
                 .multiply(0.1, 0.1, 0.1)
                 .add(x * SPEED * playerSpeed, y * SPEED * playerSpeed * levitationModifier, z * SPEED * playerSpeed));
-        
+
         // Update motion on client side to provide a hovering effect
         if (level.isClientSide()) {
             setDeltaMovement(getDeltaMovement().add(0, getHoverOffset(), 0));
@@ -526,10 +526,10 @@ public class EntityBroom extends Entity {
         float x = level.getGameTime();
         float t = broomHoverTickOffset;
         double newHoverOffset = Math.cos(x / 10 + t) * Math.cos(x / 12 + t) * Math.cos(x / 15 + t) * MAX_COS_AMPLITUDE;
-        
+
         double newHoverDifference = newHoverOffset - oldHoverOffset;
         oldHoverOffset += newHoverDifference;
-        
+
         return newHoverDifference;
     }
 
@@ -551,12 +551,12 @@ public class EntityBroom extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag nbttagcompound) {
-    	
+
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag nbttagcompound) {
-    	
+
     }
 
     public void setBroomStack(ItemStack itemStack) {
@@ -603,7 +603,7 @@ public class EntityBroom extends Entity {
         }
         return value;
     }
-    
+
     @Override
     public CompoundTag saveWithoutId(CompoundTag tag) {
         tag = super.saveWithoutId(tag);

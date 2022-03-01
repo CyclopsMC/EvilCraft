@@ -19,5 +19,5 @@ public class ItemCreativeBloodDropConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

@@ -17,5 +17,5 @@ public class PotionPalingConfig extends EffectConfig {
             eConfig -> new PotionPaling()
         );
     }
-    
+
 }

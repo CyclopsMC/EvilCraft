@@ -19,5 +19,5 @@ public class ItemSceptreOfThunderConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

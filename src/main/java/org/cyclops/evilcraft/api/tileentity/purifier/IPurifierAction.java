@@ -37,5 +37,5 @@ public interface IPurifierAction {
      * @return If work is done
      */
     public boolean work(BlockEntityPurifier tile);
-    
+
 }

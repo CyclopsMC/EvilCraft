@@ -23,29 +23,29 @@ public class WorldSharedTank extends SingleUseTank {
      * The NBT name for the fluid tank.
      */
     public static final String NBT_TANKID = "tankID";
-	
-	protected String tankID = "";
-	private int previousAmount = 0;
+
+    protected String tankID = "";
+    private int previousAmount = 0;
 
     public WorldSharedTank(int capacity) {
         super(capacity);
     }
-    
+
     /**
      * Reset the previous fluid storage, used for interpolating fluid amounts client-side.
      */
     public void resetPreviousFluid() {
-    	previousAmount = getFluidAmount();
+        previousAmount = getFluidAmount();
     }
-    
+
     /**
      * Get the previous fluid amount, used for interpolating fluid amounts client-side.
      * @return The previous amount.
      */
     public int getPreviousAmount() {
-    	return previousAmount;
+        return previousAmount;
     }
-    
+
     @Override
     public void writeTankToNBT(CompoundTag nbt) {
         super.writeTankToNBT(nbt);
@@ -57,11 +57,11 @@ public class WorldSharedTank extends SingleUseTank {
         super.readTankFromNBT(nbt);
         tankID = nbt.getString(NBT_TANKID);
     }
-    
+
     protected void readWorldFluid() {
-    	this.fluid = WorldSharedTankCache.getInstance().getTankContent(tankID);
+        this.fluid = WorldSharedTankCache.getInstance().getTankContent(tankID);
     }
-    
+
     protected void writeWorldFluid() {
         if (!MinecraftHelpers.isClientSideThread()) {
             WorldSharedTankCache.getInstance().setTankContent(tankID, this.fluid);
@@ -70,20 +70,20 @@ public class WorldSharedTank extends SingleUseTank {
 
     @Override
     public void setFluid(FluidStack fluid) {
-    	super.setFluid(fluid);
-    	writeWorldFluid();
+        super.setFluid(fluid);
+        writeWorldFluid();
     }
-    
+
     @Override
     public FluidStack getFluid() {
-    	readWorldFluid();
-    	return super.getFluid();
+        readWorldFluid();
+        return super.getFluid();
     }
-    
+
     @Override
     public int getFluidAmount() {
-    	readWorldFluid();
-    	return super.getFluidAmount();
+        readWorldFluid();
+        return super.getFluidAmount();
     }
 
     @Override
@@ -94,22 +94,22 @@ public class WorldSharedTank extends SingleUseTank {
 
     @Override
     public int fill(FluidStack resource, FluidAction action) {
-    	readWorldFluid();
-    	int ret = super.fill(resource, action);
-    	if (ret > 0 && action.execute()) {
-    		writeWorldFluid();
-    	}
-    	return ret;
+        readWorldFluid();
+        int ret = super.fill(resource, action);
+        if (ret > 0 && action.execute()) {
+            writeWorldFluid();
+        }
+        return ret;
     }
-    
+
     @Override
     public FluidStack drain(int maxDrain, FluidAction action) {
-    	readWorldFluid();
-    	FluidStack ret = super.drain(maxDrain, action);
-    	if (!ret.isEmpty() && action.execute()) {
-    		writeWorldFluid();
-    	}
-    	return ret;
+        readWorldFluid();
+        FluidStack ret = super.drain(maxDrain, action);
+        if (!ret.isEmpty() && action.execute()) {
+            writeWorldFluid();
+        }
+        return ret;
     }
 
     @Override
@@ -159,14 +159,14 @@ public class WorldSharedTank extends SingleUseTank {
          * NBT key.
          */
         public static final String KEY = "WorldSharedTanks";
-    	
-    	/**
-    	 * Make a new instance.
+
+        /**
+         * Make a new instance.
          * @param mod The mod.
-    	 */
-    	public TankData(ModBase mod) {
-    		super(mod);
-    	}
+         */
+        public TankData(ModBase mod) {
+            super(mod);
+        }
 
         @Override
         public void reset() {
@@ -191,5 +191,5 @@ public class WorldSharedTank extends SingleUseTank {
         }
 
     }
-	
+
 }

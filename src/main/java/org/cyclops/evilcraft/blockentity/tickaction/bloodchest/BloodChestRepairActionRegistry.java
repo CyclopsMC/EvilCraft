@@ -19,15 +19,15 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
 
     private final List<IBloodChestRepairAction> repairActions =
             new LinkedList<IBloodChestRepairAction>();
-    
+
     /**
      * Make a new instance.
      */
     public BloodChestRepairActionRegistry() {
-    	register(new DamageableItemRepairAction());
+        register(new DamageableItemRepairAction());
         register(new AnvilRepairAction());
     }
-    
+
     @Override
     public void register(IBloodChestRepairAction repairAction) {
         repairActions.add(repairAction);
@@ -69,5 +69,5 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
         }
         return true;
     }
-    
+
 }

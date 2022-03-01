@@ -13,19 +13,19 @@ import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
  *
  */
 public class SlotWorkingRemoveOnly<T extends BlockEntityWorking<T, ?>> extends SlotWorking<T> {
-   
-	private boolean shouldHardReset;
+
+    private boolean shouldHardReset;
 
     public SlotWorkingRemoveOnly(int index, int x, int y, ContainerTileWorking<T> container, boolean shouldHardReset, Level world) {
         super(index, x, y, container, world);
         this.shouldHardReset = shouldHardReset;
     }
-    
+
     @Override
     public boolean mayPlace(ItemStack itemStack) {
         return false;
     }
-    
+
     @Override
     public void onTake(Player player, ItemStack itemStack) {
         container.getTileSupplier().ifPresent(tile -> {
@@ -33,12 +33,12 @@ public class SlotWorkingRemoveOnly<T extends BlockEntityWorking<T, ?>> extends S
         });
         super.onTake(player, itemStack);
     }
-    
+
     @Override
     public void setChanged() {
         container.getTileSupplier().ifPresent(tile -> {
             tile.resetWork(shouldHardReset);
         });
     }
-	
+
 }

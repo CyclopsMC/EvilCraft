@@ -17,10 +17,10 @@ import org.cyclops.evilcraft.item.ItemRedstoneGrenadeConfig;
  *
  */
 public class BlockEntityInvisibleRedstone extends CyclopsBlockEntity {
-    
+
     // Destroy redstone blockState after 1 redstone tick (= 2 game ticks)
     private static final int TICK_DESTRUCTION_THRESHOLD = 2;
-    
+
     protected int destroyCountDown;
 
     public BlockEntityInvisibleRedstone(BlockPos blockPos, BlockState blockState) {

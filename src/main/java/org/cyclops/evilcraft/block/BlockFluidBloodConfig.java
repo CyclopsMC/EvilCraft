@@ -27,5 +27,5 @@ public class BlockFluidBloodConfig extends BlockConfig {
                 (eConfig, block) -> new BlockItem(block, new Item.Properties())
         );
     }
-    
+
 }

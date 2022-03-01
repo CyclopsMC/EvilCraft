@@ -22,7 +22,7 @@ public class BlockInvisibleRedstoneConfig extends BlockConfig {
     public BlockInvisibleRedstoneConfig() {
         super(
                 EvilCraft._instance,
-        		"invisible_redstone",
+                "invisible_redstone",
                 eConfig -> new BlockInvisibleRedstone(Block.Properties.of(Material.AIR)
                         .strength(5.0F, 10.0F)
                         .sound(SoundType.METAL)),
@@ -34,5 +34,5 @@ public class BlockInvisibleRedstoneConfig extends BlockConfig {
     public void onClientSetup(FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
-    
+
 }

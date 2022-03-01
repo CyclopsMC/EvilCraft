@@ -40,8 +40,8 @@ import java.util.List;
  *
  */
 public class ItemBlockFluidContainer extends ItemBlockNBT {
-    
-	private IBlockTank block;
+
+    private IBlockTank block;
 
     public ItemBlockFluidContainer(Block block, Properties builder) {
         super(block, builder);
@@ -54,8 +54,8 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         return ItemHelpers.isActivated(itemStack);
     }
 
-	@Override
-	protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
+    @Override
+    protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
         tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
                 .ifPresent(fluidHandlerTile -> {
                     itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
@@ -69,9 +69,9 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
                             });
                 });
         return true;
-	}
-	
-	@Override
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         if(block.isActivatable()) {
             return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, block.toggleActivation(player.getItemInHand(hand), world, player));
@@ -100,7 +100,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
             list.add(BlockTankHelpers.getInfoTank(itemStack));
         }
         if(block.isActivatable()) {
-	        L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
+            L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
                     getDescriptionId() + ".info.auto_supply");
         }
     }

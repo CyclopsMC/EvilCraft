@@ -64,7 +64,7 @@ import java.util.Optional;
  *
  */
 public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBloodInfuser, MutableInt> implements MenuProvider {
-    
+
     /**
      * The total amount of slots in this machine.
      */
@@ -87,17 +87,17 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
 
     public static Metadata METADATA = new Metadata();
-    
+
     private int infuseTicker;
     private SingleCache<Triple<ItemStack, Integer, Integer>, Optional<RecipeBloodInfuser>> recipeCache;
     private float xp;
-    
+
     private static final Multimap<Class<?>, ITickAction<BlockEntityBloodInfuser>> INFUSE_TICK_ACTIONS = LinkedListMultimap.create();
     static {
         INFUSE_TICK_ACTIONS.put(Item.class, new FluidContainerItemTickAction());
         INFUSE_TICK_ACTIONS.put(Item.class, new InfuseItemTickAction());
     }
-    
+
     private static final Map<Class<?>, ITickAction<BlockEntityBloodInfuser>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntityBloodInfuser>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<BlockEntityBloodInfuser>());
@@ -201,10 +201,10 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     public Direction getRotation() {
         return BlockHelpers.getSafeBlockStateProperty(getLevel().getBlockState(getBlockPos()), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
     }
-    
+
     @Override
     protected SingleUseTank createTank(int tankSize) {
-    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
 
     public Optional<RecipeBloodInfuser> getRecipe(ItemStack itemStack) {
@@ -227,14 +227,14 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     }
 
     @Override
-	public boolean canWork() {
-		return true;
-	}
+    public boolean canWork() {
+        return true;
+    }
 
-	@Override
-	protected int getWorkTicker() {
-		return infuseTicker;
-	}
+    @Override
+    protected int getWorkTicker() {
+        return infuseTicker;
+    }
 
     @Nullable
     @Override

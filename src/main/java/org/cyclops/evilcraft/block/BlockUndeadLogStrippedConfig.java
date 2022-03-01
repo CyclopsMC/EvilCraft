@@ -28,7 +28,7 @@ public class BlockUndeadLogStrippedConfig extends BlockConfig {
         );
         MinecraftForge.EVENT_BUS.addListener(this::toolActionEvent);
     }
-    
+
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
@@ -45,5 +45,5 @@ public class BlockUndeadLogStrippedConfig extends BlockConfig {
             event.setFinalState(blockStateNew);
         }
     }
-    
+
 }

@@ -27,5 +27,5 @@ public class ItemNecromancerStaffConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

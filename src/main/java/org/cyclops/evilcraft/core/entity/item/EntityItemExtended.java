@@ -22,7 +22,7 @@ public abstract class EntityItemExtended extends ItemEntity {
         this.setPickUpDelay(40);
     }
 
-	public EntityItemExtended(EntityType<? extends EntityItemExtended> type, Level world, ItemEntity original) {
+    public EntityItemExtended(EntityType<? extends EntityItemExtended> type, Level world, ItemEntity original) {
         super(type, world);
         this.setPickUpDelay(40);
         this.setDeltaMovement(original.getDeltaMovement());

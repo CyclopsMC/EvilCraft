@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.world.item.ItemStack;

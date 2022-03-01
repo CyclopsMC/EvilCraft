@@ -74,5 +74,5 @@ public class BlockSpiritFurnaceConfig extends UpgradableBlockContainerConfig {
                 Upgrades.UPGRADE_TIER2,
                 Upgrades.UPGRADE_TIER3);
     }
-    
+
 }

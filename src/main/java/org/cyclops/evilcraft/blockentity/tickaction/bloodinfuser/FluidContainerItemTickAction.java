@@ -82,5 +82,5 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         }
         return FluidUtil.tryFillContainer(itemStack, tile.getTank(), FluidHelpers.BUCKET_VOLUME, null, false).getResult();
     }
-    
+
 }

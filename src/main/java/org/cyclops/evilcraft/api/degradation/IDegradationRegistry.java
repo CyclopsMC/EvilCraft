@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public interface IDegradationRegistry extends IRegistry {
 
-	/**
+    /**
      * Register a new degradation effect.
      * @param nameID The unique name of this effect.
      * @param degradationEffect The effect to register.
@@ -23,11 +23,11 @@ public interface IDegradationRegistry extends IRegistry {
      * @return The registered effects.
      */
     public Set<IDegradationEffect> getDegradationEffects();
-    
+
     /**
      * Get a degradation effect based on a weighted random choice.
      * @return A weighted random effect.
      */
     public IDegradationEffect getRandomDegradationEffect();
-    
+
 }

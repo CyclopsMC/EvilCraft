@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -16,22 +15,22 @@ import org.cyclops.evilcraft.entity.item.EntityBroomConfig;
 
 /**
  * Renderer for a broom
- * 
+ *
  * @author immortaleeb
  *
  */
 public class RenderBroom extends EntityRenderer<EntityBroom> {
 
-	public RenderBroom(EntityRendererProvider.Context renderContext, EntityBroomConfig config) {
-	    super(renderContext);
-	}
+    public RenderBroom(EntityRendererProvider.Context renderContext, EntityBroomConfig config) {
+        super(renderContext);
+    }
 
     protected ItemStack getItemStack(EntityBroom entity) {
         return entity.getBroomStack();
     }
 
-	@Override
-	public void render(EntityBroom entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+    @Override
+    public void render(EntityBroom entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         matrixStackIn.translate(0, 0.2F, 0);
 
         // Note: using entity.rotationYaw instead of yaw seems to fix some glitchyness when rendering
@@ -45,7 +44,7 @@ public class RenderBroom extends EntityRenderer<EntityBroom> {
         Minecraft.getInstance().getItemRenderer().renderStatic(getItemStack(entity),
                 ItemTransforms.TransformType.FIXED, packedLightIn,
                 OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, 0);
-	}
+    }
 
     @Override
     public ResourceLocation getTextureLocation(EntityBroom entity) {

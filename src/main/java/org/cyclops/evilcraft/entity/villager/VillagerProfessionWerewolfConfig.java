@@ -16,5 +16,5 @@ public class VillagerProfessionWerewolfConfig extends VillagerConfig {
                 VillagerProfessionWerewolf::new
         );
     }
-    
+
 }

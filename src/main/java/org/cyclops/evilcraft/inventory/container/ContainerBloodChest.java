@@ -18,12 +18,12 @@ import java.util.Optional;
  *
  */
 public class ContainerBloodChest extends ContainerTickingChest<BlockEntityBloodChest> {
-    
+
     private static final int INVENTORY_OFFSET_X = 28;
     private static final int INVENTORY_OFFSET_Y = 84;
     private static final int ARMOR_INVENTORY_OFFSET_X = 6;
     private static final int ARMOR_INVENTORY_OFFSET_Y = 86;
-    
+
     private static final int CHEST_INVENTORY_OFFSET_X = 100;
     private static final int CHEST_INVENTORY_OFFSET_Y = 27;
     /**
@@ -52,5 +52,5 @@ public class ContainerBloodChest extends ContainerTickingChest<BlockEntityBloodC
     public Slot makeSlot(Container inventory, int index, int row, int column) {
         return new SlotRepairable(inventory, index, row, column);
     }
-    
+
 }

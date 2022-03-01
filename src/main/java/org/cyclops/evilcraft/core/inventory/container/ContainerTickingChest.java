@@ -16,7 +16,7 @@ import java.util.Optional;
  * @param <T> The type of tile.
  */
 public abstract class ContainerTickingChest<T extends BlockEntityTickingTankInventory<T>> extends ContainerInventoryTickingTank<T> {
-    
+
     private int offsetX;
     private int offsetY;
 
@@ -28,7 +28,7 @@ public abstract class ContainerTickingChest<T extends BlockEntityTickingTankInve
         this.offsetY = offsetY;
         this.addChestSlots(rows, columns);
     }
-    
+
     protected void addChestSlots(int rows, int columns) {
         for (int row = 0; row < rows; row++) {
             for (int column = 0; column < columns; column++) {
@@ -36,7 +36,7 @@ public abstract class ContainerTickingChest<T extends BlockEntityTickingTankInve
             }
         }
     }
-    
+
     /**
      * Add a new slot in the given inventory at the given index and at the given row and column.
      * @param inventory The inventory for the chest.
@@ -46,7 +46,7 @@ public abstract class ContainerTickingChest<T extends BlockEntityTickingTankInve
      * @return The new slot instance.
      */
     public abstract Slot makeSlot(Container inventory, int index, int row, int column);
-    
-    
-    
+
+
+
 }

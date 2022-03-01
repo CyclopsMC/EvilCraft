@@ -26,5 +26,5 @@ public class ItemRejuvenatedFleshConfig extends ItemConfig {
                         .stacksTo(1))
         );
     }
-    
+
 }

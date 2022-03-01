@@ -16,5 +16,5 @@ public class MobSpawnDegradationConfig extends DegradationEffectConfig {
                 2
         );
     }
-    
+
 }

@@ -32,5 +32,5 @@ public class BlockSpikedPlateConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-    
+
 }

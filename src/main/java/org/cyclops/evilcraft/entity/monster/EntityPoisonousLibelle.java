@@ -37,7 +37,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
     static {
         MinecraftForge.EVENT_BUS.register(EntityPoisonousLibelle.class);
     }
-    
+
     private static final int POISON_DURATION = 2;
 
     /**
@@ -66,11 +66,11 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
      */
     public boolean forceNewTarget;
     private Entity target;
-    
+
     private static int WINGLENGTH = 4;
     private int wingProgress = 0;
     private boolean wingGoUp = true;
-    
+
     private static final int MAXHEIGHT = 80;
     private float randomYawVelocity;
 
@@ -146,7 +146,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
         f *= (float)Math.pow(2.0D, m.y);
 
         this.animTime += f;
-        
+
         double distanceY;
         double distanceZ;
         double distance;
@@ -221,7 +221,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
             double differenceYaw = Mth.wrapDegrees(newYaw - (double)this.getYRot());
 
             limitDifferenceYaw = 50.0D;
-            
+
             if (differenceYaw > limitDifferenceYaw) {
                 differenceYaw = limitDifferenceYaw;
             }
@@ -260,11 +260,11 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
         }
 
         this.yBodyRot = this.getYRot();
-        
+
         if (!this.level.isClientSide() && this.hurtTime == 0 && this.isAlive()) {
             this.attackEntitiesInList(this.level.getEntities(this, this.getBoundingBox().inflate(1.0D, 0.0D, 1.0D)));
         }
-        
+
         // Update wing progress
         if(wingGoUp) {
             wingProgress++;
@@ -275,7 +275,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
             if(wingProgress < -WINGLENGTH)
                 wingGoUp = true;
         }
-        
+
         if (!this.level.isClientSide() && this.level.getDifficulty() == Difficulty.PEACEFUL) {
             this.remove(RemovalReason.DISCARDED);
         }
@@ -316,7 +316,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
                 }
             }
         }
-        
+
         if(!targetSet) {
             boolean flag;
 
@@ -335,7 +335,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
             this.target = null;
         }
     }
-    
+
     /**
      * Get the wing progress scaled to the given parameter.
      * @param scale The scale.

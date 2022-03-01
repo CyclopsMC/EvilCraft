@@ -43,5 +43,5 @@ public class RenderBombPrimed extends TntRenderer {
         matrixStackIn.popPose();
         //super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
-    
+
 }

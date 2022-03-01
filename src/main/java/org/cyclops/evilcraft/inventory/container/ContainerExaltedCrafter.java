@@ -31,24 +31,24 @@ import java.util.List;
  *
  */
 public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedCrafter> {
-    
-	private static final int GRID_OFFSET_X = 30;
+
+    private static final int GRID_OFFSET_X = 30;
     private static final int GRID_OFFSET_Y = 17;
     private static final int GRID_ROWS = 3;
     private static final int GRID_COLUMNS = 3;
-    
+
     private static final int CHEST_INVENTORY_OFFSET_X = 8;
     private static final int CHEST_INVENTORY_OFFSET_Y = 84;
     private static final int CHEST_INVENTORY_ROWS = 3;
     private static final int CHEST_INVENTORY_COLUMNS = 9;
-	
+
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 143;
 
     public static final String BUTTON_CLEAR = "clear";
     public static final String BUTTON_BALANCE = "balance";
     public static final String BUTTON_TOGGLERETURN = "toggleReturn";
-    
+
     private final Level world;
     private final NBTCraftingGrid craftingGrid;
     private final ResultContainer result;
@@ -64,13 +64,13 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
         this.world = player.level;
         this.result = new ResultContainer();
         this.craftingGrid = new NBTCraftingGrid(player, itemIndex, hand, this);
-        
+
         this.addCraftingGrid(player, craftingGrid);
         this.addInventory(getItem().getSupplementaryInventory(player, InventoryHelpers.getItemFromIndex(player, itemIndex, hand), itemIndex, hand),
-        		0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
-        		CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
+                0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
+                CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
         this.addPlayerInventory(player.getInventory(), INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
-        
+
         initialized = true;
         this.slotsChanged(craftingGrid);
 
@@ -78,14 +78,14 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
         putButtonAction(BUTTON_BALANCE, (buttonId, container) -> this.balanceGrid());
         putButtonAction(BUTTON_TOGGLERETURN, (buttonId, container) -> ((ContainerExaltedCrafter)container).setReturnToInnerInventory(!((ContainerExaltedCrafter)container).isReturnToInnerInventory()));
     }
-    
+
     /**
      * Clear the crafting grid.
      */
     public void clearGrid() {
-    	for(int i = 0; i < craftingGrid.getContainerSize(); i++) {
-    		quickMoveStack(player, i);
-    	}
+        for(int i = 0; i < craftingGrid.getContainerSize(); i++) {
+            quickMoveStack(player, i);
+        }
     }
 
     /**
@@ -152,45 +152,45 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
             ItemExaltedCrafter.setReturnToInner(itemStack, returnToInner);
         }
     }
-    
+
     @Override
     protected int getSlotStart(int originSlot, int slotStart, boolean reverse) {
-    	if(!reverse && !ItemExaltedCrafterConfig.shiftCraftingGrid) {
-    		// Avoid shift clicking with as target the crafting grid (+ result).
-    		return 10;
-    	} else if(reverse && originSlot < 10) {
+        if(!reverse && !ItemExaltedCrafterConfig.shiftCraftingGrid) {
+            // Avoid shift clicking with as target the crafting grid (+ result).
+            return 10;
+        } else if(reverse && originSlot < 10) {
             if(isReturnToInnerInventory()) {
                 // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
                 return 1 + GRID_ROWS * GRID_COLUMNS;
             } else {
                 return slotStart;
             }
-    	}
-    	return super.getSlotStart(originSlot, slotStart, reverse);
+        }
+        return super.getSlotStart(originSlot, slotStart, reverse);
     }
-    
+
     @Override
     protected int getSlotRange(int originSlot, int slotRange, boolean reverse) {
-    	if(isReturnToInnerInventory() && reverse && originSlot < 10) {
-    		// Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
-    		return getSizeInventory();
-    	} else {
+        if(isReturnToInnerInventory() && reverse && originSlot < 10) {
+            // Shift clicking from the crafting grid (+ result) should first go to the inner inventory.
+            return getSizeInventory();
+        } else {
             return slotRange;
         }
     }
-    
+
     protected void addCraftingGrid(Player player, NBTCraftingGrid grid) {
-    	this.addInventory(grid, 0, GRID_OFFSET_X, GRID_OFFSET_Y, GRID_ROWS, GRID_COLUMNS);
-    	this.addSlot(new ResultSlot(player, grid, result, 0, 124, 35));
+        this.addInventory(grid, 0, GRID_OFFSET_X, GRID_OFFSET_Y, GRID_ROWS, GRID_COLUMNS);
+        this.addSlot(new ResultSlot(player, grid, result, 0, 124, 35));
     }
 
-	@Override
-	protected int getSizeInventory() {
-		return 1 + (GRID_ROWS * GRID_COLUMNS) + (CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS);
-	}
-	
-	@Override
-	public void slotsChanged(Container inventory) {
+    @Override
+    protected int getSizeInventory() {
+        return 1 + (GRID_ROWS * GRID_COLUMNS) + (CHEST_INVENTORY_ROWS * CHEST_INVENTORY_COLUMNS);
+    }
+
+    @Override
+    public void slotsChanged(Container inventory) {
         if(initialized && !this.world.isClientSide()) {
             ItemStack itemstack = ItemStack.EMPTY;
 
@@ -203,6 +203,6 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
             ((ServerPlayer) this.player).connection.send(new ClientboundContainerSetSlotPacket(this.containerId, getStateId(), 9, itemstack));
 
             craftingGrid.save();
-		}
+        }
     }
 }

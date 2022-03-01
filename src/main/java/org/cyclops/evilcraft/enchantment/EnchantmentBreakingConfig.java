@@ -17,5 +17,5 @@ public class EnchantmentBreakingConfig extends EnchantmentConfig {
                 eConfig -> new EnchantmentBreaking()
         );
     }
-    
+
 }

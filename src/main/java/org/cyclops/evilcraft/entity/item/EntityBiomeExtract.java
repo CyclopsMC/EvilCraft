@@ -2,14 +2,10 @@ package org.cyclops.evilcraft.entity.item;
 
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundLevelChunkPacketData;
-import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -19,28 +15,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeManager;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.chunk.ImposterProtoChunk;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.CyclopsCore;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.algorithm.OrganicSpread;
-import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 import org.cyclops.evilcraft.item.ItemBiomeExtract;
 import org.cyclops.evilcraft.network.packet.ResetChunkColorsPacket;
 
 import javax.annotation.Nonnull;
-import java.util.BitSet;
 import java.util.Random;
 import java.util.Set;
 
@@ -224,11 +213,11 @@ public class EntityBiomeExtract extends EntityThrowable {
     public ItemStack getItem() {
         return entityData.get(ITEMSTACK_INDEX);
     }
-    
+
     private void setItemStack(ItemStack stack) {
         entityData.set(ITEMSTACK_INDEX, stack);
     }
-    
+
     @Override
     protected void defineSynchedData() {
         entityData.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT));

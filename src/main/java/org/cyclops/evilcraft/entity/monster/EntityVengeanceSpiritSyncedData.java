@@ -129,5 +129,3 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
         this.dataManager.set(EntityVengeanceSpirit.WATCHERID_VENGEANCEPLAYERS, StringUtils.join(vengeancePlayers, "&"));
     }
 }
-
-

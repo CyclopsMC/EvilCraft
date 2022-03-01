@@ -22,5 +22,5 @@ public class ItemEffortlessRingConfig extends ItemConfig {
                         .rarity(Rarity.UNCOMMON))
         );
     }
-    
+
 }

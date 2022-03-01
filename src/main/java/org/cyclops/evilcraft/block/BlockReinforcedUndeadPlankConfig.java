@@ -33,5 +33,5 @@ public class BlockReinforcedUndeadPlankConfig extends BlockConfig {
     public void onClientSetup(FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
-    
+
 }

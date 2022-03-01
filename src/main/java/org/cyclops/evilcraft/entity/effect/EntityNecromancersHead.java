@@ -39,117 +39,117 @@ import java.util.List;
  */
 @OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class EntityNecromancersHead extends ThrowableProjectile implements ItemSupplier {
-    
-	private static final int DURATION = 200;
-	private static final ItemStack RENDER_ITEM = new ItemStack(Items.SKELETON_SKULL);
 
-	protected boolean observing = false;
-	protected LivingEntity target = null;
-	protected List<EntityControlledZombie> observables = Lists.newLinkedList();
-	protected Class<? extends Mob> mobType = EntityControlledZombie.class;
+    private static final int DURATION = 200;
+    private static final ItemStack RENDER_ITEM = new ItemStack(Items.SKELETON_SKULL);
 
-	public EntityNecromancersHead(EntityType<? extends EntityNecromancersHead> type, Level world) {
-		super(type, world);
-	}
+    protected boolean observing = false;
+    protected LivingEntity target = null;
+    protected List<EntityControlledZombie> observables = Lists.newLinkedList();
+    protected Class<? extends Mob> mobType = EntityControlledZombie.class;
 
-	public EntityNecromancersHead(Level world, LivingEntity entity) {
-		super(RegistryEntries.ENTITY_NECROMANCER_HEAD, entity, world);
-	}
+    public EntityNecromancersHead(EntityType<? extends EntityNecromancersHead> type, Level world) {
+        super(type, world);
+    }
 
-	@Nonnull
-	@Override
-	public Packet<?> getAddEntityPacket() {
-		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-    
+    public EntityNecromancersHead(Level world, LivingEntity entity) {
+        super(RegistryEntries.ENTITY_NECROMANCER_HEAD, entity, world);
+    }
+
+    @Nonnull
+    @Override
+    public Packet<?> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
     /**
      * Set the type of mob to be spawned. Should only be called server-side.
      * @param mobType The mob type.
      */
     public void setMobType(Class<? extends Mob> mobType) {
-    	this.mobType = mobType;
+        this.mobType = mobType;
     }
-    
-    protected void spawnSwarm(LivingEntity necromancer, LivingEntity target) {
-    	Level world = target.level;
-    	int amount = world.random.nextInt(2) + 3;
-    	for(int i = 0; i < amount; i++) {
-			EntityControlledZombie mob = new EntityControlledZombie(world);
-			if(mob.canAttackType(target.getType())) {
-				mob.copyPosition(necromancer);
-				mob.move(MoverType.SELF, new Vec3(world.random.nextInt(20) - 10, 0, world.random.nextInt(20) - 10));
-				if(EntityHelpers.spawnEntity(world, mob, MobSpawnType.MOB_SUMMONED)) {
-					observables.add(mob);
-				}
-				mob.setTarget(target);
-				mob.setTtl(DURATION);
-			}
-    	}
-    	this.target = target;
-    	setObserverMode();
 
-		if (necromancer instanceof ServerPlayer) {
-			Advancements.NECROMANCE.test((ServerPlayer) necromancer, target);
-		}
+    protected void spawnSwarm(LivingEntity necromancer, LivingEntity target) {
+        Level world = target.level;
+        int amount = world.random.nextInt(2) + 3;
+        for(int i = 0; i < amount; i++) {
+            EntityControlledZombie mob = new EntityControlledZombie(world);
+            if(mob.canAttackType(target.getType())) {
+                mob.copyPosition(necromancer);
+                mob.move(MoverType.SELF, new Vec3(world.random.nextInt(20) - 10, 0, world.random.nextInt(20) - 10));
+                if(EntityHelpers.spawnEntity(world, mob, MobSpawnType.MOB_SUMMONED)) {
+                    observables.add(mob);
+                }
+                mob.setTarget(target);
+                mob.setTtl(DURATION);
+            }
+        }
+        this.target = target;
+        setObserverMode();
+
+        if (necromancer instanceof ServerPlayer) {
+            Advancements.NECROMANCE.test((ServerPlayer) necromancer, target);
+        }
     }
-    
+
     @Override
     public void tick() {
-    	super.tick();
-    	if(observing && !level.isClientSide() && WorldHelpers.efficientTick(level, 10)) {
-    		if(!observables.isEmpty()) {
-    			Iterator<EntityControlledZombie> it = observables.iterator();
-    			while(it.hasNext()) {
-    				EntityControlledZombie mob = it.next();
-    				if(!mob.isAlive() || !target.isAlive()) {
-    					if(mob.isAlive()) {
+        super.tick();
+        if(observing && !level.isClientSide() && WorldHelpers.efficientTick(level, 10)) {
+            if(!observables.isEmpty()) {
+                Iterator<EntityControlledZombie> it = observables.iterator();
+                while(it.hasNext()) {
+                    EntityControlledZombie mob = it.next();
+                    if(!mob.isAlive() || !target.isAlive()) {
+                        if(mob.isAlive()) {
                             mob.remove(RemovalReason.DISCARDED);
-						}
-    					it.remove();
-    				}
-				}
-    		}
-    		if(observables.isEmpty()) {
-    			observing = false;
-				this.remove(RemovalReason.DISCARDED);
-			}
-    	}
+                        }
+                        it.remove();
+                    }
+                }
+            }
+            if(observables.isEmpty()) {
+                observing = false;
+                this.remove(RemovalReason.DISCARDED);
+            }
+        }
     }
 
-	@Override
-	protected void defineSynchedData() {
+    @Override
+    protected void defineSynchedData() {
 
-	}
+    }
 
-	@Override
+    @Override
     public void remove(Entity.RemovalReason removalReason) {
-    	if(!observing) {
-    		super.remove(removalReason);
-    	}
+        if(!observing) {
+            super.remove(removalReason);
+        }
     }
-    
+
     protected void setObserverMode() {
-    	observing = true;
-    	setDeltaMovement(0, 0, 0);
-    	setInvisible(true);
+        observing = true;
+        setDeltaMovement(0, 0, 0);
+        setInvisible(true);
     }
 
     @Override
     protected void onHit(HitResult position) {
-    	if(position.getType() == HitResult.Type.ENTITY && !observing && !getCommandSenderWorld().isClientSide()) {
-			((EntityHitResult) position).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
-	        if(getOwner() instanceof ServerPlayer
-					&& getOwner() != ((EntityHitResult) position).getEntity()
-					&& ((EntityHitResult) position).getEntity() instanceof LivingEntity) {
-	        	spawnSwarm((LivingEntity) this.getOwner(), (LivingEntity) ((EntityHitResult) position).getEntity());
-	        } else {
-				this.remove(RemovalReason.DISCARDED);
-	        }
-    	}
+        if(position.getType() == HitResult.Type.ENTITY && !observing && !getCommandSenderWorld().isClientSide()) {
+            ((EntityHitResult) position).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+            if(getOwner() instanceof ServerPlayer
+                    && getOwner() != ((EntityHitResult) position).getEntity()
+                    && ((EntityHitResult) position).getEntity() instanceof LivingEntity) {
+                spawnSwarm((LivingEntity) this.getOwner(), (LivingEntity) ((EntityHitResult) position).getEntity());
+            } else {
+                this.remove(RemovalReason.DISCARDED);
+            }
+        }
     }
 
-	@Override
-	public ItemStack getItem() {
-		return RENDER_ITEM;
-	}
+    @Override
+    public ItemStack getItem() {
+        return RENDER_ITEM;
+    }
 }

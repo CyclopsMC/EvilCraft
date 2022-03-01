@@ -19,5 +19,5 @@ public class ItemBloodInfusionCoreConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

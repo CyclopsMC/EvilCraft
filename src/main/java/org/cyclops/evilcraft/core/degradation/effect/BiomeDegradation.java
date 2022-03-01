@@ -5,7 +5,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
@@ -21,7 +20,7 @@ import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrganicSpreadable {
 
     private static final int DIMENSIONS = 2;
-    
+
     public BiomeDegradation(DegradationEffectConfig eConfig) {
 
     }
@@ -33,7 +32,7 @@ public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrga
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
+
     }
 
     @Override
@@ -55,5 +54,5 @@ public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrga
             EntityBiomeExtract.updateChunkAfterBiomeChange(world, new ChunkPos(location));
         }
     }
-    
+
 }

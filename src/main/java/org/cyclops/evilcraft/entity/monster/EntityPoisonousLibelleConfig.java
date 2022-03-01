@@ -94,5 +94,5 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
         event.add(getInstance(), Attributes.MAX_HEALTH, 1.0D);
         event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.625D);
     }
-    
+
 }

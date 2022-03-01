@@ -16,11 +16,11 @@ import net.minecraft.world.item.Item.Properties;
  *
  */
 public class ItemVeinSword extends SwordItem {
-    
+
     /**
-	 * The looting level of this sword.
-	 */
-	public static final int LOOTING_LEVEL = 2;
+     * The looting level of this sword.
+     */
+    public static final int LOOTING_LEVEL = 2;
 
     public ItemVeinSword(Properties properties) {
         super(Tiers.GOLD, 3, -2.4F, properties);

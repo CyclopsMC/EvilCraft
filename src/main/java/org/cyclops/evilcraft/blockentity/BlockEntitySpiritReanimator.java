@@ -52,7 +52,7 @@ import java.util.Optional;
  *
  */
 public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntitySpiritReanimator, MutableDouble> implements MenuProvider {
-    
+
     /**
      * The id of the fluid container drainer slot.
      */
@@ -69,7 +69,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
      * The id of the output slot.
      */
     public static final int SLOTS_OUTPUT = 3;
-    
+
     /**
      * The total amount of slots in this machine.
      */
@@ -81,12 +81,12 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
      * The capacity of the tank.
      */
     public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
-    
+
     private static final Map<Class<?>, ITickAction<BlockEntitySpiritReanimator>> REANIMATE_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntitySpiritReanimator>>();
     static {
-    	REANIMATE_COOK_TICK_ACTIONS.put(BlockBoxOfEternalClosure.class, new ReanimateTickAction());
+        REANIMATE_COOK_TICK_ACTIONS.put(BlockBoxOfEternalClosure.class, new ReanimateTickAction());
     }
-    
+
     private static final Map<Class<?>, ITickAction<BlockEntitySpiritReanimator>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntitySpiritReanimator>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<BlockEntitySpiritReanimator>());
@@ -99,7 +99,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
     private int reanimateTicker;
     @NBTPersist
     private Boolean caughtError = false;
-    
+
     /**
      * Make a new instance.
      */
@@ -179,16 +179,16 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
     public Direction getRotation() {
         return BlockHelpers.getSafeBlockStateProperty(getLevel().getBlockState(getBlockPos()), BlockSpiritReanimator.FACING, Direction.NORTH).getOpposite();
     }
-    
+
     @Override
     protected SingleUseTank createTank(int tankSize) {
-    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
-    
+
     @Override
-	protected int getWorkTicker() {
-		return reanimateTicker;
-	}
+    protected int getWorkTicker() {
+        return reanimateTicker;
+    }
 
     /**
      * Get the entity type that is contained in a box.
@@ -202,7 +202,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
         }
         return null;
     }
-    
+
     /**
      * Get the allowed cooking item for this furnace.
      * @return The allowed item.
@@ -210,7 +210,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
     public static Item getAllowedCookItem() {
         return RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE;
     }
-    
+
     /**
      * Get the id of the box slot.
      * @return id of the box slot.
@@ -225,18 +225,18 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
     }
 
     @Override
-	public boolean canWork() {
-		ItemStack eggStack = getInventory().getItem(SLOT_EGG);
-		ItemStack outputStack = getInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
+    public boolean canWork() {
+        ItemStack eggStack = getInventory().getItem(SLOT_EGG);
+        ItemStack outputStack = getInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
         EntityType<?> entityType = getEntityType();
         boolean validNameStack = entityType != null
                 && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
                         && SpawnEggItem.BY_ID.get(entityType) == outputStack.getItem()));
         return !eggStack.isEmpty() && validNameStack;
-	}
-	
-	@Override
+    }
+
+    @Override
     public void onStateChanged() {
         level.setBlockAndUpdate(getBlockPos(), level.getBlockState(getBlockPos()).setValue(BlockSpiritReanimator.ON, isWorking()));
     }

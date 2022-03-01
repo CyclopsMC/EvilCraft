@@ -30,7 +30,7 @@ public class ItemBurningGemStone extends Item {
 
     @Override
     public Rarity getRarity(ItemStack itemStack) {
-    	return Rarity.UNCOMMON;
+        return Rarity.UNCOMMON;
     }
 
     /**
@@ -40,23 +40,23 @@ public class ItemBurningGemStone extends Item {
      * @param simulate If damaging should be simulated.
      * @return If a burning gem stone was found and damaged.
      */
-	public static boolean damageForPlayer(Player player, int swarmTier, boolean simulate) {
-		PlayerInventoryIterator it = new PlayerInventoryIterator(player);
-		while(it.hasNext()) {
+    public static boolean damageForPlayer(Player player, int swarmTier, boolean simulate) {
+        PlayerInventoryIterator it = new PlayerInventoryIterator(player);
+        while(it.hasNext()) {
             Pair<Integer, ItemStack> current = it.nextIndexed();
             ItemStack itemStack = current.getRight();
-			if(!itemStack.isEmpty() && itemStack.getItem() == RegistryEntries.ITEM_BURNING_GEM_STONE) {
-				if(!simulate) {
-					itemStack.hurtAndBreak(1 + swarmTier, player, (p) -> {
+            if(!itemStack.isEmpty() && itemStack.getItem() == RegistryEntries.ITEM_BURNING_GEM_STONE) {
+                if(!simulate) {
+                    itemStack.hurtAndBreak(1 + swarmTier, player, (p) -> {
                         p.getInventory().setItem(current.getLeft(), ItemStack.EMPTY);
                         MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(p, itemStack, null));
                     });
                     player.causeFoodExhaustion(10);
-				}
-				return true;
-			}
-		}
-		return false;
-	}
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

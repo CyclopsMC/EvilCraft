@@ -13,31 +13,31 @@ import java.lang.reflect.Modifier;
  *
  */
 public class ObfuscationHelpers {
-	
-	/**
-	 * Set the private static 'PANORAMA_RESOURCES' field from @link{v}
-	 * @param titlePanoramaPaths The panorama path.
-	 */
-	public static void setPanoramaResources(CubeMap titlePanoramaPaths) {
-		Field field = ObfuscationReflectionHelper.findField(TitleScreen.class, "CUBE_MAP");
-		
-		Field modifiersField;
-		try {
-			modifiersField = Field.class.getDeclaredField("modifiers");
-			modifiersField.setAccessible(true);
-	        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
-	        field.setAccessible(true);
-	        field.set(null, titlePanoramaPaths);
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * Set the private static 'PANORAMA_RESOURCES' field from @link{v}
+     * @param titlePanoramaPaths The panorama path.
+     */
+    public static void setPanoramaResources(CubeMap titlePanoramaPaths) {
+        Field field = ObfuscationReflectionHelper.findField(TitleScreen.class, "CUBE_MAP");
+
+        Field modifiersField;
+        try {
+            modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+            field.setAccessible(true);
+            field.set(null, titlePanoramaPaths);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

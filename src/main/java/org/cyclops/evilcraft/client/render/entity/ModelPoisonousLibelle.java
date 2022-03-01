@@ -31,7 +31,7 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
     ModelPart Left_L_wing;
     ModelPart Right_M_wing;
     ModelPart Left_M_wing;
-    
+
     private List<ModelPart> wings_left = new LinkedList<ModelPart>();
     private List<ModelPart> wings_right = new LinkedList<ModelPart>();
 
@@ -53,7 +53,7 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
         setRotation(Right_M_wing, 0F, 0F, 0.2617994F);
         Left_M_wing = modelPart.getChild("Left_M_wing");
         setRotation(Left_M_wing, 0F, 0F, -0.2617994F);
-        
+
         wings_left.add(Left_L_wing);
         wings_left.add(Left_M_wing);
         wings_right.add(Right_L_wing);
@@ -72,7 +72,7 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
         rotateWings(wings_left, -wingRotation);
         rotateWings(wings_right, wingRotation);
     }
-    
+
     private void rotateWings(List<ModelPart> wings, float rotation) {
         for(ModelPart wing : wings) {
             setRotation(wing, 0F, 0F, rotation);

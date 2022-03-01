@@ -19,5 +19,5 @@ public class ItemBloodPotashConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

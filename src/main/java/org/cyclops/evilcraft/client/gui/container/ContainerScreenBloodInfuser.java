@@ -16,7 +16,7 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
  *
  */
 public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<ContainerBloodInfuser, BlockEntityBloodInfuser> {
-    
+
     /**
      * Texture width.
      */

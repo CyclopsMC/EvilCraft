@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 
 /**
  * Renderer for nothing, simple.
- * 
+ *
  * @author rubensworks
  *
  */

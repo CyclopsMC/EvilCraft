@@ -24,7 +24,7 @@ import java.util.List;
  *
  */
 public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<ContainerSpiritReanimator, BlockEntitySpiritReanimator> {
-    
+
     /**
      * Texture width.
      */
@@ -71,7 +71,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
      * Progress X.
      */
     public static final int PROGRESSX = 192;
-    /** 
+    /**
      * Progress Y.
      */
     public static final int PROGRESSY = 0;
@@ -83,7 +83,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
      * Progress target Y.
      */
     public static final int PROGRESSTARGETY = 26;
-    
+
     /**
      * Progress target X.
      */
@@ -108,45 +108,45 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
     public ResourceLocation constructGuiTexture() {
         return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_reanimator_gui.png");
     }
-    
+
     @Override
-	protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
-    	String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getDescriptionId() + ".help.invalid";
-    	List<Component> lines = Lists.newArrayList();
-    	lines.add(new TranslatableComponent(prefix));
+    protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
+        String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getDescriptionId() + ".help.invalid";
+        List<Component> lines = Lists.newArrayList();
+        lines.add(new TranslatableComponent(prefix));
         String entityName = getMenu().getEntityName();
         if (entityName == null) {
-        	lines.add(new TranslatableComponent(prefix + ".no_entity"));
+            lines.add(new TranslatableComponent(prefix + ".no_entity"));
         } else if (entityName.isEmpty()) {
             lines.add(new TranslatableComponent(prefix + ".invalid_entity"));
         }
         else {
-        	ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
-        	if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
+            ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
+            if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
                     && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName))) {
-        		lines.add(new TranslatableComponent(prefix + ".different_egg"));
-        	}
+                lines.add(new TranslatableComponent(prefix + ".different_egg"));
+            }
         }
         if(lines.size() > 1) {
             this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
-	    	if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
+            if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
-	    		mouseX -= leftPos;
-	        	mouseY -= topPos;
-	            drawTooltip(lines, matrixStack, mouseX, mouseY);
-	        }
+                mouseX -= leftPos;
+                mouseY -= topPos;
+                drawTooltip(lines, matrixStack, mouseX, mouseY);
+            }
         }
     }
-    
+
     @Override
     protected int getProgressXScaled(int width) {
         return width;
     }
-    
+
     @Override
     protected int getProgressYScaled(int height) {
         return getMenu().getProgress(0) * PROGRESSHEIGHT / getMenu().getMaxProgress(0);
     }
-    
+
 }

@@ -15,7 +15,7 @@ import java.util.Random;
  *
  */
 public class AnvilRepairAction implements IBloodChestRepairAction {
-    
+
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
         return itemStack.getItem() instanceof BlockItem && ((BlockItem) itemStack.getItem()).getBlock() instanceof AnvilBlock;

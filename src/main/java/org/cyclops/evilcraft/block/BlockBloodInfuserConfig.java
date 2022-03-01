@@ -48,5 +48,5 @@ public class BlockBloodInfuserConfig extends UpgradableBlockContainerConfig {
                 Upgrades.UPGRADE_TIER2,
                 Upgrades.UPGRADE_TIER3);
     }
-    
+
 }

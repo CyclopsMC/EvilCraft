@@ -2,9 +2,13 @@ package org.cyclops.evilcraft.core.blockentity.tickaction;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
 
@@ -14,7 +18,7 @@ import java.util.Map.Entry;
 /**
  * A component used in {@link BlockEntityTickingTankInventory} to support handling of ITickActions.
  * A new instance can be created with a dictionary of (an extension of) {@link ITickAction}.
- * It must be used like {@link BlockEntityTickingTankInventory#updateTileEntity()}.
+ * It must be used like {@link org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed#tick(Level, BlockPos, BlockState, BlockEntity)}.
  * It will then tick for the given tile and slot and check the current item inside
  * the given slot. It will then take the class of that item and lookup the item class inside
  * that map to get the correct {@link ITickAction} on which it will call the methods.
@@ -25,15 +29,15 @@ import java.util.Map.Entry;
  * @see BlockEntityTickingTankInventory
  */
 public class TickComponent<C extends CyclopsBlockEntity, T extends ITickAction<C>> {
-    
+
     private Multimap<Class<?>, T> tickActions;
-    
+
     private C tile;
 
     private final boolean redstoneDisableable;
     private final boolean resetTickWhenCantTick;
     private int tick = 0;
-    
+
     private float requiredTicks = 0;
     private int slot;
 
@@ -57,7 +61,7 @@ public class TickComponent<C extends CyclopsBlockEntity, T extends ITickAction<C
         this.redstoneDisableable = redstoneDisableable;
         this.resetTickWhenCantTick = resetTickWhenCantTick;
     }
-    
+
     /**
      * Make a new TickComponent.
      * @param tile The IConsumeProduceTile reference in which this ticker runs.
@@ -115,7 +119,7 @@ public class TickComponent<C extends CyclopsBlockEntity, T extends ITickAction<C
         }
         return null;
     }
-    
+
     /**
      * Add one tick.
      * @param itemStack The itemStack that is currently inside the slot for this ticker.
@@ -146,7 +150,7 @@ public class TickComponent<C extends CyclopsBlockEntity, T extends ITickAction<C
             }
         } else tick = 0;
     }
-    
+
     /**
      * The current tick progress.
      * @return Current tick.
@@ -154,7 +158,7 @@ public class TickComponent<C extends CyclopsBlockEntity, T extends ITickAction<C
     public int getTick() {
         return tick;
     }
-    
+
     /**
      * Set the current tick.
      * @param tick New tick.
@@ -162,7 +166,7 @@ public class TickComponent<C extends CyclopsBlockEntity, T extends ITickAction<C
     public void setTick(int tick) {
         this.tick = tick;
     }
-    
+
     /**
      * Get the required ticks for this ticker, will be zero if not defined.
      * @return Required ticks.
@@ -193,5 +197,5 @@ public class TickComponent<C extends CyclopsBlockEntity, T extends ITickAction<C
     public boolean isRedstoneDisableable() {
         return redstoneDisableable;
     }
-    
+
 }

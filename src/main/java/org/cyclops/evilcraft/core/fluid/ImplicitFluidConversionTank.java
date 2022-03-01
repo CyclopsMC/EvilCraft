@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.core.fluid;
 
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
@@ -13,20 +12,20 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
  */
 public class ImplicitFluidConversionTank extends SingleUseTank {
 
-	private ImplicitFluidConverter converter;
+    private ImplicitFluidConverter converter;
 
     public ImplicitFluidConversionTank(int capacity, ImplicitFluidConverter converter) {
         super(capacity);
         this.converter = converter;
     }
-    
+
     @Override
     public int fill(FluidStack resource, FluidAction action) {
         if (!canFillFluidType(resource)) {
             return 0;
         }
 
-    	FluidStack converted = converter.convert(resource);
+        FluidStack converted = converter.convert(resource);
         if(converted.isEmpty()) {
             return 0;
         }
@@ -50,5 +49,5 @@ public class ImplicitFluidConversionTank extends SingleUseTank {
     public boolean canDrainFluidType(FluidStack fluid) {
         return fluid.isEmpty() || fluid.getFluid() == converter.getTarget() || converter.canConvert(fluid.getFluid());
     }
-	
+
 }

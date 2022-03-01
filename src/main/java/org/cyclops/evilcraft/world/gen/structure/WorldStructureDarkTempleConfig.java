@@ -131,11 +131,11 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
         HashMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>> configuredStructureToBiomeMultiMap = STStructureToMultiMap.get(configuredStructureFeature.feature);
         if(configuredStructureToBiomeMultiMap.containsValue(biomeRegistryKey))
             EvilCraft.clog(String.format("""
-					Detected 2 ConfiguredStructureFeatures that share the same base StructureFeature trying to be added to same biome. One will be prevented from spawning.
-					This issue happens with vanilla too and is why a Snowy Village and Plains Village cannot spawn in the same biome because they both use the Village base structure.
-					The two conflicting ConfiguredStructures are: %s, %s
-					The biome that is attempting to be shared: %s
-					""",
+                    Detected 2 ConfiguredStructureFeatures that share the same base StructureFeature trying to be added to same biome. One will be prevented from spawning.
+                    This issue happens with vanilla too and is why a Snowy Village and Plains Village cannot spawn in the same biome because they both use the Village base structure.
+                    The two conflicting ConfiguredStructures are: %s, %s
+                    The biome that is attempting to be shared: %s
+                    """,
                     BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.getId(configuredStructureFeature),
                     BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.getId(configuredStructureToBiomeMultiMap.entries().stream().filter(e -> e.getValue() == biomeRegistryKey).findFirst().get().getKey()),
                     biomeRegistryKey), org.apache.logging.log4j.Level.ERROR);

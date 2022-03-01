@@ -8,7 +8,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.cyclops.cyclopscore.client.particle.ParticleDropColoredData;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;

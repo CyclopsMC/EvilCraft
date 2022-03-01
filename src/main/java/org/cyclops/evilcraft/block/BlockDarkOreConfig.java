@@ -59,5 +59,5 @@ public class BlockDarkOreConfig extends BlockConfig {
                     .add(() -> CONFIGURED_FEATURE);
         }*/
     }
-    
+
 }

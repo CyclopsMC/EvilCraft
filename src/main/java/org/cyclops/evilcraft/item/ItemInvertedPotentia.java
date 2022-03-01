@@ -23,30 +23,30 @@ public class ItemInvertedPotentia extends Item implements IItemEmpowerable {
         super(properties);
         this.empowered = empowered;
     }
-    
+
     @Override
     public boolean isFoil(ItemStack itemStack){
         return isEmpowered(itemStack);
     }
-    
+
     @Override
-	public ItemStack empower(ItemStack itemStack) {
+    public ItemStack empower(ItemStack itemStack) {
         return new ItemStack(RegistryEntries.ITEM_INVERTED_POTENTIA_EMPOWERED);
     }
-    
+
     @Override
-	public boolean isEmpowered(ItemStack itemStack) {
+    public boolean isEmpowered(ItemStack itemStack) {
         return this.empowered;
     }
-    
+
     @Override
     public boolean hasCustomEntity(ItemStack itemStack) {
-    	return true;
+        return true;
     }
-    
+
     @Override
     public Entity createEntity(Level world, Entity location, ItemStack itemStack) {
-    	return new EntityItemEmpowerable(world, (ItemEntity) location);
+        return new EntityItemEmpowerable(world, (ItemEntity) location);
     }
 
 }

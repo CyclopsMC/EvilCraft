@@ -27,5 +27,5 @@ public class BlockFluidPoisonConfig extends BlockConfig {
                 (eConfig, block) -> new BlockItem(block, new Item.Properties())
         );
     }
-    
+
 }

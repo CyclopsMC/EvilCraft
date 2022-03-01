@@ -17,34 +17,34 @@ import org.cyclops.evilcraft.network.packet.ExaltedCrafterOpenPacket;
 
 /**
  * A {@link IKeyHandler} which handles farts.
- * 
+ *
  * @author immortaleeb
  *
  */
 @OnlyIn(Dist.CLIENT)
 public class ExaltedCrafterKeyHandler implements IKeyHandler {
-	
-	@Override
-	public void onKeyPressed(KeyMapping kb) {
-		LocalPlayer player = Minecraft.getInstance().player;
-		if(kb == Keys.EXALTEDCRAFTING) {
-			Triple<Integer, InteractionHand, ItemStack> found = null;
-			PlayerInventoryIterator it = new PlayerInventoryIterator(player);
-			while(it.hasNext() && found == null) {
-				Pair<Integer, ItemStack> pair = it.nextIndexed();
-				if(pair.getRight() != null && pair.getRight().getItem() instanceof ItemExaltedCrafter) {
-					found = Triple.of(pair.getLeft(), InteractionHand.MAIN_HAND, pair.getRight());
-				}
-			}
-			if(found == null) {
-				if (player.getOffhandItem().getItem() instanceof ItemExaltedCrafter) {
-					found = Triple.of(0, InteractionHand.OFF_HAND, player.getOffhandItem());
-				}
-			}
-			if(found != null) {
-				EvilCraft._instance.getPacketHandler().sendToServer(new ExaltedCrafterOpenPacket(found.getLeft(), found.getMiddle()));
-			}
-		}
-	}
-	
+
+    @Override
+    public void onKeyPressed(KeyMapping kb) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if(kb == Keys.EXALTEDCRAFTING) {
+            Triple<Integer, InteractionHand, ItemStack> found = null;
+            PlayerInventoryIterator it = new PlayerInventoryIterator(player);
+            while(it.hasNext() && found == null) {
+                Pair<Integer, ItemStack> pair = it.nextIndexed();
+                if(pair.getRight() != null && pair.getRight().getItem() instanceof ItemExaltedCrafter) {
+                    found = Triple.of(pair.getLeft(), InteractionHand.MAIN_HAND, pair.getRight());
+                }
+            }
+            if(found == null) {
+                if (player.getOffhandItem().getItem() instanceof ItemExaltedCrafter) {
+                    found = Triple.of(0, InteractionHand.OFF_HAND, player.getOffhandItem());
+                }
+            }
+            if(found != null) {
+                EvilCraft._instance.getPacketHandler().sendToServer(new ExaltedCrafterOpenPacket(found.getLeft(), found.getMiddle()));
+            }
+        }
+    }
+
 }

@@ -58,11 +58,11 @@ public abstract class ItemMace extends ItemBloodContainer {
         this.powerLevels = powerLevels;
         this.meleeDamage = meleeDamage;
     }
-    
+
     protected boolean isUsable(ItemStack itemStack, Player player) {
         return canConsume(1, itemStack, player);
     }
-    
+
     @Override
     public boolean hurtEnemy(ItemStack itemStack, LivingEntity attacked, LivingEntity attacker) {
         if(attacker instanceof Player && isUsable(itemStack, (Player) attacker)) {
@@ -70,7 +70,7 @@ public abstract class ItemMace extends ItemBloodContainer {
         }
         return true;
     }
-    
+
     @Override
     public boolean onLeftClickEntity(ItemStack itemStack, Player player, Entity entity) {
         return !isUsable(itemStack, player);
@@ -80,12 +80,12 @@ public abstract class ItemMace extends ItemBloodContainer {
     public UseAnim getUseAnimation(ItemStack stack) {
         return UseAnim.BOW;
     }
-    
+
     @Override
     public int getUseDuration(ItemStack itemStack) {
         return this.maximumCharge * (this.powerLevels - getPower(itemStack));
     }
-    
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
@@ -104,7 +104,7 @@ public abstract class ItemMace extends ItemBloodContainer {
         }
         return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, itemStack);
     }
-    
+
     @Override
     public void onUsingTick(ItemStack itemStack, LivingEntity player, int duration) {
         Level world = player.level;
@@ -113,7 +113,7 @@ public abstract class ItemMace extends ItemBloodContainer {
         }
         super.onUsingTick(itemStack, player, duration);
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     protected void showUsingItemTick(Level world, ItemStack itemStack, LivingEntity entity, int duration) {
         int itemUsedCount = getUseDuration(itemStack) - duration;
@@ -191,7 +191,7 @@ public abstract class ItemMace extends ItemBloodContainer {
                     x, y, z, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
-    
+
     /**
      * The area of effect for the given in use count (counting up per tick).
      * @param itemUsedCount The amount of ticks the item was active.
@@ -240,7 +240,7 @@ public abstract class ItemMace extends ItemBloodContainer {
      * @param power The configured power level
      */
     protected abstract void use(Level world, LivingEntity entity, int itemUsedCount, int power);
-    
+
     @OnlyIn(Dist.CLIENT)
     protected void animateOutOfEnergy(Level world, LivingEntity entity) {
         double xCoord = entity.getX();
@@ -251,11 +251,11 @@ public abstract class ItemMace extends ItemBloodContainer {
         float particleMotionY = 0.2F;
         float particleMotionZ = world.random.nextFloat() * 0.2F - 0.1F;
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
-        
+
         world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.NOTE_BLOCK_BASEDRUM,
                 SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
     }
-    
+
     @Override
     public int getEnchantmentValue() {
         return 15;

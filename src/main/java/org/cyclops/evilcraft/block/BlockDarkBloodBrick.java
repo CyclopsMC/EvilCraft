@@ -57,7 +57,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
     public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType) {
         return false;
     }
-    
+
     private void triggerDetector(LevelReader world, BlockPos blockPos, boolean valid) {
         BlockEntitySpiritFurnace.getCubeDetector().detect(world, blockPos, valid ? null : blockPos, true);
     }
@@ -69,7 +69,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
             triggerDetector(world, pos, true);
         }
     }
-    
+
     @Override
     public void onPlace(BlockState blockStateNew, Level world, BlockPos blockPos, BlockState blockStateOld, boolean isMoving) {
         super.onPlace(blockStateNew, world, blockPos, blockStateOld, isMoving);
@@ -83,18 +83,18 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) triggerDetector(world, blockPos, false);
         super.destroy(world, blockPos, blockState);
     }
-    
+
     @Override
     public void onDetect(LevelReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
-		Block block = world.getBlockState(location).getBlock();
+        Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !BlockHelpers.getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
             ((Level) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
             if(change) {
                 BlockEntitySpiritFurnace.detectStructure(world, location, size, valid, originCorner);
             }
-		}
-	}
+        }
+    }
 
     @Override
     public InteractionResult use(BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {

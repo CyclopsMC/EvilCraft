@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.entity.item;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
@@ -33,5 +32,5 @@ public class EntityRedstoneGrenadeConfig extends EntityConfig<EntityRedstoneGren
     public EntityRenderer<EntityRedstoneGrenade> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
         return new ThrownItemRenderer<>(renderContext);
     }
-    
+
 }

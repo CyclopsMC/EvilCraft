@@ -19,5 +19,5 @@ public class ItemBucketEternalWaterConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

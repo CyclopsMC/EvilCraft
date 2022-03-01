@@ -32,5 +32,5 @@ public class ItemBroomPartConfig extends ItemConfig {
     public void onModLoaded(FMLLoadCompleteEvent event) {
         Minecraft.getInstance().getItemColors().register(new ItemBroomPart.ItemColor(), getInstance());
     }
-    
+
 }

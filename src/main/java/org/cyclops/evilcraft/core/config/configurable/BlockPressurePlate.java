@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 /**
- * {@link AbstractPressurePlateBlock} that can hold ExtendedConfigs.
+ * {@link BasePressurePlateBlock} that can hold ExtendedConfigs.
  * @author rubensworks
  *
  */

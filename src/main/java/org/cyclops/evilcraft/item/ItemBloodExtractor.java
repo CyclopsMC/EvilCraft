@@ -20,8 +20,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -53,13 +51,13 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         MinecraftForge.EVENT_BUS.addListener(this::bloodObtainEvent);
 
     }
-    
+
     @Override
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
         Block block = context.getLevel().getBlockState(context.getClickedPos()).getBlock();
         if(context.getPlayer().isCrouching()) {
-	        if(block instanceof BlockBloodStain) {
-	            Random random = context.getLevel().random;
+            if(block instanceof BlockBloodStain) {
+                Random random = context.getLevel().random;
 
                 // Fill the extractor a bit
                 BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
@@ -69,12 +67,12 @@ public class ItemBloodExtractor extends ItemBloodContainer {
                                 ParticleBloodSplash.spawnParticles(context.getLevel(), context.getClickedPos(), 5, 1 + random.nextInt(2));
                             }
                         });
-	            return InteractionResult.PASS;
-	        }
+                return InteractionResult.PASS;
+            }
         }
         return InteractionResult.PASS;
     }
-    
+
     @Override
     public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
@@ -87,7 +85,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.auto_supply");
     }
-    
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
@@ -96,14 +94,14 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         } else {
             HitResult target = this.getPlayerPOVHitResult(world, player, ClipContext.Fluid.ANY);
             if(target == null || target.getType() == HitResult.Type.MISS) {
-        		if(!world.isClientSide()) {
-		            ItemHelpers.toggleActivation(itemStack);
-		    	}
-        	}
+                if(!world.isClientSide()) {
+                    ItemHelpers.toggleActivation(itemStack);
+                }
+            }
         }
         return MinecraftHelpers.successAction(itemStack);
     }
-    
+
     /**
      * Fill all the Blood Extractors on a player's hotbar for a given fluid amount.
      * It will fill Blood Extractors until the predefined blood amount is depleted.
@@ -124,12 +122,12 @@ public class ItemBloodExtractor extends ItemBloodContainer {
             }
         }
     }
-    
+
     @Override
     public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int itemSlot, boolean par5) {
-    	if(ItemHelpers.isActivated(itemStack)) {
-    		ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack).orElse(null), world, entity, ItemBloodExtractorConfig.autoFillBuckets);
-    	}
+        if(ItemHelpers.isActivated(itemStack)) {
+            ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack).orElse(null), world, entity, ItemBloodExtractorConfig.autoFillBuckets);
+        }
         super.inventoryTick(itemStack, world, entity, itemSlot, par5);
     }
 

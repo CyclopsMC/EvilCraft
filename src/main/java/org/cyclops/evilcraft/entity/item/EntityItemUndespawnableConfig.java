@@ -28,8 +28,8 @@ public class EntityItemUndespawnableConfig extends EntityConfig<EntityItemUndesp
     }
 
     @OnlyIn(Dist.CLIENT)
-	@Override
-	public EntityRenderer<ItemEntity> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+    @Override
+    public EntityRenderer<ItemEntity> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
         return new net.minecraft.client.renderer.entity.ItemEntityRenderer(renderContext);
-	}
+    }
 }

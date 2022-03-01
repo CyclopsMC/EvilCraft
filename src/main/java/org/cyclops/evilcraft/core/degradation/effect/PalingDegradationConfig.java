@@ -16,5 +16,5 @@ public class PalingDegradationConfig extends DegradationEffectConfig {
                 1
         );
     }
-    
+
 }

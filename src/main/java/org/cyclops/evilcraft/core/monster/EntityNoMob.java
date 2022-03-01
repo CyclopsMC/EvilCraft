@@ -27,7 +27,7 @@ import java.util.Random;
 import java.util.function.Predicate;
 
 /**
- * A mob without the {@link net.minecraft.entity.monster.IMob} interface.
+ * A mob without the {@link net.minecraft.world.entity.Mob} interface.
  * @author rubensworks
  */
 public class EntityNoMob extends PathfinderMob {

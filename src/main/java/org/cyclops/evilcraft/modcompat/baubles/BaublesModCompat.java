@@ -11,34 +11,34 @@ import org.cyclops.evilcraft.Reference;
  *
  */
 public class BaublesModCompat implements IModCompat {
-	
-	private static boolean canBeUsed = false;
 
-	@Override
-	public String getId() {
-		return Reference.MOD_BAUBLES;
-	}
+    private static boolean canBeUsed = false;
 
-	@Override
-	public boolean isEnabledDefault() {
-		return true;
-	}
+    @Override
+    public String getId() {
+        return Reference.MOD_BAUBLES;
+    }
 
-	@Override
-	public String getComment() {
-		return "Vengeance Ring, Invigorating Pendant and Effortless Ring baubles.";
-	}
+    @Override
+    public boolean isEnabledDefault() {
+        return true;
+    }
 
-	@Override
-	public ICompatInitializer createInitializer() {
-		return () -> canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
-	}
+    @Override
+    public String getComment() {
+        return "Vengeance Ring, Invigorating Pendant and Effortless Ring baubles.";
+    }
 
-	/**
-	 * @return If the baubles mod compat can be used.
-	 */
-	public static boolean canUse() {
-		return canBeUsed;
-	}
+    @Override
+    public ICompatInitializer createInitializer() {
+        return () -> canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
+    }
+
+    /**
+     * @return If the baubles mod compat can be used.
+     */
+    public static boolean canUse() {
+        return canBeUsed;
+    }
 
 }

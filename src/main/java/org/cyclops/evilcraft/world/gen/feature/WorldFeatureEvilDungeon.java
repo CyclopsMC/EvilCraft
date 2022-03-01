@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
-import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.MonsterRoomFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
@@ -24,7 +23,7 @@ import java.util.Random;
  *
  */
 public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
-    
+
     private static final int RADIUS_X = 3;
     private static final int RADIUS_X_RAND = 4;
     private static final int RADIUS_Z = 3;
@@ -56,13 +55,13 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
         for (int xr = x - radiusX - 1; xr <= x + radiusX + 1; ++xr) {
             for (int yr = y - 1; yr <= y + height + 1; ++yr) {
                 for (int zr = z - radiusZ - 1; zr <= z + radiusZ + 1; ++zr) {
-                	BlockPos loopPos = new BlockPos(xr, yr, zr);
+                    BlockPos loopPos = new BlockPos(xr, yr, zr);
 
-                	// Skip invalid chunk generation positions.
-                	if(!world.getChunkSource().hasChunk(xr / 16, yr / 16)) {
-                		return false;
-                	}
-                	
+                    // Skip invalid chunk generation positions.
+                    if(!world.getChunkSource().hasChunk(xr / 16, yr / 16)) {
+                        return false;
+                    }
+
                     Material material = world.getBlockState(loopPos).getMaterial();
                     if (yr == y - 1 && !material.isSolid())
                         return false;
@@ -138,7 +137,7 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
                     BlockPos loopPos = new BlockPos(xs, y, zs);
                     world.setBlock(loopPos, Blocks.SPAWNER.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                     BlockEntity tile = world.getBlockEntity(loopPos);
-        
+
                     if (tile instanceof SpawnerBlockEntity) {
                         ((SpawnerBlockEntity) tile).getSpawner().setEntityId(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
                     } else {

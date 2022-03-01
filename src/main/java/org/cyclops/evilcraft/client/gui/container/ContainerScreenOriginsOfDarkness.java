@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.world.entity.player.Inventory;

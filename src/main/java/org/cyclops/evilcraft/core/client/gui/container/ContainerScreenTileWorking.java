@@ -25,18 +25,18 @@ public abstract class ContainerScreenTileWorking<C extends ContainerTileWorking<
         super(container, playerInventory, title);
         this.upgrades = new WidgetUpgradeTab(this, this);
         this.offsetX = UPGRADES_OFFSET_X;
-	}
+    }
 
     @Override
     public boolean isSlotEnabled(int upgradeSlotId) {
         return container.isUpgradeSlotEnabled(upgradeSlotId);
     }
-	
-	@Override
+
+    @Override
     protected boolean isShowProgress() {
         return getMenu().getMaxProgress(0) > 0;
     }
-    
+
     @Override
     protected int getProgressXScaled(int width) {
         return (int) Math.ceil((float)(getMenu().getProgress(0)) / (float)getMenu().getMaxProgress(0) * (float)width);

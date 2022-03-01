@@ -27,5 +27,5 @@ public class ItemVengeancePickaxeConfig extends ItemConfig {
                         .durability(154))
         );
     }
-    
+
 }

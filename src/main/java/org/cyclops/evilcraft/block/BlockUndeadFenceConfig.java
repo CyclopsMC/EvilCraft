@@ -26,11 +26,11 @@ public class BlockUndeadFenceConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-    
+
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
         BlockHelpers.setFireInfo(getInstance(), 5, 20);
     }
-    
+
 }

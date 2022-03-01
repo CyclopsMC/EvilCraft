@@ -16,5 +16,5 @@ public class KnockbackDistortDegradationConfig extends DegradationEffectConfig {
                 5
         );
     }
-    
+
 }

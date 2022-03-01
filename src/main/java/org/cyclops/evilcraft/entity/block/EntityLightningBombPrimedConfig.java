@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.entity.block;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.PrimedTnt;
@@ -38,5 +37,5 @@ public class EntityLightningBombPrimedConfig extends EntityConfig<EntityLightnin
     public EntityRenderer<PrimedTnt> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
         return new RenderBombPrimed(renderContext, RegistryEntries.BLOCK_LIGHTNING_BOMB_PRIMED);
     }
-    
+
 }

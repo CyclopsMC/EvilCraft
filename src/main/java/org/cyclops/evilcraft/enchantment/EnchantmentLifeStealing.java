@@ -41,22 +41,22 @@ public class EnchantmentLifeStealing extends Enchantment {
             }
         }
     }
-    
+
     @Override
     public int getMinCost(int level) {
         return 15 + (level - 1) * 15;
     }
-    
+
     @Override
     public int getMaxCost(int level) {
         return super.getMinCost(level) + 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 3;
     }
-    
+
     /**
      * Transfer the damage dealt as HP to the attacking entity.
      * @param entity The entity that attacked.
@@ -65,7 +65,7 @@ public class EnchantmentLifeStealing extends Enchantment {
      */
     public static void stealLife(LivingEntity entity, float damage, int level) {
         entity.heal(damage / RegistryEntries.ENCHANTMENT_LIFE_STEALING.getMaxLevel()
-        		* (level + 1) * (float) EnchantmentLifeStealingConfig.healModifier);
+                * (level + 1) * (float) EnchantmentLifeStealingConfig.healModifier);
     }
 
 }

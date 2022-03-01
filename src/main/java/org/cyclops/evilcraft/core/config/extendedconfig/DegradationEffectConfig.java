@@ -21,16 +21,16 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
         super(EvilCraft._instance, namedId, elementConstructor);
         this.weight = weight;
     }
-    
+
     @Override
-	public String getTranslationKey() {
-		return "degradationeffect." + getNamedId();
-	}
-    
+    public String getTranslationKey() {
+        return "degradationeffect." + getNamedId();
+    }
+
     @Override
-	public ConfigurableType getConfigurableType() {
-		return ExtendedConfigurableType.DEGRADATIONEFFECT;
-	}
+    public ConfigurableType getConfigurableType() {
+        return ExtendedConfigurableType.DEGRADATIONEFFECT;
+    }
 
     /**
      * Get the weight.

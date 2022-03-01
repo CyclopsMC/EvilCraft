@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
  *
  */
 public class RepairItemTickAction implements ITickAction<BlockEntityBloodChest> {
-    
+
     @Override
     public boolean canTick(BlockEntityBloodChest tile, ItemStack itemStack, int slot, int tick) {
         if(!tile.getTank().isEmpty() && !itemStack.isEmpty()) {
@@ -27,7 +27,7 @@ public class RepairItemTickAction implements ITickAction<BlockEntityBloodChest> 
         }
         return false;
     }
-    
+
     private void drainTank(BlockEntityBloodChest tile, float usageMultiplier) {
         tile.getTank().drain((int) Math.ceil((float) BlockBloodChestConfig.mBPerDamage * usageMultiplier), IFluidHandler.FluidAction.EXECUTE);
     }
@@ -38,8 +38,8 @@ public class RepairItemTickAction implements ITickAction<BlockEntityBloodChest> 
             if(!tile.getTank().isEmpty() && !itemStack.isEmpty()) {
                 itemStack = itemStack.copy();
                 // Call handlers registered via API.
-            	IBloodChestRepairActionRegistry actions = EvilCraft._instance.getRegistryManager().
-            			getRegistry(IBloodChestRepairActionRegistry.class);
+                IBloodChestRepairActionRegistry actions = EvilCraft._instance.getRegistryManager().
+                        getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
                     float simulateMultiplier = actions.repair(itemStack, tile.getLevel().random, actionID, false, false).getLeft();
@@ -58,5 +58,5 @@ public class RepairItemTickAction implements ITickAction<BlockEntityBloodChest> 
     public float getRequiredTicks(BlockEntityBloodChest tile, int slot, int tick) {
         return BlockBloodChestConfig.ticksPerDamage;
     }
-    
+
 }

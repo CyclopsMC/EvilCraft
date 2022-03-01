@@ -25,26 +25,26 @@ public class EntityStruckByLightningEventHook {
      * When a living attack event is received.
      * @param event The received event.
      */
-	@SubscribeEvent(priority = EventPriority.NORMAL)
+    @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onEntityStruckByLightning(EntityStruckByLightningEvent event) {
-		empowerItem(event);
-		transformVillager(event);
+        empowerItem(event);
+        transformVillager(event);
     }
-    
+
     private void empowerItem(EntityStruckByLightningEvent event) {
         if(event.getEntity() instanceof ItemEntity) {
             ItemEntity entity = (ItemEntity) event.getEntity();
             if(entity.getItem().getItem() instanceof IItemEmpowerable) {
-            	IItemEmpowerable empowerable = (IItemEmpowerable) entity.getItem().getItem();
-            	if(!empowerable.isEmpowered(entity.getItem())) {
-            		entity.setItem(empowerable.empower(entity.getItem()));
-            		event.setCanceled(true);
-            		event.getLightning().remove(Entity.RemovalReason.DISCARDED);
-            	}
+                IItemEmpowerable empowerable = (IItemEmpowerable) entity.getItem().getItem();
+                if(!empowerable.isEmpowered(entity.getItem())) {
+                    entity.setItem(empowerable.empower(entity.getItem()));
+                    event.setCanceled(true);
+                    event.getLightning().remove(Entity.RemovalReason.DISCARDED);
+                }
             }
         }
     }
-    
+
     private LightningBolt lastLightningBolt;
     private Set<Villager> affectedVillagers;
 
@@ -67,5 +67,5 @@ public class EntityStruckByLightningEventHook {
                 event.setCanceled(true); // 50% chance that they become a witch like vanilla does
         }
     }
-    
+
 }

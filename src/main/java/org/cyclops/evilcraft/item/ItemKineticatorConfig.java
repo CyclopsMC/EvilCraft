@@ -38,5 +38,5 @@ public class ItemKineticatorConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()), repelling)
         );
     }
-    
+
 }

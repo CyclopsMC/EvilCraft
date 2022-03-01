@@ -42,7 +42,7 @@ public class BlockInvisibleRedstone extends BlockWithEntity {
     public int getSignal(BlockState blockState, BlockGetter blockAccess, BlockPos pos, Direction side) {
         return 15;
     }
-    
+
     @Override
     public boolean isSignalSource(BlockState blockState) {
         return true;

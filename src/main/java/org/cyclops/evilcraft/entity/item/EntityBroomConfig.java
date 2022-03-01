@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.entity.item;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,7 +28,7 @@ public class EntityBroomConfig extends EntityConfig<EntityBroom> {
                         .setUpdateInterval(10)
         );
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public EntityRenderer<EntityBroom> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {

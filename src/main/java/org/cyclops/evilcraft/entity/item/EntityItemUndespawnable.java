@@ -13,22 +13,22 @@ import org.cyclops.evilcraft.core.entity.item.EntityItemIndestructable;
  */
 public class EntityItemUndespawnable extends EntityItemIndestructable {
 
-	public EntityItemUndespawnable(Level world, ItemEntity original) {
-		super(RegistryEntries.ENTITY_ITEM_UNDESPAWNABLE, world, original);
-	}
+    public EntityItemUndespawnable(Level world, ItemEntity original) {
+        super(RegistryEntries.ENTITY_ITEM_UNDESPAWNABLE, world, original);
+    }
 
-	public EntityItemUndespawnable(EntityType<? extends EntityItemUndespawnable> type, Level world) {
-		super(type, world);
-	}
-	
-	@Override
-	protected boolean isIndestructable() {
-		return false;
-	}
-	
-	@Override
-	protected boolean isUndespawnable() {
-		return true;
-	}
-	
+    public EntityItemUndespawnable(EntityType<? extends EntityItemUndespawnable> type, Level world) {
+        super(type, world);
+    }
+
+    @Override
+    protected boolean isIndestructable() {
+        return false;
+    }
+
+    @Override
+    protected boolean isUndespawnable() {
+        return true;
+    }
+
 }

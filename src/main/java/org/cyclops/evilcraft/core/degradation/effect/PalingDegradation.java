@@ -31,7 +31,7 @@ public class PalingDegradation implements IDegradationEffect {
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
+
     }
 
     @Override

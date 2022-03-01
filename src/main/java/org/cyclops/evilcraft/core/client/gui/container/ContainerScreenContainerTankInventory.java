@@ -28,7 +28,7 @@ import java.util.List;
  */
 public abstract class ContainerScreenContainerTankInventory<C extends ContainerInventoryTickingTank<T>, T extends BlockEntityTickingTankInventory<T>>
         extends ContainerScreenExtended<C> {
-	
+
     private boolean showTank = false;
     private int tankWidth;
     private int tankHeight;
@@ -36,7 +36,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     private int tankY;
     private int tankTargetX;
     private int tankTargetY;
-    
+
     private boolean showProgress = false;
     private int progressWidth;
     private int progressHeight;
@@ -59,7 +59,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         this.tankTargetY = tankTargetY + offsetY;
     }
 
-	protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
+    protected void setProgress(int progressWidth, int progressHeight, int progressX, int progressY, int progressTargetX, int progressTargetY) {
         this.showProgress = true;
         this.progressWidth = progressWidth;
         this.progressHeight = progressHeight;
@@ -68,16 +68,16 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         this.progressTargetX = progressTargetX + offsetX;
         this.progressTargetY = progressTargetY + offsetY;
     }
-    
-	protected boolean isShowProgress() {
+
+    protected boolean isShowProgress() {
         return showProgress;
     }
-    
-	protected int getProgressXScaled(int width) {
+
+    protected int getProgressXScaled(int width) {
         return width;
     }
-	
-	protected int getProgressYScaled(int height) {
+
+    protected int getProgressYScaled(int height) {
         return height;
     }
 
@@ -86,17 +86,17 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         super.renderBg(matrixStack, f, x, y);
         if(isShowProgress()) {
             this.blit(matrixStack, leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
-            		getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
+                    getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
 
     protected abstract Component getName();
-    
-	protected void drawForgegroundString(PoseStack matrixStack) {
-	    // MCP: drawString
-    	font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
+
+    protected void drawForgegroundString(PoseStack matrixStack) {
+        // MCP: drawString
+        font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
     }
-    
+
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         drawForgegroundString(matrixStack);
@@ -112,33 +112,33 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         drawAdditionalForeground(matrixStack, mouseX, mouseY);
         GlStateManager._disableBlend();
     }
-    
-	protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
-    	
+
+    protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
+
     }
-    
+
     @Override
     public void drawCurrentScreen(PoseStack matrixStack, int mouseX, int mouseY, float gameTicks) {
         super.drawCurrentScreen(matrixStack, mouseX, mouseY, gameTicks);
         drawTooltips(matrixStack, mouseX, mouseY);
     }
-    
-	protected boolean shouldRenderTank(FluidStack fluidStack) {
+
+    protected boolean shouldRenderTank(FluidStack fluidStack) {
         if(!showTank)
             return false;
         return fluidStack.getAmount() > 0;
     }
-    
-	protected void drawTank(PoseStack matrixStack, int xOffset, int yOffset, Fluid fluid, int level) {
+
+    protected void drawTank(PoseStack matrixStack, int xOffset, int yOffset, Fluid fluid, int level) {
         if(fluid != null) {
             FluidStack stack = new FluidStack(fluid, 1);
             TextureAtlasSprite icon = RenderHelpers.getFluidIcon(stack, Direction.UP);
-            
+
             int verticalOffset = 0;
-            
+
             while(level > 0) {
                 int textureHeight = 0;
-                
+
                 if(level > 16) {
                     textureHeight = 16;
                     level -= 16;
@@ -146,26 +146,26 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
                     textureHeight = level;
                     level = 0;
                 }
-                
+
                 RenderHelpers.bindTexture(org.cyclops.evilcraft.core.helper.RenderHelpers.TEXTURE_MAP);
                 blit(matrixStack, xOffset, yOffset - textureHeight - verticalOffset, 0, tankWidth, textureHeight, icon);
                 verticalOffset = verticalOffset + 16;
             }
-            
+
             RenderHelpers.bindTexture(texture);
             blit(matrixStack, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
         }
     }
-    
-	protected void drawTooltips(PoseStack poseStack, int mouseX, int mouseY) {
+
+    protected void drawTooltips(PoseStack poseStack, int mouseX, int mouseY) {
         FluidStack fluidStack = getMenu().getFluidStack();
         if(isHovering(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
             Component fluidName = fluidStack.getDisplayName();
             drawBarTooltipTank(poseStack, fluidName, fluidStack, fluidStack.getAmount(), getMenu().getFluidCapacity(), mouseX, mouseY);
         }
     }
-    
-	protected void drawBarTooltipTank(PoseStack poseStack, Component name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
+
+    protected void drawBarTooltipTank(PoseStack poseStack, Component name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
         List<Component> lines = Lists.newArrayList();
         lines.add(name);
         lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));

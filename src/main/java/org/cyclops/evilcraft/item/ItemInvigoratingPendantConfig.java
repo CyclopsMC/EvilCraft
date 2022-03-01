@@ -39,5 +39,5 @@ public class ItemInvigoratingPendantConfig extends ItemConfig {
     protected String getConfigPropertyPrefix(ConfigurableProperty annotation) {
         return "invig_pendant";
     }
-    
+
 }

@@ -79,13 +79,13 @@ public class BlockDarkOre extends Block implements IInformationProvider {
         this.glow(worldIn, pos);
         return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
     }
-    
+
     private boolean isGlowing(Level world, BlockPos blockPos) {
         return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), GLOWING, true);
     }
 
     private void glow(Level world, BlockPos blockPos) {
-    	if (world.isClientSide())
+        if (world.isClientSide())
             this.sparkle(world, blockPos);
 
         if (!isGlowing(world, blockPos)) {
@@ -160,7 +160,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
 
     @Override
     public MutableComponent getInfo(ItemStack itemStack) {
-    	return new TranslatableComponent(this.getDescriptionId()
+        return new TranslatableComponent(this.getDescriptionId()
                 + ".info.custom", 66)
                 .withStyle(INFO_PREFIX_STYLES);
     }

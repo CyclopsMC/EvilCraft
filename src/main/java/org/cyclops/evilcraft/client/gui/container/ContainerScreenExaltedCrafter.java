@@ -70,10 +70,10 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public void init() {
-    	super.init();
-    	this.buttonClear = addRenderableWidget(new ButtonText( this.leftPos + 88,  this.topPos + 58, 13, 12,
+        super.init();
+        this.buttonClear = addRenderableWidget(new ButtonText( this.leftPos + 88,  this.topPos + 58, 13, 12,
                 new TranslatableComponent("gui.exalted_crafting.clear"), new TextComponent("C"),
                 createServerPressable(ContainerExaltedCrafter.BUTTON_CLEAR, (button) -> {}), true));
         this.buttonBalance = addRenderableWidget(new ButtonText(this.leftPos + 103, this.topPos + 58, 13, 12,
@@ -88,15 +88,15 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
             }
         });
     }
-    
+
     @Override
     protected void renderLabels(PoseStack matrixStack, int x, int y) {
-    	// super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-    	ItemStack itemStack = container.getItemStack(getMinecraft().player);
-    	Component name = new TranslatableComponent("gui.exalted_crafting");
-    	if(itemStack.hasCustomHoverName()) {
-    		name = itemStack.getHoverName();
-    	}
+        // super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+        ItemStack itemStack = container.getItemStack(getMinecraft().player);
+        Component name = new TranslatableComponent("gui.exalted_crafting");
+        if(itemStack.hasCustomHoverName()) {
+            name = itemStack.getHoverName();
+        }
         // MCP: drawString
         this.font.draw(matrixStack, name, 28, 6, 4210752);
     }

@@ -65,11 +65,11 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
                         if (this.getOwner().isPassenger()) {
                             this.getOwner().stopRiding();
                         }
-    
+
                         this.getOwner().teleportTo(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                         this.getOwner().fallDistance = 0.0F;
                         ((LivingEntity) this.getOwner()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
-                        		ItemBloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
+                                ItemBloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }
                 }
             }

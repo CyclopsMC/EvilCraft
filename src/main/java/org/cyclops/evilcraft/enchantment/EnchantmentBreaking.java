@@ -58,17 +58,17 @@ public class EnchantmentBreaking extends Enchantment {
             }
         }
     }
-    
+
     @Override
     public int getMinCost(int level) {
         return 1 + (level - 1) * 8;
     }
-    
+
     @Override
     public int getMaxCost(int level) {
         return super.getMinCost(level) + 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 3;
@@ -89,7 +89,7 @@ public class EnchantmentBreaking extends Enchantment {
     {
         return true;
     }
-    
+
     /**
      * Used by ItemStack.attemptDamageItem. Randomly determines if a point of damage should be amplified using the
      * enchantment level. If the ItemStack is Armor then there is a flat 60% chance for damage to be amplified no

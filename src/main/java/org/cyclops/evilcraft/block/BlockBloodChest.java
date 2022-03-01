@@ -59,7 +59,7 @@ public class BlockBloodChest extends BlockWithEntityGuiTank {
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
-    
+
     @Override
     public RenderShape getRenderShape(BlockState blockState) {
         return RenderShape.ENTITYBLOCK_ANIMATED;

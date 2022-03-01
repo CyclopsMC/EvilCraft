@@ -17,7 +17,7 @@ import org.cyclops.evilcraft.item.ItemPrimedPendant;
  */
 public class ContainerScreenPrimedPendant extends ContainerScreenExtended<ContainerPrimedPendant> {
 
-	private static final int TEXTUREHEIGHT = 165;
+    private static final int TEXTUREHEIGHT = 165;
 
     public ContainerScreenPrimedPendant(ContainerPrimedPendant container, Inventory inventory, Component title) {
         super(container, inventory, title);

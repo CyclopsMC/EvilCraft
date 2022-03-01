@@ -30,17 +30,17 @@ public class EnchantmentVengeance extends Enchantment {
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
+
     @Override
     public int getMinCost(int level) {
         return 1 + (level - 1) * 8;
     }
-    
+
     @Override
     public int getMaxCost(int level) {
         return super.getMinCost(level) + 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 3;

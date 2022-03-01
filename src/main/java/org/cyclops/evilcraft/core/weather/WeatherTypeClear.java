@@ -22,7 +22,7 @@ public class WeatherTypeClear extends WeatherType {
     public void activate(ServerLevel world) {
         if (LIGHTNING.isActive(world))
             LIGHTNING.deactivate(world);
-        
+
         if (RAIN.isActive(world))
             RAIN.deactivate(world);
     }

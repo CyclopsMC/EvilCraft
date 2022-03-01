@@ -19,5 +19,5 @@ public class ItemGoldenStringConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

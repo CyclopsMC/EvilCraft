@@ -22,7 +22,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -44,13 +43,11 @@ import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockColossalBloodChestConfig;
-import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
@@ -59,7 +56,6 @@ import org.cyclops.evilcraft.core.blockentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.inventory.container.ContainerBloodChest;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.blockentity.tickaction.EmptyFluidContainerInTankTickAction;
@@ -67,7 +63,6 @@ import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.BulkRepairItemTic
 
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -243,10 +238,10 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
             slotTickHistory.put(i, false);
         }
     }
-    
+
     @Override
     protected SingleUseTank createTank(int tankSize) {
-    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
 
     /**

@@ -8,7 +8,7 @@ import org.cyclops.cyclopscore.helper.Helpers;
 
 /**
  * Blood reactant.
- * 
+ *
  * @author rubensworks
  *
  */

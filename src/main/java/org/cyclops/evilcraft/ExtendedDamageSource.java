@@ -14,7 +14,7 @@ import net.minecraftforge.common.util.FakePlayerFactory;
  *
  */
 public class ExtendedDamageSource extends DamageSource{
-    
+
     /**
      * DamageSource for when entities die without any apparent reason.
      */
@@ -65,7 +65,7 @@ public class ExtendedDamageSource extends DamageSource{
     protected ExtendedDamageSource(String unlocalizedName) {
         this(unlocalizedName, null);
     }
-    
+
     /**
      * Get the string identifier of this damage source.
      * @return The unique ID.

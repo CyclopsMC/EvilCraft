@@ -118,5 +118,5 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
         blit(matrixStack, EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
                 EFFICIENCYBARX, EFFICIENCYBARY + minusFactor, EFFICIENCYBARWIDTH, EFFICIENCYBARHEIGHT - minusFactor);
     }
-    
+
 }

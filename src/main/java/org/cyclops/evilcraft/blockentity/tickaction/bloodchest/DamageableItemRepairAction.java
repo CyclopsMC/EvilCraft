@@ -17,12 +17,12 @@ import java.util.Random;
 public class DamageableItemRepairAction implements IBloodChestRepairAction {
 
     private static final int CHANCE_RANDOM_ENCHANT = 10000;
-    
+
     /**
      * All the possible bad enchantments
      */
     public static final LinkedList<Enchantment> BAD_ENCHANTS = new LinkedList<Enchantment>();
-    
+
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
         return itemStack.isRepairable();

@@ -19,5 +19,5 @@ public class ItemDarkSpikeConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

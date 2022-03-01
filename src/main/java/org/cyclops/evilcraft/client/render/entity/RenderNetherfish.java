@@ -9,12 +9,12 @@ import org.cyclops.evilcraft.entity.monster.EntityNetherfishConfig;
 
 /**
  * Renderer for a netherfish
- * 
+ *
  * @author rubensworks
  *
  */
 public class RenderNetherfish extends SilverfishRenderer {
-    
+
     private final ResourceLocation texture;
 
     public RenderNetherfish(EntityRendererProvider.Context renderContext, EntityNetherfishConfig config) {

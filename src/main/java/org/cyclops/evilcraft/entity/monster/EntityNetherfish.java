@@ -21,7 +21,7 @@ import java.util.Random;
  *
  */
 public class EntityNetherfish extends Silverfish {
-    
+
     private static final int MAX_FIRE_DURATION = 3;
     private static final double FIRE_CHANCE = 0.5;
 
@@ -39,7 +39,7 @@ public class EntityNetherfish extends Silverfish {
         super.registerGoals();
         this.goalSelector.addGoal(5, new EntityNetherfish.AIHideInStone());
     }
-    
+
     @Override
     public boolean doHurtTarget(Entity entity) {
         // Ignite the attacked entity for a certain duration with a certain chance.
@@ -47,7 +47,7 @@ public class EntityNetherfish extends Silverfish {
             entity.setSecondsOnFire(this.random.nextInt(MAX_FIRE_DURATION));
         return super.doHurtTarget(entity);
     }
-    
+
     @Override
     public void aiStep() {
         if(this.level.isClientSide() && random.nextInt(30) == 0) {
@@ -123,5 +123,5 @@ public class EntityNetherfish extends Silverfish {
         }
 
     }
-    
+
 }

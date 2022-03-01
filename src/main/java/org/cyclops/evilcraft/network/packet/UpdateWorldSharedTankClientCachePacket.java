@@ -12,43 +12,43 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 
 /**
  * Updates the world shared tank cache for all clients.
- * 
+ *
  * @author rubensworks
  *
  */
 public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
-	
-	@CodecField
-	private String tankID = null;
-	@CodecField
-	private FluidStack fluidStack = null;
 
-	/**
-	 * Creates a packet with no content
-	 */
-	public UpdateWorldSharedTankClientCachePacket() {
-		
-	}
+    @CodecField
+    private String tankID = null;
+    @CodecField
+    private FluidStack fluidStack = null;
 
-	@Override
-	public boolean isAsync() {
-		return true;
-	}
+    /**
+     * Creates a packet with no content
+     */
+    public UpdateWorldSharedTankClientCachePacket() {
 
-	public UpdateWorldSharedTankClientCachePacket(String tankID, FluidStack fluidStack) {
-		this.tankID = tankID;
-		this.fluidStack = fluidStack;
-	}
+    }
 
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void actionClient(Level world, Player player) {
-		WorldSharedTankCache.getInstance().setTankContent(tankID, fluidStack);
-	}    
+    @Override
+    public boolean isAsync() {
+        return true;
+    }
 
-	@Override
-	public void actionServer(Level world, ServerPlayer player) {
-		// Do nothing
-	}
+    public UpdateWorldSharedTankClientCachePacket(String tankID, FluidStack fluidStack) {
+        this.tankID = tankID;
+        this.fluidStack = fluidStack;
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void actionClient(Level world, Player player) {
+        WorldSharedTankCache.getInstance().setTankContent(tankID, fluidStack);
+    }
+
+    @Override
+    public void actionServer(Level world, ServerPlayer player) {
+        // Do nothing
+    }
 
 }

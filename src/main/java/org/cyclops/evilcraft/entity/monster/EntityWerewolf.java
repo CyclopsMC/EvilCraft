@@ -45,7 +45,7 @@ public class EntityWerewolf extends Monster {
 
     private CompoundTag villagerNBTTagCompound = new CompoundTag();
     private boolean fromVillager = false;
-    
+
     private static final int BARKCHANCE = 1000;
     private static final int BARKLENGTH = 40;
     private static int barkprogress = -1;
@@ -87,12 +87,12 @@ public class EntityWerewolf extends Monster {
             }
         }
     }
-    
+
     @Override
     public float getVoicePitch() {
         return super.getVoicePitch() * 0.75F;
     }
-    
+
     @Override
     public void addAdditionalSaveData(CompoundTag NBTTagCompound) {
         super.addAdditionalSaveData(NBTTagCompound);
@@ -106,7 +106,7 @@ public class EntityWerewolf extends Monster {
         this.villagerNBTTagCompound = NBTTagCompound.getCompound("villager");
         this.fromVillager = NBTTagCompound.getBoolean("fromVillager");
     }
-    
+
     /**
      * If at the current time in the given world werewolves can appear.
      * @param world The world.
@@ -117,7 +117,7 @@ public class EntityWerewolf extends Monster {
                 && !world.isDay()
                 && world.getDifficulty() != Difficulty.PEACEFUL;
     }
-    
+
     private static void replaceEntity(Mob old, Mob neww, Level world) {
         neww.copyPosition(old);
         old.remove(RemovalReason.DISCARDED);
@@ -125,7 +125,7 @@ public class EntityWerewolf extends Monster {
         world.addFreshEntity(neww);
         world.levelEvent(null, 1016, old.blockPosition(), 0);
     }
-    
+
     /**
      * Replace this entity with the stored villager.
      */
@@ -158,7 +158,7 @@ public class EntityWerewolf extends Monster {
         werewolf.setFromVillager(true);
         replaceEntity(villager, werewolf, villager.level);
     }
-    
+
     @Override
     public void aiStep() {
         if(!level.isClientSide() && (!isWerewolfTime(level) || level.getDifficulty() == Difficulty.PEACEFUL)) {
@@ -166,7 +166,7 @@ public class EntityWerewolf extends Monster {
         } else {
             super.aiStep();
         }
-        
+
         // Random barking
         Random random = level.random;
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
@@ -179,7 +179,7 @@ public class EntityWerewolf extends Monster {
             }
         }
     }
-    
+
     /**
      * Get the bark progress scaled to the given parameter.
      * @param scale The scale.
@@ -216,7 +216,7 @@ public class EntityWerewolf extends Monster {
     protected void playStepSound(BlockPos blockPos, BlockState block) {
         this.playSound(SoundEvents.ZOMBIE_STEP, 0.15F, 1.0F);
     }
-    
+
     @Override
     public MobType getMobType() {
         return MobType.ARTHROPOD;
@@ -234,7 +234,7 @@ public class EntityWerewolf extends Monster {
     public CompoundTag getVillagerNBTTagCompound() {
         return villagerNBTTagCompound;
     }
-    
+
     /**
      * If this werewolf was created from a transforming villager.
      * @return If it was a villager.
@@ -242,7 +242,7 @@ public class EntityWerewolf extends Monster {
     public boolean isFromVillager() {
         return fromVillager;
     }
-    
+
     /**
      * Set is from villager.
      * @param fromVillager If this werewolf is a transformed villager.

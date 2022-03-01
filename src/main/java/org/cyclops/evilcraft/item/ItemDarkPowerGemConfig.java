@@ -20,5 +20,5 @@ public class ItemDarkPowerGemConfig extends ItemConfig {
                         .stacksTo(16))
         );
     }
-    
+
 }

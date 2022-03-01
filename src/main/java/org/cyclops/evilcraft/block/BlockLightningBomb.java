@@ -87,7 +87,7 @@ public class BlockLightningBomb extends Block {
         super.destroy(world, blockPos, blockState);
         this.primeBomb(world, blockPos, blockState, null);
     }
-    
+
     /**
      * Spawns the primed bomb and plays the fuse sound.
      * @param world The world.
@@ -137,7 +137,7 @@ public class BlockLightningBomb extends Block {
             world.removeBlock(blockPos, false);
         }
     }
-    
+
     @Override
     public boolean dropFromExplosion(Explosion explosion) {
         return false;

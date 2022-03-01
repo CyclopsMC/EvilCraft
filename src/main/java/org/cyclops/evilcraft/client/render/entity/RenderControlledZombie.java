@@ -11,7 +11,7 @@ import org.cyclops.evilcraft.entity.monster.EntityControlledZombieConfig;
 
 /**
  * Renderer for a controlled zombie.
- * 
+ *
  * @author rubensworks
  *
  */
@@ -23,7 +23,7 @@ public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlled
         super(renderContext, new Model(renderContext), 0.5F);
         this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
-    
+
     @Override
     public ResourceLocation getTextureLocation(EntityControlledZombie entity) {
         return texture;

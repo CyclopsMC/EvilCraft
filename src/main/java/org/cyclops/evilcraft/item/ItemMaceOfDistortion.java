@@ -41,12 +41,12 @@ import java.util.List;
  *
  */
 public class ItemMaceOfDistortion extends ItemMace {
-    
+
     /**
      * The amount of ticks that should go between each update of the area of effect particles.
      */
     public static final int AOE_TICK_UPDATE = 20;
-    
+
     private static final int MAXIMUM_CHARGE = 100;
     private static final float MELEE_DAMAGE = 7.0F;
     private static final float RADIAL_DAMAGE = 3.0F;
@@ -57,25 +57,25 @@ public class ItemMaceOfDistortion extends ItemMace {
     public ItemMaceOfDistortion(Item.Properties properties) {
         super(properties, CONTAINER_SIZE, HIT_USAGE, MAXIMUM_CHARGE, POWER_LEVELS, MELEE_DAMAGE);
     }
-    
+
     @SuppressWarnings("unchecked")
     protected void distortEntities(Level world, LivingEntity initiator, int itemUsedCount, int power) {
         // Center of the knockback
         double x = initiator.getX();
         double y = initiator.getY();
         double z = initiator.getZ();
-        
+
         // Get the entities in the given area
         double area = getArea(itemUsedCount);
         AABB box = new AABB(x, y, z, x, y, z).inflate(area);
         List<Entity> entities = world.getEntities(initiator, box);
-        
+
         // Do knockback and damage to the list of entities
         boolean onePlayer = false;
         for(Entity entity : entities) {
-        	if(entity instanceof Player) {
-        		onePlayer = true;
-        	}
+            if(entity instanceof Player) {
+                onePlayer = true;
+            }
             distortEntity(world, initiator, entity, x, y, z, itemUsedCount, power);
         }
 
@@ -83,7 +83,7 @@ public class ItemMaceOfDistortion extends ItemMace {
             Advancements.DISTORT.test((ServerPlayer) initiator, entities);
         }
     }
-    
+
     /**
      * Distort an entity.
      * @param world The world.
@@ -123,19 +123,19 @@ public class ItemMaceOfDistortion extends ItemMace {
                     }
                 }
                 entity.hurt(damageSource, RADIAL_DAMAGE * power);
-                
+
                 if(world.isClientSide()) {
                     showEntityDistored(world, initiator, entity, power);
                 }
             }
             if(entity instanceof EntityVengeanceSpirit) {
-            	((EntityVengeanceSpirit) entity).setSwarm(true);
+                ((EntityVengeanceSpirit) entity).setSwarm(true);
             }
             strength /= 2;
             entity.setDeltaMovement(entity.getDeltaMovement().multiply(strength, strength, strength));
         }
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     public static void showEntityDistored(Level world, LivingEntity initiator, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
@@ -146,7 +146,7 @@ public class ItemMaceOfDistortion extends ItemMace {
         // Fake explosion effect.
         world.addParticle(ParticleTypes.EXPLOSION, entity.getX(), entity.getY() + world.random.nextFloat(), entity.getZ(), 1.0D, 0.0D, 0.0D);
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     protected void animateOutOfEnergy(Level world, Player player) {
         double xCoord = player.getX();
@@ -157,7 +157,7 @@ public class ItemMaceOfDistortion extends ItemMace {
         float particleMotionY = 0.2F;
         float particleMotionZ = world.random.nextFloat() * 0.2F - 0.1F;
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
-        
+
         world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.RECORDS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
     }
 

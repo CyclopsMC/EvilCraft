@@ -90,5 +90,5 @@ public class BlockInfestedNetherConfig extends BlockConfig {
                     .add(() -> PLACED_FEATURE_SILVERFISH_EXTRA);
         }
     }
-    
+
 }

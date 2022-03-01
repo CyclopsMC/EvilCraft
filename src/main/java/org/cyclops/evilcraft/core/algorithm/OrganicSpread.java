@@ -12,14 +12,14 @@ import java.util.Random;
  *
  */
 public class OrganicSpread {
-    
+
     private static Random random = new Random();
-    
+
     private Level world;
     private int dimensions;
     private int radius;
     private IOrganicSpreadable spreadable;
-    
+
     /**
      * Make a new instance.
      * @param world The world.
@@ -33,21 +33,21 @@ public class OrganicSpread {
         this.setRadius(radius);
         this.setSpreadable(spreadable);
     }
-    
+
     /**
      * @return the radius
      */
     public int getRadius() {
         return radius;
     }
-    
+
     /**
      * @param radius the radius to set
      */
     public void setRadius(int radius) {
         this.radius = radius;
     }
-    
+
     /**
      * @return the dimensions
      */
@@ -61,7 +61,7 @@ public class OrganicSpread {
     public void setDimensions(int dimensions) {
         this.dimensions = dimensions;
     }
-    
+
     /**
      * @return the spreadable
      */
@@ -75,7 +75,7 @@ public class OrganicSpread {
     public void setSpreadable(IOrganicSpreadable spreadable) {
         this.spreadable = spreadable;
     }
-    
+
     /**
      * Perform one spreading tick so that one new blockState will be spread to.
      * @param startLocation The location to start spreading from.
@@ -113,7 +113,7 @@ public class OrganicSpread {
         float MIN = 0.3F;
         return Math.abs(direction.x) >= MIN || Math.abs(direction.y) >= MIN || Math.abs(direction.z) >= MIN;
     }
-    
+
     /**
      * Get a random direction to spread in.
      * @return An array of a choice of -1;0;1 per coordinate index.
@@ -128,7 +128,7 @@ public class OrganicSpread {
      *
      */
     public interface IOrganicSpreadable {
-        
+
         /**
          * Check if a certain location is already spread to.
          * @param world The world.
@@ -142,7 +142,7 @@ public class OrganicSpread {
          * @param location The location.
          */
         public void spreadTo(Level world, BlockPos location);
-        
+
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.List;
  * @see IDegradationRegistry
  */
 public interface IDegradable {
-    
+
     /**
      * Get the center location of this degradable instance.
      * @return The center coordinates.
@@ -39,5 +39,5 @@ public interface IDegradable {
      * @return The world.
      */
     public Level getDegradationWorld();
-    
+
 }

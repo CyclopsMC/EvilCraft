@@ -19,5 +19,5 @@ public class ItemPoisonSacConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

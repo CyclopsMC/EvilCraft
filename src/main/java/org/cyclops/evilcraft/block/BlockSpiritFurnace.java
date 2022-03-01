@@ -69,7 +69,7 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
         }
         return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
     }
-    
+
     private void triggerDetector(LevelAccessor world, BlockPos blockPos, boolean valid) {
         BlockEntitySpiritFurnace.getCubeDetector().detect(world, blockPos, valid ? null : blockPos, true);
     }
@@ -102,8 +102,8 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
         this.wasExploded(world, pos, explosion);
     }
 
-	@Override
-	public void onDetect(LevelReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
+    @Override
+    public void onDetect(LevelReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !world.getBlockState(location).getValue(ACTIVE);
@@ -116,7 +116,7 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
                 BlockEntitySpiritFurnace.detectStructure(world, location, size, valid, originCorner);
             }
         }
-	}
+    }
 
     @Override
     public int getDefaultCapacity() {

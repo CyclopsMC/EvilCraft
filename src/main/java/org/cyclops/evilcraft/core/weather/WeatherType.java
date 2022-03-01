@@ -28,7 +28,7 @@ public abstract class WeatherType {
      * Lightning.
      */
     public static final WeatherType LIGHTNING = new WeatherTypeLightning();
-    
+
     /**
      * Array that contains all possible weather types
      */
@@ -51,7 +51,7 @@ public abstract class WeatherType {
      * @return If it is active.
      */
     public abstract boolean isActive(Level world);
-    
+
     /**
      * Activate this weather in the given world.
      * @param world The world.
@@ -62,7 +62,7 @@ public abstract class WeatherType {
      * @param world The world.
      */
     public abstract void deactivate(ServerLevel world);
-    
+
     /**
      * Activate or deactivate this weather in the given world.
      * @param world The world.
@@ -74,13 +74,13 @@ public abstract class WeatherType {
         else
             deactivate(world);
     }
-    
+
     /**
      * Returns the current active weather type.
-     * 
+     *
      * @param world The world.
      * @return The current active {@link WeatherType},
-     *         or null in case no known active weather 
+     *         or null in case no known active weather
      *         type was found.
      */
     public static WeatherType getActiveWeather(Level world) {
@@ -88,7 +88,7 @@ public abstract class WeatherType {
             if (type.isActive(world))
                 return type;
         }
-        
+
         return null;
     }
 
@@ -97,21 +97,21 @@ public abstract class WeatherType {
      * @param type The type name.
      * @return The weather type.
      */
-	public static WeatherType valueOf(String type) {
-		Field field;
-		try {
-			field = WeatherType.class.getField(type);
-		} catch (NoSuchFieldException e) {
-			return null;
-		} catch (SecurityException e) {
-			return null;
-		}
-		try {
-			return (WeatherType) field.get(null);
-		} catch (IllegalArgumentException e) {
-			return null;
-		} catch (IllegalAccessException e) {
-			return null;
-		}
-	}
+    public static WeatherType valueOf(String type) {
+        Field field;
+        try {
+            field = WeatherType.class.getField(type);
+        } catch (NoSuchFieldException e) {
+            return null;
+        } catch (SecurityException e) {
+            return null;
+        }
+        try {
+            return (WeatherType) field.get(null);
+        } catch (IllegalArgumentException e) {
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        }
+    }
 }

@@ -19,5 +19,5 @@ public class ItemHardenedBloodShardConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

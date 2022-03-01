@@ -20,5 +20,5 @@ public class ItemSpikeyClawsConfig extends ItemConfig {
                         .durability(256))
         );
     }
-    
+
 }

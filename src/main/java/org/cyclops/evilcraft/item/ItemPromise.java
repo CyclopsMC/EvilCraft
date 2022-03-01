@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Promise item singleton.
  * Used for machine upgrades.
- * 
+ *
  * @author rubensworks
  *
  */

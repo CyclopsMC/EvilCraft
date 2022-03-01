@@ -296,18 +296,18 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     }
 
     @Override
-	public boolean canWork() {
+    public boolean canWork() {
         if(!forceLoadTanks && invalidLocations != null && !WorldHelpers.efficientTick(level, TANK_CHECK_TICK_OFFSET, getBlockPos())) {
             return invalidLocations.isEmpty();
         }
         forceLoadTanks = false;
-		return getVirtualTankChildren() != null;
-	}
+        return getVirtualTankChildren() != null;
+    }
 
-	@Override
-	protected int getWorkTicker() {
-		return accumulateTicker;
-	}
+    @Override
+    protected int getWorkTicker() {
+        return accumulateTicker;
+    }
 
     public VirtualTank getVirtualTank() {
         return this.virtualTank;

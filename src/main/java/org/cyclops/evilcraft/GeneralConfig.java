@@ -1,13 +1,11 @@
 package org.cyclops.evilcraft;
 
-import com.google.common.collect.Lists;
 import net.minecraftforge.fml.config.ModConfig;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.DummyConfig;
 import org.cyclops.cyclopscore.tracking.Analytics;
 import org.cyclops.cyclopscore.tracking.Versions;
 
-import java.util.List;
 
 /**
  * A config with general options for this mod.
@@ -29,8 +27,8 @@ public class GeneralConfig extends DummyConfig {
     public static boolean farting = true;
 
     /*@ConfigurableProperty(category = "fluid",
-    		comment = "The allowed blood conversions with their ratio. (ratio 2 means that this "
-    				+ "fluid is 1mB of this fluid can be converted into 2mB of EvilCraft Blood.",
+            comment = "The allowed blood conversions with their ratio. (ratio 2 means that this "
+                    + "fluid is 1mB of this fluid can be converted into 2mB of EvilCraft Blood.",
             configLocation = ModConfig.Type.SERVER)
     public static List<String> bloodConverters = Lists.newArrayList(
             "blood:1.0",
@@ -59,7 +57,7 @@ public class GeneralConfig extends DummyConfig {
     public GeneralConfig() {
         super(EvilCraft._instance, "general");
     }
-    
+
     @Override
     public void onRegistered() {
         if(analytics) {

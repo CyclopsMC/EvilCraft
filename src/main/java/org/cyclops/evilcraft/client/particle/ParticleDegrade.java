@@ -30,7 +30,7 @@ public class ParticleDegrade extends TextureSheetParticle {
     public float getQuadSize(float p_217561_1_) {
         return this.quadSize * Mth.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
-    
+
     @Override
     public void tick() {
         super.tick();
@@ -57,11 +57,11 @@ public class ParticleDegrade extends TextureSheetParticle {
             }
 
         }
-        
+
         this.xd = (random.nextFloat() - random.nextFloat()) * 0.2F;
         this.yd = (random.nextFloat() - random.nextFloat()) * 0.1F;
         this.zd = (random.nextFloat() - random.nextFloat()) * 0.2F;
-        
+
         quadSize = (1 - (float)age / lifetime) * 0.9F;
     }
 

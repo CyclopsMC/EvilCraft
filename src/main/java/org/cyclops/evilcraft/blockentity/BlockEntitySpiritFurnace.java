@@ -60,7 +60,7 @@ import java.util.Optional;
  *
  */
 public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpiritFurnace, MutableDouble> implements MenuProvider {
-    
+
     /**
      * The id of the fluid container drainer slot.
      */
@@ -87,13 +87,13 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
     protected static final MinimumSizeValidator minimumSizeValidator = new MinimumSizeValidator(new Vec3i(2, 2, 2));
 
-	private static CubeDetector detector;
-    
+    private static CubeDetector detector;
+
     private static final Map<Class<?>, ITickAction<BlockEntitySpiritFurnace>> BOX_COOK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntitySpiritFurnace>>();
     static {
-    	BOX_COOK_TICK_ACTIONS.put(BlockBoxOfEternalClosure.class, new BoxCookTickAction());
+        BOX_COOK_TICK_ACTIONS.put(BlockBoxOfEternalClosure.class, new BoxCookTickAction());
     }
-    
+
     private static final Map<Class<?>, ITickAction<BlockEntitySpiritFurnace>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntitySpiritFurnace>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<BlockEntitySpiritFurnace>());
@@ -102,7 +102,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_SPEED = Upgrades.newUpgradeEventType();
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
-    
+
     @NBTPersist(useDefaultValue = false)
     private Vec3i size = LocationHelpers.copyLocation(Vec3i.ZERO);
     @NBTPersist
@@ -206,34 +206,34 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
     @Override
     protected SingleUseTank createTank(int tankSize) {
-    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
-    
+
     @Override
-	protected int getWorkTicker() {
-		return cookTicker;
-	}
-    
+    protected int getWorkTicker() {
+        return cookTicker;
+    }
+
     /**
      * Get the entity that is contained in a box.
      * @return The entity or null if no box or invalid box.
      */
     public Entity getEntity() {
-    	ItemStack boxStack = getInventory().getItem(getConsumeSlot());
+        ItemStack boxStack = getInventory().getItem(getConsumeSlot());
         if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
             EntityType<?> id = BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(boxStack);
             if(id != null && id != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
-    			// We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
+                // We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
                 if(boxEntityCache != null && id == boxEntityCache.getType()) {
-        			return boxEntityCache;
-        		} else {
+                    return boxEntityCache;
+                } else {
                     Entity entity = id.create(level);
                     boxEntityCache = entity;
                     return entity;
-        		}
-    		}
-    	}
-    	return null;
+                }
+            }
+        }
+        return null;
     }
 
     public String getPlayerId() {
@@ -255,19 +255,19 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
     public boolean isPlayer() {
         return !getPlayerId().isEmpty();
     }
-    
+
     /**
      * Get the size of the box entity.
      * @return The box entity size.
      */
     public Vec3i getEntitySize() {
-    	Entity entity = getEntity();
-    	if(entity == null) {
-    		return Vec3i.ZERO;
-    	}
-    	return EntityHelpers.getEntitySize(entity);
+        Entity entity = getEntity();
+        if(entity == null) {
+            return Vec3i.ZERO;
+        }
+        return EntityHelpers.getEntitySize(entity);
     }
-    
+
     /**
      * If the size is valid for the contained entity to cook.
      * It will check the inner size of the furnace and the size of the entity.
@@ -275,11 +275,11 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
      */
     public boolean isSizeValidForEntity() {
         Entity entity = getEntity();
-    	if(entity == null) {
-    		return false;
-    	}
-    	Vec3i requiredSize = getEntitySize();
-    	return getInnerSize().compareTo(requiredSize) >= 0;
+        if(entity == null) {
+            return false;
+        }
+        Vec3i requiredSize = getEntitySize();
+        return getInnerSize().compareTo(requiredSize) >= 0;
     }
 
     @Override
@@ -289,10 +289,10 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
     @Override
     public boolean canWork() {
-    	Vec3i size = getSize();
-		return size.compareTo(minimumSizeValidator.getMinimumSize()) >= 0;
+        Vec3i size = getSize();
+        return size.compareTo(minimumSizeValidator.getMinimumSize()) >= 0;
     }
-    
+
     /**
      * Check if the spirit furnace on the given location is valid and can start working.
      * @param world The world.
@@ -300,13 +300,13 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
      * @return If it is valid.
      */
     public static boolean canWork(Level world, BlockPos location) {
-    	BlockEntity tile = world.getBlockEntity(location);
-		if(tile != null) {
-			return ((BlockEntitySpiritFurnace) tile).canWork();
-		}
-		return false;
+        BlockEntity tile = world.getBlockEntity(location);
+        if(tile != null) {
+            return ((BlockEntitySpiritFurnace) tile).canWork();
+        }
+        return false;
     }
-    
+
     /**
      * Get the allowed cooking item for this furnace.
      * @return The allowed item.
@@ -326,7 +326,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
     public static void detectStructure(LevelReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
 
     }
-    
+
     /**
      * Get the id of the infusion slot.
      * @return id of the infusion slot.
@@ -343,81 +343,81 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
         return SLOTS_DROP;
     }
 
-	/**
-	 * @return the size
-	 */
-	public Vec3i getSize() {
-		return size;
-	}
-	
-	/**
-	 * @return the actual inner size.
-	 */
-	public Vec3i getInnerSize() {
-		return LocationHelpers.subtract(getSize(), new Vec3i(1, 1, 1));
-	}
+    /**
+     * @return the size
+     */
+    public Vec3i getSize() {
+        return size;
+    }
 
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(Vec3i size) {
-		this.size = size;
-		sendUpdate();
-	}
+    /**
+     * @return the actual inner size.
+     */
+    public Vec3i getInnerSize() {
+        return LocationHelpers.subtract(getSize(), new Vec3i(1, 1, 1));
+    }
 
-	public void onItemDrop(ItemStack itemStack) {
+    /**
+     * @param size the size to set
+     */
+    public void setSize(Vec3i size) {
+        this.size = size;
+        sendUpdate();
+    }
+
+    public void onItemDrop(ItemStack itemStack) {
         boolean placed = false;
-		int[] slots = getProduceSlots();
-		int i = 0;
+        int[] slots = getProduceSlots();
+        int i = 0;
 
-		// Try placing the item inside the inventory slots.
-		while(!placed && i < slots.length) {
-			ItemStack produceStack = getInventory().getItem(slots[i]);
-	        if(produceStack.isEmpty()) {
-	            getInventory().setItem(slots[i], itemStack);
-	            placed = true;
-	        } else {
-	            if(produceStack.getItem() == itemStack.getItem()
-	               && produceStack.getMaxStackSize() >= produceStack.getCount() + itemStack.getCount()) {
-	                produceStack.grow(itemStack.getCount());
-	                placed = true;
-	            }
-	        }
-	        i++;
-		}
+        // Try placing the item inside the inventory slots.
+        while(!placed && i < slots.length) {
+            ItemStack produceStack = getInventory().getItem(slots[i]);
+            if(produceStack.isEmpty()) {
+                getInventory().setItem(slots[i], itemStack);
+                placed = true;
+            } else {
+                if(produceStack.getItem() == itemStack.getItem()
+                   && produceStack.getMaxStackSize() >= produceStack.getCount() + itemStack.getCount()) {
+                    produceStack.grow(itemStack.getCount());
+                    placed = true;
+                }
+            }
+            i++;
+        }
 
-		// Halt the cooking if the item couldn't be placed
-		forceHalt = !placed;
-	}
-	
-	@Override
-	public void resetWork(boolean hardReset) {
-		forceHalt = false;
-		caughtError = false;
-		super.resetWork(hardReset);
-	}
+        // Halt the cooking if the item couldn't be placed
+        forceHalt = !placed;
+    }
 
-	/**
-	 * If the cooking is being halted because the inventory is full.
-	 * @return the forceHalt
-	 */
-	public boolean isForceHalt() {
-		return forceHalt;
-	}
+    @Override
+    public void resetWork(boolean hardReset) {
+        forceHalt = false;
+        caughtError = false;
+        super.resetWork(hardReset);
+    }
 
-	/**
-	 * @return the caughtError
-	 */
-	public boolean isCaughtError() {
-		return caughtError;
-	}
+    /**
+     * If the cooking is being halted because the inventory is full.
+     * @return the forceHalt
+     */
+    public boolean isForceHalt() {
+        return forceHalt;
+    }
 
-	/**
-	 * If an error was caught while killing a spirit.
-	 */
-	public void caughtError() {
-		this.caughtError = true;
-	}
+    /**
+     * @return the caughtError
+     */
+    public boolean isCaughtError() {
+        return caughtError;
+    }
+
+    /**
+     * If an error was caught while killing a spirit.
+     */
+    public void caughtError() {
+        this.caughtError = true;
+    }
 
     @Override
     protected Direction transformFacingForRotation(Direction facing) {

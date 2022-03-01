@@ -37,27 +37,27 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     public BlockWithEntityGuiTank(Properties properties, BiFunction<BlockPos, BlockState, CyclopsBlockEntity> blockEntitySupplier) {
         super(properties, blockEntitySupplier);
     }
-    
+
     @Override
     public boolean hasAnalogOutputSignal(BlockState blockState) {
-    	return true;
+        return true;
     }
 
     @Override
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
-    	BlockEntityTankInventory tile = (BlockEntityTankInventory) world.getBlockEntity(blockPos);
+        BlockEntityTankInventory tile = (BlockEntityTankInventory) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
     }
-    
+
     @Override
     public InteractionResult use(BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
         if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
             return InteractionResult.SUCCESS;
         }
-    	return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
+        return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
     }
-    
+
     @Override
     public MutableComponent getInfo(ItemStack itemStack) {
         return BlockTankHelpers.getInfoTank(itemStack);
@@ -70,19 +70,19 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     }
 
     @Override
-	public boolean isActivatable() {
-		return false;
-	}
-    
-    @Override
-	public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player) {
-		return itemStack;
-	}
+    public boolean isActivatable() {
+        return false;
+    }
 
-	@Override
-	public boolean isActivated(ItemStack itemStack, Level world) {
-		return false;
-	}
+    @Override
+    public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player) {
+        return itemStack;
+    }
+
+    @Override
+    public boolean isActivated(ItemStack itemStack, Level world) {
+        return false;
+    }
 
     @Override
     public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {

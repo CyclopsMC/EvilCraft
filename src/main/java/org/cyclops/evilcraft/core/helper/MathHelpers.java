@@ -8,22 +8,22 @@ package org.cyclops.evilcraft.core.helper;
  */
 public class MathHelpers {
 
-	/**
-	 * Normalize an angle around 180 degrees so that this value doesn't become too large/small.
-	 * @param angle The angle to normalize.
-	 * @return The normalized angle.
-	 */
-	public static float normalizeAngle_180(float angle) {
-	    angle %= 360;
-	    
-	    while (angle <= -180)
-	        angle += 360;
-	    
-	    while (angle > 180)
-	        angle -= 360;
-	    
-	    return angle;
-	}
+    /**
+     * Normalize an angle around 180 degrees so that this value doesn't become too large/small.
+     * @param angle The angle to normalize.
+     * @return The normalized angle.
+     */
+    public static float normalizeAngle_180(float angle) {
+        angle %= 360;
+
+        while (angle <= -180)
+            angle += 360;
+
+        while (angle > 180)
+            angle -= 360;
+
+        return angle;
+    }
 
     /**
      * Convert a double to a natural number taking into account a circular time counter

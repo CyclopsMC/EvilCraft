@@ -24,5 +24,5 @@ public interface IDegradationEffect {
      * @param degradable The degradable instance where the effect should apply.
      */
     public void runServerSide(IDegradable degradable);
-    
+
 }

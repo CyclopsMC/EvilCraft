@@ -20,5 +20,5 @@ public class ItemInvertedPotentiaConfig extends ItemConfig {
                         .stacksTo(16), empowered)
         );
     }
-    
+
 }

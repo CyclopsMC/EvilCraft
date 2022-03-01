@@ -24,5 +24,5 @@ public class EnchantmentVengeanceConfig extends EnchantmentConfig {
                 eConfig -> new EnchantmentVengeance()
         );
     }
-    
+
 }

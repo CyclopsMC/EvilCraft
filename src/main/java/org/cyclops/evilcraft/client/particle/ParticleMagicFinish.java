@@ -28,7 +28,7 @@ public class ParticleMagicFinish extends TextureSheetParticle {
     public float getQuadSize(float p_217561_1_) {
         return this.quadSize * Mth.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
-    
+
     @Override
     public void tick() {
         super.tick();
@@ -55,7 +55,7 @@ public class ParticleMagicFinish extends TextureSheetParticle {
             }
 
         }
-        
+
         quadSize = (1 - (float)age / lifetime) / 2;
     }
 

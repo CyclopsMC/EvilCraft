@@ -9,13 +9,13 @@ import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
  * @author rubensworks
  */
 public interface IPurifierActionRegistry extends IRegistry {
-	
-	/**
+
+    /**
      * Register a new repair action.
      * @param purifyAction The repair action instance.
      */
     public void register(IPurifierAction purifyAction);
-    
+
     /**
      * Check if the given item can be inserted into the Purifier to purify.
      * @param itemStack The {@link ItemStack} that could be inserted.
@@ -29,14 +29,14 @@ public interface IPurifierActionRegistry extends IRegistry {
      * @return If the given item can be inserted into the additional slot of the Purifier.
      */
     public boolean isItemValidForAdditionalSlot(ItemStack itemStack);
-    
+
     /**
      * Check if he Purifier can work in the current state.
      * @param tile The Purifier tile.
      * @return The action id for the workable action.
      */
     public int canWork(BlockEntityPurifier tile);
-    
+
     /**
      * Execute a valid Purifier action for the given Purifier tile.
      * @param actionId -1 if none of the actions apply, otherwise the actionId that applies.
@@ -44,5 +44,5 @@ public interface IPurifierActionRegistry extends IRegistry {
      * @return If work is done
      */
     public boolean work(int actionId, BlockEntityPurifier tile);
-    
+
 }

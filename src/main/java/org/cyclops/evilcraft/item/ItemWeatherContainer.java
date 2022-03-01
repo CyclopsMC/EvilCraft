@@ -32,12 +32,12 @@ import java.util.List;
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
  * WeatherContainerType which contains the actual data and functionality that
- * will be used when using this weather container. The different types of 
+ * will be used when using this weather container. The different types of
  * weather containers are identified by their item damage, which equals
  * to the ordinal of the corresponding WeatherContainerType.
  * Any new weather containers should by added by adding an entry in
  * the WeatherContainerType enum.
- * 
+ *
  * @author immortaleeb
  *
  */
@@ -66,7 +66,7 @@ public class ItemWeatherContainer extends Item {
     public UseAnim getUseAnimation(ItemStack itemStack) {
         return UseAnim.BOW;
     }
-    
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
@@ -76,13 +76,13 @@ public class ItemWeatherContainer extends Item {
             // MCP: shoot
             entity.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
             world.addFreshEntity(entity);
-            
+
             itemStack.shrink(1);
         }
 
         return MinecraftHelpers.successAction(itemStack);
     }
-    
+
     /**
      * When the actual usage of the container should be called.
      * @param world The world.
@@ -91,7 +91,7 @@ public class ItemWeatherContainer extends Item {
     public void onUse(ServerLevel world, ItemStack itemStack) {
         getWeatherType(itemStack).onUse(world, itemStack);
     }
-    
+
     /**
      * When the actual filling of the container should be called.
      * @param world The world.
@@ -118,11 +118,11 @@ public class ItemWeatherContainer extends Item {
             }
         }
     }
-    
+
     /**
      * Enum containing the data for the different weather container types.
      * New weather containers should be added by adding an entry in this enum
-     * 
+     *
      * @author immortaleeb
      *
      */
@@ -143,23 +143,23 @@ public class ItemWeatherContainer extends Item {
          * Lightning weather container.
          */
         LIGHTNING(WeatherType.LIGHTNING, "lightning", ChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0), Rarity.RARE);
-        
+
         private final WeatherType type;
-        
+
         private final MutableComponent description;
         private final ChatFormatting damageColor;
         private final int damageRenderColor;
         private final Rarity rarity;
-        
+
         private WeatherContainerType(WeatherType type, String description, ChatFormatting damageColor, int damageRenderColor, Rarity rarity) {
             this.type = type;
-            
+
             this.description = new TranslatableComponent("weather_container." + Reference.MOD_ID + "." + description);
             this.damageColor = damageColor;
             this.damageRenderColor = damageRenderColor;
             this.rarity = rarity;
         }
-        
+
         /**
          * When the actual filling of the container should be called.
          * @param world The world.
@@ -167,7 +167,7 @@ public class ItemWeatherContainer extends Item {
          */
         public void onFill(ServerLevel world, ItemStack containerStack) {
             WeatherContainerType currentWeatherType = EMPTY;
-            
+
             // Find the weather container type who's weather is currently active
             for (WeatherContainerType type : values()) {
                 if (type.type != null && type.type.isActive(world))
@@ -176,9 +176,9 @@ public class ItemWeatherContainer extends Item {
 
             setWeatherType(containerStack, currentWeatherType);
             currentWeatherType.type.deactivate(world);
-            
+
         }
-        
+
         /**
          * When the actual usage of the container should be called.
          * @param world The world.
@@ -187,13 +187,13 @@ public class ItemWeatherContainer extends Item {
         public void onUse(ServerLevel world, ItemStack containerStack) {
             if (world.isClientSide())
                 return;
-            
+
             if (type != null)
                 type.activate(world);
 
             setWeatherType(containerStack, EMPTY);
         }
-        
+
         /**
          * Returns the WeatherContainerType corresponding to the
          * given WeatherType.
@@ -205,7 +205,7 @@ public class ItemWeatherContainer extends Item {
                 if (type.type == weatherType)
                     return type;
             }
-            
+
             return null;
         }
     }

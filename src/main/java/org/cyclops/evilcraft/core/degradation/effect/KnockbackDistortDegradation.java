@@ -2,12 +2,10 @@ package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.core.BlockPos;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class KnockbackDistortDegradation implements IDegradationEffect {
 
     private static final int MINIMUM_DEGRADATION = 3;
     private static final int POWER_LEVEL = 1;
-    
+
     public KnockbackDistortDegradation(DegradationEffectConfig eConfig) {
 
     }
@@ -53,5 +51,5 @@ public class KnockbackDistortDegradation implements IDegradationEffect {
             );
         }
     }
-    
+
 }

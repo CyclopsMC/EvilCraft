@@ -31,8 +31,8 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
     @Override
     @OnlyIn(Dist.CLIENT)
     protected void showNewBlurParticle() {
-    	float scale = 0.6F - random.nextFloat() * 0.3F;
-    	float red = random.nextFloat() * 0.03F + 0.1F;
+        float scale = 0.6F - random.nextFloat() * 0.3F;
+        float red = random.nextFloat() * 0.03F + 0.1F;
         float green = random.nextFloat() * 0.03F;
         float blue = random.nextFloat() * 0.05F;
         float ageMultiplier = (float) (random.nextDouble() * 4.5D + 4D);
@@ -42,10 +42,10 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
                 getX(), getY(), getZ(),
                 deriveMotion(motion.x), deriveMotion(motion.y), deriveMotion(motion.z));
-	}
-    
+    }
+
     private double deriveMotion(double motion) {
-    	return motion * 1D + (0.02D - random.nextDouble() * 0.04D);
+        return motion * 1D + (0.02D - random.nextDouble() * 0.04D);
     }
 
     protected void applyHitEffect(Entity entity) {

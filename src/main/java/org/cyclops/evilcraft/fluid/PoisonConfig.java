@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.fluid;
 
 
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
 import org.cyclops.cyclopscore.config.extendedconfig.FluidConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -30,5 +29,5 @@ public class PoisonConfig extends FluidConfig {
                         .block(() -> RegistryEntries.BLOCK_POISON)
         );
     }
-    
+
 }

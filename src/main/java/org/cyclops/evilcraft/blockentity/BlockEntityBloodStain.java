@@ -19,86 +19,86 @@ import javax.annotation.Nonnull;
  */
 public class BlockEntityBloodStain extends CyclopsBlockEntity {
 
-	public static final int CAPACITY = 5000;
-    
-	@NBTPersist
-	private Integer amount = 0;
+    public static final int CAPACITY = 5000;
 
-	public BlockEntityBloodStain(BlockPos blockPos, BlockState blockState) {
-		super(RegistryEntries.BLOCK_ENTITY_BLOOD_STAIN, blockPos, blockState);
-		addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, LazyOptional.of(() -> new FluidHandler(this)));
-	}
+    @NBTPersist
+    private Integer amount = 0;
 
-	/**
-	 * @return the amount
-	 */
-	public int getAmount() {
-		return amount;
-	}
+    public BlockEntityBloodStain(BlockPos blockPos, BlockState blockState) {
+        super(RegistryEntries.BLOCK_ENTITY_BLOOD_STAIN, blockPos, blockState);
+        addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, LazyOptional.of(() -> new FluidHandler(this)));
+    }
 
-	/**
-	 * @param amount the amount to add
-	 */
-	public void addAmount(int amount) {
-		this.amount = Math.min(CAPACITY, Math.max(0, this.amount + amount));
-		if (this.amount == 0) {
-			getLevel().removeBlock(getBlockPos(), false);
-		}
-		setChanged();
-	}
+    /**
+     * @return the amount
+     */
+    public int getAmount() {
+        return amount;
+    }
 
-	public static class FluidHandler implements IFluidHandler {
-		private final BlockEntityBloodStain tile;
+    /**
+     * @param amount the amount to add
+     */
+    public void addAmount(int amount) {
+        this.amount = Math.min(CAPACITY, Math.max(0, this.amount + amount));
+        if (this.amount == 0) {
+            getLevel().removeBlock(getBlockPos(), false);
+        }
+        setChanged();
+    }
 
-		public FluidHandler(BlockEntityBloodStain tile) {
-			this.tile = tile;
-		}
+    public static class FluidHandler implements IFluidHandler {
+        private final BlockEntityBloodStain tile;
 
-		@Override
-		public int getTanks() {
-			return 1;
-		}
+        public FluidHandler(BlockEntityBloodStain tile) {
+            this.tile = tile;
+        }
 
-		@Nonnull
-		@Override
-		public FluidStack getFluidInTank(int tank) {
-			return new FluidStack(RegistryEntries.FLUID_BLOOD, tile.getAmount());
-		}
+        @Override
+        public int getTanks() {
+            return 1;
+        }
 
-		@Override
-		public int getTankCapacity(int tank) {
-			return CAPACITY;
-		}
+        @Nonnull
+        @Override
+        public FluidStack getFluidInTank(int tank) {
+            return new FluidStack(RegistryEntries.FLUID_BLOOD, tile.getAmount());
+        }
 
-		@Override
-		public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-			return tank == 0 && stack.getFluid() == RegistryEntries.FLUID_BLOOD;
-		}
+        @Override
+        public int getTankCapacity(int tank) {
+            return CAPACITY;
+        }
 
-		@Override
-		public int fill(FluidStack resource, FluidAction action) {
-			return 0;
-		}
+        @Override
+        public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
+            return tank == 0 && stack.getFluid() == RegistryEntries.FLUID_BLOOD;
+        }
 
-		@Nonnull
-		@Override
-		public FluidStack drain(FluidStack resource, FluidAction action) {
-			if (resource.getFluid() == RegistryEntries.FLUID_BLOOD) {
-				return drain(resource.getAmount(), action);
-			}
-			return FluidStack.EMPTY;
-		}
+        @Override
+        public int fill(FluidStack resource, FluidAction action) {
+            return 0;
+        }
 
-		@Nonnull
-		@Override
-		public FluidStack drain(int maxDrain, FluidAction action) {
-			maxDrain = Math.min(tile.getAmount(), maxDrain);
-			FluidStack drained = new FluidStack(RegistryEntries.FLUID_BLOOD, maxDrain);
-			if (action.execute()) {
-				tile.addAmount(-maxDrain);
-			}
-			return drained;
-		}
-	}
-    
+        @Nonnull
+        @Override
+        public FluidStack drain(FluidStack resource, FluidAction action) {
+            if (resource.getFluid() == RegistryEntries.FLUID_BLOOD) {
+                return drain(resource.getAmount(), action);
+            }
+            return FluidStack.EMPTY;
+        }
+
+        @Nonnull
+        @Override
+        public FluidStack drain(int maxDrain, FluidAction action) {
+            maxDrain = Math.min(tile.getAmount(), maxDrain);
+            FluidStack drained = new FluidStack(RegistryEntries.FLUID_BLOOD, maxDrain);
+            if (action.execute()) {
+                tile.addAmount(-maxDrain);
+            }
+            return drained;
+        }
+    }
+
 }

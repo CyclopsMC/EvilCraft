@@ -19,5 +19,5 @@ public class ItemContainedFluxConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

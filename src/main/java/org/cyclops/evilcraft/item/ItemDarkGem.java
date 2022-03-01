@@ -29,22 +29,22 @@ public class ItemDarkGem extends Item {
     public ItemDarkGem(Properties properties) {
         super(properties);
     }
-    
+
     @Override
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
-        // This will transform a dark gem into a blood infusion core when it finds 
+        // This will transform a dark gem into a blood infusion core when it finds
         // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighbourhood.
         if (!entityItem.level.isClientSide()
-        		&& WorldHelpers.efficientTick(entityItem.level, TICK_MODULUS,
-        				(int) entityItem.getX(), (int) entityItem.getY(), (int) entityItem.getZ())) {
+                && WorldHelpers.efficientTick(entityItem.level, TICK_MODULUS,
+                        (int) entityItem.getX(), (int) entityItem.getY(), (int) entityItem.getZ())) {
             final BlockPos blockPos = entityItem.blockPosition();
             Level world = entityItem.level;
-            
+
             int amount = 0;
             if(isValidBlock(world, blockPos)) {
                 // For storing REQUIRED_BLOOD_BLOCKS coordinates
                 final BlockPos[] visited = new BlockPos[REQUIRED_BLOOD_BLOCKS];
-                
+
                 // Save first coordinate
                 visited[amount] = blockPos;
                 amount++;
@@ -82,7 +82,7 @@ public class ItemDarkGem extends Item {
         }
         return false;
     }
-    
+
     private boolean isValidBlock(Level world, BlockPos blockPos) {
         // Not working: world.getFluidState(blockPos).getFluid() == RegistryEntries.FLUID_BLOOD
         return world.getBlockState(blockPos).getBlock() instanceof BlockFluidBlood

@@ -34,10 +34,10 @@ public class BlockSpiritPortal extends BlockWithEntity {
 
     public static final VoxelShape SHAPE = Block.box(0.4F * 16F, 0.4F * 16F, 0.4F * 16F, 0.6F * 16F, 0.6F * 16F, 0.6F * 16F);
 
-	public BlockSpiritPortal(Block.Properties properties) {
-		super(properties, BlockEntitySpiritPortal::new);
+    public BlockSpiritPortal(Block.Properties properties) {
+        super(properties, BlockEntitySpiritPortal::new);
         MinecraftForge.EVENT_BUS.register(this);
-	}
+    }
 
     @Override
     @Nullable

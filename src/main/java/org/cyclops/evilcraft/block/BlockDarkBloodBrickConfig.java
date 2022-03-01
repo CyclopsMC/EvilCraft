@@ -23,5 +23,5 @@ public class BlockDarkBloodBrickConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-    
+
 }

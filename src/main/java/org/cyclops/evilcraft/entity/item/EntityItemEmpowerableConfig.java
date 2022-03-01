@@ -28,8 +28,8 @@ public class EntityItemEmpowerableConfig extends EntityConfig<EntityItemEmpowera
     }
 
     @OnlyIn(Dist.CLIENT)
-	@Override
-	public EntityRenderer<ItemEntity> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
-		return new net.minecraft.client.renderer.entity.ItemEntityRenderer(renderContext);
-	}
+    @Override
+    public EntityRenderer<ItemEntity> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+        return new net.minecraft.client.renderer.entity.ItemEntityRenderer(renderContext);
+    }
 }

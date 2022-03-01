@@ -24,12 +24,12 @@ public class SlotRepairable extends Slot {
             int y) {
         super(inventory, index, x, y);
     }
-    
+
     @Override
     public boolean mayPlace(ItemStack itemStack) {
         return checkIsItemValid(itemStack);
     }
-    
+
     /**
      * Check if the given item is valid for this slot type.
      * @param itemStack The item that will be checked.
@@ -37,7 +37,7 @@ public class SlotRepairable extends Slot {
      */
     public static boolean checkIsItemValid(ItemStack itemStack) {
         return !itemStack.isEmpty() && EvilCraft._instance.getRegistryManager().getRegistry(IBloodChestRepairActionRegistry.class).
-        		isItemValidForSlot(itemStack);
+                isItemValidForSlot(itemStack);
     }
 
 }

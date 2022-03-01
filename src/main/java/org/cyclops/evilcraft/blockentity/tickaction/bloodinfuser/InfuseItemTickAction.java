@@ -46,16 +46,16 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<>(amount, BlockEntityBloodInfuser.UPGRADEEVENT_BLOODUSAGE));
         return Math.max(1, amount.getValue());
     }
-    
+
     private Optional<RecipeBloodInfuser> getRecipe(BlockEntityBloodInfuser tile) {
         return tile.getRecipe(getInfuseStack(tile));
     }
-    
+
     @Override
     public int getUnmodifiedRequiredTicks(BlockEntityBloodInfuser tile, int slot) {
         return getUnmodifiedRequiredTicks(tile, getRecipe(tile));
     }
-    
+
     private int getUnmodifiedRequiredTicks(BlockEntityBloodInfuser tile, Optional<RecipeBloodInfuser> recipe) {
         return recipe.map(RecipeBloodInfuser::getDuration).orElse(0);
     }
@@ -66,12 +66,12 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, BlockEntityBloodInfuser.UPGRADEEVENT_SPEED));
         return duration.getValue();
     }
-    
+
     @Override
     public ItemStack willProduceItem(BlockEntityBloodInfuser tile) {
         return getRecipe(tile)
                 .map(recipe -> recipe.getOutputItem().copy())
                 .orElse(ItemStack.EMPTY);
     }
-    
+
 }

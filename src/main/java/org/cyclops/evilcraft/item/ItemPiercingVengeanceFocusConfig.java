@@ -21,5 +21,5 @@ public class ItemPiercingVengeanceFocusConfig extends ItemConfig {
                         .rarity(Rarity.RARE))
         );
     }
-    
+
 }

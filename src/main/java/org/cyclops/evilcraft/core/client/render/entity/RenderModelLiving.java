@@ -29,5 +29,5 @@ public abstract class RenderModelLiving<T extends Mob, M extends EntityModel<T>>
     public ResourceLocation getTextureLocation(T entity) {
         return texture;
     }
-    
+
 }

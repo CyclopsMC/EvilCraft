@@ -19,5 +19,5 @@ public class ItemMaceOfDestructionConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

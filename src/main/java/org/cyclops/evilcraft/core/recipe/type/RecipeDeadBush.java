@@ -22,75 +22,75 @@ import org.cyclops.evilcraft.RegistryEntries;
  */
 public class RecipeDeadBush extends CustomRecipe {
 
-	public RecipeDeadBush(ResourceLocation id) {
-		super(id);
-	}
+    public RecipeDeadBush(ResourceLocation id) {
+        super(id);
+    }
 
-	@Override
-	public boolean matches(CraftingContainer inv, Level worldIn) {
-		int bushes = 0;
-		int shears = 0;
-		for (int i = 0; i < inv.getContainerSize(); i++) {
-			ItemStack itemStack = inv.getItem(i);
-			if (ItemTags.SAPLINGS.contains(itemStack.getItem())) {
-				bushes++;
-			} else if (Tags.Items.SHEARS.contains(itemStack.getItem())) {
-				shears++;
-			}
-		}
-		return bushes == 1 && shears == 1;
-	}
+    @Override
+    public boolean matches(CraftingContainer inv, Level worldIn) {
+        int bushes = 0;
+        int shears = 0;
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack itemStack = inv.getItem(i);
+            if (ItemTags.SAPLINGS.contains(itemStack.getItem())) {
+                bushes++;
+            } else if (Tags.Items.SHEARS.contains(itemStack.getItem())) {
+                shears++;
+            }
+        }
+        return bushes == 1 && shears == 1;
+    }
 
-	@Override
-	public ItemStack assemble(CraftingContainer inv) {
-		return getResultItem().copy();
-	}
+    @Override
+    public ItemStack assemble(CraftingContainer inv) {
+        return getResultItem().copy();
+    }
 
-	@Override
-	public ItemStack getResultItem() {
-		return new ItemStack(Items.DEAD_BUSH);
-	}
+    @Override
+    public ItemStack getResultItem() {
+        return new ItemStack(Items.DEAD_BUSH);
+    }
 
-	@Override
-	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.of(Ingredient.of(ItemTags.SAPLINGS), Ingredient.of(Tags.Items.SHEARS));
-	}
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return NonNullList.of(Ingredient.of(ItemTags.SAPLINGS), Ingredient.of(Tags.Items.SHEARS));
+    }
 
-	@Override
-	public boolean canCraftInDimensions(int width, int height) {
-		return width * height == 2;
-	}
+    @Override
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height == 2;
+    }
 
-	@Override
-	public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv) {
-		NonNullList<ItemStack> stacks = NonNullList.create();
-		for (int i = 0; i < inv.getContainerSize(); i++) {
-			ItemStack itemStack = inv.getItem(i);
-			if (itemStack.getItem() == Items.SHEARS) {
-				itemStack = itemStack.copy();
+    @Override
+    public NonNullList<ItemStack> getRemainingItems(CraftingContainer inv) {
+        NonNullList<ItemStack> stacks = NonNullList.create();
+        for (int i = 0; i < inv.getContainerSize(); i++) {
+            ItemStack itemStack = inv.getItem(i);
+            if (itemStack.getItem() == Items.SHEARS) {
+                itemStack = itemStack.copy();
 
-				Player craftingPlayer = ForgeHooks.getCraftingPlayer();
-				if (craftingPlayer != null) {
-					// Regular item damaging if there is a player executing the recipe
-					itemStack.hurtAndBreak(1, craftingPlayer, (p) ->{});
-				} else {
-					// Fallback in case there is no crafting player
-					itemStack.setDamageValue(itemStack.getDamageValue() + 1);
-					if (itemStack.getDamageValue() > itemStack.getMaxDamage()) {
-						itemStack.shrink(1);
-					}
-				}
-			} else {
-				itemStack = ForgeHooks.getContainerItem(itemStack);
-			}
-			stacks.add(itemStack);
-		}
+                Player craftingPlayer = ForgeHooks.getCraftingPlayer();
+                if (craftingPlayer != null) {
+                    // Regular item damaging if there is a player executing the recipe
+                    itemStack.hurtAndBreak(1, craftingPlayer, (p) ->{});
+                } else {
+                    // Fallback in case there is no crafting player
+                    itemStack.setDamageValue(itemStack.getDamageValue() + 1);
+                    if (itemStack.getDamageValue() > itemStack.getMaxDamage()) {
+                        itemStack.shrink(1);
+                    }
+                }
+            } else {
+                itemStack = ForgeHooks.getContainerItem(itemStack);
+            }
+            stacks.add(itemStack);
+        }
 
-		return stacks;
-	}
+        return stacks;
+    }
 
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return RegistryEntries.RECIPESERIALIZER_DEAD_BUSH;
-	}
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return RegistryEntries.RECIPESERIALIZER_DEAD_BUSH;
+    }
 }

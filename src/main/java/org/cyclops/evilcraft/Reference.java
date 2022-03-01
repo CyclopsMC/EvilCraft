@@ -10,13 +10,13 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
  */
 @SuppressWarnings("javadoc")
 public class Reference {
-	
+
     // Mod info
     public static final String MOD_ID = "evilcraft";
     public static final String GA_TRACKING_ID = "UA-65307010-2";
     public static final String VERSION_URL = "https://raw.githubusercontent.com/CyclopsMC/Versions/master/" + MinecraftHelpers.getMinecraftVersionMajorMinor() + "/EvilCraft.txt";
     public static final String BOOK_URL = "https://evilcraft.rubensworks.net/book/";
-    
+
     // Paths
     public static final String TEXTURE_PATH_GUI = "textures/gui/";
     public static final String TEXTURE_PATH_SKINS = "textures/skin/";
@@ -26,7 +26,7 @@ public class Reference {
     public static final String TEXTURE_PATH_ITEMS = "textures/item/";
     public static final String TEXTURE_PATH_PARTICLES = "textures/particle/";
     public static final String MODEL_PATH = "models/";
-    
+
     // MOD ID's
     public static final String MOD_FORGE = "forge";
     public static final String MOD_CYCLOPSCORE = "cyclopscore";

@@ -28,5 +28,5 @@ public class ItemDarkGemCrushedConfig extends ItemConfig {
             event.setBurnTime(16000);
         }
     }
-    
+
 }

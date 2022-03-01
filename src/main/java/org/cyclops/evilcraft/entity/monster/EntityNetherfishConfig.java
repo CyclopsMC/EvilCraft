@@ -3,12 +3,9 @@ package org.cyclops.evilcraft.entity.monster;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -36,7 +33,7 @@ public class EntityNetherfishConfig extends EntityConfig<EntityNetherfish> {
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributesModification);
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public EntityRenderer<? super EntityNetherfish> getRender(EntityRendererProvider.Context renderContext, ItemRenderer itemRenderer) {
@@ -61,5 +58,5 @@ public class EntityNetherfishConfig extends EntityConfig<EntityNetherfish> {
         event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.25D);
         event.add(getInstance(), Attributes.ATTACK_DAMAGE, 2.0D);
     }
-    
+
 }

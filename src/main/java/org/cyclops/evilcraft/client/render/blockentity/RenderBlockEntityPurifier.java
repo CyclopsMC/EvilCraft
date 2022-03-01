@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.EnchantTableRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -34,7 +33,7 @@ import org.cyclops.evilcraft.blockentity.tickaction.purifier.DisenchantPurifyAct
 
 /**
  * Renderer for the item inside the {@link org.cyclops.evilcraft.block.BlockPurifier}.
- * 
+ *
  * @author rubensworks
  *
  */
@@ -48,7 +47,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
     }
 
     @Override
-	public void render(BlockEntityPurifier tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntityPurifier tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         // Render item above
         ItemStack additionalItem = tile.getAdditionalItem();
         if(!additionalItem.isEmpty()) {
@@ -85,9 +84,9 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             vb.vertex(matrix, 0.9375F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV0()).uv2(l2, i3).endVertex();
             vb.vertex(matrix, 0.9375F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV1()).uv2(l2, i3).endVertex();
         });
-	}
-	
-	private void renderItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, ItemStack itemStack, float rotation) {
+    }
+
+    private void renderItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, ItemStack itemStack, float rotation) {
         matrixStackIn.pushPose();
         if (itemStack.getItem() instanceof BlockItem) {
             matrixStackIn.translate(1F, 1.2F, 1F);
@@ -134,7 +133,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         matrixStackIn.popPose();
     }
 
-	private void renderBook(BlockEntityPurifier tile, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, ItemStack itemStack, float partialTickTime) {
+    private void renderBook(BlockEntityPurifier tile, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, ItemStack itemStack, float partialTickTime) {
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5F, 0.75F, 0.5F);
         float tick = (float)tile.tickCount + partialTickTime;
@@ -161,6 +160,6 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         this.enchantmentBook.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
 
         matrixStackIn.popPose();
-	}
+    }
 
 }

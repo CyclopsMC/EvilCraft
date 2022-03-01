@@ -31,104 +31,104 @@ import java.util.List;
  *
  */
 public class BlockEntityDarkTank extends BlockEntityTankInventory {
-	
-	/**
-	 * The base capacity of the tank.
-	 */
-	public static final int BASE_CAPACITY = 16000;
 
-	@NBTPersist
-	private boolean enabled;
+    /**
+     * The base capacity of the tank.
+     */
+    public static final int BASE_CAPACITY = 16000;
 
-	public BlockEntityDarkTank(BlockPos blockPos, BlockState blockState) {
-		super(RegistryEntries.BLOCK_ENTITY_DARK_TANK, blockPos, blockState, 0, 0, BASE_CAPACITY, null);
-	}
-	
-	/**
-	 * Get the filled ratio of this tank.
-	 * @return The ratio.
-	 */
-	public double getFillRatio() {
-		return Math.min(1.0D, ((double) getTank().getFluidAmount()) / (double) getTank().getCapacity());
-	}
+    @NBTPersist
+    private boolean enabled;
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-		sendUpdate();
-	}
+    public BlockEntityDarkTank(BlockPos blockPos, BlockState blockState) {
+        super(RegistryEntries.BLOCK_ENTITY_DARK_TANK, blockPos, blockState, 0, 0, BASE_CAPACITY, null);
+    }
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    /**
+     * Get the filled ratio of this tank.
+     * @return The ratio.
+     */
+    public double getFillRatio() {
+        return Math.min(1.0D, ((double) getTank().getFluidAmount()) / (double) getTank().getCapacity());
+    }
 
-	@Nullable
-	protected ItemStack fill(ItemStack itemStack) {
-		IFluidHandlerItem container = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
-		FluidStack fluidStack = new FluidStack(getTank().getFluid(),
-				Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
-		if (container.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
-			int filled = container.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-			getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
-			return container.getContainer();
-		}
-		return null;
-	}
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        sendUpdate();
+    }
 
-	@Override
-	public void onTankChanged() {
-		super.onTankChanged();
-		sendUpdate();
-	}
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public static class TickerServer extends BlockEntityTickerDelayed<BlockEntityDarkTank> {
-		@Override
-		protected void update(Level level, BlockPos pos, BlockState blockState, BlockEntityDarkTank blockEntity) {
-			super.update(level, pos, blockState, blockEntity);
+    @Nullable
+    protected ItemStack fill(ItemStack itemStack) {
+        IFluidHandlerItem container = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
+        FluidStack fluidStack = new FluidStack(getTank().getFluid(),
+                Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
+        if (container.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
+            int filled = container.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+            getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
+            return container.getContainer();
+        }
+        return null;
+    }
 
-			if(!blockEntity.getTank().isEmpty() && blockEntity.isEnabled()) {
-				Direction down = Direction.DOWN;
-				IFluidHandler handler = BlockEntityHelpers.getCapability(level, pos.relative(down), down.getOpposite(),
-						CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
-				if(handler != null) {
-					FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(),
-							Math.min(GeneralConfig.mbFlowRate, blockEntity.getTank().getFluidAmount()));
-					if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
-						int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
-						blockEntity.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
-					}
-				} else {
-					// Try to fill fluid container items below
-					List<Entity> entities = level.getEntitiesOfClass(Entity.class,
-							new AABB(pos.relative(down), pos.relative(down).offset(1, 1, 1)),
-							EntitySelector.ENTITY_STILL_ALIVE);
-					for(Entity entity : entities) {
-						if(!blockEntity.getTank().isEmpty() && entity instanceof ItemEntity) {
-							ItemEntity item = (ItemEntity) entity;
-							if (item.getItem() != null
-									&& item.getItem().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent() &&
-									item.getItem().getCount() == 1) {
-								ItemStack itemStack = item.getItem().copy();
-								ItemStack fillItemStack;
-								if((fillItemStack = blockEntity.fill(itemStack)) != null) {
-									item.setItem(fillItemStack);
-								}
-							}
-						} else if(entity instanceof Player) {
-							Player player = (Player) entity;
-							PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
-							while(!blockEntity.getTank().isEmpty() && it.hasNext()) {
-								ItemStack itemStack = it.next();
-								ItemStack fillItemStack;
-								if(!itemStack.isEmpty()
-										&& itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
-										&& (fillItemStack = blockEntity.fill(itemStack)) != null) {
-									it.replace(fillItemStack);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+    @Override
+    public void onTankChanged() {
+        super.onTankChanged();
+        sendUpdate();
+    }
+
+    public static class TickerServer extends BlockEntityTickerDelayed<BlockEntityDarkTank> {
+        @Override
+        protected void update(Level level, BlockPos pos, BlockState blockState, BlockEntityDarkTank blockEntity) {
+            super.update(level, pos, blockState, blockEntity);
+
+            if(!blockEntity.getTank().isEmpty() && blockEntity.isEnabled()) {
+                Direction down = Direction.DOWN;
+                IFluidHandler handler = BlockEntityHelpers.getCapability(level, pos.relative(down), down.getOpposite(),
+                        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+                if(handler != null) {
+                    FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(),
+                            Math.min(GeneralConfig.mbFlowRate, blockEntity.getTank().getFluidAmount()));
+                    if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
+                        int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+                        blockEntity.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
+                    }
+                } else {
+                    // Try to fill fluid container items below
+                    List<Entity> entities = level.getEntitiesOfClass(Entity.class,
+                            new AABB(pos.relative(down), pos.relative(down).offset(1, 1, 1)),
+                            EntitySelector.ENTITY_STILL_ALIVE);
+                    for(Entity entity : entities) {
+                        if(!blockEntity.getTank().isEmpty() && entity instanceof ItemEntity) {
+                            ItemEntity item = (ItemEntity) entity;
+                            if (item.getItem() != null
+                                    && item.getItem().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent() &&
+                                    item.getItem().getCount() == 1) {
+                                ItemStack itemStack = item.getItem().copy();
+                                ItemStack fillItemStack;
+                                if((fillItemStack = blockEntity.fill(itemStack)) != null) {
+                                    item.setItem(fillItemStack);
+                                }
+                            }
+                        } else if(entity instanceof Player) {
+                            Player player = (Player) entity;
+                            PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
+                            while(!blockEntity.getTank().isEmpty() && it.hasNext()) {
+                                ItemStack itemStack = it.next();
+                                ItemStack fillItemStack;
+                                if(!itemStack.isEmpty()
+                                        && itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
+                                        && (fillItemStack = blockEntity.fill(itemStack)) != null) {
+                                    it.replace(fillItemStack);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

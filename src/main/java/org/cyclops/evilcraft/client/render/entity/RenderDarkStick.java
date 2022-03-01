@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.resources.ResourceLocation;
@@ -14,18 +13,18 @@ import org.cyclops.evilcraft.entity.item.EntityItemDarkStickConfig;
 
 /**
  * Renderer for a dark stick
- * 
+ *
  * @author rubensworks
  *
  */
 public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
 
-	public RenderDarkStick(EntityRendererProvider.Context renderContext, EntityItemDarkStickConfig config) {
-	    super(renderContext);
-	}
+    public RenderDarkStick(EntityRendererProvider.Context renderContext, EntityItemDarkStickConfig config) {
+        super(renderContext);
+    }
 
-	@Override
-	public void render(EntityItemDarkStick entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+    @Override
+    public void render(EntityItemDarkStick entity, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         float rotation;
         if (entity.isValid()) {
             rotation = entity.getAngle();
@@ -39,7 +38,7 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
 
         ((EntityRenderer) Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityType.ITEM))
                 .render(entity, 0, entity.isValid() ? -entity.bobOffs * 20/* to undo hoverstart in ItemRenderer */ : partialTicks, matrixStackIn, bufferIn, packedLightIn);
-	}
+    }
 
     @Override
     public ResourceLocation getTextureLocation(EntityItemDarkStick entity) {

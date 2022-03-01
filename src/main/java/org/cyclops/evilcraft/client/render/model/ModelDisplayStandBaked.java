@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

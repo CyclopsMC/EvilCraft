@@ -43,5 +43,5 @@ public class BlockUndeadSaplingConfig extends BlockConfig {
         super.onForgeRegistered();
         ComposterBlock.COMPOSTABLES.put(getItemInstance(), 0.3F);
     }
-    
+
 }

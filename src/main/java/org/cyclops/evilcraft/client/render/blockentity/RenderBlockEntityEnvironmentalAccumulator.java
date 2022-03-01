@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +21,7 @@ import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
  *
  */
 public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntityBeacon<BlockEntityEnvironmentalAccumulator> {
-    
+
     // Speed at which the item should spin in the animation
     private static final int ITEM_SPIN_SPEED = 3;
 
@@ -51,15 +50,15 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
     private void renderProcessingItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, RecipeEnvironmentalAccumulator recipe, Level world, float partialTickTime) {
         if (recipe == null)
             return;
-        
+
         ItemStack stack = recipe.getInputIngredient().getItems()[0];
         if (stack.isEmpty())
             return;
-        
+
         // Calculate angle for the spinning item
         double totalTickTime = world.getGameTime() + partialTickTime;
         float angle = (float) (ITEM_SPIN_SPEED * (totalTickTime % 360));
-        
+
         // Draw the actual item at the origin
         if (stack.getItem() instanceof BlockItem) {
             matrixStackIn.translate(1F, 0.675F, 1F);

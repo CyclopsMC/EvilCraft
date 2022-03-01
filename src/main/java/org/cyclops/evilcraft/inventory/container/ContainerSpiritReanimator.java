@@ -24,10 +24,10 @@ import java.util.function.Supplier;
  *
  */
 public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntitySpiritReanimator> {
-    
+
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
-    
+
     /**
      * Container slot X coordinate.
      */
@@ -36,7 +36,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
      * Container slot Y coordinate.
      */
     public static final int SLOT_CONTAINER_Y = 36;
-    
+
     /**
      * Box slot X coordinate.
      */
@@ -45,7 +45,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
      * Box slot Y coordinate.
      */
     public static final int SLOT_BOX_Y = 22;
-    
+
     /**
      * Egg slot X coordinate.
      */
@@ -54,7 +54,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
      * Egg slot Y coordinate.
      */
     public static final int SLOT_EGG_Y = 22;
-    
+
     /**
      * Output slot X coordinate.
      */
@@ -82,8 +82,8 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
 
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritReanimator.SLOT_CONTAINER,
-        		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
-        		RegistryEntries.FLUID_BLOOD)); // Container emptier
+                SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
+                RegistryEntries.FLUID_BLOOD)); // Container emptier
         addSlot(new SlotWorking<BlockEntitySpiritReanimator>(BlockEntitySpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level)); // Box slot
         addSlot(new SlotSingleItem(inventory, BlockEntitySpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
         addSlot(new SlotRemoveOnly(inventory, BlockEntitySpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
@@ -102,5 +102,5 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
     public BlockEntityWorking.Metadata getTileWorkingMetadata() {
         return BlockEntitySpiritReanimator.METADATA;
     }
-    
+
 }

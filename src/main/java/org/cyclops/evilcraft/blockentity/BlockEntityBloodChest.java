@@ -20,8 +20,6 @@ import net.minecraft.world.level.block.entity.ChestLidController;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -54,9 +52,9 @@ import java.util.Optional;
  *
  */
 public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<BlockEntityBloodChest> implements MenuProvider, LidBlockEntity {
-	
-	private static final int TICK_MODULUS = 200;
-    
+
+    private static final int TICK_MODULUS = 200;
+
     /**
      * The amount of slots in the chest.
      */
@@ -98,12 +96,12 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
         }
     };
     private final ChestLidController chestLidController = new ChestLidController();
-    
+
     private static final Map<Class<?>, ITickAction<BlockEntityBloodChest>> REPAIR_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntityBloodChest>>();
     static {
         REPAIR_TICK_ACTIONS.put(Item.class, new RepairItemTickAction());
     }
-    
+
     private static final Map<Class<?>, ITickAction<BlockEntityBloodChest>> EMPTY_IN_TANK_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntityBloodChest>>();
     static {
         EMPTY_IN_TANK_TICK_ACTIONS.put(Item.class, new EmptyFluidContainerInTankTickAction<BlockEntityBloodChest>());
@@ -137,10 +135,10 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
         }
         return BlockHelpers.getSafeBlockStateProperty(getBlockState(), org.cyclops.evilcraft.block.BlockBloodChest.FACING, Direction.SOUTH).getOpposite();
     }
-    
+
     @Override
     protected SingleUseTank createTank(int tankSize) {
-    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
 
     @Override
@@ -182,7 +180,7 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
 
     @Override
     public void onStateChanged() {
-        
+
     }
 
     static void playSound(Level level, BlockPos pos, BlockState blockState, SoundEvent soundEvent) {

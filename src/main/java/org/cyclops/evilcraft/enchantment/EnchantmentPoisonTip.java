@@ -21,7 +21,7 @@ import net.minecraft.world.item.enchantment.Enchantment.Rarity;
  *
  */
 public class EnchantmentPoisonTip extends Enchantment {
-    
+
     private static final int POISON_BASE_DURATION = 2;
 
     public EnchantmentPoisonTip() {
@@ -42,22 +42,22 @@ public class EnchantmentPoisonTip extends Enchantment {
             }
         }
     }
-    
+
     @Override
     public int getMinCost(int level) {
         return 10 + (level - 1) * 10;
     }
-    
+
     @Override
     public int getMaxCost(int level) {
         return super.getMinCost(level) + 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 3;
     }
-    
+
     /**
      * Poison the attacked entity according to the level of the enchant.
      * @param entity The entity was attacked.

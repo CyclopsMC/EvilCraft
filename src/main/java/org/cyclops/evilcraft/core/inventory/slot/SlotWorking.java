@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
  */
 public class SlotWorking<T extends BlockEntityWorking<T, ?>> extends Slot {
 
-	protected ContainerTileWorking<T> container;
+    protected ContainerTileWorking<T> container;
     private ItemStack lastSlotContents = null;
     private final Level world;
 
@@ -25,12 +25,12 @@ public class SlotWorking<T extends BlockEntityWorking<T, ?>> extends Slot {
         this.lastSlotContents = getItem();
         this.world = world;
     }
-    
+
     @Override
     public boolean mayPlace(ItemStack itemStack) {
         return !itemStack.isEmpty() && container.getTileWorkingMetadata().canConsume(itemStack, this.world);
     }
-    
+
     @Override
     public void onTake(Player player, ItemStack itemStack) {
         container.getTileSupplier().ifPresent(tile -> {
@@ -40,7 +40,7 @@ public class SlotWorking<T extends BlockEntityWorking<T, ?>> extends Slot {
         });
         super.onTake(player, itemStack);
     }
-    
+
     @Override
     public void setChanged() {
         container.getTileSupplier().ifPresent(tile -> {
@@ -51,5 +51,5 @@ public class SlotWorking<T extends BlockEntityWorking<T, ?>> extends Slot {
         lastSlotContents = this.getItem();
         if(!lastSlotContents.isEmpty()) lastSlotContents = lastSlotContents.copy();
     }
-	
+
 }

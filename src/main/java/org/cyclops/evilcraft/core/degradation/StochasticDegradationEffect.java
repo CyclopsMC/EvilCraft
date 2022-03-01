@@ -25,13 +25,13 @@ public abstract class StochasticDegradationEffect implements IDegradationEffect 
     public StochasticDegradationEffect(DegradationEffectConfig eConfig) {
         this(eConfig, 1.0D);
     }
-    
+
     @Override
     public boolean canRun(IDegradable degradable) {
         Random random = degradable.getDegradationWorld().random;
         return degradable.getDegradation() * getChance() > random.nextDouble();
     }
-    
+
     /**
      * Get the configured chance on occuring.
      * @return The chance.
@@ -39,5 +39,5 @@ public abstract class StochasticDegradationEffect implements IDegradationEffect 
     public double getChance() {
         return this.chance;
     }
-    
+
 }

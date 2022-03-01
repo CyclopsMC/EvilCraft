@@ -28,5 +28,5 @@ public class BloodConfig extends FluidConfig {
                         .block(() -> RegistryEntries.BLOCK_BLOOD)
         );
     }
-    
+
 }

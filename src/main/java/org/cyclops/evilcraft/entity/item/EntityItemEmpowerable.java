@@ -14,20 +14,20 @@ import org.cyclops.evilcraft.item.IItemEmpowerable;
  */
 public class EntityItemEmpowerable extends EntityItemIndestructable {
 
-	public EntityItemEmpowerable(EntityType<? extends EntityItemEmpowerable> type, Level world) {
-		super(type, world);
-	}
+    public EntityItemEmpowerable(EntityType<? extends EntityItemEmpowerable> type, Level world) {
+        super(type, world);
+    }
 
-	public EntityItemEmpowerable(Level world, ItemEntity original) {
-		super(RegistryEntries.ENTITY_ITEM_EMPOWERABLE, world, original);
-	}
-	
-	@Override
-	protected boolean isIndestructable() {
+    public EntityItemEmpowerable(Level world, ItemEntity original) {
+        super(RegistryEntries.ENTITY_ITEM_EMPOWERABLE, world, original);
+    }
+
+    @Override
+    protected boolean isIndestructable() {
         if (!(getItem().getItem() instanceof IItemEmpowerable)) {
-        	return super.isIndestructable();
-		}
-		return ((IItemEmpowerable) getItem().getItem()).isEmpowered(getItem());
-	}
-	
+            return super.isIndestructable();
+        }
+        return ((IItemEmpowerable) getItem().getItem()).isEmpowered(getItem());
+    }
+
 }

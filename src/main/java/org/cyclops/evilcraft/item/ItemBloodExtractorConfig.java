@@ -30,5 +30,5 @@ public class ItemBloodExtractorConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

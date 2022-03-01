@@ -28,7 +28,7 @@ public class ParticleFart extends TextureSheetParticle {
             bCol = random.nextFloat();
         }
     }
-    
+
     @Override
     public void tick() {
         super.tick();

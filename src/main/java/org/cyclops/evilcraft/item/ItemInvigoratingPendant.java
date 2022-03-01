@@ -21,12 +21,12 @@ import java.util.Iterator;
  */
 public class ItemInvigoratingPendant extends ItemBloodContainer {
 
-	private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
-	
+    private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
+
     public ItemInvigoratingPendant(Item.Properties properties) {
         super(properties, ItemInvigoratingPendantConfig.capacity);
     }
-    
+
     /**
      * Clear the bad effects of given player.
      * Each 'tick', a certain amount of bad effect duration reduction is reserved.
@@ -37,56 +37,56 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
      * @param player The player to receive the powers.
      */
     public void clearBadEffects(ItemStack itemStack, Player player) {
-    	int amount = ItemInvigoratingPendantConfig.usage;
-    	if(canConsume(amount, itemStack, player)) {
-    		
-    		int originalReducableDuration = ItemInvigoratingPendantConfig.reduceDuration * MinecraftHelpers.SECOND_IN_TICKS;
-    		int reducableDuration = originalReducableDuration;
+        int amount = ItemInvigoratingPendantConfig.usage;
+        if(canConsume(amount, itemStack, player)) {
 
-			Iterator<MobEffectInstance> it = Lists.newLinkedList(player.getActiveEffects()).iterator();
-	    	while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
-	    		MobEffectInstance effect = it.next();
-	    		MobEffect potion = effect.getEffect();
-	    		
-	    		boolean shouldClear = true;
-	    		if(potion != null) {
-	    			shouldClear = !potion.isBeneficial();
-	    		}
+            int originalReducableDuration = ItemInvigoratingPendantConfig.reduceDuration * MinecraftHelpers.SECOND_IN_TICKS;
+            int reducableDuration = originalReducableDuration;
+
+            Iterator<MobEffectInstance> it = Lists.newLinkedList(player.getActiveEffects()).iterator();
+            while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
+                MobEffectInstance effect = it.next();
+                MobEffect potion = effect.getEffect();
+
+                boolean shouldClear = true;
+                if(potion != null) {
+                    shouldClear = !potion.isBeneficial();
+                }
                 shouldClear = shouldClear & !effect.isAmbient();
-	    		
-	    		if(shouldClear) {	    			
-	    			int reductionMultiplier = effect.getAmplifier() + 1;
-	    			int reducableDurationForThisEffect = reducableDuration / reductionMultiplier;
-	    			int remaining = effect.getDuration();
-	    			int toReduce = Math.min(reducableDurationForThisEffect, remaining);
-	    			int toDrain = amount;
-	    			
-	    			reducableDuration -= toReduce;
-	    			if(remaining == toReduce) {
-	    				player.removeEffect(potion);
-	    			} else {
-						effect.duration = remaining - toReduce;
-						player.onEffectUpdated(effect, true, null);
-	    				toDrain = (int) Math.ceil((double) (reductionMultiplier * amount)
-	    						* ((double) toReduce / (double) originalReducableDuration));
-	    			}
-	    			consume(toDrain, itemStack, player);
-	    		}
-	    	}
-    	}
+
+                if(shouldClear) {
+                    int reductionMultiplier = effect.getAmplifier() + 1;
+                    int reducableDurationForThisEffect = reducableDuration / reductionMultiplier;
+                    int remaining = effect.getDuration();
+                    int toReduce = Math.min(reducableDurationForThisEffect, remaining);
+                    int toDrain = amount;
+
+                    reducableDuration -= toReduce;
+                    if(remaining == toReduce) {
+                        player.removeEffect(potion);
+                    } else {
+                        effect.duration = remaining - toReduce;
+                        player.onEffectUpdated(effect, true, null);
+                        toDrain = (int) Math.ceil((double) (reductionMultiplier * amount)
+                                * ((double) toReduce / (double) originalReducableDuration));
+                    }
+                    consume(toDrain, itemStack, player);
+                }
+            }
+        }
 
         if(ItemInvigoratingPendantConfig.fireUsage >= 0 && player.isOnFire() &&
                 canConsume(ItemInvigoratingPendantConfig.fireUsage, itemStack, player)) {
             player.clearFire();
             consume(ItemInvigoratingPendantConfig.fireUsage, itemStack, player);
         }
-	}
-    
-	@Override
+    }
+
+    @Override
     public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
         if(entity instanceof Player
-        		&& WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getId())) {
-        	clearBadEffects(itemStack, (Player) entity);
+                && WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getId())) {
+            clearBadEffects(itemStack, (Player) entity);
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);
     }

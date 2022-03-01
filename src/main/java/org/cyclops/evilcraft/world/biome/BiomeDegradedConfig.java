@@ -62,5 +62,5 @@ public class BiomeDegradedConfig extends BiomeConfig {
                 }
         );
     }
-    
+
 }

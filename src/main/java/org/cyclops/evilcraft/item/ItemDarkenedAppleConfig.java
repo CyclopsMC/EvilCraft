@@ -19,5 +19,5 @@ public class ItemDarkenedAppleConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

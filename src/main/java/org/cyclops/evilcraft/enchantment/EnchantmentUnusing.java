@@ -53,17 +53,17 @@ public class EnchantmentUnusing extends Enchantment {
             }
         }
     }
-    
+
     @Override
     public int getMinCost(int par1) {
         return 10;
     }
-    
+
     @Override
     public int getMaxCost(int par1) {
         return 50;
     }
-    
+
     @Override
     public int getMaxLevel() {
         return 1;
@@ -73,7 +73,7 @@ public class EnchantmentUnusing extends Enchantment {
     public boolean canEnchant(ItemStack itemStack) {
         return itemStack.isDamageableItem();
     }
-    
+
     /**
      * Check if the given item can be used.
      * @param itemStack The {@link ItemStack} that will be unused.

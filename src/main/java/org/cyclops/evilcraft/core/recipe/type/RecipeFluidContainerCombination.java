@@ -22,36 +22,36 @@ import org.cyclops.evilcraft.RegistryEntries;
  */
 public class RecipeFluidContainerCombination extends CustomRecipe {
 
-	private final Ingredient fluidContainer;
-	private final int maxCapacity;
+    private final Ingredient fluidContainer;
+    private final int maxCapacity;
 
-	public RecipeFluidContainerCombination(ResourceLocation id, Ingredient fluidContainer, int maxCapacity) {
-		super(id);
-		this.fluidContainer = fluidContainer;
-		this.maxCapacity = maxCapacity;
-	}
+    public RecipeFluidContainerCombination(ResourceLocation id, Ingredient fluidContainer, int maxCapacity) {
+        super(id);
+        this.fluidContainer = fluidContainer;
+        this.maxCapacity = maxCapacity;
+    }
 
-	public Ingredient getFluidContainer() {
-		return fluidContainer;
-	}
+    public Ingredient getFluidContainer() {
+        return fluidContainer;
+    }
 
-	public int getMaxCapacity() {
-		return maxCapacity;
-	}
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
 
-	@Override
-	public boolean matches(CraftingContainer grid, Level world) {
-		return !assemble(grid).isEmpty();
-	}
-	
-	@Override
-	public ItemStack getResultItem() {
-		return fluidContainer.getItems()[0];
-	}
+    @Override
+    public boolean matches(CraftingContainer grid, Level world) {
+        return !assemble(grid).isEmpty();
+    }
+
+    @Override
+    public ItemStack getResultItem() {
+        return fluidContainer.getItems()[0];
+    }
 
     @Override
     public NonNullList<ItemStack> getRemainingItems(CraftingContainer inventory) {
-		NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
+        NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
 
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
@@ -61,60 +61,60 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
         return aitemstack;
     }
 
-	@Override
-	public RecipeSerializer<?> getSerializer() {
-		return RegistryEntries.RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION;
-	}
+    @Override
+    public RecipeSerializer<?> getSerializer() {
+        return RegistryEntries.RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION;
+    }
 
-	@Override
-	public ItemStack assemble(CraftingContainer grid) {
-		ItemStack output = getResultItem().copy();
-		IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output).orElse(null);
-		
-		FluidStack commonFluid = null;
-		int totalCapacity = 0;
-		int totalContent = 0;
-		int inputItems = 0;
-		
-		// Loop over the grid and count the total contents and capacity + collect common fluid.
-		for(int j = 0; j < grid.getContainerSize(); j++) {
-			ItemStack element = grid.getItem(j).copy().split(1);
-			if(!element.isEmpty()) {
-				if(fluidContainer.test(element)) {
-					IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(element).orElse(null);
-					inputItems++;
-					FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
-					if(!fluidStack.isEmpty()) {
-						if(commonFluid == null) {
-							commonFluid = fluidStack;
-						} else if(!commonFluid.equals(fluidStack)) {
-							return ItemStack.EMPTY;
-						}
-						totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
-					}
-					totalCapacity = Helpers.addSafe(totalCapacity, fluidHandler.getCapacity() * element.getCount());
-				} else {
-					return ItemStack.EMPTY;
-				}
-			}
-		}
-		
-		if(inputItems < 2 || totalCapacity > this.maxCapacity) {
-			return ItemStack.EMPTY;
-		}
-		
-		// Set capacity and fill fluid into output.
-		fluidHandlerOutput.setCapacity(totalCapacity);
-		if(commonFluid != null) {
-			fluidHandlerOutput.fill(new FluidStack(commonFluid, totalContent), IFluidHandler.FluidAction.EXECUTE);
-		}
-		output = fluidHandlerOutput.getContainer();
-		
-		return output;
-	}
+    @Override
+    public ItemStack assemble(CraftingContainer grid) {
+        ItemStack output = getResultItem().copy();
+        IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output).orElse(null);
 
-	@Override
-	public boolean canCraftInDimensions(int width, int height) {
-		return width * height >= 1;
-	}
+        FluidStack commonFluid = null;
+        int totalCapacity = 0;
+        int totalContent = 0;
+        int inputItems = 0;
+
+        // Loop over the grid and count the total contents and capacity + collect common fluid.
+        for(int j = 0; j < grid.getContainerSize(); j++) {
+            ItemStack element = grid.getItem(j).copy().split(1);
+            if(!element.isEmpty()) {
+                if(fluidContainer.test(element)) {
+                    IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(element).orElse(null);
+                    inputItems++;
+                    FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
+                    if(!fluidStack.isEmpty()) {
+                        if(commonFluid == null) {
+                            commonFluid = fluidStack;
+                        } else if(!commonFluid.equals(fluidStack)) {
+                            return ItemStack.EMPTY;
+                        }
+                        totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
+                    }
+                    totalCapacity = Helpers.addSafe(totalCapacity, fluidHandler.getCapacity() * element.getCount());
+                } else {
+                    return ItemStack.EMPTY;
+                }
+            }
+        }
+
+        if(inputItems < 2 || totalCapacity > this.maxCapacity) {
+            return ItemStack.EMPTY;
+        }
+
+        // Set capacity and fill fluid into output.
+        fluidHandlerOutput.setCapacity(totalCapacity);
+        if(commonFluid != null) {
+            fluidHandlerOutput.fill(new FluidStack(commonFluid, totalContent), IFluidHandler.FluidAction.EXECUTE);
+        }
+        output = fluidHandlerOutput.getContainer();
+
+        return output;
+    }
+
+    @Override
+    public boolean canCraftInDimensions(int width, int height) {
+        return width * height >= 1;
+    }
 }

@@ -23,5 +23,5 @@ public class ItemBloodPearlOfTeleportationConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

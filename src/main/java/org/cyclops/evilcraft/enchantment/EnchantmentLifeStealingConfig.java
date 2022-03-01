@@ -21,5 +21,5 @@ public class EnchantmentLifeStealingConfig extends EnchantmentConfig {
             eConfig -> new EnchantmentLifeStealing()
         );
     }
-    
+
 }

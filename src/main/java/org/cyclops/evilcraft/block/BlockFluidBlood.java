@@ -11,7 +11,6 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -20,7 +19,7 @@ import java.util.Random;
  *
  */
 public class BlockFluidBlood extends LiquidBlock {
-    
+
     private static final int CHANCE_HARDEN = 3;
 
     public BlockFluidBlood(Block.Properties builder) {

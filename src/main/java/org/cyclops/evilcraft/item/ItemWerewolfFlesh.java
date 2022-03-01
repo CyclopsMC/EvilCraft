@@ -37,7 +37,7 @@ import java.util.List;
  *
  */
 public class ItemWerewolfFlesh extends Item {
-    
+
     private static final int POISON_DURATION = 10;
     private static final int POWER_DURATION = 60;
     private static final int POWER_DURATION_BONUS = POWER_DURATION * 4;
@@ -72,46 +72,46 @@ public class ItemWerewolfFlesh extends Item {
     public static boolean isDay(Level world) {
         return world.getDayTime() % MINECRAFT_DAY < MINECRAFT_DAY / 2;
     }
-    
+
     private boolean isPower(Level world) {
         return world == null ? power : (power = !isDay(world));
     }
-    
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public Rarity getRarity(ItemStack itemStack){
         return isHumanFlesh(itemStack) ? Rarity.RARE : Rarity.EPIC;
     }
-    
+
     @Override
     public boolean isFoil(ItemStack itemStack){
         return isPower(null);
     }
-    
+
     @Override
     public void inventoryTick(ItemStack itemStack, Level world, Entity player, int par4, boolean par5) {
         isPower(world);
     }
-    
+
     private int getPowerDuration(ItemStack itemStack) {
-    	if(isHumanFlesh(itemStack)) {
-    		return POWER_DURATION;
-    	}
-    	return POWER_DURATION_BONUS;
+        if(isHumanFlesh(itemStack)) {
+            return POWER_DURATION;
+        }
+        return POWER_DURATION_BONUS;
     }
-    
+
     private boolean isHumanFlesh(ItemStack itemStack) {
-    	return this.humanoid;
+        return this.humanoid;
     }
-    
+
     private boolean isOwnCanibal(ItemStack itemStack, Player player) {
-    	if(itemStack.hasTag()) {
-			GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
-			return player.getGameProfile().equals(profile);
-		}
-    	return false;
+        if(itemStack.hasTag()) {
+            GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
+            return player.getGameProfile().equals(profile);
+        }
+        return false;
     }
-    
+
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, @Nullable Level world, LivingEntity entity) {
         if(world != null && entity instanceof Player) {
@@ -161,16 +161,16 @@ public class ItemWerewolfFlesh extends Item {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-    	super.appendHoverText(itemStack, world, list, flag);
-    	if(isHumanFlesh(itemStack)) {
-    		String player = ChatFormatting.ITALIC + "None";
-    		if(itemStack.hasTag()) {
-    			GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
-    			if (profile != null) {
+        super.appendHoverText(itemStack, world, list, flag);
+        if(isHumanFlesh(itemStack)) {
+            String player = ChatFormatting.ITALIC + "None";
+            if(itemStack.hasTag()) {
+                GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
+                if (profile != null) {
                     player = profile.getName();
                 }
-    		}
-    		list.add(new TextComponent("Player: ")
+            }
+            list.add(new TextComponent("Player: ")
                     .withStyle(ChatFormatting.WHITE)
                     .append(player));
         }

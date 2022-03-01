@@ -16,5 +16,5 @@ public class TerraformDegradationConfig extends DegradationEffectConfig {
                 1
         );
     }
-    
+
 }

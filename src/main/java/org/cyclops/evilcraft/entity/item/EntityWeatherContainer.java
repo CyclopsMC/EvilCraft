@@ -81,17 +81,17 @@ public class EntityWeatherContainer extends EntityThrowable {
             remove(RemovalReason.DISCARDED);
         }
     }
-    
+
     @Override
     protected float getGravity() {
         // The bigger, the faster the entity falls to the ground
         return 0.1F;
     }
-    
+
     private void setItem(ItemStack stack) {
         entityData.set(ITEMSTACK_INDEX, stack);
     }
-    
+
     @Override
     protected void defineSynchedData() {
         entityData.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_WEATHER_CONTAINER));

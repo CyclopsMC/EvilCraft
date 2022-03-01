@@ -11,7 +11,7 @@ import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
  * @see TickComponent
  */
 public interface ITickAction<T extends BlockEntity> {
-    
+
     /**
      * If this action can tick for the given conditions.
      * @param tile The tile entity that ticks.
@@ -37,5 +37,5 @@ public interface ITickAction<T extends BlockEntity> {
      * @return Get the required ticks for the given slot for the given tile.
      */
     public float getRequiredTicks(T tile, int slot, int tick);
-    
+
 }

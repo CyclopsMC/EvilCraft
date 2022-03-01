@@ -23,7 +23,7 @@ import java.util.List;
  *
  */
 public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<ContainerSpiritFurnace, BlockEntitySpiritFurnace> {
-    
+
     /**
      * Texture width.
      */
@@ -82,7 +82,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
      * Progress target Y.
      */
     public static final int PROGRESSTARGETY = 36;
-    
+
     /**
      * Progress target X.
      */
@@ -107,40 +107,40 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
     public ResourceLocation constructGuiTexture() {
         return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png");
     }
-    
+
     private String prettyPrintSize(@Nullable Vec3i size) {
         if (size == null) {
             return "Loading...";
         }
         return size.getX() + "x" + size.getY() + "x" + size.getZ();
     }
-    
+
     @Override
-	protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
-    	String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getDescriptionId() + ".help.invalid";
-    	List<Component> lines = Lists.newArrayList();
-    	lines.add(new TranslatableComponent(prefix));
+    protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
+        String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getDescriptionId() + ".help.invalid";
+        List<Component> lines = Lists.newArrayList();
+        lines.add(new TranslatableComponent(prefix));
         if (!getMenu().hasEntity()) {
-        	lines.add(new TranslatableComponent(prefix + ".no_entity"));
+            lines.add(new TranslatableComponent(prefix + ".no_entity"));
         } else if (!getMenu().isSizeValidForEntity()) {
-        	lines.add(new TranslatableComponent(prefix + ".content_size", prettyPrintSize(getMenu().getInnerSize())));
-        	lines.add(new TranslatableComponent(prefix + ".required_size", prettyPrintSize(getMenu().getEntitySize())));
+            lines.add(new TranslatableComponent(prefix + ".content_size", prettyPrintSize(getMenu().getInnerSize())));
+            lines.add(new TranslatableComponent(prefix + ".required_size", prettyPrintSize(getMenu().getEntitySize())));
         } else if (getMenu().isForceHalt()) {
-        	lines.add(new TranslatableComponent(prefix + ".force_halt"));
+            lines.add(new TranslatableComponent(prefix + ".force_halt"));
         }
         else if (getMenu().isCaughtError()) {
-        	lines.add(new TranslatableComponent(prefix + ".caught_error"));
+            lines.add(new TranslatableComponent(prefix + ".caught_error"));
         }
         if (lines.size() > 1) {
-        	this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
-            		PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
+            this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+                    PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
             if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
-	    		mouseX -= leftPos;
-	        	mouseY -= topPos;
-	            drawTooltip(lines, matrixStack, mouseX, mouseY);
-	        }
+                mouseX -= leftPos;
+                mouseY -= topPos;
+                drawTooltip(lines, matrixStack, mouseX, mouseY);
+            }
         }
     }
-    
+
 }

@@ -41,6 +41,6 @@ public abstract class ItemAbstractGrenade extends Item {
         }
         return MinecraftHelpers.successAction(itemStack);
     }
-    
+
     protected abstract ThrowableProjectile getThrowableEntity(ItemStack itemStack, Level world, Player player);
 }

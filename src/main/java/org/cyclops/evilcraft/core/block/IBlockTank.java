@@ -34,5 +34,5 @@ public interface IBlockTank {
      * @return If it is activated.
      */
     public boolean isActivated(ItemStack itemStack, Level world);
-	
+
 }

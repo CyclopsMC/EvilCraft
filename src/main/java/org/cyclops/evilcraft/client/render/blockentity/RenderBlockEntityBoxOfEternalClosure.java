@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.RenderType;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
@@ -30,8 +29,8 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
  */
 public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEndPortalBase<BlockEntityBoxOfEternalClosure> {
 
-	private static final ResourceLocation beamTexture =
-			new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
+    private static final ResourceLocation beamTexture =
+            new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
     private static final RenderType renderTypeBeam = RenderType.entitySmoothCutout(beamTexture);
 
     public RenderBlockEntityBoxOfEternalClosure(BlockEntityRendererProvider.Context rendererDispatcherIn) {
@@ -83,11 +82,11 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
             super.render(tile, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
         }
         matrixStackIn.popPose();
-    	
-    	// Optionally render beam
+
+        // Optionally render beam
         // Copied from EnderCrystalRenderer
-    	EntityVengeanceSpirit target = tile.getTargetSpirit();
-    	if(target != null) {
+        EntityVengeanceSpirit target = tile.getTargetSpirit();
+        if(target != null) {
             float f = getY(tile, partialTicks);
             BlockPos blockpos = tile.getBlockPos();
 
@@ -120,5 +119,5 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
     public void renderCube(BlockEntityBoxOfEternalClosure tile, Matrix4f p_228883_4_, VertexConsumer vb) {
         this.renderFace(tile, p_228883_4_, vb, 0.3125F, 1.0F - 0.3125F, -0.5F, -0.5F, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
     }
-    
+
 }

@@ -19,5 +19,5 @@ public class ItemCorruptedTearConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

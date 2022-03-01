@@ -63,33 +63,33 @@ public class BlockSpikedPlate extends BlockPressurePlate {
      * @return If the given entity was damaged.
      */
     protected boolean damageEntity(ServerLevel world, Entity entity, BlockPos blockPos) {
-    	if(!(entity instanceof Player) && entity instanceof LivingEntity) {
-    		float damage = (float) BlockSpikedPlateConfig.damage;
-    		
-    		// To make sure the entity actually will drop something.
+        if(!(entity instanceof Player) && entity instanceof LivingEntity) {
+            float damage = (float) BlockSpikedPlateConfig.damage;
+
+            // To make sure the entity actually will drop something.
             ((LivingEntity) entity).lastHurtByPlayerTime = 100;
 
-    		if(entity.hurt(ExtendedDamageSource.spikedDamage(world), damage)) {
-	    		BlockEntity tile = world.getBlockEntity(blockPos.offset(0, -1, 0));
-	    		if(tile != null && tile instanceof BlockEntitySanguinaryPedestal) {
-	    			int amount = Mth.floor(damage * (float) BlockSpikedPlateConfig.mobMultiplier);
-	    			((BlockEntitySanguinaryPedestal) tile).getBonusFluidHandler()
+            if(entity.hurt(ExtendedDamageSource.spikedDamage(world), damage)) {
+                BlockEntity tile = world.getBlockEntity(blockPos.offset(0, -1, 0));
+                if(tile != null && tile instanceof BlockEntitySanguinaryPedestal) {
+                    int amount = Mth.floor(damage * (float) BlockSpikedPlateConfig.mobMultiplier);
+                    ((BlockEntitySanguinaryPedestal) tile).getBonusFluidHandler()
                             .fill(new FluidStack(RegistryEntries.FLUID_BLOOD, amount), IFluidHandler.FluidAction.EXECUTE);
-	    		}
-	    		return true;
-    		}
-    	}
-    	return false;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
-	@Override
-	protected int getSignalStrength(Level world, BlockPos blockPos) {
+    @Override
+    protected int getSignalStrength(Level world, BlockPos blockPos) {
         VoxelShape shape = this.getShape(world.getBlockState(blockPos), world, blockPos, CollisionContext.empty());
-		List<LivingEntity> list = world.getEntitiesOfClass(LivingEntity.class, shape.bounds().expandTowards(0, 1, 1).move(blockPos));
+        List<LivingEntity> list = world.getEntitiesOfClass(LivingEntity.class, shape.bounds().expandTowards(0, 1, 1).move(blockPos));
 
         int ret = 0;
 
-		if (!world.isClientSide() && !list.isEmpty()) {
+        if (!world.isClientSide() && !list.isEmpty()) {
             for (LivingEntity entity : list) {
                     if (!entity.isIgnoringBlockTriggers() && damageEntity((ServerLevel) world, entity, blockPos)) {
                     ret = 15;
@@ -98,7 +98,7 @@ public class BlockSpikedPlate extends BlockPressurePlate {
         }
 
         return ret;
-	}
+    }
 
     protected int getSignalForState(BlockState blockState) {
         return BlockHelpers.getSafeBlockStateProperty(blockState, POWERED, false) ? 15 : 0;

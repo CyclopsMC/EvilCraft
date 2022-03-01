@@ -24,7 +24,7 @@ import java.util.Random;
  *
  */
 public class EntityLightningBombPrimed extends PrimedTnt {
-    
+
     private static final float EXPLOSION_STRENGTH = 1.0f;
 
     @Nullable
@@ -63,7 +63,7 @@ public class EntityLightningBombPrimed extends PrimedTnt {
     protected void setFuse() {
         this.setFuse(EntityLightningBombPrimedConfig.fuse);
     }
-    
+
     @Override
     public void tick() {
         if (!this.isNoGravity()) {

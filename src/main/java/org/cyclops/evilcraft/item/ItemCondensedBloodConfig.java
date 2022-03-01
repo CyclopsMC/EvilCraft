@@ -112,5 +112,5 @@ public class ItemCondensedBloodConfig extends ItemConfig {
             return FluidStack.EMPTY;
         }
     }
-    
+
 }

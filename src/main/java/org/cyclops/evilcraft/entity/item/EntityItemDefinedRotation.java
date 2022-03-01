@@ -12,20 +12,20 @@ import org.cyclops.evilcraft.core.entity.item.EntityItemExtended;
  */
 public abstract class EntityItemDefinedRotation extends EntityItemExtended {
 
-	public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, Level world, ItemEntity original) {
+    public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, Level world, ItemEntity original) {
         super(type, world, original);
     }
 
-	public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, Level world) {
-		super(type, world);
-	}
-	
-	protected boolean hasCustomRotation() {
-		return true;
-	}
+    public EntityItemDefinedRotation(EntityType<? extends EntityItemDefinedRotation> type, Level world) {
+        super(type, world);
+    }
 
-	@Override
-	public int getAge() {
-		return hasCustomRotation() ? 0 : super.getAge();
-	}
+    protected boolean hasCustomRotation() {
+        return true;
+    }
+
+    @Override
+    public int getAge() {
+        return hasCustomRotation() ? 0 : super.getAge();
+    }
 }

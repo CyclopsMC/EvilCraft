@@ -16,11 +16,11 @@ public class ParticleDistort extends TextureSheetParticle {
 
     public ParticleDistort(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale, SpriteSet sprite) {
         super(world, x, y, z, motionX, motionY, motionZ);
-        
+
         quadSize = scale;
         alpha = 0.3F;
         lifetime = ItemMaceOfDistortion.AOE_TICK_UPDATE;
-        
+
         rCol = 1.0F * random.nextFloat();
         gCol = 0.01F * random.nextFloat();
         bCol = 0.5F * random.nextFloat();
@@ -35,7 +35,7 @@ public class ParticleDistort extends TextureSheetParticle {
     public float getQuadSize(float p_217561_1_) {
         return this.quadSize * Mth.clamp(((float)this.age + p_217561_1_) / (float)this.lifetime * 32.0F, 0.0F, 1.0F);
     }
-    
+
     @Override
     public void tick() {
         super.tick();

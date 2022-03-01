@@ -39,7 +39,7 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
 
     protected boolean canPickUp = true;
     private boolean placeFluids = false;
-    
+
     public ItemBloodContainer(Properties builder, int capacity) {
         super(builder, capacity, () -> RegistryEntries.FLUID_BLOOD);
     }

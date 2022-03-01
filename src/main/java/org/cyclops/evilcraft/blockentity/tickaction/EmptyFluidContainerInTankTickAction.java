@@ -53,12 +53,12 @@ public class EmptyFluidContainerInTankTickAction<T extends BlockEntityTickingTan
             }
         }
     }
-    
+
     @Override
     public float getRequiredTicks(T tile, int slot, int tick) {
         return getRequiredTicks(tile, tile.getInventory().getItem(slot));
     }
-    
+
     /**
      * Get the required ticks for a given item.
      * @param tile The {@link BlockEntity} to drain to.
@@ -73,7 +73,7 @@ public class EmptyFluidContainerInTankTickAction<T extends BlockEntityTickingTan
         int capacity = Math.min(FluidHelpers.getCapacity(container), tile.getTank().getFluidAmount());
         return (capacity - amount) / MB_PER_TICK;
     }
-    
+
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         boolean emptyContainer = false;

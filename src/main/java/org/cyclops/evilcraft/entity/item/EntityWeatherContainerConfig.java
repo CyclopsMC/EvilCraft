@@ -27,7 +27,7 @@ public class EntityWeatherContainerConfig extends EntityConfig<EntityWeatherCont
                         .setShouldReceiveVelocityUpdates(true)
         );
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public EntityRenderer<EntityThrowable> getRender(EntityRendererProvider.Context context, ItemRenderer renderItem) {

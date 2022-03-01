@@ -73,5 +73,5 @@ public class ItemPrimedPendantConfig extends ItemConfig {
 
         return 1.0D;
     }
-    
+
 }

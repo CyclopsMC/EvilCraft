@@ -37,37 +37,37 @@ import java.util.List;
  */
 public class ItemVengeanceRing extends Item {
 
-	private static final int BONUS_TICK_MODULUS = 5;
-	private static final int BONUS_POTION_DURATION = 3 * 20;
-	// Array of effects, each element: potion ID, duration, potion level.
-	private static final List<Triple<MobEffect, Integer, Integer>> RING_POWERS =
-			Lists.<Triple<MobEffect, Integer, Integer>>newArrayList(
-					Triple.of(MobEffects.JUMP, BONUS_POTION_DURATION, 2),
-					Triple.of(MobEffects.INVISIBILITY, BONUS_POTION_DURATION, 1),
-					Triple.of(MobEffects.MOVEMENT_SPEED, BONUS_POTION_DURATION, 1),
-					Triple.of(MobEffects.DIG_SPEED, BONUS_POTION_DURATION, 1)
-			);
+    private static final int BONUS_TICK_MODULUS = 5;
+    private static final int BONUS_POTION_DURATION = 3 * 20;
+    // Array of effects, each element: potion ID, duration, potion level.
+    private static final List<Triple<MobEffect, Integer, Integer>> RING_POWERS =
+            Lists.<Triple<MobEffect, Integer, Integer>>newArrayList(
+                    Triple.of(MobEffects.JUMP, BONUS_POTION_DURATION, 2),
+                    Triple.of(MobEffects.INVISIBILITY, BONUS_POTION_DURATION, 1),
+                    Triple.of(MobEffects.MOVEMENT_SPEED, BONUS_POTION_DURATION, 1),
+                    Triple.of(MobEffects.DIG_SPEED, BONUS_POTION_DURATION, 1)
+            );
 
-	public ItemVengeanceRing(Item.Properties properties) {
+    public ItemVengeanceRing(Item.Properties properties) {
         super(properties);
     }
-    
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		ItemStack itemStack = player.getItemInHand(hand);
+        ItemStack itemStack = player.getItemInHand(hand);
         if(player.isCrouching()) {
             if(!world.isClientSide())
-            	ItemHelpers.toggleActivation(itemStack);
+                ItemHelpers.toggleActivation(itemStack);
             return MinecraftHelpers.successAction(itemStack);
         }
         return super.use(world, player, hand);
     }
 
-	@Override
+    @Override
     public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
     }
-    
+
     /**
      * Toggle vengeance around the given entity within the given area of effect.
      * @param world The world.
@@ -79,82 +79,82 @@ public class ItemVengeanceRing extends Item {
      * is of no use of spawnRandom is not true.
      */
     @SuppressWarnings("unchecked")
-	public static void toggleVengeanceArea(Level world, Entity entity, int area,
-			boolean enableVengeance, boolean spawnRandom, boolean forceGlobal) {
-    	if(world.getDifficulty() != Difficulty.PEACEFUL) {
-	    	double x = entity.getX();
-	    	double y = entity.getY();
-	    	double z = entity.getZ();
+    public static void toggleVengeanceArea(Level world, Entity entity, int area,
+            boolean enableVengeance, boolean spawnRandom, boolean forceGlobal) {
+        if(world.getDifficulty() != Difficulty.PEACEFUL) {
+            double x = entity.getX();
+            double y = entity.getY();
+            double z = entity.getZ();
             BlockPos blockPos = entity.blockPosition();
-	    	
-	    	// Look for spirits in an area.
-	    	AABB box = new AABB(x, y, z, x, y, z).inflate(area, area, area);
-	    	List<EntityVengeanceSpirit> spirits = world.getEntitiesOfClass(EntityVengeanceSpirit.class, box,
-					new Predicate<Entity>() {
 
-						@Override
-						public boolean apply(Entity entity) {
-							return entity instanceof EntityVengeanceSpirit;
-						}
+            // Look for spirits in an area.
+            AABB box = new AABB(x, y, z, x, y, z).inflate(area, area, area);
+            List<EntityVengeanceSpirit> spirits = world.getEntitiesOfClass(EntityVengeanceSpirit.class, box,
+                    new Predicate<Entity>() {
 
-					});
-	    	
-	    	// Vengeance all the spirits in the neighbourhood
-	    	for(EntityVengeanceSpirit spirit : spirits) {
-	    		spirit.setEnabledVengeance((Player) entity, enableVengeance);
-	    		if(enableVengeance) {
-	    			spirit.setTarget((LivingEntity) entity);
-	    		} else if(spirit.getTarget() == entity) {
-	    			spirit.setTarget(null);
-	    		}
-	    	}
+                        @Override
+                        public boolean apply(Entity entity) {
+                            return entity instanceof EntityVengeanceSpirit;
+                        }
 
-	    	// If no spirits were found in an area, we spawn a new one and make him angry.
-	    	if(spirits.size() == 0 && enableVengeance) {
-	    		EntityVengeanceSpirit spirit = EntityVengeanceSpirit.spawnRandom(world, blockPos, area / 4);
-	    		if(spirit != null) {
-	    			if(forceGlobal) {
-	    				spirit.setGlobalVengeance(true);
-	    			} else {
-	    				spirit.setEnabledVengeance((Player) entity, true);
-	    			}
-	    			spirit.setTarget((LivingEntity) entity);
+                    });
+
+            // Vengeance all the spirits in the neighbourhood
+            for(EntityVengeanceSpirit spirit : spirits) {
+                spirit.setEnabledVengeance((Player) entity, enableVengeance);
+                if(enableVengeance) {
+                    spirit.setTarget((LivingEntity) entity);
+                } else if(spirit.getTarget() == entity) {
+                    spirit.setTarget(null);
+                }
+            }
+
+            // If no spirits were found in an area, we spawn a new one and make him angry.
+            if(spirits.size() == 0 && enableVengeance) {
+                EntityVengeanceSpirit spirit = EntityVengeanceSpirit.spawnRandom(world, blockPos, area / 4);
+                if(spirit != null) {
+                    if(forceGlobal) {
+                        spirit.setGlobalVengeance(true);
+                    } else {
+                        spirit.setEnabledVengeance((Player) entity, true);
+                    }
+                    spirit.setTarget((LivingEntity) entity);
                     int chance = EntityVengeanceSpiritConfig.nonDegradedSpawnChance;
                     spirit.setSwarm(chance <= 0 || world.random.nextInt(chance) > 0);
-	    		}
-	    	}
-    	}
+                }
+            }
+        }
     }
-    
+
     /**
      * Give bonus abilities to the given player.
      * @param player The player to receive the powers.
      */
     public static void updateRingPowers(Player player) {
-    	for(Triple<MobEffect, Integer, Integer> power : RING_POWERS) {
-    		player.addEffect(new MobEffectInstance(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
-    	}
-	}
-    
-	@Override
+        for(Triple<MobEffect, Integer, Integer> power : RING_POWERS) {
+            player.addEffect(new MobEffectInstance(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
+        }
+    }
+
+    @Override
     public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
         if(entity instanceof Player && !world.isClientSide()
-        		&& WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS, entity.getId())) {
-        	int area = ItemVengeanceRingConfig.areaOfEffect;
-        	toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true, false);
-        	if(ItemHelpers.isActivated(itemStack)) {
-        		updateRingPowers((Player) entity);
-        	}
+                && WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS, entity.getId())) {
+            int area = ItemVengeanceRingConfig.areaOfEffect;
+            toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true, false);
+            if(ItemHelpers.isActivated(itemStack)) {
+                updateRingPowers((Player) entity);
+            }
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-	public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
-				getDescriptionId() + ".info.status");
+                getDescriptionId() + ".info.status");
     }
 
 }

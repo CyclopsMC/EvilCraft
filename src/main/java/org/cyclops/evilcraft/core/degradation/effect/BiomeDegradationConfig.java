@@ -16,5 +16,5 @@ public class BiomeDegradationConfig extends DegradationEffectConfig {
                 1
         );
     }
-    
+
 }

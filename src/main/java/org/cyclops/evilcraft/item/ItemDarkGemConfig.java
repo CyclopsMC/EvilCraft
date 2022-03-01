@@ -19,5 +19,5 @@ public class ItemDarkGemConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

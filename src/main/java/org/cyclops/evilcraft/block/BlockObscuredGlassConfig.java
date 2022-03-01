@@ -33,5 +33,5 @@ public class BlockObscuredGlassConfig extends BlockConfig {
     public void onClientSetup(FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.translucent());
     }
-    
+
 }

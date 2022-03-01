@@ -25,7 +25,7 @@ import java.util.List;
  * @see TickComponent
  */
 public abstract class BlockEntityTickingTankInventory<T extends BlockEntityTankInventory> extends BlockEntityTankInventory {
-    
+
     private List<TickComponent<T, ITickAction<T>>> tickers;
     protected int currentState = -1;
     protected int previousState = -1;
@@ -34,7 +34,7 @@ public abstract class BlockEntityTickingTankInventory<T extends BlockEntityTankI
         super(type, blockPos, blockState, inventorySize, stackSize, tankSize, acceptedFluid);
         tickers = Lists.newArrayList();
     }
-    
+
     /**
      * Add a new ticker.
      * @param ticker The ticker to (try) run every tick.
@@ -44,7 +44,7 @@ public abstract class BlockEntityTickingTankInventory<T extends BlockEntityTankI
         tickers.add(ticker);
         return tickers.size() - 1;
     }
-    
+
     /**
      * Get the tickers this TileEntity has.
      * @return List of added tickers.

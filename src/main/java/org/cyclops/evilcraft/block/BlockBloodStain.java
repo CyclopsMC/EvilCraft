@@ -99,11 +99,11 @@ public class BlockBloodStain extends BlockWithEntity {
      */
     @OnlyIn(Dist.CLIENT)
     public static void splash(Level world, BlockPos blockPos) {
-    	if(MinecraftHelpers.isClientSide()) {
-    		ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
-    	}
+        if(MinecraftHelpers.isClientSide()) {
+            ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
+        }
     }
-    
+
     @Override
     public void handlePrecipitation(BlockState blockState, Level world, BlockPos blockPos, Biome.Precipitation precipitation) {
         world.removeBlock(blockPos, false);

@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritPortal;
@@ -21,7 +20,7 @@ import java.util.Random;
 /**
  * EvilCraft's version of a beacon renderer, this allows us to have custom colors
  * and customize other stuff without being dependend on vanilla code
- * 
+ *
  * @author immortaleeb
  *
  */
@@ -34,7 +33,7 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
     }
 
     @Override
-	public void render(BlockEntitySpiritPortal tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntitySpiritPortal tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         float progress = tileentity.getProgress();
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5F, 0.5f, 0.5F);
@@ -44,15 +43,15 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
         random.setSeed(seed);
         renderStar(matrixStackIn, bufferIn, seed, progress, Tesselator.getInstance(), partialTicks, random);
         matrixStackIn.popPose();
-	}
+    }
 
     private void renderStar(PoseStack matrixStackIn, MultiBufferSource bufferIn, float rotation, float progress, Tesselator tessellator, float partialTicks, Random random) {
-		/* Rotate opposite direction at 20% speed */
+        /* Rotate opposite direction at 20% speed */
         matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotation * -0.2f % 360 / 2));
         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation * -0.2f % 360));
         matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(rotation * -0.2f % 360 / 2));
 
-		/* Configuration tweaks */
+        /* Configuration tweaks */
         float BEAM_START_DISTANCE = 2F;
         float BEAM_END_DISTANCE = 7f;
         float MAX_OPACITY = 40f;

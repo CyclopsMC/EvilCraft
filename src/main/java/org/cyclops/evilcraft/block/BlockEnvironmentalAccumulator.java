@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
  *
  */
 public class BlockEnvironmentalAccumulator extends BlockWithEntity {
-    
+
     /**
      * State indicating the environmental accumulator is idle.
      */
@@ -45,25 +45,25 @@ public class BlockEnvironmentalAccumulator extends BlockWithEntity {
      */
     public static final int STATE_FINISHED_PROCESSING_ITEM = 3;
 
-	public BlockEnvironmentalAccumulator(Block.Properties properties) {
-		super(properties, BlockEntityEnvironmentalAccumulator::new);
-	}
+    public BlockEnvironmentalAccumulator(Block.Properties properties) {
+        super(properties, BlockEntityEnvironmentalAccumulator::new);
+    }
 
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-		return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR, new BlockEntityEnvironmentalAccumulator.Ticker());
-	}
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR, new BlockEntityEnvironmentalAccumulator.Ticker());
+    }
 
-	@Override
-	public boolean hasAnalogOutputSignal(BlockState state) {
-		return true;
-	}
+    @Override
+    public boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
 
-	@Override
-	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
-		return BlockEntityHelpers.get(worldIn, pos, BlockEntityEnvironmentalAccumulator.class)
-				.map(tile -> tile.getState() == STATE_IDLE ? 15 : 0)
-				.orElse(0);
-	}
+    @Override
+    public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+        return BlockEntityHelpers.get(worldIn, pos, BlockEntityEnvironmentalAccumulator.class)
+                .map(tile -> tile.getState() == STATE_IDLE ? 15 : 0)
+                .orElse(0);
+    }
 }

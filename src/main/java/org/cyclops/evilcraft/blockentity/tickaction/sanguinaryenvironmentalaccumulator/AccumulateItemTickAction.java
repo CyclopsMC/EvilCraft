@@ -78,11 +78,11 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
                 new UpgradeSensitiveEvent<MutableInt>(amount, BlockEntitySanguinaryEnvironmentalAccumulator.UPGRADEEVENT_BLOODUSAGE));
         return Math.max(1, amount.getValue());
     }
-    
+
     private Optional<RecipeEnvironmentalAccumulator> getRecipe(BlockEntitySanguinaryEnvironmentalAccumulator tile) {
         return tile.getRecipe(tile.getInventory().getItem(BlockEntitySanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE));
     }
-    
+
     private int getUnmodifiedRequiredTicks(RecipeEnvironmentalAccumulator recipe) {
         return recipe.getDuration();
     }
@@ -106,5 +106,5 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
     public boolean addToProduceSlot(BlockEntitySanguinaryEnvironmentalAccumulator tile, ItemStack itemStack) {
         return InventoryHelpers.addToSlot(tile.getInventory(), tile.getTileWorkingMetadata().getProduceSlot(), itemStack);
     }
-    
+
 }

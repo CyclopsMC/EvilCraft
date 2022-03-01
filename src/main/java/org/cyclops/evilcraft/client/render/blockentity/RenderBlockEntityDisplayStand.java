@@ -22,7 +22,7 @@ import java.util.Map;
 
 /**
  * Renderer for the item inside the {@link BlockDisplayStand}.
- * 
+ *
  * @author rubensworks
  *
  */
@@ -42,7 +42,7 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
     }
 
     @Override
-	public void render(BlockEntityDisplayStand tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntityDisplayStand tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         if(!tile.getInventory().getItem(0).isEmpty()) {
             BlockState blockState = tile.getLevel().getBlockState(tile.getBlockPos());
             renderItem(matrixStackIn, bufferIn, tile.getInventory().getItem(0),
@@ -50,9 +50,9 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
                     BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.AXIS_X, true),
                     tile.getDirection() == Direction.AxisDirection.POSITIVE);
         }
-	}
-	
-	private void renderItem(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack itemStack, Direction facing, boolean axisX, boolean positiveDirection) {
+    }
+
+    private void renderItem(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack itemStack, Direction facing, boolean axisX, boolean positiveDirection) {
         matrixStack.pushPose();
 
         matrixStack.translate(0.5F, 0.5F, 0.5F);

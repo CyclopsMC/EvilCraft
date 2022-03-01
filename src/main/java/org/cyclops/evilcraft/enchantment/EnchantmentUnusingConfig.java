@@ -17,5 +17,5 @@ public class EnchantmentUnusingConfig extends EnchantmentConfig {
                 eConfig -> new EnchantmentUnusing()
         );
     }
-    
+
 }

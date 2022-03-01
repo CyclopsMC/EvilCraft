@@ -17,16 +17,16 @@ import java.util.Random;
  *
  */
 public class SoundDegradation extends StochasticDegradationEffect {
-    
+
     private static final double CHANCE = 0.1D;
-    
+
     public SoundDegradation(DegradationEffectConfig eConfig) {
         super(eConfig, CHANCE);
     }
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
+
     }
 
     @Override
@@ -40,5 +40,5 @@ public class SoundDegradation extends StochasticDegradationEffect {
             }
         }
     }
-    
+
 }

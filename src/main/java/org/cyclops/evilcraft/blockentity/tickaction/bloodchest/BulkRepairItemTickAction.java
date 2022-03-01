@@ -19,12 +19,12 @@ import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
  *
  */
 public class BulkRepairItemTickAction implements ITickAction<BlockEntityColossalBloodChest> {
-    
+
     @Override
     public boolean canTick(BlockEntityColossalBloodChest tile, ItemStack itemStack, int slot, int tick) {
         return tile.canWork() && !tile.getTank().isEmpty() && !itemStack.isEmpty();
     }
-    
+
     private void drainTank(BlockEntityColossalBloodChest tile, float usageMultiplier, int tick) {
         tile.getTank().drain(getRequiredFluid(tile, usageMultiplier, tick), IFluidHandler.FluidAction.EXECUTE);
     }
@@ -74,5 +74,5 @@ public class BulkRepairItemTickAction implements ITickAction<BlockEntityColossal
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableFloat>(duration, BlockEntityColossalBloodChest.UPGRADEEVENT_SPEED));
         return duration.getValue();
     }
-    
+
 }

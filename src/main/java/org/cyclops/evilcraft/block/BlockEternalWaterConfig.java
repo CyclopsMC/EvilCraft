@@ -21,5 +21,5 @@ public class BlockEternalWaterConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-    
+
 }

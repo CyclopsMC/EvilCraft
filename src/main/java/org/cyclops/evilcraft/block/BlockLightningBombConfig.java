@@ -23,5 +23,5 @@ public class BlockLightningBombConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-    
+
 }

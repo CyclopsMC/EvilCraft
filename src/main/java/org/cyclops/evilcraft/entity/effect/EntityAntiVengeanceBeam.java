@@ -32,9 +32,9 @@ import java.util.List;
  *
  */
 public class EntityAntiVengeanceBeam extends ThrowableProjectile {
-	
-	private static final int MAX_AGE = 10 * 20;
-    
+
+    private static final int MAX_AGE = 10 * 20;
+
     private int age = 0;
     private int soundTick = 0;
 
@@ -57,7 +57,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
-    
+
     @Override
     protected float getGravity() {
         return 0.0F;
@@ -77,18 +77,18 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     @Override
     public void tick() {
         Vec3 motion = getDeltaMovement();
-    	Vec3 vec3 = new Vec3(this.getX(), this.getY(), this.getZ());
+        Vec3 vec3 = new Vec3(this.getX(), this.getY(), this.getZ());
         Vec3 vec31 = new Vec3(this.getX(), this.getY(), this.getZ()).add(motion);
         EntityHitResult entityRayTraceResult = this.rayTraceEntities(vec3, vec31);
         vec3 = new Vec3(this.getX(), this.getY(), this.getZ());
         vec31 = new Vec3(this.getX(), this.getY(), this.getZ()).add(motion);
-        
+
         soundTick++;
         if(soundTick > 3 && this.getId() % 10 == 0) {
-        	soundTick = 0;
+            soundTick = 0;
         }
-        
-    	if (!this.level.isClientSide()) {
+
+        if (!this.level.isClientSide()) {
             Entity entity = null;
             List<Entity> list = this.level.getEntities(this, this.getBoundingBox()
                     .move(motion).inflate(1.0D));
@@ -115,32 +115,32 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
                 entityRayTraceResult = new EntityHitResult(entity);
             }
         } else {
-        	for(int i = 0; i < level.random.nextInt(5) + 5; i++) {
-        		showNewBlurParticle();
-        	}
-        	if(soundTick == 1) {
-	        	// Play beam sound
-	        	level.playLocalSound(getX(), getY(), getZ(),
+            for(int i = 0; i < level.random.nextInt(5) + 5; i++) {
+                showNewBlurParticle();
+            }
+            if(soundTick == 1) {
+                // Play beam sound
+                level.playLocalSound(getX(), getY(), getZ(),
                         EvilCraftSoundEvents.effect_vengeancebeam_base, SoundSource.NEUTRAL,
                         0.5F + level.random.nextFloat() * 0.2F, 1.0F, false);
-        	}
+            }
         }
-    	
-    	if (entityRayTraceResult != null) {
-    	    this.onHit(entityRayTraceResult);
+
+        if (entityRayTraceResult != null) {
+            this.onHit(entityRayTraceResult);
         }
-    	
-    	if(age++ > MAX_AGE) {
-    		this.remove(RemovalReason.DISCARDED);
-    	}
-    	
-    	super.tick();
+
+        if(age++ > MAX_AGE) {
+            this.remove(RemovalReason.DISCARDED);
+        }
+
+        super.tick();
     }
 
     @OnlyIn(Dist.CLIENT)
     protected void showNewBlurParticle() {
-    	float scale = 0.6F - random.nextFloat() * 0.3F;
-    	float red = random.nextFloat() * 0.03F + 0.01F;
+        float scale = 0.6F - random.nextFloat() * 0.3F;
+        float red = random.nextFloat() * 0.03F + 0.01F;
         float green = random.nextFloat() * 0.03F;
         float blue = random.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (random.nextDouble() * 6.5D + 4D);
@@ -150,10 +150,10 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
                 new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
                 getX(), getY(), getZ(),
                 deriveMotion(motion.x), deriveMotion(motion.y), deriveMotion(motion.z));
-	}
-    
+    }
+
     private double deriveMotion(double motion) {
-    	return motion * 0.5D + (0.02D - random.nextDouble() * 0.04D);
+        return motion * 0.5D + (0.02D - random.nextDouble() * 0.04D);
     }
 
     protected void applyHitEffect(Entity entity) {

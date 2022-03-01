@@ -24,5 +24,5 @@ public class ItemExaltedCrafterConfig extends ItemConfig {
                         .stacksTo(1), wooden, empowered)
         );
     }
-    
+
 }

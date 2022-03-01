@@ -24,5 +24,5 @@ public class ItemVengeanceRingConfig extends ItemConfig {
                         .stacksTo(1))
         );
     }
-    
+
 }

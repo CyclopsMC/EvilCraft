@@ -29,7 +29,7 @@ import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
  *
  */
 public class BlockEntityPurifier extends BlockEntityTankInventory {
-    
+
     /**
      * The amount of slots.
      */
@@ -42,20 +42,20 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * The additional slot.
      */
     public static final int SLOT_ADDITIONAL = 1;
-    
+
     /**
      * Duration in ticks to show the 'poof' animation.
      */
     private static final int ANIMATION_FINISHED_DURATION = 2;
-    
+
     @NBTPersist
     private Float randomRotation = 0F;
 
     @Getter
     private int tick = 0;
-    
+
     public static final int MAX_BUCKETS = 3;
-    
+
     /**
      * Book bounce tick count.
      */
@@ -76,7 +76,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      */
     @NBTPersist
     public Float additionalRotation = 0F;
-    
+
     @NBTPersist
     private Integer finishedAnimation = 0;
 
@@ -95,7 +95,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public float rot;
     public float oRot;
     public float tRot;
-    
+
     /**
      * Make a new instance.
      */
@@ -123,7 +123,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
 
     @Override
     protected SingleUseTank createTank(int tankSize) {
-    	return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
+        return new ImplicitFluidConversionTank(tankSize, BloodFluidConverter.getInstance());
     }
 
     public IPurifierActionRegistry getActions() {
@@ -133,7 +133,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public void onActionFinished() {
         finishedAnimation = ANIMATION_FINISHED_DURATION;
     }
-    
+
     /**
      * Get the amount of contained buckets.
      * @return The amount of buckets.
@@ -141,7 +141,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public int getBucketsFloored() {
         return (int) Math.floor(getTank().getFluidAmount() / (double) FluidHelpers.BUCKET_VOLUME);
     }
-    
+
     /**
      * Get the rest of the fluid that can not fit in a bucket.
      * Use this in {@link BlockEntityPurifier#setBuckets(int, int)} as rest.
@@ -150,7 +150,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public int getBucketsRest() {
         return getTank().getFluidAmount() % FluidHelpers.BUCKET_VOLUME;
     }
-    
+
     /**
      * Set the amount of contained buckets. This will also change the inner tank.
      * @param buckets The amount of buckets.
@@ -160,7 +160,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
         getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, FluidHelpers.BUCKET_VOLUME * buckets + rest));
         sendUpdate();
     }
-    
+
     /**
      * Set the maximum amount of contained buckets.
      * @return The maximum amount of buckets.
@@ -168,12 +168,12 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public int getMaxBuckets() {
         return MAX_BUCKETS;
     }
-    
+
     private void updateAdditionalItem() {
         this.additionalRotationPrev = this.additionalRotation2;
-        
+
         this.additionalRotation += 0.02F;
-        
+
         while (this.additionalRotation2 >= (float)Math.PI) {
             this.additionalRotation2 -= ((float)Math.PI * 2F);
         }
@@ -222,7 +222,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
         this.flipA += (f - this.flipA) * 0.9F;
         this.flip += this.flipA;
     }
-    
+
     /**
      * Get the purify item.
      * @return The purify item.
@@ -230,7 +230,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public ItemStack getPurifyItem() {
         return getInventory().getItem(SLOT_PURIFY);
     }
-    
+
     /**
      * Set the purify item.
      * @param itemStack The purify item.
@@ -239,7 +239,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
         this.randomRotation = level.random.nextFloat() * 360;
         getInventory().setItem(SLOT_PURIFY, itemStack);
     }
-    
+
     /**
      * Get the book item.
      * @return The book item.
@@ -247,7 +247,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public ItemStack getAdditionalItem() {
         return getInventory().getItem(SLOT_ADDITIONAL);
     }
-    
+
     /**
      * Set the book item.
      * @param itemStack The book item.
@@ -255,10 +255,10 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public void setAdditionalItem(ItemStack itemStack) {
         getInventory().setItem(SLOT_ADDITIONAL, itemStack);
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     public void showEffect() {
-        for (int i=0; i < 1; i++) {                
+        for (int i=0; i < 1; i++) {
             double particleX = getBlockPos().getX() + 0.2 + level.random.nextDouble() * 0.6;
             double particleY = getBlockPos().getY() + 0.2 + level.random.nextDouble() * 0.6;
             double particleZ = getBlockPos().getZ() + 0.2 + level.random.nextDouble() * 0.6;
@@ -272,15 +272,15 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     public void showEnchantingEffect() {
         if(level.random.nextInt(10) == 0) {
-            for (int i=0; i < 1; i++) {                
+            for (int i=0; i < 1; i++) {
                 double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
                 double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
                 double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
-                
+
                 float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
                 float particleMotionY = -level.random.nextFloat();
                 float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
@@ -291,14 +291,14 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
             }
         }
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     private void showEnchantedEffect() {
-        for (int i=0; i < 100; i++) {                
+        for (int i=0; i < 100; i++) {
             double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
             double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
             double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
-            
+
             float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
             float particleMotionY = -0.4F + level.random.nextFloat() * 0.8F;
             float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;

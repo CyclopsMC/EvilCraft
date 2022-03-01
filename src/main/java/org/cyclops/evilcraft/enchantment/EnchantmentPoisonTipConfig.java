@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.enchantment;
 
 import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.Reference;
 
 /**
  * Config for {@link EnchantmentPoisonTip}.

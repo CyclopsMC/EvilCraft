@@ -25,10 +25,10 @@ import java.util.Optional;
  *
  */
 public class ContainerBloodInfuser extends ContainerTileWorking<BlockEntityBloodInfuser> {
-    
+
     private static final int INVENTORY_OFFSET_X = 8;
     private static final int INVENTORY_OFFSET_Y = 84;
-    
+
     /**
      * Container slot X coordinate.
      */
@@ -37,7 +37,7 @@ public class ContainerBloodInfuser extends ContainerTileWorking<BlockEntityBlood
      * Container slot Y coordinate.
      */
     public static final int SLOT_CONTAINER_Y = 36;
-    
+
     /**
      * Infuse slot X coordinate.
      */
@@ -46,7 +46,7 @@ public class ContainerBloodInfuser extends ContainerTileWorking<BlockEntityBlood
      * Infuse slot Y coordinate.
      */
     public static final int SLOT_INFUSE_Y = 36;
-    
+
     /**
      * Infuse result slot X coordinate.
      */

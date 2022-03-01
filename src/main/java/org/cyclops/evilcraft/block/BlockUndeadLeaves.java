@@ -27,12 +27,12 @@ import java.util.Random;
  *
  */
 public class BlockUndeadLeaves extends LeavesBlock {
-    
+
     private ParticleDropBlockComponent particleDropBlockComponent;
 
     public BlockUndeadLeaves(Block.Properties properties) {
         super(properties);
-        
+
         if (MinecraftHelpers.isClientSide()) {
             particleDropBlockComponent = new ParticleDropBlockComponent(1.0F, 0.0F, 0.0F);
             particleDropBlockComponent.setOffset(0);

@@ -13,16 +13,16 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class BlockSpiritPortalConfig extends BlockConfig {
 
-	public BlockSpiritPortalConfig() {
-		super(
-				EvilCraft._instance,
-				"spirit_portal",
-				eConfig -> new BlockSpiritPortal(Block.Properties.of(Material.METAL)
-						.strength(50.0F, 6000000.0F)
-						.sound(SoundType.WOOL)
-						.lightLevel((state) -> 8)),
-				getDefaultItemConstructor(EvilCraft._instance)
-		);
-	}
+    public BlockSpiritPortalConfig() {
+        super(
+                EvilCraft._instance,
+                "spirit_portal",
+                eConfig -> new BlockSpiritPortal(Block.Properties.of(Material.METAL)
+                        .strength(50.0F, 6000000.0F)
+                        .sound(SoundType.WOOL)
+                        .lightLevel((state) -> 8)),
+                getDefaultItemConstructor(EvilCraft._instance)
+        );
+    }
 
 }

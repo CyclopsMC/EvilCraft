@@ -58,7 +58,7 @@ import java.util.Set;
 public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     protected static final ResourceLocation OVERLAY = new ResourceLocation(Reference.MOD_ID, "textures/gui/overlay.png");
-    
+
     private static final float Y_SPAWN_OFFSET = 1.5f;
 
     public ItemBroom(Item.Properties properties) {
@@ -84,7 +84,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
         ItemStack stack = player.getItemInHand(hand);
         if (!world.isClientSide() && player.getVehicle() == null && !player.isCrouching()) {
             player.setPos(player.getX(), player.getY() + Y_SPAWN_OFFSET, player.getZ());
-            
+
             EntityBroom entityBroom = new EntityBroom(world, player.getX(), player.getY(), player.getZ());
             entityBroom.setBroomStack(stack);
             entityBroom.setYRot(player.getYRot());
@@ -94,13 +94,13 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
             stack.shrink(1);
         }
-        
+
         return MinecraftHelpers.successAction(stack);
     }
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-    	if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
+        if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
             BlockPos blockPos = context.getClickedPos();
             if (!BlockEntityHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
                     && context.getLevel().isEmptyBlock(blockPos.offset(0, Y_SPAWN_OFFSET, 0))) {
@@ -115,9 +115,9 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
                 return InteractionResult.SUCCESS;
             }
-    	}
-    	
-    	return InteractionResult.PASS;
+        }
+
+        return InteractionResult.PASS;
     }
 
     @Override

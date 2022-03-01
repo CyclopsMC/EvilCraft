@@ -16,10 +16,10 @@ import java.util.List;
  *
  */
 public class NauseateDegradation implements IDegradationEffect {
-    
+
     private static final int MINIMUM_DEGRADATION = 5;
     private static final int NAUSEA_DURATION_MULTIPLIER = 20 * 4;
-    
+
     public NauseateDegradation(DegradationEffectConfig eConfig) {
 
     }
@@ -31,7 +31,7 @@ public class NauseateDegradation implements IDegradationEffect {
 
     @Override
     public void runClientSide(IDegradable degradable) {
-        
+
     }
 
     @Override

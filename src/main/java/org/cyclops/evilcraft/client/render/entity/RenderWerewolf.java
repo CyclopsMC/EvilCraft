@@ -7,14 +7,14 @@ import org.cyclops.evilcraft.entity.monster.EntityWerewolfConfig;
 
 /**
  * Renderer for a werewolf
- * 
+ *
  * @author rubensworks
  *
  */
 public class RenderWerewolf extends RenderModelLiving<EntityWerewolf, ModelWerewolf> {
 
-	public RenderWerewolf(EntityRendererProvider.Context renderContext, EntityWerewolfConfig config, ModelWerewolf model, float par2) {
-	    super(renderContext, config, model, par2);
-	}
+    public RenderWerewolf(EntityRendererProvider.Context renderContext, EntityWerewolfConfig config, ModelWerewolf model, float par2) {
+        super(renderContext, config, model, par2);
+    }
 
 }

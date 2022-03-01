@@ -22,11 +22,11 @@ import org.cyclops.evilcraft.RegistryEntries;
  */
 public class ItemHelpers {
 
-	private static final int MB_FILL_PERTICK = GeneralConfig.mbFlowRate;
+    private static final int MB_FILL_PERTICK = GeneralConfig.mbFlowRate;
     public static final String NBT_KEY_ENABLED = "enabled";
     private static ItemStack bloodBucket = null;
-	
-	/**
+
+    /**
      * Check if the given item is activated.
      * @param itemStack The item to check
      * @return If it is an active container.
@@ -34,7 +34,7 @@ public class ItemHelpers {
     public static boolean isActivated(ItemStack itemStack) {
         return !itemStack.isEmpty() && itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_ENABLED);
     }
-    
+
     /**
      * Toggle activation for the given item.
      * @param itemStack The item to toggle.
@@ -47,7 +47,7 @@ public class ItemHelpers {
         }
         tag.putBoolean(NBT_KEY_ENABLED, !isActivated(itemStack));
     }
-    
+
     /**
      * Get the integer value of the given ItemStack.
      * @param itemStack The item to check.
@@ -60,7 +60,7 @@ public class ItemHelpers {
         }
         return itemStack.getTag().getInt(tag);
     }
-    
+
     /**
      * Set the integer value of the given ItemStack for the given tag.
      * @param itemStack The item to change.
@@ -75,7 +75,7 @@ public class ItemHelpers {
         }
         tagCompound.putInt(tag, integer);
     }
-    
+
     /**
      * Run an auto-fill tick for filling currently held container items from this item.
      * @param toDrain The item handler to drain from.
@@ -84,7 +84,7 @@ public class ItemHelpers {
      * @param fillBuckets If buckets should be filled.
      */
     public static void updateAutoFill(IFluidHandlerItem toDrain, Level world, Entity entity, boolean fillBuckets) {
-    	if(entity instanceof Player && !world.isClientSide()) {
+        if(entity instanceof Player && !world.isClientSide()) {
             FluidStack tickFluid = toDrain.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
             if(!tickFluid.isEmpty()) {
                 Player player = (Player) entity;
@@ -137,5 +137,5 @@ public class ItemHelpers {
         }
         return bloodBucket;
     }
-	
+
 }

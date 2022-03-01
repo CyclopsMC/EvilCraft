@@ -25,12 +25,12 @@ public class CommonProxy extends CommonProxyComponent {
     public ModBase getMod() {
         return EvilCraft._instance;
     }
- 
+
     @Override
     public void registerPacketHandlers(PacketHandler packetHandler) {
         super.registerPacketHandlers(packetHandler);
-    	
-    	// Register packets.
+
+        // Register packets.
         packetHandler.register(FartPacket.class);
         packetHandler.register(SanguinaryPedestalBlockReplacePacket.class);
         packetHandler.register(ExaltedCrafterOpenPacket.class);
@@ -39,7 +39,7 @@ public class CommonProxy extends CommonProxyComponent {
 
         EvilCraft.clog("Registered packet handler.");
     }
-    
+
     @Override
     public void registerEventHooks() {
         super.registerEventHooks();

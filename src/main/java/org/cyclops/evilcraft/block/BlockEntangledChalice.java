@@ -56,126 +56,126 @@ import java.util.List;
  */
 public class BlockEntangledChalice extends BlockWithEntity implements IInformationProvider, IBlockTank, IBlockRarityProvider {
 
-	public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
+    public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
 
-	// Model Properties
-	public static final ModelProperty<String> TANK_ID = new ModelProperty<>();
-	public static final ModelProperty<FluidStack> TANK_FLUID = new ModelProperty<>();
+    // Model Properties
+    public static final ModelProperty<String> TANK_ID = new ModelProperty<>();
+    public static final ModelProperty<FluidStack> TANK_FLUID = new ModelProperty<>();
 
-	public static final VoxelShape SHAPE = Block.box(0.125F * 16F, 0F, 0.125F * 16F, 0.875F * 16F, 1.0F * 16F, 0.875F * 16F);
+    public static final VoxelShape SHAPE = Block.box(0.125F * 16F, 0F, 0.125F * 16F, 0.875F * 16F, 1.0F * 16F, 0.875F * 16F);
 
     public BlockEntangledChalice(Block.Properties properties) {
         super(properties, BlockEntityEntangledChalice::new);
 
-		this.registerDefaultState(this.stateDefinition.any()
-				.setValue(DRAINING, false));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(DRAINING, false));
     }
 
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-		return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE, new BlockEntityEntangledChalice.TickerServer());
-	}
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE, new BlockEntityEntangledChalice.TickerServer());
+    }
 
-	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(DRAINING);
-	}
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(DRAINING);
+    }
 
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(DRAINING, false);
-	}
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(DRAINING, false);
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return SHAPE;
-	}
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+        return SHAPE;
+    }
 
-	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-		if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
-			return InteractionResult.SUCCESS;
-		}
-		if (world.isClientSide()) {
-			String tankId = BlockEntityHelpers.get(world, blockPos, BlockEntityEntangledChalice.class)
-					.map(BlockEntityEntangledChalice::getWorldTankId)
-					.orElse("null");
-			player.displayClientMessage(new TranslatableComponent(L10NHelpers.localize(
-					"block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
-		}
-		return super.use(state, world, blockPos, player, hand, rayTraceResult);
-	}
-    
+    @Override
+    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
+        if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
+            return InteractionResult.SUCCESS;
+        }
+        if (world.isClientSide()) {
+            String tankId = BlockEntityHelpers.get(world, blockPos, BlockEntityEntangledChalice.class)
+                    .map(BlockEntityEntangledChalice::getWorldTankId)
+                    .orElse("null");
+            player.displayClientMessage(new TranslatableComponent(L10NHelpers.localize(
+                    "block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
+        }
+        return super.use(state, world, blockPos, player, hand, rayTraceResult);
+    }
+
     @Override
     public MutableComponent getInfo(ItemStack itemStack) {
         return BlockTankHelpers.getInfoTank(itemStack);
     }
 
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void provideInformation(ItemStack itemStack, Level world, List<Component> list, TooltipFlag iTooltipFlag) {
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void provideInformation(ItemStack itemStack, Level world, List<Component> list, TooltipFlag iTooltipFlag) {
 
-	}
-	
-	@Override
-	public int getDefaultCapacity() {
-		return BlockEntityEntangledChalice.BASE_CAPACITY;
-	}
-	
-	@Override
-	public boolean isActivatable() {
-		return true;
-	}
-	
-	@Override
-	public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player) {
-		if(player.isCrouching()) {
+    }
+
+    @Override
+    public int getDefaultCapacity() {
+        return BlockEntityEntangledChalice.BASE_CAPACITY;
+    }
+
+    @Override
+    public boolean isActivatable() {
+        return true;
+    }
+
+    @Override
+    public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player) {
+        if(player.isCrouching()) {
             if(!world.isClientSide()) {
-				ItemStack activated = itemStack.copy();
-				if (isActivated(itemStack, world)) {
-					activated.getOrCreateTag().remove(ItemHelpers.NBT_KEY_ENABLED);
-					if (activated.getTag().isEmpty()) {
-						activated.setTag(null);
-					}
-				} else {
-					activated.getOrCreateTag().putBoolean(ItemHelpers.NBT_KEY_ENABLED, !isActivated(itemStack, world));
-				}
-				return activated;
+                ItemStack activated = itemStack.copy();
+                if (isActivated(itemStack, world)) {
+                    activated.getOrCreateTag().remove(ItemHelpers.NBT_KEY_ENABLED);
+                    if (activated.getTag().isEmpty()) {
+                        activated.setTag(null);
+                    }
+                } else {
+                    activated.getOrCreateTag().putBoolean(ItemHelpers.NBT_KEY_ENABLED, !isActivated(itemStack, world));
+                }
+                return activated;
             }
             return itemStack;
-		}
-		return itemStack;
-	}
+        }
+        return itemStack;
+    }
 
-	@Override
-	public boolean isActivated(ItemStack itemStack, Level world) {
-		return ItemHelpers.isActivated(itemStack);
-	}
+    @Override
+    public boolean isActivated(ItemStack itemStack, Level world) {
+        return ItemHelpers.isActivated(itemStack);
+    }
 
-	@Override
-	public int getLightEmission(BlockState state, BlockGetter world, BlockPos blockPos) {
-		BlockEntity tile = world.getBlockEntity(blockPos);
-		if(tile != null && tile instanceof BlockEntityEntangledChalice) {
-			BlockEntityEntangledChalice tank = (BlockEntityEntangledChalice) tile;
-			Fluid fluidType = tank.getTank().getFluidType();
-			if(fluidType != null) {
-				return (int) Math.min(15, tank.getFillRatio() * fluidType.getAttributes().getLuminosity());
-			}
-		}
-		return 0;
-	}
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter world, BlockPos blockPos) {
+        BlockEntity tile = world.getBlockEntity(blockPos);
+        if(tile != null && tile instanceof BlockEntityEntangledChalice) {
+            BlockEntityEntangledChalice tank = (BlockEntityEntangledChalice) tile;
+            Fluid fluidType = tank.getTank().getFluidType();
+            if(fluidType != null) {
+                return (int) Math.min(15, tank.getFillRatio() * fluidType.getAttributes().getLuminosity());
+            }
+        }
+        return 0;
+    }
 
-	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
-		// Can be null during startup
-		if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null) {
-			ItemStack itemStack = new ItemStack(this);
-			ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
-			fluidHandler.setTankID("creative");
-			list.add(itemStack);
-		}
-	}
+    @Override
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
+        // Can be null during startup
+        if (CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY != null) {
+            ItemStack itemStack = new ItemStack(this);
+            ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
+            fluidHandler.setTankID("creative");
+            list.add(itemStack);
+        }
+    }
 
     @Override
     public Rarity getRarity(ItemStack itemStack) {

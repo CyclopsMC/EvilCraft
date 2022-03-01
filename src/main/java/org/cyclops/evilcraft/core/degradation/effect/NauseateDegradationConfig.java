@@ -16,5 +16,5 @@ public class NauseateDegradationConfig extends DegradationEffectConfig {
                 3
         );
     }
-    
+
 }

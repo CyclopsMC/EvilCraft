@@ -23,5 +23,5 @@ public class BlockDarkPowerGemConfig extends BlockConfig {
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-    
+
 }

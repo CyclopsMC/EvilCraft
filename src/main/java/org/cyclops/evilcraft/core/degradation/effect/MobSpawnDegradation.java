@@ -20,16 +20,16 @@ import java.util.Optional;
  *
  */
 public class MobSpawnDegradation extends StochasticDegradationEffect {
-    
+
     private static final double CHANCE = 0.01D;
-    
+
     public MobSpawnDegradation(DegradationEffectConfig eConfig) {
         super(eConfig, CHANCE);
     }
-    
+
     @Override
     public void runClientSide(IDegradable degradable) {
-        
+
     }
 
     @SuppressWarnings("unchecked")

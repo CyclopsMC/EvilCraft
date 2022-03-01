@@ -21,5 +21,5 @@ public class ItemVengeanceEssenceConfig extends ItemConfig {
                         .rarity(Rarity.EPIC))
         );
     }
-    
+
 }

@@ -120,22 +120,22 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
     public static void overridePlayerDropInner(String playerId, ItemStack drop) {
         PLAYERDROP_OVERRIDES_INNER.put(UUID.fromString(playerId), WeightedItemStack.createWeightedList(Sets.newHashSet(new WeightedItemStack(drop, 1))));
     }
-    
+
     @Override
     public boolean canTick(BlockEntitySpiritFurnace tile, ItemStack itemStack, int slot, int tick) {
         if(!tile.isForceHalt() && !tile.isCaughtError() && tile.canWork()
                 && tile.getTank().getFluidAmount() >= getRequiredMb(tile, 0)
-        		&& !getCookStack(tile).isEmpty() && tile.getTileWorkingMetadata().canConsume(getCookStack(tile), tile.getLevel())) {
-        	for(int slotId : tile.getProduceSlots()) {
-	        	ItemStack production = tile.getInventory().getItem(slotId);
-	            if(production == null || production.getCount() < production.getMaxStackSize()) {
-	            	return tile.isSizeValidForEntity();
-	            }
+                && !getCookStack(tile).isEmpty() && tile.getTileWorkingMetadata().canConsume(getCookStack(tile), tile.getLevel())) {
+            for(int slotId : tile.getProduceSlots()) {
+                ItemStack production = tile.getInventory().getItem(slotId);
+                if(production == null || production.getCount() < production.getMaxStackSize()) {
+                    return tile.isSizeValidForEntity();
+                }
             }
         }
         return false;
     }
-    
+
     protected ItemStack getCookStack(BlockEntitySpiritFurnace tile) {
         return tile.getInventory().getItem(tile.getConsumeSlot());
     }
@@ -150,15 +150,15 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
     protected ItemStack getPlayerDeterminedDrop(String playerId) {
         return PLAYERDROP_RANDOM[Math.abs(playerId.hashCode() % PLAYERDROP_RANDOM.length)].copy();
     }
-    
+
     protected void doNextDrop(BlockEntitySpiritFurnace tile) {
-    	Entity entityRaw = tile.getEntity();
-    	if(entityRaw instanceof LivingEntity) {
+        Entity entityRaw = tile.getEntity();
+        if(entityRaw instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) entityRaw;
             Level world = tile.getLevel();
-			
-			// Send sound to client
-			SoundEvent deathSound = entity.getDeathSound();
+
+            // Send sound to client
+            SoundEvent deathSound = entity.getDeathSound();
             if(BlockSpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
                 BlockPos pos = tile.getBlockPos();
                 world.playSound(null, pos, deathSound, entity.getSoundSource(), 0.5F + world.random.nextFloat() * 0.2F, 1.0F);
@@ -221,7 +221,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                     }
                 }
             }
-		}
+        }
     }
 
     private Map<String, List<WeightedItemStack>> getPlayerDropOverrides() {
@@ -294,23 +294,23 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         return MathHelpers.factorToBursts(drain.getValue(), tick);
     }
 
-	@Override
-	public void onTick(BlockEntitySpiritFurnace tile, ItemStack itemStack, int slot,
+    @Override
+    public void onTick(BlockEntitySpiritFurnace tile, ItemStack itemStack, int slot,
                        int tick) {
-		// Drain the tank a bit.
-		tile.getTank().drain(getRequiredMb(tile, tick), IFluidHandler.FluidAction.EXECUTE);
-		if(tick >= getRequiredTicks(tile, slot, tick)) {
-			doNextDrop(tile);
-		}
-	}
+        // Drain the tank a bit.
+        tile.getTank().drain(getRequiredMb(tile, tick), IFluidHandler.FluidAction.EXECUTE);
+        if(tick >= getRequiredTicks(tile, slot, tick)) {
+            doNextDrop(tile);
+        }
+    }
 
-	@Override
-	public float getRequiredTicks(BlockEntitySpiritFurnace tile, int slot, int tick) {
+    @Override
+    public float getRequiredTicks(BlockEntitySpiritFurnace tile, int slot, int tick) {
         int requiredTicksBase;
-		Entity entity = tile.getEntity();
-		if(entity == null) {
+        Entity entity = tile.getEntity();
+        if(entity == null) {
             requiredTicksBase = BlockSpiritFurnaceConfig.requiredTicksPerHp;
-		} else {
+        } else {
             try {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 requiredTicksBase = (int) ((livingEntity.getHealth() + livingEntity.getArmorValue()) * BlockSpiritFurnaceConfig.requiredTicksPerHp);
@@ -321,6 +321,6 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         MutableDouble duration = new MutableDouble(requiredTicksBase);
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableDouble>(duration, BlockEntitySpiritFurnace.UPGRADEEVENT_SPEED));
         return (int) (double) duration.getValue();
-	}
-    
+    }
+
 }

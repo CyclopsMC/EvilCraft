@@ -149,7 +149,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         // Initialize info book
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
                 OriginsOfDarknessBook.getInstance(), "/data/" + Reference.MOD_ID + "/info/book.xml");
-        
+
         // Add custom panorama's
         if (MinecraftHelpers.isClientSide()) {
             ContainerScreenMainMenuEvilifier.evilifyMainMenu();
@@ -438,7 +438,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
     public static void clog(String message) {
         clog(message, Level.INFO);
     }
-    
+
     /**
      * Log a new message of the given level for this mod.
      * @param message The message to show.
@@ -447,5 +447,5 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
     public static void clog(String message, Level level) {
         EvilCraft._instance.getLoggerHelper().log(level, message);
     }
-    
+
 }

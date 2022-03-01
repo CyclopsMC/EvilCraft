@@ -51,171 +51,171 @@ import static org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure.N
  */
 public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockRarityProvider {
 
-	public static final String FORGOTTEN_PLAYER = "Forgotten Player";
-	private static final int LIGHT_LEVEL = 6;
+    public static final String FORGOTTEN_PLAYER = "Forgotten Player";
+    private static final int LIGHT_LEVEL = 6;
 
-	public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
+    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
 
-	public static final VoxelShape SHAPE_EW = Block.box(0.25F * 16F, 0F, 0.0F, 0.75F * 16F, 0.43F * 16F, 1.0F * 16F);
-	public static final VoxelShape SHAPE_NS = Block.box(0.0F, 0F, 0.25F * 16F, 1.0F * 16F, 0.43F * 16F, 0.75F * 16F);
+    public static final VoxelShape SHAPE_EW = Block.box(0.25F * 16F, 0F, 0.0F, 0.75F * 16F, 0.43F * 16F, 1.0F * 16F);
+    public static final VoxelShape SHAPE_NS = Block.box(0.0F, 0F, 0.25F * 16F, 1.0F * 16F, 0.43F * 16F, 0.75F * 16F);
 
-	public static ItemStack boxOfEternalClosureFilled;
+    public static ItemStack boxOfEternalClosureFilled;
 
-	public BlockBoxOfEternalClosure(Block.Properties properties) {
+    public BlockBoxOfEternalClosure(Block.Properties properties) {
         super(properties, BlockEntityBoxOfEternalClosure::new);
 
-		this.registerDefaultState(this.stateDefinition.any()
-				.setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH));
 
-		MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
-	@Override
-	@Nullable
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-		return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE, level.isClientSide ? new BlockEntityBoxOfEternalClosure.TickerClient() : new BlockEntityBoxOfEternalClosure.TickerServer());
-	}
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE, level.isClientSide ? new BlockEntityBoxOfEternalClosure.TickerClient() : new BlockEntityBoxOfEternalClosure.TickerServer());
+    }
 
-	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
-	}
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
+    }
 
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
-	}
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		Direction rotation = state.getValue(FACING);
-		return rotation == Direction.EAST || rotation == Direction.WEST ? SHAPE_EW : SHAPE_NS;
-	}
-    
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+        Direction rotation = state.getValue(FACING);
+        return rotation == Direction.EAST || rotation == Direction.WEST ? SHAPE_EW : SHAPE_NS;
+    }
+
     @Override
     public RenderShape getRenderShape(BlockState blockState) {
-    	return RenderShape.MODEL;
-    }
-
-	@Nullable
-    public static EntityType<?> getSpiritTypeWithFallbackSpirit(ItemStack itemStack) {
-		if (hasPlayer(itemStack)) {
-			return EntityType.ZOMBIE;
-		}
-		EntityType<?> spiritType = getSpiritTypeRaw(itemStack.getTag());
-		if (spiritType == null && itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
-			return RegistryEntries.ENTITY_VENGEANCE_SPIRIT;
-		}
-		return spiritType;
+        return RenderShape.MODEL;
     }
 
     @Nullable
-	public static EntityType<?> getSpiritTypeRaw(@Nullable CompoundTag tag) {
-		return BlockEntityBoxOfEternalClosure.getSpiritType(tag);
-	}
-    
+    public static EntityType<?> getSpiritTypeWithFallbackSpirit(ItemStack itemStack) {
+        if (hasPlayer(itemStack)) {
+            return EntityType.ZOMBIE;
+        }
+        EntityType<?> spiritType = getSpiritTypeRaw(itemStack.getTag());
+        if (spiritType == null && itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
+            return RegistryEntries.ENTITY_VENGEANCE_SPIRIT;
+        }
+        return spiritType;
+    }
+
+    @Nullable
+    public static EntityType<?> getSpiritTypeRaw(@Nullable CompoundTag tag) {
+        return BlockEntityBoxOfEternalClosure.getSpiritType(tag);
+    }
+
     /**
      * Put a vengeance swarm inside the given box.
      * @param itemStack The box.
      */
     public static void setVengeanceSwarmContent(ItemStack itemStack) {
-    	CompoundTag tag = new CompoundTag();
-    	CompoundTag spiritTag = new CompoundTag();
+        CompoundTag tag = new CompoundTag();
+        CompoundTag spiritTag = new CompoundTag();
 
-		EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
-		spiritData.setSwarm(true);
-		spiritData.setRandomSwarmTier(new Random());
-		spiritData.writeNBT(spiritTag);
+        EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
+        spiritData.setSwarm(true);
+        spiritData.setRandomSwarmTier(new Random());
+        spiritData.writeNBT(spiritTag);
 
-		tag.put(NBTKEY_SPIRIT, spiritTag);
-		itemStack.setTag(tag);
+        tag.put(NBTKEY_SPIRIT, spiritTag);
+        itemStack.setTag(tag);
     }
 
-	/**
-	 * Put a player inside the given box.
-	 * @param itemStack The box.
-	 * @param playerId The player id to set.
-	 */
-	public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
-		CompoundTag tag = new CompoundTag();
-		CompoundTag spiritTag = new CompoundTag();
+    /**
+     * Put a player inside the given box.
+     * @param itemStack The box.
+     * @param playerId The player id to set.
+     */
+    public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
+        CompoundTag tag = new CompoundTag();
+        CompoundTag spiritTag = new CompoundTag();
 
-		EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
-		spiritData.setPlayerId(playerId.toString());
-		spiritData.setPlayerName(FORGOTTEN_PLAYER);
-		tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
-		tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
-		spiritData.writeNBT(spiritTag);
+        EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
+        spiritData.setPlayerId(playerId.toString());
+        spiritData.setPlayerName(FORGOTTEN_PLAYER);
+        tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
+        tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
+        spiritData.writeNBT(spiritTag);
 
-		tag.put(NBTKEY_SPIRIT, spiritTag);
-		itemStack.setTag(tag);
-	}
+        tag.put(NBTKEY_SPIRIT, spiritTag);
+        itemStack.setTag(tag);
+    }
 
-	public static String getPlayerName(ItemStack itemStack) {
-		if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, Tag.TAG_STRING)) {
-			return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME);
-		}
-		return "";
-	}
+    public static String getPlayerName(ItemStack itemStack) {
+        if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, Tag.TAG_STRING)) {
+            return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME);
+        }
+        return "";
+    }
 
-	public static String getPlayerId(ItemStack itemStack) {
-		if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, Tag.TAG_STRING)) {
-			return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID);
-		}
-		return "";
-	}
+    public static String getPlayerId(ItemStack itemStack) {
+        if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, Tag.TAG_STRING)) {
+            return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID);
+        }
+        return "";
+    }
 
-	public static boolean hasPlayer(ItemStack itemStack) {
-		return !getPlayerId(itemStack).isEmpty();
-	}
+    public static boolean hasPlayer(ItemStack itemStack) {
+        return !getPlayerId(itemStack).isEmpty();
+    }
 
-	@Override
-	public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-		return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
-	}
+    @Override
+    public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
+        return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
+    }
 
-	@Override
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
-		if (!worldIn.isAreaLoaded(pos, 1))
-			return;
-		if (!state.isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
-			worldIn.destroyBlock(pos, true);
-		}
-	}
+    @Override
+    public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+        if (!worldIn.isAreaLoaded(pos, 1))
+            return;
+        if (!state.isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
+            worldIn.destroyBlock(pos, true);
+        }
+    }
 
-	@Override
-	public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
-		if (!stateIn.isFaceSturdy(worldIn, currentPos.below(), Direction.UP)) {
-			worldIn.scheduleTick(currentPos, this, 1);
-		}
-		return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-	}
+    @Override
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (!stateIn.isFaceSturdy(worldIn, currentPos.below(), Direction.UP)) {
+            worldIn.scheduleTick(currentPos, this, 1);
+        }
+        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+    }
 
-	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult blockRayTraceResult) {
-		return BlockEntityHelpers.get(worldIn, pos, BlockEntityBoxOfEternalClosure.class)
-				.map(tile -> {
-					if (tile.isClosed()) {
-						tile.open();
-						return InteractionResult.SUCCESS;
-					}
-					return super.use(state, worldIn, pos, player, handIn, blockRayTraceResult);
-				})
-				.orElseGet(() -> super.use(state, worldIn, pos, player, handIn, blockRayTraceResult));
-	}
+    @Override
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult blockRayTraceResult) {
+        return BlockEntityHelpers.get(worldIn, pos, BlockEntityBoxOfEternalClosure.class)
+                .map(tile -> {
+                    if (tile.isClosed()) {
+                        tile.open();
+                        return InteractionResult.SUCCESS;
+                    }
+                    return super.use(state, worldIn, pos, player, handIn, blockRayTraceResult);
+                })
+                .orElseGet(() -> super.use(state, worldIn, pos, player, handIn, blockRayTraceResult));
+    }
 
-	@Override
-	public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-		return BlockEntityHelpers.get(world, pos, BlockEntityBoxOfEternalClosure.class)
-				.map(tile -> tile.getLidAngle() > 0 ? LIGHT_LEVEL : super.getLightEmission(state, world, pos))
-				.orElse(0);
-	}
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
+        return BlockEntityHelpers.get(world, pos, BlockEntityBoxOfEternalClosure.class)
+                .map(tile -> tile.getLidAngle() > 0 ? LIGHT_LEVEL : super.getLightEmission(state, world, pos))
+                .orElse(0);
+    }
 
-	@Override
-	public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-		items.add(new ItemStack(this));
-		items.add(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.boxOfEternalClosureFilled);
-	}
+    @Override
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+        items.add(new ItemStack(this));
+        items.add(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.boxOfEternalClosureFilled);
+    }
 
     @Override
     public Rarity getRarity(ItemStack itemStack) {

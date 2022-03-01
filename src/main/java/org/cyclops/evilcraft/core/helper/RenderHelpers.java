@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public class RenderHelpers {
-    
+
     /**
      * An icon that contains to texture, useful for when you want to render nothing.
      */

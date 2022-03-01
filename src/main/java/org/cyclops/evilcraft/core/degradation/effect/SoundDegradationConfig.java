@@ -16,5 +16,5 @@ public class SoundDegradationConfig extends DegradationEffectConfig {
                 3
         );
     }
-    
+
 }

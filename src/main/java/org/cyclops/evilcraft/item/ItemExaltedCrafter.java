@@ -55,32 +55,32 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
         this.wooden = wooden;
         this.empowered = empowered;
     }
-    
+
     @Override
     public boolean isFoil(ItemStack itemStack){
-    	return isEmpowered(itemStack);
+        return isEmpowered(itemStack);
     }
-    
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public Rarity getRarity(ItemStack itemStack){
         return isEmpowered(itemStack) ? Rarity.UNCOMMON : super.getRarity(itemStack);
     }
-    
+
     @Override
-	public boolean isEmpowered(ItemStack itemStack) {
-    	return empowered;
+    public boolean isEmpowered(ItemStack itemStack) {
+        return empowered;
     }
-    
+
     @Override
-	public ItemStack empower(ItemStack itemStack) {
+    public ItemStack empower(ItemStack itemStack) {
         ItemStack newStack = new ItemStack(wooden ? RegistryEntries.ITEM_EXALTED_CRAFTER_WOODEN_EMPOWERED : RegistryEntries.ITEM_EXALTED_CRAFTER_EMPOWERED);
         if (itemStack.hasTag()) {
             newStack.setTag(itemStack.getTag().copy());
         }
         return newStack;
     }
-    
+
     /**
      * Get the supplementary inventory of the given crafter.
      * @param player The player using the crafter.
@@ -90,20 +90,20 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
      * @return The inventory.
      */
     public Container getSupplementaryInventory(Player player, ItemStack itemStack, int itemIndex, InteractionHand hand) {
-    	if(this.wooden) {
-    		return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
-    	}
-    	return player.getEnderChestInventory();
+        if(this.wooden) {
+            return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
+        }
+        return player.getEnderChestInventory();
     }
-    
+
     @Override
     public boolean hasCustomEntity(ItemStack itemStack) {
-    	return true;
+        return true;
     }
-    
+
     @Override
     public Entity createEntity(Level world, Entity location, ItemStack itemStack) {
-    	return new EntityItemEmpowerable(world, (ItemEntity) location);
+        return new EntityItemEmpowerable(world, (ItemEntity) location);
     }
 
     public static void setReturnToInner(ItemStack itemStack, boolean returnToInner) {

@@ -13,29 +13,29 @@ import net.minecraft.world.level.Level;
  */
 public abstract class EntityItemIndestructable extends EntityItemExtended {
 
-	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, Level world, ItemEntity original) {
+    public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, Level world, ItemEntity original) {
         super(type, world, original);
         init();
     }
 
-	public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, Level world) {
+    public EntityItemIndestructable(EntityType<? extends EntityItemIndestructable> type, Level world) {
         super(type, world);
         init();
     }
-    
+
     private void init() {
         if(isUndespawnable()) {
             this.lifespan = Integer.MAX_VALUE;
         }
     }
-	
-	protected boolean isIndestructable() {
-		return true;
-	}
-	
-	protected boolean isUndespawnable() {
-		return isIndestructable();
-	}
+
+    protected boolean isIndestructable() {
+        return true;
+    }
+
+    protected boolean isUndespawnable() {
+        return isIndestructable();
+    }
 
     @Override
     public boolean fireImmune() {

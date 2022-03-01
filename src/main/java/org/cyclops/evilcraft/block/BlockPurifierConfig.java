@@ -35,5 +35,5 @@ public class BlockPurifierConfig extends BlockConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

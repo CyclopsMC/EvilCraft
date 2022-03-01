@@ -71,5 +71,5 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
     public void onClientSetup(FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
-    
+
 }

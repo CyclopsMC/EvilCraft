@@ -12,15 +12,15 @@ import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
  *
  */
 public class DegradationExecutor {
-    
+
     private static final String ROOT_TAG = "degradationExecutor";
     private static final int DEFAULT_TICK_INTERVAL = 1;
-    
+
     private int tickInterval = DEFAULT_TICK_INTERVAL;
     private int currentTick = 0;
-    
+
     private IDegradable degradable;
-    
+
     /**
      * Make a new instance.
      * @param degradable The {@link IDegradable} this executor applies to.
@@ -28,7 +28,7 @@ public class DegradationExecutor {
     public DegradationExecutor(IDegradable degradable) {
         this.degradable = degradable;
     }
-    
+
     /**
      * Execute a random {@link IDegradationEffect} if the tick is at the correct value that
      * as defined in {@link DegradationExecutor#getTickInterval()}. Each time this method
@@ -62,7 +62,7 @@ public class DegradationExecutor {
         this.tickInterval = compound.getCompound(ROOT_TAG).getInt("tickInterval");
         this.currentTick = compound.getCompound(ROOT_TAG).getInt("currentTick");
     }
-    
+
     /**
      * Writes the data for this executor to NBT.
      * @param compound The tag to write to.
@@ -87,5 +87,5 @@ public class DegradationExecutor {
     public void setTickInterval(int tickInterval) {
         this.tickInterval = tickInterval;
     }
-    
+
 }

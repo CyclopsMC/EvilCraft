@@ -20,5 +20,5 @@ public class ItemLightningGrenadeConfig extends ItemConfig {
                         .stacksTo(16))
         );
     }
-    
+
 }

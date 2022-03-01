@@ -79,5 +79,5 @@ public class ItemPowerableHelpers {
         lines.add(new TranslatableComponent("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
                 .withStyle(ChatFormatting.BOLD));
     }
-	
+
 }

@@ -30,61 +30,61 @@ import org.cyclops.evilcraft.event.TextureStitchEventHook;
 
 /**
  * Proxy for the client side.
- * 
+ *
  * @author rubensworks
- * 
+ *
  */
 public class ClientProxy extends ClientProxyComponent {
 
-	public ClientProxy() {
-		super(new CommonProxy());
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onPreTextureStitch);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelLoad);
-	}
+    public ClientProxy() {
+        super(new CommonProxy());
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onPreTextureStitch);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelLoad);
+    }
 
-	@Override
-	public ModBase getMod() {
-		return EvilCraft._instance;
-	}
+    @Override
+    public ModBase getMod() {
+        return EvilCraft._instance;
+    }
 
-	@Override
-	public void registerKeyBindings(IKeyRegistry keyRegistry) {
-		Options settings = Minecraft.getInstance().options;
+    @Override
+    public void registerKeyBindings(IKeyRegistry keyRegistry) {
+        Options settings = Minecraft.getInstance().options;
 
-		for (KeyMapping key : Keys.KEYS)
-			ClientRegistry.registerKeyBinding(key);
+        for (KeyMapping key : Keys.KEYS)
+            ClientRegistry.registerKeyBinding(key);
 
-		// Fart key
+        // Fart key
         FartKeyHandler fartKeyHandler = new FartKeyHandler();
 
         keyRegistry.addKeyHandler(Keys.FART, fartKeyHandler);
         keyRegistry.addKeyHandler(Keys.EXALTEDCRAFTING, new ExaltedCrafterKeyHandler());
         keyRegistry.addKeyHandler(settings.keyShift, fartKeyHandler);
 
-		EvilCraft.clog("Registered key bindings");
-	}
+        EvilCraft.clog("Registered key bindings");
+    }
 
-	@Override
-	public void registerEventHooks() {
-		super.registerEventHooks();
+    @Override
+    public void registerEventHooks() {
+        super.registerEventHooks();
 
-		MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
-		MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
-	}
+        MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
+        MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
+    }
 
-	public void onPreTextureStitch(TextureStitchEvent.Pre event) {
-		if (event.getAtlas().location().equals(RenderBlockEntityPurifier.TEXTURE_BLOOK.atlasLocation())) {
-			event.addSprite(RenderBlockEntityPurifier.TEXTURE_BLOOK.texture());
-		}
-	}
+    public void onPreTextureStitch(TextureStitchEvent.Pre event) {
+        if (event.getAtlas().location().equals(RenderBlockEntityPurifier.TEXTURE_BLOOK.atlasLocation())) {
+            event.addSprite(RenderBlockEntityPurifier.TEXTURE_BLOOK.texture());
+        }
+    }
 
-	public void onModelLoad(ModelRegistryEvent event) {
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
-		ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
-	}
-    
+    public void onModelLoad(ModelRegistryEvent event) {
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
+    }
+
 }

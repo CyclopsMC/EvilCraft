@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.geometry.IModelGeometry;
-import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
 
 import javax.annotation.Nullable;
 import java.util.Collection;

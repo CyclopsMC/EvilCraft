@@ -50,15 +50,15 @@ public class ItemKineticator extends ItemBloodContainer {
         super(properties, CONTAINER_SIZE);
         this.repelling = repelling;
     }
-    
+
     public boolean isRepelling(ItemStack itemStack) {
-    	return repelling;
+        return repelling;
     }
-    
+
     private int getArea(ItemStack itemStack) {
         return RANGE_PER_LEVEL * (getPower(itemStack) + 1);
     }
-    
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
@@ -67,7 +67,7 @@ public class ItemKineticator extends ItemBloodContainer {
         }
         return MinecraftHelpers.successAction(itemStack);
     }
-    
+
     @Override
     public boolean isFoil(ItemStack itemStack){
         return ItemHelpers.isActivated(itemStack);
@@ -100,7 +100,7 @@ public class ItemKineticator extends ItemBloodContainer {
     public void setPower(ItemStack itemStack, int power) {
         ItemPowerableHelpers.setPower(itemStack, power);
     }
-    
+
     @Override
     public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
         if(entity instanceof Player) {
@@ -108,22 +108,22 @@ public class ItemKineticator extends ItemBloodContainer {
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);
     }
-    
+
     @Override
     public boolean onEntityItemUpdate(ItemStack itemStack, ItemEntity entityItem) {
         kineticate(itemStack, entityItem.level, entityItem);
         return super.onEntityItemUpdate(itemStack, entityItem);
     }
-    
+
     @SuppressWarnings("unchecked")
     private void kineticate(ItemStack itemStack, Level world, Entity entity) {
         if(ItemHelpers.isActivated(itemStack) &&(FluidUtil.getFluidContained(itemStack) != null ||
                 (entity instanceof Player && canConsume(1, itemStack, (Player) entity))) &&
                 (entity != null && !entity.isCrouching())) {
             IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-        	boolean repelling = isRepelling(itemStack);
+            boolean repelling = isRepelling(itemStack);
             boolean isPlayer = entity instanceof Player;
-        	
+
             // Center of the attraction
             double x = entity.getX();
             double y = entity.getY();
@@ -218,15 +218,15 @@ public class ItemKineticator extends ItemBloodContainer {
                 entity.getX(), entity.getY(), entity.getZ(),
                 -dx, -dy, -dz);
     }
-    
+
     @Override
     public boolean hasCustomEntity(ItemStack itemStack) {
-    	return true;
+        return true;
     }
-    
+
     @Override
     public Entity createEntity(Level world, Entity location, ItemStack itemStack) {
-    	return new EntityItemUndespawnable(world, (ItemEntity) location);
+        return new EntityItemUndespawnable(world, (ItemEntity) location);
     }
 
 }

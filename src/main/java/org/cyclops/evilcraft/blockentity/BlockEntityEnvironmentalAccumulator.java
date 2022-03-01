@@ -63,18 +63,18 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     public static final int SPREAD = 25;
 
     private static final int ITEM_MOVE_COOLDOWN_DURATION = 1;
-    
+
     private static final double WEATHER_CONTAINER_MIN_DROP_HEIGHT = 0.0;
     private static final double WEATHER_CONTAINER_MAX_DROP_HEIGHT = 2.0;
-    private static final double WEATHER_CONTAINER_SPAWN_HEIGHT = 
+    private static final double WEATHER_CONTAINER_SPAWN_HEIGHT =
             BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount *
             BlockEnvironmentalAccumulatorConfig.defaultProcessItemSpeed + 1;
-    
+
     private static final float ITEM_MIN_SPAWN_HEIGHT = 1.0f;
-    
+
     private static final int DEGRADATION_RADIUS_BASE = 5;
     private static final int DEGRADATION_TICK_INTERVAL = 100;
-    
+
     private DegradationExecutor degradationExecutor;
     // This number rises with the number of uses of the env. accum.
     private int degradation = 0;
@@ -95,9 +95,9 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
      */
     private int state = 0;
     private int tick = 0;
-    
+
     private Inventory inventory;
-    
+
     // The recipe we're currently working on
     @Nullable
     private RecipeEnvironmentalAccumulator recipe;
@@ -106,20 +106,20 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     /**
      * Make a new instance.
      */
-	public BlockEntityEnvironmentalAccumulator(BlockPos blockPos, BlockState blockState) {
-	    super(RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR, blockPos, blockState);
-	    recreateBossInfo();
-	    
-	    degradationExecutor = new DegradationExecutor(this);
-	    
-	    inventory = new Inventory(this);
+    public BlockEntityEnvironmentalAccumulator(BlockPos blockPos, BlockState blockState) {
+        super(RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR, blockPos, blockState);
+        recreateBossInfo();
+
+        degradationExecutor = new DegradationExecutor(this);
+
+        inventory = new Inventory(this);
         addCapabilityInternal(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, LazyOptional.of(inventory::getItemHandler));
         inventory.addDirtyMarkListener(this);
-	    
-	    if (MinecraftHelpers.isClientSide()) {
-	        setBeamColor(getOuterColorByState(state));
-	    }
-	}
+
+        if (MinecraftHelpers.isClientSide()) {
+            setBeamColor(getOuterColorByState(state));
+        }
+    }
 
     public Inventory getInventory() {
         return inventory;
@@ -140,8 +140,8 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         Biome biome = getLevel().getBiome(getBlockPos());
         return Helpers.intToRGB(biome.getGrassColor(getBlockPos().getX(), getBlockPos().getZ()));
     }
-	
-	@OnlyIn(Dist.CLIENT)
+
+    @OnlyIn(Dist.CLIENT)
     private Vector4f getOuterColorByState(int state) {
         Triple<Float, Float, Float> baseColor = getBaseBeamColor();
         float coolFactor = (getMaxCooldownTick() - tick) / (float) getMaxCooldownTick();
@@ -152,49 +152,49 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         else
             return new Vector4f(baseColor.getLeft() * coolFactor, baseColor.getMiddle() * coolFactor, baseColor.getRight() * coolFactor, 0.13f);
     }
-	
-	/**
-	 * Get the maximum cooldown tick for accumulating weather.
-	 * @return The maximum cooldown tick.
-	 */
-	public int getMaxCooldownTick() {
-	    return (recipe == null) ? BlockEnvironmentalAccumulatorConfig.defaultTickCooldown : recipe.getCooldownTime();
-	}
-	
-	/**
-	 * Get the Y coordinate of the current moving item.
-	 * @return The Y coordinate of the inner item.
-	 */
-	@OnlyIn(Dist.CLIENT)
-	public float getMovingItemY() {
-	    if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM)
-	        return ITEM_MIN_SPAWN_HEIGHT + (getItemMoveDuration() - tick) * getItemMoveSpeed();
-	    else
-	        return -1;
-	}
-	
-	/**
-	 * Get the current recipe we're working on.
-	 * @return Returns the recipe being processed, or null in case we're
-	 *         not processing anything at the moment.
-	 */
-	public RecipeEnvironmentalAccumulator getRecipe() {
-	    return recipe;
-	}
-	
-	private int getItemMoveDuration() {
-	    if (recipe == null)
-	        return BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
-	    else
-	        return recipe.getDuration();
-	}
-	
-	private float getItemMoveSpeed() {
-	    if (recipe == null)
-	        return (float) BlockEnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
-	    else
-	        return (float) recipe.getProcessingSpeed();
-	}
+
+    /**
+     * Get the maximum cooldown tick for accumulating weather.
+     * @return The maximum cooldown tick.
+     */
+    public int getMaxCooldownTick() {
+        return (recipe == null) ? BlockEnvironmentalAccumulatorConfig.defaultTickCooldown : recipe.getCooldownTime();
+    }
+
+    /**
+     * Get the Y coordinate of the current moving item.
+     * @return The Y coordinate of the inner item.
+     */
+    @OnlyIn(Dist.CLIENT)
+    public float getMovingItemY() {
+        if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM)
+            return ITEM_MIN_SPAWN_HEIGHT + (getItemMoveDuration() - tick) * getItemMoveSpeed();
+        else
+            return -1;
+    }
+
+    /**
+     * Get the current recipe we're working on.
+     * @return Returns the recipe being processed, or null in case we're
+     *         not processing anything at the moment.
+     */
+    public RecipeEnvironmentalAccumulator getRecipe() {
+        return recipe;
+    }
+
+    private int getItemMoveDuration() {
+        if (recipe == null)
+            return BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
+        else
+            return recipe.getDuration();
+    }
+
+    private float getItemMoveSpeed() {
+        if (recipe == null)
+            return (float) BlockEnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
+        else
+            return (float) recipe.getProcessingSpeed();
+    }
 
     @Override
     public void setRemoved() {
@@ -262,8 +262,8 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     protected RecipeType<RecipeEnvironmentalAccumulator> getRegistry() {
         return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR;
     }
-	
-	private void updateEnvironmentalAccumulatorIdle() {
+
+    private void updateEnvironmentalAccumulatorIdle() {
         // Look for items thrown into the beam
         List<ItemEntity> entityItems = level.getEntitiesOfClass(ItemEntity.class,
                 new AABB(
@@ -300,84 +300,84 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
             }
         }
-	}
-	
-	private void decreaseStackSize(ItemEntity entityItem, int count) {
+    }
+
+    private void decreaseStackSize(ItemEntity entityItem, int count) {
         entityItem.getItem().shrink(count);
-	    
-	    if (entityItem.getItem().getCount() == 0)
-	        entityItem.remove(Entity.RemovalReason.DISCARDED);
-	}
-	
-	private void dropItemStack() {
-	    if (!level.isClientSide()) {
-	        // EntityItem that will contain the dropped itemstack
-	        ItemEntity entity = new ItemEntity(level, getBlockPos().getX(), getBlockPos().getY() + WEATHER_CONTAINER_SPAWN_HEIGHT, getBlockPos().getZ(), ItemStack.EMPTY);
-	        
-	        if (recipe == null) {
-	            // No recipe found, throw the item stack in the inventory back
-	            // (NOTE: this can be caused because of weather changes)
-	            entity.setItem(this.getInventory().getItem(0));
-	        } else {
-	            // Recipe found, throw back the result
-	            entity.setItem(recipe.assemble(getInventory()));
-	            
-	            // Change the weather to the resulting weather
-	            WeatherType weatherSource = recipe.getInputWeather();
+
+        if (entityItem.getItem().getCount() == 0)
+            entityItem.remove(Entity.RemovalReason.DISCARDED);
+    }
+
+    private void dropItemStack() {
+        if (!level.isClientSide()) {
+            // EntityItem that will contain the dropped itemstack
+            ItemEntity entity = new ItemEntity(level, getBlockPos().getX(), getBlockPos().getY() + WEATHER_CONTAINER_SPAWN_HEIGHT, getBlockPos().getZ(), ItemStack.EMPTY);
+
+            if (recipe == null) {
+                // No recipe found, throw the item stack in the inventory back
+                // (NOTE: this can be caused because of weather changes)
+                entity.setItem(this.getInventory().getItem(0));
+            } else {
+                // Recipe found, throw back the result
+                entity.setItem(recipe.assemble(getInventory()));
+
+                // Change the weather to the resulting weather
+                WeatherType weatherSource = recipe.getInputWeather();
                 if (weatherSource != null)
                     weatherSource.deactivate((ServerLevel) level);
 
                 WeatherType weatherResult = recipe.getOutputWeather();
                 if (weatherResult != null)
                     weatherResult.activate((ServerLevel) level);
-	        }
-	        
-    	    // Drop the items on the ground
+            }
+
+            // Drop the items on the ground
             level.addFreshEntity(entity);
-	    }
-	}
-	
-	private void activateIdleState() {
+        }
+    }
+
+    private void activateIdleState() {
         tick = 0;
         state = BlockEnvironmentalAccumulator.STATE_IDLE;
-        
+
         if (!level.isClientSide()) {
             sendUpdate();
             setChanged();
         }
     }
-	
-	private void activateProcessingItemState() {
-	    // Set the duration for processing the item
-	    if (recipe == null)
-	        tick = BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
-	    else
-	        tick = recipe.getDuration();
-	    
-	    state = BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM;
+
+    private void activateProcessingItemState() {
+        // Set the duration for processing the item
+        if (recipe == null)
+            tick = BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
+        else
+            tick = recipe.getDuration();
+
+        state = BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM;
 
         if (!level.isClientSide()) {
             sendUpdate();
             setChanged();
         }
-	}
-	
-	private void activateFinishedProcessingItemState() {
-	    tick = ITEM_MOVE_COOLDOWN_DURATION;
-	    state = BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM;
+    }
+
+    private void activateFinishedProcessingItemState() {
+        tick = ITEM_MOVE_COOLDOWN_DURATION;
+        state = BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM;
 
         if (!level.isClientSide()) {
             sendUpdate();
             setChanged();
         }
-	}
-	
-	private void activateCooldownState() {
-	    degradation++;
-	    degradationExecutor.setTickInterval(DEGRADATION_TICK_INTERVAL / degradation);
-	    
-	    tick = getMaxCooldownTick();
-	    state = BlockEnvironmentalAccumulator.STATE_COOLING_DOWN;
+    }
+
+    private void activateCooldownState() {
+        degradation++;
+        degradationExecutor.setTickInterval(DEGRADATION_TICK_INTERVAL / degradation);
+
+        tick = getMaxCooldownTick();
+        state = BlockEnvironmentalAccumulator.STATE_COOLING_DOWN;
 
         recipe = null;
 
@@ -385,78 +385,78 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
             sendUpdate();
             setChanged();
         }
-	}
-	
-	@Override
-	public void onUpdateReceived() {
-	    // If we receive an update from the server and our new state is the
-	    // finished processing item state, show the corresponding effect
-	    if (level.isClientSide() && state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
-	        // Show an effect indicating the item finished processing.
-	        this.level.globalLevelEvent(2002, getBlockPos().offset(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
-	    }
-	    
-	    // Change the beam colors if we receive an update
-	    setBeamColor(state);
-	}
-	
-	/**
-	 * Set the beam colors.
-	 * @param state The state to base the colors on.
-	 */
-	public void setBeamColor(int state) {
-        if (level.isClientSide()) {
-    	    setBeamColor(getOuterColorByState(state));
+    }
+
+    @Override
+    public void onUpdateReceived() {
+        // If we receive an update from the server and our new state is the
+        // finished processing item state, show the corresponding effect
+        if (level.isClientSide() && state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
+            // Show an effect indicating the item finished processing.
+            this.level.globalLevelEvent(2002, getBlockPos().offset(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
         }
-	}
+
+        // Change the beam colors if we receive an update
+        setBeamColor(state);
+    }
+
+    /**
+     * Set the beam colors.
+     * @param state The state to base the colors on.
+     */
+    public void setBeamColor(int state) {
+        if (level.isClientSide()) {
+            setBeamColor(getOuterColorByState(state));
+        }
+    }
 
     public int getState() {
         return state;
     }
 
     @Override
-	public void read(CompoundTag compound) {
-	    super.read(compound);
+    public void read(CompoundTag compound) {
+        super.read(compound);
 
         inventory.readFromNBT(compound, "inventory");
-	    
-	    degradation = compound.getInt("degradation");
-	    tick = compound.getInt("tick");
-	    state = compound.getInt("state");
+
+        degradation = compound.getInt("degradation");
+        tick = compound.getInt("tick");
+        state = compound.getInt("state");
 
         // Delay loading of recipe when world is set during ticking
-	    this.recipeId = compound.getString("recipe");
-	    
-	    degradationExecutor.read(compound);
+        this.recipeId = compound.getString("recipe");
+
+        degradationExecutor.read(compound);
 
         if (getLevel() != null && getLevel().isClientSide()) {
             setBeamColor(getOuterColorByState(state));
         }
-	}
-	
-	@Override
-	public void saveAdditional(CompoundTag tag) {
-	    super.saveAdditional(tag);
+    }
+
+    @Override
+    public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
 
         inventory.writeToNBT(tag, "inventory");
-	    
-	    tag.putInt("degradation", degradation);
-	    tag.putInt("tick", tick);
-	    tag.putInt("state", state);
-	    
-	    if (recipe != null)
-	        tag.putString("recipe", recipe.getId().toString());
-	    
-	    degradationExecutor.write(tag);
-	}
+
+        tag.putInt("degradation", degradation);
+        tag.putInt("tick", tick);
+        tag.putInt("state", state);
+
+        if (recipe != null)
+            tag.putString("recipe", recipe.getId().toString());
+
+        degradationExecutor.write(tag);
+    }
 
     public float getMaxHealth() {
         if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM)
             return getItemMoveDuration();
-        
+
         if (state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM)
             return 0;
-        
+
         return getMaxCooldownTick();
     }
 
@@ -466,13 +466,13 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
         if (state == BlockEnvironmentalAccumulator.STATE_COOLING_DOWN)
             return getMaxCooldownTick() - tick;
-        
+
         return getMaxCooldownTick();
     }
 
     @Override
     public BlockPos getLocation() {
-    	return getBlockPos();
+        return getBlockPos();
     }
 
     @Override
@@ -500,7 +500,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     public static class Inventory extends SimpleInventory implements RecipeEnvironmentalAccumulator.Inventory {
-	    private final BlockEntityEnvironmentalAccumulator tile;
+        private final BlockEntityEnvironmentalAccumulator tile;
 
         public Inventory(BlockEntityEnvironmentalAccumulator tile) {
             super(1, 64);

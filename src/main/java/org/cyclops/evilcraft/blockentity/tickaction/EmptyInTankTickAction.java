@@ -12,13 +12,13 @@ import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
  * @param <T> Extension of {@link BlockEntityTickingTankInventory} that has a tank.
  */
 public abstract class EmptyInTankTickAction<T extends BlockEntityTickingTankInventory<T>> implements ITickAction<T> {
-    
+
     protected final static int MB_PER_TICK = GeneralConfig.mbFlowRate;
-    
+
     @Override
     public boolean canTick(T tile, ItemStack itemStack, int slot, int tick) {
         return !tile.getTank().isFull()
                 && !itemStack.isEmpty();
     }
-    
+
 }

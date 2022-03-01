@@ -14,9 +14,9 @@ import org.cyclops.evilcraft.core.helper.RenderHelpers;
  *
  */
 public class TextureStitchEventHook {
-    
+
     protected static final String EMPTY_ICON_NAME = "empty";
-    
+
     /**
      * Before the texture stitching.
      * @param event The received event.

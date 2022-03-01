@@ -19,5 +19,5 @@ public class ItemMaceOfDistortionConfig extends ItemConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
     }
-    
+
 }

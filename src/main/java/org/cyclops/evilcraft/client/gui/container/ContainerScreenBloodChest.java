@@ -18,8 +18,8 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
 public class ContainerScreenBloodChest extends ContainerScreenContainerTankInventory<ContainerBloodChest, BlockEntityBloodChest> {
 
     private static final int TEXTUREWIDTH = 196;
-	//private static final int TEXTUREHEIGHT = 166;
-    
+    //private static final int TEXTUREHEIGHT = 166;
+
     private static final int TANKWIDTH = 16;
     private static final int TANKHEIGHT = 58;
     private static final int TANKX = TEXTUREWIDTH;

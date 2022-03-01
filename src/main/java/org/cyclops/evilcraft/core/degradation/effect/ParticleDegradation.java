@@ -16,11 +16,11 @@ import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
  *
  */
 public class ParticleDegradation implements IDegradationEffect {
-    
+
     public ParticleDegradation(DegradationEffectConfig eConfig) {
 
     }
-    
+
     @Override
     public boolean canRun(IDegradable degradable) {
         return true;
@@ -32,11 +32,11 @@ public class ParticleDegradation implements IDegradationEffect {
         BlockPos center = degradable.getLocation();
         Level world = degradable.getDegradationWorld();
         int radius = degradable.getRadius();
-        
+
         double xCoord = center.getX() - radius + 2 * radius * world.random.nextFloat();
         double yCoord = center.getY() - radius + 2 * radius * world.random.nextFloat();
         double zCoord = center.getZ() - radius + 2 * radius * world.random.nextFloat();
-        
+
         double particleX = xCoord;
         double particleY = yCoord;
         double particleZ = zCoord;
@@ -52,7 +52,7 @@ public class ParticleDegradation implements IDegradationEffect {
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        
+
     }
-    
+
 }

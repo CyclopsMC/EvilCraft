@@ -22,7 +22,7 @@ import java.util.UUID;
  * Instances of this class are sent between client
  * and server to notify both about a farts which
  * are spawned.
- * 
+ *
  * @author immortaleeb
  *
  */
@@ -30,7 +30,7 @@ public class FartPacket extends PlayerPositionPacket {
 
     private static final int MAX_PARTICLES = 200;
     private static final int MIN_PARTICLES = 100;
-    
+
     private static final float CLIENT_PLAYER_Y_OFFSET = -0.8f;
     private static final float REMOTE_PLAYER_Y_OFFSET = 0.65f;
 
@@ -69,34 +69,34 @@ public class FartPacket extends PlayerPositionPacket {
     protected void performClientAction(Level world, Player player) {
         spawnFartParticles(world, player, position, true);
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     private void spawnFartParticles(
             Level world, Player player,
             Vec3 pos, boolean isClientSidePlayer) {
-        
+
         if (player == null)
             return;
-        
+
         Random rand = world.random;
         int numParticles = rand.nextInt(MAX_PARTICLES - MIN_PARTICLES) + MIN_PARTICLES;
         boolean rainbow = hasRainbowFart(player);
-        
+
         // Make corrections for the player rotation
         double yaw = (player.getYRot() * Math.PI) / 180;
         double playerXOffset = Math.sin(yaw) * 0.7;
         double playerZOffset = -Math.cos(yaw) * 0.7;
-        
+
         // Make corrections for the location of the player's bottom
         float playerYOffset = isClientSidePlayer ? REMOTE_PLAYER_Y_OFFSET : CLIENT_PLAYER_Y_OFFSET;
-        
+
         for (int i=0; i < numParticles; i++) {
             double extraDistance = rand.nextFloat() % 0.3;
-            
+
             double particleX = pos.x + playerXOffset + extraDistance;
             double particleY = pos.y + playerYOffset;
             double particleZ = pos.z + playerZOffset + extraDistance;
-            
+
             float particleMotionX = -0.5F + rand.nextFloat();
             float particleMotionY = -0.5F + rand.nextFloat();
             float particleMotionZ = -0.5F + rand.nextFloat();
@@ -104,7 +104,7 @@ public class FartPacket extends PlayerPositionPacket {
             world.addParticle(new ParticleFartData(rainbow), particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
-    
+
     /**
      * Check if the given player should have rainbow farts.
      * @param player The player to check.

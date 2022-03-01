@@ -14,9 +14,9 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
  *
  */
 public abstract class BloodInfuserTickAction implements ITickAction<BlockEntityBloodInfuser> {
-    
+
     protected final static int MB_PER_TICK = 100;
-    
+
     @Override
     public boolean canTick(BlockEntityBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         // Only allow ticking if production slot is empty or if the producing item is the same and
@@ -29,11 +29,11 @@ public abstract class BloodInfuserTickAction implements ITickAction<BlockEntityB
             } else if(!willProduce.isEmpty() && production.getItem() == willProduceItem(tile).getItem()) {
                 if(production.getCount() + willProduce.getCount() <= production.getMaxStackSize())
                     return true;
-            }                
+            }
         }
         return false;
     }
-    
+
     /**
      * Get the stack in the infusion slot.
      * @param tile The tile to check the slot for.
@@ -42,14 +42,14 @@ public abstract class BloodInfuserTickAction implements ITickAction<BlockEntityB
     public ItemStack getInfuseStack(BlockEntityBloodInfuser tile) {
         return tile.getInventory().getItem(tile.getTileWorkingMetadata().getConsumeSlot());
     }
-    
+
     /**
      * Get the item of the item that will be produced after infusion.
      * @param tile The tile that performs the infusion.
      * @return The item.
      */
     public abstract ItemStack willProduceItem(BlockEntityBloodInfuser tile);
-    
+
     /**
      * Try to add the given item to the production slot.
      * @param tile The tile where infusion happened.
@@ -57,7 +57,7 @@ public abstract class BloodInfuserTickAction implements ITickAction<BlockEntityB
      * @return If the item could be added or joined in the production slot.
      */
     public boolean addToProduceSlot(BlockEntityBloodInfuser tile, ItemStack itemStack) {
-    	return InventoryHelpers.addToSlot(tile.getInventory(), tile.getTileWorkingMetadata().getProduceSlot(), itemStack);
+        return InventoryHelpers.addToSlot(tile.getInventory(), tile.getTileWorkingMetadata().getProduceSlot(), itemStack);
     }
 
     /**
@@ -74,5 +74,5 @@ public abstract class BloodInfuserTickAction implements ITickAction<BlockEntityB
         Upgrades.sendEvent(tile, new UpgradeSensitiveEvent<MutableInt>(duration, BlockEntityBloodInfuser.UPGRADEEVENT_SPEED));
         return duration.getValue();
     }
-    
+
 }

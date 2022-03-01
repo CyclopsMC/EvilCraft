@@ -24,16 +24,16 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
     public ItemBloodPearlOfTeleportation(Item.Properties properties) {
         super(properties, 1000);
     }
-    
+
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(canConsume(100, itemStack, player)) {
             this.consume(100, itemStack, player);
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
-            
+
             if (!world.isClientSide()) {
-            	EntityBloodPearl pearl = new EntityBloodPearl(world, player);
+                EntityBloodPearl pearl = new EntityBloodPearl(world, player);
                 // MCP: shoot
                 pearl.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 0.0F);
                 pearl.setDeltaMovement(pearl.getDeltaMovement().multiply(3, 3, 3));
@@ -49,5 +49,5 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
     public Rarity getRarity(ItemStack itemStack) {
         return Rarity.UNCOMMON;
     }
-    
+
 }

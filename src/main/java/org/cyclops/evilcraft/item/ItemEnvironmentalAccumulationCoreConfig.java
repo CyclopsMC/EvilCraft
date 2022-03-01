@@ -27,5 +27,5 @@ public class ItemEnvironmentalAccumulationCoreConfig extends ItemConfig {
                 }
         );
     }
-    
+
 }

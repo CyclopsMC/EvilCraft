@@ -73,18 +73,18 @@ public class ParticleDarkSmoke extends TextureSheetParticle {
         quadSize = (1 - (float)age / lifetime) * 2;
     }
 
-	/**
-	 * If the particles for this should be shown as death particles.
-	 */
-	public void setDeathParticles() {
-		xd *= 2;
+    /**
+     * If the particles for this should be shown as death particles.
+     */
+    public void setDeathParticles() {
+        xd *= 2;
         yd *= 2;
         zd *= 2;
         gravity = 0.5F;
-        
+
         rCol = random.nextFloat() * 0.33125F;
         gCol = random.nextFloat() * 0.022187F;
         bCol = random.nextFloat() * 0.3945F;
-	}
+    }
 
 }

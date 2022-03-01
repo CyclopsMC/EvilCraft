@@ -62,9 +62,9 @@ public class ContainerColossalBloodChest extends ContainerTileWorking<BlockEntit
                 BlockEntityColossalBloodChest.TICKERS, BlockEntityColossalBloodChest.INVENTORY_SIZE_UPGRADES);
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, BlockEntityColossalBloodChest.SLOT_CONTAINER,
-        		SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
+                SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
                 RegistryEntries.FLUID_BLOOD)); // Container emptier
-        
+
         addChestSlots(CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, BlockEntityColossalBloodChest.SLOTS);

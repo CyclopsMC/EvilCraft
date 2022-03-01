@@ -30,92 +30,92 @@ import java.util.Map;
 
 /**
  * Renderer for a vengeance spirit
- * 
+ *
  * @author rubensworks
  *
  */
 public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit> {
 
-	private final RenderPlayerSpirit playerRenderer;
-	private final Map<GameProfile, GameProfile> checkedProfiles = Maps.newHashMap();
+    private final RenderPlayerSpirit playerRenderer;
+    private final Map<GameProfile, GameProfile> checkedProfiles = Maps.newHashMap();
 
     public RenderVengeanceSpirit(EntityRendererProvider.Context context, EntityVengeanceSpiritConfig config) {
         super(context);
-		playerRenderer = new RenderPlayerSpirit(context);
+        playerRenderer = new RenderPlayerSpirit(context);
     }
 
-	@Override
-	public void render(EntityVengeanceSpirit spirit, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
-    	super.render(spirit, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-		Mob innerEntity = spirit.getInnerEntity();
-		if(innerEntity != null && spirit.isVisible()) {
-			EntityRenderer render = entityRenderDispatcher.renderers.get(innerEntity.getType());
-			if(render != null && !spirit.isSwarm()) {
-				// Override the render type buffer so that it always returns buffers with alpha blend
-				MultiBufferSource bufferSub = renderType -> {
-					float uv = spirit.isFrozen() ? ((float)spirit.tickCount + partialTicks) * 0.01F : 1;
-					renderType = RenderType.energySwirl((spirit.isPlayer() ? playerRenderer : render).getTextureLocation(innerEntity), uv, uv);
-					return bufferIn.getBuffer(renderType);
-				};
-				
-				try {
-					if(spirit.isPlayer()) {
-						GameProfile gameProfile = new GameProfile(spirit.getPlayerUUID(), spirit.getPlayerName());
-						ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkin();
-						Minecraft minecraft = Minecraft.getInstance();
-						// Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
-						if(!checkedProfiles.containsKey(gameProfile)) {
-							Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
-							if (property == null) {
-								// The game profile enhanced with texture information.
-								GameProfile newGameProfile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(gameProfile, true);
-								checkedProfiles.put(gameProfile, newGameProfile);
-							}
-						} else {
-							Map map = minecraft.getSkinManager().getInsecureSkinInformation(checkedProfiles.get(gameProfile));
-							if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
-								resourcelocation = minecraft.getSkinManager().registerTexture((MinecraftProfileTexture) map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
-							}
-						}
-						playerRenderer.setPlayerTexture(resourcelocation);
-						playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
-					} else {
-						matrixStackIn.popPose();
-						render.render(innerEntity, entityYaw, 0, matrixStackIn, bufferSub, packedLightIn);
-						matrixStackIn.popPose();
-					}
-				} catch (Exception e) {
-					// Invalid entity, so set as swarm.
-					spirit.setSwarm(true);
-					spirit.setPlayerId(""); // Just in case the crash was caused by a player spirit.
-				}
-			}
-		}
-	}
+    @Override
+    public void render(EntityVengeanceSpirit spirit, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+        super.render(spirit, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        Mob innerEntity = spirit.getInnerEntity();
+        if(innerEntity != null && spirit.isVisible()) {
+            EntityRenderer render = entityRenderDispatcher.renderers.get(innerEntity.getType());
+            if(render != null && !spirit.isSwarm()) {
+                // Override the render type buffer so that it always returns buffers with alpha blend
+                MultiBufferSource bufferSub = renderType -> {
+                    float uv = spirit.isFrozen() ? ((float)spirit.tickCount + partialTicks) * 0.01F : 1;
+                    renderType = RenderType.energySwirl((spirit.isPlayer() ? playerRenderer : render).getTextureLocation(innerEntity), uv, uv);
+                    return bufferIn.getBuffer(renderType);
+                };
 
-	@Override
-	public ResourceLocation getTextureLocation(EntityVengeanceSpirit entity) {
-		return null;
-	}
+                try {
+                    if(spirit.isPlayer()) {
+                        GameProfile gameProfile = new GameProfile(spirit.getPlayerUUID(), spirit.getPlayerName());
+                        ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkin();
+                        Minecraft minecraft = Minecraft.getInstance();
+                        // Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
+                        if(!checkedProfiles.containsKey(gameProfile)) {
+                            Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
+                            if (property == null) {
+                                // The game profile enhanced with texture information.
+                                GameProfile newGameProfile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(gameProfile, true);
+                                checkedProfiles.put(gameProfile, newGameProfile);
+                            }
+                        } else {
+                            Map map = minecraft.getSkinManager().getInsecureSkinInformation(checkedProfiles.get(gameProfile));
+                            if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
+                                resourcelocation = minecraft.getSkinManager().registerTexture((MinecraftProfileTexture) map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
+                            }
+                        }
+                        playerRenderer.setPlayerTexture(resourcelocation);
+                        playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
+                    } else {
+                        matrixStackIn.popPose();
+                        render.render(innerEntity, entityYaw, 0, matrixStackIn, bufferSub, packedLightIn);
+                        matrixStackIn.popPose();
+                    }
+                } catch (Exception e) {
+                    // Invalid entity, so set as swarm.
+                    spirit.setSwarm(true);
+                    spirit.setPlayerId(""); // Just in case the crash was caused by a player spirit.
+                }
+            }
+        }
+    }
 
-	public static class RenderPlayerSpirit extends LivingEntityRenderer<Mob, PlayerModel<Mob>> {
+    @Override
+    public ResourceLocation getTextureLocation(EntityVengeanceSpirit entity) {
+        return null;
+    }
 
-		@Setter
-		private ResourceLocation playerTexture;
+    public static class RenderPlayerSpirit extends LivingEntityRenderer<Mob, PlayerModel<Mob>> {
 
-		public RenderPlayerSpirit(EntityRendererProvider.Context context) {
-			super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
-			this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
-			this.addLayer(new ItemInHandLayer<>(this));
-			this.addLayer(new ArrowLayer<>(context, this));
-			this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
-		}
+        @Setter
+        private ResourceLocation playerTexture;
 
-		@Override
-		public ResourceLocation getTextureLocation(Mob entity) {
-			return playerTexture;
-		}
+        public RenderPlayerSpirit(EntityRendererProvider.Context context) {
+            super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
+            this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+            this.addLayer(new ItemInHandLayer<>(this));
+            this.addLayer(new ArrowLayer<>(context, this));
+            this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
+        }
 
-	}
+        @Override
+        public ResourceLocation getTextureLocation(Mob entity) {
+            return playerTexture;
+        }
+
+    }
 
 }

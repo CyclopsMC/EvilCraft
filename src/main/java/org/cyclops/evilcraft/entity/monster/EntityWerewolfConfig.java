@@ -73,5 +73,5 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
         event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.4D);
         event.add(getInstance(), Attributes.ATTACK_DAMAGE, 7.0D);
     }
-    
+
 }

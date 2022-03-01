@@ -3,8 +3,6 @@ package org.cyclops.evilcraft.core.recipe.type;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.resources.ResourceLocation;
-import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulatorBiomeExtract;
-import org.cyclops.evilcraft.core.recipe.type.RecipeSerializerEnvironmentalAccumulatorAbstract;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 /**
