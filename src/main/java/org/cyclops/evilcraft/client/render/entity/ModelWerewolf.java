@@ -105,6 +105,8 @@ public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
                         .addBox(-5F, -10F, -5F, 10, 10, 10)
                         .mirror(),
                 PartPose.offset(0F, -13F, 0F));
+        partdefinition.addOrReplaceChild("hat", CubeListBuilder.create(),
+                PartPose.offset(0F, 0F, 0F));
         partdefinition.addOrReplaceChild("bipedEar1", CubeListBuilder.create()
                         .texOffs(18, 0)
                         .addBox(-4F, -14F, 2F, 2, 4, 1)
