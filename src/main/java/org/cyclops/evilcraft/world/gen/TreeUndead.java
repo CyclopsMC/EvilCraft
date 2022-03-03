@@ -10,12 +10,13 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlac
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockUndeadSaplingConfig;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
- * A Menril tree.
+ * An undead tree.
  * @author rubensworks
  */
 public class TreeUndead extends AbstractTreeGrower {
@@ -34,7 +35,7 @@ public class TreeUndead extends AbstractTreeGrower {
     @Nullable
     @Override
     protected ConfiguredFeature<TreeConfiguration, ?> getConfiguredFeature(Random random, boolean b) {
-        return Feature.TREE.configured(getTreeConfig());
+        return BlockUndeadSaplingConfig.CONFIGURED_FEATURE_TREE;
     }
 
 }

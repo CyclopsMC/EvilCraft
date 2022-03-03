@@ -12,7 +12,7 @@ import org.cyclops.evilcraft.Reference;
  */
 public class WorldFeatures {
 
-    public static <FC extends FeatureConfiguration> ConfiguredFeature<FC, ?> register(String key, ConfiguredFeature<FC, ?> feature) {
+    public static <FC extends FeatureConfiguration> ConfiguredFeature<FC, ?> registerConfigured(String key, ConfiguredFeature<FC, ?> feature) {
         return Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, key), feature);
     }
 

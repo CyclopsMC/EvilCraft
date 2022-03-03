@@ -78,13 +78,13 @@ public class BlockInfestedNetherConfig extends BlockConfig {
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        if (event.getCategory() == Biome.BiomeCategory.NETHER) {
+        // Only for type netherrack, as this event will be invoked for all infested block types
+        if (this.type == BlockInfestedNether.Type.NETHERRACK && event.getCategory() == Biome.BiomeCategory.NETHER) {
             event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_DECORATION)
                     .add(() -> PLACED_FEATURE_NETHERFISH);
         }
 
-        // Only for type netherrack, as this event will be invoked for all infested block typess
-        if (this.type == BlockInfestedNether.Type.NETHERRACK && GeneralConfig.extraSilverfish
+        if (this.type != BlockInfestedNether.Type.NETHERRACK && GeneralConfig.extraSilverfish
                 && event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
             event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_DECORATION)
                     .add(() -> PLACED_FEATURE_SILVERFISH_EXTRA);
