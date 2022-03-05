@@ -17,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "item": "evilcraft:blood_extractor"
+            "items": [
+              "evilcraft:blood_extractor"
+            ]
           }
         ]
       }

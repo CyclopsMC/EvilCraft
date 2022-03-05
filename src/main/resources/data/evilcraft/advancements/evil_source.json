@@ -18,7 +18,9 @@
       "conditions": {
         "items": [
           {
-            "item": "evilcraft:origins_of_darkness"
+            "items": [
+              "evilcraft:origins_of_darkness"
+            ]
           }
         ]
       }

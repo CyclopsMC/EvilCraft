@@ -17,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "item": "evilcraft:spirit_furnace"
+            "items": [
+              "evilcraft:spirit_furnace"
+            ]
           }
         ]
       }

@@ -17,7 +17,9 @@
       "conditions": {
         "items": [
           {
-            "item": "evilcraft:dark_gem"
+            "items": [
+              "evilcraft:dark_gem"
+            ]
           }
         ]
       }
