@@ -15,6 +15,7 @@
             </section>
             <section name="info_book.evilcraft.first_age.new_world.dark_ore">
                 <tag>dark_ore</tag>
+                <tag>dark_ore_deepslate</tag>
                 <tag>dark_gem</tag>
                 <tag>dark_gem_crushed</tag>
                 <tag>dark_block</tag>

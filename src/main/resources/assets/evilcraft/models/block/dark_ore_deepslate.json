@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "evilcraft:block/dark_ore"
+    "all": "evilcraft:block/dark_ore_deepslate"
   }
 }

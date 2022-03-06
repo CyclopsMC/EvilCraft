@@ -190,7 +190,8 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
 
         // Blocks
         configHandler.addConfigurable(new BlockFluidBloodConfig());
-        configHandler.addConfigurable(new BlockDarkOreConfig());
+        configHandler.addConfigurable(new BlockDarkOreConfig(false));
+        configHandler.addConfigurable(new BlockDarkOreConfig(true));
         configHandler.addConfigurable(new BlockDarkConfig());
         configHandler.addConfigurable(new org.cyclops.evilcraft.block.BlockBloodStainConfig());
         configHandler.addConfigurable(new BlockLightningBombConfig());
