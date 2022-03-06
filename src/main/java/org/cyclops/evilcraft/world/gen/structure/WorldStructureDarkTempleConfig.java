@@ -22,7 +22,6 @@ import net.minecraft.world.level.levelgen.feature.StructureFeature;
 import net.minecraft.world.level.levelgen.StructureSettings;
 import net.minecraft.world.level.levelgen.feature.configurations.StructureFeatureConfiguration;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -96,9 +95,6 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
                 .forEach(m -> m.put(getInstance(), settings));
     }
 
-    public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-    }
-
     // Based on https://github.com/VazkiiMods/Quark/blob/ace90bfcc26db4c50a179f026134e2577987c2b1/src/main/java/vazkii/quark/content/world/module/BigDungeonModule.java
     public void addDimensionalSpacing(final WorldEvent.Load event) {
         if(WorldStructureDarkTempleConfig.enabled && event.getWorld() instanceof ServerLevel serverLevel){
@@ -115,14 +111,14 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig {
             }
 
             ImmutableMap.Builder<StructureFeature<?>, ImmutableMultimap<ConfiguredStructureFeature<?, ?>, ResourceKey<Biome>>> tempStructureToMultiMap = ImmutableMap.builder();
-            // worldStructureConfig.configuredStructures.entrySet().stream().filter(entry -> !STStructureToMultiMap.containsKey(entry.getKey())).forEach(tempStructureToMultiMap::put); // TODO: at
+            worldStructureConfig.configuredStructures.entrySet().stream().filter(entry -> !STStructureToMultiMap.containsKey(entry.getKey())).forEach(tempStructureToMultiMap::put);
 
             STStructureToMultiMap.forEach((key, value) -> tempStructureToMultiMap.put(key, ImmutableMultimap.copyOf(value)));
-            // worldStructureConfig.configuredStructures = tempStructureToMultiMap.build();  // TODO: at
+            worldStructureConfig.configuredStructures = tempStructureToMultiMap.build();
 
             Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(worldStructureConfig.structureConfig());
             tempMap.putIfAbsent(getInstance(), StructureSettings.DEFAULTS.get(getInstance()));
-            // worldStructureConfig.structureConfig = tempMap;  // TODO: at
+            worldStructureConfig.structureConfig = tempMap;
         }
     }
 

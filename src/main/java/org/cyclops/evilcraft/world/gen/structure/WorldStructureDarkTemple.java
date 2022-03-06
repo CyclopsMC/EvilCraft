@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
@@ -51,7 +52,13 @@ public class WorldStructureDarkTemple extends StructureFeature<NoneFeatureConfig
     }
 
     private static void generatePieces(StructurePiecesBuilder builder, PieceGenerator.Context<NoneFeatureConfiguration> context) {
-        builder.addPiece(new Piece(context.random(), context.chunkPos().getMinBlockX(), context.chunkPos().getMinBlockZ()));
+         int y = 9 + Mth.clamp(
+                 context.chunkGenerator().getFirstFreeHeight(context.chunkPos().getMiddleBlockX(), context.chunkPos().getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor()),
+                 WorldStructureDarkTempleConfig.darkTempleMinHeight,
+                 WorldStructureDarkTempleConfig.darkTempleMaxHeight
+         );
+        builder.addPiece(new Piece(context.random(),
+                context.chunkPos().getMinBlockX(), y, context.chunkPos().getMinBlockZ()));
     }
 
     @Override
@@ -60,8 +67,8 @@ public class WorldStructureDarkTemple extends StructureFeature<NoneFeatureConfig
     }
 
     public static class Piece extends WorldStructurePieceQuarterSymmetrical {
-        public Piece(Random random, int x, int z) {
-            super(WorldStructureDarkTempleConfig.PIECE_TYPE, x, 9 + WorldStructureDarkTempleConfig.darkTempleMinHeight + random.nextInt(WorldStructureDarkTempleConfig.darkTempleMaxHeight - WorldStructureDarkTempleConfig.darkTempleMinHeight), z, 9, 9, 9, getRandomHorizontalDirection(random));
+        public Piece(Random random, int x, int y, int z) {
+            super(WorldStructureDarkTempleConfig.PIECE_TYPE, x, y, z, 9, 9, 9, getRandomHorizontalDirection(random));
         }
 
         public Piece(CompoundTag tag) {
