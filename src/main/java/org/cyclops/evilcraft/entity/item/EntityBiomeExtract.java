@@ -2,10 +2,14 @@ package org.cyclops.evilcraft.entity.item;
 
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.QuartPos;
+import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -15,11 +19,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.ImposterProtoChunk;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Triple;
+import org.cyclops.cyclopscore.CyclopsCore;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -124,31 +133,49 @@ public class EntityBiomeExtract extends EntityThrowable {
      * @param biome The biome to change to.
      */
     public static void setBiome(ServerLevel world, BlockPos posIn, Biome biome) {
+        BiomeManager biomeManager = world.getBiomeManager();
         // Worldgen applies some funk "magnifier" position transformation to a "noise position",
         // which can change the pos into some other internal pos.
-        // In a hacky way, we can apply transformation as follows:
-        /*Wrapper<BlockPos> posWrapper = new Wrapper<>();
-        world.dimensionType().getBiomeZoomer().getBiome(world.getSeed(), posIn.getX(), posIn.getY(), posIn.getZ(), new BiomeManager.NoiseBiomeSource() {
-            @Override
-            public Biome getNoiseBiome(int x, int y, int z) {
-                posWrapper.set(new BlockPos(x, y, z));
-                return null;
+        // We copied the logic in BiomeManager#getBiome below:
+        int i = posIn.getX() - 2;
+        int j = posIn.getY() - 2;
+        int k = posIn.getZ() - 2;
+        int l = i >> 2;
+        int i1 = j >> 2;
+        int j1 = k >> 2;
+        double d0 = (double)(i & 3) / 4.0D;
+        double d1 = (double)(j & 3) / 4.0D;
+        double d2 = (double)(k & 3) / 4.0D;
+        int k1 = 0;
+        double d3 = Double.POSITIVE_INFINITY;
+
+        for(int l1 = 0; l1 < 8; ++l1) {
+            boolean flag = (l1 & 4) == 0;
+            boolean flag1 = (l1 & 2) == 0;
+            boolean flag2 = (l1 & 1) == 0;
+            int i2 = flag ? l : l + 1;
+            int j2 = flag1 ? i1 : i1 + 1;
+            int k2 = flag2 ? j1 : j1 + 1;
+            double d4 = flag ? d0 : d0 - 1.0D;
+            double d5 = flag1 ? d1 : d1 - 1.0D;
+            double d6 = flag2 ? d2 : d2 - 1.0D;
+            double d7 = BiomeManager.getFiddledDistance(biomeManager.biomeZoomSeed, i2, j2, k2, d4, d5, d6);
+            if (d3 > d7) {
+                k1 = l1;
+                d3 = d7;
             }
-        });
+        }
+
+        int l2 = (k1 & 4) == 0 ? l : l + 1;
+        int i3 = (k1 & 2) == 0 ? i1 : i1 + 1;
+        int j3 = (k1 & 1) == 0 ? j1 : j1 + 1;
 
         // Update biome data in chunk
-        BlockPos noisePos = posWrapper.get();
-        ChunkAccess chunk = world.getChunk(noisePos.getX() >> 2, noisePos.getZ() >> 2, ChunkStatus.BIOMES, false);
+        ChunkAccess chunk = world.getChunk(QuartPos.toSection(l2), QuartPos.toSection(j3), ChunkStatus.BIOMES, false);
         if (chunk instanceof ImposterProtoChunk) {
-            //chunk = ((ChunkPrimerWrapper) chunk).getChunk();
+            chunk = ((ImposterProtoChunk) chunk).getWrapped();
         }
         if(chunk != null) {
-            // Update biome in chunk
-            Biome[] biomeArray = chunk.getBiomes().biomes;
-            int i = noisePos.getX() & ChunkBiomeContainer.HORIZONTAL_MASK;
-            int j = Mth.clamp(noisePos.getY(), 0, ChunkBiomeContainer.VERTICAL_MASK);
-            int k = noisePos.getZ() & ChunkBiomeContainer.HORIZONTAL_MASK;
-
             // HACK
             // Due to some weird thing in MC, different instances of the same biome can exist.
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
@@ -156,12 +183,19 @@ public class EntityBiomeExtract extends EntityThrowable {
             Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
             Biome biomeHack = biomeRegistry.get(ResourceKey.create(Registry.BIOME_REGISTRY, biome.getRegistryName()));
 
-            biomeArray[j << ChunkBiomeContainer.WIDTH_BITS + ChunkBiomeContainer.WIDTH_BITS | k << ChunkBiomeContainer.WIDTH_BITS | i] = biomeHack;
+            // Update biome in chunk
+            // Based on ChunkAccess#getNoiseBiome
+            int minBuildHeight = QuartPos.fromBlock(chunk.getMinBuildHeight());
+            int maxHeight = minBuildHeight + QuartPos.fromBlock(chunk.getHeight()) - 1;
+            int dummyY = Mth.clamp(i3, minBuildHeight, maxHeight);
+            int sectionIndex = chunk.getSectionIndex(QuartPos.toBlock(dummyY));
+            //chunk.sections[sectionIndex].getNoiseBiome(l2 & 3, dummyY & 3, j3 & 3);
+            chunk.sections[sectionIndex].getBiomes().set(l2 & 3, dummyY & 3, j3 & 3, biomeHack);
+
             chunk.setUnsaved(true);
         } else {
-            CyclopsCore.clog(org.apache.logging.log4j.Level.WARN, "Tried changing biome at non-existing chunk for position " + noisePos);
-        }*/
-        // TODO: rewrite biome setting
+            CyclopsCore.clog(org.apache.logging.log4j.Level.WARN, "Tried changing biome at non-existing chunk for position " + posIn);
+        }
     }
 
     /**
@@ -173,8 +207,7 @@ public class EntityBiomeExtract extends EntityThrowable {
     public static void updateChunkAfterBiomeChange(Level world, ChunkPos chunkPos) {
         LevelChunk chunkSafe = world.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
         ((ServerChunkCache) world.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
-            // TODO: fix, and perhaps AT
-            // player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) world.getChunkSource()).chunkMap.getLightEngine(), (BitSet)null, (BitSet)null, true));
+            player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) world.getChunkSource()).chunkMap.getLightEngine(), null, null, true));
             EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
         });
     }
