@@ -40,7 +40,6 @@ org.cyclops.evilcraft.core.degradation.effect
 org.cyclops.evilcraft.core.entity.item
 org.cyclops.evilcraft.core.fluid
 org.cyclops.evilcraft.core.helper
-org.cyclops.evilcraft.core.helper.obfuscation
 org.cyclops.evilcraft.core.inventory
 org.cyclops.evilcraft.core.inventory.container
 org.cyclops.evilcraft.core.inventory.slot
