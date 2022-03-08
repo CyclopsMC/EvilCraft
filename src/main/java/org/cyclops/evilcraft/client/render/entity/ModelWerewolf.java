@@ -51,13 +51,8 @@ public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
 
     @Override
     public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        // Not sure why, but we need to redefine the body to be in its correct position
-        /*body = new ModelPart(this, 12, 20);
-        body.addBox(-7F, 0F, -6F, 14, 19, 12);
-        body.setPos(0F, -13F, 0F);
-        body.setTexSize(64, 135);
-        body.mirror = true;
-        setRotation(body, 0F, 0F, 0F);*/
+        // Not sure why, but we need to reset the y of the body to be in its correct position
+        body.y = -13F;
 
         head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         bipedEar1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
