@@ -463,7 +463,7 @@ public class EntityBroom extends Entity {
 
         // Apply speed modifier
         double playerSpeed = lastMounted.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
-        playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
+        playerSpeed += getModifier(BroomModifiers.SPEED) / 20;
         int amount = ItemBroomConfig.bloodUsage;
         LivingEntity currentRidingEntity = getControllingPassenger() instanceof LivingEntity ? (LivingEntity) getControllingPassenger() : null;
         float moveForward = canConsume(amount, currentRidingEntity) ? lastMounted.zza : lastMounted.zza / 10F;
