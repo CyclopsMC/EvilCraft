@@ -80,7 +80,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
                         playerRenderer.setPlayerTexture(resourcelocation);
                         playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
                     } else {
-                        matrixStackIn.popPose();
+                        matrixStackIn.pushPose();
                         render.render(innerEntity, entityYaw, 0, matrixStackIn, bufferSub, packedLightIn);
                         matrixStackIn.popPose();
                     }
