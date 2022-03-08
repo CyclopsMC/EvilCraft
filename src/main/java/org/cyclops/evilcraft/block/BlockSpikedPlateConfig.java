@@ -26,6 +26,7 @@ public class BlockSpikedPlateConfig extends BlockConfig {
                 EvilCraft._instance,
             "spiked_plate",
                 eConfig -> new BlockSpikedPlate(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(2.0F)
                         .sound(SoundType.STONE)
                         .noCollission()),

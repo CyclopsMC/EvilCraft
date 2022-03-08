@@ -45,6 +45,7 @@ public class BlockDarkOreConfig extends BlockConfig {
                 EvilCraft._instance,
             "dark_ore" + (deepslate ? "_deepslate" : ""),
                 eConfig -> new BlockDarkOre(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(3.0F)
                         .sound(SoundType.STONE)),
                 getDefaultItemConstructor(EvilCraft._instance)

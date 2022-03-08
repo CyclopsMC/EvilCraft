@@ -28,6 +28,7 @@ public class BlockSanguinaryPedestalConfig extends BlockConfig {
                 EvilCraft._instance,
             "sanguinary_pedestal_" + tier,
                 eConfig -> new BlockSanguinaryPedestal(Block.Properties.of(Material.METAL)
+                        .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.STONE)
                         .noOcclusion(), tier),

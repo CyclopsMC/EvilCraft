@@ -47,6 +47,7 @@ public class BlockBloodChestConfig extends BlockConfig {
                 EvilCraft._instance,
                 "blood_chest",
                 eConfig -> new BlockBloodChest(Block.Properties.of(Material.WOOD)
+                        .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.WOOD)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())

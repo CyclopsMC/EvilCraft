@@ -1,0 +1,31 @@
+{
+  "replace": false,
+  "values": [
+    "evilcraft:blood_chest",
+    "evilcraft:blood_infuser",
+    "evilcraft:blood_waxed_coal_block",
+    "evilcraft:bloody_cobblestone",
+    "evilcraft:box_of_eternal_closure",
+    "evilcraft:dark_blood_brick",
+    "evilcraft:dark_blood_brick_stairs",
+    "evilcraft:dark_brick",
+    "evilcraft:dark_brick_stairs",
+    "evilcraft:dark_block",
+    "evilcraft:dark_ore",
+    "evilcraft:dark_ore_deepslate",
+    "evilcraft:dark_power_gem_block",
+    "evilcraft:dark_tank",
+    "evilcraft:entangled_chalice",
+    "evilcraft:infested_nether_netherrack",
+    "evilcraft:infested_nether_nether_bricks",
+    "evilcraft:infested_nether_soul_sand",
+    "evilcraft:obscured_glass",
+    "evilcraft:purifier",
+    "evilcraft:sanguinary_environmental_accumulator",
+    "evilcraft:sanguinary_pedestal_0",
+    "evilcraft:sanguinary_pedestal_1",
+    "evilcraft:spiked_plate",
+    "evilcraft:spirit_furnace",
+    "evilcraft:spirit_reanimator"
+  ]
+}

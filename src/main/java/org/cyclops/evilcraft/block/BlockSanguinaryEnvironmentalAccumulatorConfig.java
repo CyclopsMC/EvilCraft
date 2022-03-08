@@ -26,6 +26,7 @@ public class BlockSanguinaryEnvironmentalAccumulatorConfig extends UpgradableBlo
                 EvilCraft._instance,
             "sanguinary_environmental_accumulator",
                 eConfig -> new BlockSanguinaryEnvironmentalAccumulator(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.STONE)),
                 getDefaultItemConstructor(EvilCraft._instance)

@@ -58,6 +58,7 @@ public class BlockSpiritFurnaceConfig extends UpgradableBlockContainerConfig {
                 EvilCraft._instance,
             "spirit_furnace",
                 eConfig -> new BlockSpiritFurnace(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())

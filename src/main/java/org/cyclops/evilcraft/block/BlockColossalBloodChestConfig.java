@@ -43,6 +43,7 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
                 EvilCraft._instance,
             "colossal_blood_chest",
                 eConfig -> new BlockColossalBloodChest(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.WOOD)
                         .noOcclusion()),

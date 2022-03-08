@@ -34,6 +34,7 @@ public class BlockSpiritReanimatorConfig extends UpgradableBlockContainerConfig 
                 EvilCraft._instance,
             "spirit_reanimator",
                 eConfig -> new BlockSpiritReanimator(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())

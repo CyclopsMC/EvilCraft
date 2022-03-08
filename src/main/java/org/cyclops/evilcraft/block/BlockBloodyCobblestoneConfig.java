@@ -18,6 +18,7 @@ public class BlockBloodyCobblestoneConfig extends BlockConfig {
             EvilCraft._instance,
             "bloody_cobblestone",
                 eConfig -> new Block(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(1.5F, 10.0F)
                         .sound(SoundType.STONE)),
                 getDefaultItemConstructor(EvilCraft._instance)

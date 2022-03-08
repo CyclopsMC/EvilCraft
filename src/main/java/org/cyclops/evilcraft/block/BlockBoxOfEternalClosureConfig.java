@@ -29,6 +29,7 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfig {
             EvilCraft._instance,
             "box_of_eternal_closure",
                 eConfig -> new BlockBoxOfEternalClosure(Block.Properties.of(Material.METAL)
+                        .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.METAL)),
                 (eConfig, block) -> new ItemBlockBoxOfEternalClosure(block, (new Item.Properties())

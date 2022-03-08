@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "evilcraft:display_stand",
+    "evilcraft:colossal_blood_chest",
+    "evilcraft:reinforced_undead_planks",
+    "evilcraft:reinforced_undead_planks_stairs",
+    "evilcraft:undead_fence",
+    "evilcraft:undead_fence_gate",
+    "evilcraft:undead_leaves",
+    "evilcraft:undead_log",
+    "evilcraft:undead_log_stripped",
+    "evilcraft:undead_planks",
+    "evilcraft:undead_planks_stairs",
+    "evilcraft:undead_sapling",
+    "evilcraft:undead_slab",
+    "evilcraft:undead_wood",
+    "evilcraft:undead_wood_stripped"
+  ]
+}

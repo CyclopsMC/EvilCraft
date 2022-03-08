@@ -18,6 +18,7 @@ public class BlockDarkConfig extends BlockConfig {
                 EvilCraft._instance,
             "dark_block",
                 eConfig -> new Block(Block.Properties.of(Material.STONE)
+                        .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.METAL)),
                 getDefaultItemConstructor(EvilCraft._instance)

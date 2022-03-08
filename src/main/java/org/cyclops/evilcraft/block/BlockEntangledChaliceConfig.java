@@ -30,6 +30,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
                 EvilCraft._instance,
                 "entangled_chalice",
                 eConfig -> new BlockEntangledChalice(Block.Properties.of(Material.METAL)
+                        .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
