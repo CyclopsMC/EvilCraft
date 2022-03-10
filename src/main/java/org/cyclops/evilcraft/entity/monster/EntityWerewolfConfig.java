@@ -12,9 +12,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.entity.ModelWerewolf;
@@ -28,7 +30,7 @@ import org.cyclops.evilcraft.client.render.entity.RenderWerewolf;
 public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
 
     @OnlyIn(Dist.CLIENT)
-    public static ModelLayerLocation MODEL = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "werewolf"), "main");
+    public static ModelLayerLocation MODEL;
 
     public EntityWerewolfConfig() {
         super(
@@ -39,6 +41,7 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "werewolf_spawn_egg", Helpers.RGBToInt(105, 67, 18), Helpers.RGBToInt(57, 25, 10))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributesModification);
+        DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -72,6 +75,13 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
         event.add(getInstance(), Attributes.MAX_HEALTH, 40.0D);
         event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.4D);
         event.add(getInstance(), Attributes.ATTACK_DAMAGE, 7.0D);
+    }
+
+    public static class ModelLoader {
+        public static Object registerModel() {
+            MODEL = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "werewolf"), "main");
+            return null;
+        }
     }
 
 }

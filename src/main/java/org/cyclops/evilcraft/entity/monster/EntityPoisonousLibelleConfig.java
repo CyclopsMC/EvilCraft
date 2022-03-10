@@ -16,6 +16,7 @@ import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -42,7 +43,7 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
     public static int poisonChance = 20;
 
     @OnlyIn(Dist.CLIENT)
-    public static ModelLayerLocation MODEL = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "poisonous_libelle"), "main");
+    public static ModelLayerLocation MODEL;
 
     public EntityPoisonousLibelleConfig() {
         super(
@@ -55,6 +56,7 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
         );
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributesModification);
+        DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
@@ -93,6 +95,13 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
 
         event.add(getInstance(), Attributes.MAX_HEALTH, 1.0D);
         event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.625D);
+    }
+
+    public static class ModelLoader {
+        public static Object registerModel() {
+            MODEL = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "poisonous_libelle"), "main");
+            return null;
+        }
     }
 
 }
