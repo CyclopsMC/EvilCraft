@@ -63,6 +63,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * A machine that can infuse things with blood.
@@ -205,7 +206,7 @@ public class TileColossalBloodChest extends TileWorking<TileColossalBloodChest, 
 
     @Override
     protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_CHEST));
+        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), IntStream.range(0, SLOTS_CHEST).toArray()));
         LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerChest);
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerChest);

@@ -44,6 +44,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * A chest that is able to repair tools with the use of blood.
@@ -101,7 +102,7 @@ public class TileBloodChest extends TickingTankInventoryTileEntity<TileBloodChes
 
     @Override
     protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_CHEST));
+        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), IntStream.range(0, SLOTS_CHEST).toArray()));
         LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerChest);
         addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerChest);
