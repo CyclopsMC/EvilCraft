@@ -40,7 +40,6 @@ public class BlockDarkTankConfig extends BlockConfig {
                 EvilCraft._instance,
             "dark_tank",
                 eConfig -> new BlockDarkTank(Block.Properties.of(Material.GLASS)
-                        .requiresCorrectToolForDrops()
                         .strength(0.5F)
                         .sound(SoundType.GLASS)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
