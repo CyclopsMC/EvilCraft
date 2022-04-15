@@ -80,7 +80,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
 
                     // Set the air block to a blood stain
                     BlockState blockState = worldIn.getBlockState(itPos);
-                    if (worldIn.isEmptyBlock(pos)) {
+                    if (worldIn.isEmptyBlock(itPos)) {
                         blockState = RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState();
                         worldIn.setBlockAndUpdate(itPos, blockState);
                     }
