@@ -17,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -45,6 +44,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -176,12 +176,13 @@ public class BlockDisplayStand extends BlockWithEntity {
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
         try {
-            for (Item item : ItemTags.PLANKS.getValues()) {
-                if (item instanceof BlockItem) {
-                    BlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(new ItemStack(item));
-                    list.add(getTypedDisplayStandItem(plankWoodBlockState));
-                }
-            }
+            ForgeRegistries.ITEMS.tags().getTag(ItemTags.PLANKS).stream()
+                    .forEach(item -> {
+                        if (item instanceof BlockItem) {
+                            BlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(new ItemStack(item));
+                            list.add(getTypedDisplayStandItem(plankWoodBlockState));
+                        }
+                    });
         } catch (IllegalStateException e) {
             // Can occur during mod loading when the tag has not been set yet
         }

@@ -6,6 +6,7 @@ import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,8 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
@@ -39,7 +39,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -584,7 +583,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         return WorldHelpers.foldArea(level, BlockGemStoneTorchConfig.area, blockPos,
                 (input, level1, blockPos1) -> input
-                        && !BlockTags.getAllTags().getTag(new ResourceLocation("evilcraft:vengeance_spirit_blocker")).contains(level1.getBlockState(blockPos1).getBlock()), true);
+                        && !level1.getBlockState(blockPos1).is(TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("evilcraft:vengeance_spirit_blocker"))), true);
     }
 
     /**
@@ -684,7 +683,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public boolean updateFluidHeightAndDoFluidPushing(Tag<Fluid> fluidTag, double p_210500_2_) {
+    protected boolean updateInWaterStateAndDoFluidPushing() {
         // Ignore water movement and particles
         return this.wasTouchingWater;
     }

@@ -68,11 +68,11 @@ public class WorldStructureDarkTemple extends StructureFeature<NoneFeatureConfig
 
     public static class Piece extends WorldStructurePieceQuarterSymmetrical {
         public Piece(Random random, int x, int y, int z) {
-            super(WorldStructureDarkTempleConfig.PIECE_TYPE, x, y, z, 9, 9, 9, getRandomHorizontalDirection(random));
+            super(WorldStructureDarkTempleConfig.PIECE_TYPE.value(), x, y, z, 9, 9, 9, getRandomHorizontalDirection(random));
         }
 
         public Piece(CompoundTag tag) {
-            super(WorldStructureDarkTempleConfig.PIECE_TYPE, tag);
+            super(WorldStructureDarkTempleConfig.PIECE_TYPE.value(), tag);
         }
 
         @Override

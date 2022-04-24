@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.entity.item;
 
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.Packet;
@@ -86,7 +87,7 @@ public class EntityBiomeExtract extends EntityThrowable {
                 OrganicSpread spread = new OrganicSpread(level, 2, 5, new OrganicSpread.IOrganicSpreadable() {
                     @Override
                     public boolean isDone(Level world, BlockPos location) {
-                        return world.getBiome(location) == biome;
+                        return world.getBiome(location).value() == biome;
                     }
 
                     @Override
@@ -190,7 +191,7 @@ public class EntityBiomeExtract extends EntityThrowable {
             int dummyY = Mth.clamp(i3, minBuildHeight, maxHeight);
             int sectionIndex = chunk.getSectionIndex(QuartPos.toBlock(dummyY));
             //chunk.sections[sectionIndex].getNoiseBiome(l2 & 3, dummyY & 3, j3 & 3);
-            chunk.sections[sectionIndex].getBiomes().set(l2 & 3, dummyY & 3, j3 & 3, biomeHack);
+            chunk.sections[sectionIndex].getBiomes().set(l2 & 3, dummyY & 3, j3 & 3, new Holder.Direct<>(biomeHack));
 
             chunk.setUnsaved(true);
         } else {

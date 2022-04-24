@@ -32,9 +32,9 @@ public class RecipeDeadBush extends CustomRecipe {
         int shears = 0;
         for (int i = 0; i < inv.getContainerSize(); i++) {
             ItemStack itemStack = inv.getItem(i);
-            if (ItemTags.SAPLINGS.contains(itemStack.getItem())) {
+            if (itemStack.is(ItemTags.SAPLINGS)) {
                 bushes++;
-            } else if (Tags.Items.SHEARS.contains(itemStack.getItem())) {
+            } else if (itemStack.is(Tags.Items.SHEARS)) {
                 shears++;
             }
         }

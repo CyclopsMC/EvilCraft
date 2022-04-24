@@ -44,7 +44,7 @@ public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrga
 
     @Override
     public boolean isDone(Level world, BlockPos location) {
-        return world.getBiome(location) == RegistryEntries.BIOME_DEGRADED;
+        return world.getBiome(location).value() == RegistryEntries.BIOME_DEGRADED;
     }
 
     @Override

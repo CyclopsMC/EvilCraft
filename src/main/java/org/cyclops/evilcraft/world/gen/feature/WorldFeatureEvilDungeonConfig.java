@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.world.gen.feature;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
@@ -19,6 +19,8 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.WorldFeatureConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
+import java.util.List;
+
 /**
  * Config for the evil dungeon.
  * @author rubensworks
@@ -26,8 +28,8 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class WorldFeatureEvilDungeonConfig extends WorldFeatureConfig {
 
-    public static ConfiguredFeature<?, ?> CONFIGURED_FEATURE;
-    public static PlacedFeature PLACED_FEATURE;
+    public static Holder<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE;
+    public static Holder<PlacedFeature> PLACED_FEATURE;
 
     public WorldFeatureEvilDungeonConfig() {
         super(
@@ -42,22 +44,21 @@ public class WorldFeatureEvilDungeonConfig extends WorldFeatureConfig {
     public void onForgeRegistered() {
         super.onForgeRegistered();
 
-        CONFIGURED_FEATURE = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,
+        CONFIGURED_FEATURE = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), getNamedId() + "_default"),
-                ((WorldFeatureEvilDungeon) getInstance())
-                        .configured(FeatureConfiguration.NONE));
-        PLACED_FEATURE = Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                new ConfiguredFeature<>(((WorldFeatureEvilDungeon) getInstance()), FeatureConfiguration.NONE));
+        PLACED_FEATURE = BuiltinRegistries.register(BuiltinRegistries.PLACED_FEATURE,
                 new ResourceLocation(getMod().getModId(), getNamedId() + "_default"),
-                CONFIGURED_FEATURE.placed(CountPlacement.of(10),
+                new PlacedFeature(CONFIGURED_FEATURE, List.of(
+                        CountPlacement.of(10),
                         InSquarePlacement.spread(),
                         HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.top()),
-                        BiomeFilter.biome()));
+                        BiomeFilter.biome())));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         if (event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
-            event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_STRUCTURES)
-                    .add(() -> PLACED_FEATURE);
+            event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_STRUCTURES).add(PLACED_FEATURE);
         }
     }
 }

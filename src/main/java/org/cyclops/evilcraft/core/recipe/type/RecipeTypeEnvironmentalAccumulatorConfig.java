@@ -16,7 +16,12 @@ public class RecipeTypeEnvironmentalAccumulatorConfig extends RecipeTypeConfig<R
                 EvilCraft._instance,
                 "environmental_accumulator"
         );
-        RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = getInstance();
     }
 
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+
+        RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = getInstance();
+    }
 }

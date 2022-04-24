@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +24,8 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
 
+import java.util.List;
+
 /**
  * Config for the {@link BlockInfestedNether}.
  * @author rubensworks
@@ -33,10 +35,10 @@ public class BlockInfestedNetherConfig extends BlockConfig {
 
     private final BlockInfestedNether.Type type;
 
-    public static ConfiguredFeature<?, ?> CONFIGURED_FEATURE_NETHERFISH;
-    public static ConfiguredFeature<?, ?> CONFIGURED_FEATURE_SILVERFISH_EXTRA;
-    public static PlacedFeature PLACED_FEATURE_NETHERFISH;
-    public static PlacedFeature PLACED_FEATURE_SILVERFISH_EXTRA;
+    public static Holder<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE_NETHERFISH;
+    public static Holder<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE_SILVERFISH_EXTRA;
+    public static Holder<PlacedFeature> PLACED_FEATURE_NETHERFISH;
+    public static Holder<PlacedFeature> PLACED_FEATURE_SILVERFISH_EXTRA;
 
     public BlockInfestedNetherConfig(BlockInfestedNether.Type type) {
         super(
@@ -54,40 +56,42 @@ public class BlockInfestedNetherConfig extends BlockConfig {
     public void onForgeRegistered() {
         super.onForgeRegistered();
 
-        CONFIGURED_FEATURE_NETHERFISH = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,
+        CONFIGURED_FEATURE_NETHERFISH = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), "stone_netherfish"),
-                Feature.ORE
-                        .configured(new OreConfiguration(OreFeatures.NETHER_ORE_REPLACEABLES, getInstance().defaultBlockState(), 9)));
-        CONFIGURED_FEATURE_SILVERFISH_EXTRA = Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,
+                new ConfiguredFeature<>(Feature.ORE,
+                        new OreConfiguration(OreFeatures.NETHER_ORE_REPLACEABLES, getInstance().defaultBlockState(), 9)));
+        CONFIGURED_FEATURE_SILVERFISH_EXTRA = BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_FEATURE,
                 new ResourceLocation(getMod().getModId(), "stone_nether_silverfish_extra"),
-                Feature.ORE
-                        .configured(new OreConfiguration(OreFeatures.NATURAL_STONE, Blocks.INFESTED_STONE.defaultBlockState(), 4)));
+                new ConfiguredFeature<>(Feature.ORE,
+                        new OreConfiguration(OreFeatures.NATURAL_STONE, Blocks.INFESTED_STONE.defaultBlockState(), 4)));
 
-        PLACED_FEATURE_NETHERFISH = Registry.register(BuiltinRegistries.PLACED_FEATURE,
+        PLACED_FEATURE_NETHERFISH = BuiltinRegistries.register(BuiltinRegistries.PLACED_FEATURE,
                 new ResourceLocation(getMod().getModId(), "stone_netherfish"),
-                CONFIGURED_FEATURE_NETHERFISH.placed(CountPlacement.of(10),
+                new PlacedFeature(CONFIGURED_FEATURE_NETHERFISH, List.of(
+                        CountPlacement.of(10),
                         InSquarePlacement.spread(),
                         HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(64)),
-                        BiomeFilter.biome()));
-        PLACED_FEATURE_SILVERFISH_EXTRA = Registry.register(BuiltinRegistries.PLACED_FEATURE,
+                        BiomeFilter.biome())));
+        PLACED_FEATURE_SILVERFISH_EXTRA = BuiltinRegistries.register(BuiltinRegistries.PLACED_FEATURE,
                 new ResourceLocation(getMod().getModId(), "stone_nether_silverfish_extra"),
-                CONFIGURED_FEATURE_SILVERFISH_EXTRA.placed(CountPlacement.of(10),
+                new PlacedFeature(CONFIGURED_FEATURE_SILVERFISH_EXTRA, List.of(
+                        CountPlacement.of(10),
                         InSquarePlacement.spread(),
                         HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(66)),
-                        BiomeFilter.biome()));
+                        BiomeFilter.biome())));
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         // Only for type netherrack, as this event will be invoked for all infested block types
         if (this.type == BlockInfestedNether.Type.NETHERRACK && event.getCategory() == Biome.BiomeCategory.NETHER) {
             event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_DECORATION)
-                    .add(() -> PLACED_FEATURE_NETHERFISH);
+                    .add(PLACED_FEATURE_NETHERFISH);
         }
 
         if (this.type != BlockInfestedNether.Type.NETHERRACK && GeneralConfig.extraSilverfish
                 && event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
             event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_DECORATION)
-                    .add(() -> PLACED_FEATURE_SILVERFISH_EXTRA);
+                    .add(PLACED_FEATURE_SILVERFISH_EXTRA);
         }
     }
 

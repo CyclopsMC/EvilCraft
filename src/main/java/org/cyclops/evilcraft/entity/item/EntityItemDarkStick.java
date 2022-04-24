@@ -1,5 +1,9 @@
 package org.cyclops.evilcraft.entity.item;
 
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.Registry;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -8,9 +12,11 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.world.gen.structure.WorldStructureDarkTempleConfig;
 
 import javax.annotation.Nullable;
 
@@ -64,11 +70,14 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
 
     @Nullable
     private Float loadRotation() {
-        // MCP: findNearestStructure
-        BlockPos closest = ((ServerLevel)level).getChunkSource().getGenerator()
-                .findNearestMapFeature((ServerLevel) level, RegistryEntries.STRUCTURE_DARK_TEMPLE, new BlockPos(getX(), getY(), getZ()), 100, false);
-        if(closest != null) {
-            closest = new BlockPos(closest.getX(), 0, closest.getZ());
+        // Inspired by LocateCommand
+        Registry<ConfiguredStructureFeature<?, ?>> registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+        HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(registry.getOrCreateHolder(WorldStructureDarkTempleConfig.CONFIGURED_FEATURE.unwrapKey().get()));
+
+        Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> closestHolder = ((ServerLevel) level).getChunkSource().getGenerator()
+                .findNearestMapFeature((ServerLevel) level, holderset, new BlockPos(getX(), getY(), getZ()), 100, false);
+        if(closestHolder != null) {
+            BlockPos closest = new BlockPos(closestHolder.getFirst().getX(), 0, closestHolder.getFirst().getZ());
             double d = closest.distSqr(new BlockPos((int) getX(), 0, (int) getZ()));
             if(d <= WorldHelpers.CHUNK_SIZE * WorldHelpers.CHUNK_SIZE) {
                 return null;

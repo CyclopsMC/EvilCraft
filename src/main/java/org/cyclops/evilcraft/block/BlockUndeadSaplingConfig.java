@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -25,7 +25,7 @@ import org.cyclops.evilcraft.world.gen.feature.WorldFeatures;
  */
 public class BlockUndeadSaplingConfig extends BlockConfig {
 
-    public static ConfiguredFeature<TreeConfiguration, ?> CONFIGURED_FEATURE_TREE;
+    public static Holder<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE_TREE;
 
     public BlockUndeadSaplingConfig() {
         super(
@@ -43,7 +43,7 @@ public class BlockUndeadSaplingConfig extends BlockConfig {
     }
 
     public void onModSetup(FMLCommonSetupEvent event) {
-        CONFIGURED_FEATURE_TREE = WorldFeatures.registerConfigured("tree_undead", Feature.TREE.configured(TreeUndead.getTreeConfig()));
+        CONFIGURED_FEATURE_TREE = WorldFeatures.registerConfigured("tree_undead", new ConfiguredFeature<>(Feature.TREE, TreeUndead.getTreeConfig()));
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {

@@ -16,7 +16,12 @@ public class RecipeTypeBloodInfuserConfig extends RecipeTypeConfig<RecipeBloodIn
                 EvilCraft._instance,
                 "blood_infuser"
         );
-        RegistryEntries.RECIPETYPE_BLOOD_INFUSER = getInstance();
     }
 
+    @Override
+    public void onRegistered() {
+        super.onRegistered();
+
+        RegistryEntries.RECIPETYPE_BLOOD_INFUSER = getInstance();
+    }
 }

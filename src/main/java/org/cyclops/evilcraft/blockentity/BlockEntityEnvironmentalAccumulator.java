@@ -137,7 +137,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         if (getLevel() == null) {
             return Triple.of(0F, 0F, 0F);
         }
-        Biome biome = getLevel().getBiome(getBlockPos());
+        Biome biome = getLevel().getBiome(getBlockPos()).value();
         return Helpers.intToRGB(biome.getGrassColor(getBlockPos().getX(), getBlockPos().getZ()));
     }
 

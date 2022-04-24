@@ -40,7 +40,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         float x = spawn.getX() + 0.5F;
         float y = spawn.getY();
         float z = spawn.getZ() + 0.5F;
-        Optional<MobSpawnSettings.SpawnerData> spawnlistentry = world.getBiome(spawn).getMobSettings().getMobs(MobCategory.MONSTER).getRandom(world.random);
+        Optional<MobSpawnSettings.SpawnerData> spawnlistentry = world.getBiome(spawn).value().getMobSettings().getMobs(MobCategory.MONSTER).getRandom(world.random);
         Mob entityliving;
 
         try {

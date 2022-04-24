@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[39,)"
+loaderVersion="[40,)"
 issueTrackerURL="https://github.com/CyclopsMC/EvilCraft/issues"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/evilcraft"
 license="MIT"
@@ -16,18 +16,18 @@ An evil mod for Minecraft.
 [[dependencies.evilcraft]]
     modId="cyclopscore"
     mandatory=true
-    versionRange="[1.13.1,)"
+    versionRange="[1.13.4,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.evilcraft]]
     modId="forge"
     mandatory=true
-    versionRange="[39,)"
+    versionRange="[40,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.evilcraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.1,]"
+    versionRange="[1.18.2,]"
     ordering="NONE"
     side="BOTH"

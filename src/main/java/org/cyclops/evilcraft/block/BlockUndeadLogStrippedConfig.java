@@ -35,7 +35,7 @@ public class BlockUndeadLogStrippedConfig extends BlockConfig {
         BlockHelpers.setFireInfo(getInstance(), 5, 20);
     }
 
-    public void toolActionEvent(BlockEvent.BlockToolInteractEvent event) {
+    public void toolActionEvent(BlockEvent.BlockToolModificationEvent event) {
         if (event.getToolAction() == ToolActions.AXE_STRIP && event.getState().getBlock() == RegistryEntries.BLOCK_UNDEAD_LOG) {
             BlockState blockStateNew = RegistryEntries.BLOCK_UNDEAD_LOG_STRIPPED.defaultBlockState();
             for (Property property : event.getState().getProperties()) {

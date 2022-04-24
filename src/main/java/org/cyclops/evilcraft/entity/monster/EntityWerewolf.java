@@ -131,7 +131,7 @@ public class EntityWerewolf extends Monster {
      */
     public void replaceWithVillager() {
         // MCP: byBiome
-        Villager villager = new Villager(EntityType.VILLAGER, this.level, VillagerType.byBiome(level.getBiomeName(this.blockPosition())));
+        Villager villager = new Villager(EntityType.VILLAGER, this.level, VillagerType.byBiome(level.getBiome(this.blockPosition())));
         initializeWerewolfVillagerData(villager);
         replaceEntity(this, villager, this.level);
         try {
