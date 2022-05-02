@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.13.5 or higher.
+
+Fixes:
+* Update to new recipe output abstractions to fix crash with CyclopsCore 1.13.5
+  Closes CyclopsMC/CyclopsCore#167
+
