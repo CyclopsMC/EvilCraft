@@ -48,7 +48,7 @@ public class RegistryExportableBloodInfuserRecipe extends RegistryExportableReci
 
         // Outputs
         JsonObject outputObject = new JsonObject();
-        ItemStack itemOutput = recipe.getOutputItem();
+        ItemStack itemOutput = recipe.getOutputItemFirst();
         outputObject.add("item", IRegistryExportable.serializeItemStack(itemOutput));
 
         // Recipe object

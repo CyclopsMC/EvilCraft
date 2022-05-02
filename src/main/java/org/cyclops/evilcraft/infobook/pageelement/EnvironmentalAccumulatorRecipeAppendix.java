@@ -82,7 +82,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
         // Prepare items
         int tick = getTick(gui);
         ItemStack input = prepareItemStacks(recipe.getInputIngredient().getItems(), tick);
-        ItemStack result = prepareItemStack(recipe.getOutputItem(), tick);
+        ItemStack result = prepareItemStack(recipe.getOutputItemFirst(), tick);
 
         // Items
         renderItem(gui, matrixStack, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);

@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.datafixers.util.Either;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -10,6 +11,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
+import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 import javax.annotation.Nullable;
@@ -31,9 +33,9 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
     }
 
     protected abstract T createRecipe(ResourceLocation id,
-                             Ingredient inputIngredient, WeatherType inputWeather,
-                             ItemStack outputItem, WeatherType outputWeather,
-                             int duration, int cooldownTime, float processingSpeed);
+                                      Ingredient inputIngredient, WeatherType inputWeather,
+                                      Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
+                                      int duration, int cooldownTime, float processingSpeed);
 
     @Override
     public T fromJson(ResourceLocation recipeId, JsonObject json) {
@@ -44,7 +46,7 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
         WeatherType inputWeather = getWeatherType(GsonHelper.getAsString(json, "weather"));
 
         // Output
-        ItemStack outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);
+        Either<ItemStack, ItemStackFromIngredient> outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);
         WeatherType outputWeather = getWeatherType(GsonHelper.getAsString(result, "weather"));
 
         // Other stuff
@@ -63,7 +65,7 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
         WeatherType inputWeather = getWeatherType(buffer.readUtf(20));
 
         // Output
-        ItemStack outputItemStack = buffer.readItem();
+        Either<ItemStack, ItemStackFromIngredient> outputItem = RecipeSerializerHelpers.readItemStackOrItemStackIngredient(buffer);
         WeatherType outputWeather = getWeatherType(buffer.readUtf(20));
 
         // Other stuff
@@ -71,7 +73,7 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
         int cooldownTime = buffer.readVarInt();
         float processingSpeed = buffer.readFloat();
 
-        return createRecipe(recipeId, inputIngredient, inputWeather, outputItemStack, outputWeather, duration, cooldownTime, processingSpeed);
+        return createRecipe(recipeId, inputIngredient, inputWeather, outputItem, outputWeather, duration, cooldownTime, processingSpeed);
     }
 
     @Override
@@ -81,7 +83,7 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
         buffer.writeUtf(recipe.getInputWeather().toString().toUpperCase(Locale.ENGLISH));
 
         // Output
-        buffer.writeItem(recipe.getOutputItem());
+        RecipeSerializerHelpers.writeItemStackOrItemStackIngredient(buffer, recipe.getOutputItem());
         buffer.writeUtf(recipe.getOutputWeather().toString().toUpperCase(Locale.ENGLISH));
 
         // Other stuff

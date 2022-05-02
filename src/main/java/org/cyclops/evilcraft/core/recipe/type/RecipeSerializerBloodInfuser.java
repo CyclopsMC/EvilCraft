@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mojang.datafixers.util.Either;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -11,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
+import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 
 import javax.annotation.Nullable;
 
@@ -31,7 +33,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<RecipeSeria
         int inputTier = GsonHelper.getAsInt(json, "tier", 0);
 
         // Output
-        ItemStack outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);
+        Either<ItemStack, ItemStackFromIngredient> outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);
 
         // Other stuff
         int duration = GsonHelper.getAsInt(json, "duration");
@@ -41,7 +43,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<RecipeSeria
         if (inputIngredient.isEmpty() && inputFluid.isEmpty()) {
             throw new JsonSyntaxException("An input item or fluid is required");
         }
-        if (outputItemStack.isEmpty()) {
+        if (outputItemStack.left().isPresent() && outputItemStack.left().isEmpty()) {
             throw new JsonSyntaxException("An output item is required");
         }
         if (inputTier < 0) {
@@ -66,13 +68,13 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<RecipeSeria
         int inputTier = buffer.readVarInt();
 
         // Output
-        ItemStack outputItemStack = buffer.readItem();
+        Either<ItemStack, ItemStackFromIngredient> outputItem = RecipeSerializerHelpers.readItemStackOrItemStackIngredient(buffer);
 
         // Other stuff
         int duration = buffer.readVarInt();
         float xp = buffer.readFloat();
 
-        return new RecipeBloodInfuser(recipeId, inputIngredient, inputFluid, inputTier, outputItemStack, duration, xp);
+        return new RecipeBloodInfuser(recipeId, inputIngredient, inputFluid, inputTier, outputItem, duration, xp);
     }
 
     @Override
@@ -83,7 +85,7 @@ public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<RecipeSeria
         buffer.writeVarInt(recipe.getInputTier());
 
         // Output
-        buffer.writeItem(recipe.getOutputItem());
+        RecipeSerializerHelpers.writeItemStackOrItemStackIngredient(buffer, recipe.getOutputItem());
 
         // Other stuff
         buffer.writeVarInt(recipe.getDuration());

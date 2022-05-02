@@ -29,7 +29,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
         Optional<RecipeBloodInfuser> recipe = getRecipe(tile);
         if(tick >= getRequiredTicks(tile, recipe)) {
             if(recipe.isPresent()) {
-                if(addToProduceSlot(tile, recipe.get().getOutputItem().copy())) {
+                if(addToProduceSlot(tile, recipe.get().getOutputItemFirst().copy())) {
                     tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                     tile.getTank().drain(getRequiredFluidAmount(tile, recipe), IFluidHandler.FluidAction.EXECUTE);
                     tile.addXp(recipe.get().getXp());
@@ -70,7 +70,7 @@ public class InfuseItemTickAction extends BloodInfuserTickAction{
     @Override
     public ItemStack willProduceItem(BlockEntityBloodInfuser tile) {
         return getRecipe(tile)
-                .map(recipe -> recipe.getOutputItem().copy())
+                .map(recipe -> recipe.getOutputItemFirst().copy())
                 .orElse(ItemStack.EMPTY);
     }
 

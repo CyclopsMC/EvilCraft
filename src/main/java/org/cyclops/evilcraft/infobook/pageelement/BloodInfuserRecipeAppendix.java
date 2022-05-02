@@ -68,7 +68,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
         // Prepare items
         int tick = getTick(gui);
         ItemStack input = prepareItemStacks(recipe.getInputIngredient().getItems(), tick);
-        ItemStack result = prepareItemStack(recipe.getOutputItem(), tick);
+        ItemStack result = prepareItemStack(recipe.getOutputItemFirst(), tick);
         ItemStack promise = null;
         if(recipe.getInputTier() > 0) {
             promise = new ItemStack(ItemPromise.getItem(recipe.getInputTier()));

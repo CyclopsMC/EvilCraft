@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
+import com.mojang.datafixers.util.Either;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
@@ -10,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.weather.WeatherType;
@@ -23,7 +25,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     private final ResourceLocation id;
     private final Ingredient inputIngredient;
     private final WeatherType inputWeather;
-    private final ItemStack outputItem;
+    private final Either<ItemStack, ItemStackFromIngredient> outputItem;
     private final WeatherType outputWeather;
     private final int duration;
     private final int cooldownTime;
@@ -31,7 +33,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
 
     public RecipeEnvironmentalAccumulator(ResourceLocation id,
                                           Ingredient inputIngredient, WeatherType inputWeather,
-                                          ItemStack outputItem, WeatherType outputWeather,
+                                          Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
                                           int duration, int cooldownTime, float processingSpeed) {
         this.id = id;
         this.inputIngredient = inputIngredient;
@@ -51,8 +53,12 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         return inputWeather;
     }
 
-    public ItemStack getOutputItem() {
+    public Either<ItemStack, ItemStackFromIngredient> getOutputItem() {
         return outputItem;
+    }
+
+    public ItemStack getOutputItemFirst() {
+        return getOutputItem().map(l -> l, ItemStackFromIngredient::getFirstItemStack);
     }
 
     public WeatherType getOutputWeather() {
@@ -113,7 +119,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
 
     @Override
     public ItemStack getResultItem() {
-        return this.outputItem;
+        return this.getOutputItemFirst().copy();
     }
 
     @Override

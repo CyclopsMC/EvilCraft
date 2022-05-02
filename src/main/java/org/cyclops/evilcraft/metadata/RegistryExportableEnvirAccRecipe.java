@@ -35,7 +35,7 @@ public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAb
             arrayInputs.add(IRegistryExportable.serializeItemStack(input));
         }
         object.add("input", arrayInputs);
-        object.add("output", IRegistryExportable.serializeItemStack(recipe.getOutputItem()));
+        object.add("output", IRegistryExportable.serializeItemStack(recipe.getOutputItemFirst()));
         object.addProperty("inputWeather", recipe.getInputWeather().toString());
         object.addProperty("outputWeather", recipe.getOutputWeather().toString());
         object.addProperty("duration", recipe.getDuration());
