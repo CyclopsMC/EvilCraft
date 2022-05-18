@@ -449,6 +449,11 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
+    public boolean isPickable() { // Drop through this entity when checking for attack targets.
+        return false;
+    }
+
+    @Override
     public void thunderHit(ServerLevel level, LightningBolt lightning) {
         setGlobalVengeance(true);
     }
