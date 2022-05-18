@@ -14,8 +14,10 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
+import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 
 /**
  * Copies fluid tank data to the item.
@@ -30,18 +32,16 @@ public class LootFunctionCopyTankData extends LootItemConditionalFunction {
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        BlockEntity tile = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
-        tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
-                .ifPresent(fluidHandlerTile -> {
-                    itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
-                            .ifPresent(fluidHandlerItem -> {
-                                if (fluidHandlerItem instanceof IFluidHandlerMutable) {
-                                    ((IFluidHandlerMutable) fluidHandlerItem).setFluidInTank(0, fluidHandlerTile.getFluidInTank(0));
-                                }
-                                if (fluidHandlerItem instanceof IFluidHandlerItemCapacity) {
-                                    ((IFluidHandlerItemCapacity) fluidHandlerItem).setCapacity(fluidHandlerTile.getTankCapacity(0));
-                                }
-                            });
+        BlockEntityTankInventory tile = (BlockEntityTankInventory) lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
+        SingleUseTank fluidHandlerTile = tile.getTank();
+        itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
+                .ifPresent(fluidHandlerItem -> {
+                    if (fluidHandlerItem instanceof IFluidHandlerMutable) {
+                        ((IFluidHandlerMutable) fluidHandlerItem).setFluidInTank(0, fluidHandlerTile.getFluidInTank(0));
+                    }
+                    if (fluidHandlerItem instanceof IFluidHandlerItemCapacity) {
+                        ((IFluidHandlerItemCapacity) fluidHandlerItem).setCapacity(fluidHandlerTile.getTankCapacity(0));
+                    }
                 });
         return itemStack;
     }
