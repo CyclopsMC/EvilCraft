@@ -1,18 +1,18 @@
 package org.cyclops.evilcraft.blockentity.tickaction.spiritreanimator;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.block.BlockSpiritReanimatorConfig;
-import org.cyclops.evilcraft.core.helper.MathHelpers;
+import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
+import org.cyclops.evilcraft.core.helper.MathHelpers;
 
 /**
  * {@link ITickAction} that is able to reanimate boxes with spirits.
@@ -27,7 +27,7 @@ public class ReanimateTickAction implements ITickAction<BlockEntitySpiritReanima
     }
 
     protected ItemStack getSpawnEgg(EntityType<?> entityType) {
-        return new ItemStack(SpawnEggItem.BY_ID.get(entityType));
+        return new ItemStack(ForgeSpawnEggItem.fromEntityType(entityType));
     }
 
     @Override

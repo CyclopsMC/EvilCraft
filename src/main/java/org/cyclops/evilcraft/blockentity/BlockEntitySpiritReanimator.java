@@ -11,10 +11,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -232,7 +232,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
         boolean validNameStack = entityType != null
                 && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
-                        && SpawnEggItem.BY_ID.get(entityType) == outputStack.getItem()));
+                        && ForgeSpawnEggItem.fromEntityType(entityType) == outputStack.getItem()));
         return !eggStack.isEmpty() && validNameStack;
     }
 
