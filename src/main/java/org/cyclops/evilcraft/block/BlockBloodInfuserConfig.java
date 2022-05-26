@@ -1,18 +1,15 @@
 package org.cyclops.evilcraft.block;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,11 +18,6 @@ import java.util.Set;
  *
  */
 public class BlockBloodInfuserConfig extends UpgradableBlockContainerConfig {
-
-    @ConfigurableProperty(category = "machine", comment = "The blacklisted Blood Chest items, by item name.")
-    public static List<String> itemBlacklist = Lists.newArrayList(
-            "minecraft:stick"
-    );
 
     public BlockBloodInfuserConfig() {
         super(
