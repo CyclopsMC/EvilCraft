@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -78,7 +79,9 @@ public class BlockBloodStain extends BlockWithEntity {
             }
         }
 
-        return blockstate.isFaceSturdy(worldIn, blockpos, Direction.UP) || blockstate.getBlock() == Blocks.HOPPER;
+        return (blockstate.isFaceSturdy(worldIn, blockpos, Direction.UP)
+                && blockstate.isValidSpawn(worldIn, blockpos, SpawnPlacements.Type.ON_GROUND, null))
+                || blockstate.getBlock() == Blocks.HOPPER;
     }
 
     @Override
