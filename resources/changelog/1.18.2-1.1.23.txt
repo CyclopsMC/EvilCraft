@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.13.5 or higher.
+
+Additions:
+* Add config option to disable Dark Ore from generating, Closes #916
+
+Changes:
+* Only make blood stains on blocks that can spawn mobs, Closes #915
