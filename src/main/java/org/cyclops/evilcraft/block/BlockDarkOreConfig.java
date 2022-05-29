@@ -22,8 +22,10 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -35,6 +37,9 @@ import java.util.List;
  *
  */
 public class BlockDarkOreConfig extends BlockConfig {
+
+    @ConfigurableProperty(category = "worldgeneration", comment = "If dark ore should be generated in the overworld.", configLocation = ModConfig.Type.SERVER)
+    public static boolean generate = true;
 
     private final boolean deepslate;
     public Holder<ConfiguredFeature<?, ?>> configuredFeature;
@@ -78,7 +83,7 @@ public class BlockDarkOreConfig extends BlockConfig {
     }
 
     public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        if (event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
+        if (BlockDarkOreConfig.generate && event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
             event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES)
                     .add(placedFeature);
         }
