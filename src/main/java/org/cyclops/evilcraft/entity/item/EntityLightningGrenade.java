@@ -58,6 +58,7 @@ public class EntityLightningGrenade extends ThrowableProjectile implements ItemS
                 EntityHelpers.onEntityCollided(this.level, pos, this.level.getBlockState(pos), this);
                 LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
                 bolt.moveTo(this.getX(), this.getY(), this.getZ());
+                this.level.addFreshEntity(bolt);
             }
 
             this.remove(RemovalReason.DISCARDED);
