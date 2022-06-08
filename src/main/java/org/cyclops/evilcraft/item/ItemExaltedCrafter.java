@@ -27,6 +27,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
 import org.cyclops.cyclopscore.inventory.container.NamedContainerProviderItem;
 import org.cyclops.cyclopscore.item.ItemGui;
@@ -84,14 +85,12 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     /**
      * Get the supplementary inventory of the given crafter.
      * @param player The player using the crafter.
-     * @param itemStack The item stack.
-     * @param itemIndex The item index.
-     * @param hand The used hand.
+     * @param itemLocation The item location.
      * @return The inventory.
      */
-    public Container getSupplementaryInventory(Player player, ItemStack itemStack, int itemIndex, InteractionHand hand) {
+    public Container getSupplementaryInventory(Player player, ItemLocation itemLocation) {
         if(this.wooden) {
-            return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
+            return new NBTSimpleInventoryItemHeld(player, itemLocation, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
         }
         return player.getEnderChestInventory();
     }
@@ -121,8 +120,8 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
 
     @Nullable
     @Override
-    public MenuProvider getContainer(Level world, Player playerEntity, int itemIndex, InteractionHand hand, ItemStack itemStack) {
-        return new NamedContainerProviderItem(itemIndex, hand, itemStack.getHoverName(), ContainerExaltedCrafter::new);
+    public MenuProvider getContainer(Level world, Player playerEntity, ItemLocation itemLocation) {
+        return new NamedContainerProviderItem(itemLocation, itemLocation.getItemStack(playerEntity).getHoverName(), ContainerExaltedCrafter::new);
     }
 
     @Override

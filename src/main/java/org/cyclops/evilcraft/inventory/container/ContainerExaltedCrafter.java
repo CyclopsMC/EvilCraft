@@ -1,22 +1,21 @@
 package org.cyclops.evilcraft.inventory.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.inventory.NBTCraftingGrid;
@@ -55,18 +54,18 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
     private boolean initialized;
 
     public ContainerExaltedCrafter(int id, Inventory inventory, FriendlyByteBuf packetBuffer) {
-        this(id, inventory, readItemIndex(packetBuffer), readHand(packetBuffer));
+        this(id, inventory, ItemLocation.readFromPacketBuffer(packetBuffer));
     }
 
-    public ContainerExaltedCrafter(int id, Inventory inventory, int itemIndex, InteractionHand hand) {
-        super(RegistryEntries.CONTAINER_EXALTED_CRAFTER, id, inventory, itemIndex, hand);
+    public ContainerExaltedCrafter(int id, Inventory inventory, ItemLocation itemLocation) {
+        super(RegistryEntries.CONTAINER_EXALTED_CRAFTER, id, inventory, itemLocation);
         initialized = false;
         this.world = player.level;
         this.result = new ResultContainer();
-        this.craftingGrid = new NBTCraftingGrid(player, itemIndex, hand, this);
+        this.craftingGrid = new NBTCraftingGrid(player, itemLocation, this);
 
         this.addCraftingGrid(player, craftingGrid);
-        this.addInventory(getItem().getSupplementaryInventory(player, InventoryHelpers.getItemFromIndex(player, itemIndex, hand), itemIndex, hand),
+        this.addInventory(getItem().getSupplementaryInventory(player, itemLocation),
                 0, CHEST_INVENTORY_OFFSET_X, CHEST_INVENTORY_OFFSET_Y,
                 CHEST_INVENTORY_ROWS, CHEST_INVENTORY_COLUMNS);
         this.addPlayerInventory(player.getInventory(), INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);

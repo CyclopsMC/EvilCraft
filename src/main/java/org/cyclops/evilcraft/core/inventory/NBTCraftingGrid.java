@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.core.inventory;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.InteractionHand;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.inventory.ItemLocation;
 
 /**
  * A simple implementation of a crafting grid that stores it's inventory in NBT.
@@ -18,22 +18,19 @@ public class NBTCraftingGrid extends CraftingContainer {
     private static final String NBT_TAG_ROOT = "CraftingGridInventory";
 
     protected Player player;
-    protected int itemIndex;
-    protected InteractionHand hand;
+    protected ItemLocation itemLocation;
 
     /**
      * Make a new instance.
      * @param player The player using the grid.
-     * @param itemIndex The index of the item in the player inventory.
+     * @param itemLocation The item location.
      * @param eventHandler The event handler if the grid changes.
-     * @param hand The hand the player is using.
      */
-    public NBTCraftingGrid(Player player, int itemIndex, InteractionHand hand, AbstractContainerMenu eventHandler) {
+    public NBTCraftingGrid(Player player, ItemLocation itemLocation, AbstractContainerMenu eventHandler) {
         super(eventHandler, 3, 3);
-        ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex, hand);
+        ItemStack itemStack = itemLocation.getItemStack(player);
         this.player = player;
-        this.itemIndex = itemIndex;
-        this.hand = hand;
+        this.itemLocation = itemLocation;
         InventoryHelpers.validateNBTStorage(this, itemStack, NBT_TAG_ROOT);
     }
 
@@ -41,7 +38,7 @@ public class NBTCraftingGrid extends CraftingContainer {
      * Save the grid state to NBT.
      */
     public void save() {
-        ItemStack itemStack = InventoryHelpers.getItemFromIndex(player, itemIndex, hand);
+        ItemStack itemStack = itemLocation.getItemStack(player);
         CompoundTag tag = itemStack.getTag();
         if(tag == null) {
             tag = new CompoundTag();

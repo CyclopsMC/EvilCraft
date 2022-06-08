@@ -1,31 +1,33 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stat;
+import net.minecraft.world.Container;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.stats.Stat;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.inventory.InventoryLocationPlayer;
+import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemStack;
 import org.cyclops.cyclopscore.inventory.container.NamedContainerProviderItem;
@@ -113,13 +115,11 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     /**
      * Get the supplementary inventory of the item.
      * @param player The player using the item.
-     * @param itemStack The item stack.
-     * @param itemIndex The item index.
-     * @param hand The hand the item is in.
+     * @param itemLocation The item location.
      * @return The inventory.
      */
-    public Container getSupplementaryInventory(Player player, ItemStack itemStack, int itemIndex, InteractionHand hand) {
-        return new NBTSimpleInventoryItemHeld(player, itemIndex, hand, 1, 64, "inventoryItem");
+    public Container getSupplementaryInventory(Player player, ItemLocation itemLocation) {
+        return new NBTSimpleInventoryItemHeld(player, itemLocation, 1, 64, "inventoryItem");
     }
 
     /**
@@ -134,9 +134,9 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     // --- TODO: copy of ItemGui methods, clean this up with Cyclops for 1.8 ---
 
     @Nullable
-    public MenuProvider getContainer(Level world, Player playerEntity, int itemIndex, InteractionHand hand, ItemStack itemStack) {
-        return new NamedContainerProviderItem(itemIndex, hand,
-                itemStack.getHoverName(), ContainerPrimedPendant::new);
+    public MenuProvider getContainer(Level world, Player playerEntity, ItemLocation itemLocation) {
+        return new NamedContainerProviderItem(itemLocation,
+                itemLocation.getItemStack(playerEntity).getHoverName(), ContainerPrimedPendant::new);
     }
 
     public Class<? extends AbstractContainerMenu> getContainerClass(Level world, Player playerEntity, ItemStack itemStack) {
@@ -151,12 +151,12 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         return super.onDroppedByPlayer(itemstack, player);
     }
 
-    public void openGuiForItemIndex(Level world, ServerPlayer player, int itemIndex, InteractionHand hand) {
+    public void openGuiForItemIndex(Level world, ServerPlayer player, ItemLocation itemLocation) {
         if (!world.isClientSide()) {
-            MenuProvider containerProvider = this.getContainer(world, player, itemIndex, hand, player.getItemInHand(hand));
+            MenuProvider containerProvider = this.getContainer(world, player, itemLocation);
             if (containerProvider != null) {
                 NetworkHooks.openGui(player, containerProvider, (packetBuffer) -> {
-                    this.writeExtraGuiData(packetBuffer, world, player, itemIndex, hand);
+                    this.writeExtraGuiData(packetBuffer, world, player, itemLocation);
                 });
                 Stat<ResourceLocation> openStat = this.getOpenStat();
                 if (openStat != null) {
@@ -167,9 +167,9 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     }
 
-    public void writeExtraGuiData(FriendlyByteBuf packetBuffer, Level world, ServerPlayer player, int itemIndex, InteractionHand hand) {
-        packetBuffer.writeInt(itemIndex);
-        packetBuffer.writeBoolean(hand == InteractionHand.MAIN_HAND);
+    public void writeExtraGuiData(FriendlyByteBuf packetBuffer, Level world, ServerPlayer player,
+                                  ItemLocation itemLocation) {
+        ItemLocation.writeToPacketBuffer(packetBuffer, itemLocation);
     }
 
     @Nullable
@@ -183,7 +183,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
             return new InteractionResultHolder(InteractionResult.FAIL, itemStack);
         } else {
             if (player instanceof ServerPlayer) {
-                this.openGuiForItemIndex(world, (ServerPlayer)player, player.getInventory().selected, hand);
+                openGuiForItemIndex(world, (ServerPlayer) player, InventoryLocationPlayer.getInstance().handToLocation(player, hand, player.getInventory().selected));
             }
 
             return new InteractionResultHolder(InteractionResult.SUCCESS, itemStack);

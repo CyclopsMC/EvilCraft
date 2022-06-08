@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.Items;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
+import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.container.ItemInventoryContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -23,12 +23,12 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<ItemPrimedPen
     private static final int SLOT_Y = 35;
 
     public ContainerPrimedPendant(int id, Inventory inventory, FriendlyByteBuf packetBuffer) {
-        this(id, inventory, readItemIndex(packetBuffer), readHand(packetBuffer));
+        this(id, inventory, ItemLocation.readFromPacketBuffer(packetBuffer));
     }
 
-    public ContainerPrimedPendant(int id, Inventory inventory, int itemIndex, InteractionHand hand) {
-        super(RegistryEntries.CONTAINER_PRIMED_PENDANT, id, inventory, itemIndex, hand);
-        addSlot(new SlotSingleItem(getItem().getSupplementaryInventory(player, getItemStack(player), itemIndex, hand),
+    public ContainerPrimedPendant(int id, Inventory inventory, ItemLocation itemLocation) {
+        super(RegistryEntries.CONTAINER_PRIMED_PENDANT, id, inventory, itemLocation);
+        addSlot(new SlotSingleItem(getItem().getSupplementaryInventory(player, itemLocation),
                 0, SLOT_X, SLOT_Y, Items.POTION));
         this.addPlayerInventory(player.getInventory(), INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);
     }
