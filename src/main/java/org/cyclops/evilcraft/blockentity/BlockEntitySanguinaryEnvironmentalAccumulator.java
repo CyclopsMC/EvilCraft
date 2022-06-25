@@ -7,8 +7,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -58,7 +58,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 /**
  * A machine that can infuse things with blood.
@@ -231,7 +230,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
     @OnlyIn(Dist.CLIENT)
     protected void showTankBeams() {
-        Random random = level.random;
+        RandomSource random = level.random;
         BlockPos target = getBlockPos();
         for (int j = 0; j < tankOffsets.length; j++) {
             BlockPos offset = tankOffsets[j];
@@ -264,7 +263,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     @OnlyIn(Dist.CLIENT)
     protected void showMissingTanks() {
         if(level.getGameTime() % 10 == 0) {
-            Random random = level.random;
+            RandomSource random = level.random;
             for (BlockPos location : invalidLocations) {
                 double x = location.getX() + 0.5;
                 double y = location.getY() + 0.5;
@@ -351,7 +350,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("block.evilcraft.sanguinary_environmental_accumulator");
+        return Component.translatable("block.evilcraft.sanguinary_environmental_accumulator");
     }
 
     public static class Inventory extends BlockEntityWorking.Inventory<BlockEntitySanguinaryEnvironmentalAccumulator> implements RecipeEnvironmentalAccumulator.Inventory {

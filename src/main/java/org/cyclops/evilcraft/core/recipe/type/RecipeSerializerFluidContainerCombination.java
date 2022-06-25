@@ -1,12 +1,11 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 
 import javax.annotation.Nullable;
@@ -15,8 +14,7 @@ import javax.annotation.Nullable;
  * Recipe serializer for energy container combinations.
  * @author rubensworks
  */
-public class RecipeSerializerFluidContainerCombination extends ForgeRegistryEntry<RecipeSerializer<?>>
-        implements RecipeSerializer<RecipeFluidContainerCombination> {
+public class RecipeSerializerFluidContainerCombination implements RecipeSerializer<RecipeFluidContainerCombination> {
 
     @Override
     public RecipeFluidContainerCombination fromJson(ResourceLocation recipeId, JsonObject json) {

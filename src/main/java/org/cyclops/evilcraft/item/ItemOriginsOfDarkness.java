@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,7 +28,7 @@ public class ItemOriginsOfDarkness extends ItemGui {
     @Override
     public MenuProvider getContainer(Level world, Player playerEntity, ItemLocation itemLocation) {
         return new NamedContainerProviderItem(itemLocation,
-                new TranslatableComponent("gui.cyclopscore.infobook"), ContainerOriginsOfDarkness::new);
+                Component.translatable("gui.cyclopscore.infobook"), ContainerOriginsOfDarkness::new);
     }
 
     @Override

@@ -8,14 +8,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -54,16 +50,8 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
                         .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "poisonous_libelle_spawn_egg", Helpers.RGBToInt(57, 125, 27), Helpers.RGBToInt(196, 213, 57))
         );
-        MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributesModification);
         DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
-    }
-
-    public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        if (event.getName().equals(Biomes.RIVER.location())) {
-            event.getSpawns().getSpawner(getInstance().getCategory())
-                    .add(new MobSpawnSettings.SpawnerData(getInstance(), 1, 1, 2));
-        }
     }
 
     @OnlyIn(Dist.CLIENT)

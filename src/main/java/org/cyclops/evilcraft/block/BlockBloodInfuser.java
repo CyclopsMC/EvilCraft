@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -28,7 +29,6 @@ import org.cyclops.evilcraft.core.block.BlockWithEntityGuiTank;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 /**
  * A machine that can infuse stuff with blood.
@@ -73,7 +73,7 @@ public class BlockBloodInfuser extends BlockWithEntityGuiTank {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, Random rand) {
+    public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         ParticleBloodBubble.randomDisplayTick((BlockEntityWorking) worldIn.getBlockEntity(pos), worldIn, pos,
                 rand, BlockHelpers.getSafeBlockStateProperty(stateIn, FACING, Direction.NORTH));
         super.animateTick(stateIn, worldIn, pos, rand);

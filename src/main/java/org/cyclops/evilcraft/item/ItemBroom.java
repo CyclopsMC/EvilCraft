@@ -8,7 +8,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -154,7 +153,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
-            list.add(new TranslatableComponent("broom.parts." + Reference.MOD_ID + ".types")
+            list.add(Component.translatable("broom.parts." + Reference.MOD_ID + ".types")
                     .withStyle(ChatFormatting.ITALIC));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
             Map<BroomModifier, Float> modifiers = getBroomModifiers(itemStack);
@@ -170,7 +169,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             Pair<Integer, Integer> modifiersAndMax = getModifiersAndMax(modifiers, baseModifiers);
             int modifierCount = modifiersAndMax.getLeft();
             int maxModifiers = modifiersAndMax.getRight();
-            list.add(new TranslatableComponent(
+            list.add(Component.translatable(
                     "broom.modifiers." + Reference.MOD_ID + ".types.nameparam", modifierCount, maxModifiers)
                     .withStyle(ChatFormatting.ITALIC));
             for (BroomModifier modifier : modifierTypes) {
@@ -184,7 +183,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             }
 
         } else {
-            list.add(new TranslatableComponent("broom." + Reference.MOD_ID + ".shiftinfo")
+            list.add(Component.translatable("broom." + Reference.MOD_ID + ".shiftinfo")
                     .withStyle(ChatFormatting.ITALIC));
         }
     }
@@ -210,10 +209,10 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     @OnlyIn(Dist.CLIENT)
     public void onFovEvent(FOVModifierEvent event) {
-        if(event.getEntity().getVehicle() instanceof EntityBroom) {
-            EntityBroom broom = (EntityBroom) event.getEntity().getVehicle();
+        if(event.getPlayer().getVehicle() instanceof EntityBroom) {
+            EntityBroom broom = (EntityBroom) event.getPlayer().getVehicle();
             double speed = broom.getLastPlayerSpeed();
-            event.setNewfov((float) (event.getFov() + speed / 10));
+            event.setNewFov((float) (event.getFov() + speed / 10));
         }
     }
 
@@ -232,13 +231,13 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             int x = overlayPosition.getX(resolution, width, height) + ItemBroomConfig.guiOverlayPositionOffsetX;
             int y = overlayPosition.getY(resolution, width, height) + ItemBroomConfig.guiOverlayPositionOffsetY;
 
-            event.getMatrixStack().pushPose();
+            event.getPoseStack().pushPose();
             GlStateManager._enableBlend();
             GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             RenderHelpers.bindTexture(OVERLAY);
 
             // Render slot
-            Minecraft.getInstance().gui.blit(event.getMatrixStack(), x, y, 11, 0, 24, 24);
+            Minecraft.getInstance().gui.blit(event.getPoseStack(), x, y, 11, 0, 24, 24);
 
             // Render item
             Lighting.setupFor3DItems();
@@ -248,7 +247,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             Lighting.setupForFlatItems();
 
             GlStateManager._disableBlend();
-            event.getMatrixStack().popPose();
+            event.getPoseStack().popPose();
         }
     }
 }

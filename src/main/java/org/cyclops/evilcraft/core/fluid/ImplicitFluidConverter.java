@@ -55,7 +55,7 @@ public class ImplicitFluidConverter {
      */
     public void addConverter(Fluid fluid, double rate) {
         if(fluid != null) {
-            EvilCraft.clog("Register fluid conversion for " + fluid.getRegistryName() + " with ratio " + rate);
+            EvilCraft.clog("Register fluid conversion for " + ForgeRegistries.FLUIDS.getKey(fluid) + " with ratio " + rate);
             converters.put(fluid, rate);
         }
     }

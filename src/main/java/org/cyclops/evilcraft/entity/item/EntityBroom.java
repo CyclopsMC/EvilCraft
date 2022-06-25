@@ -28,6 +28,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.network.NetworkHooks;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -540,7 +541,7 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public boolean canBeRiddenInWater(Entity rider) {
+    public boolean canBeRiddenUnderFluidType(FluidType type, Entity rider) {
         return getModifier(BroomModifiers.SWIMMING) > 0;
     }
 

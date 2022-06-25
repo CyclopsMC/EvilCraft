@@ -45,7 +45,6 @@ public class BiomeDegradedConfig extends BiomeConfig {
 
                     return new Biome.BiomeBuilder()
                             .precipitation(Biome.Precipitation.NONE)
-                            .biomeCategory(Biome.BiomeCategory.THEEND)
                             .temperature(0.8F)
                             .downfall(0.9F)
                             .specialEffects((new BiomeSpecialEffects.Builder())

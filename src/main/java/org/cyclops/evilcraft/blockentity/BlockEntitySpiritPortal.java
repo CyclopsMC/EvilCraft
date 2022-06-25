@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BookItem;
@@ -20,7 +21,6 @@ import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import java.util.Random;
 
 /**
  * Machine that can accumulate the weather and put it in a bottle.
@@ -38,7 +38,7 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
 
     @OnlyIn(Dist.CLIENT)
     private void showNewBlurParticle() {
-        Random rand = level.random;
+        RandomSource rand = level.random;
         float scale = 0.6F - rand.nextFloat() * 0.3F;
         float red = rand.nextFloat() * 0.03F + 0.01F;
         float green = rand.nextFloat() * 0.03F;

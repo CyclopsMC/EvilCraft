@@ -24,7 +24,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -438,7 +437,7 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("block.evilcraft.colossal_blood_chest");
+        return Component.translatable("block.evilcraft.colossal_blood_chest");
     }
 
     private static class Metadata extends BlockEntityWorking.Metadata {

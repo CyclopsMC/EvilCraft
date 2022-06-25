@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stat;
@@ -58,9 +58,9 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         if(!potionStack.isEmpty()) {
             List<MobEffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
             for(MobEffectInstance potionEffect : potionEffects) {
-                TranslatableComponent textComponent = new TranslatableComponent(super.getDescriptionId(itemStack) + ".potion",
-                        new TranslatableComponent(potionEffect.getDescriptionId()),
-                        new TranslatableComponent("enchantment.level." + (potionEffect.getAmplifier() + 1)));
+                MutableComponent textComponent = Component.translatable(super.getDescriptionId(itemStack) + ".potion",
+                        Component.translatable(potionEffect.getDescriptionId()),
+                        Component.translatable("enchantment.level." + (potionEffect.getAmplifier() + 1)));
                 Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
                 if (multiplier != null && multiplier < 0) {
                     textComponent.withStyle(ChatFormatting.STRIKETHROUGH);

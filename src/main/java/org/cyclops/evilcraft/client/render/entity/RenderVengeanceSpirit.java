@@ -106,9 +106,9 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
         public RenderPlayerSpirit(EntityRendererProvider.Context context) {
             super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
             this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
-            this.addLayer(new ItemInHandLayer<>(this));
+            this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
             this.addLayer(new ArrowLayer<>(context, this));
-            this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
+            this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getItemInHandRenderer()));
         }
 
         @Override

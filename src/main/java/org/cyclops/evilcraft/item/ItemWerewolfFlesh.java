@@ -6,7 +6,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -170,7 +169,7 @@ public class ItemWerewolfFlesh extends Item {
                     player = profile.getName();
                 }
             }
-            list.add(new TextComponent("Player: ")
+            list.add(Component.literal("Player: ")
                     .withStyle(ChatFormatting.WHITE)
                     .append(player));
         }

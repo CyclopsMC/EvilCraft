@@ -106,7 +106,7 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     @Override
     public void fillItemCategory(CreativeModeTab itemGroup, NonNullList<ItemStack> items) {
         if (ItemStackHelpers.isValidCreativeTab(this, itemGroup)) {
-            if (this.allowdedIn(this.category)) {
+            if (this.allowedIn(this.category)) {
                 items.add(new ItemStack(this));
             }
         }

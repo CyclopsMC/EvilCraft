@@ -1,0 +1,10 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_nether",
+  "features": [
+    "evilcraft:netherfish_netherrack",
+    "evilcraft:netherfish_nether_bricks",
+    "evilcraft:netherfish_soul_sand"
+  ],
+  "step": "underground_decoration"
+}

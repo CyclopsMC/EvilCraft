@@ -1,10 +1,12 @@
 package org.cyclops.evilcraft.world.gen.structure;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
@@ -15,13 +17,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.StairsShape;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -30,45 +28,52 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import java.util.Random;
+import java.util.Optional;
 
 /**
  * Structure that generates Dark Temples.
  * @author immortaleeb
  * @author rubensworks
  */
-public class WorldStructureDarkTemple extends StructureFeature<NoneFeatureConfiguration> {
+public class WorldStructureDarkTemple extends Structure {
+    public static final Codec<WorldStructureDarkTemple> CODEC = RecordCodecBuilder.create((builder) -> builder.group(
+            settingsCodec(builder),
+            Codec.INT.fieldOf("minHeight").forGetter(instance -> instance.minHeight),
+            Codec.INT.fieldOf("maxHeight").forGetter(instance -> instance.maxHeight)
+    ).apply(builder, WorldStructureDarkTemple::new));
 
-    public WorldStructureDarkTemple(Codec<NoneFeatureConfiguration> configFactoryIn) {
-        super(configFactoryIn, PieceGeneratorSupplier.simple(WorldStructureDarkTemple::checkLocation, WorldStructureDarkTemple::generatePieces));
+    private final int minHeight;
+    private final int maxHeight;
+
+    public WorldStructureDarkTemple(Structure.StructureSettings structureSettings, int minHeight, int maxHeight) {
+        super(structureSettings);
+        this.minHeight = minHeight;
+        this.maxHeight = maxHeight;
     }
 
-    private static <C extends FeatureConfiguration> boolean checkLocation(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> context) {
-        if (!context.validBiomeOnTop(Heightmap.Types.WORLD_SURFACE_WG)) {
-            return false;
-        } else {
-            return context.getLowestY(21, 21) >= context.chunkGenerator().getSeaLevel();
-        }
+    @Override
+    public Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
+        return onTopOfChunkCenter(context, Heightmap.Types.WORLD_SURFACE_WG, (builder) -> generatePieces(builder, context));
     }
 
-    private static void generatePieces(StructurePiecesBuilder builder, PieceGenerator.Context<NoneFeatureConfiguration> context) {
+    private void generatePieces(StructurePiecesBuilder builder, Structure.GenerationContext context) {
          int y = 9 + Mth.clamp(
-                 context.chunkGenerator().getFirstFreeHeight(context.chunkPos().getMiddleBlockX(), context.chunkPos().getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor()),
-                 WorldStructureDarkTempleConfig.darkTempleMinHeight,
-                 WorldStructureDarkTempleConfig.darkTempleMaxHeight
+                 context.chunkGenerator().getFirstFreeHeight(context.chunkPos().getMiddleBlockX(), context.chunkPos().getMiddleBlockZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState()),
+                 this.minHeight,
+                 this.maxHeight
          );
         builder.addPiece(new Piece(context.random(),
                 context.chunkPos().getMinBlockX(), y, context.chunkPos().getMinBlockZ()));
     }
 
     @Override
-    public GenerationStep.Decoration step() {
-        return GenerationStep.Decoration.SURFACE_STRUCTURES;
+    public StructureType<?> type() {
+        return RegistryEntries.STRUCTURE_DARK_TEMPLE;
     }
 
     public static class Piece extends WorldStructurePieceQuarterSymmetrical {
-        public Piece(Random random, int x, int y, int z) {
-            super(WorldStructureDarkTempleConfig.PIECE_TYPE.value(), x, y, z, 9, 9, 9, getRandomHorizontalDirection(random));
+        public Piece(RandomSource random, int minX, int minY, int minZ) {
+            super(WorldStructureDarkTempleConfig.PIECE_TYPE.value(), minX, minY, minZ, 9, 9, 9, getRandomHorizontalDirection(random));
         }
 
         public Piece(CompoundTag tag) {
@@ -100,7 +105,7 @@ public class WorldStructureDarkTemple extends StructureFeature<NoneFeatureConfig
             BlockWrapper cw = new BlockWrapper(Blocks.COBBLESTONE_WALL);
             BlockWrapper lc = new BlockWrapper(Blocks.CHEST.defaultBlockState(), (float) GeneralConfig.darkTempleChestChance);
             lc.action = (world, pos) -> {
-                Random rand = new Random();
+                RandomSource rand = RandomSource.create();
                 // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
                 RandomizableContainerBlockEntity.setLootTable(world, rand, pos, BuiltInLootTables.JUNGLE_TEMPLE);
             };

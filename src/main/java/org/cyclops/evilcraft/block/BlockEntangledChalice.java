@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -101,7 +100,7 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
             String tankId = BlockEntityHelpers.get(world, blockPos, BlockEntityEntangledChalice.class)
                     .map(BlockEntityEntangledChalice::getWorldTankId)
                     .orElse("null");
-            player.displayClientMessage(new TranslatableComponent(L10NHelpers.localize(
+            player.displayClientMessage(Component.translatable(L10NHelpers.localize(
                     "block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
         }
         return super.use(state, world, blockPos, player, hand, rayTraceResult);
@@ -160,7 +159,7 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
             BlockEntityEntangledChalice tank = (BlockEntityEntangledChalice) tile;
             Fluid fluidType = tank.getTank().getFluidType();
             if(fluidType != null) {
-                return (int) Math.min(15, tank.getFillRatio() * fluidType.getAttributes().getLuminosity());
+                return (int) Math.min(15, tank.getFillRatio() * fluidType.getFluidType().getLightLevel());
             }
         }
         return 0;

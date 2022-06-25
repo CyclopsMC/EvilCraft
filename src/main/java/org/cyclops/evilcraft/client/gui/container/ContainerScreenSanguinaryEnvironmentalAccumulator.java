@@ -6,8 +6,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
@@ -73,7 +71,7 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
 
     @Override
     protected Component getName() {
-        return new TranslatableComponent("block.evilcraft.sanguinary_environmental_accumulator");
+        return Component.translatable("block.evilcraft.sanguinary_environmental_accumulator");
     }
 
     @Override
@@ -81,11 +79,11 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
         super.drawAdditionalForeground(matrixStack, mouseX, mouseY);
         String prefix = RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
-        lines.add(new TranslatableComponent(prefix));
+        lines.add(Component.translatable(prefix));
         if (!getMenu().getTileCanWork()){
-            lines.add(new TranslatableComponent(prefix + ".invalid_locations"));
+            lines.add(Component.translatable(prefix + ".invalid_locations"));
             for(Vec3i location : getMenu().getInvalidLocations()) {
-                lines.add(new TextComponent(String.format("  X=%s Y=%s Z=%s", location.getX(), location.getY(), location.getZ())));
+                lines.add(Component.literal(String.format("  X=%s Y=%s Z=%s", location.getX(), location.getY(), location.getZ())));
             }
         }
         if (lines.size() > 1) {

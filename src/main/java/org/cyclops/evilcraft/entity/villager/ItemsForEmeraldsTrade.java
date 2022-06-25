@@ -1,14 +1,13 @@
 package org.cyclops.evilcraft.entity.villager;
 
-import net.minecraft.world.level.block.Block;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
-
-import java.util.Random;
+import net.minecraft.world.level.block.Block;
 
 /**
  * Copied from VillagerTrades
@@ -47,7 +46,8 @@ public class ItemsForEmeraldsTrade implements VillagerTrades.ItemListing {
         this.priceMultiplier = p_i50532_6_;
     }
 
-    public MerchantOffer getOffer(Entity trader, Random rand) {
+    @Override
+    public MerchantOffer getOffer(Entity trader, RandomSource rand) {
         return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCount), new ItemStack(this.itemStack.getItem(), this.numberOfItems), this.maxUses, this.villagerXp, this.priceMultiplier);
     }
 }

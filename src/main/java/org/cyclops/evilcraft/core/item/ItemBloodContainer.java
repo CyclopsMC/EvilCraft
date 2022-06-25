@@ -105,7 +105,7 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
                     world.destroyBlock(blockPos, true);
                 }
 
-                world.setBlock(blockPos, getFluid().getAttributes().getBlock(world, blockPos, getFluid().defaultFluidState()), 3);
+                world.setBlock(blockPos, getFluid().getFluidType().getBlockForFluidState(world, blockPos, getFluid().defaultFluidState()), 3);
 
                 return true;
             }

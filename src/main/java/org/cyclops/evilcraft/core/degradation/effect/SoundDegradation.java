@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.sounds.SoundSource;
@@ -9,7 +10,6 @@ import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import org.cyclops.evilcraft.core.degradation.StochasticDegradationEffect;
 
-import java.util.Random;
 
 /**
  * Client-side degradation effect that will play creepy sounds.
@@ -31,7 +31,7 @@ public class SoundDegradation extends StochasticDegradationEffect {
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        Random random = degradable.getDegradationWorld().random;
+        RandomSource random = degradable.getDegradationWorld().random;
         Level world = degradable.getDegradationWorld();
         for(Entity entity : degradable.getAreaEntities()) {
             if(entity instanceof Player) {

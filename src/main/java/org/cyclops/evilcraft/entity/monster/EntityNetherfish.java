@@ -1,19 +1,19 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.monster.Silverfish;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockInfestedNether;
 
 import java.util.EnumSet;
-import java.util.Random;
 
 /**
  * A silverfish for the nether.
@@ -80,7 +80,7 @@ public class EntityNetherfish extends Silverfish {
             } else if (!EntityNetherfish.this.getNavigation().isDone()) {
                 return false;
             } else {
-                Random random = EntityNetherfish.this.getRandom();
+                RandomSource random = EntityNetherfish.this.getRandom();
 
                 if (random.nextInt(10) == 0) {
                     this.selectedDirection = Direction.getRandom(random);

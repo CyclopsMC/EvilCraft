@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,7 +16,6 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import java.util.Random;
 
 /**
  * Evil Dungeon, based on vanilla dungeons
@@ -39,7 +39,7 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         WorldGenLevel world = context.level();
         BlockPos blockPos = context.origin();
-        Random random = context.random();
+        RandomSource random = context.random();
 
         int height = 3;
         int radiusX = random.nextInt(RADIUS_X_RAND) + RADIUS_X;

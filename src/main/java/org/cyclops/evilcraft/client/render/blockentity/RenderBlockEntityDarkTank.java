@@ -76,7 +76,7 @@ public class RenderBlockEntityDarkTank implements BlockEntityRenderer<BlockEntit
         FluidStack fluid = tile.getTank().getFluid();
         RenderHelpers.renderFluidContext(fluid, matrixStackIn, () -> {
             float height = (float) (tile.getFillRatio() * 0.99F);
-            int brightness = Math.max(combinedLightIn, fluid.getFluid().getAttributes().getLuminosity(fluid));
+            int brightness = Math.max(combinedLightIn, fluid.getFluid().getFluidType().getLightLevel(fluid));
             renderFluidSides(height, tile.getTank().getFluid(), tile.isEnabled(), brightness, matrixStackIn, bufferIn);
         });
     }

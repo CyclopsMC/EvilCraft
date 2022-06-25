@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -432,7 +431,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("block.evilcraft.spirit_furnace");
+        return Component.translatable("block.evilcraft.spirit_furnace");
     }
 
     public static class Metadata extends BlockEntityWorking.Metadata {

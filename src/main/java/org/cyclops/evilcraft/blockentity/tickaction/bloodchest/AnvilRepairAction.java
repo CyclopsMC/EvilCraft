@@ -1,13 +1,12 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodchest;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
-
-import java.util.Random;
 
 /**
  * Repair action for anvils.
@@ -27,7 +26,7 @@ public class AnvilRepairAction implements IBloodChestRepairAction {
     }
 
     @Override
-    public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, boolean doAction, boolean isBulk) {
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, boolean doAction, boolean isBulk) {
         return Pair.of(25F, new ItemStack(itemStack.getItem() == Items.CHIPPED_ANVIL ? Items.ANVIL : Items.CHIPPED_ANVIL));
     }
 

@@ -3,9 +3,9 @@ package org.cyclops.evilcraft.infobook.pageelement;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
@@ -112,7 +112,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
             int amount = AccumulateItemTickAction.getUsage(recipe.getCooldownTime());
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
-            MultiLineLabel.create(fontRenderer, new TextComponent(line), 200)
+            MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
                     .renderLeftAlignedNoShadow(matrixStack, x + middle - 5, y + SLOT_SIZE, 9, 0);
         }
     }

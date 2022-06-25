@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodchest;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairAction;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
@@ -8,7 +10,6 @@ import org.cyclops.evilcraft.block.BlockBloodChestConfig;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Registry for {@link IBloodChestRepairAction} instances.
@@ -56,14 +57,14 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     }
 
     @Override
-    public Pair<Float, ItemStack> repair(ItemStack itemStack, Random random, int actionID, boolean doAction, boolean isBulk) {
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, int actionID, boolean doAction, boolean isBulk) {
         return repairActions.get(actionID).repair(itemStack, random, doAction, isBulk);
     }
 
     protected boolean isNotBlacklisted(ItemStack itemStack) {
         if(itemStack.isEmpty()) return false;
         for(String name : BlockBloodChestConfig.itemBlacklist) {
-            if(itemStack.getItem().getRegistryName().toString().matches(name)) {
+            if(ForgeRegistries.ITEMS.getKey(itemStack.getItem()).toString().matches(name)) {
                 return false;
             }
         }

@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -99,7 +99,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
             BlockEntityHelpers.get(worldIn, pos, BlockEntityDarkTank.class)
                     .ifPresent(tile -> {
                         tile.setEnabled(!tile.isEnabled());
-                        player.displayClientMessage(new TextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
+                        player.displayClientMessage(Component.literal(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
                                 .append(" / ")
                                 .append(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
                                 .append(" mB"), true);
@@ -114,7 +114,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
         return BlockEntityHelpers.get(world, pos, BlockEntityDarkTank.class)
                 .map(tile -> tile.getTank().getFluidType() != null
                         ? (int) Math.min(15, tile.getFillRatio() * tile.getTank().getFluidType()
-                            .getAttributes().getLuminosity(tile.getTank().getFluid()) * 15)
+                            .getFluidType().getLightLevel(tile.getTank().getFluid()) * 15)
                         : 0)
                 .orElse(0);
     }

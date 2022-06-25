@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
@@ -62,7 +63,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         fluidStack = null;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, BlockState blockState, Direction facing, Random rand, IModelData modelData) {
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, BlockState blockState, Direction facing, RandomSource rand, IModelData modelData) {
         super(blockState, facing, rand, modelData);
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
@@ -131,7 +132,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public BakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
+    public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, IModelData modelData) {
         String tankId = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_ID, "");
         FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
         if(!BlockEntangledChaliceConfig.staticBlockRendering) {

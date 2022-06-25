@@ -6,9 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -115,7 +113,7 @@ public class BroomModifier {
     }
 
     public Component getTooltipLine(String prefix, float value, float bonusValue, boolean showMaxValue) {
-        MutableComponent suffix = new TranslatableComponent(getTranslationKey())
+        MutableComponent suffix = Component.translatable(getTranslationKey())
                 .append(": " + value);
         if (bonusValue > 0) {
             suffix = suffix.append(String.format(" (+%s)", bonusValue));
@@ -124,7 +122,7 @@ public class BroomModifier {
             suffix = suffix.append(String.format(" / %s", getMaxTierValue()));
         }
 
-        MutableComponent ret = new TextComponent(prefix)
+        MutableComponent ret = Component.literal(prefix)
                 .append(suffix);
         for (ChatFormatting format : getTooltipFormats()) {
             ret = ret.withStyle(format);

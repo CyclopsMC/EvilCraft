@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -59,7 +59,7 @@ public class BlockSanguinaryPedestal extends BlockWithEntity implements IBlockRa
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult p_225533_6_) {
         BlockEntityHelpers.get(worldIn, pos, BlockEntitySanguinaryPedestal.class)
                 .ifPresent(tile -> {
-                    player.displayClientMessage(new TextComponent(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
+                    player.displayClientMessage(Component.literal(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
                             .append(" / ")
                             .append(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
                             .append(" mB"), true);

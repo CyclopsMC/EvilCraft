@@ -33,7 +33,7 @@ public class ItemVeinSword extends SwordItem {
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (this.allowdedIn(group)) {
+        if (this.allowedIn(group)) {
             items.add(getEnchantedItemStack());
         }
     }

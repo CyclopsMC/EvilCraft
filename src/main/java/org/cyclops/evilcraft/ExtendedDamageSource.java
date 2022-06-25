@@ -4,7 +4,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.util.FakePlayerFactory;
 
@@ -46,7 +45,7 @@ public class ExtendedDamageSource extends DamageSource{
             public Component getLocalizedDeathMessage(LivingEntity defender) {
                 String s = "death.attack." + this.msgId;
                 String s1 = s + ".player";
-                return new TranslatableComponent(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()});
+                return Component.translatable(s1, new Object[] {defender.getDisplayName(), attacker.getDisplayName()});
             }
         };
     }

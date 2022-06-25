@@ -19,7 +19,6 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -30,12 +29,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.tags.ITag;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -57,8 +56,8 @@ public class BroomModifiers {
     public static final IBroomModifierRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomModifierRegistry.class);
 
     public static void init() {
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, EventPriority.LOWEST, BroomModifiers::afterItemsRegistered);
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Potion.class, EventPriority.HIGHEST, BroomModifiers::afterAfterItemsRegistered);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.LOWEST, BroomModifiers::afterItemsRegistered);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.HIGHEST, BroomModifiers::afterAfterItemsRegistered);
         MinecraftForge.EVENT_BUS.addListener(BroomModifiers::onTagsUpdated);
         MinecraftForge.EVENT_BUS.addListener(BroomModifiers::onLivingHurt);
     }
@@ -85,13 +84,17 @@ public class BroomModifiers {
     public static BroomModifier ICY;
     public static BroomModifier STICKY;
 
-    public static void afterItemsRegistered(RegistryEvent<Item> event) {
-        BroomParts.loadPre();
-        loadPre();
+    public static void afterItemsRegistered(RegisterEvent event) {
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
+            BroomParts.loadPre();
+            loadPre();
+        }
     }
 
-    public static void afterAfterItemsRegistered(RegistryEvent<Potion> event) {
-        BroomParts.loadPost();
+    public static void afterAfterItemsRegistered(RegisterEvent event) {
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.POTIONS)) {
+            BroomParts.loadPost();
+        }
     }
 
     public static void onTagsUpdated(TagsUpdatedEvent event) {

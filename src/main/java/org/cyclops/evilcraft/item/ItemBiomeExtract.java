@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -81,8 +80,9 @@ public class ItemBiomeExtract extends Item {
         Biome biome = getBiome(itemStack);
         if(biome != null) {
             // Biome name generation based on CreateBuffetWorldScreen
-            list.add(new TranslatableComponent(getDescriptionId() + ".info.content",
-                    new TranslatableComponent("biome." + biome.getRegistryName().getNamespace() + "." + biome.getRegistryName().getPath())));
+            ResourceLocation key = ForgeRegistries.BIOMES.getKey(biome);
+            list.add(Component.translatable(getDescriptionId() + ".info.content",
+                    Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
         }
     }
 
@@ -140,7 +140,7 @@ public class ItemBiomeExtract extends Item {
         ItemStack itemStack = new ItemStack(this, amount);
         if(biome != null) {
             CompoundTag tag = new CompoundTag();
-            tag.putString(NBT_BIOMEKEY, biome.getRegistryName().toString());
+            tag.putString(NBT_BIOMEKEY, ForgeRegistries.BIOMES.getKey(biome).toString());
             itemStack.setTag(tag);
         }
         return itemStack;

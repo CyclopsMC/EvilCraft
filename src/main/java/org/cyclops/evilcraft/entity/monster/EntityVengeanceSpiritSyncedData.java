@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 
@@ -25,7 +25,7 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     public void register(SynchedEntityData dataManager) {
         this.dataManager = dataManager;
         EntityType<?> innerEntity = super.getInnerEntityType();
-        dataManager.define(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : innerEntity.getRegistryName().toString());
+        dataManager.define(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : ForgeRegistries.ENTITIES.getKey(innerEntity).toString());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_REMAININGLIFE, super.getRemainingLife());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_FROZENDURATION, super.getFrozenDuration());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_GLOBALVENGEANCE, 0);
@@ -46,7 +46,7 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
 
     @Override
     public void setInnerEntityType(EntityType<?> innerEntityType) {
-        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntityType == null ? "" : innerEntityType.getRegistryName().toString());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntityType == null ? "" : ForgeRegistries.ENTITIES.getKey(innerEntityType).toString());
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -53,10 +54,10 @@ public class ItemBiomeExtractConfig extends ItemConfig {
     }
 
     public static boolean isCraftingBlacklisted(Biome biome) {
-        return craftingBlacklist.contains(biome.getRegistryName().toString());
+        return craftingBlacklist.contains(ForgeRegistries.BIOMES.getKey(biome).toString());
     }
 
     public static boolean isUsageBlacklisted(Biome biome) {
-        return usageBlacklist.contains(biome.getRegistryName().toString());
+        return usageBlacklist.contains(ForgeRegistries.BIOMES.getKey(biome).toString());
     }
 }

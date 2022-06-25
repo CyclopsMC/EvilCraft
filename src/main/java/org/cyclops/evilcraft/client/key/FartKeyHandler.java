@@ -5,7 +5,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.key.IKeyHandler;
@@ -32,10 +32,10 @@ public class FartKeyHandler implements IKeyHandler {
             fartingEnabled = !fartingEnabled;
 
             if (fartingEnabled)
-                player.displayClientMessage(new TranslatableComponent("chat.evilcraft.command.farting_enabled")
+                player.displayClientMessage(Component.translatable("chat.evilcraft.command.farting_enabled")
                         .withStyle(ChatFormatting.DARK_RED), true);
             else
-                player.displayClientMessage(new TranslatableComponent("chat.evilcraft.command.farting_disabled")
+                player.displayClientMessage(Component.translatable("chat.evilcraft.command.farting_disabled")
                         .withStyle(ChatFormatting.DARK_RED), true);
         }
 

@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
+import net.minecraftforge.client.IFluidTypeRenderProperties;
+import net.minecraftforge.client.RenderProperties;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -34,12 +36,13 @@ public class RenderBlockEntityEntangledChalice implements BlockEntityRenderer<Bl
                 FluidStack fluid = tile.getTank().getFluid();
                 RenderHelpers.renderFluidContext(tile.getTank().getFluid(), matrixStack, () -> {
                     float height = Math.min(0.95F, ((float) fluid.getAmount() / (float) tile.getTank().getCapacity())) * 0.1875F + 0.8125F;
-                    int brightness = Math.max(combinedLight, fluid.getFluid().getAttributes().getLuminosity(fluid));
+                    IFluidTypeRenderProperties renderProperties = RenderProperties.get(fluid.getFluid());
+                    int brightness = Math.max(combinedLight, fluid.getFluid().getFluidType().getLightLevel(fluid));
                     int l2 = brightness >> 0x10 & 0xFFFF;
                     int i3 = brightness & 0xFFFF;
 
                     TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
-                    Triple<Float, Float, Float> color = Helpers.intToRGB(fluid.getFluid().getAttributes().getColor(tile.getLevel(), tile.getBlockPos()));
+                    Triple<Float, Float, Float> color = Helpers.intToRGB(renderProperties.getColorTint(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
 
                     VertexConsumer vb = renderTypeBuffer.getBuffer(RenderType.text(icon.atlas().location()));
                     Matrix4f matrix = matrixStack.last().pose();

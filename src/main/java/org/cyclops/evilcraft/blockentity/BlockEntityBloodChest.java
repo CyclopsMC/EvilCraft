@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -239,7 +238,7 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("block.evilcraft.blood_chest");
+        return Component.translatable("block.evilcraft.blood_chest");
     }
 
     public static class TickerClient extends BlockEntityTickingTankInventory.TickerClient<BlockEntityBloodChest> {

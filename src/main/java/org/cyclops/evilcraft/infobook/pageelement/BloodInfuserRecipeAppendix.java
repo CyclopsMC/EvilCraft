@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.infobook.pageelement;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.MultiLineLabel;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -90,7 +90,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
         Font fontRenderer = gui.getFont();
         FluidStack fluidStack = recipe.getInputFluid();
         String line = fluidStack.getAmount() + " mB";
-        MultiLineLabel.create(fontRenderer, new TextComponent(line), 200)
+        MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
                 .renderLeftAlignedNoShadow(matrixStack, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
     }
 }

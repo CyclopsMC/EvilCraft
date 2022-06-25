@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -53,7 +52,7 @@ public class ItemPowerableHelpers {
             if(!world.isClientSide()) {
                 int newPower = (getPower(itemStack) + 1) % powerLevels;
                 setPower(itemStack, newPower);
-                player.displayClientMessage(new TranslatableComponent("item." + Reference.MOD_ID + ".powerable.set_power", newPower)
+                player.displayClientMessage(Component.translatable("item." + Reference.MOD_ID + ".powerable.set_power", newPower)
                         .withStyle(ChatFormatting.DARK_PURPLE), true);
             }
             return true;
@@ -76,7 +75,7 @@ public class ItemPowerableHelpers {
      * @param lines The lines to add the information to.
      */
     public static void addPostInformation(ItemStack itemStack, List<Component> lines) {
-        lines.add(new TranslatableComponent("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
+        lines.add(Component.translatable("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
                 .withStyle(ChatFormatting.BOLD));
     }
 

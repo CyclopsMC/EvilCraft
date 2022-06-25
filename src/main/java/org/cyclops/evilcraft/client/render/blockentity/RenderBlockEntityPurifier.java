@@ -23,6 +23,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.client.IFluidTypeRenderProperties;
+import net.minecraftforge.client.RenderProperties;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -70,12 +72,13 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         FluidStack fluid = tile.getTank().getFluid();
         RenderHelpers.renderFluidContext(fluid, matrixStackIn, () -> {
             float height = (float) ((fluid.getAmount() * 0.7D) / tile.getTank().getCapacity() + 0.23D + 0.01D);
-            int brightness = Math.max(combinedLightIn, fluid.getFluid().getAttributes().getLuminosity(fluid));
+            int brightness = Math.max(combinedLightIn, fluid.getFluid().getFluidType().getLightLevel(fluid));
             int l2 = brightness >> 0x10 & 0xFFFF;
             int i3 = brightness & 0xFFFF;
 
             TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
-            Triple<Float, Float, Float> color = Helpers.intToRGB(fluid.getFluid().getAttributes().getColor(tile.getLevel(), tile.getBlockPos()));
+            IFluidTypeRenderProperties renderProperties = RenderProperties.get(fluid.getFluid());
+            Triple<Float, Float, Float> color = Helpers.intToRGB(renderProperties.getColorTint(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
 
             VertexConsumer vb = bufferIn.getBuffer(RenderType.text(icon.atlas().location()));
             Matrix4f matrix = matrixStackIn.last().pose();

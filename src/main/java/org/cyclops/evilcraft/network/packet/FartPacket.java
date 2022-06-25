@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.init.ModBase;
@@ -15,7 +16,6 @@ import org.cyclops.evilcraft.client.particle.ParticleFartData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -78,7 +78,7 @@ public class FartPacket extends PlayerPositionPacket {
         if (player == null)
             return;
 
-        Random rand = world.random;
+        RandomSource rand = world.random;
         int numParticles = rand.nextInt(MAX_PARTICLES - MIN_PARTICLES) + MIN_PARTICLES;
         boolean rainbow = hasRainbowFart(player);
 

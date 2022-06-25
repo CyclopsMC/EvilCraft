@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -101,7 +100,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
 
     @Override
     protected Component getName() {
-        return new TranslatableComponent("block.evilcraft.spirit_reanimator");
+        return Component.translatable("block.evilcraft.spirit_reanimator");
     }
 
     @Override
@@ -113,18 +112,18 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
     protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
         String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
-        lines.add(new TranslatableComponent(prefix));
+        lines.add(Component.translatable(prefix));
         String entityName = getMenu().getEntityName();
         if (entityName == null) {
-            lines.add(new TranslatableComponent(prefix + ".no_entity"));
+            lines.add(Component.translatable(prefix + ".no_entity"));
         } else if (entityName.isEmpty()) {
-            lines.add(new TranslatableComponent(prefix + ".invalid_entity"));
+            lines.add(Component.translatable(prefix + ".invalid_entity"));
         }
         else {
             ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
             if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
                     && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName))) {
-                lines.add(new TranslatableComponent(prefix + ".different_egg"));
+                lines.add(Component.translatable(prefix + ".different_egg"));
             }
         }
         if(lines.size() > 1) {

@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -67,14 +67,14 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         ));
         overridePlayerDropInner("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
         overridePlayerDropInner("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
-        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.BROWN_DYE).setHoverName(new TextComponent("Lekkere Stront"))); // Davivs69
+        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.BROWN_DYE).setHoverName(Component.literal("Lekkere Stront"))); // Davivs69
         overridePlayerDropInner("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.QUARTZ)); // Jona
         overridePlayerDropInner("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
-        overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setHoverName(new TextComponent("Fuurnas"))); // _KillaH229_
+        overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setHoverName(Component.literal("Fuurnas"))); // _KillaH229_
         overridePlayerDropInner("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.ENCHANTED_GOLDEN_APPLE)); // Notch
-        overridePlayerDropInner("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(new TextComponent("jeb_"))); // jeb_
-        overridePlayerDropInner("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(new TextComponent("Dinnerbone"))); // Dinnerbone
-        overridePlayerDropInner("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setHoverName(new TextComponent("direwolf20"))); // direwolf20
+        overridePlayerDropInner("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(Component.literal("jeb_"))); // jeb_
+        overridePlayerDropInner("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(Component.literal("Dinnerbone"))); // Dinnerbone
+        overridePlayerDropInner("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setHoverName(Component.literal("direwolf20"))); // direwolf20
         overridePlayerDropInner("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.PORKCHOP)); // iChun
     }
     public static final ItemStack[] PLAYERDROP_RANDOM = new ItemStack[] {

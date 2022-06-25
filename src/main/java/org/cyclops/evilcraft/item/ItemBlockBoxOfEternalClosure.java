@@ -6,9 +6,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -45,17 +43,17 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
 
     @OnlyIn(Dist.CLIENT)
     public Component getInfo(ItemStack itemStack) {
-        Component content = new TranslatableComponent("general." + Reference.MOD_ID + ".info.empty")
+        Component content = Component.translatable("general." + Reference.MOD_ID + ".info.empty")
                 .withStyle(ChatFormatting.ITALIC);
         if(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.hasPlayer(itemStack)) {
-            content = new TextComponent(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.getPlayerName(itemStack));
+            content = Component.literal(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.getPlayerName(itemStack));
         } else {
             EntityType<?> spiritType = org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack);
             if (spiritType != null) {
                 content = spiritType.getDescription();
             }
         }
-        return new TranslatableComponent(getDescriptionId() + ".info.content")
+        return Component.translatable(getDescriptionId() + ".info.content")
                 .withStyle(ChatFormatting.LIGHT_PURPLE)
                 .append(content);
     }

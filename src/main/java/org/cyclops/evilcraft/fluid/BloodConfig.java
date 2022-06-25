@@ -22,8 +22,7 @@ public class BloodConfig extends FluidConfig {
                                 .density(1500)
                                 .viscosity(3000)
                                 .temperature(309)
-                                .rarity(Rarity.COMMON)
-                                .translationKey("block.evilcraft.blood"))
+                                .rarity(Rarity.COMMON))
                         .bucket(() -> RegistryEntries.ITEM_BUCKET_BLOOD)
                         .block(() -> RegistryEntries.BLOCK_BLOOD)
         );

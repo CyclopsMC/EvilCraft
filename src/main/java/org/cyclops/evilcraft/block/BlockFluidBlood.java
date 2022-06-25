@@ -1,17 +1,16 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.BlockState;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-
-import java.util.Random;
 
 /**
  * A blockState for the blood fluid.
@@ -32,7 +31,7 @@ public class BlockFluidBlood extends LiquidBlock {
     }
 
     @Override
-    public void randomTick(BlockState blockState, ServerLevel world, BlockPos blockPos, Random random) {
+    public void randomTick(BlockState blockState, ServerLevel world, BlockPos blockPos, RandomSource random) {
         if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.getValue(LEVEL) == 0
                 && (!(world.isRaining() && world.getBiome(blockPos).value().getDownfall() > 0) || !world.canSeeSkyFromBelowWater(blockPos))
                 && !isWaterInArea(world, blockPos)) {

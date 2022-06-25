@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "evilcraft:evil_dungeon_default",
+  "step": "underground_structures"
+}

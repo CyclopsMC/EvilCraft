@@ -1,16 +1,15 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -20,8 +19,7 @@ import java.util.function.Supplier;
  * Recipe serializer for predefined output items.
  * @author rubensworks
  */
-public class RecipeSerializerCraftingShapedCustomOutput extends ForgeRegistryEntry<RecipeSerializer<?>>
-        implements RecipeSerializer<RecipeCraftingShapedCustomOutput> {
+public class RecipeSerializerCraftingShapedCustomOutput implements RecipeSerializer<RecipeCraftingShapedCustomOutput> {
 
     private final Supplier<ItemStack> outputProvider;
     @Nullable

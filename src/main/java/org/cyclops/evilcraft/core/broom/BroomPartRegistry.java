@@ -9,17 +9,17 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
@@ -206,13 +206,13 @@ public class BroomPartRegistry implements IBroomPartRegistry {
                 Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
                 if (!modifiers.isEmpty()) {
                     if (MinecraftHelpers.isShifted()) {
-                        event.getToolTip().add(new TranslatableComponent("broom.modifiers." + Reference.MOD_ID + ".types")
+                        event.getToolTip().add(Component.translatable("broom.modifiers." + Reference.MOD_ID + ".types")
                                 .withStyle(ChatFormatting.ITALIC));
                         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
                             event.getToolTip().add(entry.getKey().getTooltipLine("  ", entry.getValue(), 0, false));
                         }
                     } else {
-                        event.getToolTip().add(new TranslatableComponent("broom.parts." + Reference.MOD_ID + ".shiftinfo")
+                        event.getToolTip().add(Component.translatable("broom.parts." + Reference.MOD_ID + ".shiftinfo")
                                 .withStyle(ChatFormatting.ITALIC));
                     }
                 }
@@ -221,14 +221,16 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void beforeItemsRegistered(RegistryEvent<Item> event) {
+    public void beforeItemsRegistered(RegisterEvent event) {
         // The block registry even is called before the items event
-        parts.clear();
-        partItems.clear();
-        partsByType.clear();
-        baseModifiers.clear();
-        if(MinecraftHelpers.isClientSide()) {
-            partModels.clear();
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
+            parts.clear();
+            partItems.clear();
+            partsByType.clear();
+            baseModifiers.clear();
+            if (MinecraftHelpers.isClientSide()) {
+                partModels.clear();
+            }
         }
     }
 }

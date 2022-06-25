@@ -2,8 +2,9 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -54,7 +55,7 @@ public class ItemPrimedPendantConfig extends ItemConfig {
                 throw new IllegalArgumentException("Invalid line '" + line + "' found for "
                         + "a Primed Pendant potion multiplier config.");
             }
-            if (split[0].equals(potion.getRegistryName().toString())) {
+            if (split[0].equals(ForgeRegistries.MOB_EFFECTS.getKey(potion).toString())) {
                 try {
                     double multiplier = 1.0D;
                     try {

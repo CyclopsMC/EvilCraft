@@ -4,19 +4,20 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicLongMap;
+import com.mojang.math.Vector3f;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransform;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
-import com.mojang.math.Vector3f;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
@@ -31,7 +32,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * A baked broom model.
@@ -73,7 +73,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     private static final Map<IBroomPart, BakedModel> broomPartModels = Maps.newHashMap();
 
     private final List<BakedQuad> quads;
-    private final Random rand = new Random();
+    private final RandomSource rand = RandomSource.create();
 
     public BroomModelBaked() {
         super(true, false);
@@ -91,7 +91,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public BakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull Random random, @Nonnull IModelData iModelData) {
+    public BakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull RandomSource random, @Nonnull IModelData iModelData) {
         throw new UnsupportedOperationException();
     }
 

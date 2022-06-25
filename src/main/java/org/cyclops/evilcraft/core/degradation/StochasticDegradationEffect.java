@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.degradation;
 
+import net.minecraft.util.RandomSource;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
-import java.util.Random;
 
 /**
  * A {@link IDegradationEffect} that can be executed with a certain chance.
@@ -28,7 +28,7 @@ public abstract class StochasticDegradationEffect implements IDegradationEffect 
 
     @Override
     public boolean canRun(IDegradable degradable) {
-        Random random = degradable.getDegradationWorld().random;
+        RandomSource random = degradable.getDegradationWorld().random;
         return degradable.getDegradation() * getChance() > random.nextDouble();
     }
 

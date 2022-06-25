@@ -6,10 +6,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -20,12 +18,8 @@ import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -37,9 +31,6 @@ import java.util.List;
  *
  */
 public class BlockDarkOreConfig extends BlockConfig {
-
-    @ConfigurableProperty(category = "worldgeneration", comment = "If dark ore should be generated in the overworld.", configLocation = ModConfig.Type.SERVER)
-    public static boolean generate = true;
 
     private final boolean deepslate;
     public Holder<ConfiguredFeature<?, ?>> configuredFeature;
@@ -57,7 +48,6 @@ public class BlockDarkOreConfig extends BlockConfig {
         );
         this.deepslate = deepslate;
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
-        MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
     }
 
     public void onClientSetup(FMLClientSetupEvent event) {
@@ -80,13 +70,6 @@ public class BlockDarkOreConfig extends BlockConfig {
                 deepslate
                         ? new PlacedFeature(configuredFeature, List.of(CountPlacement.of(6), InSquarePlacement.spread(), HeightRangePlacement.triangle(VerticalAnchor.aboveBottom(-32), VerticalAnchor.aboveBottom(32)), BiomeFilter.biome()))
                         : new PlacedFeature(configuredFeature, List.of(CountPlacement.of(3), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(66)), BiomeFilter.biome())));
-    }
-
-    public void onBiomeLoadingEvent(BiomeLoadingEvent event) {
-        if (BlockDarkOreConfig.generate && event.getCategory() != Biome.BiomeCategory.THEEND && event.getCategory() != Biome.BiomeCategory.NETHER) {
-            event.getGeneration().getFeatures(GenerationStep.Decoration.UNDERGROUND_ORES)
-                    .add(placedFeature);
-        }
     }
 
 }

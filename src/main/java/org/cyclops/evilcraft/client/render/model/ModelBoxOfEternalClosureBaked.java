@@ -2,19 +2,20 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.mojang.math.Vector3f;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.minecraft.world.level.block.state.BlockState;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.block.model.ItemTransform;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.IModelData;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
@@ -22,7 +23,6 @@ import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 /**
  * A baked boec model.
@@ -75,7 +75,7 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     }
 
     @Override
-    public BakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
+    public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, IModelData modelData) {
         return null;
     }
 

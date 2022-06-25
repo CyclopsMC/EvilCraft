@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import org.cyclops.cyclopscore.config.extendedconfig.RecipeTypeConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.RegistryEntries;
 
 /**
  * Config for the environmental accumulator recipe type.
@@ -10,18 +9,10 @@ import org.cyclops.evilcraft.RegistryEntries;
  *
  */
 public class RecipeTypeEnvironmentalAccumulatorConfig extends RecipeTypeConfig<RecipeEnvironmentalAccumulator> {
-
     public RecipeTypeEnvironmentalAccumulatorConfig() {
         super(
                 EvilCraft._instance,
                 "environmental_accumulator"
         );
-    }
-
-    @Override
-    public void onRegistered() {
-        super.onRegistered();
-
-        RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = getInstance();
     }
 }

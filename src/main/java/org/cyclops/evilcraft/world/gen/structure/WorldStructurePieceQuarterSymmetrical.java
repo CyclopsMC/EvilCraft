@@ -4,9 +4,10 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -97,10 +98,9 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredFea
         }
     }
 
-    // init
     @Override
-    public void postProcess(WorldGenLevel world, StructureFeatureManager structureManager, ChunkGenerator chunkGenerator,
-                                  Random rand, BoundingBox bounds, ChunkPos chunkPos, BlockPos pos) {
+    public void postProcess(WorldGenLevel world, StructureManager structureManager, ChunkGenerator chunkGenerator,
+                            RandomSource rand, BoundingBox bounds, ChunkPos chunkPos, BlockPos pos) {
         int x = rand.nextInt(16);
         int z = rand.nextInt(16);
         BlockPos blockPos = new BlockPos(this.getWorldX(x, z), this.getWorldY(0), this.getWorldZ(x, z));

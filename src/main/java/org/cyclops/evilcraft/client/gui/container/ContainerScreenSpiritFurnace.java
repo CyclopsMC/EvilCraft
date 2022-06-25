@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
@@ -100,7 +99,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
 
     @Override
     protected Component getName() {
-        return new TranslatableComponent("block.evilcraft.spirit_furnace");
+        return Component.translatable("block.evilcraft.spirit_furnace");
     }
 
     @Override
@@ -119,17 +118,17 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
     protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
         String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
-        lines.add(new TranslatableComponent(prefix));
+        lines.add(Component.translatable(prefix));
         if (!getMenu().hasEntity()) {
-            lines.add(new TranslatableComponent(prefix + ".no_entity"));
+            lines.add(Component.translatable(prefix + ".no_entity"));
         } else if (!getMenu().isSizeValidForEntity()) {
-            lines.add(new TranslatableComponent(prefix + ".content_size", prettyPrintSize(getMenu().getInnerSize())));
-            lines.add(new TranslatableComponent(prefix + ".required_size", prettyPrintSize(getMenu().getEntitySize())));
+            lines.add(Component.translatable(prefix + ".content_size", prettyPrintSize(getMenu().getInnerSize())));
+            lines.add(Component.translatable(prefix + ".required_size", prettyPrintSize(getMenu().getEntitySize())));
         } else if (getMenu().isForceHalt()) {
-            lines.add(new TranslatableComponent(prefix + ".force_halt"));
+            lines.add(Component.translatable(prefix + ".force_halt"));
         }
         else if (getMenu().isCaughtError()) {
-            lines.add(new TranslatableComponent(prefix + ".caught_error"));
+            lines.add(Component.translatable(prefix + ".caught_error"));
         }
         if (lines.size() > 1) {
             this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,

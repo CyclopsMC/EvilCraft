@@ -1,12 +1,15 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -23,16 +26,20 @@ public class BlockBloodWaxedCoalConfig extends BlockConfig {
                 eConfig -> new Block(Block.Properties.of(Material.STONE)
                         .requiresCorrectToolForDrops()
                         .strength(3.0F, 5.0F)
-                        .sound(SoundType.METAL)),
+                        .sound(SoundType.METAL)) {
+                    @Override
+                    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                        return 5;
+                    }
+
+                    @Override
+                    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                        return 5;
+                    }
+                },
                 getDefaultItemConstructor(EvilCraft._instance)
         );
         MinecraftForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEvent);
-    }
-
-    @Override
-    public void onRegistered() {
-        super.onRegistered();
-        BlockHelpers.setFireInfo(getInstance(), 5, 5);
     }
 
     public void onFurnaceFuelBurnTimeEvent(FurnaceFuelBurnTimeEvent event) {

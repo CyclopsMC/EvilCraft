@@ -3,10 +3,10 @@ package org.cyclops.evilcraft.event;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -67,16 +67,16 @@ public class RenderOverlayEventHook {
                 int x = overlayPosition.getX(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetX;
                 int y = overlayPosition.getY(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetY;
 
-                event.getMatrixStack().pushPose();
+                event.getPoseStack().pushPose();
                 GlStateManager._enableBlend();
                 GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderHelpers.bindTexture(BLOOD_OVERLAY);
 
-                Minecraft.getInstance().gui.blit(event.getMatrixStack(), x, y, 0, 0, WIDTH, HEIGHT);
-                Minecraft.getInstance().gui.blit(event.getMatrixStack(), x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
+                Minecraft.getInstance().gui.blit(event.getPoseStack(), x, y, 0, 0, WIDTH, HEIGHT);
+                Minecraft.getInstance().gui.blit(event.getPoseStack(), x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
 
                 GlStateManager._disableBlend();
-                event.getMatrixStack().popPose();
+                event.getPoseStack().popPose();
             }
         }
     }

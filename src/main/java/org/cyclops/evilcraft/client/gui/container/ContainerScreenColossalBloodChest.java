@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
@@ -85,7 +84,7 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
 
     @Override
     protected Component getName() {
-        return new TranslatableComponent("block.evilcraft.colossal_blood_chest");
+        return Component.translatable("block.evilcraft.colossal_blood_chest");
     }
 
     @Override

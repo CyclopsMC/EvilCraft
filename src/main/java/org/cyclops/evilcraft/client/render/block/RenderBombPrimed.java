@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.render.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.TntMinecartRenderer;
 import net.minecraft.client.renderer.entity.TntRenderer;
@@ -17,10 +18,12 @@ import net.minecraft.world.level.block.Block;
  */
 public class RenderBombPrimed extends TntRenderer {
 
+    protected final BlockRenderDispatcher blockRenderer;
     protected final Block block;
 
     public RenderBombPrimed(EntityRendererProvider.Context renderContext, Block block) {
         super(renderContext);
+        this.blockRenderer = renderContext.getBlockRenderDispatcher();
         this.block = block;
     }
 
@@ -39,7 +42,7 @@ public class RenderBombPrimed extends TntRenderer {
         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
         matrixStackIn.translate(-0.5D, -0.5D, 0.5D);
         matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0F));
-        TntMinecartRenderer.renderWhiteSolidBlock(this.block.defaultBlockState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
+        TntMinecartRenderer.renderWhiteSolidBlock(this.blockRenderer, this.block.defaultBlockState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
         matrixStackIn.popPose();
         //super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }

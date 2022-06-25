@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.client.gui.container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockBloodInfuser;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
@@ -84,7 +83,7 @@ public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<Cont
 
     @Override
     protected Component getName() {
-        return new TranslatableComponent("block.evilcraft.blood_infuser");
+        return Component.translatable("block.evilcraft.blood_infuser");
     }
 
     @Override

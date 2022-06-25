@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -25,9 +26,11 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.ImposterProtoChunk;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.CyclopsCore;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -40,7 +43,6 @@ import org.cyclops.evilcraft.item.ItemBiomeExtract;
 import org.cyclops.evilcraft.network.packet.ResetChunkColorsPacket;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -96,8 +98,8 @@ public class EntityBiomeExtract extends EntityThrowable {
                         updatedChunks.add(new ChunkPos(location));
                         // int color = biome.getFoliageColor(); // Only accessible client-side, so we copy and modify its implementation...
                         int color = biome.specialEffects.getFoliageColorOverride().orElseGet(() -> {
-                            double d0 = (double)Mth.clamp(biome.climateSettings.temperature, 0.0F, 1.0F);
-                            double d1 = (double)Mth.clamp(biome.climateSettings.downfall, 0.0F, 1.0F);
+                            double d0 = (double)Mth.clamp(biome.climateSettings.temperature(), 0.0F, 1.0F);
+                            double d1 = (double)Mth.clamp(biome.climateSettings.downfall(), 0.0F, 1.0F);
                             // Following is also on accessible client-side...
                             //return FoliageColors.get(d0, d1);
                             return Helpers.RGBToInt(20, 200, 20);
@@ -182,7 +184,7 @@ public class EntityBiomeExtract extends EntityThrowable {
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
             // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
             Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
-            Biome biomeHack = biomeRegistry.get(ResourceKey.create(Registry.BIOME_REGISTRY, biome.getRegistryName()));
+            Biome biomeHack = biomeRegistry.get(ResourceKey.create(Registry.BIOME_REGISTRY, ForgeRegistries.BIOMES.getKey(biome)));
 
             // Update biome in chunk
             // Based on ChunkAccess#getNoiseBiome
@@ -191,7 +193,7 @@ public class EntityBiomeExtract extends EntityThrowable {
             int dummyY = Mth.clamp(i3, minBuildHeight, maxHeight);
             int sectionIndex = chunk.getSectionIndex(QuartPos.toBlock(dummyY));
             //chunk.sections[sectionIndex].getNoiseBiome(l2 & 3, dummyY & 3, j3 & 3);
-            chunk.sections[sectionIndex].getBiomes().set(l2 & 3, dummyY & 3, j3 & 3, new Holder.Direct<>(biomeHack));
+            ((PalettedContainer<Holder<Biome>>) chunk.sections[sectionIndex].getBiomes()).set(l2 & 3, dummyY & 3, j3 & 3, new Holder.Direct<>(biomeHack));
 
             chunk.setUnsaved(true);
         } else {
@@ -215,7 +217,7 @@ public class EntityBiomeExtract extends EntityThrowable {
 
     private void showChangedBiome(ServerLevel world, BlockPos pos, int color) {
         Triple<Float, Float, Float> c = Helpers.intToRGB(color);
-        Random rand = world.random;
+        RandomSource rand = world.random;
         for (int j = 0; j < 2 + rand.nextInt(5); j++) {
             float x = pos.getX() + -0.5F + rand.nextFloat();
             float y = pos.getY() + -0.5F + rand.nextFloat();

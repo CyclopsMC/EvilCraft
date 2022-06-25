@@ -6,12 +6,13 @@ import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -49,7 +50,6 @@ import org.cyclops.evilcraft.core.weather.WeatherType;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -127,7 +127,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
     protected void recreateBossInfo() {
         this.bossInfo = (ServerBossEvent)(new ServerBossEvent(
-                new TranslatableComponent("chat.evilcraft.boss_display.charge"),
+                Component.translatable("chat.evilcraft.boss_display.charge"),
                 BossEvent.BossBarColor.PURPLE,
                 BossEvent.BossBarOverlay.PROGRESS))
                 .setDarkenScreen(false);
@@ -204,7 +204,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
     @OnlyIn(Dist.CLIENT)
     protected void showWaterBeams() {
-        Random random = level.random;
+        RandomSource random = level.random;
         BlockPos target = getBlockPos();
         for (int j = 0; j < waterOffsets.length; j++) {
             BlockPos offset = waterOffsets[j];
@@ -241,7 +241,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
     @OnlyIn(Dist.CLIENT)
     public static void showAccumulatingParticles(Level world, float centerX, float centerY, float centerZ, float spread) {
-        Random rand = world.random;
+        RandomSource rand = world.random;
         for (int j = 0; j < rand.nextInt(20); j++) {
             float scale = 0.6F - rand.nextFloat() * 0.4F;
             float red = rand.nextFloat() * 0.1F + 0.2F;

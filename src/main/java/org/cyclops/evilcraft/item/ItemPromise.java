@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -75,10 +74,10 @@ public class ItemPromise extends Item {
     public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
         if(MinecraftHelpers.isShifted()) {
-            list.add(new TranslatableComponent("item.evilcraft.promise.use_in")
+            list.add(Component.translatable("item.evilcraft.promise.use_in")
                     .withStyle(ChatFormatting.DARK_GREEN));
             for(BlockConfig upgradable : getUpgrade(itemStack).getUpgradables()) {
-                list.add(new TranslatableComponent(upgradable.getTranslationKey())
+                list.add(Component.translatable(upgradable.getTranslationKey())
                         .withStyle(ChatFormatting.ITALIC));
             }
         }

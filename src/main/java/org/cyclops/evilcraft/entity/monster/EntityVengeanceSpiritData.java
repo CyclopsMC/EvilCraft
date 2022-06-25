@@ -2,9 +2,10 @@ package org.cyclops.evilcraft.entity.monster;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -88,7 +89,7 @@ public class EntityVengeanceSpiritData {
 
     public CompoundTag writeNBT(CompoundTag tag) {
         if (getInnerEntityType() != null)
-            tag.putString(NBTKEY_INNER_ENTITY, getInnerEntityType().getRegistryName().toString());
+            tag.putString(NBTKEY_INNER_ENTITY, ForgeRegistries.ENTITIES.getKey(getInnerEntityType()).toString());
         tag.putInt(NBTKEY_REMAINING_LIFE, getRemainingLife());
         tag.putInt(NBTKEY_FROZEN_DURATION, getFrozenDuration());
         tag.putBoolean(NBTKEY_IS_SWARM, isSwarm());
@@ -107,7 +108,7 @@ public class EntityVengeanceSpiritData {
         }
     }
 
-    public static EntityType<?> getRandomInnerEntity(Random rand) {
+    public static EntityType<?> getRandomInnerEntity(RandomSource rand) {
         List<EntityType<?>> entities = ForgeRegistries.ENTITIES.getValues().stream()
                 .filter(e -> e.getCategory() == MobCategory.MONSTER)
                 .collect(Collectors.toList());

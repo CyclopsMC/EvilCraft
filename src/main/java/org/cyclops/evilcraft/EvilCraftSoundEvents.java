@@ -2,9 +2,10 @@ package org.cyclops.evilcraft;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegisterEvent;
 
 /**
  * All mod SoundEvent references.
@@ -23,21 +24,23 @@ public class EvilCraftSoundEvents {
 
     private static SoundEvent getRegisteredSoundEvent(IForgeRegistry<SoundEvent> registry,  String id) {
         ResourceLocation resourceLocation = new ResourceLocation(Reference.MOD_ID, id);
-        SoundEvent soundEvent = new SoundEvent(resourceLocation).setRegistryName(resourceLocation);
-        registry.register(soundEvent);
+        SoundEvent soundEvent = new SoundEvent(resourceLocation);
+        registry.register(resourceLocation, soundEvent);
         return soundEvent;
     }
 
     @SubscribeEvent
-    public static void registerSoundEvents(RegistryEvent.Register<SoundEvent> event) {
-            effect_vengeancebeam_base = getRegisteredSoundEvent(event.getRegistry(), "effect.vengeancebeam.base");
-            effect_vengeancebeam_start = getRegisteredSoundEvent(event.getRegistry(), "effect.vengeancebeam.start");
-            effect_vengeancebeam_stop = getRegisteredSoundEvent(event.getRegistry(), "effect.vengeancebeam.stop");
-            mob_vengeancespirit_ambient = getRegisteredSoundEvent(event.getRegistry(), "mob.vengeancespirit.ambient");
-            mob_vengeancespirit_death = getRegisteredSoundEvent(event.getRegistry(), "mob.vengeancespirit.death");
-            effect_box_beam = getRegisteredSoundEvent(event.getRegistry(), "effect.box.beam");
-            effect_page_flipsingle = getRegisteredSoundEvent(event.getRegistry(), "effect.page.flipsingle");
-            effect_page_flipmultiple = getRegisteredSoundEvent(event.getRegistry(), "effect.page.flipmultiple");
+    public static void registerSoundEvents(RegisterEvent event) {
+        if (event.getRegistryKey().equals(ForgeRegistries.Keys.SOUND_EVENTS)) {
+            effect_vengeancebeam_base = getRegisteredSoundEvent(event.getForgeRegistry(), "effect.vengeancebeam.base");
+            effect_vengeancebeam_start = getRegisteredSoundEvent(event.getForgeRegistry(), "effect.vengeancebeam.start");
+            effect_vengeancebeam_stop = getRegisteredSoundEvent(event.getForgeRegistry(), "effect.vengeancebeam.stop");
+            mob_vengeancespirit_ambient = getRegisteredSoundEvent(event.getForgeRegistry(), "mob.vengeancespirit.ambient");
+            mob_vengeancespirit_death = getRegisteredSoundEvent(event.getForgeRegistry(), "mob.vengeancespirit.death");
+            effect_box_beam = getRegisteredSoundEvent(event.getForgeRegistry(), "effect.box.beam");
+            effect_page_flipsingle = getRegisteredSoundEvent(event.getForgeRegistry(), "effect.page.flipsingle");
+            effect_page_flipmultiple = getRegisteredSoundEvent(event.getForgeRegistry(), "effect.page.flipmultiple");
+        }
     }
 
 }

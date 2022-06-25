@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -88,7 +87,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
         super.appendHoverText(itemStack, worldIn, list, flagIn);
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
-        list.add(new TranslatableComponent("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
+        list.add(Component.translatable("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
     }
 
     public static String tankIdToNameParts(String tankId) {

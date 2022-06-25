@@ -1,34 +1,36 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.IFluidTypeRenderProperties;
+import net.minecraftforge.client.RenderProperties;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDarkTankConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Random;
 
 /**
  * The dynamic item model for the dark tank.
@@ -46,7 +48,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     public ModelDarkTankBaked(BakedModel baseModel, int capacity, FluidStack fluidStack,
-                              BlockState blockState, Direction facing, Random rand, IModelData modelData) {
+                              BlockState blockState, Direction facing, RandomSource rand, IModelData modelData) {
         super(baseModel, blockState, facing, rand, modelData);
         this.capacity = capacity;
         this.fluidStack = fluidStack;
@@ -85,7 +87,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     @Override
-    public BakedModel handleBlockState(BlockState state, Direction side, Random rand, IModelData modelData) {
+    public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, IModelData modelData) {
         int capacity = ModelHelpers.getSafeProperty(modelData, org.cyclops.evilcraft.block.BlockDarkTank.TANK_CAPACITY, 0);
         FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, org.cyclops.evilcraft.block.BlockDarkTank.TANK_FLUID, FluidStack.EMPTY);
         return new ModelDarkTankBaked(baseModel, capacity, fluidStack, state, side, rand, modelData);
@@ -103,9 +105,10 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     public static TextureAtlasSprite getFluidIcon(FluidStack fluid, boolean flowing, Direction side) {
+        IFluidTypeRenderProperties renderProperties = RenderProperties.get(fluid.getFluid());
         return RenderHelpers.TEXTURE_GETTER.apply(flowing && side != Direction.UP && side != Direction.DOWN
-                ? fluid.getFluid().getAttributes().getFlowingTexture(fluid)
-                : fluid.getFluid().getAttributes().getStillTexture(fluid));
+                ? renderProperties.getFlowingTexture(fluid)
+                : renderProperties.getStillTexture(fluid));
     }
 
     protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity, boolean flowing) {

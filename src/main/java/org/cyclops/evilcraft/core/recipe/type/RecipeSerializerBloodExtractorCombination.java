@@ -1,11 +1,10 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import com.google.gson.JsonObject;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import javax.annotation.Nullable;
 
@@ -13,8 +12,7 @@ import javax.annotation.Nullable;
  * Recipe serializer for energy container combinations.
  * @author rubensworks
  */
-public class RecipeSerializerBloodExtractorCombination extends ForgeRegistryEntry<RecipeSerializer<?>>
-        implements RecipeSerializer<RecipeBloodExtractorCombination> {
+public class RecipeSerializerBloodExtractorCombination implements RecipeSerializer<RecipeBloodExtractorCombination> {
 
     @Override
     public RecipeBloodExtractorCombination fromJson(ResourceLocation recipeId, JsonObject json) {

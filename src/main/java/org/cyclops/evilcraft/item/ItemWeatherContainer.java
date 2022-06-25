@@ -5,7 +5,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -110,7 +109,7 @@ public class ItemWeatherContainer extends Item {
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (this.allowdedIn(group)) {
+        if (this.allowedIn(group)) {
             for (WeatherContainerType type : WeatherContainerType.values()) {
                 ItemStack stack = new ItemStack(this);
                 setWeatherType(stack, type);
@@ -154,7 +153,7 @@ public class ItemWeatherContainer extends Item {
         private WeatherContainerType(WeatherType type, String description, ChatFormatting damageColor, int damageRenderColor, Rarity rarity) {
             this.type = type;
 
-            this.description = new TranslatableComponent("weather_container." + Reference.MOD_ID + "." + description);
+            this.description = Component.translatable("weather_container." + Reference.MOD_ID + "." + description);
             this.damageColor = damageColor;
             this.damageRenderColor = damageRenderColor;
             this.rarity = rarity;

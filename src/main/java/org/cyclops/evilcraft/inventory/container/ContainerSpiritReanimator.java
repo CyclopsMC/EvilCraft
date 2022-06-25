@@ -1,18 +1,19 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritReanimator;
+import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
-import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -78,7 +79,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
         super(RegistryEntries.CONTAINER_SPIRIT_REANIMATOR, id, playerInventory, inventory, tileSupplier,
                 BlockEntitySpiritReanimator.TICKERS, BlockEntitySpiritReanimator.INVENTORY_SIZE_UPGRADES);
 
-        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : getTileSupplier().get().getEntityType().getRegistryName().toString());
+        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : ForgeRegistries.ENTITIES.getKey(getTileSupplier().get().getEntityType()).toString());
 
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritReanimator.SLOT_CONTAINER,

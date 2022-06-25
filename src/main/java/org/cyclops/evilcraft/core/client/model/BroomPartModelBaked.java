@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -25,7 +26,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * A baked broom part model.
@@ -35,7 +35,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
 
     private final Map<IBroomPart, BakedModel> broomPartModels = Maps.newHashMap();
     private final List<BakedQuad> quads;
-    private final Random rand = new Random();
+    private final RandomSource rand = RandomSource.create();
 
     public BroomPartModelBaked() {
         super(true, false);
@@ -62,7 +62,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public BakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull Random random, @Nonnull IModelData iModelData) {
+    public BakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull RandomSource random, @Nonnull IModelData iModelData) {
         throw new UnsupportedOperationException();
     }
 

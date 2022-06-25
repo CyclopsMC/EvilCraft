@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -249,7 +248,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("block.evilcraft.spirit_reanimator");
+        return Component.translatable("block.evilcraft.spirit_reanimator");
     }
 
     private static class Metadata extends BlockEntityWorking.Metadata {

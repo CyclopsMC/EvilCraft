@@ -6,7 +6,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -34,7 +33,6 @@ public class BlockUndeadLeavesConfig extends BlockConfig {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        BlockHelpers.setFireInfo(getInstance(), 30, 60);
         ComposterBlock.COMPOSTABLES.put(getItemInstance(), 0.3F);
     }
 

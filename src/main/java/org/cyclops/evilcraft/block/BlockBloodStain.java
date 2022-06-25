@@ -24,6 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -72,7 +73,7 @@ public class BlockBloodStain extends BlockWithEntity {
         }
 
         // Check if the block has been blacklisted
-        String blockName = blockstate.getBlock().getRegistryName().toString();
+        String blockName = ForgeRegistries.BLOCKS.getKey(blockstate.getBlock()).toString();
         for (String blacklistedRegex : BlockBloodStainConfig.spawnBlacklist) {
             if (blockName.matches(blacklistedRegex)) {
                 return false;

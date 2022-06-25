@@ -1,10 +1,13 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -20,15 +23,18 @@ public class BlockUndeadPlankConfig extends BlockConfig {
             "undead_planks",
                 eConfig -> new Block(Block.Properties.of(Material.WOOD)
                         .strength(2.0F)
-                        .sound(SoundType.WOOD)),
+                        .sound(SoundType.WOOD)) {
+                    @Override
+                    public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                        return 5;
+                    }
+
+                    @Override
+                    public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                        return 20;
+                    }
+                },
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
-
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        BlockHelpers.setFireInfo(getInstance(), 5, 20);
-    }
-
 }

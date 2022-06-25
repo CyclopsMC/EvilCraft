@@ -3,13 +3,12 @@ package org.cyclops.evilcraft.core.recipe.type;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Either;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.core.weather.WeatherType;
@@ -21,7 +20,7 @@ import java.util.Locale;
  * Recipe serializer for abstract environmental accumulator recipes
  * @author rubensworks
  */
-public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends RecipeEnvironmentalAccumulator> extends ForgeRegistryEntry<RecipeSerializer<?>>
+public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends RecipeEnvironmentalAccumulator>
         implements RecipeSerializer<T> {
 
     protected WeatherType getWeatherType(String type) throws JsonSyntaxException {

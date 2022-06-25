@@ -1,26 +1,27 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.base.Predicate;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -30,7 +31,6 @@ import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 import org.cyclops.evilcraft.entity.item.EntityItemUndespawnable;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Item that can attract items and XP orbs.
@@ -79,7 +79,7 @@ public class ItemKineticator extends ItemBloodContainer {
         super.appendHoverText(itemStack, world, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.attraction");
-        list.add(new TranslatableComponent(getDescriptionId() + ".info.area", getArea(itemStack))
+        list.add(Component.translatable(getDescriptionId() + ".info.area", getArea(itemStack))
                 .withStyle(ChatFormatting.BOLD));
     }
 
@@ -202,12 +202,12 @@ public class ItemKineticator extends ItemBloodContainer {
     protected boolean canKineticateItem(ItemStack entityItem) {
         if(entityItem == null) return false;
         return !ItemKineticatorConfig.kineticateBlacklist
-                .contains(entityItem.getItem().getRegistryName().toString());
+                .contains(ForgeRegistries.ITEMS.getKey(entityItem.getItem()).toString());
     }
 
     @OnlyIn(Dist.CLIENT)
     protected void showEntityMoved(Level world, Entity player, Entity entity, double dx, double dy, double dz) {
-        Random rand = world.random;
+        RandomSource rand = world.random;
         float scale = 0.05F;
         float red = rand.nextFloat() * 0.03F + 0.5F;
         float green = rand.nextFloat() * 0.03F + (rand.nextBoolean() ? 0.5F : 0.3F);

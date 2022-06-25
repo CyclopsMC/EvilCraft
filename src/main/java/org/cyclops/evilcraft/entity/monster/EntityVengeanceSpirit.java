@@ -51,6 +51,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.ArrayUtils;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -224,7 +225,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @Override
     public ResourceLocation getDefaultLootTable() {
-        return new ResourceLocation(Reference.MOD_ID, "entities/" + getType().getRegistryName().getPath());
+        return new ResourceLocation(Reference.MOD_ID, "entities/" + ForgeRegistries.ENTITIES.getKey(getType()).getPath());
     }
 
     @Override
@@ -554,7 +555,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      * @return If it can become a spirit.
      */
     public static boolean canSustain(LivingEntity entityLiving) {
-        String entityName = entityLiving.getType().getRegistryName().toString();
+        String entityName = ForgeRegistries.ENTITIES.getKey(entityLiving.getType()).toString();
         for (String blacklistedRegex : EntityVengeanceSpiritConfig.entityBlacklist) {
             if (entityName.matches(blacklistedRegex)) {
                 return false;

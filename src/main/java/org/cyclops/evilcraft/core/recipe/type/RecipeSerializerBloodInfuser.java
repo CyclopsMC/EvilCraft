@@ -3,14 +3,13 @@ package org.cyclops.evilcraft.core.recipe.type;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Either;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 
@@ -20,8 +19,7 @@ import javax.annotation.Nullable;
  * Recipe serializer for blood infuser recipes
  * @author rubensworks
  */
-public class RecipeSerializerBloodInfuser extends ForgeRegistryEntry<RecipeSerializer<?>>
-        implements RecipeSerializer<RecipeBloodInfuser> {
+public class RecipeSerializerBloodInfuser implements RecipeSerializer<RecipeBloodInfuser> {
 
     @Override
     public RecipeBloodInfuser fromJson(ResourceLocation recipeId, JsonObject json) {

@@ -16,7 +16,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.LazyOptional;
@@ -248,7 +247,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("block.evilcraft.blood_infuser");
+        return Component.translatable("block.evilcraft.blood_infuser");
     }
 
     public void setXp(float xp) {

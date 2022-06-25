@@ -1,15 +1,12 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -183,26 +180,26 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());
             } else {
-                player.sendMessage(new TranslatableComponent("multiblock.evilcraft.colossalbloodchest.error.unexpected"), Util.NIL_UUID);
+                player.sendSystemMessage(Component.translatable("multiblock.evilcraft.colossalbloodchest.error.unexpected"));
             }
         }
     }
 
     public static void addPlayerChatError(Player player, Component error) {
-        MutableComponent chat = new TextComponent("");
-        MutableComponent prefix = new TextComponent("[")
-                .append(new TranslatableComponent("multiblock.evilcraft.colossalbloodchest.error.prefix"))
-                .append(new TextComponent("]: "))
+        MutableComponent chat = Component.literal("");
+        MutableComponent prefix = Component.literal("[")
+                .append(Component.translatable("multiblock.evilcraft.colossalbloodchest.error.prefix"))
+                .append(Component.literal("]: "))
                 .setStyle(Style.EMPTY.
                         applyFormat(ChatFormatting.GRAY).
                         withHoverEvent(new HoverEvent(
                                 HoverEvent.Action.SHOW_TEXT,
-                                new TranslatableComponent("multiblock.evilcraft.colossalbloodchest.error.prefix.info")
+                                Component.translatable("multiblock.evilcraft.colossalbloodchest.error.prefix.info")
                         ))
                 );
         chat.append(prefix);
         chat.append(error);
-        player.sendMessage(chat, Util.NIL_UUID);
+        player.sendSystemMessage(chat);
     }
 
 }

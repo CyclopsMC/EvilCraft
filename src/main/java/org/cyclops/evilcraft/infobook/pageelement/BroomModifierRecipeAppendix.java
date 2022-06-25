@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
@@ -85,7 +85,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
     @OnlyIn(Dist.CLIENT)
     protected void drawString(ScreenInfoBook gui, PoseStack matrixStack, String string, int x, int y) {
         Font fontRenderer = gui.getFont();
-        MultiLineLabel.create(fontRenderer, new TextComponent(string), 200)
+        MultiLineLabel.create(fontRenderer, Component.literal(string), 200)
                 .renderLeftAlignedNoShadow(matrixStack, x, y, 9, 0);
     }
 }

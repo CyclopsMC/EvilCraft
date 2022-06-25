@@ -7,6 +7,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -220,7 +221,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     private EntityVengeanceSpirit createNewVengeanceSpirit() {
-        Random rand = level.random;
+        RandomSource rand = level.random;
 
         EntityVengeanceSpirit spirit = EntityVengeanceSpirit.fromNBT(getLevel(), getSpiritTag());
         spirit.setPos(getBlockPos().getX() + rand.nextDouble(), getBlockPos().getY() + rand.nextDouble(),

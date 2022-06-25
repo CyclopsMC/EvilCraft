@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +24,6 @@ import org.cyclops.evilcraft.core.block.BlockWithEntityGuiTank;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 /**
  * A machine that can reanimate spirits inside BOEC's.
@@ -68,7 +68,7 @@ public class BlockSpiritReanimator extends BlockWithEntityGuiTank {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState blockState, Level world, BlockPos blockPos, Random random) {
+    public void animateTick(BlockState blockState, Level world, BlockPos blockPos, RandomSource random) {
         ParticleBloodBubble.randomDisplayTick((BlockEntityWorking) world.getBlockEntity(blockPos), world, blockPos,
                 random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, Direction.NORTH));
         super.animateTick(blockState, world, blockPos, random);
