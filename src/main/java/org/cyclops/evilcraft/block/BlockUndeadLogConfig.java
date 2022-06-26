@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
@@ -22,7 +23,7 @@ public class BlockUndeadLogConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_log",
-                eConfig -> new Block(Block.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
+                eConfig -> new RotatedPillarBlock(Block.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
                         .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)) {
                     @Override

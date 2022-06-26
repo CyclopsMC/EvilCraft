@@ -2,8 +2,8 @@
   "type": "forge:add_features",
   "biomes": "#minecraft:is_overworld",
   "features": [
-    "evilcraft:dark_ore",
-    "evilcraft:dark_ore_deepslate"
+    "evilcraft:dark_ore_upper",
+    "evilcraft:dark_ore_deepslate_lower"
   ],
   "step": "underground_ores"
 }

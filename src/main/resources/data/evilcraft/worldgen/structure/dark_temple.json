@@ -1,7 +1,8 @@
 {
   "type": "evilcraft:dark_temple",
   "biomes": "#evilcraft:has_structure/dark_temple",
-  "mineshaft_type": "normal",
+  "minHeight": 64,
+  "maxHeight": 90,
   "spawn_overrides": {},
   "step": "surface_structures"
 }

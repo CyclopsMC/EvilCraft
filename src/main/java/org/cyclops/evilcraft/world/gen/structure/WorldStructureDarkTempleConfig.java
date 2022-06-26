@@ -26,9 +26,9 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig<WorldSt
     public static boolean enabled = true;
     public static Holder<StructurePieceType> PIECE_TYPE;
 
-    public static ResourceKey<Structure> STRUCTURE_SET = ResourceKey.create(
+    public static ResourceKey<Structure> KEY = ResourceKey.create(
             BuiltinRegistries.STRUCTURES.key(),
-            new ResourceLocation(Reference.MOD_ID, "dark_temples")
+            new ResourceLocation(Reference.MOD_ID, "dark_temple")
         );
 
     public WorldStructureDarkTempleConfig() {
@@ -40,8 +40,8 @@ public class WorldStructureDarkTempleConfig extends WorldStructureConfig<WorldSt
     }
 
     @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
+    public void onRegistered() {
+        super.onRegistered();
 
         RegistryEntries.STRUCTURE_DARK_TEMPLE = getInstance();
 
