@@ -1,23 +1,43 @@
 {
     "pools": [
         {
-            "name": "evilcraft:werewolf",
+            "name": "evilcraft:werewolf_flesh",
             "rolls": 1,
             "entries": [
                 {
-                    "type": "item",
+                    "type": "minecraft:item",
+                    "name": "evilcraft:flesh_werewolf",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "minecraft:looting_enchant",
+                            "count": {
+                                "min": 0.0,
+                                "max": 1.0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "evilcraft:werewolf_bone",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
                     "name": "evilcraft:werewolf_bone",
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "set_count",
+                            "function": "minecraft:set_count",
                             "count": {
                                 "min": 0,
                                 "max": 2
                             }
                         },
                         {
-                            "function": "looting_enchant",
+                            "function": "minecraft:looting_enchant",
                             "count": {
                                 "min": 0,
                                 "max": 1
@@ -29,20 +49,10 @@
         },
         {
             "name": "evilcraft:werewolf_fur",
-            "conditions": [
-                {
-                    "condition": "killed_by_player"
-                },
-                {
-                    "condition": "random_chance_with_looting",
-                    "chance": 0.25,
-                    "looting_multiplier": 0.01
-                }
-            ],
             "rolls": 1,
             "entries": [
                 {
-                    "type": "item",
+                    "type": "minecraft:item",
                     "name": "evilcraft:werewolf_fur",
                     "weight": 1
                 }
