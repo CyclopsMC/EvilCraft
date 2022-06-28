@@ -5,12 +5,12 @@
             "rolls": 1,
             "entries": [
                 {
-                    "type": "item",
+                    "type": "minecraft:item",
                     "name": "evilcraft:poison_sac",
                     "weight": 1,
                     "functions": [
                         {
-                            "function": "looting_enchant",
+                            "function": "minecraft:looting_enchant",
                             "count": {
                                 "min": 1,
                                 "max": 3
