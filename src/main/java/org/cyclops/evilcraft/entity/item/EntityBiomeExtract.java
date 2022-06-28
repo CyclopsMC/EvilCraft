@@ -161,19 +161,23 @@ public class EntityBiomeExtract extends EntityThrowable {
         if(chunk != null) {
             // Update biome in chunk
             Biome[] biomeArray = chunk.getBiomes().biomes;
-            int i = noisePos.getX() & BiomeContainer.HORIZONTAL_MASK;
-            int j = MathHelper.clamp(noisePos.getY(), 0, BiomeContainer.VERTICAL_MASK);
-            int k = noisePos.getZ() & BiomeContainer.HORIZONTAL_MASK;
+            if (biomeArray != null) {
+                int i = noisePos.getX() & BiomeContainer.HORIZONTAL_MASK;
+                int j = MathHelper.clamp(noisePos.getY(), 0, BiomeContainer.VERTICAL_MASK);
+                int k = noisePos.getZ() & BiomeContainer.HORIZONTAL_MASK;
 
-            // HACK
-            // Due to some weird thing in MC, different instances of the same biome can exist.
-            // This hack allows us to convert to the biome instance that is required for chunk serialization.
-            // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
-            MutableRegistry<Biome> biomeRegistry = world.func_241828_r().getRegistry(Registry.BIOME_KEY);
-            Biome biomeHack = biomeRegistry.getValueForKey(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName()));
+                // HACK
+                // Due to some weird thing in MC, different instances of the same biome can exist.
+                // This hack allows us to convert to the biome instance that is required for chunk serialization.
+                // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
+                MutableRegistry<Biome> biomeRegistry = world.func_241828_r().getRegistry(Registry.BIOME_KEY);
+                Biome biomeHack = biomeRegistry.getValueForKey(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, biome.getRegistryName()));
 
-            biomeArray[j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i] = biomeHack;
-            chunk.setModified(true);
+                biomeArray[j << BiomeContainer.WIDTH_BITS + BiomeContainer.WIDTH_BITS | k << BiomeContainer.WIDTH_BITS | i] = biomeHack;
+                chunk.setModified(true);
+            } else {
+                CyclopsCore.clog(Level.WARN, "Tried changing biome at non-existing biome data array " + noisePos);
+            }
         } else {
             CyclopsCore.clog(Level.WARN, "Tried changing biome at non-existing chunk for position " + noisePos);
         }
