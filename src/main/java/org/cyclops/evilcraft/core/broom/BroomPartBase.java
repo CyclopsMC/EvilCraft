@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.core.broom;
 
 import lombok.Data;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -13,8 +13,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 
 import javax.annotation.Nullable;
-
-import org.cyclops.evilcraft.api.broom.IBroomPart.BroomPartType;
+import java.util.Locale;
 
 /**
  * Base implementation for broom parts.
@@ -51,7 +50,7 @@ public class BroomPartBase implements IBroomPart {
     @OnlyIn(Dist.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase()));
+                new ResourceLocation(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase(Locale.ROOT)));
     }
 
     @Override
