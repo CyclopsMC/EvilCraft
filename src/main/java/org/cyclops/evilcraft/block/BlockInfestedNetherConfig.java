@@ -39,7 +39,7 @@ public class BlockInfestedNetherConfig extends BlockConfig {
     public BlockInfestedNetherConfig(BlockInfestedNether.Type type) {
         super(
             EvilCraft._instance,
-            "infested_nether_" + type.name().toLowerCase(),
+            "infested_nether_" + type.name().toLowerCase(Locale.ROOT),
                 eConfig -> new BlockInfestedNether(Block.Properties.of(Material.CLAY)
                         .strength(0.0F), type),
                 getDefaultItemConstructor(EvilCraft._instance)
