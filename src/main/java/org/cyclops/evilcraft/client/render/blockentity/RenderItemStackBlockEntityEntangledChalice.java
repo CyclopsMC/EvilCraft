@@ -9,7 +9,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
@@ -36,8 +36,9 @@ public class RenderItemStackBlockEntityEntangledChalice extends BlockEntityWitho
         this.blockEntityRenderDispatcher.renderItem(tile, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
     }
 
-    public static class ItemRenderProperties implements IItemRenderProperties {
-        public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+    public static class ItemRenderProperties implements IClientItemExtensions {
+        @Override
+        public BlockEntityWithoutLevelRenderer getCustomRenderer() {
             return new RenderItemStackBlockEntityEntangledChalice();
         }
     }

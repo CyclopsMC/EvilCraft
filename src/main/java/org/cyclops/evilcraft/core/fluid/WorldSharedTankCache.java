@@ -135,7 +135,7 @@ public class WorldSharedTankCache {
         if(!MinecraftHelpers.isClientSide()) {
             for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
                 EvilCraft._instance.getPacketHandler().sendToPlayer(
-                        new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (ServerPlayer) event.getPlayer());
+                        new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (ServerPlayer) event.getEntity());
             }
         }
     }

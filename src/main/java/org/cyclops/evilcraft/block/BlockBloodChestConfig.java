@@ -1,17 +1,13 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Lists;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -54,16 +50,11 @@ public class BlockBloodChestConfig extends BlockConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup())) {
                     @OnlyIn(Dist.CLIENT)
                     @Override
-                    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+                    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
                         consumer.accept(new RenderItemStackBlockEntityBloodChest.ItemRenderProperties());
                     }
                 }
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
-    }
-
-    public void onClientSetup(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
 
 }

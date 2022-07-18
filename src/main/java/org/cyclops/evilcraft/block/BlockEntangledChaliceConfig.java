@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -37,7 +37,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
                         .tab(EvilCraft._instance.getDefaultItemGroup())) {
                     @OnlyIn(Dist.CLIENT)
                     @Override
-                    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+                    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
                         consumer.accept(new RenderItemStackBlockEntityEntangledChalice.ItemRenderProperties());
                     }
                 }

@@ -139,7 +139,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     public void bloodObtainEvent(LivingDeathEvent event) {
         Entity e = event.getSource().getEntity();
         if(e != null && e instanceof ServerPlayer && !e.level.isClientSide()
-                && event.getEntityLiving() != null) {
+                && event.getEntity() != null) {
             float boost = 1.0F;
             ServerPlayer player = (ServerPlayer) e;
             InteractionHand hand = player.getUsedItemHand();
@@ -147,7 +147,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
                     && player.getItemInHand(hand).getItem() instanceof ItemVeinSword) {
                 boost = (float) ItemVeinSwordConfig.extractionBoost;
             }
-            float health = event.getEntityLiving().getMaxHealth();
+            float health = event.getEntity().getMaxHealth();
             int minimumMB = Mth.floor(health * (float) ItemBloodExtractorConfig.minimumMobMultiplier * boost);
             int maximumMB = Mth.floor(health * (float) ItemBloodExtractorConfig.maximumMobMultiplier * boost);
             ItemBloodExtractor.fillForAllBloodExtractors(player, minimumMB, maximumMB);

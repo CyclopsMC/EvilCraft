@@ -215,7 +215,7 @@ public class BlockDisplayStand extends BlockWithEntity {
         // Force allow right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
                 && event.getItemStack().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
-                && event.getWorld().getBlockState(event.getPos()).getBlock() == this) {
+                && event.getLevel().getBlockState(event.getPos()).getBlock() == this) {
             event.setUseBlock(Event.Result.ALLOW);
         }
     }

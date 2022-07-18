@@ -62,7 +62,7 @@ public class BlockSpiritPortal extends BlockWithEntity {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void palingDeath(LivingDeathEvent event) {
         if(event.getSource() == ExtendedDamageSource.paling) {
-            tryPlacePortal(event.getEntityLiving().level, event.getEntityLiving().blockPosition().offset(0, 1, 0));
+            tryPlacePortal(event.getEntity().level, event.getEntity().blockPosition().offset(0, 1, 0));
         }
     }
 

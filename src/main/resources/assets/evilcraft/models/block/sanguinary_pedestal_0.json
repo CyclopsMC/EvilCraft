@@ -1,5 +1,6 @@
 {
     "parent": "block/block",
+    "render_type": "minecraft:cutout",
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
         "particle": "evilcraft:block/sanguinary_pedestal_tier0",

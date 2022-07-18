@@ -77,7 +77,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public void readNBT(CompoundTag tag) {
-        setInnerEntityType(ForgeRegistries.ENTITIES.getValue(new ResourceLocation(tag.getString(NBTKEY_INNER_ENTITY))));
+        setInnerEntityType(ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(tag.getString(NBTKEY_INNER_ENTITY))));
         setRemainingLife(tag.getInt(NBTKEY_REMAINING_LIFE));
         setFrozenDuration(tag.getInt(NBTKEY_FROZEN_DURATION));
         setSwarm(tag.getBoolean(NBTKEY_IS_SWARM));
@@ -89,7 +89,7 @@ public class EntityVengeanceSpiritData {
 
     public CompoundTag writeNBT(CompoundTag tag) {
         if (getInnerEntityType() != null)
-            tag.putString(NBTKEY_INNER_ENTITY, ForgeRegistries.ENTITIES.getKey(getInnerEntityType()).toString());
+            tag.putString(NBTKEY_INNER_ENTITY, ForgeRegistries.ENTITY_TYPES.getKey(getInnerEntityType()).toString());
         tag.putInt(NBTKEY_REMAINING_LIFE, getRemainingLife());
         tag.putInt(NBTKEY_FROZEN_DURATION, getFrozenDuration());
         tag.putBoolean(NBTKEY_IS_SWARM, isSwarm());
@@ -109,7 +109,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public static EntityType<?> getRandomInnerEntity(RandomSource rand) {
-        List<EntityType<?>> entities = ForgeRegistries.ENTITIES.getValues().stream()
+        List<EntityType<?>> entities = ForgeRegistries.ENTITY_TYPES.getValues().stream()
                 .filter(e -> e.getCategory() == MobCategory.MONSTER)
                 .collect(Collectors.toList());
         return entities.get(rand.nextInt(entities.size()));
@@ -124,7 +124,7 @@ public class EntityVengeanceSpiritData {
         if(tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             if (!innerEntity.isEmpty()) {
-                return ForgeRegistries.ENTITIES.getValue(new ResourceLocation(innerEntity));
+                return ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(innerEntity));
             }
         }
         return null;

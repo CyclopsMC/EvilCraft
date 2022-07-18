@@ -23,8 +23,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.FOVModifierEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.ComputeFovModifierEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.apache.commons.lang3.tuple.Pair;
@@ -208,19 +208,18 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void onFovEvent(FOVModifierEvent event) {
+    public void onFovEvent(ComputeFovModifierEvent event) {
         if(event.getPlayer().getVehicle() instanceof EntityBroom) {
             EntityBroom broom = (EntityBroom) event.getPlayer().getVehicle();
             double speed = broom.getLastPlayerSpeed();
-            event.setNewFov((float) (event.getFov() + speed / 10));
+            event.setNewFovModifier((float) (event.getNewFovModifier() + speed / 10));
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
+    public void onRenderOverlayEvent(RenderGuiEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        if (player.getVehicle() instanceof EntityBroom
-                && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
+        if (player.getVehicle() instanceof EntityBroom) {
             EntityBroom broom = (EntityBroom) player.getVehicle();
             ItemStack broomStack = broom.getBroomStack();
             Window resolution = event.getWindow();

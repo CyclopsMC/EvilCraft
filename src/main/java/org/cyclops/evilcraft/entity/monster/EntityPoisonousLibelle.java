@@ -85,8 +85,8 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void checkLibelleSpawn(LivingSpawnEvent.CheckSpawn event) {
-        if(event.getEntityLiving() instanceof EntityPoisonousLibelle) {
-            if(((EntityPoisonousLibelle) event.getEntityLiving()).getY() < EntityPoisonousLibelleConfig.minY) {
+        if(event.getEntity() instanceof EntityPoisonousLibelle) {
+            if(((EntityPoisonousLibelle) event.getEntity()).getY() < EntityPoisonousLibelleConfig.minY) {
                 event.setResult(Event.Result.DENY);
             }
         }

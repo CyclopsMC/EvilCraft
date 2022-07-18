@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.event;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 import org.cyclops.evilcraft.GeneralConfig;
 
 /**
- * Event hook for {@link LivingUpdateEvent}.
+ * Event hook for {@link LivingTickEvent}.
  * @author rubensworks
  *
  */
@@ -21,11 +21,11 @@ public class LivingUpdateEventHook {
      * @param event The received event.
      */
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void tick(LivingUpdateEvent event) {
+    public void tick(LivingTickEvent event) {
         dieWithoutAnyReason(event);
     }
 
-    private void dieWithoutAnyReason(LivingUpdateEvent event) {
+    private void dieWithoutAnyReason(LivingTickEvent event) {
         if(event.getEntity() instanceof Player && GeneralConfig.dieWithoutAnyReason
                 && event.getEntity().level.random.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0
                 && !event.getEntity().level.isClientSide()) {

@@ -269,13 +269,13 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                         + "a Spirit Furnace mob drop config.");
             }
             ResourceLocation entityName = new ResourceLocation(split[0]);
-            if (!ForgeRegistries.ENTITIES.containsKey(entityName)) {
+            if (!ForgeRegistries.ENTITY_TYPES.containsKey(entityName)) {
                 EvilCraft.clog("Invalid line '" + line + "' found for "
                         + "a Spirit Furnace mob drop config: " + split[0] + " does not refer to a valid entity name; skipping.");
                 continue;
             }
             ResourceLocation resourceLocation = new ResourceLocation(split[1]);
-            map.put(ForgeRegistries.ENTITIES.getValue(entityName), resourceLocation);
+            map.put(ForgeRegistries.ENTITY_TYPES.getValue(entityName), resourceLocation);
         }
         return map;
     }

@@ -60,7 +60,7 @@ public class EntityWerewolf extends Monster {
         this.maxUpStep = 1.0F;
 
         // This sets the default villager profession ID.
-        this.villagerNBTTagCompound.putString("ProfessionName", ForgeRegistries.PROFESSIONS.getKey(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF).toString());
+        this.villagerNBTTagCompound.putString("ProfessionName", ForgeRegistries.VILLAGER_PROFESSIONS.getKey(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF).toString());
     }
 
     @Override
@@ -77,7 +77,7 @@ public class EntityWerewolf extends Monster {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void transformWerewolfVillager(LivingEvent.LivingUpdateEvent event) {
+    public static void transformWerewolfVillager(LivingEvent.LivingTickEvent event) {
         if(event.getEntity() instanceof Villager && !event.getEntity().level.isClientSide()) {
             Villager villager = (Villager) event.getEntity();
             if(EntityWerewolf.isWerewolfTime(event.getEntity().level)

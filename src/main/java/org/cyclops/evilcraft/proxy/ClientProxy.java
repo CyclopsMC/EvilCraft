@@ -1,24 +1,26 @@
 package org.cyclops.evilcraft.proxy;
 
-import net.minecraft.client.Options;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
 import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntityPurifier;
+import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
+import org.cyclops.evilcraft.client.render.model.ModelEntangledChaliceBaked;
+import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBoxOfEternalClosure;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
@@ -36,10 +38,14 @@ import org.cyclops.evilcraft.event.TextureStitchEventHook;
  */
 public class ClientProxy extends ClientProxyComponent {
 
+    public static ModelBakery modelBakery;
+
     public ClientProxy() {
         super(new CommonProxy());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onPreTextureStitch);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelBakingCompleted);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelLoad);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelRegisterAdditional);
     }
 
     @Override
@@ -48,11 +54,11 @@ public class ClientProxy extends ClientProxyComponent {
     }
 
     @Override
-    public void registerKeyBindings(IKeyRegistry keyRegistry) {
+    public void registerKeyBindings(IKeyRegistry keyRegistry, RegisterKeyMappingsEvent event) {
         Options settings = Minecraft.getInstance().options;
 
         for (KeyMapping key : Keys.KEYS)
-            ClientRegistry.registerKeyBinding(key);
+            event.register(key);
 
         // Fart key
         FartKeyHandler fartKeyHandler = new FartKeyHandler();
@@ -78,13 +84,31 @@ public class ClientProxy extends ClientProxyComponent {
         }
     }
 
-    public void onModelLoad(ModelRegistryEvent event) {
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
+    public void onModelBakingCompleted(ModelEvent.BakingCompleted event) {
+        this.modelBakery = event.getModelBakery();
+    }
+
+    public void onModelLoad(ModelEvent.RegisterGeometryLoaders event) {
+        event.register("broom", new ModelLoaderBroom());
+        event.register("broom_part", new ModelLoaderBroomPart());
+        event.register("box_of_eternal_closure", new ModelLoaderBoxOfEternalClosure());
+        event.register("dark_tank", new ModelLoaderDarkTank());
+        event.register("entangled_chalice", new ModelLoaderEntangledChalice());
+        event.register("display_stand", new ModelLoaderDisplayStand());
+    }
+
+    public void onModelRegisterAdditional(ModelEvent.RegisterAdditional event) {
+        // Box of eternal closure
+        event.register(ModelBoxOfEternalClosure.boxModel);
+        event.register(ModelBoxOfEternalClosure.boxLidModel);
+        event.register(ModelBoxOfEternalClosure.boxLidRotatedModel);
+        // Broom
+        for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
+            event.register(partModel);
+        }
+        // Entangled chalice
+        event.register(ModelEntangledChaliceBaked.chaliceModelName);
+        event.register(ModelEntangledChaliceBaked.gemsModelName);
     }
 
 }

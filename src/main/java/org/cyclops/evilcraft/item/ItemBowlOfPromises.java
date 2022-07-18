@@ -22,15 +22,15 @@ public class ItemBowlOfPromises extends Item {
     }
 
     @Override
-    public ItemStack getContainerItem(ItemStack itemStack) {
+    public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
         if(type.isActive()) {
             return new ItemStack(RegistryEntries.ITEM_BOWL_OF_PROMISES_EMPTY);
         }
-        return super.getContainerItem(itemStack);
+        return super.getCraftingRemainingItem(itemStack);
     }
 
     @Override
-    public boolean hasContainerItem(ItemStack itemStack) {
+    public boolean hasCraftingRemainingItem(ItemStack itemStack) {
         return type.isActive();
     }
 

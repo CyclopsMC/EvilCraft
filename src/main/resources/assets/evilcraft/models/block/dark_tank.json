@@ -1,5 +1,6 @@
 {
   "loader": "evilcraft:dark_tank",
+  "render_type": "minecraft:translucent",
   "elements": [{
     "from": [ 2, 0, 2 ],
     "to": [ 14, 0.5, 14 ],

@@ -4,15 +4,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * A ring that allows the player to walk faster with a double step height.
@@ -61,18 +59,18 @@ public class ItemEffortlessRing extends Item {
     }
 
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
-        if(event.getEntityLiving() instanceof Player) {
-            Player player = (Player) event.getEntityLiving();
+        if(event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
             if(ItemStackHelpers.hasPlayerItem(player, this)) {
                 player.setDeltaMovement(player.getDeltaMovement().add(0, JUMP_HEIGHT_FACTOR, 0));;
             }
         }
     }
 
-    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event) {
+    public void onPlayerUpdate(LivingEvent.LivingTickEvent event) {
         // Reset the step height.
-        if(event.getEntityLiving() instanceof Player) {
-            Player player = (Player) event.getEntityLiving();
+        if(event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
             if(player.getPersistentData().contains(PLAYER_NBT_KEY)) {
                 if (!ItemStackHelpers.hasPlayerItem(player, this)) {
                     player.maxUpStep = player.getPersistentData().getFloat(PLAYER_NBT_KEY);
@@ -83,8 +81,8 @@ public class ItemEffortlessRing extends Item {
     }
 
     public void onPlayerFall(LivingFallEvent event) {
-        if(event.getEntityLiving() instanceof Player) {
-            Player player = (Player) event.getEntityLiving();
+        if(event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
             if(ItemStackHelpers.hasPlayerItem(player, this)) {
                 event.setDistance(event.getDistance() - FALLDISTANCE_REDUCTION);
             }

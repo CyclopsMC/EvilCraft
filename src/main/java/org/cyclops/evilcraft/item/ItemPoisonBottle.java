@@ -37,19 +37,19 @@ public class ItemPoisonBottle extends Item {
     }
 
     public void onPoisonRightClick(PlayerInteractEvent.RightClickBlock event) {
-        InteractionHand hand = event.getPlayer().getUsedItemHand();
+        InteractionHand hand = event.getEntity().getUsedItemHand();
         // Return poison bottle instead of water bottle when right clicking poison fluid source with empty bottle.
-        if(hand != null && !event.getPlayer().getItemInHand(hand).isEmpty() &&
-                event.getPlayer().getItemInHand(hand).getItem() == Items.GLASS_BOTTLE) {
-            HitResult pos = this.getPlayerPOVHitResult(event.getWorld(), event.getPlayer(), ClipContext.Fluid.SOURCE_ONLY);
+        if(hand != null && !event.getEntity().getItemInHand(hand).isEmpty() &&
+                event.getEntity().getItemInHand(hand).getItem() == Items.GLASS_BOTTLE) {
+            HitResult pos = this.getPlayerPOVHitResult(event.getLevel(), event.getEntity(), ClipContext.Fluid.SOURCE_ONLY);
             if(pos != null && pos.getType() == HitResult.Type.BLOCK) {
                 BlockPos blockPos = new BlockPos(pos.getLocation());
-                if(event.getWorld().mayInteract(event.getPlayer(), blockPos) &&
-                        event.getPlayer().mayUseItemAt(blockPos, event.getFace(), event.getPlayer().getItemInHand(hand)) &&
-                        event.getWorld().getBlockState(blockPos).getMaterial() == Material.WATER) {
-                    if(event.getWorld().getFluidState(blockPos).getType() == RegistryEntries.FLUID_POISON) {
-                        InventoryHelpers.tryReAddToStack(event.getPlayer(), event.getPlayer().getItemInHand(hand), new ItemStack(this), hand);
-                        event.getWorld().removeBlock(blockPos, false);
+                if(event.getLevel().mayInteract(event.getEntity(), blockPos) &&
+                        event.getEntity().mayUseItemAt(blockPos, event.getFace(), event.getEntity().getItemInHand(hand)) &&
+                        event.getLevel().getBlockState(blockPos).getMaterial() == Material.WATER) {
+                    if(event.getLevel().getFluidState(blockPos).getType() == RegistryEntries.FLUID_POISON) {
+                        InventoryHelpers.tryReAddToStack(event.getEntity(), event.getEntity().getItemInHand(hand), new ItemStack(this), hand);
+                        event.getLevel().removeBlock(blockPos, false);
                         event.setCanceled(true);
                     }
                 }

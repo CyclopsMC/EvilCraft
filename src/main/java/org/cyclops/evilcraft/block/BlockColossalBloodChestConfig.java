@@ -1,17 +1,13 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntityBloodChest;
@@ -51,12 +47,11 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
                         .tab(EvilCraft._instance.getDefaultItemGroup())) {
                     @Override
                     @OnlyIn(Dist.CLIENT)
-                    public void initializeClient(Consumer<IItemRenderProperties> consumer) {
+                    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
                         consumer.accept(new RenderItemStackBlockEntityBloodChest.ItemRenderProperties());
                     }
                 }
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
     }
 
     @Override
@@ -67,10 +62,6 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
                 Upgrades.UPGRADE_TIER1,
                 Upgrades.UPGRADE_TIER2,
                 Upgrades.UPGRADE_TIER3);
-    }
-
-    public void onClientSetup(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
 
 }

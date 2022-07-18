@@ -79,7 +79,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
         super(RegistryEntries.CONTAINER_SPIRIT_REANIMATOR, id, playerInventory, inventory, tileSupplier,
                 BlockEntitySpiritReanimator.TICKERS, BlockEntitySpiritReanimator.INVENTORY_SIZE_UPGRADES);
 
-        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : ForgeRegistries.ENTITIES.getKey(getTileSupplier().get().getEntityType()).toString());
+        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : ForgeRegistries.ENTITY_TYPES.getKey(getTileSupplier().get().getEntityType()).toString());
 
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritReanimator.SLOT_CONTAINER,

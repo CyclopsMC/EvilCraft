@@ -112,7 +112,7 @@ public class BlockTankHelpers {
         // Force allow shift-right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
                 && event.getItemStack().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
-                && event.getWorld().getBlockState(event.getPos()).getBlock() instanceof IBlockTank) {
+                && event.getLevel().getBlockState(event.getPos()).getBlock() instanceof IBlockTank) {
             event.setUseBlock(Event.Result.ALLOW);
         }
     }

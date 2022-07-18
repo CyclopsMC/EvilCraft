@@ -25,7 +25,7 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     public void register(SynchedEntityData dataManager) {
         this.dataManager = dataManager;
         EntityType<?> innerEntity = super.getInnerEntityType();
-        dataManager.define(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : ForgeRegistries.ENTITIES.getKey(innerEntity).toString());
+        dataManager.define(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : ForgeRegistries.ENTITY_TYPES.getKey(innerEntity).toString());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_REMAININGLIFE, super.getRemainingLife());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_FROZENDURATION, super.getFrozenDuration());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_GLOBALVENGEANCE, 0);
@@ -41,12 +41,12 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     @Override
     public EntityType<?> getInnerEntityType() {
         String entityName = dataManager.get(EntityVengeanceSpirit.WATCHERID_INNER);
-        return entityName.isEmpty() ? null : ForgeRegistries.ENTITIES.getValue(new ResourceLocation(entityName));
+        return entityName.isEmpty() ? null : ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName));
     }
 
     @Override
     public void setInnerEntityType(EntityType<?> innerEntityType) {
-        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntityType == null ? "" : ForgeRegistries.ENTITIES.getKey(innerEntityType).toString());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntityType == null ? "" : ForgeRegistries.ENTITY_TYPES.getKey(innerEntityType).toString());
     }
 
     @Override

@@ -392,9 +392,9 @@ public class BroomModifiers {
     }
 
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntityLiving() != null && event.getEntityLiving().getVehicle() instanceof EntityBroom
+        if (event.getEntity() != null && event.getEntity().getVehicle() instanceof EntityBroom
                 && event.getSource().getDirectEntity() instanceof Projectile) {
-            EntityBroom broom = (EntityBroom) event.getEntityLiving().getVehicle();
+            EntityBroom broom = (EntityBroom) event.getEntity().getVehicle();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
             if (modifierValue > 0 && modifierValue > broom.level.random.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.setCanceled(true);

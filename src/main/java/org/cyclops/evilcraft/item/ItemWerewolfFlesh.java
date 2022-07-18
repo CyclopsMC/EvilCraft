@@ -187,10 +187,10 @@ public class ItemWerewolfFlesh extends Item {
     }
 
     public void dropHumanoidFleshEvent(LivingDeathEvent event) {
-        if(event.getEntityLiving() instanceof ServerPlayer
-                && !event.getEntityLiving().level.isClientSide()
-                && event.getEntityLiving().level.random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
-            ServerPlayer player = (ServerPlayer) event.getEntityLiving();
+        if(event.getEntity() instanceof ServerPlayer
+                && !event.getEntity().level.isClientSide()
+                && event.getEntity().level.random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
+            ServerPlayer player = (ServerPlayer) event.getEntity();
             ItemStack itemStack = new ItemStack(this);
             CompoundTag tag = itemStack.getOrCreateTag();
             NbtUtils.writeGameProfile(tag, player.getGameProfile());

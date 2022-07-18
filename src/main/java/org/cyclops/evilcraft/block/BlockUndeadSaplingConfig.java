@@ -8,9 +8,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -38,16 +35,11 @@ public class BlockUndeadSaplingConfig extends BlockConfig {
                         .sound(SoundType.GRASS)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onClientSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModSetup);
     }
 
     public void onModSetup(FMLCommonSetupEvent event) {
         CONFIGURED_FEATURE_TREE = WorldFeatures.registerConfigured("tree_undead", new ConfiguredFeature<>(Feature.TREE, TreeUndead.getTreeConfig()));
-    }
-
-    public void onClientSetup(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(getInstance(), RenderType.cutout());
     }
 
     @Override

@@ -146,7 +146,7 @@ public class BlockBloodStain extends BlockWithEntity {
                     BlockPos pos = new BlockPos(x, y - 1, z);
                     Block block = event.getEntity().level.getBlockState(pos).getBlock();
 
-                    int amount = (int) (BlockBloodStainConfig.bloodMBPerHP * event.getEntityLiving().getMaxHealth());
+                    int amount = (int) (BlockBloodStainConfig.bloodMBPerHP * event.getEntity().getMaxHealth());
                     if (block != this) {
                         // Offset position by one
                         pos = pos.offset(0, 1, 0);
@@ -165,7 +165,7 @@ public class BlockBloodStain extends BlockWithEntity {
                 Random random = new Random();
                 BlockPos pos = new BlockPos(x, y, z);
                 ParticleBloodSplash.spawnParticles(event.getEntity().level, pos.offset(0, 1, 0),
-                        ((int) event.getEntityLiving().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
+                        ((int) event.getEntity().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
             }
         }
     }

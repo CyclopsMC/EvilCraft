@@ -168,16 +168,16 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void vengeanceEvent(LivingDeathEvent event) {
-        if (event.getEntityLiving() != null) {
-            Level level = event.getEntityLiving().level;
+        if (event.getEntity() != null) {
+            Level level = event.getEntity().level;
             boolean directToPlayer = shouldDirectSpiritToPlayer(event);
             if (!level.isClientSide()
                     && level.getDifficulty() != Difficulty.PEACEFUL
-                    && EntityVengeanceSpirit.canSustain(event.getEntityLiving())
-                    && (directToPlayer || EntityVengeanceSpirit.canSpawnNew(level, event.getEntityLiving().blockPosition()))) {
+                    && EntityVengeanceSpirit.canSustain(event.getEntity())
+                    && (directToPlayer || EntityVengeanceSpirit.canSpawnNew(level, event.getEntity().blockPosition()))) {
                 EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(level);
-                spirit.setInnerEntity(event.getEntityLiving());
-                spirit.copyPosition(event.getEntityLiving());
+                spirit.setInnerEntity(event.getEntity());
+                spirit.copyPosition(event.getEntity());
                 level.addFreshEntity(spirit);
                 if(directToPlayer) {
                     Player player = (Player) event.getSource().getDirectEntity();
@@ -225,7 +225,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @Override
     public ResourceLocation getDefaultLootTable() {
-        return new ResourceLocation(Reference.MOD_ID, "entities/" + ForgeRegistries.ENTITIES.getKey(getType()).getPath());
+        return new ResourceLocation(Reference.MOD_ID, "entities/" + ForgeRegistries.ENTITY_TYPES.getKey(getType()).getPath());
     }
 
     @Override
@@ -555,7 +555,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      * @return If it can become a spirit.
      */
     public static boolean canSustain(LivingEntity entityLiving) {
-        String entityName = ForgeRegistries.ENTITIES.getKey(entityLiving.getType()).toString();
+        String entityName = ForgeRegistries.ENTITY_TYPES.getKey(entityLiving.getType()).toString();
         for (String blacklistedRegex : EntityVengeanceSpiritConfig.entityBlacklist) {
             if (entityName.matches(blacklistedRegex)) {
                 return false;

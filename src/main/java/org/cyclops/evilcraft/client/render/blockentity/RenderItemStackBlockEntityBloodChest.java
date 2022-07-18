@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import org.cyclops.cyclopscore.client.render.blockentity.ItemStackBlockEntityRendererBase;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
@@ -19,8 +19,9 @@ public class RenderItemStackBlockEntityBloodChest extends ItemStackBlockEntityRe
         super(() -> new BlockEntityBloodChest(BlockPos.ZERO, RegistryEntries.BLOCK_BLOOD_CHEST.defaultBlockState()));
     }
 
-    public static class ItemRenderProperties implements IItemRenderProperties {
-        public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+    public static class ItemRenderProperties implements IClientItemExtensions {
+        @Override
+        public BlockEntityWithoutLevelRenderer getCustomRenderer() {
             return new RenderItemStackBlockEntityBloodChest();
         }
     }

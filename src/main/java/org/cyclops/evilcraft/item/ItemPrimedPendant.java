@@ -151,11 +151,11 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         return super.onDroppedByPlayer(itemstack, player);
     }
 
-    public void openGuiForItemIndex(Level world, ServerPlayer player, ItemLocation itemLocation) {
+    public void openScreenForItemIndex(Level world, ServerPlayer player, ItemLocation itemLocation) {
         if (!world.isClientSide()) {
             MenuProvider containerProvider = this.getContainer(world, player, itemLocation);
             if (containerProvider != null) {
-                NetworkHooks.openGui(player, containerProvider, (packetBuffer) -> {
+                NetworkHooks.openScreen(player, containerProvider, (packetBuffer) -> {
                     this.writeExtraGuiData(packetBuffer, world, player, itemLocation);
                 });
                 Stat<ResourceLocation> openStat = this.getOpenStat();
@@ -183,7 +183,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
             return new InteractionResultHolder(InteractionResult.FAIL, itemStack);
         } else {
             if (player instanceof ServerPlayer) {
-                openGuiForItemIndex(world, (ServerPlayer) player, InventoryLocationPlayer.getInstance().handToLocation(player, hand, player.getInventory().selected));
+                openScreenForItemIndex(world, (ServerPlayer) player, InventoryLocationPlayer.getInstance().handToLocation(player, hand, player.getInventory().selected));
             }
 
             return new InteractionResultHolder(InteractionResult.SUCCESS, itemStack);

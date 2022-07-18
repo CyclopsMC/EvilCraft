@@ -97,7 +97,7 @@ public class BlockEternalWater extends BlockWithEntity {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void stopFillWithEternalWaterBlock(FillBucketEvent event) {
         if (event.getTarget() != null && event.getTarget().getType() == HitResult.Type.BLOCK) {
-            Block block = event.getWorld().getBlockState(((BlockHitResult) event.getTarget()).getBlockPos()).getBlock();
+            Block block = event.getLevel().getBlockState(((BlockHitResult) event.getTarget()).getBlockPos()).getBlock();
             if (block instanceof BlockEternalWater) {
                 event.setCanceled(true);
             }

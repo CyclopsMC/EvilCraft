@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -37,9 +37,9 @@ public class RenderOverlayEventHook {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onRenderOverlayEvent(RenderGameOverlayEvent.Post event) {
+    public void onRenderOverlayEvent(RenderGuiEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        if (GeneralConfig.bloodGuiOverlay && event.getType() == RenderGameOverlayEvent.ElementType.ALL) {
+        if (GeneralConfig.bloodGuiOverlay) {
             if (filledHeight < 0 || WorldHelpers.efficientTick(player.level, 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
                 Wrapper<Integer> capacity = new Wrapper<Integer>(1);

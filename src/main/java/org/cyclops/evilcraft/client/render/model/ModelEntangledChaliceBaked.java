@@ -4,33 +4,32 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
-import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
+import org.cyclops.evilcraft.item.ItemEntangledChalice;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -63,8 +62,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         fluidStack = null;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, BlockState blockState, Direction facing, RandomSource rand, IModelData modelData) {
-        super(blockState, facing, rand, modelData);
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, BlockState blockState, Direction facing, RandomSource rand, ModelData modelData, RenderType renderType) {
+        super(blockState, facing, rand, modelData, renderType);
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
     }
@@ -120,25 +119,25 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Nonnull
     @Override
-    public IModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public ModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull ModelData tileData) {
         return BlockEntityHelpers.get(world, pos, BlockEntityEntangledChalice.class)
                 .map(tile -> {
-                    ModelDataMap.Builder builder = new ModelDataMap.Builder();
-                    builder.withInitial(BlockEntangledChalice.TANK_FLUID, tile.getTank().getFluid());
-                    builder.withInitial(BlockEntangledChalice.TANK_ID, tile.getWorldTankId());
-                    return (IModelData) builder.build();
+                    ModelData.Builder builder = ModelData.builder();
+                    builder.with(BlockEntangledChalice.TANK_FLUID, tile.getTank().getFluid());
+                    builder.with(BlockEntangledChalice.TANK_ID, tile.getWorldTankId());
+                    return builder.build();
                 })
-                .orElse(EmptyModelData.INSTANCE);
+                .orElse(ModelData.EMPTY);
     }
 
     @Override
-    public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, IModelData modelData) {
+    public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, ModelData modelData, RenderType renderType) {
         String tankId = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_ID, "");
         FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
         if(!BlockEntangledChaliceConfig.staticBlockRendering) {
             fluidStack = FluidStack.EMPTY;
         }
-        return new ModelEntangledChaliceBaked(tankId, fluidStack, state, side, rand, modelData);
+        return new ModelEntangledChaliceBaked(tankId, fluidStack, state, side, rand, modelData, renderType);
     }
 
     @Override

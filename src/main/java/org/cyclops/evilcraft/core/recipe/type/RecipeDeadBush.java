@@ -81,7 +81,7 @@ public class RecipeDeadBush extends CustomRecipe {
                     }
                 }
             } else {
-                itemStack = ForgeHooks.getContainerItem(itemStack);
+                itemStack = ForgeHooks.getCraftingRemainingItem(itemStack);
             }
             stacks.add(itemStack);
         }

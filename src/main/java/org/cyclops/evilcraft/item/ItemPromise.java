@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -62,11 +62,11 @@ public class ItemPromise extends Item {
     }
 
     @Override
-    public int getItemStackLimit(ItemStack itemStack) {
+    public int getMaxStackSize(ItemStack itemStack) {
         if(upgrade.getTier() > 0) { // All the 'tier' upgrades can only have StackSize 1.
             return 1;
         }
-        return super.getItemStackLimit(itemStack);
+        return super.getMaxStackSize(itemStack);
     }
 
     @Override
