@@ -174,7 +174,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
         // Add filled basic tanks for all fluids.
         if(BlockDarkTankConfig.creativeTabFluids) {
             for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {
-                if (fluid != RegistryEntries.FLUID_BLOOD) {
+                if (fluid != RegistryEntries.FLUID_BLOOD && fluid.isSource(fluid.defaultFluidState())) {
                     try {
                         ItemStack itemStackFilled = itemStack.copy();
                         IFluidHandlerItemCapacity fluidHandlerFilled = FluidHelpers.getFluidHandlerItemCapacity(itemStackFilled).orElse(null);
