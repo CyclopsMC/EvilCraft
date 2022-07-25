@@ -1,11 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -29,8 +28,8 @@ public class ItemBroomPartConfig extends ItemConfig {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onModLoaded(FMLLoadCompleteEvent event) {
-        Minecraft.getInstance().getItemColors().register(new ItemBroomPart.ItemColor(), getInstance());
+    public void onModLoaded(RegisterColorHandlersEvent.Item event) {
+        event.register(new ItemBroomPart.ItemColor(), getInstance());
     }
 
 }
