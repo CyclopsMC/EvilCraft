@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.15.0 or higher.
+
+Fixes:
+* Clarify blood of pool requirements, Closes #931
+* Mention Dark Ore worldgen in book, Closes #930
