@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -14,6 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -55,7 +57,7 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "poisonous_libelle_spawn_egg", Helpers.RGBToInt(57, 125, 27), Helpers.RGBToInt(196, 213, 57))
         );
         MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoadingEvent);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributesModification);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributeCreationEvent);
         DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
     }
 
@@ -79,22 +81,23 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
         return new RenderPoisonousLibelle(renderContext, this, new ModelPoisonousLibelle(renderContext.bakeLayer(MODEL)), 0.5F);
     }
 
-    public void onEntityAttributesModification(EntityAttributeModificationEvent event) {
+    public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
         // Copied from Monster.createMonsterAttributes()
-        event.add(getInstance(), Attributes.ATTACK_DAMAGE);
-        event.add(getInstance(), Attributes.FOLLOW_RANGE, 16.0D);
-        event.add(getInstance(), Attributes.ATTACK_KNOCKBACK);
-        event.add(getInstance(), Attributes.MAX_HEALTH);
-        event.add(getInstance(), Attributes.KNOCKBACK_RESISTANCE);
-        event.add(getInstance(), Attributes.MOVEMENT_SPEED);
-        event.add(getInstance(), Attributes.ARMOR);
-        event.add(getInstance(), Attributes.ARMOR_TOUGHNESS);
-        event.add(getInstance(), net.minecraftforge.common.ForgeMod.SWIM_SPEED.get());
-        event.add(getInstance(), net.minecraftforge.common.ForgeMod.NAMETAG_DISTANCE.get());
-        event.add(getInstance(), net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
-
-        event.add(getInstance(), Attributes.MAX_HEALTH, 1.0D);
-        event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.625D);
+        AttributeSupplier attributeSupplier = AttributeSupplier.builder()
+                .add(Attributes.ATTACK_DAMAGE)
+                .add(Attributes.FOLLOW_RANGE, 16.0D)
+                .add(Attributes.ATTACK_KNOCKBACK)
+                .add(Attributes.MAX_HEALTH)
+                .add(Attributes.KNOCKBACK_RESISTANCE)
+                .add(Attributes.MOVEMENT_SPEED)
+                .add(Attributes.ARMOR)
+                .add(Attributes.ARMOR_TOUGHNESS)
+                .add(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get())
+                .add(net.minecraftforge.common.ForgeMod.NAMETAG_DISTANCE.get())
+                .add(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get())
+                .add(Attributes.MAX_HEALTH, 1.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.625D).build();
+        event.put(getInstance(), attributeSupplier);
     }
 
     public static class ModelLoader {
