@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
@@ -60,19 +61,7 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
 
     public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
         // Copied from Monster.createMonsterAttributes()
-        AttributeSupplier attributeSupplier = AttributeSupplier.builder()
-                .add(Attributes.ATTACK_DAMAGE)
-                .add(Attributes.FOLLOW_RANGE, 16.0D)
-                .add(Attributes.ATTACK_KNOCKBACK)
-                .add(Attributes.MAX_HEALTH)
-                .add(Attributes.KNOCKBACK_RESISTANCE)
-                .add(Attributes.MOVEMENT_SPEED)
-                .add(Attributes.ARMOR)
-                .add(Attributes.ARMOR_TOUGHNESS)
-                .add(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get())
-                .add(net.minecraftforge.common.ForgeMod.NAMETAG_DISTANCE.get())
-                .add(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get())
-
+        AttributeSupplier attributeSupplier = Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
                 .add(Attributes.MAX_HEALTH, 40.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.4D)
