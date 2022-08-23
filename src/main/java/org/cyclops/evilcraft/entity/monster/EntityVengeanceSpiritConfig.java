@@ -6,9 +6,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -56,7 +59,7 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
                         .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "vengeance_spirit_spawn_egg", Helpers.RGBToInt(64, 16, 93), Helpers.RGBToInt(134, 60, 169))
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributesModification);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributeCreationEvent);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -78,23 +81,14 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
         });
     }
 
-    public void onEntityAttributesModification(EntityAttributeModificationEvent event) {
+    public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
         // Copied from Monster.createMonsterAttributes()
-        event.add(getInstance(), Attributes.ATTACK_DAMAGE);
-        event.add(getInstance(), Attributes.FOLLOW_RANGE, 16.0D);
-        event.add(getInstance(), Attributes.ATTACK_KNOCKBACK);
-        event.add(getInstance(), Attributes.MAX_HEALTH);
-        event.add(getInstance(), Attributes.KNOCKBACK_RESISTANCE);
-        event.add(getInstance(), Attributes.MOVEMENT_SPEED);
-        event.add(getInstance(), Attributes.ARMOR);
-        event.add(getInstance(), Attributes.ARMOR_TOUGHNESS);
-        event.add(getInstance(), net.minecraftforge.common.ForgeMod.SWIM_SPEED.get());
-        event.add(getInstance(), net.minecraftforge.common.ForgeMod.NAMETAG_DISTANCE.get());
-        event.add(getInstance(), net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
 
-        event.add(getInstance(), Attributes.FOLLOW_RANGE, 10.0D);
-        event.add(getInstance(), Attributes.MAX_HEALTH, 10.0D);
-        event.add(getInstance(), Attributes.MOVEMENT_SPEED, 0.3125D);
-        event.add(getInstance(), Attributes.ATTACK_DAMAGE, 4.0D);
+        AttributeSupplier attributeSupplier = Monster.createMonsterAttributes()
+                .add(Attributes.FOLLOW_RANGE, 10.0D)
+                .add(Attributes.MAX_HEALTH, 10.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.3125D)
+                .add(Attributes.ATTACK_DAMAGE, 4.0D).build();
+        event.put(getInstance(), attributeSupplier);
     }
 }
