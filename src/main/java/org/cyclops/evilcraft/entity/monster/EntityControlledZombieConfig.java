@@ -5,13 +5,11 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -43,11 +41,10 @@ public class EntityControlledZombieConfig extends EntityConfig<EntityControlledZ
     }
 
     public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
-        // Copied from Monster.createMonsterAttributes()
-        AttributeSupplier attributeSupplier = Monster.createMonsterAttributes()
+        event.put(getInstance(), Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 12.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23F)
-                .add(Attributes.ATTACK_DAMAGE, 3.0D).build();
-        event.put(getInstance(), attributeSupplier);
+                .add(Attributes.ATTACK_DAMAGE, 3.0D)
+                .build());
     }
 }

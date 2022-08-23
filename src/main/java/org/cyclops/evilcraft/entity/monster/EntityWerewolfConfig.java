@@ -7,14 +7,12 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -60,13 +58,12 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
     }
 
     public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
-        // Copied from Monster.createMonsterAttributes()
-        AttributeSupplier attributeSupplier = Monster.createMonsterAttributes()
+        event.put(getInstance(), Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 35.0D)
                 .add(Attributes.MAX_HEALTH, 40.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.4D)
-                .add(Attributes.ATTACK_DAMAGE, 7.0D).build();
-        event.put(getInstance(), attributeSupplier);
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
+                .build());
     }
 
     public static class ModelLoader {

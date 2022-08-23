@@ -6,13 +6,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -82,13 +80,11 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
     }
 
     public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
-        // Copied from Monster.createMonsterAttributes()
-
-        AttributeSupplier attributeSupplier = Monster.createMonsterAttributes()
+        event.put(getInstance(), Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 10.0D)
                 .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3125D)
-                .add(Attributes.ATTACK_DAMAGE, 4.0D).build();
-        event.put(getInstance(), attributeSupplier);
+                .add(Attributes.ATTACK_DAMAGE, 4.0D)
+                .build());
     }
 }
