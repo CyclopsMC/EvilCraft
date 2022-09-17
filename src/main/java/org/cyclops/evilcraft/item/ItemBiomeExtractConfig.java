@@ -1,13 +1,12 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -49,8 +48,8 @@ public class ItemBiomeExtractConfig extends ItemConfig {
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void onModLoaded(FMLLoadCompleteEvent event) {
-        Minecraft.getInstance().getItemColors().register(new ItemBiomeExtract.ItemColor(), getInstance());
+    public void onModLoaded(RegisterColorHandlersEvent.Item event) {
+        event.register(new ItemBiomeExtract.ItemColor(), getInstance());
     }
 
     public static boolean isCraftingBlacklisted(Biome biome) {
