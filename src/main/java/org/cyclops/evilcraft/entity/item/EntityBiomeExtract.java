@@ -184,7 +184,7 @@ public class EntityBiomeExtract extends EntityThrowable {
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
             // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
             Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
-            Biome biomeHack = biomeRegistry.get(ResourceKey.create(Registry.BIOME_REGISTRY, ForgeRegistries.BIOMES.getKey(biome)));
+            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, ForgeRegistries.BIOMES.getKey(biome))).get();
 
             // Update biome in chunk
             // Based on ChunkAccess#getNoiseBiome
@@ -193,7 +193,7 @@ public class EntityBiomeExtract extends EntityThrowable {
             int dummyY = Mth.clamp(i3, minBuildHeight, maxHeight);
             int sectionIndex = chunk.getSectionIndex(QuartPos.toBlock(dummyY));
             //chunk.sections[sectionIndex].getNoiseBiome(l2 & 3, dummyY & 3, j3 & 3);
-            ((PalettedContainer<Holder<Biome>>) chunk.sections[sectionIndex].getBiomes()).set(l2 & 3, dummyY & 3, j3 & 3, new Holder.Direct<>(biomeHack));
+            ((PalettedContainer<Holder<Biome>>) chunk.sections[sectionIndex].getBiomes()).set(l2 & 3, dummyY & 3, j3 & 3, biomeHack);
 
             chunk.setUnsaved(true);
         } else {
