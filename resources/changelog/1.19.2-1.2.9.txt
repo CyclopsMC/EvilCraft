@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.17.0 or higher.
+
+Fixes:
+* Optimize Vengeance Ring by creating tag once, Closes #944
+* Fix degradation in Envir Acc breaking chunks, Closes #943
+
