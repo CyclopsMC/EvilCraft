@@ -39,6 +39,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -107,6 +108,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     public static final EntityDataAccessor<Integer> WATCHERID_BUILDUP = SynchedEntityData.<Integer>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<String> WATCHERID_PLAYERID = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
     public static final EntityDataAccessor<String> WATCHERID_PLAYERNAME = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
+
+    public static final TagKey<Block> TAG_SPIRIT_BLOCKER = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("evilcraft:vengeance_spirit_blocker"));
 
     @Getter
     @Delegate
@@ -589,7 +592,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         return WorldHelpers.foldArea(level, BlockGemStoneTorchConfig.area, blockPos,
                 (input, level1, blockPos1) -> input
-                        && !level1.getBlockState(blockPos1).is(TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("evilcraft:vengeance_spirit_blocker"))), true);
+                        && !level1.getBlockState(blockPos1).is(TAG_SPIRIT_BLOCKER), true);
     }
 
     /**
