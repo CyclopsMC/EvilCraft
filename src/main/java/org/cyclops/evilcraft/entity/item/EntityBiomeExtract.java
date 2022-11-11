@@ -94,14 +94,7 @@ public class EntityBiomeExtract extends EntityThrowable {
                     public void spreadTo(Level world, BlockPos location) {
                         setBiome((ServerLevel) world, location, biome);
                         updatedChunks.add(new ChunkPos(location));
-                        // int color = biome.getFoliageColor(); // Only accessible client-side, so we copy and modify its implementation...
-                        int color = biome.specialEffects.getFoliageColorOverride().orElseGet(() -> {
-                            double d0 = (double)Mth.clamp(biome.climateSettings.temperature, 0.0F, 1.0F);
-                            double d1 = (double)Mth.clamp(biome.climateSettings.downfall, 0.0F, 1.0F);
-                            // Following is also on accessible client-side...
-                            //return FoliageColors.get(d0, d1);
-                            return Helpers.RGBToInt(20, 200, 20);
-                        });
+                        int color = biome.getFoliageColor();
                         showChangedBiome((ServerLevel) world, new BlockPos(location.getX(), ((BlockHitResult) movingobjectposition).getBlockPos().getY(),
                                 location.getZ()), color);
                     }
