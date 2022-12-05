@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
@@ -50,7 +52,7 @@ public class ItemBiomeExtract extends Item {
 
     @Override
     public String getDescriptionId(ItemStack itemStack) {
-        return super.getDescriptionId(itemStack) + (getBiome(itemStack) == null ? ".empty" : "");
+        return super.getDescriptionId(itemStack) + (getBiomeClient(itemStack) == null ? ".empty" : "");
     }
 
     @Override
@@ -61,7 +63,9 @@ public class ItemBiomeExtract extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if(!world.isClientSide() && getBiome(itemStack) != null && !ItemBiomeExtractConfig.isUsageBlacklisted(getBiome(itemStack))) {
+        Registry<Biome> registry = world.registryAccess().registry(ForgeRegistries.Keys.BIOMES).get();
+        if(!world.isClientSide() && getBiomeClient(itemStack) != null &&
+                !ItemBiomeExtractConfig.isUsageBlacklisted(registry, getBiomeServer(registry, itemStack))) {
             world.playSound(player, player.getX(), player.getY(), player.getZ(), new SoundEvent(new ResourceLocation("random.bow")), SoundSource.PLAYERS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
             // MCP: shoot
@@ -77,7 +81,7 @@ public class ItemBiomeExtract extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
-        Biome biome = getBiome(itemStack);
+        Biome biome = getBiomeClient(itemStack);
         if(biome != null) {
             // Biome name generation based on CreateBuffetWorldScreen
             ResourceLocation key = ForgeRegistries.BIOMES.getKey(biome);
@@ -97,7 +101,7 @@ public class ItemBiomeExtract extends Item {
         super.fillItemCategory(creativeTabs, list);
         if(ItemBiomeExtractConfig.creativeTabVariants) {
             for (Biome biome : getBiomes()) {
-                list.add(createItemStack(biome, 1));
+                list.add(createItemStack(ForgeRegistries.BIOMES::getKey, biome, 1));
             }
         }
     }
@@ -110,7 +114,7 @@ public class ItemBiomeExtract extends Item {
      * @return true if the BiomeExtract is empty, false other
      */
     public boolean isEmpty(ItemStack itemStack) {
-        return getBiome(itemStack) == null;
+        return getBiomeClient(itemStack) == null;
     }
 
     /**
@@ -119,7 +123,7 @@ public class ItemBiomeExtract extends Item {
      * @param itemStack ItemStack which holds a BiomeExtract
      * @return biome type of the given ItemStack
      */
-    public static Biome getBiome(ItemStack itemStack) {
+    public static Biome getBiomeClient(ItemStack itemStack) {
         if(itemStack.hasTag()) {
             String biomeName = itemStack.getTag().getString(NBT_BIOMEKEY);
             if(ForgeRegistries.BIOMES.containsKey(new ResourceLocation(biomeName))) {
@@ -129,18 +133,30 @@ public class ItemBiomeExtract extends Item {
         return null;
     }
 
+    public static Biome getBiomeServer(Registry<Biome> registry, ItemStack itemStack) {
+        if(itemStack.hasTag()) {
+            String biomeName = itemStack.getTag().getString(NBT_BIOMEKEY);
+            if(registry.containsKey(new ResourceLocation(biomeName))) {
+                return registry.get(new ResourceLocation(biomeName));
+            }
+        }
+        return null;
+    }
+
     /**
      * Create a stack of a certain type of biome.
      *
-     * @param biome The type ofbopme to make.
+     *
+     * @param biomeKeyFunction A function to retrieve the biome's key.
+     * @param biome The type of biome to make.
      * @param amount The amount per stack.
      * @return The stack.
      */
-    public ItemStack createItemStack(Biome biome, int amount) {
+    public ItemStack createItemStack(Function<Biome, ResourceLocation> biomeKeyFunction, Biome biome, int amount) {
         ItemStack itemStack = new ItemStack(this, amount);
         if(biome != null) {
             CompoundTag tag = new CompoundTag();
-            tag.putString(NBT_BIOMEKEY, ForgeRegistries.BIOMES.getKey(biome).toString());
+            tag.putString(NBT_BIOMEKEY, biomeKeyFunction.apply(biome).toString());
             itemStack.setTag(tag);
         }
         return itemStack;
@@ -148,7 +164,7 @@ public class ItemBiomeExtract extends Item {
 
     @Override
     public Rarity getRarity(ItemStack itemStack) {
-        Biome biome = getBiome(itemStack);
+        Biome biome = getBiomeClient(itemStack);
         if(biome == null) {
             return Rarity.COMMON;
         } else {
@@ -163,7 +179,7 @@ public class ItemBiomeExtract extends Item {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             if(renderPass == 0) {
-                Biome biome = RegistryEntries.ITEM_BIOME_EXTRACT.getBiome(itemStack);
+                Biome biome = RegistryEntries.ITEM_BIOME_EXTRACT.getBiomeClient(itemStack);
                 if(biome != null) {
                     return biome.getFoliageColor();
                 } else {

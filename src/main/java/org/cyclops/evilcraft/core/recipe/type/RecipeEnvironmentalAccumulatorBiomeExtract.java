@@ -1,11 +1,13 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import com.mojang.datafixers.util.Either;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.weather.WeatherType;
@@ -29,10 +31,11 @@ public class RecipeEnvironmentalAccumulatorBiomeExtract extends RecipeEnvironmen
     @Override
     public ItemStack assemble(Inventory inventory) {
         Biome biome = inventory.getWorld().getBiome(inventory.getPos()).value();
-        if (ItemBiomeExtractConfig.isCraftingBlacklisted(biome)) {
-            return RegistryEntries.ITEM_BIOME_EXTRACT.createItemStack(null, 1);
+        Registry<Biome> biomeRegistry = inventory.getWorld().registryAccess().registry(ForgeRegistries.Keys.BIOMES).get();
+        if (ItemBiomeExtractConfig.isCraftingBlacklisted(biomeRegistry, biome)) {
+            return RegistryEntries.ITEM_BIOME_EXTRACT.createItemStack(biomeRegistry::getKey, null, 1);
         } else {
-            return RegistryEntries.ITEM_BIOME_EXTRACT.createItemStack(biome, 1);
+            return RegistryEntries.ITEM_BIOME_EXTRACT.createItemStack(biomeRegistry::getKey, biome, 1);
         }
     }
 }
