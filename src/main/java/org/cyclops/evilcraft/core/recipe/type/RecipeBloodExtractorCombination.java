@@ -16,7 +16,6 @@ import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDarkTank;
-import org.cyclops.evilcraft.block.BlockDarkTankConfig;
 import org.cyclops.evilcraft.item.ItemBloodExtractor;
 
 /**
