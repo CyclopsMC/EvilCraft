@@ -17,7 +17,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -86,14 +85,18 @@ public class ItemBucketEternalWater extends BucketItem {
     public InteractionResult useOn(UseOnContext context) {
         BlockState state = context.getLevel().getBlockState(context.getClickedPos());
         Block block = state.getBlock();
-        if(block instanceof CauldronBlock && !context.getPlayer().isCrouching()) {
-            if(!context.getLevel().isClientSide() && state.getValue(LayeredCauldronBlock.LEVEL) < 3) {
-                context.getPlayer().awardStat(Stats.USE_CAULDRON);
-                context.getLevel().setBlockAndUpdate(context.getClickedPos(), Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 3));
-                context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        if (!context.getPlayer().isCrouching()) {
+            if (block == Blocks.WATER_CAULDRON || block == Blocks.CAULDRON) {
+                if(!context.getLevel().isClientSide() && (block == Blocks.CAULDRON || state.getValue(LayeredCauldronBlock.LEVEL) < 3)) {
+                    context.getPlayer().awardStat(Stats.USE_CAULDRON);
+                    context.getLevel().setBlockAndUpdate(context.getClickedPos(), Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 3));
+                    context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.BUCKET_EMPTY, SoundSource.BLOCKS, 1.0F, 1.0F);
+                }
+                return InteractionResult.SUCCESS;
             }
-            return InteractionResult.SUCCESS;
         }
+
         return super.useOn(context);
     }
 
