@@ -169,7 +169,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
             list.add(fluidHandler.getContainer().copy());
             lastCapacity = capacity;
             capacity = capacity << 2;
-        } while(capacity < Math.min(BlockDarkTankConfig.maxTankCreativeSize, BlockDarkTankConfig.maxTankSize) && capacity > lastCapacity);
+        } while(capacity < BlockDarkTankConfig.maxTankCreativeSize && capacity > lastCapacity);
 
         // Add filled basic tanks for all fluids.
         if(BlockDarkTankConfig.creativeTabFluids) {

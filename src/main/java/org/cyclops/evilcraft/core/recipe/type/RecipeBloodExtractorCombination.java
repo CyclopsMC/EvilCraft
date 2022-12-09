@@ -108,7 +108,7 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
         }
 
         if((extractors + tanks) < 2 || extractors < 1
-                || totalCapacity > BlockDarkTankConfig.maxTankSize) {
+                || totalCapacity > getMaxCapacity()) {
             return ItemStack.EMPTY;
         }
 
