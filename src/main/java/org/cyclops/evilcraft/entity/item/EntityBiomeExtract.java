@@ -177,7 +177,8 @@ public class EntityBiomeExtract extends EntityThrowable {
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
             // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
             Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
-            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, biomeRegistry.getKey(biome))).get();
+            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, biomeRegistry.getKey(biome)))
+                    .orElseGet(() -> biomeRegistry.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, ForgeRegistries.BIOMES.getKey(biome))).get());
 
             // Update biome in chunk
             // Based on ChunkAccess#getNoiseBiome
