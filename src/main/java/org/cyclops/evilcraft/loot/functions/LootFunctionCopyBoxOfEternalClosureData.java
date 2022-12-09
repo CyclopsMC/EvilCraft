@@ -32,12 +32,19 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootItemConditional
         BlockEntity tile = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
         if (tile instanceof BlockEntityBoxOfEternalClosure) {
             CompoundTag tag = new CompoundTag();
-            tag.put(BlockEntityBoxOfEternalClosure.NBTKEY_SPIRIT, ((BlockEntityBoxOfEternalClosure) tile).getSpiritTag());
+            CompoundTag spiritTag = ((BlockEntityBoxOfEternalClosure) tile).getSpiritTag();
             String playerId = ((BlockEntityBoxOfEternalClosure) tile).getPlayerId();
-            tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, playerId == null ? "" : playerId);
             String playerName = ((BlockEntityBoxOfEternalClosure) tile).getPlayerName();
-            tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, playerName == null ? "" : playerName);
-            itemStack.setTag(tag);
+            if (spiritTag.size() > 0 || (playerId != null && !playerId.isEmpty()) || (playerName != null && !playerName.isEmpty())) {
+                tag.put(BlockEntityBoxOfEternalClosure.NBTKEY_SPIRIT, spiritTag);
+                if (playerId != null && !playerId.isEmpty()) {
+                    tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, playerId);
+                }
+                if (playerName != null && !playerName.isEmpty()) {
+                    tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, playerName);
+                }
+                itemStack.setTag(tag);
+            }
         }
         return itemStack;
     }

@@ -99,14 +99,17 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
 
     @Nullable
     public static EntityType<?> getSpiritTypeWithFallbackSpirit(ItemStack itemStack) {
-        if (hasPlayer(itemStack)) {
-            return EntityType.ZOMBIE;
+        if(itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
+            if (hasPlayer(itemStack)) {
+                return EntityType.ZOMBIE;
+            }
+            EntityType<?> spiritType = getSpiritTypeRaw(itemStack.getTag());
+            if (spiritType == null && itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
+                return RegistryEntries.ENTITY_VENGEANCE_SPIRIT;
+            }
+            return spiritType;
         }
-        EntityType<?> spiritType = getSpiritTypeRaw(itemStack.getTag());
-        if (spiritType == null && itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
-            return RegistryEntries.ENTITY_VENGEANCE_SPIRIT;
-        }
-        return spiritType;
+        return null;
     }
 
     @Nullable
