@@ -274,8 +274,8 @@
   "item.evilcraft.powerable.info": "Shift + Right click to change power level.",
 
   "_comment": "Fluids",
-  "fluid.evilcraft.blood": "Blood",
-  "fluid.evilcraft.poison": "Poison",
+  "fluid_type.evilcraft.blood": "Blood",
+  "fluid_type.evilcraft.poison": "Poison",
 
   "_comment": "Weather container info",
   "weather_container.evilcraft.empty": "Empty",
