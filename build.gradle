@@ -350,3 +350,9 @@ spotless {
         indentWithSpaces()
     }
 }
+
+tasks.register('updateGitHooks', Copy) {
+    from './scripts/pre-commit'
+    into './.git/hooks'
+}
+compileJava.dependsOn updateGitHooks
