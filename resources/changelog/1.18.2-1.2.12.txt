@@ -1,0 +1,12 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.15.0 or higher.
+
+Changes:
+* Remove unused maxTankSize config option, Closes #953
+  Max tank sizes are modified via datapacks in recipes directly now.
+
+Fixes:
+* Fix stacking issues with Box Of Eternal Closure, Closes #958
+* Fix filling Cauldron with Eternal Water Bucket, Closes #955
+* Fix negative hunger level on eating werewolf flesh, Closes #951
+
