@@ -48,7 +48,7 @@ public class ItemWerewolfFlesh extends Item {
     public ItemWerewolfFlesh(Item.Properties properties, boolean humanoid) {
         super(properties
                 .food((new FoodProperties.Builder())
-                        .nutrition(-5)
+                        .nutrition(0)
                         .saturationMod(0)
                         .alwaysEat()
                         .build()));
@@ -118,7 +118,6 @@ public class ItemWerewolfFlesh extends Item {
             if (player instanceof ServerPlayer) {
                 CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, itemStack);
             }
-            itemStack.shrink(1);
             if (isOwnCanibal(itemStack, player)) {
                 if (!world.isClientSide()) {
                     player.addEffect(new MobEffectInstance(MobEffects.WITHER,
@@ -132,6 +131,7 @@ public class ItemWerewolfFlesh extends Item {
                 int foodLevel = getFoodProperties().getNutrition();
                 float saturationLevel = getFoodProperties().getSaturationModifier();
                 player.getFoodData().eat(foodLevel, saturationLevel);
+                player.getFoodData().addExhaustion(20);
                 if (!world.isClientSide()) {
                     player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,
                             getPowerDuration(itemStack) * 20, 2));
