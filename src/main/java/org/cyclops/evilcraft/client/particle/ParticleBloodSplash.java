@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.core.helper.RandomHelpers;
 
 
 /**
@@ -31,7 +32,7 @@ public class ParticleBloodSplash extends WaterDropParticle {
     }
 
     public static void spawnParticles(Level world, BlockPos blockPos, int velocity, int amount) {
-        RandomSource random = world.getRandom();
+        RandomSource random = RandomHelpers.instance;
         for (int i = 0; i < amount; i++) {
             float x_r = blockPos.getX() + random.nextFloat();
             float y_r = blockPos.getY() + random.nextFloat();

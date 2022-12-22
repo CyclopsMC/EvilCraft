@@ -22,6 +22,7 @@ import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
+import org.cyclops.evilcraft.core.helper.RandomHelpers;
 
 /**
  * Tile for the {@link org.cyclops.evilcraft.block.BlockPurifier}..
@@ -236,7 +237,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * @param itemStack The purify item.
      */
     public void setPurifyItem(ItemStack itemStack) {
-        this.randomRotation = level.random.nextFloat() * 360;
+        this.randomRotation = RandomHelpers.instance.nextFloat() * 360;
         getInventory().setItem(SLOT_PURIFY, itemStack);
     }
 
@@ -259,13 +260,13 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     @OnlyIn(Dist.CLIENT)
     public void showEffect() {
         for (int i=0; i < 1; i++) {
-            double particleX = getBlockPos().getX() + 0.2 + level.random.nextDouble() * 0.6;
-            double particleY = getBlockPos().getY() + 0.2 + level.random.nextDouble() * 0.6;
-            double particleZ = getBlockPos().getZ() + 0.2 + level.random.nextDouble() * 0.6;
+            double particleX = getBlockPos().getX() + 0.2 + RandomHelpers.instance.nextDouble() * 0.6;
+            double particleY = getBlockPos().getY() + 0.2 + RandomHelpers.instance.nextDouble() * 0.6;
+            double particleZ = getBlockPos().getZ() + 0.2 + RandomHelpers.instance.nextDouble() * 0.6;
 
-            float particleMotionX = -0.01F + level.random.nextFloat() * 0.02F;
+            float particleMotionX = -0.01F + RandomHelpers.instance.nextFloat() * 0.02F;
             float particleMotionY = 0.01F;
-            float particleMotionZ = -0.01F + level.random.nextFloat() * 0.02F;
+            float particleMotionZ = -0.01F + RandomHelpers.instance.nextFloat() * 0.02F;
 
             Minecraft.getInstance().levelRenderer.addParticle(
                     RegistryEntries.PARTICLE_BLOOD_BUBBLE, false,
@@ -275,15 +276,15 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
 
     @OnlyIn(Dist.CLIENT)
     public void showEnchantingEffect() {
-        if(level.random.nextInt(10) == 0) {
+        if(RandomHelpers.instance.nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {
-                double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
-                double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
-                double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
+                double particleX = getBlockPos().getX() + 0.45 + RandomHelpers.instance.nextDouble() * 0.1;
+                double particleY = getBlockPos().getY() + 1.45 + RandomHelpers.instance.nextDouble() * 0.1;
+                double particleZ = getBlockPos().getZ() + 0.45 + RandomHelpers.instance.nextDouble() * 0.1;
 
-                float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
-                float particleMotionY = -level.random.nextFloat();
-                float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
+                float particleMotionX = -0.4F + RandomHelpers.instance.nextFloat() * 0.8F;
+                float particleMotionY = -RandomHelpers.instance.nextFloat();
+                float particleMotionZ = -0.4F + RandomHelpers.instance.nextFloat() * 0.8F;
 
                 Minecraft.getInstance().levelRenderer.addParticle(
                         ParticleTypes.ENCHANT, false,
@@ -295,13 +296,13 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     @OnlyIn(Dist.CLIENT)
     private void showEnchantedEffect() {
         for (int i=0; i < 100; i++) {
-            double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
-            double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
-            double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
+            double particleX = getBlockPos().getX() + 0.45 + RandomHelpers.instance.nextDouble() * 0.1;
+            double particleY = getBlockPos().getY() + 1.45 + RandomHelpers.instance.nextDouble() * 0.1;
+            double particleZ = getBlockPos().getZ() + 0.45 + RandomHelpers.instance.nextDouble() * 0.1;
 
-            float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
-            float particleMotionY = -0.4F + level.random.nextFloat() * 0.8F;
-            float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
+            float particleMotionX = -0.4F + RandomHelpers.instance.nextFloat() * 0.8F;
+            float particleMotionY = -0.4F + RandomHelpers.instance.nextFloat() * 0.8F;
+            float particleMotionZ = -0.4F + RandomHelpers.instance.nextFloat() * 0.8F;
 
             Minecraft.getInstance().levelRenderer.addParticle(
                     RegistryEntries.PARTICLE_MAGIC_FINISH, false,

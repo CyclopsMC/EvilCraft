@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimed;
 import org.cyclops.evilcraft.entity.item.EntityLightningGrenade;
 
@@ -76,7 +77,7 @@ public class BlockLightningBomb extends Block {
             EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(world,
                     (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
                     (double)((float)blockPos.getZ() + 0.5F), explosion.getSourceMob());
-            entityprimed.setFuse(world.random.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
+            entityprimed.setFuse(RandomHelpers.instance.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
             world.addFreshEntity(entityprimed);
             world.removeBlock(blockPos, false);
         }

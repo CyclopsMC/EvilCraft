@@ -24,6 +24,7 @@ import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritData;
 
@@ -221,14 +222,14 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     private EntityVengeanceSpirit createNewVengeanceSpirit() {
-        RandomSource rand = level.random;
+        RandomSource rand = RandomHelpers.instance;
 
         EntityVengeanceSpirit spirit = EntityVengeanceSpirit.fromNBT(getLevel(), getSpiritTag());
         spirit.setPos(getBlockPos().getX() + rand.nextDouble(), getBlockPos().getY() + rand.nextDouble(),
                 getBlockPos().getZ() + rand.nextDouble());
         spirit.setFrozenDuration(0);
         spirit.setGlobalVengeance(true);
-        spirit.setRemainingLife(Mth.nextInt(level.random,
+        spirit.setRemainingLife(Mth.nextInt(RandomHelpers.instance,
                 EntityVengeanceSpirit.REMAININGLIFE_MIN, EntityVengeanceSpirit.REMAININGLIFE_MAX));
 
         return spirit;
@@ -240,7 +241,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     private float randomFloat(float min, float max) {
-        return min + level.random.nextFloat() * max;
+        return min + RandomHelpers.instance.nextFloat() * max;
     }
 
     private void playSound(SoundEvent sound, SoundSource category, float volume, float pitch) {

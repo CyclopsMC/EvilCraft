@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
+import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.item.ItemDarkGem;
 
 import java.util.List;
@@ -114,7 +115,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
 
     @OnlyIn(Dist.CLIENT)
     private void sparkle(Level world, BlockPos blockPos) {
-        RandomSource random = world.random;
+        RandomSource random = RandomHelpers.instance;
         double offset = 0.0625D;
 
         for (int l = 0; l < 6; ++l) {

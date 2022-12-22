@@ -19,6 +19,7 @@ import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
+import org.cyclops.evilcraft.core.helper.RandomHelpers;
 
 
 /**
@@ -88,7 +89,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
                     // Add blood to existing stain
                     if (blockState.getBlock() instanceof org.cyclops.evilcraft.block.BlockBloodStain) {
                         BlockEntityHelpers.get(worldIn, itPos, BlockEntityBloodStain.class)
-                                .ifPresent(tile -> tile.addAmount(1 + worldIn.random.nextInt(BlockUndeadLeavesConfig.maxBloodStainAmount)));
+                                .ifPresent(tile -> tile.addAmount(1 + RandomHelpers.instance.nextInt(BlockUndeadLeavesConfig.maxBloodStainAmount)));
                     }
 
                     break;

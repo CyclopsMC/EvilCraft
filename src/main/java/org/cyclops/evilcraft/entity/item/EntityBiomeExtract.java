@@ -39,6 +39,7 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.algorithm.OrganicSpread;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
+import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.item.ItemBiomeExtract;
 import org.cyclops.evilcraft.network.packet.ResetChunkColorsPacket;
 
@@ -211,7 +212,7 @@ public class EntityBiomeExtract extends EntityThrowable {
 
     private void showChangedBiome(ServerLevel world, BlockPos pos, int color) {
         Triple<Float, Float, Float> c = Helpers.intToRGB(color);
-        RandomSource rand = world.random;
+        RandomSource rand = RandomHelpers.instance;
         for (int j = 0; j < 2 + rand.nextInt(5); j++) {
             float x = pos.getX() + -0.5F + rand.nextFloat();
             float y = pos.getY() + -0.5F + rand.nextFloat();
