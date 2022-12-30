@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -50,7 +51,7 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
 
                 boolean shouldClear = true;
                 if(potion != null) {
-                    shouldClear = !potion.isBeneficial();
+                    shouldClear = potion.getCategory() == MobEffectCategory.HARMFUL;
                 }
                 shouldClear = shouldClear & !effect.isAmbient();
 
