@@ -3,10 +3,14 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Config for {@link BlockFluidBlood}.
@@ -27,4 +31,8 @@ public class BlockFluidBloodConfig extends BlockConfig {
         );
     }
 
+    @Override
+    protected Collection<ItemStack> defaultCreativeTabEntries() {
+        return Collections.emptyList();
+    }
 }
