@@ -4,12 +4,13 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
 import org.apache.commons.lang3.tuple.Pair;
@@ -33,8 +34,8 @@ import java.util.Set;
  */
 public class RecipeBroomPartCombination extends CustomRecipe {
 
-    public RecipeBroomPartCombination(ResourceLocation id) {
-        super(id);
+    public RecipeBroomPartCombination(ResourceLocation id, CraftingBookCategory category) {
+        super(id, category);
     }
 
     @Override

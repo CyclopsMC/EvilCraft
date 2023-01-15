@@ -1,13 +1,11 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
@@ -53,9 +51,7 @@ public class ItemBroomPart extends Item {
         return super.isFoil(stack);
     }
 
-    @Override
-    public void fillItemCategory(CreativeModeTab creativeTabs, NonNullList<ItemStack> list) {
-        if (!ItemStackHelpers.isValidCreativeTab(this, creativeTabs)) return;
+    public void fillItemCategory(NonNullList<ItemStack> list) {
         for (IBroomPart part : BroomParts.REGISTRY.getParts()) {
             for (ItemStack itemStack : BroomParts.REGISTRY.getItemsFromPart(part)) {
                 if (itemStack.getItem() == this) {

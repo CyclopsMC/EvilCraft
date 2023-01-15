@@ -15,9 +15,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
@@ -56,9 +56,9 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
-        tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+        tile.getCapability(ForgeCapabilities.FLUID_HANDLER)
                 .ifPresent(fluidHandlerTile -> {
-                    itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
+                    itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM)
                             .ifPresent(fluidHandlerItem -> {
                                 if (fluidHandlerTile instanceof IFluidHandlerMutable) {
                                     ((IFluidHandlerMutable) fluidHandlerTile).setFluidInTank(0, fluidHandlerItem.getFluidInTank(0));
@@ -96,7 +96,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack itemStack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
-        if (CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY != null) {
+        if (ForgeCapabilities.FLUID_HANDLER != null) {
             list.add(BlockTankHelpers.getInfoTank(itemStack));
         }
         if(block.isActivatable()) {

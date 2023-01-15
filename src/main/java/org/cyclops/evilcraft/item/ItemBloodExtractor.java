@@ -20,10 +20,10 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -60,7 +60,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
                 RandomSource random = context.getLevel().random;
 
                 // Fill the extractor a bit
-                BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(), ForgeCapabilities.FLUID_HANDLER)
                         .ifPresent((source) -> {
                             FluidStack moved = FluidUtil.tryFluidTransfer(FluidUtil.getFluidHandler(itemStack).orElse(null), source, Integer.MAX_VALUE, true);
                             if (!moved.isEmpty() && context.getLevel().isClientSide()) {

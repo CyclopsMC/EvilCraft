@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -27,8 +28,8 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
 
     private final int maxCapacity;
 
-    public RecipeBloodExtractorCombination(ResourceLocation id, int maxCapacity) {
-        super(id);
+    public RecipeBloodExtractorCombination(ResourceLocation id, CraftingBookCategory category, int maxCapacity) {
+        super(id, category);
         this.maxCapacity = maxCapacity;
     }
 

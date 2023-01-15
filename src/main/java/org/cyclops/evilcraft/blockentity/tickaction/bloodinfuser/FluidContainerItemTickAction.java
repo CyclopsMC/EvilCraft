@@ -7,12 +7,12 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
+import org.cyclops.evilcraft.blockentity.tickaction.EmptyFluidContainerInTankTickAction;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
-import org.cyclops.evilcraft.blockentity.tickaction.EmptyFluidContainerInTankTickAction;
+import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
 
 /**
  * {@link ITickAction} that can fill fluid containers with blood.

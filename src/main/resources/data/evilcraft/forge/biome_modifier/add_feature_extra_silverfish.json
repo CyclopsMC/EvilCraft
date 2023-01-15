@@ -1,6 +1,6 @@
 {
   "type": "forge:add_features",
   "biomes": "#minecraft:is_overworld",
-  "features": "evilcraft:stone_nether_silverfish_extra",
+  "features": "evilcraft:ore_infested_extra",
   "step": "underground_decoration"
 }

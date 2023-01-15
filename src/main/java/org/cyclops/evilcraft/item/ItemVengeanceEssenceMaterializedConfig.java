@@ -17,7 +17,7 @@ public class ItemVengeanceEssenceMaterializedConfig extends ItemConfig {
                 EvilCraft._instance,
             "vengeance_essence_materialized",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .rarity(Rarity.EPIC))
         );
     }

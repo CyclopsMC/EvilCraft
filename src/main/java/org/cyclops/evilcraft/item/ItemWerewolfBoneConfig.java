@@ -16,7 +16,7 @@ public class ItemWerewolfBoneConfig extends ItemConfig {
                 EvilCraft._instance,
             "werewolf_bone",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

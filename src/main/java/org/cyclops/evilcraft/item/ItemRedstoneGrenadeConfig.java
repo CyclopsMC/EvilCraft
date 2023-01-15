@@ -20,7 +20,7 @@ public class ItemRedstoneGrenadeConfig extends ItemConfig {
                 EvilCraft._instance,
                 "redstone_grenade",
                 eConfig -> new ItemRedstoneGrenade(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
             );
     }
 }

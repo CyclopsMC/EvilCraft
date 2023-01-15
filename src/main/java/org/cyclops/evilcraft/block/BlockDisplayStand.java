@@ -17,7 +17,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -41,10 +40,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
@@ -173,8 +172,7 @@ public class BlockDisplayStand extends BlockWithEntity {
                 .orElse(blockState);
     }
 
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
+    public void fillItemCategory(NonNullList<ItemStack> list) {
         try {
             ForgeRegistries.ITEMS.tags().getTag(ItemTags.PLANKS).stream()
                     .forEach(item -> {
@@ -199,7 +197,7 @@ public class BlockDisplayStand extends BlockWithEntity {
     public ItemStack getDisplayStandType(ItemStack displayStandStack) {
         CompoundTag tag = displayStandStack.getTag();
         if (tag != null && tag.contains(NBT_TYPE)) {
-            BlockState blockState = BlockHelpers.deserializeBlockState(tag.getCompound(NBT_TYPE));
+            BlockState blockState = BlockHelpers.deserializeBlockState(BlockHelpers.HOLDER_GETTER_FORGE, tag.getCompound(NBT_TYPE));
             return BlockHelpers.getItemStackFromBlockState(blockState);
         }
         return null;
@@ -214,7 +212,7 @@ public class BlockDisplayStand extends BlockWithEntity {
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
-                && event.getItemStack().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
+                && event.getItemStack().getCapability(ForgeCapabilities.FLUID_HANDLER).isPresent()
                 && event.getLevel().getBlockState(event.getPos()).getBlock() == this) {
             event.setUseBlock(Event.Result.ALLOW);
         }

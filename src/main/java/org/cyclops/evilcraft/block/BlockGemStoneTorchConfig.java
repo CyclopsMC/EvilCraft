@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.StandingAndWallBlockItem;
@@ -32,8 +33,8 @@ public class BlockGemStoneTorchConfig extends BlockConfig {
                         .lightLevel((state) -> 14)
                         .sound(SoundType.WOOD), ParticleTypes.FLAME),
                 (eConfig, block) -> {
-                    Item.Properties itemProperties = new Item.Properties().tab(EvilCraft._instance.getDefaultItemGroup());
-                    return new StandingAndWallBlockItem(block, RegistryEntries.BLOCK_GEM_STONE_TORCH_WALL, itemProperties);
+                    Item.Properties itemProperties = new Item.Properties();
+                    return new StandingAndWallBlockItem(block, RegistryEntries.BLOCK_GEM_STONE_TORCH_WALL, itemProperties, Direction.DOWN);
                 }
         );
     }

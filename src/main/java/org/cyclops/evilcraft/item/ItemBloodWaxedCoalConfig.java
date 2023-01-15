@@ -18,7 +18,7 @@ public class ItemBloodWaxedCoalConfig extends ItemConfig {
                 EvilCraft._instance,
             "blood_waxed_coal",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
         MinecraftForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEventEvent);
     }

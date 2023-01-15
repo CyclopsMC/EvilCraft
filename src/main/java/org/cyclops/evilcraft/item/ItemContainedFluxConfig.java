@@ -16,7 +16,7 @@ public class ItemContainedFluxConfig extends ItemConfig {
                 EvilCraft._instance,
             "contained_flux",
                 eConfig -> new ItemContainedFlux(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

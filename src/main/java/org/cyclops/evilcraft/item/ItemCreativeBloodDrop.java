@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -9,7 +8,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,7 +25,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -101,15 +98,6 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     @Override
     public int getBarWidth(ItemStack itemStack) {
         return 13;
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab itemGroup, NonNullList<ItemStack> items) {
-        if (ItemStackHelpers.isValidCreativeTab(this, itemGroup)) {
-            if (this.allowedIn(this.category)) {
-                items.add(new ItemStack(this));
-            }
-        }
     }
 
     @Override

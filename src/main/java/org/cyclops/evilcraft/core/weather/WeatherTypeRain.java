@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.weather;
 
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 
 /**
  * Rain weather type.

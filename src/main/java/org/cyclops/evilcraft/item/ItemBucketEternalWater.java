@@ -22,9 +22,9 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -73,7 +73,7 @@ public class ItemBucketEternalWater extends BucketItem {
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         IFluidHandler handler = BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(),
-                context.getClickedFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+                context.getClickedFace(), ForgeCapabilities.FLUID_HANDLER).orElse(null);
         if(handler != null && !context.getLevel().isClientSide()) {
             handler.fill(new FluidStack(Fluids.WATER, FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
             return InteractionResult.SUCCESS;

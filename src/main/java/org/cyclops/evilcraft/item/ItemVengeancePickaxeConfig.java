@@ -1,9 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Config for the {@link ItemVengeancePickaxe}.
@@ -23,9 +27,14 @@ public class ItemVengeancePickaxeConfig extends ItemConfig {
                 EvilCraft._instance,
             "vengeance_pickaxe",
                 eConfig -> new ItemVengeancePickaxe(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .durability(154))
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return Collections.singleton(((ItemVengeancePickaxe) getInstance()).getEnchantedItemStack());
     }
 
 }

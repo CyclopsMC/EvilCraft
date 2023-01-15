@@ -2,9 +2,12 @@ package org.cyclops.evilcraft.item;
 
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link ItemBloodExtractor}.
@@ -27,8 +30,13 @@ public class ItemBloodExtractorConfig extends ItemConfig {
                 EvilCraft._instance,
                 "blood_extractor",
                 eConfig -> new ItemBloodExtractor(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemBloodExtractor) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

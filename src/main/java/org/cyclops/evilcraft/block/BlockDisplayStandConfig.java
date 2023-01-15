@@ -1,11 +1,15 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link BlockDisplayStand}.
@@ -21,8 +25,15 @@ public class BlockDisplayStandConfig extends BlockConfig {
                 eConfig -> new BlockDisplayStand(Block.Properties.of(Material.WOOD)
                                 .requiresCorrectToolForDrops()),
                 (eConfig, block) -> new BlockItem(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> defaultCreativeTabEntries() {
+        NonNullList<ItemStack> list = NonNullList.create();
+        ((BlockDisplayStand) getInstance()).fillItemCategory(list);
+        return list;
     }
 
 }

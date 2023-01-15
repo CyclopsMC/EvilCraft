@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;

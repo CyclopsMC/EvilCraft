@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.potion;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.LivingEntity;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.ExtendedDamageSource;
 

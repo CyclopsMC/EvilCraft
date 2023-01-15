@@ -7,7 +7,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -154,8 +153,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
         return itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_DRAINING);
     }
 
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> list) {
+    public void fillItemCategory(NonNullList<ItemStack> list) {
         ItemStack itemStack = new ItemStack(this);
 
         int capacityOriginal = BlockEntityDarkTank.BASE_CAPACITY;

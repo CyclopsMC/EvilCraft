@@ -1,10 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link ItemNecromancerStaff}.
@@ -24,8 +27,13 @@ public class ItemNecromancerStaffConfig extends ItemConfig {
                 EvilCraft._instance,
             "necromancer_staff",
                 eConfig -> new ItemNecromancerStaff(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemNecromancerStaff) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

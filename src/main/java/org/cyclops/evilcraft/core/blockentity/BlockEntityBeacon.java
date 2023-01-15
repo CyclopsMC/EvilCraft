@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.core.blockentity;
 
-import com.mojang.math.Vector4f;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -9,6 +8,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
+import org.joml.Vector4f;
 
 /**
  * Base tile entity for beacons.

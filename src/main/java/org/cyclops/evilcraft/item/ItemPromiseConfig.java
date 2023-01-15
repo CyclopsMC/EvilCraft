@@ -22,7 +22,7 @@ public class ItemPromiseConfig extends ItemConfig {
                 EvilCraft._instance,
             "promise_" + upgrade.getId() + "_" + upgrade.getTier(),
                 eConfig -> new ItemPromise(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(4), upgrade)
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);

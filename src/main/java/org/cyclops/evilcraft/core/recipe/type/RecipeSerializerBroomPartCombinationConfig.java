@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -13,7 +13,7 @@ public class RecipeSerializerBroomPartCombinationConfig extends RecipeConfig<Rec
     public RecipeSerializerBroomPartCombinationConfig() {
         super(EvilCraft._instance,
                 "crafting_special_broom_part_combination",
-                eConfig -> new SimpleRecipeSerializer<>(RecipeBroomPartCombination::new));
+                eConfig -> new SimpleCraftingRecipeSerializer<>(RecipeBroomPartCombination::new));
     }
 
 }

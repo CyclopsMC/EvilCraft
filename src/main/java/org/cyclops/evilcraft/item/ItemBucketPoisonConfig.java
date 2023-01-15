@@ -20,7 +20,7 @@ public class ItemBucketPoisonConfig extends ItemConfig {
                 eConfig -> new BucketItem(() -> RegistryEntries.FLUID_POISON, new Item.Properties()
                         .craftRemainder(Items.BUCKET)
                         .stacksTo(1)
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

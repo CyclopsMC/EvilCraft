@@ -10,7 +10,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -33,7 +33,7 @@ public class LootFunctionCopyTankData extends LootItemConditionalFunction {
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
         BlockEntityTankInventory tile = (BlockEntityTankInventory) lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
         SingleUseTank fluidHandlerTile = tile.getTank();
-        itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY)
+        itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM)
                 .ifPresent(fluidHandlerItem -> {
                     if (fluidHandlerItem instanceof IFluidHandlerMutable) {
                         ((IFluidHandlerMutable) fluidHandlerItem).setFluidInTank(0, fluidHandlerTile.getFluidInTank(0));

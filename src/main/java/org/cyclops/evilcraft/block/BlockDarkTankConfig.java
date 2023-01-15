@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
@@ -8,6 +10,8 @@ import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link BlockDarkTank}.
@@ -36,8 +40,14 @@ public class BlockDarkTankConfig extends BlockConfig {
                         .strength(0.5F)
                         .sound(SoundType.GLASS)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 
+    @Override
+    protected Collection<ItemStack> defaultCreativeTabEntries() {
+        NonNullList<ItemStack> list = NonNullList.create();
+        ((BlockDarkTank) getInstance()).fillItemCategory(list);
+        return list;
+    }
 }

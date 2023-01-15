@@ -2,17 +2,24 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,9 +48,10 @@ public class ItemBiomeExtractConfig extends ItemConfig {
                 EvilCraft._instance,
                 "biome_extract",
                 eConfig -> new ItemBiomeExtract(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCreativeModeTabBuildContents);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -58,5 +66,29 @@ public class ItemBiomeExtractConfig extends ItemConfig {
 
     public static boolean isUsageBlacklisted(Registry<Biome> biomeRegistry, Biome biome) {
         return usageBlacklist.contains(biomeRegistry.getKey(biome).toString());
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        // Register tab entries later, when the world is available
+        return Collections.emptyList();
+    }
+
+    protected void onCreativeModeTabBuildContents(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == getMod().getDefaultCreativeTab()) {
+            List<ItemStack> list = Lists.newArrayList();
+            list.add(new ItemStack(getInstance()));
+            if (creativeTabVariants) {
+                try {
+                    Registry<Biome> registry = ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).registryAccess().registryOrThrow(Registries.BIOME);
+                    for (Biome biome : ((ItemBiomeExtract) getInstance()).getBiomes()) {
+                        list.add(((ItemBiomeExtract) getInstance()).createItemStack(registry::getKey, biome, 1));
+                    }
+                } catch (RuntimeException e) {
+                    // Ignore errors
+                }
+            }
+            event.acceptAll(list);
+        }
     }
 }

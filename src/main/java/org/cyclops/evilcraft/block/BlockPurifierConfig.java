@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Lists;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.Item;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -33,7 +33,7 @@ public class BlockPurifierConfig extends BlockConfig {
                         .strength(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

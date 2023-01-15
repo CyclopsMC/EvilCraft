@@ -21,8 +21,6 @@ import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import java.util.List;
 import java.util.Map;
 
-import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix.ItemButton;
-
 /**
  * Broom modifier info.
  * @author rubensworks

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -11,6 +12,7 @@ import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +43,7 @@ public class ItemPrimedPendantConfig extends ItemConfig {
                 EvilCraft._instance,
                 "primed_pendant",
                 eConfig -> new ItemPrimedPendant(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(1))
         );
     }
@@ -73,6 +75,11 @@ public class ItemPrimedPendantConfig extends ItemConfig {
         }
 
         return 1.0D;
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemPrimedPendant) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

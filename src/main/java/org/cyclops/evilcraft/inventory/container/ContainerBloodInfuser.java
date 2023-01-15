@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
@@ -12,10 +12,10 @@ import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.gameevent.BloodInfuserRemoveEvent;
 import org.cyclops.evilcraft.block.BlockBloodInfuser;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
-import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 
 import java.util.Optional;
 

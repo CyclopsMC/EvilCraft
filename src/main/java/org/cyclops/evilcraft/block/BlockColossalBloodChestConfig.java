@@ -44,7 +44,7 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
                         .sound(SoundType.WOOD)
                         .noOcclusion()),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
+                        ) {
                     @Override
                     @OnlyIn(Dist.CLIENT)
                     public void initializeClient(Consumer<IClientItemExtensions> consumer) {

@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
@@ -13,8 +13,6 @@ import org.cyclops.evilcraft.block.BlockDarkOre;
 import org.cyclops.evilcraft.block.BlockFluidBlood;
 
 import javax.annotation.Nullable;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * Gem that drops from {@link BlockDarkOre}.

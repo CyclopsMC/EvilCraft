@@ -3,10 +3,10 @@ package org.cyclops.evilcraft.blockentity.tickaction.bloodinfuser;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 
 /**
  * Abstract {@link ITickAction} that can infuse items with blood.

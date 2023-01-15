@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.render.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -39,9 +39,9 @@ public class RenderBombPrimed extends TntRenderer {
             matrixStackIn.scale(f1, f1, f1);
         }
 
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(-90.0F));
         matrixStackIn.translate(-0.5D, -0.5D, 0.5D);
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(90.0F));
         TntMinecartRenderer.renderWhiteSolidBlock(this.blockRenderer, this.block.defaultBlockState(), matrixStackIn, bufferIn, packedLightIn, entityIn.getFuse() / 5 % 2 == 0);
         matrixStackIn.popPose();
         //super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);

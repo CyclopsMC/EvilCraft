@@ -1,20 +1,16 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Maps;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.core.NonNullList;
+import net.minecraft.world.level.block.state.BlockState;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Map;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -36,13 +32,6 @@ public class ItemVengeancePickaxe extends PickaxeItem {
     @Override
     public boolean isCorrectToolForDrops(BlockState blockState) {
         return true;
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (this.allowedIn(group)) {
-            items.add(getEnchantedItemStack());
-        }
     }
 
     public ItemStack getEnchantedItemStack() {

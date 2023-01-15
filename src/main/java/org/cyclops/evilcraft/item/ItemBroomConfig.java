@@ -1,9 +1,12 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link ItemBroom}.
@@ -41,8 +44,13 @@ public class ItemBroomConfig extends ItemConfig {
             "broom",
                 eConfig -> new ItemBroom(new Item.Properties()
                         .stacksTo(1)
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemBroom) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

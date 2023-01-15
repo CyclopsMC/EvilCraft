@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CustomRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -25,8 +26,8 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
     private final Ingredient fluidContainer;
     private final int maxCapacity;
 
-    public RecipeFluidContainerCombination(ResourceLocation id, Ingredient fluidContainer, int maxCapacity) {
-        super(id);
+    public RecipeFluidContainerCombination(ResourceLocation id, CraftingBookCategory category, Ingredient fluidContainer, int maxCapacity) {
+        super(id, category);
         this.fluidContainer = fluidContainer;
         this.maxCapacity = maxCapacity;
     }

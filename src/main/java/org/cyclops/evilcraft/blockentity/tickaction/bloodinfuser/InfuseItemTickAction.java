@@ -3,11 +3,11 @@ package org.cyclops.evilcraft.blockentity.tickaction.bloodinfuser;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
+import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 
 import java.util.Optional;
 

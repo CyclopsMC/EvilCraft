@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.core.Vec3i;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.core.Vec3i;
+import net.minecraft.world.entity.player.Inventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.inventory.slot.SlotWorking;
-import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
-import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryEnvironmentalAccumulator;
 
 import java.util.List;
 import java.util.Optional;

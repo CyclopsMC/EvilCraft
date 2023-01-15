@@ -3,8 +3,7 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -14,6 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritPortal;
+import org.joml.Matrix4f;
 
 import java.util.Random;
 
@@ -47,9 +47,9 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
 
     private void renderStar(PoseStack matrixStackIn, MultiBufferSource bufferIn, float rotation, float progress, Tesselator tessellator, float partialTicks, Random random) {
         /* Rotate opposite direction at 20% speed */
-        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotation * -0.2f % 360 / 2));
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation * -0.2f % 360));
-        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(rotation * -0.2f % 360 / 2));
+        matrixStackIn.mulPose(Axis.XP.rotationDegrees(rotation * -0.2f % 360 / 2));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation * -0.2f % 360));
+        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(rotation * -0.2f % 360 / 2));
 
         /* Configuration tweaks */
         float BEAM_START_DISTANCE = 2F;
@@ -63,12 +63,12 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
         }
 
         for (int i = 0; i < (progress + progress * progress) / 2.0F * 60.0F; ++i) {
-            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F));
-            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F + progress * 90.0F));
+            matrixStackIn.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
+            matrixStackIn.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F + progress * 90.0F));
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
             VertexConsumer vb = bufferIn.getBuffer(RenderType.lightning());
@@ -86,7 +86,7 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
 
         EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
         matrixStackIn.mulPose(renderManager.cameraOrientation());
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F));
         renderIconForProgress(matrixStackIn, bufferIn, ((int) (progress * 100)) % 4, progress);
 
         matrixStackIn.popPose();

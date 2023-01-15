@@ -1,17 +1,15 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.weather.WeatherTypeLightning;
 import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * A sceptre that can spawn thunderstorms.

@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.core.helper;
 
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,12 +12,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  */
 @OnlyIn(Dist.CLIENT)
 public class RenderHelpers {
-
-    /**
-     * An icon that contains to texture, useful for when you want to render nothing.
-     */
-    public static TextureAtlasSprite EMPTYICON;
-
     /**
      * Texture sheet of all blocks.
      */

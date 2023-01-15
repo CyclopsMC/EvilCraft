@@ -2,8 +2,7 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -31,6 +30,7 @@ import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.blockentity.tickaction.purifier.DisenchantPurifyAction;
+import org.joml.Matrix4f;
 
 /**
  * Renderer for the item inside the {@link org.cyclops.evilcraft.block.BlockPurifier}.
@@ -79,7 +79,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid.getFluid());
             Triple<Float, Float, Float> color = Helpers.intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
 
-            VertexConsumer vb = bufferIn.getBuffer(RenderType.text(icon.atlas().location()));
+            VertexConsumer vb = bufferIn.getBuffer(RenderType.text(icon.atlasLocation()));
             Matrix4f matrix = matrixStackIn.last().pose();
             vb.vertex(matrix, 0.0625F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV1()).uv2(l2, i3).endVertex();
             vb.vertex(matrix, 0.0625F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV0()).uv2(l2, i3).endVertex();
@@ -95,9 +95,9 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             matrixStackIn.scale(0.6F, 0.6F, 0.6F);
         } else {
             matrixStackIn.translate(1F, 1.2F, 1F);
-            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(25F));
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(25F));
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
+            matrixStackIn.mulPose(Axis.XP.rotationDegrees(25F));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(25F));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
         }
 
         Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, 0);
@@ -122,12 +122,12 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         }
 
         float rotation = tile.additionalRotationPrev + speedUp * partialTickTime;
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
 
         matrixStackIn.translate(0F, 0.5F, 0F);
         if (!(itemStack.getItem() instanceof BlockItem)) {
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(25));
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(25));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
         }
 
         Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, 0);
@@ -149,8 +149,8 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         }
 
         float rotation = tile.additionalRotationPrev + speedUp * partialTickTime;
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
-        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(80.0F));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
+        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(80.0F));
 
         float f3 = Mth.lerp(partialTickTime, tile.oFlip, tile.flip);
         float f4 = Mth.frac(f3 + 0.25F) * 1.6F - 0.3F;

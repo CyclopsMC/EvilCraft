@@ -11,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -107,14 +106,11 @@ public class ItemWeatherContainer extends Item {
         list.add(type.description.withStyle(type.damageColor));
     }
 
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (this.allowedIn(group)) {
-            for (WeatherContainerType type : WeatherContainerType.values()) {
-                ItemStack stack = new ItemStack(this);
-                setWeatherType(stack, type);
-                items.add(stack);
-            }
+    public void fillItemCategory(NonNullList<ItemStack> items) {
+        for (WeatherContainerType type : WeatherContainerType.values()) {
+            ItemStack stack = new ItemStack(this);
+            setWeatherType(stack, type);
+            items.add(stack);
         }
     }
 

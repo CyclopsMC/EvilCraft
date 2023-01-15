@@ -16,7 +16,7 @@ public class ItemSpikeyClawsConfig extends ItemConfig {
                 EvilCraft._instance,
                 "spikey_claws",
                 eConfig -> new ItemSpikeyClaws(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .durability(256))
         );
     }

@@ -1,21 +1,21 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.ContainerScreenExtended;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
-import org.cyclops.evilcraft.core.inventory.container.ContainerInventoryTickingTank;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
+import org.cyclops.evilcraft.core.inventory.container.ContainerInventoryTickingTank;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;

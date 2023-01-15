@@ -139,7 +139,7 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
                     BlockEntity tile = world.getBlockEntity(loopPos);
 
                     if (tile instanceof SpawnerBlockEntity) {
-                        ((SpawnerBlockEntity) tile).getSpawner().setEntityId(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random));
+                        ((SpawnerBlockEntity) tile).getSpawner().setEntityId(net.minecraftforge.common.DungeonHooks.getRandomDungeonMob(random), null, random, loopPos);
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

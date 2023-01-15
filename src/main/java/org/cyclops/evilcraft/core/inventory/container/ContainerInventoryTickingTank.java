@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.inventory.container.InventoryContainer;

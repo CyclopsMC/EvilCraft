@@ -6,9 +6,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
@@ -32,7 +31,7 @@ public class BlockEntityDisplayStand extends CyclopsBlockEntity {
     public BlockEntityDisplayStand(BlockPos blockPos, BlockState blockState) {
         super(RegistryEntries.BLOCK_ENTITY_DISPLAY_STAND, blockPos, blockState);
         this.inventory = new SimpleInventory(1, 1);
-        addCapabilityInternal(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, LazyOptional.of(inventory::getItemHandler));
+        addCapabilityInternal(ForgeCapabilities.ITEM_HANDLER, LazyOptional.of(inventory::getItemHandler));
         inventory.addDirtyMarkListener(this);
     }
 
@@ -86,8 +85,8 @@ public class BlockEntityDisplayStand extends CyclopsBlockEntity {
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> capability, Direction facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            capability = (Capability<T>) CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY;
+        if (capability == ForgeCapabilities.FLUID_HANDLER) {
+            capability = (Capability<T>) ForgeCapabilities.FLUID_HANDLER_ITEM;
         }
         return facing == getFacing() || facing == getFacing().getOpposite() || getContents().isEmpty()
                 ? super.getCapability(capability, facing)

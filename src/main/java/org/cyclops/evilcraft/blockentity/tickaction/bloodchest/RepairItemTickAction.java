@@ -6,8 +6,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.block.BlockBloodChestConfig;
-import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
+import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 
 /**
  * {@link ITickAction} that can repair items using blood.

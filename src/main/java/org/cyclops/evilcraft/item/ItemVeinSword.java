@@ -1,14 +1,10 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.enchantment.Enchantments;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -29,13 +25,6 @@ public class ItemVeinSword extends SwordItem {
     @Override
     public int getMaxDamage(ItemStack stack) {
         return ItemVeinSwordConfig.durability;
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (this.allowedIn(group)) {
-            items.add(getEnchantedItemStack());
-        }
     }
 
     public ItemStack getEnchantedItemStack() {

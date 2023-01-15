@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.api.broom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +19,6 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -321,7 +320,7 @@ public class BroomModifiers {
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
                 if (power > 0 && broom.getControllingPassenger() != null) {
                     broom.stopRiding();
-                    world.explode(null, broom.getX(), broom.getY(), broom.getZ(), power, Explosion.BlockInteraction.DESTROY);
+                    world.explode(null, broom.getX(), broom.getY(), broom.getZ(), power, Level.ExplosionInteraction.TNT);
                 }
             }
         });
@@ -404,7 +403,7 @@ public class BroomModifiers {
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
-        ITag<Item> tag = ForgeRegistries.ITEMS.tags().getTag(TagKey.create(Registry.ITEM_REGISTRY, name));
+        ITag<Item> tag = ForgeRegistries.ITEMS.tags().getTag(TagKey.create(Registries.ITEM, name));
         if (!tag.isEmpty()) {
             for (Item item : tag) {
                 REGISTRY.registerModifiersItem(modifier, value, new ItemStack(item));

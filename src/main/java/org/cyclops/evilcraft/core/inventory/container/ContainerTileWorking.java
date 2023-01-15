@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.core.inventory.container;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.inventory.slot.SlotExtended;
-import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
+import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenTileWorking;
 
 import javax.annotation.Nullable;
 import java.util.Optional;

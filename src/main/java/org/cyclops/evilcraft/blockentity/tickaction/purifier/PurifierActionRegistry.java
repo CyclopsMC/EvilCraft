@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.blockentity.tickaction.purifier;
 
 import com.google.common.collect.Lists;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
-import net.minecraft.world.item.ItemStack;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 
 import java.util.List;

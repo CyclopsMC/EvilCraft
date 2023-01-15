@@ -5,7 +5,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -74,7 +76,7 @@ public class EntityBiomeExtract extends EntityThrowable {
 
     @Nonnull
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -83,7 +85,7 @@ public class EntityBiomeExtract extends EntityThrowable {
         if (!level.isClientSide() && movingobjectposition.getType() == HitResult.Type.BLOCK) {
             ItemStack itemStack = getItem();
 
-            final Biome biome = ItemBiomeExtract.getBiomeServer(getLevel().registryAccess().registry(ForgeRegistries.Keys.BIOMES).get(), itemStack);
+            final Biome biome = ItemBiomeExtract.getBiome(getLevel().registryAccess().registryOrThrow(Registries.BIOME), itemStack);
             if (biome != null) {
                 // Update biome in organic spread
                 Set<ChunkPos> updatedChunks = Sets.newHashSet();
@@ -177,9 +179,9 @@ public class EntityBiomeExtract extends EntityThrowable {
             // Due to some weird thing in MC, different instances of the same biome can exist.
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
             // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
-            Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
-            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, biomeRegistry.getKey(biome)))
-                    .orElseGet(() -> biomeRegistry.getHolder(ResourceKey.create(Registry.BIOME_REGISTRY, ForgeRegistries.BIOMES.getKey(biome))).get());
+            Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registries.BIOME);
+            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registries.BIOME, biomeRegistry.getKey(biome)))
+                    .orElseGet(() -> biomeRegistry.getHolder(ResourceKey.create(Registries.BIOME, ForgeRegistries.BIOMES.getKey(biome))).get());
 
             // Update biome in chunk
             // Based on ChunkAccess#getNoiseBiome

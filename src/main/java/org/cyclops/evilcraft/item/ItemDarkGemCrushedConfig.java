@@ -18,7 +18,7 @@ public class ItemDarkGemCrushedConfig extends ItemConfig {
                 EvilCraft._instance,
                 "dark_gem_crushed",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
         MinecraftForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEventEvent);
     }

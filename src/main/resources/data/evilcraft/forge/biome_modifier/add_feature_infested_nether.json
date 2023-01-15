@@ -2,9 +2,7 @@
   "type": "forge:add_features",
   "biomes": "#minecraft:is_nether",
   "features": [
-    "evilcraft:netherfish_netherrack",
-    "evilcraft:netherfish_nether_bricks",
-    "evilcraft:netherfish_soul_sand"
+    "evilcraft:ore_infested_nether"
   ],
   "step": "underground_decoration"
 }

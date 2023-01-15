@@ -1,15 +1,15 @@
 package org.cyclops.evilcraft.blockentity.tickaction.purifier;
 
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
-import org.cyclops.evilcraft.enchantment.EnchantmentVengeance;
-import org.cyclops.evilcraft.item.ItemVengeancePickaxe;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.DamageableItemRepairAction;
+import org.cyclops.evilcraft.enchantment.EnchantmentVengeance;
+import org.cyclops.evilcraft.item.ItemVengeancePickaxe;
 
 import java.util.Map;
 

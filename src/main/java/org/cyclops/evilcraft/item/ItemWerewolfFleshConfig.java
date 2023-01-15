@@ -25,7 +25,7 @@ public class ItemWerewolfFleshConfig extends ItemConfig {
                 EvilCraft._instance,
                 humanoid ? "flesh_humanoid" : "flesh_werewolf",
                 eConfig -> new ItemWerewolfFlesh(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(16), humanoid)
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);

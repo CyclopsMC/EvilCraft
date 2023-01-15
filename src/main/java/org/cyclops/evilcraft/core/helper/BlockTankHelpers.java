@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -13,7 +14,6 @@ import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -63,7 +63,7 @@ public class BlockTankHelpers {
      * @return The resulting itemstack.
      */
     public static ItemStack tileDataToItemStack(BlockEntity tile, ItemStack itemStack) {
-        IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+        IFluidHandler fluidHandlerTile = tile.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
         if (fluidHandlerTile != null) {
             IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM_CAPACITY).orElse(null);
             if (fluidHandlerItemCapacity != null) {
@@ -73,7 +73,7 @@ public class BlockTankHelpers {
                     itemStack = fluidHandlerItemCapacity.getContainer();
                 }
             }
-            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
+            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
             if (fluidHandlerItem != null) {
                 FluidActionResult res = FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
                 if (res.isSuccess()) {
@@ -90,7 +90,7 @@ public class BlockTankHelpers {
      * @param tile The tile that has already been removed from the world.
      */
     public static void itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
-        IFluidHandler fluidHandlerTile = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+        IFluidHandler fluidHandlerTile = tile.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
         if (fluidHandlerTile != null) {
             IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM_CAPACITY).orElse(null);
             if (fluidHandlerItemCapacity != null) {
@@ -100,7 +100,7 @@ public class BlockTankHelpers {
                 }
             }
 
-            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
+            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
             if (fluidHandlerItem != null) {
                 FluidUtil.tryEmptyContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
             }
@@ -111,7 +111,7 @@ public class BlockTankHelpers {
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow shift-right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
-                && event.getItemStack().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
+                && event.getItemStack().getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
                 && event.getLevel().getBlockState(event.getPos()).getBlock() instanceof IBlockTank) {
             event.setUseBlock(Event.Result.ALLOW);
         }

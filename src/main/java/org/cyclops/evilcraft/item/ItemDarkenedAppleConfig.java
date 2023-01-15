@@ -16,7 +16,7 @@ public class ItemDarkenedAppleConfig extends ItemConfig {
                 EvilCraft._instance,
             "darkened_apple",
                 eConfig -> new ItemDarkenedApple(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

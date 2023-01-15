@@ -4,8 +4,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 
 /**
  * Slot that is used for only accepting workable items.

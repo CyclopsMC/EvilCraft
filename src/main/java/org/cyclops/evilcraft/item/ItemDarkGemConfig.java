@@ -16,7 +16,7 @@ public class ItemDarkGemConfig extends ItemConfig {
                 EvilCraft._instance,
                 "dark_gem",
                 eConfig -> new ItemDarkGem(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

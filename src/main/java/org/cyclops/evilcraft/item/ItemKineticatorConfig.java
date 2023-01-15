@@ -2,10 +2,12 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -35,8 +37,13 @@ public class ItemKineticatorConfig extends ItemConfig {
                 EvilCraft._instance,
                 "kineticator" + (repelling ? "_repelling" : ""),
                 eConfig -> new ItemKineticator(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()), repelling)
+                        , repelling)
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemKineticator) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

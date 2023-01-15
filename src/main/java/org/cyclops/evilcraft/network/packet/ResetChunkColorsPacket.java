@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.network.packet;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;

@@ -16,7 +16,7 @@ public class ItemBloodPotashConfig extends ItemConfig {
                 EvilCraft._instance,
             "blood_potash",
                 eConfig -> new ItemBloodPotash(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

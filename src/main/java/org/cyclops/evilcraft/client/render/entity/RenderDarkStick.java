@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
+import net.minecraft.world.entity.EntityType;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStick;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStickConfig;
 
@@ -32,9 +32,9 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick> {
             rotation = (((float)entity.getAge()) / 20.0F + entity.bobOffs) * (180F / (float)Math.PI);
         }
 
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90));
-        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(25));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(-90));
+        matrixStackIn.mulPose(Axis.XP.rotationDegrees(25));
 
         ((EntityRenderer) Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityType.ITEM))
                 .render(entity, 0, entity.isValid() ? -entity.bobOffs * 20/* to undo hoverstart in ItemRenderer */ : partialTicks, matrixStackIn, bufferIn, packedLightIn);

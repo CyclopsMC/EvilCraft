@@ -11,7 +11,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -215,8 +214,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
                 .orElse(0);
     }
 
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(NonNullList<ItemStack> items) {
         items.add(new ItemStack(this));
         items.add(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.boxOfEternalClosureFilled);
     }

@@ -26,7 +26,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
@@ -101,7 +101,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
             BlockPos blockPos = context.getClickedPos();
-            if (!BlockEntityHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).isPresent()
+            if (!BlockEntityHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), ForgeCapabilities.FLUID_HANDLER).isPresent()
                     && context.getLevel().isEmptyBlock(blockPos.offset(0, Y_SPAWN_OFFSET, 0))) {
                 EntityBroom entityBroom = new EntityBroom(context.getLevel(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
                 entityBroom.setBroomStack(stack);

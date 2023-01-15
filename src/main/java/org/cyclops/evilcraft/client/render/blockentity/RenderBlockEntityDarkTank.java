@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -15,6 +14,7 @@ import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.cyclops.evilcraft.client.render.model.ModelDarkTankBaked;
+import org.joml.Matrix4f;
 
 /**
  * Renderer for the {@link org.cyclops.evilcraft.block.BlockDarkTank}.
@@ -92,7 +92,7 @@ public class RenderBlockEntityDarkTank implements BlockEntityRenderer<BlockEntit
         Matrix4f matrix = matrixStackIn.last().pose();
         for (Direction side : DirectionHelpers.DIRECTIONS) {
             TextureAtlasSprite icon = ModelDarkTankBaked.getFluidIcon(fluid, flowing, side);
-            VertexConsumer vb = bufferIn.getBuffer(RenderType.text(icon.atlas().location()));
+            VertexConsumer vb = bufferIn.getBuffer(RenderType.text(icon.atlasLocation()));
             float[][] c = coordinates[side.ordinal()];
             float minV = icon.getV0();
             float maxV = (icon.getV1() - icon.getV0()) * height + icon.getV0();

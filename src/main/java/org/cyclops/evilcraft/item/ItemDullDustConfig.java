@@ -16,7 +16,7 @@ public class ItemDullDustConfig extends ItemConfig {
                 EvilCraft._instance,
             "dull_dust",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

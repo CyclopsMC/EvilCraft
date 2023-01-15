@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -25,7 +25,7 @@ public class ItemOriginsOfDarknessConfig extends ItemConfig {
                 EvilCraft._instance,
             "origins_of_darkness",
                 eConfig -> new ItemOriginsOfDarkness(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(1)
                         .rarity(Rarity.UNCOMMON))
         );

@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
@@ -13,6 +15,7 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
@@ -34,7 +37,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
                         .strength(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
+                        ) {
                     @OnlyIn(Dist.CLIENT)
                     @Override
                     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
@@ -42,5 +45,12 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
                     }
                 }
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> defaultCreativeTabEntries() {
+        NonNullList<ItemStack> list = NonNullList.create();
+        ((BlockEntangledChalice) getInstance()).fillItemCategory(list);
+        return list;
     }
 }

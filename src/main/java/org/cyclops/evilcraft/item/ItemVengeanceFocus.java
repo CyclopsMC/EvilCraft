@@ -4,8 +4,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeam;
 
-import net.minecraft.world.item.Item.Properties;
-
 /**
  * Focus that is able to direct rays of the sun to entangle vengeance spirits.
  * @author rubensworks

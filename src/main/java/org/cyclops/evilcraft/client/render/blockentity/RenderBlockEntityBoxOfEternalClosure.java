@@ -2,25 +2,25 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.world.level.block.state.BlockState;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import com.mojang.math.Vector3f;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import com.mojang.math.Matrix4f;
+import net.minecraft.world.level.block.state.BlockState;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
-import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
+import org.joml.Matrix4f;
 
 /**
  * Renderer for the {@link org.cyclops.evilcraft.block.BlockBoxOfEternalClosure}.
@@ -57,7 +57,7 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         }
 
         matrixStackIn.translate(0.5F, 0.5F, 0.5F);
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
         matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
@@ -71,7 +71,7 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
                 + (tile.getLidAngle() - tile.getPreviousLidAngle()) * partialTicks;
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.75F, 0.375F, 0F);
-        matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(-angle));
+        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(-angle));
         matrixStackIn.translate(-0.75F, -0.375F, 0F);
         Minecraft.getInstance().getBlockRenderer().getModelRenderer().
                 renderModel(matrixStackIn.last(), bufferIn.getBuffer(Sheets.solidBlockSheet()), blockState, ModelBoxOfEternalClosureBaked.boxLidModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);

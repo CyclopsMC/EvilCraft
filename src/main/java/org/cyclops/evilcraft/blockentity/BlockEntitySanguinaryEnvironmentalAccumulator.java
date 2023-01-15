@@ -21,11 +21,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
@@ -177,12 +176,12 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     protected void addItemHandlerCapabilities() {
         LazyOptional<IItemHandler> itemHandlerAccumulate = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_ACCUMULATE));
         LazyOptional<IItemHandler> itemHandlerAccumulateResult = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_ACCUMULATE_RESULT));
-        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.UP, itemHandlerAccumulate);
-        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.DOWN, itemHandlerAccumulateResult);
-        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.NORTH, itemHandlerAccumulate);
-        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.SOUTH, itemHandlerAccumulate);
-        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.WEST, itemHandlerAccumulate);
-        addCapabilitySided(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, Direction.EAST, itemHandlerAccumulate);
+        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerAccumulate);
+        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerAccumulateResult);
+        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.NORTH, itemHandlerAccumulate);
+        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.SOUTH, itemHandlerAccumulate);
+        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.WEST, itemHandlerAccumulate);
+        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.EAST, itemHandlerAccumulate);
     }
 
     @Override
@@ -321,7 +320,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         for (int i = 0; i < tankOffsets.length; i++) {
             BlockPos offset = tankOffsets[i];
             BlockPos location = getBlockPos().offset(offset);
-            IFluidHandler handler = BlockEntityHelpers.getCapability(getLevel(), location, Direction.UP, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+            IFluidHandler handler = BlockEntityHelpers.getCapability(getLevel(), location, Direction.UP, ForgeCapabilities.FLUID_HANDLER).orElse(null);
             boolean oneValid = false;
             if (handler != null) {
                 int tankAmount = handler.getTanks();

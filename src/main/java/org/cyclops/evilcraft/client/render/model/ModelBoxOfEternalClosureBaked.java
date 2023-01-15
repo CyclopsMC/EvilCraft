@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.mojang.math.Vector3f;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.minecraft.client.renderer.RenderType;
@@ -21,6 +20,7 @@ import net.minecraftforge.client.model.data.ModelData;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
+import org.joml.Vector3f;
 
 import java.util.Collections;
 import java.util.List;

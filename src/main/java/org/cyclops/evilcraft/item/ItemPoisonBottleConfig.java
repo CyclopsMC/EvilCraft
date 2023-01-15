@@ -21,7 +21,7 @@ public class ItemPoisonBottleConfig extends ItemConfig {
                 EvilCraft._instance,
             "poison_bottle",
                 eConfig -> new ItemPoisonBottle(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(1))
         );
         FMLJavaModLoadingContext.get().getModEventBus().register(this);

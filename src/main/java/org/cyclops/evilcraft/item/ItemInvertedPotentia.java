@@ -8,8 +8,6 @@ import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.item.EntityItemEmpowerable;
 
-import net.minecraft.world.item.Item.Properties;
-
 /**
  * An inverted Potentia Sphere.
  * @author rubensworks

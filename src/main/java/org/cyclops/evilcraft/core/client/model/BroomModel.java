@@ -1,12 +1,11 @@
 package org.cyclops.evilcraft.core.client.model;
 
 import com.google.common.collect.ImmutableSet;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +16,6 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -35,20 +32,19 @@ public class BroomModel implements UnbakedModel, IUnbakedGeometry<BroomModel> {
     }
 
     @Override
-    public Collection<Material> getMaterials(Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return Collections.emptyList();
+    public void resolveParents(Function<ResourceLocation, UnbakedModel> resolver) {
+
     }
 
     @Nullable
     @Override
-    public BakedModel bake(ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter,
-                                 ModelState transform, ResourceLocation location) {
+    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ResourceLocation modelLocation) {
         BroomModelBaked bakedModel = new BroomModelBaked();
 
         // Add aspects to baked model.
         for(IBroomPart part : BroomParts.REGISTRY.getParts()) {
             try {
-                BakedModel bakedAspectModel = bakery.bake(BroomParts.REGISTRY.getPartModel(part), transform, spriteGetter);
+                BakedModel bakedAspectModel = bakery.bake(BroomParts.REGISTRY.getPartModel(part), modelState, spriteGetter);
                 BroomModelBaked.addBroomModel(part, bakedAspectModel);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -59,12 +55,7 @@ public class BroomModel implements UnbakedModel, IUnbakedGeometry<BroomModel> {
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
-        return bake(bakery, spriteGetter, modelTransform, modelLocation);
-    }
-
-    @Override
-    public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-        return getMaterials(modelGetter, missingTextureErrors);
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+        return bake(baker, spriteGetter, modelState, modelLocation);
     }
 }

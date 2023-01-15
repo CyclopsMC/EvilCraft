@@ -65,7 +65,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     @Override
     public List<BakedQuad> getGeneralQuads() {
         List<BakedQuad> combinedList = Lists.newArrayList();
-        if(fluidStack != null && (BlockDarkTankConfig.staticBlockRendering || isItemStack())) {
+        if(fluidStack != null && !fluidStack.isEmpty() && (BlockDarkTankConfig.staticBlockRendering || isItemStack())) {
             boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.isActivated(itemStack, world);
             combinedList.addAll(getFluidQuads(fluidStack, capacity, flowing));
         }

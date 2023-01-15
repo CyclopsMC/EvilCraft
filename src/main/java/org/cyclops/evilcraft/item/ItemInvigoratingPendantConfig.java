@@ -1,10 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link ItemInvigoratingPendant}.
@@ -30,7 +33,7 @@ public class ItemInvigoratingPendantConfig extends ItemConfig {
                 EvilCraft._instance,
                 "invigorating_pendant",
                 eConfig -> new ItemInvigoratingPendant(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(1))
         );
     }
@@ -38,6 +41,11 @@ public class ItemInvigoratingPendantConfig extends ItemConfig {
     @Override
     protected String getConfigPropertyPrefix(ConfigurableProperty annotation) {
         return "invig_pendant";
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemInvigoratingPendant) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

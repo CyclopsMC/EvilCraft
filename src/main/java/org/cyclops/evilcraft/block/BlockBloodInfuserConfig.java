@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.Item;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
-import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 
 import java.util.Set;
 
@@ -28,7 +28,7 @@ public class BlockBloodInfuserConfig extends UpgradableBlockContainerConfig {
                         .strength(2.5F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.core.config.extendedconfig;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;

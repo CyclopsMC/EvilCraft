@@ -16,7 +16,7 @@ public class ItemLightningGrenadeConfig extends ItemConfig {
                 EvilCraft._instance,
                 "lightning_grenade",
                 eConfig -> new ItemLightningGrenade(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(16))
         );
     }

@@ -20,7 +20,7 @@ public class ItemVengeanceRingConfig extends ItemConfig {
                 EvilCraft._instance,
             "vengeance_ring",
                 eConfig -> new ItemVengeanceRing(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(1))
         );
     }

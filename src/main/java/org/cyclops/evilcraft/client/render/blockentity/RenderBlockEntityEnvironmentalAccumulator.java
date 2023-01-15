@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -62,11 +62,11 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         // Draw the actual item at the origin
         if (stack.getItem() instanceof BlockItem) {
             matrixStackIn.translate(1F, 0.675F, 1F);
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(angle));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(angle));
 
         } else {
             matrixStackIn.translate(1F, 1F, 1F);
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(angle));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(angle));
         }
         matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 

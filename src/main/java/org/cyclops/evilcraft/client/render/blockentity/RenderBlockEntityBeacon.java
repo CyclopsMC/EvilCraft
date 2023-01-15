@@ -2,12 +2,12 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
-import com.mojang.math.Vector4f;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityBeacon;
+import org.joml.Vector4f;
 
 /**
  * EvilCraft's version of a beacon renderer, this allows us to have custom colors

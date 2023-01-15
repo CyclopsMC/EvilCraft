@@ -10,8 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
@@ -63,7 +63,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
 
     @Nullable
     protected ItemStack fill(ItemStack itemStack) {
-        IFluidHandlerItem container = itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).orElse(null);
+        IFluidHandlerItem container = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
         FluidStack fluidStack = new FluidStack(getTank().getFluid(),
                 Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
         if (container.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
@@ -88,7 +88,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
             if(!blockEntity.getTank().isEmpty() && blockEntity.isEnabled()) {
                 Direction down = Direction.DOWN;
                 IFluidHandler handler = BlockEntityHelpers.getCapability(level, pos.relative(down), down.getOpposite(),
-                        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).orElse(null);
+                        ForgeCapabilities.FLUID_HANDLER).orElse(null);
                 if(handler != null) {
                     FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(),
                             Math.min(GeneralConfig.mbFlowRate, blockEntity.getTank().getFluidAmount()));
@@ -105,7 +105,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
                         if(!blockEntity.getTank().isEmpty() && entity instanceof ItemEntity) {
                             ItemEntity item = (ItemEntity) entity;
                             if (item.getItem() != null
-                                    && item.getItem().getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent() &&
+                                    && item.getItem().getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent() &&
                                     item.getItem().getCount() == 1) {
                                 ItemStack itemStack = item.getItem().copy();
                                 ItemStack fillItemStack;
@@ -120,7 +120,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
                                 ItemStack itemStack = it.next();
                                 ItemStack fillItemStack;
                                 if(!itemStack.isEmpty()
-                                        && itemStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY).isPresent()
+                                        && itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
                                         && (fillItemStack = blockEntity.fill(itemStack)) != null) {
                                     it.replace(fillItemStack);
                                 }

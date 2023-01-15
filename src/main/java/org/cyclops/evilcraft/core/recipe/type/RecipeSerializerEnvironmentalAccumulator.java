@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import com.mojang.datafixers.util.Either;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceLocation;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 

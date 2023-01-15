@@ -22,7 +22,7 @@ public class ItemBurningGemStoneConfig extends ItemConfig {
                 eConfig -> new ItemBurningGemStone(new Item.Properties()
                         .stacksTo(1)
                         .setNoRepair()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

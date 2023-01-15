@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -17,6 +17,7 @@ import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
+import org.joml.Vector3f;
 
 import java.util.Map;
 
@@ -58,27 +59,27 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
         matrixStack.translate(0.5F, 0.5F, 0.5F);
         if (itemStack.getItem() instanceof BlockItem) {
             matrixStack.scale(0.6F, 0.6F, 0.6F);
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(90F));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(90F));
         } else if (itemStack.getItem() instanceof IBroom) {
             matrixStack.scale(2F, 2F, 2F);
         } else if (!(itemStack.getItem() instanceof IBroom)) {
             matrixStack.scale(0.5F, 0.5F, 0.5F);
             matrixStack.translate(0F, 0.25F, 0F);
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(90F));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(90F));
         }
 
         Vector3f vec = ROTATIONS.get(facing);
-        matrixStack.mulPose(Vector3f.XP.rotationDegrees(vec.x()));
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(vec.y()));
+        matrixStack.mulPose(Axis.XP.rotationDegrees(vec.x()));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(vec.y()));
 
         if (!axisX) {
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(90F));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(90F));
             if (!positiveDirection) {
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
+                matrixStack.mulPose(Axis.YP.rotationDegrees(180F));
             }
         } else {
             if (positiveDirection) {
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180F));
+                matrixStack.mulPose(Axis.YP.rotationDegrees(180F));
             }
         }
 

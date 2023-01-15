@@ -1,19 +1,13 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.core.Holder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.world.gen.TreeUndead;
-import org.cyclops.evilcraft.world.gen.feature.WorldFeatures;
 
 /**
  * Config for the Undead Sapling.
@@ -21,8 +15,6 @@ import org.cyclops.evilcraft.world.gen.feature.WorldFeatures;
  *
  */
 public class BlockUndeadSaplingConfig extends BlockConfig {
-
-    public static Holder<ConfiguredFeature<?, ?>> CONFIGURED_FEATURE_TREE;
 
     public BlockUndeadSaplingConfig() {
         super(
@@ -35,11 +27,6 @@ public class BlockUndeadSaplingConfig extends BlockConfig {
                         .sound(SoundType.GRASS)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModSetup);
-    }
-
-    public void onModSetup(FMLCommonSetupEvent event) {
-        CONFIGURED_FEATURE_TREE = WorldFeatures.registerConfigured("tree_undead", new ConfiguredFeature<>(Feature.TREE, TreeUndead.getTreeConfig()));
     }
 
     @Override

@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -71,7 +72,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     @Nullable
     private Float loadRotation() {
         // Inspired by LocateCommand
-        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
         HolderSet<Structure> holderset = registry
                 .getHolder(WorldStructureDarkTempleConfig.KEY)
                 .map(HolderSet::direct)

@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft;
 
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
@@ -11,7 +12,6 @@ import org.cyclops.cyclopscore.config.ConfigHandler;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
 import org.cyclops.cyclopscore.infobook.InfoBookRegistry;
-import org.cyclops.cyclopscore.init.ItemGroupMod;
 import org.cyclops.cyclopscore.init.ModBaseVersionable;
 import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
 import org.cyclops.cyclopscore.persist.world.GlobalCounters;
@@ -87,9 +87,7 @@ import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.potion.PotionPalingConfig;
 import org.cyclops.evilcraft.proxy.ClientProxy;
 import org.cyclops.evilcraft.proxy.CommonProxy;
-import org.cyclops.evilcraft.world.biome.BiomeDegradedConfig;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatureEvilDungeonConfig;
-import org.cyclops.evilcraft.world.gen.feature.WorldFeatures;
 import org.cyclops.evilcraft.world.gen.structure.WorldStructureDarkTempleConfig;
 
 /**
@@ -144,7 +142,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         Advancements.load();
         LootFunctions.load();
         RegistryExportables.load();
-        WorldFeatures.load();
 
         // Initialize info book
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
@@ -157,8 +154,9 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
     }
 
     @Override
-    public CreativeModeTab constructDefaultCreativeModeTab() {
-        return new ItemGroupMod(this, () -> RegistryEntries.ITEM_DARK_GEM);
+    protected CreativeModeTab.Builder constructDefaultCreativeModeTab(CreativeModeTab.Builder builder) {
+        return super.constructDefaultCreativeModeTab(builder)
+                .icon(() -> new ItemStack(RegistryEntries.ITEM_DARK_GEM));
     }
 
     @Override
@@ -371,9 +369,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new EnchantmentLifeStealingConfig());
         configHandler.addConfigurable(new EnchantmentPoisonTipConfig());
         configHandler.addConfigurable(new EnchantmentVengeanceConfig());
-
-        // Biomes
-        configHandler.addConfigurable(new BiomeDegradedConfig());
 
         // Degradation Effects
         configHandler.addConfigurable(new BiomeDegradationConfig());

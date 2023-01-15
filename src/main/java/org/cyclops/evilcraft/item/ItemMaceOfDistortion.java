@@ -158,7 +158,7 @@ public class ItemMaceOfDistortion extends ItemMace {
         float particleMotionZ = world.random.nextFloat() * 0.2F - 0.1F;
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
 
-        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.RECORDS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.RECORDS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
     }
 
     @Override

@@ -6,8 +6,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
+import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 
 import java.util.Set;
 

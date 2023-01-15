@@ -1,0 +1,8 @@
+{
+    "sources": [
+        {
+            "type": "minecraft:single",
+            "resource": "evilcraft:model/blood_chest"
+        }
+    ]
+}

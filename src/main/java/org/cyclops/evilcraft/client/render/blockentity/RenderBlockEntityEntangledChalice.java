@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -16,6 +15,7 @@ import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
+import org.joml.Matrix4f;
 
 /**
  * Renderer for the {@link BlockEntangledChalice}.
@@ -43,7 +43,7 @@ public class RenderBlockEntityEntangledChalice implements BlockEntityRenderer<Bl
                     TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
                     Triple<Float, Float, Float> color = Helpers.intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
 
-                    VertexConsumer vb = renderTypeBuffer.getBuffer(RenderType.text(icon.atlas().location()));
+                    VertexConsumer vb = renderTypeBuffer.getBuffer(RenderType.text(icon.atlasLocation()));
                     Matrix4f matrix = matrixStack.last().pose();
                     vb.vertex(matrix, 0.1875F, height, 0.1875F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV1()).uv2(l2, i3).endVertex();
                     vb.vertex(matrix, 0.1875F, height, 0.8125F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV0()).uv2(l2, i3).endVertex();

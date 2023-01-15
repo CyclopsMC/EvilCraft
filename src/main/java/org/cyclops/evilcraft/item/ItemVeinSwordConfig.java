@@ -1,9 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Config for the {@link ItemVeinSword}.
@@ -23,8 +27,12 @@ public class ItemVeinSwordConfig extends ItemConfig {
                 EvilCraft._instance,
                 "vein_sword",
                 eConfig -> new ItemVeinSword(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return Collections.singleton(((ItemVeinSword) getInstance()).getEnchantedItemStack());
+    }
 }

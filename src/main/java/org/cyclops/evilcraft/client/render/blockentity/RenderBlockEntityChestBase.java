@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -67,7 +67,7 @@ public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBloc
 
     protected void handleRotation(T tile, PoseStack matrixStack) {
         float f = getDirection(tile).toYRot();
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-f));
+        matrixStack.mulPose(Axis.YP.rotationDegrees(-f));
     }
 
     public void render(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {

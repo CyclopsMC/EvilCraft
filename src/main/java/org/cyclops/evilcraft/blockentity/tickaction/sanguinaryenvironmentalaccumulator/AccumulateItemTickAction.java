@@ -5,11 +5,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulatorConfig;
-import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
+import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryEnvironmentalAccumulator;
+import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 
 import java.util.Objects;
 import java.util.Optional;

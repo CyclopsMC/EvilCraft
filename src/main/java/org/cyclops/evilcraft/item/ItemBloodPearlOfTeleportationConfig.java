@@ -1,9 +1,12 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link ItemBloodPearlOfTeleportation}.
@@ -20,8 +23,13 @@ public class ItemBloodPearlOfTeleportationConfig extends ItemConfig {
                 EvilCraft._instance,
             "blood_pearl_of_teleportation",
                 eConfig -> new ItemBloodPearlOfTeleportation(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemBloodPearlOfTeleportation) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

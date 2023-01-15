@@ -4,8 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -29,7 +29,7 @@ public class BlockEntityEntangledChalice extends CyclopsBlockEntity {
     public BlockEntityEntangledChalice(BlockPos blockPos, BlockState blockState) {
         super(RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE, blockPos, blockState);
         tank = new WorldSharedTank(BASE_CAPACITY);
-        addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, LazyOptional.of(this::getTank));
+        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(this::getTank));
     }
 
     public WorldSharedTank getTank() {

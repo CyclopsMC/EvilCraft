@@ -1,17 +1,16 @@
 package org.cyclops.evilcraft.core.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.CapabilityItemHandler;
+import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
-import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 
 import javax.annotation.Nullable;
 
@@ -43,12 +42,12 @@ public class BlockEntityTankInventory extends CyclopsBlockEntity {
 
     protected void addItemHandlerCapabilities() {
         for (Direction side : Direction.values()) {
-            addCapabilityInternal(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, LazyOptional.of(() -> inventory.getItemHandlerSided(side)));
+            addCapabilityInternal(ForgeCapabilities.ITEM_HANDLER, LazyOptional.of(() -> inventory.getItemHandlerSided(side)));
         }
     }
 
     protected void addFluidHandlerCapabilities() {
-        addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, LazyOptional.of(() -> tank));
+        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(() -> tank));
     }
 
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {

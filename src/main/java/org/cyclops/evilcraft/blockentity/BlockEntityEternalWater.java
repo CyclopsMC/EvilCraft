@@ -5,9 +5,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
@@ -27,7 +27,7 @@ public class BlockEntityEternalWater extends CyclopsBlockEntity {
 
     public BlockEntityEternalWater(BlockPos blockPos, BlockState blockState) {
         super(RegistryEntries.BLOCK_ENTITY_ETERNAL_WATER, blockPos, blockState);
-        addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, LazyOptional.of(InfiniteWaterFluidCapability::new));
+        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(InfiniteWaterFluidCapability::new));
     }
 
     public static class InfiniteWaterFluidCapability implements IFluidHandler {
@@ -80,7 +80,7 @@ public class BlockEntityEternalWater extends CyclopsBlockEntity {
 
             for(Direction direction : Direction.values()) {
                 BlockEntityHelpers.getCapability(level, pos.relative(direction),
-                                direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                                direction.getOpposite(), ForgeCapabilities.FLUID_HANDLER)
                         .ifPresent(handler -> handler.fill(WATER, IFluidHandler.FluidAction.EXECUTE));
             }
         }

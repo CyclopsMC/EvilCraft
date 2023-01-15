@@ -1,9 +1,12 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
+
+import java.util.Collection;
 
 /**
  * Config for the Rejuvenated Flesh.
@@ -22,9 +25,14 @@ public class ItemRejuvenatedFleshConfig extends ItemConfig {
                 EvilCraft._instance,
             "flesh_rejuvenated",
                 eConfig -> new ItemRejuvenatedFlesh(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(1))
         );
+    }
+
+    @Override
+    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        return ((ItemRejuvenatedFlesh) getInstance()).getDefaultCreativeTabEntries();
     }
 
 }

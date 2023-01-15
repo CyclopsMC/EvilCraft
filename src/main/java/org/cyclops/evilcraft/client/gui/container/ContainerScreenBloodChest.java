@@ -1,13 +1,13 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
 import org.cyclops.evilcraft.core.client.gui.container.ContainerScreenContainerTankInventory;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodChest;
-import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
 
 /**
  * GUI for the {@link org.cyclops.evilcraft.block.BlockBloodChest}.

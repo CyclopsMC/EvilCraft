@@ -16,7 +16,7 @@ public class ItemGoldenStringConfig extends ItemConfig {
                 EvilCraft._instance,
             "golden_string",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

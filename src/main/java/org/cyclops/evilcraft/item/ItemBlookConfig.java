@@ -17,7 +17,7 @@ public class ItemBlookConfig extends ItemConfig {
                 EvilCraft._instance,
             "blook",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

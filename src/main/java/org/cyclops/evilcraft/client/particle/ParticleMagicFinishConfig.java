@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

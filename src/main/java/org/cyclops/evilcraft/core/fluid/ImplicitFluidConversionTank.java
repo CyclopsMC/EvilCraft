@@ -3,8 +3,6 @@ package org.cyclops.evilcraft.core.fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-
 /**
  * A single use tank that can accept multiple types of fluids.
  * @author rubensworks

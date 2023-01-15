@@ -1,16 +1,16 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
-import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
-import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
-import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
+import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
+import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 
 import java.util.Optional;
 import java.util.function.Supplier;

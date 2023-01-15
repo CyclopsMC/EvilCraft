@@ -29,7 +29,7 @@ public class BlockSanguinaryPedestalConfig extends BlockConfig {
                         .sound(SoundType.STONE)
                         .noOcclusion(), tier),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

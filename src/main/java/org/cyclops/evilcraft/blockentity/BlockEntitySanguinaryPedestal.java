@@ -5,9 +5,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.fluid.FluidHandlerWrapper;
@@ -92,7 +92,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
                 BlockPos location = blockEntity.getNextLocation();
                 Block block = level.getBlockState(location).getBlock();
                 if(block instanceof BlockBloodStain) {
-                    BlockEntityHelpers.getCapability(level, location, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                    BlockEntityHelpers.getCapability(level, location, ForgeCapabilities.FLUID_HANDLER)
                             .ifPresent((source) -> {
                                 FluidStack moved = FluidUtil.tryFluidTransfer(blockEntity.getBonusFluidHandler(), source, Integer.MAX_VALUE, true);
                                 if (!moved.isEmpty()) {
@@ -107,7 +107,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
             if(!blockEntity.getTank().isEmpty()) {
                 for(Direction direction : Direction.values()) {
                     BlockEntityHelpers.getCapability(level, pos.relative(direction),
-                                    direction.getOpposite(), CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
+                                    direction.getOpposite(), ForgeCapabilities.FLUID_HANDLER)
                             .ifPresent(handler -> {
                                 if(!blockEntity.getTank().isEmpty()) {
                                     FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(), Math.min(MB_RATE, blockEntity.getTank().getFluidAmount()));

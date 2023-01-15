@@ -10,8 +10,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import net.minecraft.world.item.Item.Properties;
-
 /**
  * A dark gem that somehow caught fire.
  * @author rubensworks

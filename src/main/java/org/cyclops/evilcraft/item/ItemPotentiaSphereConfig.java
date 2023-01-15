@@ -16,7 +16,7 @@ public class ItemPotentiaSphereConfig extends ItemConfig {
                 EvilCraft._instance,
             "potentia_sphere",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

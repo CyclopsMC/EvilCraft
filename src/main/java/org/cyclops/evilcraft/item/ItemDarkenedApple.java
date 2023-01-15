@@ -1,17 +1,15 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
 import org.cyclops.evilcraft.RegistryEntries;
-
-import net.minecraft.world.item.Item.Properties;
 
 /**
  * A dark apple that will apply a killing potion effect to the entity eating the apple.

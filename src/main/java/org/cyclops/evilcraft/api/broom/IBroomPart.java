@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.api.broom;
 
 import com.google.common.collect.Lists;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Rarity;
 import org.cyclops.evilcraft.Reference;
 
 import javax.annotation.Nullable;

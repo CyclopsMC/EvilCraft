@@ -1,11 +1,12 @@
 package org.cyclops.evilcraft.block;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -13,6 +14,8 @@ import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.item.ItemBlockBoxOfEternalClosure;
+
+import java.util.Collection;
 
 /**
  * Config for the {@link BlockBoxOfEternalClosure}.
@@ -33,7 +36,7 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfig {
                         .strength(2.5F)
                         .sound(SoundType.METAL)),
                 (eConfig, block) -> new ItemBlockBoxOfEternalClosure(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 
@@ -50,6 +53,13 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfig {
 
         BlockBoxOfEternalClosure.boxOfEternalClosureFilled = new ItemStack(getItemInstance());
         BlockBoxOfEternalClosure.setVengeanceSwarmContent(BlockBoxOfEternalClosure.boxOfEternalClosureFilled);
+    }
+
+    @Override
+    protected Collection<ItemStack> defaultCreativeTabEntries() {
+        NonNullList<ItemStack> list = NonNullList.create();
+        ((BlockBoxOfEternalClosure) getInstance()).fillItemCategory(list);
+        return list;
     }
 
 }

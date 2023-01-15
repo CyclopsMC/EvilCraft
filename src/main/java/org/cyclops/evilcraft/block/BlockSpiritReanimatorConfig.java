@@ -38,7 +38,7 @@ public class BlockSpiritReanimatorConfig extends UpgradableBlockContainerConfig 
                         .strength(5.0F)
                         .sound(SoundType.STONE)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup()))
+                        )
         );
     }
 

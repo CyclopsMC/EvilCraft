@@ -7,7 +7,6 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
@@ -17,7 +16,6 @@ import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
-import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntityPurifier;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelEntangledChaliceBaked;
 import org.cyclops.evilcraft.core.broom.BroomParts;
@@ -28,7 +26,6 @@ import org.cyclops.evilcraft.core.client.model.ModelLoaderDarkTank;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderDisplayStand;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderEntangledChalice;
 import org.cyclops.evilcraft.event.RenderOverlayEventHook;
-import org.cyclops.evilcraft.event.TextureStitchEventHook;
 
 /**
  * Proxy for the client side.
@@ -42,7 +39,6 @@ public class ClientProxy extends ClientProxyComponent {
 
     public ClientProxy() {
         super(new CommonProxy());
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onPreTextureStitch);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelBakingCompleted);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelLoad);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelRegisterAdditional);
@@ -74,14 +70,7 @@ public class ClientProxy extends ClientProxyComponent {
     public void registerEventHooks() {
         super.registerEventHooks();
 
-        MinecraftForge.EVENT_BUS.register(new TextureStitchEventHook());
         MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
-    }
-
-    public void onPreTextureStitch(TextureStitchEvent.Pre event) {
-        if (event.getAtlas().location().equals(RenderBlockEntityPurifier.TEXTURE_BLOOK.atlasLocation())) {
-            event.addSprite(RenderBlockEntityPurifier.TEXTURE_BLOOK.texture());
-        }
     }
 
     public void onModelBakingCompleted(ModelEvent.BakingCompleted event) {

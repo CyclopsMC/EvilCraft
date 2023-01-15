@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.mojang.math.Vector4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -26,8 +25,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.helper.CraftingHelpers;
@@ -47,6 +46,7 @@ import org.cyclops.evilcraft.core.degradation.DegradationExecutor;
 import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
+import org.joml.Vector4f;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -114,7 +114,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         degradationExecutor = new DegradationExecutor(this);
 
         inventory = new Inventory(this);
-        addCapabilityInternal(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, LazyOptional.of(inventory::getItemHandler));
+        addCapabilityInternal(ForgeCapabilities.ITEM_HANDLER, LazyOptional.of(inventory::getItemHandler));
         inventory.addDirtyMarkListener(this);
 
         if (MinecraftHelpers.isClientSide()) {

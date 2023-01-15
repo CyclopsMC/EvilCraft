@@ -6,8 +6,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.entity.item.EntityRedstoneGrenade;
 
-import net.minecraft.world.item.Item.Properties;
-
 /**
  * Grenade that will trigger a redstone signal.
  * @author immortaleeb

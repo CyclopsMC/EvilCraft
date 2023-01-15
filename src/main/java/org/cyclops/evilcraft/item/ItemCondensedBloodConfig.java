@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
@@ -16,8 +16,6 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nullable;
-
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 
 /**
  * Config for the condensed blood.
@@ -34,7 +32,7 @@ public class ItemCondensedBloodConfig extends ItemConfig {
                 EvilCraft._instance,
             "condensed_blood",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
+                        ) {
                     @Override
                     public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
                         return new FluidWrapper(stack);

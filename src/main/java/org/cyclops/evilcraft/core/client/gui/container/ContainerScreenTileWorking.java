@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 import org.cyclops.evilcraft.client.gui.container.WidgetUpgradeTab;
-import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
+import org.cyclops.evilcraft.core.inventory.container.ContainerTileWorking;
 
 /**
  * A GUI container that has support for the display of {@link BlockEntityWorking}.

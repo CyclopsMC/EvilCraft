@@ -1,14 +1,12 @@
 package org.cyclops.evilcraft.core.broom;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 
 import javax.annotation.Nullable;
-
-import org.cyclops.evilcraft.api.broom.IBroomPart.BroomPartType;
 
 /**
  * A broom part for a modifier

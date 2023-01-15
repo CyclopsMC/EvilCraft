@@ -1,15 +1,15 @@
 package org.cyclops.evilcraft.client.render.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import com.mojang.math.Vector3f;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.entity.item.EntityBroomConfig;
 
@@ -37,8 +37,8 @@ public class RenderBroom extends EntityRenderer<EntityBroom> {
         // In case this causes other problems, you can replace it by the yaw again
         float rotationYaw = entity.yRotO + (entity.getYRot() - entity.yRotO) * partialTicks;
         float rotationPitch = entity.xRotO + (entity.getXRot() - entity.xRotO) * partialTicks;
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-rotationYaw));
-        matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(rotationPitch));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(-rotationYaw));
+        matrixStackIn.mulPose(Axis.XP.rotationDegrees(rotationPitch));
 
         matrixStackIn.scale(2, 2, 2);
         Minecraft.getInstance().getItemRenderer().renderStatic(getItemStack(entity),

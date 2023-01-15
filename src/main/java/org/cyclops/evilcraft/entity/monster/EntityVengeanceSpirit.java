@@ -6,7 +6,7 @@ import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -109,7 +109,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     public static final EntityDataAccessor<String> WATCHERID_PLAYERID = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
     public static final EntityDataAccessor<String> WATCHERID_PLAYERNAME = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
 
-    public static final TagKey<Block> TAG_SPIRIT_BLOCKER = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("evilcraft:vengeance_spirit_blocker"));
+    public static final TagKey<Block> TAG_SPIRIT_BLOCKER = TagKey.create(Registries.BLOCK, new ResourceLocation("evilcraft:vengeance_spirit_blocker"));
 
     @Getter
     @Delegate

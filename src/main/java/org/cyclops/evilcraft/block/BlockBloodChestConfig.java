@@ -47,7 +47,7 @@ public class BlockBloodChestConfig extends BlockConfig {
                         .strength(2.5F)
                         .sound(SoundType.WOOD)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        .tab(EvilCraft._instance.getDefaultItemGroup())) {
+                        ) {
                     @OnlyIn(Dist.CLIENT)
                     @Override
                     public void initializeClient(Consumer<IClientItemExtensions> consumer) {

@@ -37,7 +37,6 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
 import org.cyclops.evilcraft.core.client.model.GeometryBakingContextRetextured;
-import org.cyclops.evilcraft.proxy.ClientProxy;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -65,7 +64,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         @Override
         public BakedModel getNewValue(ResourceLocation textureName) {
             return bakeModel(blockModel, new GeometryBakingContextRetextured(context, textureName), blockModel.getElements(), transform,
-                    ItemOverrides.EMPTY, ClientProxy.modelBakery.getAtlasSet()::getSprite, new ResourceLocation(Reference.MOD_ID, "dummy"));
+                    ItemOverrides.EMPTY, spriteGetter, new ResourceLocation(Reference.MOD_ID, "dummy"));
         }
 
         @Override
@@ -79,23 +78,26 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     private final TextureAtlasSprite texture;
     private final IGeometryBakingContext context;
     private final ModelState transform;
+    private final Function<Material, TextureAtlasSprite> spriteGetter;
 
-    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, IGeometryBakingContext context, ModelState transform) {
+    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, IGeometryBakingContext context, ModelState transform, Function<Material, TextureAtlasSprite> spriteGetter) {
         super(true, false);
         this.blockModel = blockModel;
         this.untexturedBakedModel = untexturedBakedModel;
         this.context = context;
         this.transform = transform;
         this.texture = null;
+        this.spriteGetter = spriteGetter;
     }
 
-    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, TextureAtlasSprite texture, boolean item, IGeometryBakingContext context, ModelState transform) {
+    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, TextureAtlasSprite texture, boolean item, IGeometryBakingContext context, ModelState transform, Function<Material, TextureAtlasSprite> spriteGetter) {
         super(false, item);
         this.blockModel = blockModel;
         this.untexturedBakedModel = untexturedBakedModel;
         this.texture = texture;
         this.context = context;
         this.transform = transform;
+        this.spriteGetter = spriteGetter;
     }
 
     @Override
@@ -108,7 +110,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
             // Get reference texture
             BlockState blockState = BlockHelpers.getBlockStateFromItemStack(displayStandType);
             ResourceLocation textureName = Minecraft.getInstance().getModelManager().getBlockModelShaper()
-                    .getBlockModel(blockState).getParticleIcon().getName();
+                    .getBlockModel(blockState).getParticleIcon().atlasLocation();
             return modelCache.get(textureName);
         }
         return untexturedBakedModel;

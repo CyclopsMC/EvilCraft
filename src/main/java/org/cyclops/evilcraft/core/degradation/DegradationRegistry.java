@@ -3,7 +3,11 @@ package org.cyclops.evilcraft.core.degradation;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Registry for all the {@link IDegradationEffect}.

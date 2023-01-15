@@ -2,12 +2,12 @@ package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nonnull;
@@ -26,7 +26,7 @@ public class BlockEntityBloodStain extends CyclopsBlockEntity {
 
     public BlockEntityBloodStain(BlockPos blockPos, BlockState blockState) {
         super(RegistryEntries.BLOCK_ENTITY_BLOOD_STAIN, blockPos, blockState);
-        addCapabilityInternal(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, LazyOptional.of(() -> new FluidHandler(this)));
+        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(() -> new FluidHandler(this)));
     }
 
     /**

@@ -76,7 +76,7 @@ public class BlockLightningBomb extends Block {
         if (!world.isClientSide()) {
             EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(world,
                     (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
-                    (double)((float)blockPos.getZ() + 0.5F), explosion.getSourceMob());
+                    (double)((float)blockPos.getZ() + 0.5F), explosion.getIndirectSourceEntity());
             entityprimed.setFuse(RandomHelpers.instance.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
             world.addFreshEntity(entityprimed);
             world.removeBlock(blockPos, false);

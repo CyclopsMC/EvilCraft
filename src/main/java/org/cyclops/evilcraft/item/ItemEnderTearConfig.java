@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.LootHelpers;
@@ -23,7 +23,7 @@ public class ItemEnderTearConfig extends ItemConfig {
                 EvilCraft._instance,
             "ender_tear",
                 eConfig -> new Item(new Item.Properties()
-                        .tab(EvilCraft._instance.getDefaultItemGroup())
+
                         .stacksTo(16))
         );
     }
