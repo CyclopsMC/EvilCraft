@@ -42,7 +42,6 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.broom.PotionEffectBroomCollision;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
 import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
@@ -396,7 +395,7 @@ public class BroomModifiers {
                 && event.getSource().getDirectEntity() instanceof Projectile) {
             EntityBroom broom = (EntityBroom) event.getEntity().getVehicle();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
-            if (modifierValue > 0 && modifierValue > RandomHelpers.instance.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
+            if (modifierValue > 0 && modifierValue > broom.level.random.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.setCanceled(true);
             }
         }

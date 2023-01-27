@@ -36,7 +36,6 @@ import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.fluid.BloodFluidConverter;
 import org.cyclops.evilcraft.core.fluid.ImplicitFluidConversionTank;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.inventory.container.ContainerBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 
@@ -185,7 +184,7 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
     }
 
     static void playSound(Level level, BlockPos pos, BlockState blockState, SoundEvent soundEvent) {
-        level.playSound((Player)null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, soundEvent, SoundSource.BLOCKS, 0.5F, RandomHelpers.instance.nextFloat() * 0.1F + 0.9F);
+        level.playSound((Player)null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, soundEvent, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
     }
 
     @Override

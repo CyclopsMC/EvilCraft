@@ -40,7 +40,6 @@ import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 
 import java.util.List;
 import java.util.Map;
@@ -162,7 +161,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
             SoundEvent deathSound = entity.getDeathSound();
             if(BlockSpiritFurnaceConfig.mobDeathSounds && deathSound != null) {
                 BlockPos pos = tile.getBlockPos();
-                world.playSound(null, pos, deathSound, entity.getSoundSource(), 0.5F + RandomHelpers.instance.nextFloat() * 0.2F, 1.0F);
+                world.playSound(null, pos, deathSound, entity.getSoundSource(), 0.5F + world.random.nextFloat() * 0.2F, 1.0F);
             }
 
             if(tile.isPlayer()) {
@@ -180,16 +179,16 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                 if(!BlockBoxOfEternalClosure.FORGOTTEN_PLAYER.equals(tile.getPlayerName())) {
                     possibleDrops.add(new WeightedItemStack(getPlayerSkull(tile.getPlayerName()), 1));
                 }
-                WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, RandomHelpers.instance);
-                ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(RandomHelpers.instance);
+                WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.random);
+                ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.random);
                 if (!drop.isEmpty()) {
                     tile.onItemDrop(drop);
                 }
             } else {
                 if (MOBDROP_OVERRIDES.containsKey(entity.getClass())) {
                     List<WeightedItemStack> possibleDrops = MOBDROP_OVERRIDES.get(entity.getClass());
-                    WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, RandomHelpers.instance);
-                    ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(RandomHelpers.instance);
+                    WeightedItemStack weightedItemStack = WeightedItemStack.getRandomWeightedItemStack(possibleDrops, world.random);
+                    ItemStack drop = weightedItemStack.getItemStackWithRandomizedSize(world.random);
                     if (!drop.isEmpty()) {
                         tile.onItemDrop(drop);
                     }

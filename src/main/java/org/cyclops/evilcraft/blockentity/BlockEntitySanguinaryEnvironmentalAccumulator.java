@@ -48,7 +48,6 @@ import org.cyclops.evilcraft.core.blockentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.fluid.VirtualTank;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmentalAccumulator;
@@ -230,7 +229,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
     @OnlyIn(Dist.CLIENT)
     protected void showTankBeams() {
-        RandomSource random = RandomHelpers.instance;
+        RandomSource random = level.random;
         BlockPos target = getBlockPos();
         for (int j = 0; j < tankOffsets.length; j++) {
             BlockPos offset = tankOffsets[j];
@@ -263,7 +262,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     @OnlyIn(Dist.CLIENT)
     protected void showMissingTanks() {
         if(level.getGameTime() % 10 == 0) {
-            RandomSource random = RandomHelpers.instance;
+            RandomSource random = level.random;
             for (BlockPos location : invalidLocations) {
                 double x = location.getX() + 0.5;
                 double y = location.getY() + 0.5;

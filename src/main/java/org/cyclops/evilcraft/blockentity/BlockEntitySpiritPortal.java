@@ -20,7 +20,6 @@ import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 
 
 /**
@@ -39,7 +38,7 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
 
     @OnlyIn(Dist.CLIENT)
     private void showNewBlurParticle() {
-        RandomSource rand = RandomHelpers.instance;
+        RandomSource rand = level.random;
         float scale = 0.6F - rand.nextFloat() * 0.3F;
         float red = rand.nextFloat() * 0.03F + 0.01F;
         float green = rand.nextFloat() * 0.03F;
@@ -73,12 +72,12 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
             }
             if(level.isClientSide()) {
                 int progressModifier = (int) (blockEntity.getProgress() * 40f) + 1;
-                if(RandomHelpers.instance.nextInt(5) == 0) {
+                if(level.random.nextInt(5) == 0) {
                     level.playLocalSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F,
                             EvilCraftSoundEvents.effect_vengeancebeam_base, SoundSource.AMBIENT,
-                            0.5F + RandomHelpers.instance.nextFloat() * 0.2F, 1.0F, false);
+                            0.5F + level.random.nextFloat() * 0.2F, 1.0F, false);
                 }
-                for(int i = 0; i < RandomHelpers.instance.nextInt(progressModifier); i++) {
+                for(int i = 0; i < level.random.nextInt(progressModifier); i++) {
                     blockEntity.showNewBlurParticle();
                 }
             }
