@@ -31,7 +31,6 @@ import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 import java.util.Random;
@@ -120,7 +119,7 @@ public class BlockBloodStain extends BlockWithEntity {
     @OnlyIn(Dist.CLIENT)
     public static void splash(Level world, BlockPos blockPos) {
         if(MinecraftHelpers.isClientSide()) {
-            ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + RandomHelpers.instance.nextInt(1));
+            ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
         }
     }
 

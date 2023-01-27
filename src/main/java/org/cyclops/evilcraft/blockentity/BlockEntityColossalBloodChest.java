@@ -55,7 +55,6 @@ import org.cyclops.evilcraft.core.blockentity.tickaction.TickComponent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.IUpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeBehaviour;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChest;
 import org.cyclops.evilcraft.inventory.slot.SlotRepairable;
 import org.cyclops.evilcraft.blockentity.tickaction.EmptyFluidContainerInTankTickAction;
@@ -342,7 +341,7 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     }
 
     static void playSound(Level level, BlockPos pos, BlockState blockState, SoundEvent soundEvent) {
-        level.playSound((Player)null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, soundEvent, SoundSource.BLOCKS, 0.5F, RandomHelpers.instance.nextFloat() * 0.1F + 0.9F);
+        level.playSound((Player)null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, soundEvent, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
     }
 
     @Override

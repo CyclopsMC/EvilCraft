@@ -44,7 +44,6 @@ import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedData;
 import org.cyclops.evilcraft.client.particle.ParticleBubbleExtendedData;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityBeacon;
 import org.cyclops.evilcraft.core.degradation.DegradationExecutor;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
@@ -205,7 +204,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
     @OnlyIn(Dist.CLIENT)
     protected void showWaterBeams() {
-        RandomSource random = RandomHelpers.instance;
+        RandomSource random = level.random;
         BlockPos target = getBlockPos();
         for (int j = 0; j < waterOffsets.length; j++) {
             BlockPos offset = waterOffsets[j];
@@ -242,7 +241,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
     @OnlyIn(Dist.CLIENT)
     public static void showAccumulatingParticles(Level world, float centerX, float centerY, float centerZ, float spread) {
-        RandomSource rand = RandomHelpers.instance;
+        RandomSource rand = world.random;
         for (int j = 0; j < rand.nextInt(20); j++) {
             float scale = 0.6F - rand.nextFloat() * 0.4F;
             float red = rand.nextFloat() * 0.1F + 0.2F;

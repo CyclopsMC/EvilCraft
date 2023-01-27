@@ -9,7 +9,6 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
-import org.cyclops.evilcraft.core.helper.RandomHelpers;
 
 /**
  * An effect that will knockback the entities within the range of the degradable.
@@ -34,17 +33,17 @@ public class ParticleDegradation implements IDegradationEffect {
         Level world = degradable.getDegradationWorld();
         int radius = degradable.getRadius();
 
-        double xCoord = center.getX() - radius + 2 * radius * RandomHelpers.instance.nextFloat();
-        double yCoord = center.getY() - radius + 2 * radius * RandomHelpers.instance.nextFloat();
-        double zCoord = center.getZ() - radius + 2 * radius * RandomHelpers.instance.nextFloat();
+        double xCoord = center.getX() - radius + 2 * radius * world.random.nextFloat();
+        double yCoord = center.getY() - radius + 2 * radius * world.random.nextFloat();
+        double zCoord = center.getZ() - radius + 2 * radius * world.random.nextFloat();
 
         double particleX = xCoord;
         double particleY = yCoord;
         double particleZ = zCoord;
 
-        float particleMotionX = RandomHelpers.instance.nextFloat() * 1.4F - 0.7F;
+        float particleMotionX = world.random.nextFloat() * 1.4F - 0.7F;
         float particleMotionY = -0.2F;
-        float particleMotionZ = RandomHelpers.instance.nextFloat() * 1.4F - 0.7F;
+        float particleMotionZ = world.random.nextFloat() * 1.4F - 0.7F;
         Minecraft.getInstance().levelRenderer.addParticle(
                 RegistryEntries.PARTICLE_DEGRADE, false,
                 particleX, particleY, particleZ,
