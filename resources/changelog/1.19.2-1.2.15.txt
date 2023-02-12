@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.17.0 or higher.
+
+Fixes:
+* Fix client crash with throwables
+  Closes #968
+  Closes #965
+* Fix rare crash on Humanoid Flesh for incomplete user profiles
+  Closes #966
+
