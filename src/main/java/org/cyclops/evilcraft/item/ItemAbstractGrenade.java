@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -30,7 +29,7 @@ public abstract class ItemAbstractGrenade extends Item {
             if (!player.isCreative()) {
                 itemStack.shrink(1);
             }
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvent.createVariableRangeEvent(new ResourceLocation("random.bow")), SoundSource.MASTER, 0.5F, 0.4F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.MASTER, 0.5F, 0.4F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
 
             ThrowableProjectile entity = getThrowableEntity(itemStack, world, player);
             // MCP: shoot
