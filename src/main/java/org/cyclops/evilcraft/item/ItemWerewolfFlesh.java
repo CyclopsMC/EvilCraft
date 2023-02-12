@@ -166,7 +166,7 @@ public class ItemWerewolfFlesh extends Item {
             String player = ChatFormatting.ITALIC + "None";
             if(itemStack.hasTag()) {
                 GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
-                if (profile != null) {
+                if (profile != null && profile.isComplete()) {
                     player = profile.getName();
                 }
             }
