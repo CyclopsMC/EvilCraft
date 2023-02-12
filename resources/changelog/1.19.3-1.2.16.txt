@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.17.3 or higher.
+
+Fixes:
+* Fix crash when using auto-supply due to missing sounds, Closes #967
+* Fix client crash with throwables
+  Closes #968
+  Closes #965
+* Fix rare crash on Humanoid Flesh for incomplete user profiles, Closes #966
