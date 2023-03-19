@@ -23,7 +23,7 @@ public class BloodConfig extends FluidConfig {
                                 .viscosity(3000)
                                 .temperature(309)
                                 .rarity(Rarity.COMMON)
-                                .descriptionId("block.evilcraft.poison"))
+                                .descriptionId("block.evilcraft.blood"))
                         .bucket(() -> RegistryEntries.ITEM_BUCKET_BLOOD)
                         .block(() -> RegistryEntries.BLOCK_BLOOD)
         );
