@@ -55,7 +55,7 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
                 shouldClear = shouldClear & !effect.isAmbient();
 
                 if(shouldClear) {
-                    int reductionMultiplier = effect.getAmplifier() + 1;
+                    int reductionMultiplier = Math.max(1, effect.getAmplifier() + 1);
                     int reducableDurationForThisEffect = reducableDuration / reductionMultiplier;
                     int remaining = effect.getDuration();
                     int toReduce = Math.min(reducableDurationForThisEffect, remaining);
