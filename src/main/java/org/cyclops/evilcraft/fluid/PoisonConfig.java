@@ -26,7 +26,7 @@ public class PoisonConfig extends FluidConfig {
                                 .viscosity(1000)
                                 .temperature(290)
                                 .rarity(Rarity.UNCOMMON)
-                                .descriptionId("block.evilcraft.blood")
+                                .descriptionId("block.evilcraft.poison")
                                 .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                                 .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                                 .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH))
