@@ -10,7 +10,6 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,7 +19,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryPedestal;
 import org.cyclops.evilcraft.core.config.configurable.BlockPressurePlate;
@@ -45,16 +44,6 @@ public class BlockSpikedPlate extends BlockPressurePlate {
                 || world.getBlockState(blockPos.offset(0, -1, 0)).getBlock() instanceof org.cyclops.evilcraft.block.BlockSanguinaryPedestal;
     }
 
-    @Override
-    protected void playOnSound(LevelAccessor worldIn, BlockPos color) {
-
-    }
-
-    @Override
-    protected void playOffSound(LevelAccessor worldIn, BlockPos pos) {
-
-    }
-
     /**
      * Damage the given entity.
      * @param world The world.
@@ -69,7 +58,7 @@ public class BlockSpikedPlate extends BlockPressurePlate {
             // To make sure the entity actually will drop something.
             ((LivingEntity) entity).lastHurtByPlayerTime = 100;
 
-            if(entity.hurt(ExtendedDamageSource.spikedDamage(world), damage)) {
+            if(entity.hurt(ExtendedDamageSources.spikedDamage(world), damage)) {
                 BlockEntity tile = world.getBlockEntity(blockPos.offset(0, -1, 0));
                 if(tile != null && tile instanceof BlockEntitySanguinaryPedestal) {
                     int amount = Mth.floor(damage * (float) BlockSpikedPlateConfig.mobMultiplier);

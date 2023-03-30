@@ -5,13 +5,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.api.broom.IBroom;
@@ -49,11 +50,11 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
             renderItem(matrixStackIn, bufferIn, tile.getInventory().getItem(0),
                     BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.FACING, Direction.NORTH),
                     BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.AXIS_X, true),
-                    tile.getDirection() == Direction.AxisDirection.POSITIVE);
+                    tile.getDirection() == Direction.AxisDirection.POSITIVE, tile.getLevel());
         }
     }
 
-    private void renderItem(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack itemStack, Direction facing, boolean axisX, boolean positiveDirection) {
+    private void renderItem(PoseStack matrixStack, MultiBufferSource renderTypeBuffer, ItemStack itemStack, Direction facing, boolean axisX, boolean positiveDirection, Level level) {
         matrixStack.pushPose();
 
         matrixStack.translate(0.5F, 0.5F, 0.5F);
@@ -83,7 +84,7 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
             }
         }
 
-        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemDisplayContext.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStack, renderTypeBuffer, level, 0);
         matrixStack.popPose();
     }
 

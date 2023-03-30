@@ -8,7 +8,6 @@ import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.EnchantTableRenderer;
@@ -20,8 +19,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
@@ -63,7 +64,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         matrixStackIn.pushPose();
         matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
         if(!tile.getPurifyItem().isEmpty()) {
-            renderItem(matrixStackIn, bufferIn, tile.getPurifyItem(), tile.getRandomRotation());
+            renderItem(matrixStackIn, bufferIn, tile.getPurifyItem(), tile.getRandomRotation(), tile.getLevel());
         }
         matrixStackIn.popPose();
 
@@ -88,7 +89,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         });
     }
 
-    private void renderItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, ItemStack itemStack, float rotation) {
+    private void renderItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, ItemStack itemStack, float rotation, Level level) {
         matrixStackIn.pushPose();
         if (itemStack.getItem() instanceof BlockItem) {
             matrixStackIn.translate(1F, 1.2F, 1F);
@@ -100,7 +101,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
         }
 
-        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemDisplayContext.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, level, 0);
         matrixStackIn.popPose();
     }
 
@@ -130,7 +131,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
         }
 
-        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemTransforms.TransformType.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(itemStack, ItemDisplayContext.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, tile.getLevel(), 0);
 
         matrixStackIn.popPose();
     }

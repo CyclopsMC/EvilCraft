@@ -196,7 +196,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
             // Slightly altered logic from Container#slotChangedCraftingGrid
             CraftingRecipe irecipe = world.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingGrid, world).orElse(null);
             if (irecipe != null && result.setRecipeUsed(world, (ServerPlayer) player, irecipe)) {
-                itemstack = irecipe.assemble(craftingGrid);
+                itemstack = irecipe.assemble(craftingGrid, world.registryAccess());
             }
             result.setItem(0, itemstack);
             ((ServerPlayer) this.player).connection.send(new ClientboundContainerSetSlotPacket(this.containerId, getStateId(), 9, itemstack));

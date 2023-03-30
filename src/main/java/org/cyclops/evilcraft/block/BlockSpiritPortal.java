@@ -18,7 +18,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritPortal;
 import org.cyclops.evilcraft.core.algorithm.RegionIterator;
@@ -61,7 +61,7 @@ public class BlockSpiritPortal extends BlockWithEntity {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void palingDeath(LivingDeathEvent event) {
-        if(event.getSource() == ExtendedDamageSource.paling) {
+        if(event.getSource() == ExtendedDamageSources.paling(event.getEntity().level)) {
             tryPlacePortal(event.getEntity().level, event.getEntity().blockPosition().offset(0, 1, 0));
         }
     }

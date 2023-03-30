@@ -5,7 +5,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -53,7 +52,7 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
     protected void onHit(HitResult position) {
         if (position.getType() == HitResult.Type.ENTITY) {
             ((EntityHitResult) position).getEntity()
-                    .hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+                    .hurt(level.damageSources().thrown(this, this.getOwner()), 0.0F);
         }
 
         if (!this.level.isClientSide()) {

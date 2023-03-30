@@ -31,7 +31,7 @@ public class BlockHardenedBlood extends Block {
         List<ItemStack> drops = super.getDrops(state, builder);
         if (drops.isEmpty()) {
             ServerLevel world = builder.getLevel();
-            BlockPos blockPos = new BlockPos(builder.getOptionalParameter(LootContextParams.ORIGIN));
+            BlockPos blockPos = BlockPos.containing(builder.getOptionalParameter(LootContextParams.ORIGIN));
             Material material = world.getBlockState(blockPos.offset(0, -1, 0)).getMaterial();
 
             if (material.blocksMotion() || material.isLiquid()) {

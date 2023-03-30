@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
@@ -39,11 +40,11 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingContainer grid, Level world) {
-        return !assemble(grid).isEmpty();
+        return !assemble(grid, world.registryAccess()).isEmpty();
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
         return new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
     }
 
@@ -65,8 +66,8 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer grid) {
-        ItemStack output = getResultItem().copy();
+    public ItemStack assemble(CraftingContainer grid, RegistryAccess registryAccess) {
+        ItemStack output = getResultItem(registryAccess).copy();
 
         int totalCapacity = 0;
         int totalContent = 0;

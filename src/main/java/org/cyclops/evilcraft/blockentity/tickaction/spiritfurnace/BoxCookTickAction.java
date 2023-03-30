@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -208,7 +207,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                                 .withParameter(LootContextParams.ORIGIN, new Vec3(tile.getBlockPos().getX(), tile.getBlockPos().getY(), tile.getBlockPos().getZ()))
                                 .withParameter(LootContextParams.KILLER_ENTITY, killerEntity)
                                 .withParameter(LootContextParams.DIRECT_KILLER_ENTITY, killerEntity)
-                                .withParameter(LootContextParams.DAMAGE_SOURCE, DamageSource.GENERIC);
+                                .withParameter(LootContextParams.DAMAGE_SOURCE, killerEntity.damageSources().generic());
 
                         // If we want to do something with fortune later...
                         /*if (p_184610_1_ && this.attackingPlayer != null) {

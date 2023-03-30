@@ -13,6 +13,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,7 +36,7 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
 
     // Default perspective transforms
     protected static final ItemTransforms TRANSFORMS = ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
-            ItemTransforms.TransformType.GUI, new ItemTransform(
+            ItemDisplayContext.GUI, new ItemTransform(
                     new Vector3f(30, 135, 0),
                     new Vector3f(0, 0, 0),
                     new Vector3f(0.625f, 0.625f, 0.625f))

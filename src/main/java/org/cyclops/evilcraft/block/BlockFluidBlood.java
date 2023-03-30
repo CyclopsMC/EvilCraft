@@ -33,7 +33,7 @@ public class BlockFluidBlood extends LiquidBlock {
     @Override
     public void randomTick(BlockState blockState, ServerLevel world, BlockPos blockPos, RandomSource random) {
         if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.getValue(LEVEL) == 0
-                && (!(world.isRaining() && world.getBiome(blockPos).value().getDownfall() > 0) || !world.canSeeSkyFromBelowWater(blockPos))
+                && (!(world.isRaining() && world.getBiome(blockPos).value().hasPrecipitation()) || !world.canSeeSkyFromBelowWater(blockPos))
                 && !isWaterInArea(world, blockPos)) {
             world.setBlock(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }

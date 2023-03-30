@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
@@ -43,12 +44,12 @@ public class RecipeDeadBush extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
-        return getResultItem().copy();
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess registryAccess) {
+        return getResultItem(registryAccess).copy();
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
         return new ItemStack(Items.DEAD_BUSH);
     }
 

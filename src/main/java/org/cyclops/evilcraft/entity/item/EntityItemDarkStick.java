@@ -79,7 +79,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
                 .orElseThrow();
 
         Pair<BlockPos, Holder<Structure>> closestHolder = ((ServerLevel) level).getChunkSource().getGenerator()
-                .findNearestMapStructure((ServerLevel) level, holderset, new BlockPos(getX(), getY(), getZ()), 100, false);
+                .findNearestMapStructure((ServerLevel) level, holderset, BlockPos.containing(getX(), getY(), getZ()), 100, false);
         if(closestHolder != null) {
             BlockPos closest = new BlockPos(closestHolder.getFirst().getX(), 0, closestHolder.getFirst().getZ());
             double d = closest.distSqr(new BlockPos((int) getX(), 0, (int) getZ()));

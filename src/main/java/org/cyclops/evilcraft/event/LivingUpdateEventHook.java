@@ -4,7 +4,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.GeneralConfig;
 
 /**
@@ -30,7 +30,7 @@ public class LivingUpdateEventHook {
                 && event.getEntity().level.random.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0
                 && !event.getEntity().level.isClientSide()) {
             Player entity = (Player) event.getEntity();
-            entity.hurt(ExtendedDamageSource.dieWithoutAnyReason, Float.MAX_VALUE);
+            entity.hurt(ExtendedDamageSources.dieWithoutAnyReason(entity.level), Float.MAX_VALUE);
         }
     }
 

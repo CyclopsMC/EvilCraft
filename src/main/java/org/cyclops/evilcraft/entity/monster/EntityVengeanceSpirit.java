@@ -62,7 +62,7 @@ import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.EvilCraftSoundEvents;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockGemStoneTorchConfig;
@@ -243,7 +243,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return !(damageSource instanceof ExtendedDamageSource.VengeanceBeamDamageSource || damageSource == DamageSource.OUT_OF_WORLD);
+        return !(damageSource.is(ExtendedDamageSources.DAMAGE_TYPE_VENGEANCE_BEAM) || damageSource == level.damageSources().outOfWorld());
     }
 
     @Override
@@ -259,7 +259,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                         (double)(-Mth.sin(this.getYRot() * (float)Math.PI / 180.0F) * 0.01F),
                         0.025D,
                         (double)(Mth.cos(this.getYRot() * (float)Math.PI / 180.0F) * 0.01F));
-                entity.hurt(DamageSource.mobAttack(this), 0.1F);
+                entity.hurt(level.damageSources().mobAttack(this), 0.1F);
                 return false;
             }
         }
@@ -272,7 +272,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         // Also drop loot from inner entity!
         LivingEntity innerEntity = getInnerEntity();
-        if (innerEntity != null && damageSource != DamageSource.OUT_OF_WORLD) {
+        if (innerEntity != null && damageSource != level.damageSources().outOfWorld()) {
             ResourceLocation deathLootTable = innerEntity.getLootTable();
             if (deathLootTable != null) {
                 LootTable loottable = level.getServer().getLootTables().get(deathLootTable);
@@ -280,7 +280,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                         .withRandom(this.random)
                         .withParameter(LootContextParams.THIS_ENTITY, innerEntity)
                         .withParameter(LootContextParams.ORIGIN, new Vec3(getX(), getY(), getZ()))
-                        .withParameter(LootContextParams.DAMAGE_SOURCE, DamageSource.GENERIC)
+                        .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic())
                         .withOptionalParameter(LootContextParams.KILLER_ENTITY, null)
                         .withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, null);
 

@@ -320,7 +320,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
                 entity.setItem(this.getInventory().getItem(0));
             } else {
                 // Recipe found, throw back the result
-                entity.setItem(recipe.assemble(getInventory()));
+                entity.setItem(recipe.assemble(getInventory(), level.registryAccess()));
 
                 // Change the weather to the resulting weather
                 WeatherType weatherSource = recipe.getInputWeather();
@@ -393,7 +393,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         // finished processing item state, show the corresponding effect
         if (level.isClientSide() && state == BlockEnvironmentalAccumulator.STATE_FINISHED_PROCESSING_ITEM) {
             // Show an effect indicating the item finished processing.
-            this.level.globalLevelEvent(2002, getBlockPos().offset(0, WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
+            this.level.globalLevelEvent(2002, getBlockPos().offset(0, (int) WEATHER_CONTAINER_SPAWN_HEIGHT, 0), 16428);
         }
 
         // Change the beam colors if we receive an update

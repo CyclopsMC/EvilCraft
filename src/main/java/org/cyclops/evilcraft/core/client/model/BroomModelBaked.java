@@ -15,6 +15,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,25 +46,25 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     // Default perspective transforms
     protected static final ItemTransforms PERSPECTIVE_TRANSFORMS =
             ModelHelpers.modifyDefaultTransforms(ImmutableMap.of(
-                    ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND,
+                    ItemDisplayContext.THIRD_PERSON_RIGHT_HAND,
                     new ItemTransform(
                             new Vector3f(90, 180, 90),
                             new Vector3f(0, 0, 0),
                             new Vector3f(1, 1, 1)
                     ),
-                    ItemTransforms.TransformType.THIRD_PERSON_LEFT_HAND,
+                    ItemDisplayContext.THIRD_PERSON_LEFT_HAND,
                     new ItemTransform(
                             new Vector3f(90, 180, 90),
                             new Vector3f(0, 0, 0),
                             new Vector3f(1, 1, 1)
                     ),
-                    ItemTransforms.TransformType.FIRST_PERSON_LEFT_HAND,
+                    ItemDisplayContext.FIRST_PERSON_LEFT_HAND,
                     new ItemTransform(
                             new Vector3f(10, 190, 100),
                             new Vector3f(0.25F, -0.025F, 0),
                             new Vector3f(1, 1, 1)
                     ),
-                    ItemTransforms.TransformType.FIRST_PERSON_RIGHT_HAND,
+                    ItemDisplayContext.FIRST_PERSON_RIGHT_HAND,
                     new ItemTransform(
                             new Vector3f(10, 190, 100),
                             new Vector3f(0.25F, -0.025F, 0),

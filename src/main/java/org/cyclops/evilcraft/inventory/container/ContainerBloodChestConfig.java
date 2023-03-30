@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.inventory.container;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -20,7 +21,7 @@ public class ContainerBloodChestConfig extends GuiConfig<ContainerBloodChest> {
     public ContainerBloodChestConfig() {
         super(EvilCraft._instance,
                 "blood_chest",
-                eConfig -> new MenuType<>(ContainerBloodChest::new));
+                eConfig -> new MenuType<>(ContainerBloodChest::new, FeatureFlags.VANILLA_SET));
     }
 
     @OnlyIn(Dist.CLIENT)

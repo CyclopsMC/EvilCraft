@@ -53,9 +53,10 @@ public class ItemEffortlessRing extends Item {
         player.maxUpStep = player.isCrouching() ? 0.5F : STEP_SIZE;
 
         // Jump distance
-        if(!player.isOnGround()) {
-            player.flyingSpeed = JUMP_DISTANCE_FACTOR;
-        }
+        // Not possible anymore due to hardcoded value in LivingEntity#getFrictionInfluencedSpeed
+//        if(!player.isOnGround()) {
+//            player.flyDist = JUMP_DISTANCE_FACTOR;
+//        }
     }
 
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {

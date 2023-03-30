@@ -54,7 +54,7 @@ public class ItemBucketEternalWater extends BucketItem {
         ItemStack itemStack = player.getItemInHand(hand);
         HitResult position = this.getPlayerPOVHitResult(world, player, ClipContext.Fluid.SOURCE_ONLY);
         if(position != null && position.getType() == HitResult.Type.BLOCK) {
-            BlockPos pos = new BlockPos(position.getLocation());
+            BlockPos pos = BlockPos.containing(position.getLocation());
             BlockState blockState = world.getBlockState(pos);
             if(blockState.getBlock() == Blocks.WATER && blockState.getValue(LiquidBlock.LEVEL) == 0) {
                 world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

@@ -82,7 +82,7 @@ public class OrganicSpread {
      */
     public void spreadTick(BlockPos startLocation) {
         Vec3 newLocation = new Vec3(startLocation.getX(), startLocation.getY(), startLocation.getZ());
-        BlockPos newLocationConcrete = new BlockPos(newLocation);
+        BlockPos newLocationConcrete = BlockPos.containing(newLocation);
 
         // Safely get a random direction.
         Vec3 direction = getRandomDirection();
@@ -96,7 +96,7 @@ public class OrganicSpread {
         // Loop in that direction.
         while (getSpreadable().isDone(world, newLocationConcrete) && isInArea(startLocation, newLocationConcrete)) {
             newLocation = newLocation.add(direction);
-            newLocationConcrete = new BlockPos(newLocation);
+            newLocationConcrete = BlockPos.containing(newLocation);
         }
 
         // Spread to the new blockState.

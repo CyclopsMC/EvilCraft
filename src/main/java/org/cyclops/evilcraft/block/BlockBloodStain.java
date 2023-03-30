@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -129,7 +128,7 @@ public class BlockBloodStain extends BlockWithEntity {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void bloodStainedBlockEvent(LivingDeathEvent event) {
-        if(event.getSource() == DamageSource.FALL
+        if(event.getSource() == event.getEntity().damageSources().fall()
                 && !(event.getEntity() instanceof EntityVengeanceSpirit)) {
             int x = Mth.floor(event.getEntity().getX());
             int y = Mth.floor(event.getEntity().getY());

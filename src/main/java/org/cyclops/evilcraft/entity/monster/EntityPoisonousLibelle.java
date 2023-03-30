@@ -295,7 +295,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
                     }
                     if (shouldAttack) {
                         if (EntityPoisonousLibelleConfig.hasAttackDamage)
-                            entity.hurt(DamageSource.mobAttack(this), 0.5F);
+                            entity.hurt(level.damageSources().mobAttack(this), 0.5F);
                         ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION * 20, 1));
                     }
                 }

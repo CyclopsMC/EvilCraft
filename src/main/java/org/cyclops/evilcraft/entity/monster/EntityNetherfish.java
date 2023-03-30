@@ -84,7 +84,7 @@ public class EntityNetherfish extends Silverfish {
 
                 if (random.nextInt(10) == 0) {
                     this.selectedDirection = Direction.getRandom(random);
-                    BlockPos blockpos = (new BlockPos(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
+                    BlockPos blockpos = (BlockPos.containing(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
                     BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level.getBlockState(blockpos));
                     if (type != null) {
                         this.doMerge = true;
@@ -112,7 +112,7 @@ public class EntityNetherfish extends Silverfish {
             if (!this.doMerge) {
                 super.start();
             } else {
-                BlockPos blockpos = (new BlockPos(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
+                BlockPos blockpos = (BlockPos.containing(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
                 BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level.getBlockState(blockpos));
                 if (type != null) {
                     EntityNetherfish.this.level.setBlockAndUpdate(blockpos, BlockInfestedNether.wrapBlock(type).defaultBlockState());

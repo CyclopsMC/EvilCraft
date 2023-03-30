@@ -37,7 +37,7 @@ import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.tags.ITag;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.broom.BroomParts;
@@ -192,7 +192,7 @@ public class BroomModifiers {
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
                 float damage = (modifierValue * (float) broom.getLastPlayerSpeed()) / 50F;
                 if (damage > 0) {
-                    entity.hurt(ExtendedDamageSource.broomDamage((LivingEntity) broom.getControllingPassenger()), damage);
+                    entity.hurt(ExtendedDamageSources.broomDamage((LivingEntity) broom.getControllingPassenger()), damage);
                 }
             }
         });
@@ -214,11 +214,11 @@ public class BroomModifiers {
                 double y = Math.cos(pitch);
 
                 double r = -0.1D;
-                BlockPos blockpos = new BlockPos(
+                BlockPos blockpos = BlockPos.containing(
                         broom.getBoundingBox().minX + x + r,
                         broom.getBoundingBox().minY + y + r,
                         broom.getBoundingBox().minZ + z + r);
-                BlockPos blockpos1 = new BlockPos(
+                BlockPos blockpos1 = BlockPos.containing(
                         broom.getBoundingBox().maxX + x - r,
                         broom.getBoundingBox().maxY + y - r + 1D,
                         broom.getBoundingBox().maxZ + z - r);

@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -40,10 +41,14 @@ public class RecipeBroomPartCombination extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingContainer grid, Level world) {
-        return !assemble(grid).isEmpty();
+        return !assemble(grid, world.registryAccess()).isEmpty();
     }
 
     @Override
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
+        return getResultItem();
+    }
+
     public ItemStack getResultItem() {
         return new ItemStack(RegistryEntries.ITEM_BROOM);
     }
@@ -172,7 +177,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer grid) {
+    public ItemStack assemble(CraftingContainer grid, RegistryAccess registryAccess) {
         Pair<ItemStack, List<ItemStack>> result = getResult(grid);
         if(result == null) {
             return ItemStack.EMPTY;

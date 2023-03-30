@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -42,11 +43,11 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingContainer grid, Level world) {
-        return !assemble(grid).isEmpty();
+        return !assemble(grid, world.registryAccess()).isEmpty();
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
         return fluidContainer.getItems()[0];
     }
 
@@ -68,8 +69,8 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer grid) {
-        ItemStack output = getResultItem().copy();
+    public ItemStack assemble(CraftingContainer grid, RegistryAccess registryAccess) {
+        ItemStack output = getResultItem(registryAccess).copy();
         IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output).orElse(null);
 
         FluidStack commonFluid = null;

@@ -80,9 +80,11 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
                         playerRenderer.setPlayerTexture(resourcelocation);
                         playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
                     } else {
-                        matrixStackIn.pushPose();
-                        render.render(innerEntity, entityYaw, 0, matrixStackIn, bufferSub, packedLightIn);
-                        matrixStackIn.popPose();
+                        // Make new PoseStack, to fix stack invalidity when a crash occurs.
+                        PoseStack poseStackInner = new PoseStack();
+                        poseStackInner.last().pose().set(matrixStackIn.last().pose());
+                        poseStackInner.last().normal().set(matrixStackIn.last().normal());
+                        render.render(innerEntity, entityYaw, 0, poseStackInner, bufferSub, packedLightIn);
                     }
                 } catch (Exception e) {
                     // Invalid entity, so set as swarm.
@@ -105,7 +107,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 
         public RenderPlayerSpirit(EntityRendererProvider.Context context) {
             super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
-            this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR))));
+            this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)), context.getModelManager()));
             this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
             this.addLayer(new ArrowLayer<>(context, this));
             this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getItemInHandRenderer()));

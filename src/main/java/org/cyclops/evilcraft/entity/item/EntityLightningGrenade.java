@@ -6,7 +6,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
@@ -50,12 +49,12 @@ public class EntityLightningGrenade extends ThrowableProjectile implements ItemS
     @Override
     protected void onHit(HitResult par1MovingObjectPosition) {
         if (par1MovingObjectPosition.getType() == HitResult.Type.ENTITY) {
-            ((EntityHitResult) par1MovingObjectPosition).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+            ((EntityHitResult) par1MovingObjectPosition).getEntity().hurt(level.damageSources().thrown(this, this.getOwner()), 0.0F);
         }
 
         if (!this.level.isClientSide()) {
             if (this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
-                BlockPos pos = new BlockPos(par1MovingObjectPosition.getLocation());
+                BlockPos pos = BlockPos.containing(par1MovingObjectPosition.getLocation());
                 EntityHelpers.onEntityCollided(this.level, pos, this.level.getBlockState(pos), this);
                 LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
                 bolt.moveTo(this.getX(), this.getY(), this.getZ());

@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.inventory.container;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.gui.ScreenFactorySafe;
@@ -20,7 +21,7 @@ public class ContainerExaltedCrafterConfig extends GuiConfig<ContainerExaltedCra
     public ContainerExaltedCrafterConfig() {
         super(EvilCraft._instance,
                 "exalted_crafter",
-                eConfig -> new ContainerTypeData<>(ContainerExaltedCrafter::new));
+                eConfig -> new ContainerTypeData<>(ContainerExaltedCrafter::new, FeatureFlags.VANILLA_SET));
     }
 
     @OnlyIn(Dist.CLIENT)

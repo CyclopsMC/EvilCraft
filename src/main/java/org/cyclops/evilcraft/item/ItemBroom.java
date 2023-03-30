@@ -102,7 +102,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
         if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
             BlockPos blockPos = context.getClickedPos();
             if (!BlockEntityHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), ForgeCapabilities.FLUID_HANDLER).isPresent()
-                    && context.getLevel().isEmptyBlock(blockPos.offset(0, Y_SPAWN_OFFSET, 0))) {
+                    && context.getLevel().isEmptyBlock(blockPos.offset(0, (int) Y_SPAWN_OFFSET, 0))) {
                 EntityBroom entityBroom = new EntityBroom(context.getLevel(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
                 entityBroom.setBroomStack(stack);
                 entityBroom.setYRot(context.getPlayer().getYRot());
@@ -240,9 +240,9 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
             // Render item
             Lighting.setupFor3DItems();
-            Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(broomStack, x + 3, y + 3);
+            Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(event.getPoseStack(), broomStack, x + 3, y + 3);
             Minecraft.getInstance().getItemRenderer().renderGuiItemDecorations(
-                    Minecraft.getInstance().gui.getFont(), broomStack, x + 3, y + 3, "");
+                    event.getPoseStack(), Minecraft.getInstance().gui.getFont(), broomStack, x + 3, y + 3, "");
             Lighting.setupForFlatItems();
 
             GlStateManager._disableBlend();

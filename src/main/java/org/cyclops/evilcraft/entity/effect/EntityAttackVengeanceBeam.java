@@ -9,7 +9,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
@@ -51,7 +51,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof EntityVengeanceSpirit) {
             if (this.getOwner() instanceof LivingEntity) {
-                entity.hurt(ExtendedDamageSource.vengeanceBeam((LivingEntity) this.getOwner()), 1F);
+                entity.hurt(ExtendedDamageSources.vengeanceBeam((LivingEntity) this.getOwner()), 1F);
                 ((EntityVengeanceSpirit) entity).setRemainingLife(((EntityVengeanceSpirit) entity).getRemainingLife() + 10);
             }
         } else if (entity instanceof LivingEntity) {

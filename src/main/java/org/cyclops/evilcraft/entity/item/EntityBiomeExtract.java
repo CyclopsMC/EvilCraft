@@ -103,7 +103,7 @@ public class EntityBiomeExtract extends EntityThrowable {
                                 location.getZ()), color);
                     }
                 });
-                BlockPos pos = new BlockPos(movingobjectposition.getLocation());
+                BlockPos pos = BlockPos.containing(movingobjectposition.getLocation());
                 for (int i = 0; i < 50; i++) {
                     spread.spreadTick(pos);
                 }

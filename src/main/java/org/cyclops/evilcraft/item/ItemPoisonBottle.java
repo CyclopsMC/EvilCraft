@@ -43,7 +43,7 @@ public class ItemPoisonBottle extends Item {
                 event.getEntity().getItemInHand(hand).getItem() == Items.GLASS_BOTTLE) {
             HitResult pos = this.getPlayerPOVHitResult(event.getLevel(), event.getEntity(), ClipContext.Fluid.SOURCE_ONLY);
             if(pos != null && pos.getType() == HitResult.Type.BLOCK) {
-                BlockPos blockPos = new BlockPos(pos.getLocation());
+                BlockPos blockPos = BlockPos.containing(pos.getLocation());
                 if(event.getLevel().mayInteract(event.getEntity(), blockPos) &&
                         event.getEntity().mayUseItemAt(blockPos, event.getFace(), event.getEntity().getItemInHand(hand)) &&
                         event.getLevel().getBlockState(blockPos).getMaterial() == Material.WATER) {

@@ -5,7 +5,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
@@ -23,15 +22,15 @@ import org.cyclops.evilcraft.RegistryEntries;
 public class ItemSpectralGlasses extends ArmorItem {
 
     public ItemSpectralGlasses(Properties properties) {
-        super(new Material(), EquipmentSlot.HEAD, properties);
+        super(new Material(), Type.HELMET, properties);
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand hand) {
         ItemStack itemStackIn = playerIn.getItemInHand(hand);
-        ItemStack existingStack = playerIn.getItemBySlot(getSlot());
+        ItemStack existingStack = playerIn.getItemBySlot(getEquipmentSlot());
         if (existingStack.isEmpty()) {
-            playerIn.setItemSlot(getSlot(), itemStackIn.copy());
+            playerIn.setItemSlot(getEquipmentSlot(), itemStackIn.copy());
             itemStackIn.shrink(1);
             return new InteractionResultHolder<ItemStack>(InteractionResult.SUCCESS, itemStackIn);
         }
@@ -43,13 +42,13 @@ public class ItemSpectralGlasses extends ArmorItem {
         private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
 
         @Override
-        public int getDurabilityForSlot(EquipmentSlot slotIn) {
-            return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * 15;
+        public int getDurabilityForType(Type slotIn) {
+            return MAX_DAMAGE_ARRAY[slotIn.getSlot().getIndex()] * 15;
         }
 
         @Override
-        public int getDefenseForSlot(EquipmentSlot slotIn) {
-            return new int[]{1, 4, 5, 2}[slotIn.getIndex()];
+        public int getDefenseForType(Type slotIn) {
+            return new int[]{1, 4, 5, 2}[slotIn.getSlot().getIndex()];
         }
 
         @Override

@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -96,9 +97,9 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     @Override
-    public ItemStack assemble(RecipeEnvironmentalAccumulator.Inventory inv) {
+    public ItemStack assemble(RecipeEnvironmentalAccumulator.Inventory inv, RegistryAccess registryAccess) {
         ItemStack inputStack = inv.getItem(0);
-        ItemStack itemStack = getResultItem().copy();
+        ItemStack itemStack = getResultItem(registryAccess).copy();
         if (!inputStack.isEmpty() && inputStack.hasTag()) {
             if(!itemStack.hasTag()) {
                 itemStack.setTag(new CompoundTag());
@@ -118,7 +119,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     @Override
-    public ItemStack getResultItem() {
+    public ItemStack getResultItem(RegistryAccess registryAccess) {
         return this.getOutputItemFirst().copy();
     }
 

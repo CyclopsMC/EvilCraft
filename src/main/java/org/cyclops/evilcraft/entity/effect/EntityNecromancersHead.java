@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -138,7 +137,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
     @Override
     protected void onHit(HitResult position) {
         if(position.getType() == HitResult.Type.ENTITY && !observing && !getCommandSenderWorld().isClientSide()) {
-            ((EntityHitResult) position).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+            ((EntityHitResult) position).getEntity().hurt(level.damageSources().thrown(this, this.getOwner()), 0.0F);
             if(getOwner() instanceof ServerPlayer
                     && getOwner() != ((EntityHitResult) position).getEntity()
                     && ((EntityHitResult) position).getEntity() instanceof LivingEntity) {

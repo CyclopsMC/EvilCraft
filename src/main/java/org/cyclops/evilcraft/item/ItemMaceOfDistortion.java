@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.Advancements;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 import javax.annotation.Nullable;
@@ -114,12 +114,12 @@ public class ItemMaceOfDistortion extends ItemMace {
                 // Attack the entity with the current power level.
                 DamageSource damageSource;
                 if(initiator == null) {
-                    damageSource = ExtendedDamageSource.distorted;
+                    damageSource = ExtendedDamageSources.distorted(world);
                 } else {
                     if(initiator instanceof Player) {
-                        damageSource = DamageSource.playerAttack((Player) initiator);
+                        damageSource = initiator.damageSources().playerAttack((Player) initiator);
                     } else {
-                        damageSource = DamageSource.mobAttack(initiator);
+                        damageSource = initiator.damageSources().mobAttack(initiator);
                     }
                 }
                 entity.hurt(damageSource, RADIAL_DAMAGE * power);

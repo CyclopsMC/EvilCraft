@@ -4,7 +4,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.evilcraft.ExtendedDamageSource;
+import org.cyclops.evilcraft.ExtendedDamageSources;
 
 /**
  * Potion effect for letting entities fade away and leaving a portal behind in their place.
@@ -24,6 +24,6 @@ public class PotionPaling extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
-        entity.hurt(ExtendedDamageSource.paling, ((float) amplifier) / 4);
+        entity.hurt(ExtendedDamageSources.paling(entity.level), ((float) amplifier) / 4);
     }
 }

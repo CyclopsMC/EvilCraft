@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -29,7 +30,7 @@ public class RecipeEnvironmentalAccumulatorBiomeExtract extends RecipeEnvironmen
     }
 
     @Override
-    public ItemStack assemble(Inventory inventory) {
+    public ItemStack assemble(Inventory inventory, RegistryAccess registryAccess) {
         Biome biome = inventory.getWorld().getBiome(inventory.getPos()).value();
         Registry<Biome> biomeRegistry = inventory.getWorld().registryAccess().registry(ForgeRegistries.Keys.BIOMES).get();
         if (ItemBiomeExtractConfig.isCraftingBlacklisted(biomeRegistry, biome)) {
