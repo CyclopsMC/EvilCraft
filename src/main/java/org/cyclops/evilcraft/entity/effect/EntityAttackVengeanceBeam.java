@@ -48,6 +48,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
         return motion * 1D + (0.02D - random.nextDouble() * 0.04D);
     }
 
+    @Override
     protected void applyHitEffect(Entity entity) {
         if (entity instanceof EntityVengeanceSpirit) {
             if (this.getOwner() instanceof LivingEntity) {
