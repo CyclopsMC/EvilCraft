@@ -197,7 +197,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
 
     @Override
     public Direction getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getLevel().getBlockState(getBlockPos()), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
+        return BlockHelpers.getSafeBlockStateProperty(getBlockState(), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
     }
 
     @Override
@@ -215,7 +215,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     @Override
     public void onStateChanged() {
         sendUpdate();
-        level.setBlockAndUpdate(getBlockPos(), level.getBlockState(getBlockPos()).setValue(BlockBloodInfuser.ON, isWorking()));
+        level.setBlockAndUpdate(getBlockPos(), getBlockState().setValue(BlockBloodInfuser.ON, isWorking()));
         BlockHelpers.markForUpdate(getLevel(), getBlockPos());
     }
 

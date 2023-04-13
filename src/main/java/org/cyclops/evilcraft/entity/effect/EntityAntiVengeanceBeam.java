@@ -96,7 +96,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
             double d0 = 0.0D;
 
             for (Entity entity1 : list) {
-                if (entity1 instanceof EntityVengeanceSpirit && !((EntityVengeanceSpirit) entity1).isSwarm()) {
+                if (entity1 instanceof EntityVengeanceSpirit) {
                     float f = 0.3F;
                     AABB axisalignedbb = entity1.getBoundingBox().inflate((double) f);
                     EntityHitResult movingobjectposition1 = ProjectileUtil.getEntityHitResult(level, this, vec3, vec31, axisalignedbb, (e) -> true);
