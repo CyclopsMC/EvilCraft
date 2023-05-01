@@ -19,7 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -84,9 +84,10 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void checkLibelleSpawn(LivingSpawnEvent.CheckSpawn event) {
+    public static void checkLibelleSpawn(MobSpawnEvent.FinalizeSpawn event) {
         if(event.getEntity() instanceof EntityPoisonousLibelle) {
-            if(((EntityPoisonousLibelle) event.getEntity()).getY() < EntityPoisonousLibelleConfig.minY) {
+            if(event.getEntity().getY() < EntityPoisonousLibelleConfig.minY) {
+                event.setSpawnCancelled(true);
                 event.setResult(Event.Result.DENY);
             }
         }
