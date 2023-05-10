@@ -10,6 +10,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
+import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 
 import java.util.List;
@@ -78,6 +79,16 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                                 if(!potionEffect.isAmbient()) {
                                     // Remove effect from entity
                                     entity.removeEffect(potionEffect.getEffect());
+
+                                    // Limit duration of effect that can be taken
+                                    if (BlockPurifierConfig.maxPotionEffectDuration > 0 && potionEffect.getDuration() > BlockPurifierConfig.maxPotionEffectDuration) {
+                                        int remainingDuration = potionEffect.getDuration() - BlockPurifierConfig.maxPotionEffectDuration;
+                                        MobEffectInstance remainingEffect = new MobEffectInstance(potionEffect);
+                                        remainingEffect.duration = remainingDuration;
+                                        entity.addEffect(remainingEffect);
+
+                                        potionEffect.duration = BlockPurifierConfig.maxPotionEffectDuration;
+                                    }
 
                                     ItemStack itemStack = new ItemStack(Items.POTION);
 
