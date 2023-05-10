@@ -66,7 +66,6 @@ org.cyclops.evilcraft.modcompat.baubles
 org.cyclops.evilcraft.network.packet
 org.cyclops.evilcraft.potion
 org.cyclops.evilcraft.proxy
-org.cyclops.evilcraft.world.biome
 org.cyclops.evilcraft.world.gen
 org.cyclops.evilcraft.world.gen.feature
 org.cyclops.evilcraft.world.gen.structure
