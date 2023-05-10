@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.18.2 or higher.
+
+Changes:
+* Limit potion effect durations from Purifier to 5 minutes
+  This improves balancing with other mods causing very long durations.
+  This can be modified or disabled in the config via `maxPotionEffectDuration`.
+  Closes #979
+
