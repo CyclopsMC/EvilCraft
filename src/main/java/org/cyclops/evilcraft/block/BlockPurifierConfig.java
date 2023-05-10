@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Lists;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.item.Item;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
@@ -23,6 +24,8 @@ public class BlockPurifierConfig extends BlockConfig {
     public static List<String> disenchantBlacklist = Lists.newArrayList(
             "tetra:.*"
     );
+    @ConfigurableProperty(category = "machine", comment = "The duration limit in ticks for which potion effect can be collected. Set to a negative value to allow any duration.", isCommandable = true)
+    public static int maxPotionEffectDuration = MinecraftHelpers.SECOND_IN_TICKS * 60 * 5;
 
     public BlockPurifierConfig() {
         super(
