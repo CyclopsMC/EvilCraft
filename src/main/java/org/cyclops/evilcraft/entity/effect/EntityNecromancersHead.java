@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.entity.effect;
 import com.google.common.collect.Lists;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -78,7 +79,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
             if(mob.canAttackType(target.getType())) {
                 mob.copyPosition(necromancer);
                 mob.move(MoverType.SELF, new Vec3(world.random.nextInt(20) - 10, 0, world.random.nextInt(20) - 10));
-                if(EntityHelpers.spawnEntity(world, mob, MobSpawnType.MOB_SUMMONED)) {
+                if(EntityHelpers.spawnEntity((ServerLevel) world, mob, MobSpawnType.MOB_SUMMONED)) {
                     observables.add(mob);
                 }
                 mob.setTarget(target);
