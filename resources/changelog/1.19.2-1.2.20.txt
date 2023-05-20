@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.17.0 or higher.
+
+Fixes:
+* Fix broken Poisonous Libelle model, Closes #980
+* Fix darkened apple not being applicable to all animals, Closes #981
+
