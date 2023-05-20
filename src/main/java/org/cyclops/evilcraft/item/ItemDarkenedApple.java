@@ -1,14 +1,14 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
@@ -30,19 +30,22 @@ public class ItemDarkenedApple extends Item {
                         .alwaysEat()
                         .effect(() -> new MobEffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER), 1)
                         .build()));
+        MinecraftForge.EVENT_BUS.addListener(this::onInteract);
     }
 
-    public int getMaxItemUseDuration(ItemStack itemStack) {
+    @Override
+    public int getUseDuration(ItemStack itemStack) {
         return 64;
     }
 
-    public InteractionResult interactLivingEntity(ItemStack itemStack, Player player, LivingEntity entity, InteractionHand hand) {
-        if(entity instanceof Animal && entity.getMaxHealth() <= 10) {
-            entity.addEffect(new MobEffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER));
-            itemStack.shrink(1);
-            return InteractionResult.CONSUME;
+    public void onInteract(PlayerInteractEvent.EntityInteract event) {
+        Entity entity = event.getTarget();
+        if (entity instanceof Animal animal) {
+            animal.addEffect(new MobEffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER));
+            event.getItemStack().shrink(1);
+            event.setCanceled(true);
+            event.setCancellationResult(InteractionResult.CONSUME);
         }
-        return super.interactLivingEntity(itemStack, player, entity, hand);
     }
 
 }
