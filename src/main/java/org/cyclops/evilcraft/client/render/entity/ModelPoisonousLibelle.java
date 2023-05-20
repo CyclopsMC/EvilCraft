@@ -130,6 +130,6 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
                         .mirror(),
                 PartPose.offset(1F, 9F, -2F));
 
-        return LayerDefinition.create(meshdefinition, 64, 135);
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 }
