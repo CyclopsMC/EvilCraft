@@ -42,7 +42,7 @@ public class ItemDarkenedApple extends Item {
 
     public void onInteract(PlayerInteractEvent.EntityInteract event) {
         Entity entity = event.getTarget();
-        if (entity instanceof Animal animal) {
+        if (event.getItemStack().getItem() == this && entity instanceof Animal animal) {
             animal.addEffect(new MobEffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER));
             event.getItemStack().shrink(1);
             event.setCanceled(true);
