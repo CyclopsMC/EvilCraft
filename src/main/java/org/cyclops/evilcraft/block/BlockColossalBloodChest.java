@@ -178,7 +178,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
      * @param hand The used hand.
      */
     public static void addPlayerChatError(Level world, BlockPos blockPos, Player player, InteractionHand hand) {
-        if(!world.isClientSide && player.getItemInHand(hand).isEmpty()) {
+        if(hand == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(hand).isEmpty()) {
             DetectionResult result = BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, false);
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());
