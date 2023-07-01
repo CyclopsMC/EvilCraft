@@ -61,6 +61,7 @@ org.cyclops.evilcraft.inventory.container
 org.cyclops.evilcraft.inventory.slot
 org.cyclops.evilcraft.item
 org.cyclops.evilcraft.loot.functions
+org.cyclops.evilcraft.loot.modifier
 org.cyclops.evilcraft.metadata
 org.cyclops.evilcraft.modcompat.baubles
 org.cyclops.evilcraft.network.packet
