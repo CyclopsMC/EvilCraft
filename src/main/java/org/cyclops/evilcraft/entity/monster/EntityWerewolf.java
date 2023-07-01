@@ -78,11 +78,11 @@ public class EntityWerewolf extends Monster {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void transformWerewolfVillager(LivingEvent.LivingTickEvent event) {
-        if(event.getEntity() instanceof Villager && !event.getEntity().level.isClientSide()) {
+        if(event.getEntity() instanceof Villager && !event.getEntity().level().isClientSide()) {
             Villager villager = (Villager) event.getEntity();
-            if(EntityWerewolf.isWerewolfTime(event.getEntity().level)
+            if(EntityWerewolf.isWerewolfTime(event.getEntity().level())
                     && villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF
-                    && villager.level.getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
+                    && villager.level().getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
                 EntityWerewolf.replaceVillager(villager);
             }
         }
@@ -131,9 +131,9 @@ public class EntityWerewolf extends Monster {
      */
     public void replaceWithVillager() {
         // MCP: byBiome
-        Villager villager = new Villager(EntityType.VILLAGER, this.level, VillagerType.byBiome(level.getBiome(this.blockPosition())));
+        Villager villager = new Villager(EntityType.VILLAGER, this.level(), VillagerType.byBiome(level().getBiome(this.blockPosition())));
         initializeWerewolfVillagerData(villager);
-        replaceEntity(this, villager, this.level);
+        replaceEntity(this, villager, this.level());
         try {
             villager.readAdditionalSaveData(villagerNBTTagCompound);
         } catch (RuntimeException e) {
@@ -153,22 +153,22 @@ public class EntityWerewolf extends Monster {
      * @param villager The villager to replace.
      */
     public static void replaceVillager(Villager villager) {
-        EntityWerewolf werewolf = new EntityWerewolf(villager.level);
+        EntityWerewolf werewolf = new EntityWerewolf(villager.level());
         villager.addAdditionalSaveData(werewolf.getVillagerNBTTagCompound());
         werewolf.setFromVillager(true);
-        replaceEntity(villager, werewolf, villager.level);
+        replaceEntity(villager, werewolf, villager.level());
     }
 
     @Override
     public void aiStep() {
-        if(!level.isClientSide() && (!isWerewolfTime(level) || level.getDifficulty() == Difficulty.PEACEFUL)) {
+        if(!level().isClientSide() && (!isWerewolfTime(level()) || level().getDifficulty() == Difficulty.PEACEFUL)) {
             replaceWithVillager();
         } else {
             super.aiStep();
         }
 
         // Random barking
-        RandomSource random = level.random;
+        RandomSource random = level().random;
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
             barkprogress++;
         } else if(barkprogress > -1) {

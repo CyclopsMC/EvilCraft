@@ -66,7 +66,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
 
     @Nullable
     protected EntityHitResult rayTraceEntities(Vec3 startVec, Vec3 endVec) {
-        return ProjectileUtil.getEntityHitResult(this.level, this, startVec, endVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D),
+        return ProjectileUtil.getEntityHitResult(this.level(), this, startVec, endVec, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D),
                 (entity) -> !entity.isSpectator() && entity.isAlive() && entity.isPickable() && (entity != this.getOwner()));
     }
 
@@ -89,9 +89,9 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
             soundTick = 0;
         }
 
-        if (!this.level.isClientSide()) {
+        if (!this.level().isClientSide()) {
             Entity entity = null;
-            List<Entity> list = this.level.getEntities(this, this.getBoundingBox()
+            List<Entity> list = this.level().getEntities(this, this.getBoundingBox()
                     .move(motion).inflate(1.0D));
             double d0 = 0.0D;
 
@@ -99,7 +99,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
                 if (entity1 instanceof EntityVengeanceSpirit) {
                     float f = 0.3F;
                     AABB axisalignedbb = entity1.getBoundingBox().inflate((double) f);
-                    EntityHitResult movingobjectposition1 = ProjectileUtil.getEntityHitResult(level, this, vec3, vec31, axisalignedbb, (e) -> true);
+                    EntityHitResult movingobjectposition1 = ProjectileUtil.getEntityHitResult(level(), this, vec3, vec31, axisalignedbb, (e) -> true);
 
                     if (movingobjectposition1 != null) {
                         double d1 = vec3.distanceTo(movingobjectposition1.getLocation());
@@ -116,14 +116,14 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
                 entityRayTraceResult = new EntityHitResult(entity);
             }
         } else {
-            for(int i = 0; i < level.random.nextInt(5) + 5; i++) {
+            for(int i = 0; i < level().random.nextInt(5) + 5; i++) {
                 showNewBlurParticle();
             }
             if(soundTick == 1) {
                 // Play beam sound
-                level.playLocalSound(getX(), getY(), getZ(),
+                level().playLocalSound(getX(), getY(), getZ(),
                         EvilCraftSoundEvents.effect_vengeancebeam_base, SoundSource.NEUTRAL,
-                        0.5F + level.random.nextFloat() * 0.2F, 1.0F, false);
+                        0.5F + level().random.nextFloat() * 0.2F, 1.0F, false);
             }
         }
 
@@ -169,7 +169,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
 
     @Override
     protected void onHit(HitResult position) {
-        if (!this.level.isClientSide()) {
+        if (!this.level().isClientSide()) {
             if (position.getType() == HitResult.Type.ENTITY && this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
                 applyHitEffect(((EntityHitResult) position).getEntity());
             }

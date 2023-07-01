@@ -39,10 +39,10 @@ public class ExtendedDamageSources {
     }
 
     public static DamageSource broomDamage(LivingEntity attacker) {
-        return new DamageSource(attacker.level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_BROOM), attacker);
+        return new DamageSource(attacker.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_BROOM), attacker);
     }
 
     public static DamageSource vengeanceBeam(LivingEntity attacker) {
-        return new DamageSource(attacker.level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_VENGEANCE_BEAM), attacker);
+        return new DamageSource(attacker.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_VENGEANCE_BEAM), attacker);
     }
 }

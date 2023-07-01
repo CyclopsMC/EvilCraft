@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -23,7 +22,7 @@ public class BlockSanguinaryPedestalConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "sanguinary_pedestal_" + tier,
-                eConfig -> new BlockSanguinaryPedestal(Block.Properties.of(Material.METAL)
+                eConfig -> new BlockSanguinaryPedestal(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.STONE)

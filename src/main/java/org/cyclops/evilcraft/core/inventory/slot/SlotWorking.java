@@ -34,7 +34,7 @@ public class SlotWorking<T extends BlockEntityWorking<T, ?>> extends Slot {
     @Override
     public void onTake(Player player, ItemStack itemStack) {
         container.getTileSupplier().ifPresent(tile -> {
-            if(!ItemStack.tagMatches(itemStack, this.getItem())) {
+            if(!ItemStack.isSameItemSameTags(itemStack, this.getItem())) {
                 tile.resetWork();
             }
         });
@@ -44,7 +44,7 @@ public class SlotWorking<T extends BlockEntityWorking<T, ?>> extends Slot {
     @Override
     public void setChanged() {
         container.getTileSupplier().ifPresent(tile -> {
-            if(!ItemStack.tagMatches(lastSlotContents, this.getItem())) {
+            if(!ItemStack.isSameItemSameTags(lastSlotContents, this.getItem())) {
                 tile.resetWork();
             }
         });

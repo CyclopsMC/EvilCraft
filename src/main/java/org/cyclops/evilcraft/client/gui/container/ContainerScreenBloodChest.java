@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -47,9 +48,10 @@ public class ContainerScreenBloodChest extends ContainerScreenContainerTankInven
     }
 
     @Override
-    protected void drawForgegroundString(PoseStack matrixStack) {
+    protected void drawForgegroundString(GuiGraphics guiGraphics) {
         // MCP: drawString
-        font.draw(matrixStack, getName(), 28 + offsetX, 4 + offsetY, 4210752);
+        font.drawInBatch(getName(), 28 + offsetX, 4 + offsetY, 4210752, false,
+                guiGraphics.pose().last().pose(), guiGraphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
 
 }

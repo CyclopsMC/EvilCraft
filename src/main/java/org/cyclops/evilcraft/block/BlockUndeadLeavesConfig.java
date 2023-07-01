@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -22,7 +21,8 @@ public class BlockUndeadLeavesConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_leaves",
-                eConfig -> new BlockUndeadLeaves(Block.Properties.of(Material.LEAVES)
+                eConfig -> new BlockUndeadLeaves(Block.Properties.of()
+                        .replaceable()
                         .strength(0.5F)
                         .sound(SoundType.GRAVEL)
                         .noOcclusion()),

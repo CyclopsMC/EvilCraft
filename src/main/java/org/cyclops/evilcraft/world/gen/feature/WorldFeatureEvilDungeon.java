@@ -8,10 +8,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.MonsterRoomFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -62,10 +62,10 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
                         return false;
                     }
 
-                    Material material = world.getBlockState(loopPos).getMaterial();
-                    if (yr == y - 1 && !material.isSolid())
+                    BlockState blockState = world.getBlockState(loopPos);
+                    if (yr == y - 1 && !blockState.isSolid())
                         return false;
-                    if (yr == y + height + 1 && !material.isSolid())
+                    if (yr == y + height + 1 && !blockState.isSolid())
                         return false;
                     if ((xr == x - radiusX - 1 || xr == x + radiusX + 1 || zr == z - radiusZ - 1 || zr == z + radiusZ + 1)
                             && yr == y && world.isEmptyBlock(loopPos) && world.isEmptyBlock(loopPos.offset(0, 1, 0)))
@@ -86,9 +86,9 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
                                 && yr != y + height + 1
                                 && zr != z + radiusZ + 1) {
                             world.removeBlock(loopPos, false);
-                        } else if (yr >= 0 && !world.getBlockState(loopPos.offset(0, -1, 0)).getMaterial().isSolid()) {
+                        } else if (yr >= 0 && !world.getBlockState(loopPos.offset(0, -1, 0)).isSolid()) {
                             world.removeBlock(loopPos, false);
-                        } else if (world.getBlockState(loopPos).getMaterial().isSolid()) {
+                        } else if (world.getBlockState(loopPos).isSolid()) {
                             if (yr == y - 1 && random.nextInt(4) != 0) {
                                 world.setBlock(loopPos, RegistryEntries.BLOCK_BLOODY_COBBLESTONE.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
                             } else {
@@ -109,16 +109,16 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
                 if (world.isEmptyBlock(loopPos)) {
                     int wallCounter = 0;
 
-                    if (world.getBlockState(loopPos.offset(-1, 0, 0)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(-1, 0, 0)).isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.offset(1, 0, 0)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(1, 0, 0)).isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.offset(0, 0, -1)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(0, 0, -1)).isSolid())
                         ++wallCounter;
 
-                    if (world.getBlockState(loopPos.offset(0, 0, 1)).getMaterial().isSolid())
+                    if (world.getBlockState(loopPos.offset(0, 0, 1)).isSolid())
                         ++wallCounter;
 
                     if (wallCounter == 1) {

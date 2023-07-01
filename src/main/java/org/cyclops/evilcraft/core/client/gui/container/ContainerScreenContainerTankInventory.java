@@ -3,7 +3,8 @@ package org.cyclops.evilcraft.core.client.gui.container;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -82,24 +83,25 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     }
 
     @Override
-    protected void renderBg(PoseStack matrixStack, float f, int x, int y) {
-        super.renderBg(matrixStack, f, x, y);
+    protected void renderBg(GuiGraphics guiGraphics, float f, int x, int y) {
+        super.renderBg(guiGraphics, f, x, y);
         if(isShowProgress()) {
-            this.blit(matrixStack, leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
+            guiGraphics.blit(getGuiTexture(), leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
                     getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
         }
     }
 
     protected abstract Component getName();
 
-    protected void drawForgegroundString(PoseStack matrixStack) {
+    protected void drawForgegroundString(GuiGraphics guiGraphics) {
         // MCP: drawString
-        font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
+        font.drawInBatch(getName(), 8 + offsetX, 4 + offsetY, 4210752, false,
+                guiGraphics.pose().last().pose(), guiGraphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
 
     @Override
-    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
-        drawForgegroundString(matrixStack);
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        drawForgegroundString(guiGraphics);
         RenderHelpers.bindTexture(texture);
         GlStateManager._enableBlend();
         GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -107,20 +109,20 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         FluidStack fluidStack = getMenu().getFluidStack();
         if(shouldRenderTank(fluidStack) && getMenu().getFluidCapacity() > 0) {
             int tankSize = Math.min(getMenu().getFluidCapacity(), Math.min(getMenu().getFluidCapacity(), fluidStack.getAmount()) * tankHeight / getMenu().getFluidCapacity());
-            drawTank(matrixStack, tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
+            drawTank(guiGraphics, tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
         }
-        drawAdditionalForeground(matrixStack, mouseX, mouseY);
+        drawAdditionalForeground(guiGraphics, mouseX, mouseY);
         GlStateManager._disableBlend();
     }
 
-    protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
+    protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
 
     }
 
     @Override
-    public void drawCurrentScreen(PoseStack matrixStack, int mouseX, int mouseY, float gameTicks) {
-        super.drawCurrentScreen(matrixStack, mouseX, mouseY, gameTicks);
-        drawTooltips(matrixStack, mouseX, mouseY);
+    public void drawCurrentScreen(GuiGraphics guiGraphics, int mouseX, int mouseY, float gameTicks) {
+        super.drawCurrentScreen(guiGraphics, mouseX, mouseY, gameTicks);
+        drawTooltips(guiGraphics, mouseX, mouseY);
     }
 
     protected boolean shouldRenderTank(FluidStack fluidStack) {
@@ -129,7 +131,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         return fluidStack.getAmount() > 0;
     }
 
-    protected void drawTank(PoseStack matrixStack, int xOffset, int yOffset, Fluid fluid, int level) {
+    protected void drawTank(GuiGraphics guiGraphics, int xOffset, int yOffset, Fluid fluid, int level) {
         if(fluid != null) {
             FluidStack stack = new FluidStack(fluid, 1);
             TextureAtlasSprite icon = RenderHelpers.getFluidIcon(stack, Direction.UP);
@@ -147,29 +149,27 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
                     level = 0;
                 }
 
-                RenderHelpers.bindTexture(org.cyclops.evilcraft.core.helper.RenderHelpers.TEXTURE_MAP);
-                blit(matrixStack, xOffset, yOffset - textureHeight - verticalOffset, 0, tankWidth, textureHeight, icon);
+                guiGraphics.blit(xOffset, yOffset - textureHeight - verticalOffset, 0, tankWidth, textureHeight, icon);
                 verticalOffset = verticalOffset + 16;
             }
 
-            RenderHelpers.bindTexture(texture);
-            blit(matrixStack, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
+            guiGraphics.blit(texture, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
         }
     }
 
-    protected void drawTooltips(PoseStack poseStack, int mouseX, int mouseY) {
+    protected void drawTooltips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         FluidStack fluidStack = getMenu().getFluidStack();
         if(isHovering(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
             Component fluidName = fluidStack.getDisplayName();
-            drawBarTooltipTank(poseStack, fluidName, fluidStack, fluidStack.getAmount(), getMenu().getFluidCapacity(), mouseX, mouseY);
+            drawBarTooltipTank(guiGraphics, fluidName, fluidStack, fluidStack.getAmount(), getMenu().getFluidCapacity(), mouseX, mouseY);
         }
     }
 
-    protected void drawBarTooltipTank(PoseStack poseStack, Component name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
+    protected void drawBarTooltipTank(GuiGraphics guiGraphics, Component name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
         List<Component> lines = Lists.newArrayList();
         lines.add(name);
         lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));
-        drawTooltip(lines, poseStack, x, y);
+        drawTooltip(lines, guiGraphics.pose(), x, y);
     }
 
 }

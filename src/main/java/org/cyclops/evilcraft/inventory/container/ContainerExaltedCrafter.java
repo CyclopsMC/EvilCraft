@@ -60,7 +60,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
     public ContainerExaltedCrafter(int id, Inventory inventory, ItemLocation itemLocation) {
         super(RegistryEntries.CONTAINER_EXALTED_CRAFTER, id, inventory, itemLocation);
         initialized = false;
-        this.world = player.level;
+        this.world = player.level();
         this.result = new ResultContainer();
         this.craftingGrid = new NBTCraftingGrid(player, itemLocation, this);
 

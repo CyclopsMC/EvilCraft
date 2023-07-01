@@ -21,7 +21,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -261,8 +260,7 @@ public class WorldStructureDarkTemple extends Structure {
         }
 
         private boolean isSolidBlock(BlockState blockState) {
-            Material material = blockState.getMaterial();
-            return material.isSolid() && material.isSolidBlocking();
+            return blockState.isSolid();
         }
     }
 

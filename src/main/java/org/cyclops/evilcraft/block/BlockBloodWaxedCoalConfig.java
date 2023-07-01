@@ -6,7 +6,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -23,7 +22,7 @@ public class BlockBloodWaxedCoalConfig extends BlockConfig {
         super(
             EvilCraft._instance,
             "blood_waxed_coal_block",
-                eConfig -> new Block(Block.Properties.of(Material.STONE)
+                eConfig -> new Block(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(3.0F, 5.0F)
                         .sound(SoundType.METAL)) {

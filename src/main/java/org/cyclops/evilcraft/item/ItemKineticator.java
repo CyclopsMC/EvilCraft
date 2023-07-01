@@ -111,7 +111,7 @@ public class ItemKineticator extends ItemBloodContainer {
 
     @Override
     public boolean onEntityItemUpdate(ItemStack itemStack, ItemEntity entityItem) {
-        kineticate(itemStack, entityItem.level, entityItem);
+        kineticate(itemStack, entityItem.level(), entityItem);
         return super.onEntityItemUpdate(itemStack, entityItem);
     }
 

@@ -24,6 +24,6 @@ public class PotionPaling extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
-        entity.hurt(ExtendedDamageSources.paling(entity.level), ((float) amplifier) / 4);
+        entity.hurt(ExtendedDamageSources.paling(entity.level()), ((float) amplifier) / 4);
     }
 }

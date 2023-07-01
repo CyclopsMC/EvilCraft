@@ -10,7 +10,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.server.ServerLifecycleHooks;
@@ -74,7 +74,7 @@ public class ItemBiomeExtractConfig extends ItemConfig {
         return Collections.emptyList();
     }
 
-    protected void onCreativeModeTabBuildContents(CreativeModeTabEvent.BuildContents event) {
+    protected void onCreativeModeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTab() == getMod().getDefaultCreativeTab()) {
             List<ItemStack> list = Lists.newArrayList();
             list.add(new ItemStack(getInstance()));

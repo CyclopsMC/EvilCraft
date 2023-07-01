@@ -72,14 +72,14 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     @Nullable
     private Float loadRotation() {
         // Inspired by LocateCommand
-        Registry<Structure> registry = level.registryAccess().registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> registry = level().registryAccess().registryOrThrow(Registries.STRUCTURE);
         HolderSet<Structure> holderset = registry
                 .getHolder(WorldStructureDarkTempleConfig.KEY)
                 .map(HolderSet::direct)
                 .orElseThrow();
 
-        Pair<BlockPos, Holder<Structure>> closestHolder = ((ServerLevel) level).getChunkSource().getGenerator()
-                .findNearestMapStructure((ServerLevel) level, holderset, BlockPos.containing(getX(), getY(), getZ()), 100, false);
+        Pair<BlockPos, Holder<Structure>> closestHolder = ((ServerLevel) level()).getChunkSource().getGenerator()
+                .findNearestMapStructure((ServerLevel) level(), holderset, BlockPos.containing(getX(), getY(), getZ()), 100, false);
         if(closestHolder != null) {
             BlockPos closest = new BlockPos(closestHolder.getFirst().getX(), 0, closestHolder.getFirst().getZ());
             double d = closest.distSqr(new BlockPos((int) getX(), 0, (int) getZ()));

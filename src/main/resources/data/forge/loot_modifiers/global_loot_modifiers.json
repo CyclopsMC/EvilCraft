@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "entries": [
+    "evilcraft:inject_box_of_eternal_closure_chests",
+    "evilcraft:inject_condensed_blood_chests",
+    "evilcraft:inject_ender_tear_enderman",
+    "evilcraft:inject_origins_of_darkness_chests"
+  ]
+}

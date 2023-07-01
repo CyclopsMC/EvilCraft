@@ -89,7 +89,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @Override
     public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item) {
         for (Map.Entry<ItemStack, Map<BroomModifier, Float>> entry : broomItems.entrySet()) {
-            if (ItemStack.isSame(item, entry.getKey()) && ItemStack.tagMatches(item, entry.getKey())) {
+            if (ItemStack.isSameItemSameTags(item, entry.getKey())) {
                 return entry.getValue();
             }
         }

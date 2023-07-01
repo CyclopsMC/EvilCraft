@@ -31,7 +31,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
@@ -230,23 +229,22 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             int x = overlayPosition.getX(resolution, width, height) + ItemBroomConfig.guiOverlayPositionOffsetX;
             int y = overlayPosition.getY(resolution, width, height) + ItemBroomConfig.guiOverlayPositionOffsetY;
 
-            event.getPoseStack().pushPose();
+            event.getGuiGraphics().pose().pushPose();
             GlStateManager._enableBlend();
             GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            RenderHelpers.bindTexture(OVERLAY);
 
             // Render slot
-            Minecraft.getInstance().gui.blit(event.getPoseStack(), x, y, 11, 0, 24, 24);
+            event.getGuiGraphics().blit(OVERLAY, x, y, 11, 0, 24, 24);
 
             // Render item
             Lighting.setupFor3DItems();
-            Minecraft.getInstance().getItemRenderer().renderAndDecorateItem(event.getPoseStack(), broomStack, x + 3, y + 3);
-            Minecraft.getInstance().getItemRenderer().renderGuiItemDecorations(
-                    event.getPoseStack(), Minecraft.getInstance().gui.getFont(), broomStack, x + 3, y + 3, "");
+            event.getGuiGraphics().renderItem(broomStack, x + 3, y + 3);
+            event.getGuiGraphics().renderItemDecorations(
+                    Minecraft.getInstance().gui.getFont(), broomStack, x + 3, y + 3, "");
             Lighting.setupForFlatItems();
 
             GlStateManager._disableBlend();
-            event.getPoseStack().popPose();
+            event.getGuiGraphics().pose().popPose();
         }
     }
 }

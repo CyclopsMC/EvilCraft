@@ -24,6 +24,6 @@ public class ItemPiercingVengeanceFocus extends ItemAbstractFocus {
 
     @Override
     protected ThrowableProjectile newBeamEntity(LivingEntity player) {
-        return new EntityAttackVengeanceBeam(player.level, player);
+        return new EntityAttackVengeanceBeam(player.level(), player);
     }
 }

@@ -130,12 +130,12 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
         float f;
         float f1;
 
-        if (this.level.isClientSide()) {
+        if (this.level().isClientSide()) {
             f = Mth.cos(this.animTime * (float)Math.PI * 2.0F);
             f1 = Mth.cos(this.prevAnimTime * (float)Math.PI * 2.0F);
 
             if (f1 <= -0.3F && f >= -0.3F && this.random.nextInt(45) == 0) {
-                this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.BAT_AMBIENT,
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.BAT_AMBIENT,
                         SoundSource.AMBIENT, 0.1F, 0.8F + this.random.nextFloat() * 0.3F);
             }
         }
@@ -155,7 +155,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
         float limitDistanceY;
         double limitDifferenceYaw;
 
-        if (this.level.isClientSide()) {
+        if (this.level().isClientSide()) {
             // Correct rotation of the entity when rotating
             if (this.lerpSteps > 0) {
                 distanceX = this.getX() + (this.lerpX - this.getX()) / (double)this.lerpSteps;
@@ -262,8 +262,8 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
 
         this.yBodyRot = this.getYRot();
 
-        if (!this.level.isClientSide() && this.hurtTime == 0 && this.isAlive()) {
-            this.attackEntitiesInList(this.level.getEntities(this, this.getBoundingBox().inflate(1.0D, 0.0D, 1.0D)));
+        if (!this.level().isClientSide() && this.hurtTime == 0 && this.isAlive()) {
+            this.attackEntitiesInList(this.level().getEntities(this, this.getBoundingBox().inflate(1.0D, 0.0D, 1.0D)));
         }
 
         // Update wing progress
@@ -277,7 +277,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
                 wingGoUp = true;
         }
 
-        if (!this.level.isClientSide() && this.level.getDifficulty() == Difficulty.PEACEFUL) {
+        if (!this.level().isClientSide() && this.level().getDifficulty() == Difficulty.PEACEFUL) {
             this.remove(RemovalReason.DISCARDED);
         }
     }
@@ -285,7 +285,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
     private void attackEntitiesInList(List<Entity> entities) {
         int chance = EntityPoisonousLibelleConfig.poisonChance;
         for (Entity entity : entities) {
-            if(chance > 0 && level.random.nextInt(chance) == 0) {
+            if(chance > 0 && level().random.nextInt(chance) == 0) {
                 if (entity instanceof LivingEntity) {
                     boolean shouldAttack = true;
                     if (entity instanceof Player) {
@@ -296,7 +296,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
                     }
                     if (shouldAttack) {
                         if (EntityPoisonousLibelleConfig.hasAttackDamage)
-                            entity.hurt(level.damageSources().mobAttack(this), 0.5F);
+                            entity.hurt(level().damageSources().mobAttack(this), 0.5F);
                         ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION * 20, 1));
                     }
                 }
@@ -308,8 +308,8 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
         this.forceNewTarget = false;
 
         boolean targetSet = false;
-        if (this.random.nextInt(2) == 0 && !this.level.players().isEmpty() && !this.level.isDay()) {
-            this.target = (Entity)this.level.players().get(this.random.nextInt(this.level.players().size()));
+        if (this.random.nextInt(2) == 0 && !this.level().players().isEmpty() && !this.level().isDay()) {
+            this.target = (Entity)this.level().players().get(this.random.nextInt(this.level().players().size()));
             targetSet = true;
             if(target instanceof Player) {
                 if(((Player)target).isCreative()) {

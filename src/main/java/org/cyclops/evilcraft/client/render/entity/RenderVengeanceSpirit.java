@@ -59,6 +59,11 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
                 };
 
                 try {
+                    // Make new PoseStack, to fix stack invalidity when a crash occurs.
+                    PoseStack poseStackInner = new PoseStack();
+                    poseStackInner.last().pose().set(matrixStackIn.last().pose());
+                    poseStackInner.last().normal().set(matrixStackIn.last().normal());
+
                     if(spirit.isPlayer()) {
                         GameProfile gameProfile = new GameProfile(spirit.getPlayerUUID(), spirit.getPlayerName());
                         ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkin();
@@ -78,12 +83,10 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
                             }
                         }
                         playerRenderer.setPlayerTexture(resourcelocation);
-                        playerRenderer.render(innerEntity, entityYaw, partialTicks, matrixStackIn, bufferSub, packedLightIn);
+                        Minecraft.getInstance().options.hideGui = true; // Disables player name tag rendering, which causes a crash due to our posestack hack.
+                        playerRenderer.render(innerEntity, entityYaw, partialTicks, poseStackInner, bufferSub, packedLightIn);
+                        Minecraft.getInstance().options.hideGui = false;
                     } else {
-                        // Make new PoseStack, to fix stack invalidity when a crash occurs.
-                        PoseStack poseStackInner = new PoseStack();
-                        poseStackInner.last().pose().set(matrixStackIn.last().pose());
-                        poseStackInner.last().normal().set(matrixStackIn.last().normal());
                         render.render(innerEntity, entityYaw, 0, poseStackInner, bufferSub, packedLightIn);
                     }
                 } catch (Exception e) {

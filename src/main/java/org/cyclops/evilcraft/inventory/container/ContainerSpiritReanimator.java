@@ -85,7 +85,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
         addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritReanimator.SLOT_CONTAINER,
                 SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
                 RegistryEntries.FLUID_BLOOD)); // Container emptier
-        addSlot(new SlotWorking<BlockEntitySpiritReanimator>(BlockEntitySpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level)); // Box slot
+        addSlot(new SlotWorking<BlockEntitySpiritReanimator>(BlockEntitySpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level())); // Box slot
         addSlot(new SlotSingleItem(inventory, BlockEntitySpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
         addSlot(new SlotRemoveOnly(inventory, BlockEntitySpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
 

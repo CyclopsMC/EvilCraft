@@ -138,7 +138,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
 
     public void bloodObtainEvent(LivingDeathEvent event) {
         Entity e = event.getSource().getEntity();
-        if(e != null && e instanceof ServerPlayer && !e.level.isClientSide()
+        if(e != null && e instanceof ServerPlayer && !e.level().isClientSide()
                 && event.getEntity() != null) {
             float boost = 1.0F;
             ServerPlayer player = (ServerPlayer) e;

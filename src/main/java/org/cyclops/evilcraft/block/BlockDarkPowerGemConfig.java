@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -17,7 +16,7 @@ public class BlockDarkPowerGemConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "dark_power_gem_block",
-                eConfig -> new Block(Block.Properties.of(Material.STONE)
+                eConfig -> new Block(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.METAL)),

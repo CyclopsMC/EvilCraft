@@ -7,8 +7,7 @@ import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -23,7 +22,8 @@ public class BlockUndeadFenceConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_fence",
-                eConfig -> new FenceBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
+                eConfig -> new FenceBlock(BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.TERRACOTTA_ORANGE)
                         .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)) {
                     @Override

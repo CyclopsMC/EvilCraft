@@ -41,7 +41,7 @@ public abstract class EntityItemExtended extends ItemEntity {
     @OnlyIn(Dist.CLIENT)
     @Override
     public ItemEntity copy() {
-        EntityItemExtended entity = (EntityItemExtended) getType().create(level);
+        EntityItemExtended entity = (EntityItemExtended) getType().create(level());
         entity.setItem(this.getItem().copy());
         entity.copyPosition(this);
         //entity.age = this.getAge();

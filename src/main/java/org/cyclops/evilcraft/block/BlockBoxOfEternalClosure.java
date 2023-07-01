@@ -139,13 +139,13 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
      * @param itemStack The box.
      * @param playerId The player id to set.
      */
-    public static void setPlayerContent(ItemStack itemStack, UUID playerId) {
+    public static void setPlayerContent(ItemStack itemStack, UUID playerId, String name) {
         CompoundTag tag = new CompoundTag();
         CompoundTag spiritTag = new CompoundTag();
 
         EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
         spiritData.setPlayerId(playerId.toString());
-        spiritData.setPlayerName(FORGOTTEN_PLAYER);
+        spiritData.setPlayerName(name);
         tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
         tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
         spiritData.writeNBT(spiritTag);

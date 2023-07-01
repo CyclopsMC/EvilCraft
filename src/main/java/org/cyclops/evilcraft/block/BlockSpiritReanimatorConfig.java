@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
@@ -33,7 +32,7 @@ public class BlockSpiritReanimatorConfig extends UpgradableBlockContainerConfig 
         super(
                 EvilCraft._instance,
             "spirit_reanimator",
-                eConfig -> new BlockSpiritReanimator(Block.Properties.of(Material.STONE)
+                eConfig -> new BlockSpiritReanimator(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.STONE)),

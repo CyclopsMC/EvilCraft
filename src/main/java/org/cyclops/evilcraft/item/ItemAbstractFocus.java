@@ -84,31 +84,31 @@ public abstract class ItemAbstractFocus extends Item {
 
     @Override
     public void releaseUsing(ItemStack itemStack, Level world, LivingEntity player, int duration) {
-        if(player.level.isClientSide() && getItemInUseDuration(player) > 6) {
+        if(player.level().isClientSide() && getItemInUseDuration(player) > 6) {
             // Play stop sound
-            player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_stop, 0.6F + player.level.random.nextFloat() * 0.2F, 1.0F);
+            player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_stop, 0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
         }
     }
 
     protected abstract ThrowableProjectile newBeamEntity(LivingEntity player);
 
     @Override
-    public void onUsingTick(ItemStack itemStack, LivingEntity player, int remaining) {
+    public void onUseTick(Level level, LivingEntity player, ItemStack itemStack, int remaining) {
         int duration = getUseDuration(itemStack) - remaining;
         if(duration > 6) {
-            if(WorldHelpers.efficientTick(player.level, TICK_MODULUS, player.getId())) {
+            if(WorldHelpers.efficientTick(player.level(), TICK_MODULUS, player.getId())) {
                 ThrowableProjectile beam = newBeamEntity(player);
-                if(!player.level.isClientSide()) {
+                if(!player.level().isClientSide()) {
                     // Last three params: pitch offset, velocity, inaccuracy
                     // MCP: shoot
                     beam.shootFromRotation(player, player.getXRot(), player.getYRot(), 0F, 0.5F, 1.0F);
-                    player.level.addFreshEntity(beam);
+                    player.level().addFreshEntity(beam);
                 }
             }
         } else {
-            if(duration == 3 && player.level.isClientSide()) {
+            if(duration == 3 && player.level().isClientSide()) {
                 // Play start sound
-                player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_start,  0.6F + player.level.random.nextFloat() * 0.2F, 1.0F);
+                player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_start,  0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
             }
         }
     }

@@ -48,7 +48,7 @@ public class EnchantmentBreaking extends Enchantment {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void breakingEvent(BlockEvent.BreakEvent event) {
-        if (!event.getPlayer().level.isClientSide()) {
+        if (!event.getPlayer().level().isClientSide()) {
             InteractionHand hand = event.getPlayer().getUsedItemHand();
             if (hand != null) {
                 int i = EnchantmentHelpers.doesEnchantApply(event.getPlayer().getItemInHand(hand), this);

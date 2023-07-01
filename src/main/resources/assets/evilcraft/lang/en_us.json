@@ -61,7 +61,7 @@
   "block.evilcraft.spirit_furnace.help.invalid.force_halt": "No more space for drops",
   "block.evilcraft.spirit_furnace.help.invalid.caught_error": "Invalid mob spirit. Contact mod dev(s).",
   "block.evilcraft.box_of_eternal_closure": "Box of Eternal Closure",
-  "block.evilcraft.box_of_eternal_closure.info.content": "Contents: %s",
+  "block.evilcraft.box_of_eternal_closure.info.content": "Contents: ",
   "block.evilcraft.dark_tank": "Dark Tank",
   "block.evilcraft.dark_tank.info": "Place in crafting grid with other tanks to increase capacity. Shift + Right click to auto-supply.",
   "block.evilcraft.dark_tank.info.auto_supply": "Auto-supply: %s",

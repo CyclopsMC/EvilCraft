@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -27,7 +26,7 @@ public class BlockGemStoneTorchWallConfig extends BlockConfig {
                 EvilCraft._instance,
             "gem_stone_torch_wall",
                 eConfig -> {
-                    WallTorchBlock block = new WallTorchBlock(Block.Properties.of(Material.DECORATION)
+                    WallTorchBlock block = new WallTorchBlock(Block.Properties.of()
                             .noCollission()
                             .strength(0)
                             .lightLevel((state) -> 14)

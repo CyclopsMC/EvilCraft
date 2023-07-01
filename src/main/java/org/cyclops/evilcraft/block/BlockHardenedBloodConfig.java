@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -17,7 +16,7 @@ public class BlockHardenedBloodConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "hardened_blood",
-                eConfig -> new BlockHardenedBlood(Block.Properties.of(Material.ICE)
+                eConfig -> new BlockHardenedBlood(Block.Properties.of()
                         .strength(0.5F)
                         .sound(SoundType.STONE)),
                 getDefaultItemConstructor(EvilCraft._instance)

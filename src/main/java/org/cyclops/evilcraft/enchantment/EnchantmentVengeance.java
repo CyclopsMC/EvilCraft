@@ -65,13 +65,13 @@ public class EnchantmentVengeance extends Enchantment {
     @SubscribeEvent
     public void onBlockBreak(BlockEvent.BreakEvent event) {
         Player player = event.getPlayer();
-        if (player != null && !player.level.isClientSide()) {
+        if (player != null && !player.level().isClientSide()) {
             InteractionHand hand = event.getPlayer().getUsedItemHand();
             if (hand != null) {
                 ItemStack heldItem = player.getItemInHand(hand);
                 int level = getEnchantLevel(heldItem);
                 if (level > 0) {
-                    apply(player.level, level, player);
+                    apply(player.level(), level, player);
                 }
             }
         }
@@ -80,14 +80,14 @@ public class EnchantmentVengeance extends Enchantment {
     @SubscribeEvent
     public void onAttack(LivingAttackEvent event) {
         Entity entity = event.getSource().getEntity();
-        if (entity instanceof Player && !entity.level.isClientSide()) {
+        if (entity instanceof Player && !entity.level().isClientSide()) {
             Player player = (Player) entity;
             InteractionHand hand = player.getUsedItemHand();
             if (hand != null) {
                 ItemStack heldItem = player.getItemInHand(hand);
                 int level = getEnchantLevel(heldItem);
                 if (level > 0) {
-                    apply(player.level, level, player);
+                    apply(player.level(), level, player);
                 }
             }
         }

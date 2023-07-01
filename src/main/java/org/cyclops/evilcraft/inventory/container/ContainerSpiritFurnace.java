@@ -89,14 +89,14 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<BlockEntitySpir
         addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritFurnace.SLOT_CONTAINER,
                 SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
                 RegistryEntries.FLUID_BLOOD)); // Container emptier
-        addSlot(new SlotWorking<>(BlockEntitySpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level)); // Box slot
+        addSlot(new SlotWorking<>(BlockEntitySpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level())); // Box slot
 
         int i = 0;
         for (int y = 0; y < SLOTS_X; y++) {
             for (int x = 0; x < SLOTS_Y; x++) {
                 addSlot(new SlotWorkingRemoveOnly<>(
                         BlockEntitySpiritFurnace.SLOTS_DROP[i], SLOT_DROP_X + x * ITEMBOX,
-                        SLOT_DROP_Y + y * ITEMBOX, this, false, playerInventory.player.level)); // Drop slot
+                        SLOT_DROP_Y + y * ITEMBOX, this, false, playerInventory.player.level())); // Drop slot
                 i++;
             }
         }

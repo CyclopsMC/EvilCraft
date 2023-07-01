@@ -63,7 +63,7 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
         this.variableInvalidLocations = (Supplier) registerSyncedVariable(List.class, () -> getTileSupplier().get().getInvalidLocations());
 
         // Adding inventory
-        addSlot(new SlotWorking<>(BlockEntitySanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE, SLOT_ACCUMULATE_X, SLOT_ACCUMULATE_Y, this, playerInventory.player.level)); // Accumulate slot
+        addSlot(new SlotWorking<>(BlockEntitySanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE, SLOT_ACCUMULATE_X, SLOT_ACCUMULATE_Y, this, playerInventory.player.level())); // Accumulate slot
         addSlot(new SlotRemoveOnly(inventory, BlockEntitySanguinaryEnvironmentalAccumulator.SLOT_ACCUMULATE_RESULT, SLOT_ACCUMULATE_RESULT_X, SLOT_ACCUMULATE_RESULT_Y)); // Accumulate result slot
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, BlockEntitySanguinaryEnvironmentalAccumulator.SLOTS);

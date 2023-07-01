@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -46,11 +45,6 @@ public class BlockInvisibleRedstone extends BlockWithEntity {
     @Override
     public boolean isSignalSource(BlockState blockState) {
         return true;
-    }
-
-    @Override
-    public PushReaction getPistonPushReaction(BlockState blockState) {
-        return PushReaction.BLOCK;
     }
 
     @Override

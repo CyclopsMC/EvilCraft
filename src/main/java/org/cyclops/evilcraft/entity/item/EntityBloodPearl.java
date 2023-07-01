@@ -52,14 +52,14 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
     protected void onHit(HitResult position) {
         if (position.getType() == HitResult.Type.ENTITY) {
             ((EntityHitResult) position).getEntity()
-                    .hurt(level.damageSources().thrown(this, this.getOwner()), 0.0F);
+                    .hurt(level().damageSources().thrown(this, this.getOwner()), 0.0F);
         }
 
-        if (!this.level.isClientSide()) {
+        if (!this.level().isClientSide()) {
             if (this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
                 ServerPlayer entityplayermp = (ServerPlayer)this.getOwner();
 
-                if (entityplayermp.connection.connection.isConnected() && entityplayermp.level == this.level) {
+                if (entityplayermp.connection.connection.isConnected() && entityplayermp.level() == this.level()) {
                     EntityTeleportEvent event = new EntityTeleportEvent(entityplayermp, this.getX(), this.getY(), this.getZ());
                     if (!MinecraftForge.EVENT_BUS.post(event)) {
                         if (this.getOwner().isPassenger()) {

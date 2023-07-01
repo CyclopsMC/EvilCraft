@@ -48,10 +48,10 @@ public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSu
         if (pos.getType() == HitResult.Type.BLOCK) {
             BlockPos blockPos = ((BlockHitResult) pos).getBlockPos();
 
-            if (level.isEmptyBlock(blockPos.relative(((BlockHitResult) pos).getDirection()))) {
-                level.setBlockAndUpdate(blockPos.offset(((BlockHitResult) pos).getDirection().getNormal()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.defaultBlockState());
+            if (level().isEmptyBlock(blockPos.relative(((BlockHitResult) pos).getDirection()))) {
+                level().setBlockAndUpdate(blockPos.offset(((BlockHitResult) pos).getDirection().getNormal()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.defaultBlockState());
 
-                if (level.isClientSide()) {
+                if (level().isClientSide()) {
                     Minecraft.getInstance().levelRenderer.addParticle(
                             DustParticleOptions.REDSTONE, false,
                             blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 1, 0, 0);

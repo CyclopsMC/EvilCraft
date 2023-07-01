@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.advancement.criterion;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
@@ -28,7 +29,7 @@ public class DistortTrigger extends SimpleCriterionTrigger<DistortTrigger.Instan
     }
 
     @Override
-    public Instance createInstance(JsonObject json, EntityPredicate.Composite entityPredicate, DeserializationContext conditionsParser) {
+    public Instance createInstance(JsonObject json, ContextAwarePredicate entityPredicate, DeserializationContext conditionsParser) {
         JsonElement jsonElement = json.get("min_entities");
         int minEntities = 0;
         if (jsonElement != null && !jsonElement.isJsonNull()) {
@@ -46,7 +47,7 @@ public class DistortTrigger extends SimpleCriterionTrigger<DistortTrigger.Instan
         private final int minEntities;
         private final EntityPredicate entityPredicate;
 
-        public Instance(ResourceLocation criterionIn, EntityPredicate.Composite player, int minEntities, EntityPredicate entityPredicate) {
+        public Instance(ResourceLocation criterionIn, ContextAwarePredicate player, int minEntities, EntityPredicate entityPredicate) {
             super(criterionIn, player);
             this.minEntities = minEntities;
             this.entityPredicate = entityPredicate;

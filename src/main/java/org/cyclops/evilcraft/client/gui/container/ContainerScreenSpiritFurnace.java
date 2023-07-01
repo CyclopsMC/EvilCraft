@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -115,7 +115,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
     }
 
     @Override
-    protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
+    protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
         lines.add(Component.translatable(prefix));
@@ -131,13 +131,13 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
             lines.add(Component.translatable(prefix + ".caught_error"));
         }
         if (lines.size() > 1) {
-            this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+            guiGraphics.blit(getGuiTexture(), PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
             if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
                 mouseX -= leftPos;
                 mouseY -= topPos;
-                drawTooltip(lines, matrixStack, mouseX, mouseY);
+                drawTooltip(lines, guiGraphics.pose(), mouseX, mouseY);
             }
         }
     }

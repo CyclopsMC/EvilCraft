@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -38,7 +37,7 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
         super(
                 EvilCraft._instance,
             "colossal_blood_chest",
-                eConfig -> new BlockColossalBloodChest(Block.Properties.of(Material.STONE)
+                eConfig -> new BlockColossalBloodChest(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.WOOD)

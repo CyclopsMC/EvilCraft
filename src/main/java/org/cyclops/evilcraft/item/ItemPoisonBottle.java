@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -46,7 +46,7 @@ public class ItemPoisonBottle extends Item {
                 BlockPos blockPos = BlockPos.containing(pos.getLocation());
                 if(event.getLevel().mayInteract(event.getEntity(), blockPos) &&
                         event.getEntity().mayUseItemAt(blockPos, event.getFace(), event.getEntity().getItemInHand(hand)) &&
-                        event.getLevel().getBlockState(blockPos).getMaterial() == Material.WATER) {
+                        event.getLevel().getBlockState(blockPos).getFluidState().is(Fluids.WATER)) {
                     if(event.getLevel().getFluidState(blockPos).getType() == RegistryEntries.FLUID_POISON) {
                         InventoryHelpers.tryReAddToStack(event.getEntity(), event.getEntity().getItemInHand(hand), new ItemStack(this), hand);
                         event.getLevel().removeBlock(blockPos, false);

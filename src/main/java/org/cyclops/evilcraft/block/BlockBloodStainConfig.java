@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Lists;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -30,7 +29,7 @@ public class BlockBloodStainConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "blood_stain",
-                eConfig -> new BlockBloodStain(Block.Properties.of(Material.CLAY)
+                eConfig -> new BlockBloodStain(Block.Properties.of()
                         .noCollission()
                         .strength(0.5F)),
                 getDefaultItemConstructor(EvilCraft._instance)

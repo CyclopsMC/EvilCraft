@@ -40,7 +40,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -172,7 +172,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void vengeanceEvent(LivingDeathEvent event) {
         if (event.getEntity() != null) {
-            Level level = event.getEntity().level;
+            Level level = event.getEntity().level();
             boolean directToPlayer = shouldDirectSpiritToPlayer(event);
             if (!level.isClientSide()
                     && level.getDifficulty() != Difficulty.PEACEFUL
@@ -243,7 +243,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @Override
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return !(damageSource.is(ExtendedDamageSources.DAMAGE_TYPE_VENGEANCE_BEAM) || damageSource == level.damageSources().outOfWorld());
+        return !(damageSource.is(ExtendedDamageSources.DAMAGE_TYPE_VENGEANCE_BEAM) || damageSource == level().damageSources().fellOutOfWorld());
     }
 
     @Override
@@ -259,7 +259,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                         (double)(-Mth.sin(this.getYRot() * (float)Math.PI / 180.0F) * 0.01F),
                         0.025D,
                         (double)(Mth.cos(this.getYRot() * (float)Math.PI / 180.0F) * 0.01F));
-                entity.hurt(level.damageSources().mobAttack(this), 0.1F);
+                entity.hurt(level().damageSources().mobAttack(this), 0.1F);
                 return false;
             }
         }
@@ -272,15 +272,14 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         // Also drop loot from inner entity!
         LivingEntity innerEntity = getInnerEntity();
-        if (innerEntity != null && damageSource != level.damageSources().outOfWorld()) {
+        if (innerEntity != null && damageSource != level().damageSources().fellOutOfWorld()) {
             ResourceLocation deathLootTable = innerEntity.getLootTable();
             if (deathLootTable != null) {
-                LootTable loottable = level.getServer().getLootTables().get(deathLootTable);
-                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) level))
-                        .withRandom(this.random)
+                LootTable loottable = level().getServer().getLootData().getLootTable(deathLootTable);
+                LootParams.Builder lootcontext$builder = (new LootParams.Builder((ServerLevel) level()))
                         .withParameter(LootContextParams.THIS_ENTITY, innerEntity)
                         .withParameter(LootContextParams.ORIGIN, new Vec3(getX(), getY(), getZ()))
-                        .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic())
+                        .withParameter(LootContextParams.DAMAGE_SOURCE, level().damageSources().generic())
                         .withOptionalParameter(LootContextParams.KILLER_ENTITY, null)
                         .withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, null);
 
@@ -300,10 +299,10 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     @Override
     public void remove(Entity.RemovalReason removalReason) {
         super.remove(removalReason);
-        if(level.isClientSide() && isVisible()) {
+        if(level().isClientSide() && isVisible()) {
             spawnSmoke();
-            playSound(getDeathSound(), 0.1F + level.random.nextFloat() * 0.9F,
-                    0.1F + level.random.nextFloat() * 0.9F);
+            playSound(getDeathSound(), 0.1F + level().random.nextFloat() * 0.9F,
+                    0.1F + level().random.nextFloat() * 0.9F);
         }
     }
 
@@ -332,7 +331,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                 innerEntity.yHeadRotO = yHeadRotO;
             }
 
-            if(level.isClientSide()) {
+            if(level().isClientSide()) {
                 spawnSmoke();
                 if(isSwarm()) {
                     spawnSwarmParticles();
@@ -404,7 +403,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     @Override
     public void playSound(SoundEvent soundIn, float volume, float pitch) {
         if (soundIn != null && isVisible() && !this.isSilent()) {
-            this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), soundIn, this.getSoundSource(), volume, pitch, true);
+            this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), soundIn, this.getSoundSource(), volume, pitch, true);
         }
     }
 
@@ -413,7 +412,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      * @return If it is visible
      */
     public boolean isVisible() {
-        return level.isClientSide() &&
+        return level().isClientSide() &&
                 (isAlternativelyVisible() || isClientVisible());
     }
 
@@ -527,7 +526,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         }
         try {
             if (entityType != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
-                Entity entity = entityType.create(level);
+                Entity entity = entityType.create(level());
                 if (canSustain((LivingEntity) entity)) {
                     return innerEntity = (Mob) entity;
                 }
@@ -606,8 +605,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      */
     public void onHit(double hitX, double hitY, double hitZ,
             double impactMotionX, double impactMotionY, double impactMotionZ) {
-        addFrozenDuration(level.random.nextInt(4) + 3);
-        if(level.isClientSide()) {
+        addFrozenDuration(level().random.nextInt(4) + 3);
+        if(level().isClientSide()) {
             showBurstParticles(hitX, hitY, hitZ, impactMotionX, impactMotionY, impactMotionZ);
         }
     }
@@ -615,7 +614,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     @OnlyIn(Dist.CLIENT)
     private void showBurstParticles(double hitX, double hitY, double hitZ,
             double impactMotionX, double impactMotionY, double impactMotionZ) {
-        for(int i = 0; i < level.random.nextInt(5); i++) {
+        for(int i = 0; i < level().random.nextInt(5); i++) {
             float scale = 0.04F - random.nextFloat() * 0.02F;
             float red = random.nextFloat() * 0.2F + 0.3F;
             float green = random.nextFloat() * 0.2F + 0.3F;

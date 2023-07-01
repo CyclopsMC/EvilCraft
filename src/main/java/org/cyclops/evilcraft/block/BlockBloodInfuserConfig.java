@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
@@ -23,7 +22,7 @@ public class BlockBloodInfuserConfig extends UpgradableBlockContainerConfig {
         super(
             EvilCraft._instance,
             "blood_infuser",
-                eConfig -> new BlockBloodInfuser(Block.Properties.of(Material.STONE)
+                eConfig -> new BlockBloodInfuser(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.STONE)),

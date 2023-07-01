@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.fluids.FluidStack;
@@ -94,12 +93,11 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
             return false;
         } else {
             BlockState blockState = world.getBlockState(blockPos);
-            Material material = blockState.getMaterial();
 
-            if (!world.isEmptyBlock(blockPos) && material.isSolid()) {
+            if (!world.isEmptyBlock(blockPos) && blockState.isSolid()) {
                 return false;
             } else {
-                if (!world.isClientSide && !material.isSolid() && !material.isLiquid()) {
+                if (!world.isClientSide && !blockState.isSolid() && !blockState.liquid()) {
                     world.destroyBlock(blockPos, true);
                 }
 
@@ -199,7 +197,7 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
      * @return The fluid that was drained.
      */
     public FluidStack consume(int amount, ItemStack itemStack, @Nullable Player player) {
-        IFluidHandler.FluidAction fluidAction = player == null || (!player.isCreative() && !player.level.isClientSide) ? IFluidHandler.FluidAction.EXECUTE : IFluidHandler.FluidAction.SIMULATE;
+        IFluidHandler.FluidAction fluidAction = player == null || (!player.isCreative() && !player.level().isClientSide) ? IFluidHandler.FluidAction.EXECUTE : IFluidHandler.FluidAction.SIMULATE;
         if (amount == 0) return FluidStack.EMPTY;
         FluidStack drained = FluidUtil.getFluidHandler(itemStack).orElseGet(null).drain(amount, fluidAction);
         if (!drained.isEmpty() && drained.getAmount() == amount) return drained;

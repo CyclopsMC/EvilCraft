@@ -188,8 +188,8 @@ public class ItemWerewolfFlesh extends Item {
 
     public void dropHumanoidFleshEvent(LivingDeathEvent event) {
         if(event.getEntity() instanceof ServerPlayer
-                && !event.getEntity().level.isClientSide()
-                && event.getEntity().level.random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
+                && !event.getEntity().level().isClientSide()
+                && event.getEntity().level().random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
             ServerPlayer player = (ServerPlayer) event.getEntity();
             ItemStack itemStack = new ItemStack(this);
             CompoundTag tag = itemStack.getOrCreateTag();
@@ -197,8 +197,8 @@ public class ItemWerewolfFlesh extends Item {
             double x = player.getX();
             double y = player.getY();
             double z = player.getZ();
-            ItemEntity entity = new ItemEntity(player.level, x, y, z, itemStack);
-            player.level.addFreshEntity(entity);
+            ItemEntity entity = new ItemEntity(player.level(), x, y, z, itemStack);
+            player.level().addFreshEntity(entity);
         }
     }
 

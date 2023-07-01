@@ -67,16 +67,16 @@ public class EntityWeatherContainer extends EntityThrowable {
         if (movingobjectposition.getType() == HitResult.Type.BLOCK) {
             ItemStack stack = getItem();
             ItemWeatherContainer.WeatherContainerType containerType = ItemWeatherContainer.getWeatherType(stack);
-            if (level instanceof ServerLevel) {
-                containerType.onUse((ServerLevel) level, stack);
+            if (level() instanceof ServerLevel) {
+                containerType.onUse((ServerLevel) level(), stack);
             }
 
-            playImpactSounds(level);
+            playImpactSounds(level());
 
             // Play sound and show particles of splash potion of harming
-            level.playLocalSound(getX(), getY(), getZ(), SoundEvents.SPLASH_POTION_BREAK, SoundSource.AMBIENT, 0.5F, 0.4F, false);
+            level().playLocalSound(getX(), getY(), getZ(), SoundEvents.SPLASH_POTION_BREAK, SoundSource.AMBIENT, 0.5F, 0.4F, false);
             for (int i = 0; i < 3; i++) {
-                level.addParticle(ParticleTypes.EFFECT, getX(), getY(), getZ(), 0, 0, 0);
+                level().addParticle(ParticleTypes.EFFECT, getX(), getY(), getZ(), 0, 0, 0);
             }
 
             remove(RemovalReason.DISCARDED);

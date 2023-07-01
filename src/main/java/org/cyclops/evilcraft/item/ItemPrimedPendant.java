@@ -144,7 +144,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     }
 
     public boolean onDroppedByPlayer(ItemStack itemstack, Player player) {
-        if (!itemstack.isEmpty() && player instanceof ServerPlayer && player.containerMenu != null && player.containerMenu.getClass() == this.getContainerClass(player.level, player, itemstack)) {
+        if (!itemstack.isEmpty() && player instanceof ServerPlayer && player.containerMenu != null && player.containerMenu.getClass() == this.getContainerClass(player.level(), player, itemstack)) {
             player.closeContainer();
         }
 

@@ -7,9 +7,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -27,23 +25,18 @@ public class BlockHardenedBlood extends Block {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = super.getDrops(state, builder);
         if (drops.isEmpty()) {
             ServerLevel world = builder.getLevel();
             BlockPos blockPos = BlockPos.containing(builder.getOptionalParameter(LootContextParams.ORIGIN));
-            Material material = world.getBlockState(blockPos.offset(0, -1, 0)).getMaterial();
+            BlockState blockState = world.getBlockState(blockPos.offset(0, -1, 0));
 
-            if (material.blocksMotion() || material.isLiquid()) {
+            if (blockState.blocksMotion() || blockState.liquid()) {
                 world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.defaultBlockState());
             }
         }
         return drops;
-    }
-
-    @Override
-    public PushReaction getPistonPushReaction(BlockState blockState) {
-        return PushReaction.NORMAL;
     }
 
     @Override

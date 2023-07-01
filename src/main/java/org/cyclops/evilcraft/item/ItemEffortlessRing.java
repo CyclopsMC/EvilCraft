@@ -42,7 +42,7 @@ public class ItemEffortlessRing extends Item {
      */
     public void adjustParameters(ItemStack itemStack, Player player) {
         // Speed
-        if(player.zza > 0 && player.isOnGround()) {
+        if(player.zza > 0 && player.onGround()) {
             player.moveRelative(player.isInWater() ? SPEED_BONUS / 3 : SPEED_BONUS, new Vec3(0, 0, 1));
         }
 

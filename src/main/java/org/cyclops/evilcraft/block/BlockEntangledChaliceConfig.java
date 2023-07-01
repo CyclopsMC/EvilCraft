@@ -5,7 +5,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -32,7 +31,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "entangled_chalice",
-                eConfig -> new BlockEntangledChalice(Block.Properties.of(Material.METAL)
+                eConfig -> new BlockEntangledChalice(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.STONE)),

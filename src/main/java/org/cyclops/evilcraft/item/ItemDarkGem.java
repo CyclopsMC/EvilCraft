@@ -32,11 +32,11 @@ public class ItemDarkGem extends Item {
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
         // This will transform a dark gem into a blood infusion core when it finds
         // REQUIRED_BLOOD_BLOCKS blood fluid blocks in the neighbourhood.
-        if (!entityItem.level.isClientSide()
-                && WorldHelpers.efficientTick(entityItem.level, TICK_MODULUS,
+        if (!entityItem.level().isClientSide()
+                && WorldHelpers.efficientTick(entityItem.level(), TICK_MODULUS,
                         (int) entityItem.getX(), (int) entityItem.getY(), (int) entityItem.getZ())) {
             final BlockPos blockPos = entityItem.blockPosition();
-            Level world = entityItem.level;
+            Level world = entityItem.level();
 
             int amount = 0;
             if(isValidBlock(world, blockPos)) {

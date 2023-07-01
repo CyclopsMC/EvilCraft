@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -42,7 +41,7 @@ public class BlockBloodChestConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "blood_chest",
-                eConfig -> new BlockBloodChest(Block.Properties.of(Material.WOOD)
+                eConfig -> new BlockBloodChest(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.WOOD)),

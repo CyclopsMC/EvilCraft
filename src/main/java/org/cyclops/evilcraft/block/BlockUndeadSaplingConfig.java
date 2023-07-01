@@ -4,7 +4,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.world.gen.TreeUndead;
@@ -20,7 +19,7 @@ public class BlockUndeadSaplingConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_sapling",
-                eConfig -> new SaplingBlock(new TreeUndead(), Block.Properties.of(Material.PLANT)
+                eConfig -> new SaplingBlock(new TreeUndead(), Block.Properties.of()
                         .noCollission()
                         .randomTicks()
                         .strength(0)

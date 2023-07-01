@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -66,24 +66,24 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, PoseStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, GuiGraphics guiGraphics, int x, int y, int width, int height, int page, int mx, int my) {
         int tick = getTick(gui);
         Pair<ItemStack, Float> value = modifierValues.get(tick % modifierValues.size());
 
         ItemStack input = value.getKey();
 
         // Items
-        renderItem(gui, matrixStack, x, y, input, mx, my, INPUT);
+        renderItem(gui, guiGraphics, x, y, input, mx, my, INPUT);
 
         // Effect
         String line = String.format("+ %s %s", value.getValue().toString(), L10NHelpers.localize(modifier.getTranslationKey()));
-        drawString(gui, matrixStack, line, x + SLOT_SIZE + 4, y + 3);
+        drawString(gui, guiGraphics, line, x + SLOT_SIZE + 4, y + 3);
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected void drawString(ScreenInfoBook gui, PoseStack matrixStack, String string, int x, int y) {
+    protected void drawString(ScreenInfoBook gui, GuiGraphics guiGraphics, String string, int x, int y) {
         Font fontRenderer = gui.getFont();
         MultiLineLabel.create(fontRenderer, Component.literal(string), 200)
-                .renderLeftAlignedNoShadow(matrixStack, x, y, 9, 0);
+                .renderLeftAlignedNoShadow(guiGraphics, x, y, 9, 0);
     }
 }

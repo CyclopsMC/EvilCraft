@@ -72,7 +72,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
     }
 
     protected void spawnSwarm(LivingEntity necromancer, LivingEntity target) {
-        Level world = target.level;
+        Level world = target.level();
         int amount = world.random.nextInt(2) + 3;
         for(int i = 0; i < amount; i++) {
             EntityControlledZombie mob = new EntityControlledZombie(world);
@@ -97,7 +97,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
     @Override
     public void tick() {
         super.tick();
-        if(observing && !level.isClientSide() && WorldHelpers.efficientTick(level, 10)) {
+        if(observing && !level().isClientSide() && WorldHelpers.efficientTick(level(), 10)) {
             if(!observables.isEmpty()) {
                 Iterator<EntityControlledZombie> it = observables.iterator();
                 while(it.hasNext()) {
@@ -138,7 +138,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
     @Override
     protected void onHit(HitResult position) {
         if(position.getType() == HitResult.Type.ENTITY && !observing && !getCommandSenderWorld().isClientSide()) {
-            ((EntityHitResult) position).getEntity().hurt(level.damageSources().thrown(this, this.getOwner()), 0.0F);
+            ((EntityHitResult) position).getEntity().hurt(level().damageSources().thrown(this, this.getOwner()), 0.0F);
             if(getOwner() instanceof ServerPlayer
                     && getOwner() != ((EntityHitResult) position).getEntity()
                     && ((EntityHitResult) position).getEntity() instanceof LivingEntity) {

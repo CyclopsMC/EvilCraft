@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -17,7 +16,7 @@ public class BlockObscuredGlassConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "obscured_glass",
-                eConfig -> new BlockObscuredGlass(Block.Properties.of(Material.GLASS)
+                eConfig -> new BlockObscuredGlass(Block.Properties.of()
                         .strength(0.5F)
                         .sound(SoundType.GLASS)
                         .noOcclusion()),

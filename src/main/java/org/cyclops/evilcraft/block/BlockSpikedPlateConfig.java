@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -25,7 +24,7 @@ public class BlockSpikedPlateConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "spiked_plate",
-                eConfig -> new BlockSpikedPlate(Block.Properties.of(Material.STONE)
+                eConfig -> new BlockSpikedPlate(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(2.0F)
                         .sound(SoundType.STONE)

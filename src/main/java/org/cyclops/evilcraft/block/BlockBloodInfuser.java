@@ -90,7 +90,7 @@ public class BlockBloodInfuser extends BlockWithEntityGuiTank {
     public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         BlockEntityHelpers.get(world, pos, BlockEntityBloodInfuser.class)
                 .ifPresent(tile -> {
-                    EntityHelpers.spawnXpAtPlayer(player.level, player, (int) Math.floor(tile.getXp()));
+                    EntityHelpers.spawnXpAtPlayer(player.level(), player, (int) Math.floor(tile.getXp()));
                     tile.resetXp();
                 });
         return super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);

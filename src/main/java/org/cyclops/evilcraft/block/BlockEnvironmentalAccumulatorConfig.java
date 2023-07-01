@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -28,7 +27,7 @@ public class BlockEnvironmentalAccumulatorConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "environmental_accumulator",
-                eConfig -> new BlockEnvironmentalAccumulator(Block.Properties.of(Material.STONE)
+                eConfig -> new BlockEnvironmentalAccumulator(Block.Properties.of()
                         .strength(50.0F, 6000000.0F)
                         .sound(SoundType.METAL)),
                 getDefaultItemConstructor(EvilCraft._instance)

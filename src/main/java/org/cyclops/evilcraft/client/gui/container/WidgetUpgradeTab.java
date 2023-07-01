@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.resources.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
@@ -28,15 +28,15 @@ public class WidgetUpgradeTab extends WidgetTab {
 
     /**
      * Draw the tab.
-     * @param matrixStack The matrix stack.
+     * @param guiGraphics The matrix stack.
      * @param x Origin X.
      * @param y Origin Y.
      */
-    public void drawBackground(PoseStack matrixStack, int x, int y) {
-        super.drawBackground(matrixStack, x, y);
+    public void drawBackground(GuiGraphics guiGraphics, int x, int y) {
+        super.drawBackground(guiGraphics, x, y);
         for(int i = 0; i < 4; i++) {
             if(slotEnabledCallback != null && !slotEnabledCallback.isSlotEnabled(i)) {
-                gui.blit(matrixStack, x + posX + 5, y + posY + 5 + 18 * i, 28, 0, 18, 18);
+                guiGraphics.blit(getResourceLocation(), x + posX + 5, y + posY + 5 + 18 * i, 28, 0, 18, 18);
             }
         }
     }

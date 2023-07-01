@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -200,9 +200,9 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                         deathLootTable = entity.getLootTable();
                     }
                     if(deathLootTable != null) {
-                        LootTable loottable = ServerLifecycleHooks.getCurrentServer().getLootTables().get(deathLootTable);
+                        LootTable loottable = ServerLifecycleHooks.getCurrentServer().getLootData().getLootTable(deathLootTable);
                         FakePlayer killerEntity = FakePlayerFactory.getMinecraft((ServerLevel) tile.getLevel());
-                        LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel) tile.getLevel()))
+                        LootParams.Builder lootcontext$builder = (new LootParams.Builder((ServerLevel) tile.getLevel()))
                                 .withParameter(LootContextParams.THIS_ENTITY, entity)
                                 .withParameter(LootContextParams.ORIGIN, new Vec3(tile.getBlockPos().getX(), tile.getBlockPos().getY(), tile.getBlockPos().getZ()))
                                 .withParameter(LootContextParams.KILLER_ENTITY, killerEntity)

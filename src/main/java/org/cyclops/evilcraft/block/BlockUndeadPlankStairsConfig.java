@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -24,7 +23,7 @@ public class BlockUndeadPlankStairsConfig extends BlockConfig {
                 EvilCraft._instance,
                 "undead_planks_stairs",
                 eConfig -> new StairBlock(() -> RegistryEntries.BLOCK_DARK_BLOOD_BRICK.defaultBlockState(),
-                        Block.Properties.of(Material.WOOD)
+                        Block.Properties.of()
                                 .strength(2.0F)
                                 .sound(SoundType.WOOD)) {
                     @Override

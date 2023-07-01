@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.inventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
@@ -13,7 +13,7 @@ import org.cyclops.cyclopscore.inventory.ItemLocation;
  * @author rubensworks
  *
  */
-public class NBTCraftingGrid extends CraftingContainer {
+public class NBTCraftingGrid extends TransientCraftingContainer {
 
     private static final String NBT_TAG_ROOT = "CraftingGridInventory";
 

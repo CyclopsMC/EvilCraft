@@ -40,7 +40,7 @@ public class RenderOverlayEventHook {
     public void onRenderOverlayEvent(RenderGuiEvent.Post event) {
         Player player = Minecraft.getInstance().player;
         if (GeneralConfig.bloodGuiOverlay) {
-            if (filledHeight < 0 || WorldHelpers.efficientTick(player.level, 50)) {
+            if (filledHeight < 0 || WorldHelpers.efficientTick(player.level(), 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
                 Wrapper<Integer> capacity = new Wrapper<Integer>(1);
                 PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
@@ -67,16 +67,16 @@ public class RenderOverlayEventHook {
                 int x = overlayPosition.getX(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetX;
                 int y = overlayPosition.getY(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetY;
 
-                event.getPoseStack().pushPose();
+                event.getGuiGraphics().pose().pushPose();
                 GlStateManager._enableBlend();
                 GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
                 RenderHelpers.bindTexture(BLOOD_OVERLAY);
 
-                Minecraft.getInstance().gui.blit(event.getPoseStack(), x, y, 0, 0, WIDTH, HEIGHT);
-                Minecraft.getInstance().gui.blit(event.getPoseStack(), x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
+                event.getGuiGraphics().blit(BLOOD_OVERLAY, x, y, 0, 0, WIDTH, HEIGHT);
+                event.getGuiGraphics().blit(BLOOD_OVERLAY, x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
 
                 GlStateManager._disableBlend();
-                event.getPoseStack().popPose();
+                event.getGuiGraphics().pose().popPose();
             }
         }
     }

@@ -50,9 +50,9 @@ public class EntityNetherfish extends Silverfish {
 
     @Override
     public void aiStep() {
-        if(this.level.isClientSide() && random.nextInt(30) == 0) {
+        if(this.level().isClientSide() && random.nextInt(30) == 0) {
             for (int i = 0; i < 2; ++i) {
-                this.level.addParticle(ParticleTypes.FLAME, this.getX() + (this.random.nextDouble() - 0.5D) * (double)this.getBbWidth(), this.getY() + this.random.nextDouble() * (double)this.getBbHeight(), this.getZ() + (this.random.nextDouble() - 0.5D) * (double)this.getBbWidth(), 0.0D, 0.0D, 0.0D);
+                this.level().addParticle(ParticleTypes.FLAME, this.getX() + (this.random.nextDouble() - 0.5D) * (double)this.getBbWidth(), this.getY() + this.random.nextDouble() * (double)this.getBbHeight(), this.getZ() + (this.random.nextDouble() - 0.5D) * (double)this.getBbWidth(), 0.0D, 0.0D, 0.0D);
             }
         }
         super.aiStep();
@@ -85,7 +85,7 @@ public class EntityNetherfish extends Silverfish {
                 if (random.nextInt(10) == 0) {
                     this.selectedDirection = Direction.getRandom(random);
                     BlockPos blockpos = (BlockPos.containing(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
-                    BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level.getBlockState(blockpos));
+                    BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level().getBlockState(blockpos));
                     if (type != null) {
                         this.doMerge = true;
                         return true;
@@ -113,9 +113,9 @@ public class EntityNetherfish extends Silverfish {
                 super.start();
             } else {
                 BlockPos blockpos = (BlockPos.containing(EntityNetherfish.this.getX(), EntityNetherfish.this.getY() + 0.5D, EntityNetherfish.this.getZ())).relative(this.selectedDirection);
-                BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level.getBlockState(blockpos));
+                BlockInfestedNether.Type type = BlockInfestedNether.unwrapBlock(EntityNetherfish.this.level().getBlockState(blockpos));
                 if (type != null) {
-                    EntityNetherfish.this.level.setBlockAndUpdate(blockpos, BlockInfestedNether.wrapBlock(type).defaultBlockState());
+                    EntityNetherfish.this.level().setBlockAndUpdate(blockpos, BlockInfestedNether.wrapBlock(type).defaultBlockState());
                     EntityNetherfish.this.spawnAnim();
                     EntityNetherfish.this.remove(RemovalReason.DISCARDED);
                 }

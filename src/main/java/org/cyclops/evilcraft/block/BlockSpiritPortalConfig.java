@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -17,7 +16,7 @@ public class BlockSpiritPortalConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "spirit_portal",
-                eConfig -> new BlockSpiritPortal(Block.Properties.of(Material.METAL)
+                eConfig -> new BlockSpiritPortal(Block.Properties.of()
                         .strength(50.0F, 6000000.0F)
                         .sound(SoundType.WOOL)
                         .lightLevel((state) -> 8)),

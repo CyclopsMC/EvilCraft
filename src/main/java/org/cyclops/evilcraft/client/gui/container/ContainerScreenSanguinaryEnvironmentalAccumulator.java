@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -75,8 +75,8 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
     }
 
     @Override
-    protected void drawAdditionalForeground(PoseStack matrixStack, int mouseX, int mouseY) {
-        super.drawAdditionalForeground(matrixStack, mouseX, mouseY);
+    protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.drawAdditionalForeground(guiGraphics, mouseX, mouseY);
         String prefix = RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
         lines.add(Component.translatable(prefix));
@@ -87,13 +87,13 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
             }
         }
         if (lines.size() > 1) {
-            this.blit(matrixStack, PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+            guiGraphics.blit(getGuiTexture(), PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT);
             if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
                 mouseX -= leftPos;
                 mouseY -= topPos;
-                drawTooltip(lines, matrixStack, mouseX, mouseY);
+                drawTooltip(lines, guiGraphics.pose(), mouseX, mouseY);
             }
         }
     }

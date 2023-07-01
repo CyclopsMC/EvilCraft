@@ -1,18 +1,13 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nullable;
@@ -23,9 +18,6 @@ import javax.annotation.Nullable;
  *
  */
 public class ItemCondensedBloodConfig extends ItemConfig {
-
-    @ConfigurableProperty(category = "item", comment = "If this item should be injected in loot tables..", requiresMcRestart = true)
-    public static boolean injectLootTables = true;
 
     public ItemCondensedBloodConfig() {
         super(
@@ -39,22 +31,6 @@ public class ItemCondensedBloodConfig extends ItemConfig {
                     }
                 }
         );
-    }
-
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        if (injectLootTables) {
-            LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/condensed_blood"),
-                    BuiltInLootTables.SPAWN_BONUS_CHEST,
-                    BuiltInLootTables.VILLAGE_TOOLSMITH,
-                    BuiltInLootTables.VILLAGE_WEAPONSMITH,
-                    BuiltInLootTables.VILLAGE_SHEPHERD,
-                    BuiltInLootTables.NETHER_BRIDGE,
-                    BuiltInLootTables.SIMPLE_DUNGEON,
-                    BuiltInLootTables.ABANDONED_MINESHAFT,
-                    BuiltInLootTables.JUNGLE_TEMPLE);
-        }
     }
 
     public static class FluidWrapper extends FluidBucketWrapper {

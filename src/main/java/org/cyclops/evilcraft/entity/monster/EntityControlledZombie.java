@@ -117,7 +117,7 @@ public class EntityControlledZombie extends Monster {
     @Override
     public void aiStep() {
         super.aiStep();
-        if(!level.isClientSide()) {
+        if(!level().isClientSide()) {
             int ttl = getTtl();
             setTtl(--ttl);
             if (ttl == 0) {

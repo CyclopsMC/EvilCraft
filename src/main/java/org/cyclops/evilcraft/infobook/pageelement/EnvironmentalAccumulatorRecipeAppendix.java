@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -74,10 +73,10 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void drawElementInner(ScreenInfoBook gui, PoseStack matrixStack, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, GuiGraphics guiGraphics, int x, int y, int width, int height, int page, int mx, int my) {
         boolean sanguinary = (getTick(gui) % 2) == 1;
         int middle = (width - SLOT_SIZE) / 2;
-        gui.drawArrowRight(matrixStack, x + middle - 3, y + SLOT_OFFSET_Y + 2);
+        gui.drawArrowRight(guiGraphics, x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
         // Prepare items
         int tick = getTick(gui);
@@ -85,27 +84,25 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
         ItemStack result = prepareItemStack(recipe.getOutputItemFirst(), tick);
 
         // Items
-        renderItem(gui, matrixStack, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
-        renderItem(gui, matrixStack, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
+        renderItem(gui, guiGraphics, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
+        renderItem(gui, guiGraphics, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
-        renderItem(gui, matrixStack, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
+        renderItem(gui, guiGraphics, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
                 ? RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR
                 : RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR), mx, my, false, null);
 
         // Draw weathers
         Integer inputX = X_ICON_OFFSETS.get(recipe.getInputWeather());
         if(inputX != null) {
-            RenderHelpers.bindTexture(WEATHERS);
-            gui.blit(matrixStack, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
-            gui.drawOuterBorder(matrixStack, x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+            guiGraphics.blit(WEATHERS, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
+            gui.drawOuterBorder(guiGraphics, x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
             Integer outputX = X_ICON_OFFSETS.get(recipe.getOutputWeather());
-            RenderHelpers.bindTexture(WEATHERS);
-            gui.blit(matrixStack, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
-            gui.drawOuterBorder(matrixStack, x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
+            guiGraphics.blit(WEATHERS, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
+            gui.drawOuterBorder(guiGraphics, x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
         }
         if(sanguinary) {
             // Draw blood usage
-            renderItem(gui, matrixStack, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
+            renderItem(gui, guiGraphics, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
 
             // Blood amount text
             Font fontRenderer = gui.getFont();
@@ -113,7 +110,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
             MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
-                    .renderLeftAlignedNoShadow(matrixStack, x + middle - 5, y + SLOT_SIZE, 9, 0);
+                    .renderLeftAlignedNoShadow(guiGraphics, x + middle - 5, y + SLOT_SIZE, 9, 0);
         }
     }
 }

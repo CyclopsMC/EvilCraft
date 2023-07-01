@@ -29,13 +29,13 @@ public class ItemNecromancerStaff extends ItemBloodContainer {
     }
 
     protected void throwNecromancersHead(LivingEntity entityLiving, Class<? extends Mob> mobType) {
-        EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.level, entityLiving);
-        if(!entityLiving.level.isClientSide()) {
+        EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.level(), entityLiving);
+        if(!entityLiving.level().isClientSide()) {
             head.setMobType(mobType);
             // Last three params: pitch offset, velocity, inaccuracy
             // MCP: shoot
             head.shootFromRotation(entityLiving, entityLiving.getXRot(), entityLiving.getYRot(), -20.0F, 0.5F, 1.0F);
-            entityLiving.level.addFreshEntity(head);
+            entityLiving.level().addFreshEntity(head);
         }
     }
 

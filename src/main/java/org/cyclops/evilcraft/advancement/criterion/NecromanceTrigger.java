@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.advancement.criterion;
 
 import com.google.gson.JsonObject;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
@@ -24,7 +25,7 @@ public class NecromanceTrigger extends SimpleCriterionTrigger<NecromanceTrigger.
     }
 
     @Override
-    public Instance createInstance(JsonObject json, EntityPredicate.Composite entityPredicate, DeserializationContext conditionsParser) {
+    public Instance createInstance(JsonObject json, ContextAwarePredicate entityPredicate, DeserializationContext conditionsParser) {
         return new Instance(getId(), entityPredicate, EntityPredicate.fromJson(json.get("entity")));
     }
 
@@ -36,7 +37,7 @@ public class NecromanceTrigger extends SimpleCriterionTrigger<NecromanceTrigger.
 
         private final EntityPredicate entityPredicate;
 
-        public Instance(ResourceLocation criterionIn, EntityPredicate.Composite player, EntityPredicate entityPredicate) {
+        public Instance(ResourceLocation criterionIn, ContextAwarePredicate player, EntityPredicate entityPredicate) {
             super(criterionIn, player);
             this.entityPredicate = entityPredicate;
         }

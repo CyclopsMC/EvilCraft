@@ -73,27 +73,27 @@ public class EntityLightningBombPrimed extends PrimedTnt {
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.setDeltaMovement(this.getDeltaMovement().scale(0.98D));
 
-        if (this.onGround) {
+        if (this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.5D, 0.7D));
         }
 
         if (this.getFuse() - 1 <= 0) {
             this.remove(RemovalReason.KILLED);
 
-            if (!this.level.isClientSide()) {
-                this.explode(this.level, this.getX(), this.getY(), this.getZ());
+            if (!this.level().isClientSide()) {
+                this.explode(this.level(), this.getX(), this.getY(), this.getZ());
             }
         } else {
             setFuse(getFuse() - 1);
             this.doWaterSplashEffect();
-            level.addParticle(ParticleTypes.SMOKE,
+            level().addParticle(ParticleTypes.SMOKE,
                     this.getX(), this.getY() + 0.5D, this.getZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 
     private void explode(Level world, double x, double y, double z) {
         if (!world.isClientSide()) {
-            this.level.explode(this, this.getX(), this.getY(), this.getZ(), EXPLOSION_STRENGTH, Level.ExplosionInteraction.MOB);
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), EXPLOSION_STRENGTH, Level.ExplosionInteraction.MOB);
             LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world);
             bolt.moveTo(x, y, z);
         } else {

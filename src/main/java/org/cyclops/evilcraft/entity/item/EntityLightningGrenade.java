@@ -49,16 +49,16 @@ public class EntityLightningGrenade extends ThrowableProjectile implements ItemS
     @Override
     protected void onHit(HitResult par1MovingObjectPosition) {
         if (par1MovingObjectPosition.getType() == HitResult.Type.ENTITY) {
-            ((EntityHitResult) par1MovingObjectPosition).getEntity().hurt(level.damageSources().thrown(this, this.getOwner()), 0.0F);
+            ((EntityHitResult) par1MovingObjectPosition).getEntity().hurt(level().damageSources().thrown(this, this.getOwner()), 0.0F);
         }
 
-        if (!this.level.isClientSide()) {
+        if (!this.level().isClientSide()) {
             if (this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
                 BlockPos pos = BlockPos.containing(par1MovingObjectPosition.getLocation());
-                EntityHelpers.onEntityCollided(this.level, pos, this.level.getBlockState(pos), this);
-                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level);
+                EntityHelpers.onEntityCollided(this.level(), pos, this.level().getBlockState(pos), this);
+                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level());
                 bolt.moveTo(this.getX(), this.getY(), this.getZ());
-                this.level.addFreshEntity(bolt);
+                this.level().addFreshEntity(bolt);
             }
 
             this.remove(RemovalReason.DISCARDED);

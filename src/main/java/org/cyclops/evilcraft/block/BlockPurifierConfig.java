@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -31,7 +30,7 @@ public class BlockPurifierConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "purifier",
-                eConfig -> new BlockPurifier(Block.Properties.of(Material.METAL)
+                eConfig -> new BlockPurifier(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.STONE)),

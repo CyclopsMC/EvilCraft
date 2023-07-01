@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import org.cyclops.evilcraft.client.gui.container.WidgetUpgradeTab;
@@ -43,9 +43,9 @@ public abstract class ContainerScreenTileWorking<C extends ContainerTileWorking<
     }
 
     @Override
-    protected void renderBg(PoseStack matrixStack, float f, int x, int y) {
-        super.renderBg(matrixStack, f, x, y);
-        upgrades.drawBackground(matrixStack, leftPos, topPos);
+    protected void renderBg(GuiGraphics guiGraphics, float f, int x, int y) {
+        super.renderBg(guiGraphics, f, x, y);
+        upgrades.drawBackground(guiGraphics, leftPos, topPos);
     }
 
 }

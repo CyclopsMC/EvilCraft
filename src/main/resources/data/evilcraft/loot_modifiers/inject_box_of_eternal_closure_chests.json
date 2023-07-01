@@ -1,0 +1,16 @@
+{
+  "type": "evilcraft:inject_box_of_eternal_closure",
+  "conditions": [
+    {
+      "condition": "random_chance",
+      "chance": 0.1665
+    }
+  ],
+  "loot_tables": [
+    "minecraft:chests/spawn_bonus_chest",
+    "minecraft:chests/end_city_treasure",
+    "minecraft:chests/simple_dungeon",
+    "minecraft:chests/abandoned_mineshaft",
+    "minecraft:chests/stronghold_library"
+  ]
+}

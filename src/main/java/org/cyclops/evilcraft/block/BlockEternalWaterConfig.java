@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -16,7 +15,7 @@ public class BlockEternalWaterConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "eternal_water",
-                eConfig -> new BlockEternalWater(Block.Properties.of(Material.WATER)
+                eConfig -> new BlockEternalWater(Block.Properties.of()
                         .strength(0.5F)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

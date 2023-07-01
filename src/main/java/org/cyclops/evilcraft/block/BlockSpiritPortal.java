@@ -56,13 +56,13 @@ public class BlockSpiritPortal extends BlockWithEntity {
     }
 
     protected static boolean canReplaceBlock(BlockState blockState, LevelReader world, BlockPos pos) {
-        return blockState != null && (blockState.isAir()|| blockState.getMaterial().isReplaceable());
+        return blockState != null && (blockState.isAir()|| blockState.canBeReplaced());
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void palingDeath(LivingDeathEvent event) {
-        if(event.getSource() == ExtendedDamageSources.paling(event.getEntity().level)) {
-            tryPlacePortal(event.getEntity().level, event.getEntity().blockPosition().offset(0, 1, 0));
+        if(event.getSource() == ExtendedDamageSources.paling(event.getEntity().level())) {
+            tryPlacePortal(event.getEntity().level(), event.getEntity().blockPosition().offset(0, 1, 0));
         }
     }
 

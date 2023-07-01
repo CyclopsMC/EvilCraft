@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -18,7 +17,7 @@ public class BlockInfestedNetherConfig extends BlockConfig {
         super(
             EvilCraft._instance,
             "infested_nether_" + type.name().toLowerCase(Locale.ROOT),
-                eConfig -> new BlockInfestedNether(Block.Properties.of(Material.CLAY)
+                eConfig -> new BlockInfestedNether(Block.Properties.of()
                         .strength(0.0F), type),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

@@ -5,7 +5,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -23,7 +22,8 @@ public class BlockFluidBloodConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "blood",
-                eConfig -> new BlockFluidBlood(Block.Properties.of(Material.WATER)
+                eConfig -> new BlockFluidBlood(Block.Properties.of()
+                        .liquid()
                         .noCollission()
                         .strength(100.0F)
                         .randomTicks()),

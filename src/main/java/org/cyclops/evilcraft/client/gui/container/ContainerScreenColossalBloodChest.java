@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
@@ -103,18 +103,18 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
     }
 
     @Override
-    protected void drawForgegroundString(PoseStack matrixStack) {
+    protected void drawForgegroundString(GuiGraphics guiGraphics) {
         // MCP: drawString
-        font.draw(matrixStack, getName(), 8 + offsetX, 4 + offsetY, 4210752);
+        font.drawInBatch(getName(), 8 + offsetX, 4 + offsetY, 4210752, false,
+                guiGraphics.pose().last().pose(), guiGraphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
     }
 
     @Override
-    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
-        super.renderLabels(matrixStack, mouseX, mouseY);
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.renderLabels(guiGraphics, mouseX, mouseY);
 
-        RenderHelpers.bindTexture(texture);
         int minusFactor = (int) (((float) (BlockEntityColossalBloodChest.MAX_EFFICIENCY - ((ContainerColossalBloodChest) getMenu()).getEfficiency()) * EFFICIENCYBARHEIGHT) / BlockEntityColossalBloodChest.MAX_EFFICIENCY);
-        blit(matrixStack, EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
+        guiGraphics.blit(texture, EFFICIENCYBARTARGETX + offsetX, EFFICIENCYBARTARGETY - EFFICIENCYBARHEIGHT + minusFactor,
                 EFFICIENCYBARX, EFFICIENCYBARY + minusFactor, EFFICIENCYBARWIDTH, EFFICIENCYBARHEIGHT - minusFactor);
     }
 

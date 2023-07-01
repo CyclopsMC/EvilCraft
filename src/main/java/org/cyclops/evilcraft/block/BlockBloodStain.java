@@ -134,7 +134,7 @@ public class BlockBloodStain extends BlockWithEntity {
             int y = Mth.floor(event.getEntity().getY());
             int z = Mth.floor(event.getEntity().getZ());
 
-            if (!event.getEntity().level.isClientSide()) {
+            if (!event.getEntity().level().isClientSide()) {
                 event.getEntity().getServer().execute(() -> {
                     // Only in the next tick, to resolve #601.
                     // The problem is that Vanilla's logic for handling fall events caches the Block.
@@ -142,7 +142,7 @@ public class BlockBloodStain extends BlockWithEntity {
                     // after which vanilla can still perform operators with this block.
                     // In some cases, this can result in inconsistencies, which can lead to crashes.
                     BlockPos pos = new BlockPos(x, y - 1, z);
-                    Block block = event.getEntity().level.getBlockState(pos).getBlock();
+                    Block block = event.getEntity().level().getBlockState(pos).getBlock();
 
                     int amount = (int) (BlockBloodStainConfig.bloodMBPerHP * event.getEntity().getMaxHealth());
                     if (block != this) {
@@ -162,7 +162,7 @@ public class BlockBloodStain extends BlockWithEntity {
                 // Init particles
                 Random random = new Random();
                 BlockPos pos = new BlockPos(x, y, z);
-                ParticleBloodSplash.spawnParticles(event.getEntity().level, pos.offset(0, 1, 0),
+                ParticleBloodSplash.spawnParticles(event.getEntity().level(), pos.offset(0, 1, 0),
                         ((int) event.getEntity().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
             }
         }

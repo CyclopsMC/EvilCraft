@@ -227,7 +227,7 @@ public class BlockDisplayStand extends BlockWithEntity {
             BlockEntityDisplayStand tile = BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class).orElse(null);
             if (tile != null) {
                 ItemStack tileStack = tile.getInventory().getItem(0);
-                if ((itemStack.isEmpty() || (ItemStack.isSame(itemStack, tileStack) && ItemStack.tagMatches(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
+                if ((itemStack.isEmpty() || (ItemStack.isSameItemSameTags(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
                     if(!itemStack.isEmpty()) {
                         tileStack.grow(itemStack.getCount());
                     }

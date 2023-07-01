@@ -1,9 +1,8 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.resources.ResourceLocation;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
 
 /**
  * Simple tab gui element.
@@ -33,13 +32,12 @@ public abstract class WidgetTab {
 
     /**
      * Draw the tab.
-     * @param matrixStack The matrix stack.
+     * @param guiGraphics The matrix stack.
      * @param x Origin X.
      * @param y Origin Y.
      */
-    public void drawBackground(PoseStack matrixStack, int x, int y) {
-        RenderHelpers.bindTexture(getResourceLocation());
-        gui.blit(matrixStack, x + posX, y + posY, u, v, width, height);
+    public void drawBackground(GuiGraphics guiGraphics, int x, int y) {
+        guiGraphics.blit(getResourceLocation(), x + posX, y + posY, u, v, width, height);
     }
 
 }

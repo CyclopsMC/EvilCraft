@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.block;
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
@@ -25,7 +24,7 @@ public class BlockSanguinaryEnvironmentalAccumulatorConfig extends UpgradableBlo
         super(
                 EvilCraft._instance,
             "sanguinary_environmental_accumulator",
-                eConfig -> new BlockSanguinaryEnvironmentalAccumulator(Block.Properties.of(Material.STONE)
+                eConfig -> new BlockSanguinaryEnvironmentalAccumulator(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.STONE)),

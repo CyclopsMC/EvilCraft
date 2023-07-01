@@ -5,7 +5,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -36,7 +35,7 @@ public class BlockDarkTankConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "dark_tank",
-                eConfig -> new BlockDarkTank(Block.Properties.of(Material.GLASS)
+                eConfig -> new BlockDarkTank(Block.Properties.of()
                         .strength(0.5F)
                         .sound(SoundType.GLASS)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())

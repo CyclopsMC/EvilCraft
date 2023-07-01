@@ -158,7 +158,7 @@ public class EntityBroom extends Entity {
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        if (!this.level.isClientSide() && !isVehicle() && !player.isCrouching()) {
+        if (!this.level().isClientSide() && !isVehicle() && !player.isCrouching()) {
             player.startRiding(this);
             lastMounted = player;
         }
@@ -167,7 +167,7 @@ public class EntityBroom extends Entity {
 
     @Override
     public void push(Entity entityIn) {
-        if (!this.level.isClientSide()) {
+        if (!this.level().isClientSide()) {
             if (!entityIn.noPhysics && !this.noPhysics) {
                 Entity controlling = this.getControllingPassenger();
                 if (entityIn != controlling) {
@@ -203,7 +203,7 @@ public class EntityBroom extends Entity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!this.level.isClientSide() && this.isAlive()) {
+        if (!this.level().isClientSide() && this.isAlive()) {
             if (this.isInvulnerableTo(source)) {
                 return false;
             }
@@ -237,7 +237,7 @@ public class EntityBroom extends Entity {
     @Override
     protected void addPassenger(Entity passenger) {
         super.addPassenger(passenger);
-        if(!level.isClientSide() && passenger instanceof LivingEntity) {
+        if(!level().isClientSide() && passenger instanceof LivingEntity) {
             startAllowFlying((LivingEntity) passenger);
         }
     }
@@ -247,7 +247,7 @@ public class EntityBroom extends Entity {
         super.tick();
 
         Entity rider = getControllingPassenger();
-        if (!level.isClientSide() && !isVehicle() && lastMounted != null) {
+        if (!level().isClientSide() && !isVehicle() && lastMounted != null) {
             onDismount();
 
         } else if (rider instanceof LivingEntity) {
@@ -266,7 +266,7 @@ public class EntityBroom extends Entity {
             xRotO = getXRot();
             yRotO = getYRot();
 
-            if (!level.isClientSide() || Minecraft.getInstance().player == lastMounted) {
+            if (!level().isClientSide() || Minecraft.getInstance().player == lastMounted) {
                 updateMountedServer();
             } else {
                 updateMountedClient();
@@ -277,7 +277,7 @@ public class EntityBroom extends Entity {
             }
 
             // Apply collisions
-            List<Entity> list = this.level.getEntities(this, this.getBoundingBox().inflate(0.2, 0.0, 0.2));
+            List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.2, 0.0, 0.2));
             if (list != null && !list.isEmpty()) {
                 for (int l = 0; l < list.size(); ++l) {
                     Entity entity = list.get(l);
@@ -302,7 +302,7 @@ public class EntityBroom extends Entity {
                 }
             }
         } else {
-            if(!this.level.isClientSide() && rider == null) {
+            if(!this.level().isClientSide() && rider == null) {
                 this.collideWithNearbyEntities();
             }
             updateUnmounted();
@@ -342,7 +342,7 @@ public class EntityBroom extends Entity {
 
     @OnlyIn(Dist.CLIENT)
     public void showParticles(EntityBroom broom) {
-        Level world = broom.level;
+        Level world = broom.level();
         if (world.isClientSide() && broom.lastMounted.zza != 0) {
             // Emit particles
             int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
@@ -363,7 +363,7 @@ public class EntityBroom extends Entity {
     }
 
     protected void collideWithNearbyEntities() {
-        List<Entity> list = this.level.getEntities(this, this.getBoundingBox().inflate(0.20000000298023224D, 0.0D, 0.20000000298023224D),
+        List<Entity> list = this.level().getEntities(this, this.getBoundingBox().inflate(0.20000000298023224D, 0.0D, 0.20000000298023224D),
                 EntitySelector.NO_SPECTATORS.and(Entity::isPushable));
         if (!list.isEmpty()){
             for (Entity entity : list) {
@@ -399,7 +399,7 @@ public class EntityBroom extends Entity {
 
     public void consume(int amount, LivingEntity entityLiving) {
         float efficiencyFactor = Math.min(0.9F, Math.max(0.0F, getModifier(BroomModifiers.EFFICIENCY) / BroomModifiers.EFFICIENCY.getMaxTierValue()));
-        if(level.random.nextFloat() > efficiencyFactor) {
+        if(level().random.nextFloat() > efficiencyFactor) {
             ItemStack broomStack = getBroomStack();
             ((IBroom) broomStack.getItem()).consumeBroom(amount, broomStack, entityLiving);
             setBroomStack(broomStack);
@@ -503,7 +503,7 @@ public class EntityBroom extends Entity {
                 .add(x * SPEED * playerSpeed, y * SPEED * playerSpeed * levitationModifier, z * SPEED * playerSpeed));
 
         // Update motion on client side to provide a hovering effect
-        if (level.isClientSide()) {
+        if (level().isClientSide()) {
             setDeltaMovement(getDeltaMovement().add(0, getHoverOffset(), 0));
         }
 
@@ -519,13 +519,13 @@ public class EntityBroom extends Entity {
     }
 
     protected void updateUnmounted() {
-        if (level.isClientSide()) {
+        if (level().isClientSide()) {
             move(MoverType.SELF, new Vec3(0, getHoverOffset(), 0));
         }
     }
 
     protected double getHoverOffset() {
-        float x = level.getGameTime();
+        float x = level().getGameTime();
         float t = broomHoverTickOffset;
         double newHoverOffset = Math.cos(x / 10 + t) * Math.cos(x / 12 + t) * Math.cos(x / 15 + t) * MAX_COS_AMPLITUDE;
 

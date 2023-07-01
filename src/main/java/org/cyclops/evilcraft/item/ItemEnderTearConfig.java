@@ -1,12 +1,8 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.Reference;
 
 /**
  * Config for the Ender Tear.
@@ -14,9 +10,6 @@ import org.cyclops.evilcraft.Reference;
  *
  */
 public class ItemEnderTearConfig extends ItemConfig {
-
-    @ConfigurableProperty(category = "item", comment = "If this item should be injected in loot tables..", requiresMcRestart = true)
-    public static boolean injectLootTables = true;
 
     public ItemEnderTearConfig() {
         super(
@@ -26,14 +19,5 @@ public class ItemEnderTearConfig extends ItemConfig {
 
                         .stacksTo(16))
         );
-    }
-
-    @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
-        if (injectLootTables) {
-            LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/entities/ender_tear"),
-                    new ResourceLocation("entities/enderman"));
-        }
     }
 }

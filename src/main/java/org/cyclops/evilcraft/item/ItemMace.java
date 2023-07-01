@@ -104,12 +104,12 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public void onUsingTick(ItemStack itemStack, LivingEntity player, int duration) {
-        Level world = player.level;
+    public void onUseTick(Level level, LivingEntity player, ItemStack itemStack, int duration) {
+        Level world = player.level();
         if(world.isClientSide() && duration % 2 == 0) {
             showUsingItemTick(world, itemStack, player, duration);
         }
-        super.onUsingTick(itemStack, player, duration);
+        super.onUseTick(level, player, itemStack, duration);
     }
 
     @OnlyIn(Dist.CLIENT)

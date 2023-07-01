@@ -222,7 +222,7 @@ public class BroomModifiers {
                         broom.getBoundingBox().maxX + x - r,
                         broom.getBoundingBox().maxY + y - r + 1D,
                         broom.getBoundingBox().maxZ + z - r);
-                Level world = broom.level;
+                Level world = broom.level();
                 float maxHardness = modifierValue;
                 float toughnessModifier = Math.min(1F, 0.5F + (broom.getModifier(BroomModifiers.STURDYNESS) / (BroomModifiers.STURDYNESS.getMaxTierValue() * 1.5F) / 2F));
                 LivingEntity ridingEntity = broom.getControllingPassenger() instanceof LivingEntity ? (LivingEntity) broom.getControllingPassenger() : null;
@@ -248,7 +248,7 @@ public class BroomModifiers {
                                             // Inspired by TCon's block breaking code
 
                                             // Destroy the block
-                                            if (!broom.level.isClientSide()) {
+                                            if (!broom.level().isClientSide()) {
                                                 ServerPlayer playerMp = (ServerPlayer) player;
                                                 int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos);
                                                 if (expToDrop >= 0) {
@@ -303,8 +303,8 @@ public class BroomModifiers {
                         entity.setDeltaMovement(entity.getDeltaMovement()
                                 .add(dx, dy, dz)
                                 .multiply(power, power, power));
-                        if (broom.level.isClientSide()) {
-                            ItemMaceOfDistortion.showEntityDistored(broom.level, null, entity, (int) (power / 10F));
+                        if (broom.level().isClientSide()) {
+                            ItemMaceOfDistortion.showEntityDistored(broom.level(), null, entity, (int) (power / 10F));
                         }
                     }
                 }
@@ -315,7 +315,7 @@ public class BroomModifiers {
         KAMIKAZE.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
-                Level world = broom.level;
+                Level world = broom.level();
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
                 if (power > 0 && broom.getControllingPassenger() != null) {
                     broom.stopRiding();
@@ -327,7 +327,7 @@ public class BroomModifiers {
         STICKY.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {
-                if (!entity.level.isClientSide() && !entity.isPassenger() && entity.canRide(broom)) {
+                if (!entity.level().isClientSide() && !entity.isPassenger() && entity.canRide(broom)) {
                     // Will fail if max passenger count is exceeded
                     entity.startRiding(broom);
                 }
@@ -395,7 +395,7 @@ public class BroomModifiers {
                 && event.getSource().getDirectEntity() instanceof Projectile) {
             EntityBroom broom = (EntityBroom) event.getEntity().getVehicle();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
-            if (modifierValue > 0 && modifierValue > broom.level.random.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
+            if (modifierValue > 0 && modifierValue > broom.level().random.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.setCanceled(true);
             }
         }

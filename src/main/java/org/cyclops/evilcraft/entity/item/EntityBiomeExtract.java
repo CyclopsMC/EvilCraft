@@ -81,14 +81,14 @@ public class EntityBiomeExtract extends EntityThrowable {
 
     @Override
     protected void onHit(final HitResult movingobjectposition) {
-        if (!level.isClientSide() && movingobjectposition.getType() == HitResult.Type.BLOCK) {
+        if (!level().isClientSide() && movingobjectposition.getType() == HitResult.Type.BLOCK) {
             ItemStack itemStack = getItem();
 
-            final Biome biome = ItemBiomeExtract.getBiome(getLevel().registryAccess().registryOrThrow(Registries.BIOME), itemStack);
+            final Biome biome = ItemBiomeExtract.getBiome(level().registryAccess().registryOrThrow(Registries.BIOME), itemStack);
             if (biome != null) {
                 // Update biome in organic spread
                 Set<ChunkPos> updatedChunks = Sets.newHashSet();
-                OrganicSpread spread = new OrganicSpread(level, 2, 5, new OrganicSpread.IOrganicSpreadable() {
+                OrganicSpread spread = new OrganicSpread(level(), 2, 5, new OrganicSpread.IOrganicSpreadable() {
                     @Override
                     public boolean isDone(Level world, BlockPos location) {
                         return world.getBiome(location).value() == biome;
@@ -109,15 +109,15 @@ public class EntityBiomeExtract extends EntityThrowable {
                 }
 
                 // Send chunk biome data to all players, and reset their grass colors
-                if (!level.isClientSide()) {
+                if (!level().isClientSide()) {
                     for (ChunkPos chunkPos : updatedChunks) {
-                        updateChunkAfterBiomeChange(level, chunkPos);
+                        updateChunkAfterBiomeChange(level(), chunkPos);
                     }
                 }
             }
 
             // Play sound and show particles of splash potion of harming
-            this.level.globalLevelEvent(2002, blockPosition(), 16428);
+            this.level().globalLevelEvent(2002, blockPosition(), 16428);
 
             remove(RemovalReason.DISCARDED);
         }
@@ -206,7 +206,7 @@ public class EntityBiomeExtract extends EntityThrowable {
     public static void updateChunkAfterBiomeChange(Level world, ChunkPos chunkPos) {
         LevelChunk chunkSafe = world.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
         ((ServerChunkCache) world.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
-            player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) world.getChunkSource()).chunkMap.getLightEngine(), null, null, true));
+            player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) world.getChunkSource()).chunkMap.getLightEngine(), null, null));
             EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
         });
     }

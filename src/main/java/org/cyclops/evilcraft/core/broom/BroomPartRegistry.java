@@ -118,7 +118,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     @Override
     public <P extends IBroomPart> P getPartFromItem(ItemStack item) {
         for (Map.Entry<IBroomPart, ItemStack> entry : partItems.entries()) {
-            if (ItemStack.isSame(item, entry.getValue()) && ItemStack.tagMatches(item, entry.getValue())) {
+            if (ItemStack.isSameItemSameTags(item, entry.getValue())) {
                 return (P) entry.getKey();
             }
         }

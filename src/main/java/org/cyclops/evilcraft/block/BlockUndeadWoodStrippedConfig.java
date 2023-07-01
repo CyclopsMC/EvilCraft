@@ -8,8 +8,7 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.level.BlockEvent;
@@ -28,7 +27,8 @@ public class BlockUndeadWoodStrippedConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_wood_stripped",
-                eConfig -> new RotatedPillarBlock(Block.Properties.of(Material.WOOD, MaterialColor.TERRACOTTA_ORANGE)
+                eConfig -> new RotatedPillarBlock(Block.Properties.of()
+                        .mapColor(MapColor.TERRACOTTA_ORANGE)
                         .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)) {
                     @Override
