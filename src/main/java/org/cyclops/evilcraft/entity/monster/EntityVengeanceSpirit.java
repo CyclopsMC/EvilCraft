@@ -134,7 +134,6 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         super(type, level);
         this.preferredInnerEntity = preferredInnerEntity;
 
-        this.maxUpStep = 5.0F;
         this.blocksBuilding = false;
 
         float damage = 0.5F;
@@ -155,6 +154,11 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
+    }
+
+    @Override
+    public float getStepHeight() {
+        return 5.0F;
     }
 
     @Override
