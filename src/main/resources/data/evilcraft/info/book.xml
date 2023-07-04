@@ -379,7 +379,7 @@
                     <paragraph>info_book.evilcraft.second_age.tools.broom.modifiers.text.kamikaze</paragraph>
                     <appendix type="evilcraft:broom_modifier">evilcraft:kamikaze</appendix>
                     <paragraph>info_book.evilcraft.second_age.tools.broom.modifiers.text.withershield</paragraph>
-                    <appendix type="evilcraft:broom_modifier">evilcraft:acceleration</appendix>
+                    <appendix type="evilcraft:broom_modifier">evilcraft:withershield</appendix>
                     <paragraph>info_book.evilcraft.second_age.tools.broom.modifiers.text.sturdyness</paragraph>
                     <appendix type="evilcraft:broom_modifier">evilcraft:sturdyness</appendix>
                     <!--<paragraph>info_book.evilcraft.second_age.tools.broom.modifiers.text.luck</paragraph>-->

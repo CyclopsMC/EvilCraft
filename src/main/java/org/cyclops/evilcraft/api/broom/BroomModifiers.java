@@ -318,7 +318,8 @@ public class BroomModifiers {
                 Level world = broom.level();
                 float power = (modifierValue * (float) broom.getLastPlayerSpeed()) / 5F;
                 if (power > 0 && broom.getControllingPassenger() != null) {
-                    broom.stopRiding();
+                    broom.lastMounted = null;
+                    broom.getControllingPassenger().stopRiding();
                     world.explode(null, broom.getX(), broom.getY(), broom.getZ(), power, Level.ExplosionInteraction.TNT);
                 }
             }
