@@ -60,11 +60,13 @@ public class EntityStruckByLightningEventHook {
                 event.setCanceled(true);
                 return;
             }
+            if(entity.getLevel().random.nextBoolean()) {
+                event.setCanceled(true); // 50% chance that they become a witch like vanilla does
+                return;
+            }
             if(entity.getVillagerData().getProfession() != RegistryEntries.VILLAGER_PROFESSION_WEREWOLF) {
                 EntityWerewolf.initializeWerewolfVillagerData(entity);
             }
-            if(entity.getLevel().random.nextBoolean())
-                event.setCanceled(true); // 50% chance that they become a witch like vanilla does
         }
     }
 
