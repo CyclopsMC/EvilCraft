@@ -48,9 +48,9 @@ public class ItemEffortlessRing extends Item {
 
         // Step height
         if(!player.getPersistentData().contains(PLAYER_NBT_KEY)) {
-            player.getPersistentData().putFloat(PLAYER_NBT_KEY, player.maxUpStep);
+            player.getPersistentData().putFloat(PLAYER_NBT_KEY, player.maxUpStep());
         }
-        player.maxUpStep = player.isCrouching() ? 0.5F : STEP_SIZE;
+        player.setMaxUpStep(player.isCrouching() ? 0.5F : STEP_SIZE);
 
         // Jump distance
         // Not possible anymore due to hardcoded value in LivingEntity#getFrictionInfluencedSpeed
