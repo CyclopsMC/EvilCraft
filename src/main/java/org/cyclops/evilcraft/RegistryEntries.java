@@ -2,6 +2,7 @@ package org.cyclops.evilcraft;
 
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -399,8 +400,9 @@ public class RegistryEntries {
     @ObjectHolder(registryName = "villager_profession", value = "evilcraft:werewolf")
     public static final VillagerProfession VILLAGER_PROFESSION_WEREWOLF = null;
 
-    @ObjectHolder(registryName = "worldgen/biome", value = "evilcraft:degraded")
-    public static final Biome BIOME_DEGRADED = null;
+//    @ObjectHolder(registryName = "minecraft:worldgen/biome", value = "evilcraft:degraded")
+    private static final Biome BIOME_DEGRADED = null; // Always null for some reason...
+    public static final ResourceLocation BIOME_DEGRADED_KEY = new ResourceLocation("evilcraft:degraded");
 
     // This is not a Forge Registry yet, so we set it manually
     public static StructureType<WorldStructureDarkTemple> STRUCTURE_DARK_TEMPLE = null;
