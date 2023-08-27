@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.18.4 or higher.
+
+Fixes:
+* Fix Spirit Furnace not always producing player drops, Closes #1001
+* Fix villagers not turning to witches on struck by lightning
+
