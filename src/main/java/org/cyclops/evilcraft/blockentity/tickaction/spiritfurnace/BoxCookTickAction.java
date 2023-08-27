@@ -207,7 +207,8 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                                 .withParameter(LootContextParams.ORIGIN, new Vec3(tile.getBlockPos().getX(), tile.getBlockPos().getY(), tile.getBlockPos().getZ()))
                                 .withParameter(LootContextParams.KILLER_ENTITY, killerEntity)
                                 .withParameter(LootContextParams.DIRECT_KILLER_ENTITY, killerEntity)
-                                .withParameter(LootContextParams.DAMAGE_SOURCE, killerEntity.damageSources().generic());
+                                .withParameter(LootContextParams.DAMAGE_SOURCE, killerEntity.damageSources().generic())
+                                .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, killerEntity);
 
                         // If we want to do something with fortune later...
                         /*if (p_184610_1_ && this.attackingPlayer != null) {
