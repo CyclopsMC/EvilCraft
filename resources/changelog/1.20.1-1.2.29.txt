@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.18.4 or higher.
+
+Changes:
+* Don't play sounds on Entangled Chalice auto-fill, Closes #1003
+
+Fixes:
+* Add Farming for Blockheads merchant to spirit blacklist
+  It causes crashes due to rendering issues.
+  Closes #1004
