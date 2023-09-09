@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.15.0 or higher.
+
+Fixes:
+* Add Farming for Blockheads merchant to spirit blacklist
+  It causes crashes due to rendering issues.
+  Closes #1004
+

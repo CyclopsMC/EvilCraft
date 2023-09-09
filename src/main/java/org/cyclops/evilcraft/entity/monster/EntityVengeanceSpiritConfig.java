@@ -39,7 +39,8 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
             "evilcraft:vengeance_spirit",
             "evilcraft:controlled_zombie",
             "evilcraft:werewolf",
-            "minecraft:ender_dragon"
+            "minecraft:ender_dragon",
+            "farmingforblockheads:merchant" // It causes rendering issues: https://github.com/CyclopsMC/EvilCraft/issues/1004
     );
 
     @ConfigurableProperty(category = "mob", comment = "Whether vengeance spirits should always be visible in creative mode.")
