@@ -123,7 +123,8 @@ public class ItemHelpers {
         }
         if(!toFill.isEmpty() && toFill != toDrain.getContainer() && FluidUtil.getFluidHandler(toFill) != null
                 && player.getUseItemRemainingTicks() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, false).isSuccess()) {
-            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, true).getResult();
+            // We don't pass the player, because we don't want sounds to play.
+            return FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), null, true).getResult();
         }
         return ItemStack.EMPTY;
     }
