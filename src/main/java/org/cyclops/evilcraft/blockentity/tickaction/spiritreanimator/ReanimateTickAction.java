@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.blockentity.tickaction.spiritreanimator;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
@@ -26,10 +27,6 @@ public class ReanimateTickAction implements ITickAction<BlockEntitySpiritReanima
         return tile.getTank().getFluidAmount() >= getRequiredMb(tile, tick) && tile.canWork();
     }
 
-    protected ItemStack getSpawnEgg(EntityType<?> entityType) {
-        return new ItemStack(ForgeSpawnEggItem.fromEntityType(entityType));
-    }
-
     @Override
     public void onTick(BlockEntitySpiritReanimator tile, ItemStack itemStack, int slot, int tick) {
         // Drain the tank a bit.
@@ -38,7 +35,10 @@ public class ReanimateTickAction implements ITickAction<BlockEntitySpiritReanima
             ItemStack spawnEgg = ItemStack.EMPTY;
             EntityType<?> entityType = tile.getEntityType();
             if(entityType != null) {
-                spawnEgg = getSpawnEgg(entityType);
+                SpawnEggItem spawnEggItem = ForgeSpawnEggItem.fromEntityType(entityType);
+                if (spawnEggItem != null) {
+                    spawnEgg = new ItemStack(spawnEggItem);
+                }
             }
             if(!spawnEgg.isEmpty() && addToProduceSlot(tile, spawnEgg)) {
                 tile.getInventory().removeItem(BlockEntitySpiritReanimator.SLOT_EGG, 1);
