@@ -209,12 +209,13 @@ public class EntityBroom extends Entity {
             if (source.getEntity() instanceof Player && source.getEntity() != lastMounted) {
                 if (isVehicle()) {
                     this.stopRiding();
-                }
-                remove(RemovalReason.DISCARDED);
-                Player player = (Player) source.getEntity();
-                if (!player.isCreative()) {
-                    ItemStack itemStack = getBroomStack().copy();
-                    this.spawnAtLocation(itemStack, 0.0F);
+                } else {
+                    remove(RemovalReason.DISCARDED);
+                    Player player = (Player) source.getEntity();
+                    if (!player.isCreative()) {
+                        ItemStack itemStack = getBroomStack().copy();
+                        this.spawnAtLocation(itemStack, 0.0F);
+                    }
                 }
             }
         }
