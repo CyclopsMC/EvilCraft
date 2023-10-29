@@ -74,7 +74,7 @@ public class ItemEffortlessRing extends Item {
             Player player = (Player) event.getEntity();
             if(player.getPersistentData().contains(PLAYER_NBT_KEY)) {
                 if (!ItemStackHelpers.hasPlayerItem(player, this)) {
-                    player.maxUpStep = player.getPersistentData().getFloat(PLAYER_NBT_KEY);
+                    player.setMaxUpStep(player.getPersistentData().getFloat(PLAYER_NBT_KEY));
                     player.getPersistentData().remove(PLAYER_NBT_KEY);
                 }
             }

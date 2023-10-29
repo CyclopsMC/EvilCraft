@@ -57,7 +57,7 @@ public class EntityWerewolf extends Monster {
     public EntityWerewolf(Level world) {
         super(RegistryEntries.ENTITY_WEREWOLF, world);
 
-        this.maxUpStep = 1.0F;
+        this.setMaxUpStep(1.0F);
 
         // This sets the default villager profession ID.
         this.villagerNBTTagCompound.putString("ProfessionName", ForgeRegistries.VILLAGER_PROFESSIONS.getKey(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF).toString());
