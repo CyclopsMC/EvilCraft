@@ -27,7 +27,6 @@ import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.blockentity.*;
 import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.blockentity.tickaction.purifier.PurifierActionRegistry;
-import org.cyclops.evilcraft.client.gui.container.ContainerScreenMainMenuEvilifier;
 import org.cyclops.evilcraft.client.particle.*;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.broom.BroomModifierRegistry;
@@ -147,11 +146,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         // Initialize info book
         getRegistryManager().getRegistry(IInfoBookRegistry.class).registerInfoBook(
                 OriginsOfDarknessBook.getInstance(), "/data/" + Reference.MOD_ID + "/info/book.xml");
-
-        // Add custom panorama's
-        if (MinecraftHelpers.isClientSide()) {
-            ContainerScreenMainMenuEvilifier.evilifyMainMenu();
-        }
     }
 
     @Override
