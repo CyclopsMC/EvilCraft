@@ -248,9 +248,11 @@ public class WorldStructureDarkTemple extends Structure {
         private int getPillarHeightForCornerAt(LevelAccessor world, BlockPos blockPos, int incX, int incZ) {
             BlockPos loopPos = blockPos.offset(4 * incX, 0, 4 * incZ);
             int res = 0;
-
             while (!isSolidBlock(world, loopPos)) {
                 loopPos = loopPos.offset(0, -1, 0);
+                if (loopPos.getY() <= world.getMinBuildHeight()) {
+                    return res;
+                }
                 res++;
             }
             return res;
