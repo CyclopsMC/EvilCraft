@@ -26,6 +26,7 @@ import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
@@ -49,13 +50,19 @@ public class ItemBiomeExtract extends Item {
         super(properties);
     }
 
+    @Nullable
     public static Registry<Biome> getBiomeRegistry() {
-        return WorldHelpers.getActiveLevel().registryAccess().registryOrThrow(Registries.BIOME);
+        Level level = WorldHelpers.getActiveLevel();
+        if (level == null) { // Can be null at startup time
+            return null;
+        }
+        return level.registryAccess().registryOrThrow(Registries.BIOME);
     }
 
     @Override
     public String getDescriptionId(ItemStack itemStack) {
-        return super.getDescriptionId(itemStack) + (getBiome(getBiomeRegistry(), itemStack) == null ? ".empty" : "");
+        Registry<Biome> biomeRegistry = getBiomeRegistry();
+        return super.getDescriptionId(itemStack) + (biomeRegistry == null || getBiome(biomeRegistry, itemStack) == null ? ".empty" : "");
     }
 
     @Override
@@ -85,12 +92,14 @@ public class ItemBiomeExtract extends Item {
     public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, world, list, flag);
         Registry<Biome> registry = getBiomeRegistry();
-        Biome biome = getBiome(registry, itemStack);
-        if(biome != null) {
-            // Biome name generation based on CreateBuffetWorldScreen
-            ResourceLocation key = registry.getKey(biome);
-            list.add(Component.translatable(getDescriptionId() + ".info.content",
-                    Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
+        if (registry != null) {
+            Biome biome = getBiome(registry, itemStack);
+            if (biome != null) {
+                // Biome name generation based on CreateBuffetWorldScreen
+                ResourceLocation key = registry.getKey(biome);
+                list.add(Component.translatable(getDescriptionId() + ".info.content",
+                        Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
+            }
         }
     }
 
@@ -139,7 +148,8 @@ public class ItemBiomeExtract extends Item {
 
     @Override
     public Rarity getRarity(ItemStack itemStack) {
-        Biome biome = getBiome(getBiomeRegistry(), itemStack);
+        Registry<Biome> biomeRegistry = getBiomeRegistry();
+        Biome biome = biomeRegistry != null ? getBiome(biomeRegistry, itemStack) : null;
         if(biome == null) {
             return Rarity.COMMON;
         } else {
@@ -154,7 +164,8 @@ public class ItemBiomeExtract extends Item {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             if(renderPass == 0) {
-                Biome biome = RegistryEntries.ITEM_BIOME_EXTRACT.getBiome(getBiomeRegistry(), itemStack);
+                Registry<Biome> biomeRegistry = getBiomeRegistry();
+                Biome biome = biomeRegistry != null ? RegistryEntries.ITEM_BIOME_EXTRACT.getBiome(biomeRegistry, itemStack) : null;
                 if(biome != null) {
                     return biome.getFoliageColor();
                 } else {
