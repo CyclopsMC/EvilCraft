@@ -18,7 +18,7 @@
       },
       {
         "state": {
-          "Name": "minecraft:dark_ore_deepslate",
+          "Name": "evilcraft:dark_ore_deepslate",
           "Properties": {
             "glowing": "false"
           }
