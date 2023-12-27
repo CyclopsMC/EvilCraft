@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.18.4 or higher.
+
+Changes:
+* Increase spawn rate of Dark Ore, Closes #1018
+  Regular Dark Ore spawned too infrequently, and the Deepslate version never spawned at all.
+
+Fixes:
+* Fix missing texture for Colossal Blood Chest, Closes #1017
+
