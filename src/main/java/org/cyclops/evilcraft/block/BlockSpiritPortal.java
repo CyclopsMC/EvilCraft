@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -61,7 +62,8 @@ public class BlockSpiritPortal extends BlockWithEntity {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void palingDeath(LivingDeathEvent event) {
-        if(event.getSource() == ExtendedDamageSources.paling(event.getEntity().level())) {
+        if(event.getSource().type()
+                .equals(event.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ExtendedDamageSources.DAMAGE_TYPE_PALING).value())) {
             tryPlacePortal(event.getEntity().level(), event.getEntity().blockPosition().offset(0, 1, 0));
         }
     }
