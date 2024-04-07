@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.18.4 or higher.
+
+Fixes:
+* Fix item IO side mapping of Colossal Blood Chest, Closes #1025
+* Catch exceptions when getting vengeance spirit sounds, Closes #1023
+
