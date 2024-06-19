@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "evilcraft:dark_brick",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 1000
+  "input_item": {
+    "item": "evilcraft:dark_brick"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 1000
+  },
+  "output_item": {
     "item": "evilcraft:dark_blood_brick"
   },
   "duration": 250,

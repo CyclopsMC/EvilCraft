@@ -21,9 +21,7 @@
       "trigger": "minecraft:consume_item",
       "conditions": {
         "item": {
-          "items": [
-            "evilcraft:flesh_humanoid"
-          ]
+          "item": "evilcraft:flesh_humanoid"
         }
       }
     }

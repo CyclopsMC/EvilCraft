@@ -2,8 +2,6 @@ package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,16 +13,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemBloodPearlOfTeleportation;
 import org.cyclops.evilcraft.item.ItemBloodPearlOfTeleportationConfig;
-
-import javax.annotation.Nonnull;
 
 /**
  * Entity for the {@link ItemBloodPearlOfTeleportation}.
@@ -39,13 +34,7 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
     }
 
     public EntityBloodPearl(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_BLOOD_PEARL, entity, world);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        super(RegistryEntries.ENTITY_BLOOD_PEARL.get(), entity, world);
     }
 
     @Override
@@ -61,7 +50,7 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
 
                 if (entityplayermp.connection.connection.isConnected() && entityplayermp.level() == this.level()) {
                     EntityTeleportEvent event = new EntityTeleportEvent(entityplayermp, this.getX(), this.getY(), this.getZ());
-                    if (!MinecraftForge.EVENT_BUS.post(event)) {
+                    if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
                         if (this.getOwner().isPassenger()) {
                             this.getOwner().stopRiding();
                         }

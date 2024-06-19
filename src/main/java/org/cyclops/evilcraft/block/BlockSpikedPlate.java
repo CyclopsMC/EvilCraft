@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -11,13 +12,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BasePressurePlateBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -34,8 +36,15 @@ import java.util.List;
  */
 public class BlockSpikedPlate extends BlockPressurePlate {
 
+    public static final MapCodec<BlockSpikedPlate> CODEC = simpleCodec(BlockSpikedPlate::new);
+
     public BlockSpikedPlate(Block.Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends BasePressurePlateBlock> codec() {
+        return CODEC;
     }
 
     @Override

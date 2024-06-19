@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "evilcraft:ender_tear",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 3500
+  "input_item": {
+    "item": "evilcraft:ender_tear"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 3500
+  },
+  "output_item": {
     "item": "minecraft:ghast_tear"
   },
   "duration": 500,

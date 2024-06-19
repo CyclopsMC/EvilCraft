@@ -4,12 +4,12 @@ import com.google.common.collect.Maps;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.LogicalSide;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.LogicalSide;
+import net.neoforged.neoforge.event.TickEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
@@ -111,13 +111,22 @@ public class WorldSharedTankCache {
         return this.tick;
     }
 
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void onTickServer(TickEvent.ServerTickEvent event) {
+        this.onTick(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public void onTickClient(TickEvent.ClientTickEvent event) {
+        this.onTick(event);
+    }
+
     /**
      * When a tick event is received.
      * @param event The received event.
      */
-    @SubscribeEvent(priority = EventPriority.NORMAL)
     public void onTick(TickEvent event) {
-        if(event.phase == TickEvent.Phase.START && (event.type == TickEvent.Type.CLIENT || event.type == TickEvent.Type.SERVER)) {
+        if(event.phase == TickEvent.Phase.START) {
             tick++;
             if(event.side == LogicalSide.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
                 Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();

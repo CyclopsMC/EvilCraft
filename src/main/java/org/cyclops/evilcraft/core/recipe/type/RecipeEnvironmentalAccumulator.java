@@ -4,7 +4,6 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -17,26 +16,25 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
+import java.util.Optional;
+
 /**
  * Environmental Accumulator recipe
  * @author rubensworks
  */
 public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmentalAccumulator.Inventory> {
 
-    private final ResourceLocation id;
     private final Ingredient inputIngredient;
     private final WeatherType inputWeather;
     private final Either<ItemStack, ItemStackFromIngredient> outputItem;
     private final WeatherType outputWeather;
-    private final int duration;
-    private final int cooldownTime;
-    private final float processingSpeed;
+    private final Optional<Integer> duration;
+    private final Optional<Integer> cooldownTime;
+    private final Optional<Float> processingSpeed;
 
-    public RecipeEnvironmentalAccumulator(ResourceLocation id,
-                                          Ingredient inputIngredient, WeatherType inputWeather,
+    public RecipeEnvironmentalAccumulator(Ingredient inputIngredient, WeatherType inputWeather,
                                           Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
-                                          int duration, int cooldownTime, float processingSpeed) {
-        this.id = id;
+                                          Optional<Integer> duration, Optional<Integer> cooldownTime, Optional<Float> processingSpeed) {
         this.inputIngredient = inputIngredient;
         this.inputWeather = inputWeather;
         this.outputItem = outputItem;
@@ -66,7 +64,20 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         return outputWeather;
     }
 
+    public Optional<Integer> getDurationRaw() {
+        return this.duration;
+    }
+
+    public Optional<Integer> getCooldownTimeRaw() {
+        return this.cooldownTime;
+    }
+
+    public Optional<Float> getProcessingSpeedRaw() {
+        return this.processingSpeed;
+    }
+
     public int getDuration() {
+        int duration = getDurationRaw().orElse(-1);
         // Note: we need to do this because defaultProcessItemTickCount is set AFTER the recipes are created
         if (duration < 0)
             return BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
@@ -75,6 +86,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     public int getCooldownTime() {
+        int cooldownTime = getCooldownTimeRaw().orElse(-1);
         // Note: we need to do this because defaultProcessItemTickCount is set AFTER the recipes are created
         if (cooldownTime < 0)
             return BlockEnvironmentalAccumulatorConfig.defaultTickCooldown;
@@ -83,6 +95,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     public float getProcessingSpeed() {
+        float processingSpeed = getProcessingSpeedRaw().orElse(-1.0F);
         // Note: we need to do this because defaultProcessItemSpeed is set AFTER the recipes are created
         if (processingSpeed < 0)
             return (float) BlockEnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
@@ -124,18 +137,13 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
     public RecipeSerializer<?> getSerializer() {
-        return RegistryEntries.RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR;
+        return RegistryEntries.RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR.get();
     }
 
     @Override
     public RecipeType<?> getType() {
-        return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR;
+        return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get();
     }
 
     public static interface Inventory extends Container {

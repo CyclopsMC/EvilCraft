@@ -4,8 +4,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerDestroyItemEvent;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -43,11 +43,11 @@ public class ItemBurningGemStone extends Item {
         while(it.hasNext()) {
             Pair<Integer, ItemStack> current = it.nextIndexed();
             ItemStack itemStack = current.getRight();
-            if(!itemStack.isEmpty() && itemStack.getItem() == RegistryEntries.ITEM_BURNING_GEM_STONE) {
+            if(!itemStack.isEmpty() && itemStack.getItem() == RegistryEntries.ITEM_BURNING_GEM_STONE.get()) {
                 if(!simulate) {
                     itemStack.hurtAndBreak(1 + swarmTier, player, (p) -> {
                         p.getInventory().setItem(current.getLeft(), ItemStack.EMPTY);
-                        MinecraftForge.EVENT_BUS.post(new PlayerDestroyItemEvent(p, itemStack, null));
+                        NeoForge.EVENT_BUS.post(new PlayerDestroyItemEvent(p, itemStack, null));
                     });
                     player.causeFoodExhaustion(10);
                 }

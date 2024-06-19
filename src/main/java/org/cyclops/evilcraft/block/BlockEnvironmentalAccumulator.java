@@ -1,7 +1,9 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -20,6 +22,8 @@ import javax.annotation.Nullable;
  *
  */
 public class BlockEnvironmentalAccumulator extends BlockWithEntity {
+
+    public static final MapCodec<BlockEnvironmentalAccumulator> CODEC = simpleCodec(BlockEnvironmentalAccumulator::new);
 
     /**
      * State indicating the environmental accumulator is idle.
@@ -50,9 +54,14 @@ public class BlockEnvironmentalAccumulator extends BlockWithEntity {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR, new BlockEntityEnvironmentalAccumulator.Ticker());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR.get(), new BlockEntityEnvironmentalAccumulator.Ticker());
     }
 
     @Override

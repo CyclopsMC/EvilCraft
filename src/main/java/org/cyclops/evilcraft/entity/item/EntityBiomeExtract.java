@@ -6,8 +6,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -31,8 +29,6 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.CyclopsCore;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -44,7 +40,6 @@ import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 import org.cyclops.evilcraft.item.ItemBiomeExtract;
 import org.cyclops.evilcraft.network.packet.ResetChunkColorsPacket;
 
-import javax.annotation.Nonnull;
 import java.util.Set;
 
 /**
@@ -61,7 +56,7 @@ public class EntityBiomeExtract extends EntityThrowable {
     }
 
     public EntityBiomeExtract(Level world) {
-        this(RegistryEntries.ENTITY_BIOME_EXTRACT, world);
+        this(RegistryEntries.ENTITY_BIOME_EXTRACT.get(), world);
     }
 
     public EntityBiomeExtract(Level world, LivingEntity entity) {
@@ -69,14 +64,8 @@ public class EntityBiomeExtract extends EntityThrowable {
     }
 
     public EntityBiomeExtract(Level world, LivingEntity entity, ItemStack stack) {
-        super(RegistryEntries.ENTITY_BIOME_EXTRACT, world, entity);
+        super(RegistryEntries.ENTITY_BIOME_EXTRACT.get(), world, entity);
         setItemStack(stack);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
@@ -179,8 +168,7 @@ public class EntityBiomeExtract extends EntityThrowable {
             // This hack allows us to convert to the biome instance that is required for chunk serialization.
             // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
             Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registries.BIOME);
-            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registries.BIOME, biomeRegistry.getKey(biome)))
-                    .orElseGet(() -> biomeRegistry.getHolder(ResourceKey.create(Registries.BIOME, ForgeRegistries.BIOMES.getKey(biome))).get());
+            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registries.BIOME, biomeRegistry.getKey(biome))).get();
 
             // Update biome in chunk
             // Based on ChunkAccess#getNoiseBiome

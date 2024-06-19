@@ -14,7 +14,7 @@ import org.cyclops.evilcraft.core.entity.item.EntityItemIndestructable;
 public class EntityItemUndespawnable extends EntityItemIndestructable {
 
     public EntityItemUndespawnable(Level world, ItemEntity original) {
-        super(RegistryEntries.ENTITY_ITEM_UNDESPAWNABLE, world, original);
+        super(RegistryEntries.ENTITY_ITEM_UNDESPAWNABLE.get(), world, original);
     }
 
     public EntityItemUndespawnable(EntityType<? extends EntityItemUndespawnable> type, Level world) {

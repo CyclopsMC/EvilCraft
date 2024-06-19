@@ -1,8 +1,11 @@
 package org.cyclops.evilcraft;
 
+import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -15,10 +18,17 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
+import org.cyclops.evilcraft.advancement.criterion.BoxOfEternalClosureCaptureTrigger;
+import org.cyclops.evilcraft.advancement.criterion.DistortTrigger;
+import org.cyclops.evilcraft.advancement.criterion.FartTrigger;
+import org.cyclops.evilcraft.advancement.criterion.NecromanceTrigger;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.block.BlockDarkBloodBrick;
 import org.cyclops.evilcraft.block.BlockDarkTank;
@@ -78,332 +88,193 @@ import org.cyclops.evilcraft.world.gen.structure.WorldStructureDarkTemple;
  */
 public class RegistryEntries {
 
-    @ObjectHolder(registryName = "item", value = "evilcraft:blood_pearl_of_teleportation")
-    public static final Item ITEM_BLOOD_PEARL_OF_TELEPORTATION = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:blood_infusion_core")
-    public static final Item ITEM_BLOOD_INFUSION_CORE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:broom")
-    public static final Item ITEM_BROOM = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:broom_part")
-    public static final Item ITEM_BROOM_PART = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:bucket_blood")
-    public static final Item ITEM_BUCKET_BLOOD = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:bucket_poison")
-    public static final Item ITEM_BUCKET_POISON = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:blook")
-    public static final Item ITEM_BLOOK = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:dark_gem")
-    public static final Item ITEM_DARK_GEM = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:dark_gem_crushed")
-    public static final Item ITEM_DARK_GEM_CRUSHED = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:dark_power_gem")
-    public static final Item ITEM_DARK_POWER_GEM = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:dark_tank")
-    public static final Item ITEM_DARK_TANK = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:dark_spike")
-    public static final Item ITEM_DARK_SPIKE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:biome_extract")
-    public static final ItemBiomeExtract ITEM_BIOME_EXTRACT = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:bowl_of_promises_empty")
-    public static final Item ITEM_BOWL_OF_PROMISES_EMPTY = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:box_of_eternal_closure")
-    public static final Item ITEM_BOX_OF_ETERNAL_CLOSURE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:blood_extractor")
-    public static final Item ITEM_BLOOD_EXTRACTOR = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:burning_gem_stone")
-    public static final Item ITEM_BURNING_GEM_STONE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:entangled_chalice")
-    public static final Item ITEM_ENTANGLED_CHALICE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:exalted_crafter")
-    public static final Item ITEM_EXALTED_CRAFTER = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:exalted_crafter_wooden")
-    public static final Item ITEM_EXALTED_CRAFTER_WOODEN = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:exalted_crafter_empowered")
-    public static final Item ITEM_EXALTED_CRAFTER_EMPOWERED = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:exalted_crafter_wooden_empowered")
-    public static final Item ITEM_EXALTED_CRAFTER_WOODEN_EMPOWERED = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:garmonbozia")
-    public static final Item ITEM_GARMONBOZIA = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:flesh_werewolf")
-    public static final Item ITEM_FLESH_WEREWOLF = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:flesh_werewolf")
-    public static final Item ITEM_FLESH_HUMANOID = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:hardened_blood_shard")
-    public static final Item ITEM_HARDENED_BLOOD_SHARD = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:mace_of_distortion")
-    public static final ItemMaceOfDistortion ITEM_MACE_OF_DISTORTION = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:promise_tier_1")
-    public static final Item ITEM_PROMISE_TIER_1 = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:promise_tier_2")
-    public static final Item ITEM_PROMISE_TIER_2 = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:promise_tier_3")
-    public static final Item ITEM_PROMISE_TIER_3 = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:promise_speed_0")
-    public static final Item ITEM_PROMISE_SPEED = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:promise_efficiency_0")
-    public static final Item ITEM_PROMISE_EFFICIENCY = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:inverted_potentia")
-    public static final Item ITEM_INVERTED_POTENTIA = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:inverted_potentia_empowered")
-    public static final Item ITEM_INVERTED_POTENTIA_EMPOWERED = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:lightning_grenade")
-    public static final Item ITEM_LIGHTNING_GRENADE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:origins_of_darkness")
-    public static final Item ITEM_ORIGINS_OF_DARKNESS = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:poison_sac")
-    public static final Item ITEM_POISON_SAC = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:redstone_grenade")
-    public static final Item ITEM_REDSTONE_GRENADE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:vein_sword")
-    public static final ItemVeinSword ITEM_VEIN_SWORD = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:undead_sapling")
-    public static final Item ITEM_UNDEAD_SAPLING = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:vengeance_focus")
-    public static final Item ITEM_VENGEANCE_FOCUS = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:vengeance_pickaxe")
-    public static final ItemVengeancePickaxe ITEM_VENGEANCE_PICKAXE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:weather_container")
-    public static final Item ITEM_WEATHER_CONTAINER = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:werewolf_bone")
-    public static final Item ITEM_WEREWOLF_BONE = null;
-    @ObjectHolder(registryName = "item", value = "evilcraft:werewolf_fur")
-    public static final Item ITEM_WEREWOLF_FUR = null;
+    public static final DeferredHolder<Item, Item> ITEM_BLOOD_PEARL_OF_TELEPORTATION = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:blood_pearl_of_teleportation"));
+    public static final DeferredHolder<Item, Item> ITEM_BLOOD_INFUSION_CORE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:blood_infusion_core"));
+    public static final DeferredHolder<Item, Item> ITEM_BROOM = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:broom"));
+    public static final DeferredHolder<Item, Item> ITEM_BROOM_PART = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:broom_part"));
+    public static final DeferredHolder<Item, Item> ITEM_BUCKET_BLOOD = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:bucket_blood"));
+    public static final DeferredHolder<Item, Item> ITEM_BUCKET_POISON = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:bucket_poison"));
+    public static final DeferredHolder<Item, Item> ITEM_BLOOK = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:blook"));
+    public static final DeferredHolder<Item, Item> ITEM_DARK_GEM = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:dark_gem"));
+    public static final DeferredHolder<Item, Item> ITEM_DARK_GEM_CRUSHED = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:dark_gem_crushed"));
+    public static final DeferredHolder<Item, Item> ITEM_DARK_POWER_GEM = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:dark_power_gem"));
+    public static final DeferredHolder<Item, Item> ITEM_DARK_TANK = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:dark_tank"));
+    public static final DeferredHolder<Item, Item> ITEM_DARK_SPIKE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:dark_spike"));
+    public static final DeferredHolder<Item, ItemBiomeExtract> ITEM_BIOME_EXTRACT = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:biome_extract"));
+    public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_EMPTY = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:bowl_of_promises_empty"));
+    public static final DeferredHolder<Item, Item> ITEM_BOX_OF_ETERNAL_CLOSURE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:box_of_eternal_closure"));
+    public static final DeferredHolder<Item, Item> ITEM_BLOOD_EXTRACTOR = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:blood_extractor"));
+    public static final DeferredHolder<Item, Item> ITEM_BURNING_GEM_STONE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:burning_gem_stone"));
+    public static final DeferredHolder<Item, Item> ITEM_ENTANGLED_CHALICE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:entangled_chalice"));
+    public static final DeferredHolder<Item, Item> ITEM_EXALTED_CRAFTER = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:exalted_crafter"));
+    public static final DeferredHolder<Item, Item> ITEM_EXALTED_CRAFTER_WOODEN = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:exalted_crafter_wooden"));
+    public static final DeferredHolder<Item, Item> ITEM_EXALTED_CRAFTER_EMPOWERED = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:exalted_crafter_empowered"));
+    public static final DeferredHolder<Item, Item> ITEM_EXALTED_CRAFTER_WOODEN_EMPOWERED = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:exalted_crafter_wooden_empowered"));
+    public static final DeferredHolder<Item, Item> ITEM_GARMONBOZIA = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:garmonbozia"));
+    public static final DeferredHolder<Item, Item> ITEM_FLESH_WEREWOLF = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:flesh_werewolf"));
+    public static final DeferredHolder<Item, Item> ITEM_FLESH_HUMANOID = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:flesh_werewolf"));
+    public static final DeferredHolder<Item, Item> ITEM_HARDENED_BLOOD_SHARD = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:hardened_blood_shard"));
+    public static final DeferredHolder<Item, ItemMaceOfDistortion> ITEM_MACE_OF_DISTORTION = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:mace_of_distortion"));
+    public static final DeferredHolder<Item, Item> ITEM_PROMISE_TIER_1 = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:promise_tier_1"));
+    public static final DeferredHolder<Item, Item> ITEM_PROMISE_TIER_2 = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:promise_tier_2"));
+    public static final DeferredHolder<Item, Item> ITEM_PROMISE_TIER_3 = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:promise_tier_3"));
+    public static final DeferredHolder<Item, Item> ITEM_PROMISE_SPEED = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:promise_speed_0"));
+    public static final DeferredHolder<Item, Item> ITEM_PROMISE_EFFICIENCY = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:promise_efficiency_0"));
+    public static final DeferredHolder<Item, Item> ITEM_INVERTED_POTENTIA = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:inverted_potentia"));
+    public static final DeferredHolder<Item, Item> ITEM_INVERTED_POTENTIA_EMPOWERED = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:inverted_potentia_empowered"));
+    public static final DeferredHolder<Item, Item> ITEM_LIGHTNING_GRENADE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:lightning_grenade"));
+    public static final DeferredHolder<Item, Item> ITEM_ORIGINS_OF_DARKNESS = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:origins_of_darkness"));
+    public static final DeferredHolder<Item, Item> ITEM_POISON_SAC = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:poison_sac"));
+    public static final DeferredHolder<Item, Item> ITEM_REDSTONE_GRENADE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:redstone_grenade"));
+    public static final DeferredHolder<Item, ItemVeinSword> ITEM_VEIN_SWORD = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:vein_sword"));
+    public static final DeferredHolder<Item, Item> ITEM_UNDEAD_SAPLING = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:undead_sapling"));
+    public static final DeferredHolder<Item, Item> ITEM_VENGEANCE_FOCUS = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:vengeance_focus"));
+    public static final DeferredHolder<Item, ItemVengeancePickaxe> ITEM_VENGEANCE_PICKAXE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:vengeance_pickaxe"));
+    public static final DeferredHolder<Item, Item> ITEM_WEATHER_CONTAINER = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:weather_container"));
 
-    @ObjectHolder(registryName = "block", value = "evilcraft:blood")
-    public static final LiquidBlock BLOCK_BLOOD = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:blood_chest")
-    public static final Block BLOCK_BLOOD_CHEST = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:blood_infuser")
-    public static final Block BLOCK_BLOOD_INFUSER = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:blood_stain")
-    public static final Block BLOCK_BLOOD_STAIN = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:bloody_cobblestone")
-    public static final Block BLOCK_BLOODY_COBBLESTONE = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:box_of_eternal_closure")
-    public static final Block BLOCK_BOX_OF_ETERNAL_CLOSURE = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:colossal_blood_chest")
-    public static final BlockColossalBloodChest BLOCK_COLOSSAL_BLOOD_CHEST = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:dark_blood_brick")
-    public static final BlockDarkBloodBrick BLOCK_DARK_BLOOD_BRICK = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:dark_brick")
-    public static final Block BLOCK_DARK_BRICK = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:dark_tank")
-    public static final BlockDarkTank BLOCK_DARK_TANK = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:display_stand")
-    public static final BlockDisplayStand BLOCK_DISPLAY_STAND = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:entangled_chalice")
-    public static final Block BLOCK_ENTANGLED_CHALICE = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:environmental_accumulator")
-    public static final Block BLOCK_ENVIRONMENTAL_ACCUMULATOR = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:eternal_water")
-    public static final Block BLOCK_ETERNAL_WATER = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:gem_stone_torch")
-    public static final Block BLOCK_GEM_STONE_TORCH = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:gem_stone_torch_wall")
-    public static final Block BLOCK_GEM_STONE_TORCH_WALL = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:hardened_blood")
-    public static final Block BLOCK_HARDENED_BLOOD = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:invisible_redstone")
-    public static final Block BLOCK_INVISIBLE_REDSTONE = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:infested_nether_netherrack")
-    public static final Block BLOCK_INFESTED_NETHER_NETHERRACK = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:infested_nether_nether_bricks")
-    public static final Block BLOCK_INFESTED_NETHER_NETHER_BRICK = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:infested_nether_soul_sand")
-    public static final Block BLOCK_INFESTED_NETHER_SOUL_SAND = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:lightning_bomb")
-    public static final Block BLOCK_LIGHTNING_BOMB_PRIMED = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:poison")
-    public static final LiquidBlock BLOCK_POISON = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:purifier")
-    public static final Block BLOCK_PURIFIER = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:reinforced_undead_planks")
-    public static final BlockReinforcedUndeadPlank BLOCK_REINFORCED_UNDEAD_PLANKS = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:sanguinary_environmental_accumulator")
-    public static final Block BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:sanguinary_pedestal_0")
-    public static final Block BLOCK_SANGUINARY_PEDESTAL_0 = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:sanguinary_pedestal_1")
-    public static final Block BLOCK_SANGUINARY_PEDESTAL_1 = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:spirit_furnace")
-    public static final BlockSpiritFurnace BLOCK_SPIRIT_FURNACE = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:spirit_portal")
-    public static final Block BLOCK_SPIRIT_PORTAL = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:spirit_reanimator")
-    public static final Block BLOCK_SPIRIT_REANIMATOR = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:undead_leaves")
-    public static final Block BLOCK_UNDEAD_LEAVES = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:undead_log")
-    public static final Block BLOCK_UNDEAD_LOG = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:undead_log_stripped")
-    public static final Block BLOCK_UNDEAD_LOG_STRIPPED = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:undead_wood")
-    public static final Block BLOCK_UNDEAD_WOOD = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:undead_wood_stripped")
-    public static final Block BLOCK_UNDEAD_WOOD_STRIPPED = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:undead_planks")
-    public static final Block BLOCK_UNDEAD_PLANK = null;
-    @ObjectHolder(registryName = "block", value = "evilcraft:undead_sapling")
-    public static final Block BLOCK_UNDEAD_SAPLING = null;
+    public static final DeferredHolder<Item, Item> ITEM_WEREWOLF_BONE = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:werewolf_bone"));
+    public static final DeferredHolder<Item, Item> ITEM_WEREWOLF_FUR = DeferredHolder.create(Registries.ITEM, new ResourceLocation("evilcraft:werewolf_fur"));
 
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:blood_chest")
-    public static final BlockEntityType<BlockEntityBloodChest> BLOCK_ENTITY_BLOOD_CHEST = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:blood_infuser")
-    public static final BlockEntityType<BlockEntityBloodInfuser> BLOCK_ENTITY_BLOOD_INFUSER = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:blood_stain")
-    public static final BlockEntityType<BlockEntityBloodStain> BLOCK_ENTITY_BLOOD_STAIN = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:box_of_eternal_closure")
-    public static final BlockEntityType<BlockEntityBoxOfEternalClosure> BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:colossal_blood_chest")
-    public static final BlockEntityType<BlockEntityColossalBloodChest> BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:dark_tank")
-    public static final BlockEntityType<BlockEntityDarkTank> BLOCK_ENTITY_DARK_TANK = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:display_stand")
-    public static final BlockEntityType<BlockEntityDisplayStand> BLOCK_ENTITY_DISPLAY_STAND = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:entangled_chalice")
-    public static final BlockEntityType<BlockEntityEntangledChalice> BLOCK_ENTITY_ENTANGLED_CHALICE = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:environmental_accumulator")
-    public static final BlockEntityType<BlockEntityEnvironmentalAccumulator> BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:eternal_water")
-    public static final BlockEntityType<BlockEntityEternalWater> BLOCK_ENTITY_ETERNAL_WATER = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:invisible_redstone")
-    public static final BlockEntityType<BlockEntityInvisibleRedstone> BLOCK_ENTITY_INVISIBLE_REDSTONE = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:purifier")
-    public static final BlockEntityType<BlockEntityPurifier> BLOCK_ENTITY_PURIFIER = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:sanguinary_environmental_accumulator")
-    public static final BlockEntityType<BlockEntitySanguinaryEnvironmentalAccumulator> BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:sanguinary_pedestal")
-    public static final BlockEntityType<BlockEntitySanguinaryPedestal> BLOCK_ENTITY_SANGUINARY_PEDESTAL = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:spirit_furnace")
-    public static final BlockEntityType<BlockEntitySpiritFurnace> BLOCK_ENTITY_SPIRIT_FURNACE = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:spirit_portal")
-    public static final BlockEntityType<BlockEntitySpiritPortal> BLOCK_ENTITY_SPIRIT_PORTAL = null;
-    @ObjectHolder(registryName = "block_entity_type", value = "evilcraft:spirit_reanimator")
-    public static final BlockEntityType<BlockEntitySpiritReanimator> BLOCK_ENTITY_SPIRIT_REANIMATOR = null;
+    public static final DeferredHolder<Block, LiquidBlock> BLOCK_BLOOD = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:blood"));
+    public static final DeferredHolder<Block, Block> BLOCK_BLOOD_CHEST = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:blood_chest"));
+    public static final DeferredHolder<Block, Block> BLOCK_BLOOD_INFUSER = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:blood_infuser"));
+    public static final DeferredHolder<Block, Block> BLOCK_BLOOD_STAIN = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:blood_stain"));
+    public static final DeferredHolder<Block, Block> BLOCK_BLOODY_COBBLESTONE = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:bloody_cobblestone"));
+    public static final DeferredHolder<Block, Block> BLOCK_BOX_OF_ETERNAL_CLOSURE = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:box_of_eternal_closure"));
+    public static final DeferredHolder<Block, BlockColossalBloodChest> BLOCK_COLOSSAL_BLOOD_CHEST = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:colossal_blood_chest"));
+    public static final DeferredHolder<Block, BlockDarkBloodBrick> BLOCK_DARK_BLOOD_BRICK = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:dark_blood_brick"));
+    public static final DeferredHolder<Block, Block> BLOCK_DARK_BRICK = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:dark_brick"));
+    public static final DeferredHolder<Block, BlockDarkTank> BLOCK_DARK_TANK = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:dark_tank"));
+    public static final DeferredHolder<Block, BlockDisplayStand> BLOCK_DISPLAY_STAND = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:display_stand"));
+    public static final DeferredHolder<Block, Block> BLOCK_ENTANGLED_CHALICE = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:entangled_chalice"));
+    public static final DeferredHolder<Block, Block> BLOCK_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:environmental_accumulator"));
+    public static final DeferredHolder<Block, Block> BLOCK_ETERNAL_WATER = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:eternal_water"));
+    public static final DeferredHolder<Block, Block> BLOCK_GEM_STONE_TORCH = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:gem_stone_torch"));
+    public static final DeferredHolder<Block, Block> BLOCK_GEM_STONE_TORCH_WALL = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:gem_stone_torch_wall"));
+    public static final DeferredHolder<Block, Block> BLOCK_HARDENED_BLOOD = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:hardened_blood"));
+    public static final DeferredHolder<Block, Block> BLOCK_INVISIBLE_REDSTONE = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:invisible_redstone"));
+    public static final DeferredHolder<Block, Block> BLOCK_INFESTED_NETHER_NETHERRACK = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:infested_nether_netherrack"));
+    public static final DeferredHolder<Block, Block> BLOCK_INFESTED_NETHER_NETHER_BRICK = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:infested_nether_nether_bricks"));
+    public static final DeferredHolder<Block, Block> BLOCK_INFESTED_NETHER_SOUL_SAND = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:infested_nether_soul_sand"));
+    public static final DeferredHolder<Block, Block> BLOCK_LIGHTNING_BOMB_PRIMED = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:lightning_bomb"));
+    public static final DeferredHolder<Block, LiquidBlock> BLOCK_POISON = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:poison"));
+    public static final DeferredHolder<Block, Block> BLOCK_PURIFIER = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:purifier"));
+    public static final DeferredHolder<Block, BlockReinforcedUndeadPlank> BLOCK_REINFORCED_UNDEAD_PLANKS = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:reinforced_undead_planks"));
+    public static final DeferredHolder<Block, Block> BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:sanguinary_environmental_accumulator"));
+    public static final DeferredHolder<Block, Block> BLOCK_SANGUINARY_PEDESTAL_0 = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:sanguinary_pedestal_0"));
+    public static final DeferredHolder<Block, Block> BLOCK_SANGUINARY_PEDESTAL_1 = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:sanguinary_pedestal_1"));
+    public static final DeferredHolder<Block, BlockSpiritFurnace> BLOCK_SPIRIT_FURNACE = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:spirit_furnace"));
+    public static final DeferredHolder<Block, Block> BLOCK_SPIRIT_PORTAL = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:spirit_portal"));
+    public static final DeferredHolder<Block, Block> BLOCK_SPIRIT_REANIMATOR = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:spirit_reanimator"));
+    public static final DeferredHolder<Block, Block> BLOCK_UNDEAD_LEAVES = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:undead_leaves"));
+    public static final DeferredHolder<Block, Block> BLOCK_UNDEAD_LOG = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:undead_log"));
+    public static final DeferredHolder<Block, Block> BLOCK_UNDEAD_LOG_STRIPPED = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:undead_log_stripped"));
+    public static final DeferredHolder<Block, Block> BLOCK_UNDEAD_WOOD = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:undead_wood"));
+    public static final DeferredHolder<Block, Block> BLOCK_UNDEAD_WOOD_STRIPPED = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:undead_wood_stripped"));
+    public static final DeferredHolder<Block, Block> BLOCK_UNDEAD_PLANK = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:undead_planks"));
+    public static final DeferredHolder<Block, Block> BLOCK_UNDEAD_SAPLING = DeferredHolder.create(Registries.BLOCK, new ResourceLocation("evilcraft:undead_sapling"));
 
-    @ObjectHolder(registryName = "fluid", value = "evilcraft:blood")
-    public static final FlowingFluid FLUID_BLOOD = null;
-    @ObjectHolder(registryName = "fluid", value = "evilcraft:poison")
-    public static final FlowingFluid FLUID_POISON = null;
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityBloodChest>> BLOCK_ENTITY_BLOOD_CHEST = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:blood_chest"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityBloodInfuser>> BLOCK_ENTITY_BLOOD_INFUSER = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:blood_infuser"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityBloodStain>> BLOCK_ENTITY_BLOOD_STAIN = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:blood_stain"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityBoxOfEternalClosure>> BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:box_of_eternal_closure"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityColossalBloodChest>> BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:colossal_blood_chest"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityDarkTank>> BLOCK_ENTITY_DARK_TANK = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:dark_tank"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityDisplayStand>> BLOCK_ENTITY_DISPLAY_STAND = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:display_stand"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityEntangledChalice>> BLOCK_ENTITY_ENTANGLED_CHALICE = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:entangled_chalice"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityEnvironmentalAccumulator>> BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:environmental_accumulator"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityEternalWater>> BLOCK_ENTITY_ETERNAL_WATER = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:eternal_water"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityInvisibleRedstone>> BLOCK_ENTITY_INVISIBLE_REDSTONE = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:invisible_redstone"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntityPurifier>> BLOCK_ENTITY_PURIFIER = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:purifier"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntitySanguinaryEnvironmentalAccumulator>> BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:sanguinary_environmental_accumulator"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntitySanguinaryPedestal>> BLOCK_ENTITY_SANGUINARY_PEDESTAL = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:sanguinary_pedestal"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntitySpiritFurnace>> BLOCK_ENTITY_SPIRIT_FURNACE = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:spirit_furnace"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntitySpiritPortal>> BLOCK_ENTITY_SPIRIT_PORTAL = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:spirit_portal"));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlockEntitySpiritReanimator>> BLOCK_ENTITY_SPIRIT_REANIMATOR = DeferredHolder.create(Registries.BLOCK_ENTITY_TYPE, new ResourceLocation("evilcraft:spirit_reanimator"));
 
-    @ObjectHolder(registryName = "mob_effect", value = "evilcraft:paling")
-    public static final MobEffect POTION_PALING = null;
+    public static final DeferredHolder<Fluid, FlowingFluid> FLUID_BLOOD = DeferredHolder.create(Registries.FLUID, new ResourceLocation("evilcraft:blood"));
+    public static final DeferredHolder<Fluid, FlowingFluid> FLUID_POISON = DeferredHolder.create(Registries.FLUID, new ResourceLocation("evilcraft:poison"));
 
-    @ObjectHolder(registryName = "enchantment", value = "evilcraft:vengeance")
-    public static final Enchantment ENCHANTMENT_VENGEANCE = null;
-    @ObjectHolder(registryName = "enchantment", value = "evilcraft:life_stealing")
-    public static final Enchantment ENCHANTMENT_LIFE_STEALING = null;
+    public static final DeferredHolder<MobEffect, MobEffect> POTION_PALING = DeferredHolder.create(Registries.MOB_EFFECT, new ResourceLocation("evilcraft:paling"));
 
-    @ObjectHolder(registryName = "menu", value = "evilcraft:blood_chest")
-    public static final MenuType<ContainerBloodChest> CONTAINER_BLOOD_CHEST = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:blood_infuser")
-    public static final MenuType<ContainerBloodInfuser> CONTAINER_BLOOD_INFUSER = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:colossal_blood_chest")
-    public static final MenuType<ContainerColossalBloodChest> CONTAINER_COLOSSAL_BLOOD_CHEST = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:exalted_crafter")
-    public static final MenuType<ContainerExaltedCrafter> CONTAINER_EXALTED_CRAFTER = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:origins_of_darkness")
-    public static final MenuType<ContainerOriginsOfDarkness> CONTAINER_ORIGINS_OF_DARKNESS = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:primed_pendant")
-    public static final MenuType<ContainerPrimedPendant> CONTAINER_PRIMED_PENDANT = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:sanguinary_environmental_accumulator")
-    public static final MenuType<ContainerSanguinaryEnvironmentalAccumulator> CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:spirit_furnace")
-    public static final MenuType<ContainerSpiritFurnace> CONTAINER_SPIRIT_FURNACE = null;
-    @ObjectHolder(registryName = "menu", value = "evilcraft:spirit_reanimator")
-    public static final MenuType<ContainerSpiritReanimator> CONTAINER_SPIRIT_REANIMATOR = null;
+    public static final DeferredHolder<Enchantment, Enchantment> ENCHANTMENT_VENGEANCE = DeferredHolder.create(Registries.ENCHANTMENT, new ResourceLocation("evilcraft:vengeance"));
+    public static final DeferredHolder<Enchantment, Enchantment> ENCHANTMENT_LIFE_STEALING = DeferredHolder.create(Registries.ENCHANTMENT, new ResourceLocation("evilcraft:life_stealing"));
 
-    @ObjectHolder(registryName = "recipe_type", value = "evilcraft:blood_infuser")
-    public static final RecipeType<RecipeBloodInfuser> RECIPETYPE_BLOOD_INFUSER = null;
-    @ObjectHolder(registryName = "recipe_type", value = "evilcraft:environmental_accumulator")
-    public static final RecipeType<RecipeEnvironmentalAccumulator> RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = null;
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerBloodChest>> CONTAINER_BLOOD_CHEST = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:blood_chest"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerBloodInfuser>> CONTAINER_BLOOD_INFUSER = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:blood_infuser"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerColossalBloodChest>> CONTAINER_COLOSSAL_BLOOD_CHEST = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:colossal_blood_chest"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerExaltedCrafter>> CONTAINER_EXALTED_CRAFTER = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:exalted_crafter"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerOriginsOfDarkness>> CONTAINER_ORIGINS_OF_DARKNESS = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:origins_of_darkness"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerPrimedPendant>> CONTAINER_PRIMED_PENDANT = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:primed_pendant"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerSanguinaryEnvironmentalAccumulator>> CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:sanguinary_environmental_accumulator"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerSpiritFurnace>> CONTAINER_SPIRIT_FURNACE = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:spirit_furnace"));
+    public static final DeferredHolder<MenuType<?>, MenuType<ContainerSpiritReanimator>> CONTAINER_SPIRIT_REANIMATOR = DeferredHolder.create(Registries.MENU, new ResourceLocation("evilcraft:spirit_reanimator"));
 
-    @ObjectHolder(registryName = "recipe_serializer", value = "evilcraft:blood_infuser")
-    public static final RecipeSerializer<RecipeBloodInfuser> RECIPESERIALIZER_BLOOD_INFUSER = null;
-    @ObjectHolder(registryName = "recipe_serializer", value = "evilcraft:environmental_accumulator")
-    public static final RecipeSerializer<RecipeEnvironmentalAccumulator> RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR = null;
-    @ObjectHolder(registryName = "recipe_serializer", value = "evilcraft:crafting_special_bloodextractor_combination")
-    public static final RecipeSerializer<RecipeBloodExtractorCombination> RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION = null;
-    @ObjectHolder(registryName = "recipe_serializer", value = "evilcraft:crafting_special_fluidcontainer_combination")
-    public static final RecipeSerializer<RecipeFluidContainerCombination> RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION = null;
-    @ObjectHolder(registryName = "recipe_serializer", value = "evilcraft:crafting_special_dead_bush")
-    public static final RecipeSerializer<RecipeDeadBush> RECIPESERIALIZER_DEAD_BUSH = null;
-    @ObjectHolder(registryName = "recipe_serializer", value = "evilcraft:crafting_special_broom_part_combination")
-    public static final RecipeSerializer<RecipeBroomPartCombination> RECIPESERIALIZER_BROOM_PART_COMBINATION = null;
-    @ObjectHolder(registryName = "recipe_serializer", value = "evilcraft:environmental_accumulator_biome_extract")
-    public static final RecipeSerializer<RecipeEnvironmentalAccumulatorBiomeExtract> RECIPESERIALIZER_BIOME_EXTRACT = null;
+    public static final DeferredHolder<RecipeType<?>, RecipeType<RecipeBloodInfuser>> RECIPETYPE_BLOOD_INFUSER = DeferredHolder.create(Registries.RECIPE_TYPE, new ResourceLocation("evilcraft:blood_infuser"));
+    public static final DeferredHolder<RecipeType<?>, RecipeType<RecipeEnvironmentalAccumulator>> RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.RECIPE_TYPE, new ResourceLocation("evilcraft:environmental_accumulator"));
 
-    @ObjectHolder(registryName = "particle_type", value = "cyclopscore:blur")
-    public static final ParticleType<ParticleBlurData> PARTICLE_BLUR = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:blur_targetted")
-    public static final ParticleType<ParticleBlurTargettedData> PARTICLE_BLUR_TARGETTED = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:blur_targetted_entity")
-    public static final ParticleType<ParticleBlurTargettedEntityData> PARTICLE_BLUR_TARGETTED_ENTITY = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:blood_bubble")
-    public static final SimpleParticleType PARTICLE_BLOOD_BUBBLE = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:blood_splash")
-    public static final SimpleParticleType PARTICLE_BLOOD_SPLASH = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:bubble_extended")
-    public static final ParticleType<ParticleBubbleExtendedData> PARTICLE_BUBBLE_EXTENDED = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:colored_smoke")
-    public static final ParticleType<ParticleColoredSmokeData> PARTICLE_COLORED_SMOKE = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:dark_smoke")
-    public static final ParticleType<ParticleDarkSmokeData> PARTICLE_DARK_SMOKE = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:degrade")
-    public static final SimpleParticleType PARTICLE_DEGRADE = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:distort")
-    public static final ParticleType<ParticleDistortData> PARTICLE_DISTORT = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:explosion_extended")
-    public static final ParticleType<ParticleExplosionExtendedData> PARTICLE_EXPLOSION_EXTENDED = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:fart")
-    public static final ParticleType<ParticleFartData> PARTICLE_FART = null;
-    @ObjectHolder(registryName = "particle_type", value = "evilcraft:magic_finish")
-    public static final SimpleParticleType PARTICLE_MAGIC_FINISH = null;
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeBloodInfuser>> RECIPESERIALIZER_BLOOD_INFUSER = DeferredHolder.create(Registries.RECIPE_SERIALIZER, new ResourceLocation("evilcraft:blood_infuser"));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeEnvironmentalAccumulator>> RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.RECIPE_SERIALIZER, new ResourceLocation("evilcraft:environmental_accumulator"));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeBloodExtractorCombination>> RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION = DeferredHolder.create(Registries.RECIPE_SERIALIZER, new ResourceLocation("evilcraft:crafting_special_bloodextractor_combination"));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeFluidContainerCombination>> RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION = DeferredHolder.create(Registries.RECIPE_SERIALIZER, new ResourceLocation("evilcraft:crafting_special_fluidcontainer_combination"));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeDeadBush>> RECIPESERIALIZER_DEAD_BUSH = DeferredHolder.create(Registries.RECIPE_SERIALIZER, new ResourceLocation("evilcraft:crafting_special_dead_bush"));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeBroomPartCombination>> RECIPESERIALIZER_BROOM_PART_COMBINATION = DeferredHolder.create(Registries.RECIPE_SERIALIZER, new ResourceLocation("evilcraft:crafting_special_broom_part_combination"));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeEnvironmentalAccumulatorBiomeExtract>> RECIPESERIALIZER_BIOME_EXTRACT = DeferredHolder.create(Registries.RECIPE_SERIALIZER, new ResourceLocation("evilcraft:environmental_accumulator_biome_extract"));
 
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:controlled_zombie")
-    public static final EntityType<? extends EntityControlledZombie> ENTITY_CONTROLLED_ZOMBIE = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:netherfish")
-    public static final EntityType<? extends EntityNetherfish> ENTITY_NETHERFISH = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:poisonous_libelle")
-    public static final EntityType<? extends EntityPoisonousLibelle> ENTITY_POISONOUS_LIBELLE = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:vengeance_spirit")
-    public static final EntityType<? extends EntityVengeanceSpirit> ENTITY_VENGEANCE_SPIRIT = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:werewolf")
-    public static final EntityType<? extends EntityWerewolf> ENTITY_WEREWOLF = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:biome_extract")
-    public static final EntityType<? extends EntityBiomeExtract> ENTITY_BIOME_EXTRACT = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:blood_pearl")
-    public static final EntityType<? extends EntityBiomeExtract> ENTITY_BLOOD_PEARL = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:item_dark_stick")
-    public static final EntityType<? extends EntityItemDarkStick> ENTITY_ITEM_DARK_STICK = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:item_empowerable")
-    public static final EntityType<? extends EntityItemEmpowerable> ENTITY_ITEM_EMPOWERABLE = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:item_undespawnable")
-    public static final EntityType<? extends EntityItemUndespawnable> ENTITY_ITEM_UNDESPAWNABLE = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:lightning_grenade")
-    public static final EntityType<? extends EntityLightningGrenade> ENTITY_LIGHTNING_GRENADE = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:redstone_grenade")
-    public static final EntityType<? extends EntityRedstoneGrenade> ENTITY_REDSTONE_GRENADE = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:weather_container")
-    public static final EntityType<? extends EntityWeatherContainer> ENTITY_WEATHER_CONTAINER = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:anti_vengeance_beam")
-    public static final EntityType<? extends EntityAttackVengeanceBeam> ENTITY_ANTI_VENGEANCE_BEAM = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:attack_vengeance_beam")
-    public static final EntityType<? extends EntityAttackVengeanceBeam> ENTITY_ATTACK_VENGEANCE_BEAM = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:necromancers_head")
-    public static final EntityType<? extends EntityNecromancersHead> ENTITY_NECROMANCER_HEAD = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:lightning_bomb_primed")
-    public static final EntityType<? extends EntityLightningBombPrimed> ENTITY_LIGHTNING_BOMB_PRIMED = null;
-    @ObjectHolder(registryName = "entity_type", value = "evilcraft:broom")
-    public static final EntityType<? extends EntityBroom> ENTITY_BROOM = null;
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleBlurData>> PARTICLE_BLUR = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:blur"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleBlurTargettedData>> PARTICLE_BLUR_TARGETTED = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:blur_targetted"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleBlurTargettedEntityData>> PARTICLE_BLUR_TARGETTED_ENTITY = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:blur_targetted_entity"));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> PARTICLE_BLOOD_BUBBLE = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:blood_bubble"));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> PARTICLE_BLOOD_SPLASH = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:blood_splash"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleBubbleExtendedData>> PARTICLE_BUBBLE_EXTENDED = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:bubble_extended"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleColoredSmokeData>> PARTICLE_COLORED_SMOKE = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:colored_smoke"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleDarkSmokeData>> PARTICLE_DARK_SMOKE = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:dark_smoke"));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> PARTICLE_DEGRADE = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:degrade"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleDistortData>> PARTICLE_DISTORT = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:distort"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleExplosionExtendedData>> PARTICLE_EXPLOSION_EXTENDED = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:explosion_extended"));
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleFartData>> PARTICLE_FART = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:fart"));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> PARTICLE_MAGIC_FINISH = DeferredHolder.create(Registries.PARTICLE_TYPE, new ResourceLocation("evilcraft:magic_finish"));
 
-    @ObjectHolder(registryName = "villager_profession", value = "evilcraft:werewolf")
-    public static final VillagerProfession VILLAGER_PROFESSION_WEREWOLF = null;
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityControlledZombie>> ENTITY_CONTROLLED_ZOMBIE = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:controlled_zombie"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityNetherfish>> ENTITY_NETHERFISH = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:netherfish"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityPoisonousLibelle>> ENTITY_POISONOUS_LIBELLE = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:poisonous_libelle"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityVengeanceSpirit>> ENTITY_VENGEANCE_SPIRIT = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:vengeance_spirit"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityWerewolf>> ENTITY_WEREWOLF = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:werewolf"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityBiomeExtract>> ENTITY_BIOME_EXTRACT = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:biome_extract"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityBiomeExtract>> ENTITY_BLOOD_PEARL = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:blood_pearl"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityItemDarkStick>> ENTITY_ITEM_DARK_STICK = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:item_dark_stick"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityItemEmpowerable>> ENTITY_ITEM_EMPOWERABLE = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:item_empowerable"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityItemUndespawnable>> ENTITY_ITEM_UNDESPAWNABLE = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:item_undespawnable"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityLightningGrenade>> ENTITY_LIGHTNING_GRENADE = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:lightning_grenade"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityRedstoneGrenade>> ENTITY_REDSTONE_GRENADE = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:redstone_grenade"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityWeatherContainer>> ENTITY_WEATHER_CONTAINER = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:weather_container"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityAttackVengeanceBeam>> ENTITY_ANTI_VENGEANCE_BEAM = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:anti_vengeance_beam"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityAttackVengeanceBeam>> ENTITY_ATTACK_VENGEANCE_BEAM = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:attack_vengeance_beam"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityNecromancersHead>> ENTITY_NECROMANCER_HEAD = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:necromancers_head"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityLightningBombPrimed>> ENTITY_LIGHTNING_BOMB_PRIMED = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:lightning_bomb_primed"));
+    public static final DeferredHolder<EntityType<?>, EntityType<? extends EntityBroom>> ENTITY_BROOM = DeferredHolder.create(Registries.ENTITY_TYPE, new ResourceLocation("evilcraft:broom"));
+
+    public static final DeferredHolder<CriterionTrigger<?>, BoxOfEternalClosureCaptureTrigger> TRIGGER_BOX_OF_ETERNAL_CLOSURE_CAPTURE = DeferredHolder.create(Registries.TRIGGER_TYPE, new ResourceLocation("evilcraft:box_of_eternal_closure_capture"));
+    public static final DeferredHolder<CriterionTrigger<?>, DistortTrigger> TRIGGER_DISTORT = DeferredHolder.create(Registries.TRIGGER_TYPE, new ResourceLocation("evilcraft:distort"));
+    public static final DeferredHolder<CriterionTrigger<?>, FartTrigger> TRIGGER_FART = DeferredHolder.create(Registries.TRIGGER_TYPE, new ResourceLocation("evilcraft:fart"));
+    public static final DeferredHolder<CriterionTrigger<?>, NecromanceTrigger> TRIGGER_NECROMANCE_TRIGGER = DeferredHolder.create(Registries.TRIGGER_TYPE, new ResourceLocation("evilcraft:necromance"));
+
+    public static final DeferredHolder<VillagerProfession, VillagerProfession> VILLAGER_PROFESSION_WEREWOLF = DeferredHolder.create(Registries.VILLAGER_PROFESSION, new ResourceLocation("evilcraft:werewolf"));
 
 //    @ObjectHolder(registryName = "minecraft:worldgen/biome", value = "evilcraft:degraded")
     private static final Biome BIOME_DEGRADED = null; // Always null for some reason...
     public static final ResourceLocation BIOME_DEGRADED_KEY = new ResourceLocation("evilcraft:degraded");
 
-    // This is not a Forge Registry yet, so we set it manually
-    public static StructureType<WorldStructureDarkTemple> STRUCTURE_DARK_TEMPLE = null;
+    public static final DeferredHolder<Structure, Structure> STRUCTURE_DARK_TEMPLE = DeferredHolder.create(Registries.STRUCTURE, new ResourceLocation("evilcraft:dark_temple"));
+    public static final DeferredHolder<StructureType<?>, StructureType<WorldStructureDarkTemple>> STRUCTURE_TYPE_DARK_TEMPLE = DeferredHolder.create(Registries.STRUCTURE_TYPE, new ResourceLocation("evilcraft:dark_temple"));
+    public static final DeferredHolder<StructurePieceType, StructurePieceType> STRUCTURE_PIECE_DARK_TEMPLE = DeferredHolder.create(Registries.STRUCTURE_PIECE, new ResourceLocation("evilcraft:dark_temple_piece"));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_EFFECT_VENGEANCEBEAM_BASE = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:effect_vengeancebeam_base"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_EFFECT_VENGEANCEBEAM_START = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:effect_vengeancebeam_start"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_EFFECT_VENGEANCEBEAM_STOP = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:effect_vengeancebeam_stop"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_MOB_VENGEANCESPIRIT_AMBIENT = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:mob_vengeancespirit_ambient"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_MOB_VENGEANCESPIRIT_DEATH = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:mob_vengeancespirit_death"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_EFFECT_BOX_BEAM = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:effect_box_beam"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_EFFECT_PAGE_FLIPSINGLE = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:effect_page_flipsingle"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOUNDEVENT_EFFECT_PAGE_FLIPMULTIPLE = DeferredHolder.create(Registries.SOUND_EVENT, new ResourceLocation("evilcraft:effect_page_flipmultiple"));
 }

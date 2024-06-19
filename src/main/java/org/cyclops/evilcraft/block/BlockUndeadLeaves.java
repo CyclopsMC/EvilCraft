@@ -8,12 +8,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.block.component.ParticleDropBlockComponent;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -53,7 +54,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
         return new ItemStack(this);
     }
 
@@ -76,12 +77,12 @@ public class BlockUndeadLeaves extends LeavesBlock {
             BlockPos itPos = pos.relative(Direction.DOWN);
             while (attempts-- > 0) {
                 if (worldIn.getBlockState(itPos).getBlock() instanceof org.cyclops.evilcraft.block.BlockBloodStain
-                        || (worldIn.isEmptyBlock(itPos) && RegistryEntries.BLOCK_BLOOD_STAIN.canSurvive(state, worldIn, itPos))) {
+                        || (worldIn.isEmptyBlock(itPos) && RegistryEntries.BLOCK_BLOOD_STAIN.get().canSurvive(state, worldIn, itPos))) {
 
                     // Set the air block to a blood stain
                     BlockState blockState = worldIn.getBlockState(itPos);
                     if (worldIn.isEmptyBlock(itPos)) {
-                        blockState = RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState();
+                        blockState = RegistryEntries.BLOCK_BLOOD_STAIN.get().defaultBlockState();
                         worldIn.setBlockAndUpdate(itPos, blockState);
                     }
 

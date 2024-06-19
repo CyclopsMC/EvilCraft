@@ -7,7 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Locale;
@@ -48,7 +48,7 @@ public class ParticleDarkSmokeData implements ParticleOptions {
 
     @Override
     public ParticleType<?> getType() {
-        return RegistryEntries.PARTICLE_DARK_SMOKE;
+        return RegistryEntries.PARTICLE_DARK_SMOKE.get();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ParticleDarkSmokeData implements ParticleOptions {
     @Override
     public String writeToString() {
         return String.format(Locale.ROOT, "%s %.2f",
-                ForgeRegistries.PARTICLE_TYPES.getKey(this.getType()),
+                BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
                 this.entityDead);
     }
 }

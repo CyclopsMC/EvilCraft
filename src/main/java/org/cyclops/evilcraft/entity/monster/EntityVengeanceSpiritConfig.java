@@ -8,10 +8,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -58,7 +57,7 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
                         .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "vengeance_spirit_spawn_egg", Helpers.RGBToInt(64, 16, 93), Helpers.RGBToInt(134, 60, 169))
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributeCreationEvent);
+        EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
     }
 
     @OnlyIn(Dist.CLIENT)

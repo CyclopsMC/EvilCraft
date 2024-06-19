@@ -1,15 +1,10 @@
 package org.cyclops.evilcraft.core.entity.item;
 
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
-
-import javax.annotation.Nonnull;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * An extended version of the entity item.
@@ -29,12 +24,6 @@ public abstract class EntityItemExtended extends ItemEntity {
         this.setDeltaMovement(original.getDeltaMovement());
         this.setPos(original.getX(), original.getY(), original.getZ());
         this.setItem(original.getItem());
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     // Needed for particle rendering

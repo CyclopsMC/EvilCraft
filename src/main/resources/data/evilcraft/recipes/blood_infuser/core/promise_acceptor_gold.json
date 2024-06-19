@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:gold_block",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 40000
+  "input_item": {
+    "item": "minecraft:gold_block"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 40000
+  },
+  "output_item": {
     "item": "evilcraft:promise_acceptor_gold"
   },
   "duration": 2000,

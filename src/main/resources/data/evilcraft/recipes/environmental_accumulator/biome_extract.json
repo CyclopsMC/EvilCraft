@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:environmental_accumulator_biome_extract",
-  "item": "evilcraft:biome_extract",
-  "weather": "ANY",
-  "result": {
-    "item": "evilcraft:biome_extract",
-    "weather": "ANY"
+  "input_item": {
+    "item": "evilcraft:biome_extract"
   },
+  "input_weather": "ANY",
+  "output_item": {
+    "item": "evilcraft:biome_extract"
+  },
+  "output_weather": "ANY",
   "duration": 1000,
-  "cooldownTime": 500
+  "cooldown_time": 500
 }

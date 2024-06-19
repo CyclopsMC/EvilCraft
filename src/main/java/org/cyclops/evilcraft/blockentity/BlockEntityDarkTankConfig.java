@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -22,8 +22,9 @@ public class BlockEntityDarkTankConfig extends BlockEntityConfig<BlockEntityDark
                 EvilCraft._instance,
                 "dark_tank",
                 (eConfig) -> new BlockEntityType<>(BlockEntityDarkTank::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_DARK_TANK), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_DARK_TANK.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntityDarkTank.CapabilityRegistrar<>(this::getInstance)::register);
     }
 
     @Override

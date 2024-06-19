@@ -6,8 +6,8 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.PrimedTnt;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -35,7 +35,7 @@ public class EntityLightningBombPrimedConfig extends EntityConfig<EntityLightnin
     @OnlyIn(Dist.CLIENT)
     @Override
     public EntityRenderer<PrimedTnt> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
-        return new RenderBombPrimed(renderContext, RegistryEntries.BLOCK_LIGHTNING_BOMB_PRIMED);
+        return new RenderBombPrimed(renderContext, RegistryEntries.BLOCK_LIGHTNING_BOMB_PRIMED.get());
     }
 
 }

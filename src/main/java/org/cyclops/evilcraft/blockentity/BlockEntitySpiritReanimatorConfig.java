@@ -18,8 +18,9 @@ public class BlockEntitySpiritReanimatorConfig extends BlockEntityConfig<BlockEn
                 EvilCraft._instance,
                 "spirit_reanimator",
                 (eConfig) -> new BlockEntityType<>(BlockEntitySpiritReanimator::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_SPIRIT_REANIMATOR), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_SPIRIT_REANIMATOR.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntitySpiritReanimator.CapabilityRegistrar(this::getInstance)::register);
     }
 
 }

@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:rotten_flesh",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 375
+  "input_item": {
+    "item": "minecraft:rotten_flesh"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 375
+  },
+  "output_item": {
     "item": "minecraft:leather"
   },
   "duration": 200,

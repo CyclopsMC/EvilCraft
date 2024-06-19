@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -7,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -16,8 +18,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -37,6 +39,8 @@ import javax.annotation.Nullable;
  */
 public class BlockBloodInfuser extends BlockWithEntityGuiTank {
 
+    public static final MapCodec<BlockBloodChest> CODEC = simpleCodec(BlockBloodChest::new);
+
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
     public static final BooleanProperty ON = BooleanProperty.create("on");
 
@@ -49,9 +53,14 @@ public class BlockBloodInfuser extends BlockWithEntityGuiTank {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_INFUSER, level.isClientSide ? new BlockEntityBloodInfuser.TickerClient<>() : new BlockEntityBloodInfuser.TickerServer<BlockEntityBloodInfuser, MutableInt>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_INFUSER.get(), level.isClientSide ? new BlockEntityBloodInfuser.TickerClient<>() : new BlockEntityBloodInfuser.TickerServer<BlockEntityBloodInfuser, MutableInt>());
     }
 
     @Override

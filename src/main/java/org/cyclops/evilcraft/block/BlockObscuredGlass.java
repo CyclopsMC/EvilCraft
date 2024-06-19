@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.AbstractGlassBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.TintedGlassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * @author rubensworks
  *
  */
-public class BlockObscuredGlass extends AbstractGlassBlock {
+public class BlockObscuredGlass extends TintedGlassBlock {
 
     public BlockObscuredGlass(Block.Properties properties) {
         super(properties);

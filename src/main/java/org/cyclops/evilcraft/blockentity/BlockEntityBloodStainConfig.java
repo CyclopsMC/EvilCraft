@@ -18,8 +18,9 @@ public class BlockEntityBloodStainConfig extends BlockEntityConfig<BlockEntityBl
                 EvilCraft._instance,
                 "blood_stain",
                 (eConfig) -> new BlockEntityType<>(BlockEntityBloodStain::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_BLOOD_STAIN), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_BLOOD_STAIN.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntityBloodStain.CapabilityRegistrar(this::getInstance)::register);
     }
 
 }

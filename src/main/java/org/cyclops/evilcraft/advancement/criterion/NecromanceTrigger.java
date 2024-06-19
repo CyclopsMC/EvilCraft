@@ -1,47 +1,43 @@
 package org.cyclops.evilcraft.advancement.criterion;
 
-import com.google.gson.JsonObject;
-import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.Entity;
-import org.cyclops.cyclopscore.advancement.criterion.ICriterionInstanceTestable;
-import org.cyclops.evilcraft.Reference;
+
+import java.util.Optional;
 
 /**
  * Triggers when a player uses the Necromancer Staff.
  * @author rubensworks
  */
 public class NecromanceTrigger extends SimpleCriterionTrigger<NecromanceTrigger.Instance> {
-    private final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "necromance");
+
+    public static final Codec<NecromanceTrigger.Instance> CODEC = RecordCodecBuilder.create(
+            p_311401_ -> p_311401_.group(
+                            ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(NecromanceTrigger.Instance::player),
+                            EntityPredicate.CODEC.fieldOf("entity").forGetter(NecromanceTrigger.Instance::entityPredicate)
+                    )
+                    .apply(p_311401_, NecromanceTrigger.Instance::new)
+    );
 
     @Override
-    public ResourceLocation getId() {
-        return ID;
-    }
-
-    @Override
-    public Instance createInstance(JsonObject json, ContextAwarePredicate entityPredicate, DeserializationContext conditionsParser) {
-        return new Instance(getId(), entityPredicate, EntityPredicate.fromJson(json.get("entity")));
+    public Codec<Instance> codec() {
+        return CODEC;
     }
 
     public void test(ServerPlayer player, Entity entity) {
         this.trigger(player, (instance) -> instance.test(player, entity));
     }
 
-    public static class Instance extends AbstractCriterionTriggerInstance implements ICriterionInstanceTestable<Entity> {
-
-        private final EntityPredicate entityPredicate;
-
-        public Instance(ResourceLocation criterionIn, ContextAwarePredicate player, EntityPredicate entityPredicate) {
-            super(criterionIn, player);
-            this.entityPredicate = entityPredicate;
-        }
-
+    public static record Instance(
+            Optional<ContextAwarePredicate> player,
+            EntityPredicate entityPredicate
+    ) implements SimpleCriterionTrigger.SimpleInstance {
         public boolean test(ServerPlayer player, Entity entity) {
             return this.entityPredicate.matches(player, entity);
         }

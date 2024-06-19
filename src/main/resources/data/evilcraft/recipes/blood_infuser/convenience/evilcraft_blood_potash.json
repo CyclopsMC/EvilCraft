@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:bone_meal",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 800
+  "input_item": {
+    "item": "minecraft:bone_meal"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 800
+  },
+  "output_item": {
     "item": "evilcraft:blood_potash"
   },
   "duration": 50,

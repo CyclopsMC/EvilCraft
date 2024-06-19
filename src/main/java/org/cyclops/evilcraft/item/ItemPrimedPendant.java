@@ -21,10 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.inventory.InventoryLocationPlayer;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
@@ -88,7 +87,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
                     if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
                         player.addEffect(
                                 new MobEffectInstance(potionEffect.getEffect(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
-                                        !potionEffect.getCurativeItems().isEmpty(), true));
+                                        !potionEffect.getCures().isEmpty(), true));
                         consume(toDrain, itemStack, player);
                     }
                 }
@@ -155,7 +154,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         if (!world.isClientSide()) {
             MenuProvider containerProvider = this.getContainer(world, player, itemLocation);
             if (containerProvider != null) {
-                NetworkHooks.openScreen(player, containerProvider, (packetBuffer) -> {
+                player.openMenu(containerProvider, (packetBuffer) -> {
                     this.writeExtraGuiData(packetBuffer, world, player, itemLocation);
                 });
                 Stat<ResourceLocation> openStat = this.getOpenStat();

@@ -24,7 +24,7 @@ public class BlockEntityInvisibleRedstone extends CyclopsBlockEntity {
     protected int destroyCountDown;
 
     public BlockEntityInvisibleRedstone(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_INVISIBLE_REDSTONE, blockPos, blockState);
+        super(RegistryEntries.BLOCK_ENTITY_INVISIBLE_REDSTONE.get(), blockPos, blockState);
         destroyCountDown = TICK_DESTRUCTION_THRESHOLD;
     }
 

@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:dirt",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 350
+  "input_item": {
+    "item": "minecraft:dirt"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 350
+  },
+  "output_item": {
     "item": "minecraft:grass_block"
   },
   "duration": 300,

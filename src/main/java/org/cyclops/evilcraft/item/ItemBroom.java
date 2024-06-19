@@ -21,12 +21,11 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ComputeFovModifierEvent;
-import net.minecraftforge.client.event.RenderGuiEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
@@ -62,8 +61,8 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     public ItemBroom(Item.Properties properties) {
         super(properties, 10 * FluidHelpers.BUCKET_VOLUME);
         if (MinecraftHelpers.isClientSide()) {
-            MinecraftForge.EVENT_BUS.addListener(this::onFovEvent);
-            MinecraftForge.EVENT_BUS.addListener(this::onRenderOverlayEvent);
+            NeoForge.EVENT_BUS.addListener(this::onFovEvent);
+            NeoForge.EVENT_BUS.addListener(this::onRenderOverlayEvent);
         }
     }
 
@@ -100,7 +99,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
             BlockPos blockPos = context.getClickedPos();
-            if (!BlockEntityHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), ForgeCapabilities.FLUID_HANDLER).isPresent()
+            if (!BlockEntityHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).isPresent()
                     && context.getLevel().isEmptyBlock(blockPos.offset(0, (int) Y_SPAWN_OFFSET, 0))) {
                 EntityBroom entityBroom = new EntityBroom(context.getLevel(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
                 entityBroom.setBroomStack(stack);

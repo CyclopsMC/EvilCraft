@@ -6,8 +6,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -38,7 +38,7 @@ public class BlockBloodWaxedCoalConfig extends BlockConfig {
                 },
                 getDefaultItemConstructor(EvilCraft._instance)
         );
-        MinecraftForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEvent);
+        NeoForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEvent);
     }
 
     public void onFurnaceFuelBurnTimeEvent(FurnaceFuelBurnTimeEvent event) {

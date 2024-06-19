@@ -1,8 +1,10 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -10,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -19,14 +22,12 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelProperty;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -47,6 +48,8 @@ import java.util.Locale;
  */
 public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
 
+    public static final MapCodec<BlockDarkTank> CODEC = simpleCodec(BlockDarkTank::new);
+
     public static final String NBT_KEY_DRAINING = "enabled";
 
     // Model Properties
@@ -57,14 +60,17 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
 
     public BlockDarkTank(Block.Properties properties) {
         super(properties, BlockEntityDarkTank::new);
+    }
 
-        MinecraftForge.EVENT_BUS.register(this);
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DARK_TANK, new BlockEntityDarkTank.TickerServer());
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DARK_TANK.get(), new BlockEntityDarkTank.TickerServer());
     }
 
     @Override
@@ -171,8 +177,8 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
 
         // Add filled basic tanks for all fluids.
         if(BlockDarkTankConfig.creativeTabFluids) {
-            for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {
-                if (fluid != RegistryEntries.FLUID_BLOOD && fluid.isSource(fluid.defaultFluidState())) {
+            for (Fluid fluid : BuiltInRegistries.FLUID) {
+                if (fluid != RegistryEntries.FLUID_BLOOD.get() && fluid.isSource(fluid.defaultFluidState())) {
                     try {
                         ItemStack itemStackFilled = itemStack.copy();
                         IFluidHandlerItemCapacity fluidHandlerFilled = FluidHelpers.getFluidHandlerItemCapacity(itemStackFilled).orElse(null);

@@ -8,6 +8,8 @@ import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
@@ -23,6 +25,14 @@ public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestB
 
     public RenderBlockEntityColossalBloodChest(BlockEntityRendererProvider.Context p_i226008_1_) {
         super(p_i226008_1_);
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(BlockEntityColossalBloodChest blockEntity) {
+        return new AABB(
+                Vec3.atLowerCornerOf(blockEntity.getBlockPos().subtract(new Vec3i(3, 3, 3))),
+                Vec3.atLowerCornerOf(blockEntity.getBlockPos().offset(3, 6, 3))
+        );
     }
 
     @Override

@@ -15,6 +15,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
@@ -35,6 +36,11 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
 
     public RenderBlockEntityBoxOfEternalClosure(BlockEntityRendererProvider.Context rendererDispatcherIn) {
         super(rendererDispatcherIn);
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(BlockEntityBoxOfEternalClosure blockEntity) {
+        return INFINITE_EXTENT_AABB;
     }
 
     @Override

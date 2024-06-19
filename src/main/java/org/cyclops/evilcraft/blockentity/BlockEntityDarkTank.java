@@ -10,10 +10,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
@@ -41,7 +42,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
     private boolean enabled;
 
     public BlockEntityDarkTank(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_DARK_TANK, blockPos, blockState, 0, 0, BASE_CAPACITY, null);
+        super(RegistryEntries.BLOCK_ENTITY_DARK_TANK.get(), blockPos, blockState, 0, 0, BASE_CAPACITY, null);
     }
 
     /**
@@ -63,7 +64,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
 
     @Nullable
     protected ItemStack fill(ItemStack itemStack) {
-        IFluidHandlerItem container = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
+        IFluidHandlerItem container = itemStack.getCapability(Capabilities.FluidHandler.ITEM);
         FluidStack fluidStack = new FluidStack(getTank().getFluid(),
                 Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
         if (container.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
@@ -88,7 +89,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
             if(!blockEntity.getTank().isEmpty() && blockEntity.isEnabled()) {
                 Direction down = Direction.DOWN;
                 IFluidHandler handler = BlockEntityHelpers.getCapability(level, pos.relative(down), down.getOpposite(),
-                        ForgeCapabilities.FLUID_HANDLER).orElse(null);
+                        net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
                 if(handler != null) {
                     FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(),
                             Math.min(GeneralConfig.mbFlowRate, blockEntity.getTank().getFluidAmount()));
@@ -99,13 +100,13 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
                 } else {
                     // Try to fill fluid container items below
                     List<Entity> entities = level.getEntitiesOfClass(Entity.class,
-                            new AABB(pos.relative(down), pos.relative(down).offset(1, 1, 1)),
+                            new AABB(Vec3.atLowerCornerOf(pos.relative(down)), Vec3.atLowerCornerOf(pos.relative(down).offset(1, 1, 1))),
                             EntitySelector.ENTITY_STILL_ALIVE);
                     for(Entity entity : entities) {
                         if(!blockEntity.getTank().isEmpty() && entity instanceof ItemEntity) {
                             ItemEntity item = (ItemEntity) entity;
                             if (item.getItem() != null
-                                    && item.getItem().getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent() &&
+                                    && item.getItem().getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.ITEM) != null &&
                                     item.getItem().getCount() == 1) {
                                 ItemStack itemStack = item.getItem().copy();
                                 ItemStack fillItemStack;
@@ -120,7 +121,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
                                 ItemStack itemStack = it.next();
                                 ItemStack fillItemStack;
                                 if(!itemStack.isEmpty()
-                                        && itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
+                                        && itemStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.ITEM) != null
                                         && (fillItemStack = blockEntity.fill(itemStack)) != null) {
                                     it.replace(fillItemStack);
                                 }

@@ -4,11 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.fluid.FluidHandlerWrapper;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -21,6 +21,8 @@ import org.cyclops.evilcraft.block.BlockSanguinaryPedestalConfig;
 import org.cyclops.evilcraft.core.algorithm.RegionIterator;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 import org.cyclops.evilcraft.network.packet.SanguinaryPedestalBlockReplacePacket;
+
+import java.util.function.Supplier;
 
 /**
  * Tile for the {@link org.cyclops.evilcraft.block.BlockSanguinaryPedestal}.
@@ -40,7 +42,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
     private RegionIterator regionIterator;
 
     public BlockEntitySanguinaryPedestal(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_SANGUINARY_PEDESTAL, blockPos, blockState, 0, 1, FluidHelpers.BUCKET_VOLUME * TANK_BUCKETS, RegistryEntries.FLUID_BLOOD);
+        super(RegistryEntries.BLOCK_ENTITY_SANGUINARY_PEDESTAL.get(), blockPos, blockState, 0, 1, FluidHelpers.BUCKET_VOLUME * TANK_BUCKETS, RegistryEntries.FLUID_BLOOD.get());
         this.bonusFluidHandler = new FluidHandlerWrapper(getTank()) {
             @Override
             public int fill(FluidStack resource, FluidAction action) {
@@ -52,16 +54,22 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
         };
     }
 
+    public static class CapabilityRegistrar extends BlockEntityTankInventory.CapabilityRegistrar<BlockEntitySanguinaryPedestal> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntitySanguinaryPedestal>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void registerTankInventoryCapabilitiesItem() {
+            // Don't expose inventory
+        }
+    }
+
     /**
      * @return The inner tank of this pedestal that when filled can have a bonus applied.
      */
     public IFluidHandler getBonusFluidHandler() {
         return bonusFluidHandler;
-    }
-
-    @Override
-    protected void addItemHandlerCapabilities() {
-        // Don't expose inventory
     }
 
     protected void afterBlockReplace(Level world, BlockPos location) {
@@ -92,7 +100,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
                 BlockPos location = blockEntity.getNextLocation();
                 Block block = level.getBlockState(location).getBlock();
                 if(block instanceof BlockBloodStain) {
-                    BlockEntityHelpers.getCapability(level, location, ForgeCapabilities.FLUID_HANDLER)
+                    BlockEntityHelpers.getCapability(level, location, net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                             .ifPresent((source) -> {
                                 FluidStack moved = FluidUtil.tryFluidTransfer(blockEntity.getBonusFluidHandler(), source, Integer.MAX_VALUE, true);
                                 if (!moved.isEmpty()) {
@@ -107,7 +115,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
             if(!blockEntity.getTank().isEmpty()) {
                 for(Direction direction : Direction.values()) {
                     BlockEntityHelpers.getCapability(level, pos.relative(direction),
-                                    direction.getOpposite(), ForgeCapabilities.FLUID_HANDLER)
+                                    direction.getOpposite(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                             .ifPresent(handler -> {
                                 if(!blockEntity.getTank().isEmpty()) {
                                     FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(), Math.min(MB_RATE, blockEntity.getTank().getFluidAmount()));

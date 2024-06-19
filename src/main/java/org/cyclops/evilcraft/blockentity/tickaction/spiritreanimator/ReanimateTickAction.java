@@ -4,8 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.block.BlockSpiritReanimatorConfig;
@@ -35,7 +34,7 @@ public class ReanimateTickAction implements ITickAction<BlockEntitySpiritReanima
             ItemStack spawnEgg = ItemStack.EMPTY;
             EntityType<?> entityType = tile.getEntityType();
             if(entityType != null) {
-                SpawnEggItem spawnEggItem = ForgeSpawnEggItem.fromEntityType(entityType);
+                SpawnEggItem spawnEggItem = SpawnEggItem.byId(entityType);
                 if (spawnEggItem != null) {
                     spawnEgg = new ItemStack(spawnEggItem);
                 }

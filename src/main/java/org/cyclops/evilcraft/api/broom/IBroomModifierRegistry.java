@@ -6,6 +6,7 @@ import org.cyclops.cyclopscore.init.IRegistry;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Registry for broom modifiers.
@@ -44,7 +45,7 @@ public interface IBroomModifierRegistry extends IRegistry {
      * @param modifiers The modifiers.
      * @param item The item-form of this modifiers.
      */
-    public void registerModifiersItem(Map<BroomModifier, Float> modifiers, ItemStack item);
+    public void registerModifiersItem(Map<BroomModifier, Float> modifiers, Supplier<ItemStack> item);
 
     /**
      * Assign an item to the given modifier.
@@ -52,7 +53,7 @@ public interface IBroomModifierRegistry extends IRegistry {
      * @param modifierValue The modifier value
      * @param item The item-form of this modifiers.
      */
-    public void registerModifiersItem(BroomModifier modifier, float modifierValue, ItemStack item);
+    public void registerModifiersItem(BroomModifier modifier, float modifierValue, Supplier<ItemStack> item);
 
     /**
      * Get the modifier of the given item-form.

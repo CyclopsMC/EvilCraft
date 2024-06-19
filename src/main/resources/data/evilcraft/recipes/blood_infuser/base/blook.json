@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:book",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 500
+  "input_item": {
+    "item": "minecraft:book"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 500
+  },
+  "output_item": {
     "item": "evilcraft:blook"
   },
   "duration": 500,

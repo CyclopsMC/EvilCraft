@@ -3,6 +3,8 @@ package org.cyclops.evilcraft.api.broom;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
@@ -26,15 +28,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
-import net.minecraftforge.registries.tags.ITag;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHurtEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSources;
@@ -46,6 +45,8 @@ import org.cyclops.evilcraft.entity.item.EntityBroom;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
 import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
 
+import java.util.Optional;
+
 /**
  * A list of broom modifiers.
  * @author rubensworks
@@ -55,10 +56,10 @@ public class BroomModifiers {
     public static final IBroomModifierRegistry REGISTRY = EvilCraft._instance.getRegistryManager().getRegistry(IBroomModifierRegistry.class);
 
     public static void init() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.LOWEST, BroomModifiers::afterItemsRegistered);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventPriority.HIGHEST, BroomModifiers::afterAfterItemsRegistered);
-        MinecraftForge.EVENT_BUS.addListener(BroomModifiers::onTagsUpdated);
-        MinecraftForge.EVENT_BUS.addListener(BroomModifiers::onLivingHurt);
+        EvilCraft._instance.getModEventBus().addListener(EventPriority.LOWEST, BroomModifiers::afterItemsRegistered);
+        EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, BroomModifiers::afterAfterItemsRegistered);
+        NeoForge.EVENT_BUS.addListener(BroomModifiers::onTagsUpdated);
+        NeoForge.EVENT_BUS.addListener(BroomModifiers::onLivingHurt);
     }
 
     public static BroomModifier MODIFIER_COUNT;
@@ -84,14 +85,14 @@ public class BroomModifiers {
     public static BroomModifier STICKY;
 
     public static void afterItemsRegistered(RegisterEvent event) {
-        if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
+        if (event.getRegistryKey().equals(Registries.ITEM)) {
             BroomParts.loadPre();
             loadPre();
         }
     }
 
     public static void afterAfterItemsRegistered(RegisterEvent event) {
-        if (event.getRegistryKey().equals(ForgeRegistries.Keys.POTIONS)) {
+        if (event.getRegistryKey().equals(Registries.POTION)) {
             BroomParts.loadPost();
         }
     }
@@ -250,7 +251,7 @@ public class BroomModifiers {
                                             // Destroy the block
                                             if (!broom.level().isClientSide()) {
                                                 ServerPlayer playerMp = (ServerPlayer) player;
-                                                int expToDrop = ForgeHooks.onBlockBreakEvent(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos);
+                                                int expToDrop = CommonHooks.onBlockBreakEvent(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos);
                                                 if (expToDrop >= 0) {
                                                     // Block breaking sequence
                                                     block.playerWillDestroy(world, pos, blockState, player);
@@ -340,53 +341,53 @@ public class BroomModifiers {
         // Clear the registry, as this can be called multiple times
         REGISTRY.clearModifierItems();
 
-        REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(Items.NETHER_STAR));
-        REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, new ItemStack(RegistryEntries.ITEM_GARMONBOZIA));
+        REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, () -> new ItemStack(Items.NETHER_STAR));
+        REGISTRY.registerModifiersItem(MODIFIER_COUNT, 1F, () -> new ItemStack(RegistryEntries.ITEM_GARMONBOZIA));
 
-        REGISTRY.registerModifiersItem(SPEED, 1F, new ItemStack(Items.REDSTONE));
-        REGISTRY.registerModifiersItem(SPEED, 9F, new ItemStack(Blocks.REDSTONE_BLOCK));
+        REGISTRY.registerModifiersItem(SPEED, 1F, () -> new ItemStack(Items.REDSTONE));
+        REGISTRY.registerModifiersItem(SPEED, 9F, () -> new ItemStack(Blocks.REDSTONE_BLOCK));
 
-        REGISTRY.registerModifiersItem(ACCELERATION, 1F, new ItemStack(Items.COAL));
-        REGISTRY.registerModifiersItem(ACCELERATION, 9F, new ItemStack(Blocks.COAL_BLOCK));
+        REGISTRY.registerModifiersItem(ACCELERATION, 1F, () -> new ItemStack(Items.COAL));
+        REGISTRY.registerModifiersItem(ACCELERATION, 9F, () -> new ItemStack(Blocks.COAL_BLOCK));
 
-        REGISTRY.registerModifiersItem(MANEUVERABILITY, 2F, new ItemStack(Items.GLOWSTONE_DUST));
-        REGISTRY.registerModifiersItem(MANEUVERABILITY, 8F, new ItemStack(Blocks.GLOWSTONE));
+        REGISTRY.registerModifiersItem(MANEUVERABILITY, 2F, () -> new ItemStack(Items.GLOWSTONE_DUST));
+        REGISTRY.registerModifiersItem(MANEUVERABILITY, 8F, () -> new ItemStack(Blocks.GLOWSTONE));
 
-        REGISTRY.registerModifiersItem(LEVITATION, 1F, new ItemStack(Items.FEATHER));
-        REGISTRY.registerModifiersItem(LEVITATION, 50F, new ItemStack(Items.PHANTOM_MEMBRANE));
+        REGISTRY.registerModifiersItem(LEVITATION, 1F, () -> new ItemStack(Items.FEATHER));
+        REGISTRY.registerModifiersItem(LEVITATION, 50F, () -> new ItemStack(Items.PHANTOM_MEMBRANE));
 
-        REGISTRY.registerModifiersItem(DAMAGE, 2F, new ItemStack(RegistryEntries.ITEM_DARK_SPIKE));
-        REGISTRY.registerModifiersItem(DAMAGE, 1F, new ItemStack(Items.QUARTZ));
+        REGISTRY.registerModifiersItem(DAMAGE, 2F, () -> new ItemStack(RegistryEntries.ITEM_DARK_SPIKE));
+        REGISTRY.registerModifiersItem(DAMAGE, 1F, () -> new ItemStack(Items.QUARTZ));
 
-        REGISTRY.registerModifiersItem(PARTICLES, 1F, new ItemStack(Items.GUNPOWDER));
+        REGISTRY.registerModifiersItem(PARTICLES, 1F, () -> new ItemStack(Items.GUNPOWDER));
 
-        REGISTRY.registerModifiersItem(FLAME, 1F, new ItemStack(Items.BLAZE_POWDER));
+        REGISTRY.registerModifiersItem(FLAME, 1F, () -> new ItemStack(Items.BLAZE_POWDER));
 
-        REGISTRY.registerModifiersItem(SMASH, 1F, new ItemStack(Items.IRON_PICKAXE));
-        REGISTRY.registerModifiersItem(SMASH, 5F, new ItemStack(Items.DIAMOND_PICKAXE));
+        REGISTRY.registerModifiersItem(SMASH, 1F, () -> new ItemStack(Items.IRON_PICKAXE));
+        REGISTRY.registerModifiersItem(SMASH, 5F, () -> new ItemStack(Items.DIAMOND_PICKAXE));
 
-        REGISTRY.registerModifiersItem(BOUNCY, 1F, new ItemStack(Items.SLIME_BALL));
-        REGISTRY.registerModifiersItem(BOUNCY, 9F, new ItemStack(Blocks.SLIME_BLOCK));
+        REGISTRY.registerModifiersItem(BOUNCY, 1F, () -> new ItemStack(Items.SLIME_BALL));
+        REGISTRY.registerModifiersItem(BOUNCY, 9F, () -> new ItemStack(Blocks.SLIME_BLOCK));
 
         registerModifierTagItem(STURDYNESS, 1F, new ResourceLocation("forge", "stone"));
-        REGISTRY.registerModifiersItem(STURDYNESS, 10F, new ItemStack(Blocks.OBSIDIAN));
+        REGISTRY.registerModifiersItem(STURDYNESS, 10F, () -> new ItemStack(Blocks.OBSIDIAN));
 
         registerModifierTagItem(EFFICIENCY, 1F, new ResourceLocation(Reference.MOD_ID, "gems/dark_power"));
 
-        REGISTRY.registerModifiersItem(SWIMMING, 1F, new ItemStack(Items.PRISMARINE_SHARD));
-        REGISTRY.registerModifiersItem(SWIMMING, 4F, new ItemStack(Blocks.PRISMARINE));
-        REGISTRY.registerModifiersItem(SWIMMING, 9F, new ItemStack(Blocks.DARK_PRISMARINE));
-        REGISTRY.registerModifiersItem(SWIMMING, 20F, new ItemStack(Items.NAUTILUS_SHELL));
-        REGISTRY.registerModifiersItem(SWIMMING, 25F, new ItemStack(Items.TURTLE_HELMET));
+        REGISTRY.registerModifiersItem(SWIMMING, 1F, () -> new ItemStack(Items.PRISMARINE_SHARD));
+        REGISTRY.registerModifiersItem(SWIMMING, 4F, () -> new ItemStack(Blocks.PRISMARINE));
+        REGISTRY.registerModifiersItem(SWIMMING, 9F, () -> new ItemStack(Blocks.DARK_PRISMARINE));
+        REGISTRY.registerModifiersItem(SWIMMING, 20F, () -> new ItemStack(Items.NAUTILUS_SHELL));
+        REGISTRY.registerModifiersItem(SWIMMING, 25F, () -> new ItemStack(Items.TURTLE_HELMET));
 
-        REGISTRY.registerModifiersItem(ICY, 1F, new ItemStack(Blocks.ICE));
-        REGISTRY.registerModifiersItem(ICY, 5F, new ItemStack(Blocks.PACKED_ICE));
-        REGISTRY.registerModifiersItem(ICY, 10F, new ItemStack(Blocks.BLUE_ICE));
+        REGISTRY.registerModifiersItem(ICY, 1F, () -> new ItemStack(Blocks.ICE));
+        REGISTRY.registerModifiersItem(ICY, 5F, () -> new ItemStack(Blocks.PACKED_ICE));
+        REGISTRY.registerModifiersItem(ICY, 10F, () -> new ItemStack(Blocks.BLUE_ICE));
 
-        REGISTRY.registerModifiersItem(STICKY, 1F, new ItemStack(Items.SEAGRASS));
-        REGISTRY.registerModifiersItem(STICKY, 2F, new ItemStack(Items.KELP));
-        REGISTRY.registerModifiersItem(STICKY, 4F, new ItemStack(Items.HONEY_BOTTLE));
-        REGISTRY.registerModifiersItem(STICKY, 16F, new ItemStack(Items.HONEY_BLOCK));
+        REGISTRY.registerModifiersItem(STICKY, 1F, () -> new ItemStack(Items.SEAGRASS));
+        REGISTRY.registerModifiersItem(STICKY, 2F, () -> new ItemStack(Items.KELP));
+        REGISTRY.registerModifiersItem(STICKY, 4F, () -> new ItemStack(Items.HONEY_BOTTLE));
+        REGISTRY.registerModifiersItem(STICKY, 16F, () -> new ItemStack(Items.HONEY_BLOCK));
 
         EvilCraft.clog(String.format("%s Broom modifiers can be applied!", REGISTRY.getModifiers().size()));
     }
@@ -403,11 +404,9 @@ public class BroomModifiers {
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
-        ITag<Item> tag = ForgeRegistries.ITEMS.tags().getTag(TagKey.create(Registries.ITEM, name));
-        if (!tag.isEmpty()) {
-            for (Item item : tag) {
-                REGISTRY.registerModifiersItem(modifier, value, new ItemStack(item));
-            }
+        Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.getTag(TagKey.create(Registries.ITEM, name));
+        if (tag.isPresent()) {
+            tag.get().stream().forEach(holder -> REGISTRY.registerModifiersItem(modifier, value, () -> new ItemStack(holder.value())));
         } else {
             EvilCraft.clog(String.format("Broom modifiers could not find a tag instance for %s", name), org.apache.logging.log4j.Level.WARN);
         }

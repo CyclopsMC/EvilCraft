@@ -6,8 +6,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.cyclops.cyclopscore.infobook.ScreenInfoBook;
-import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.inventory.container.ContainerOriginsOfDarkness;
 
@@ -56,11 +56,11 @@ public class ContainerScreenOriginsOfDarkness extends ScreenInfoBook<ContainerOr
 
     @Override
     public void playPageFlipSound(SoundManager soundHandler) {
-        soundHandler.play(SimpleSoundInstance.forUI(EvilCraftSoundEvents.effect_page_flipsingle, 1.0F));
+        soundHandler.play(SimpleSoundInstance.forUI(RegistryEntries.SOUNDEVENT_EFFECT_PAGE_FLIPSINGLE.get(), 1.0F));
     }
 
     @Override
     public void playPagesFlipSound(SoundManager soundHandler) {
-        soundHandler.play(SimpleSoundInstance.forUI(EvilCraftSoundEvents.effect_page_flipmultiple, 1.0F));
+        soundHandler.play(SimpleSoundInstance.forUI(RegistryEntries.SOUNDEVENT_EFFECT_PAGE_FLIPMULTIPLE.get(), 1.0F));
     }
 }

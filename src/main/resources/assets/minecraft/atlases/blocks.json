@@ -84,6 +84,7 @@
   { "type": "minecraft:single", "resource": "evilcraft:item/dark_gem" },
   { "type": "minecraft:single", "resource": "evilcraft:item/vein_sword" },
   { "type": "minecraft:single", "resource": "evilcraft:broom_part/cap_head_creeper" },
+  { "type": "minecraft:single", "resource": "evilcraft:broom_part/cap_head_player" },
   { "type": "minecraft:single", "resource": "evilcraft:broom_part/cap_head_wither" },
   { "type": "minecraft:single", "resource": "evilcraft:broom_part/cap_head_witherskeleton" },
   { "type": "minecraft:single", "resource": "evilcraft:broom_part/brush_wheat" },

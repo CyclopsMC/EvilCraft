@@ -5,9 +5,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -32,7 +33,7 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
     private static final AdvancedButtonEnum RESULT = AdvancedButtonEnum.create();
     private static final AdvancedButtonEnum PROMISE = AdvancedButtonEnum.create();
 
-    public BloodInfuserRecipeAppendix(IInfoBook infoBook, RecipeBloodInfuser recipe) {
+    public BloodInfuserRecipeAppendix(IInfoBook infoBook, RecipeHolder<RecipeBloodInfuser> recipe) {
         super(infoBook, recipe);
     }
 
@@ -67,12 +68,16 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
 
         // Prepare items
         int tick = getTick(gui);
-        ItemStack input = prepareItemStacks(recipe.getInputIngredient().getItems(), tick);
-        ItemStack result = prepareItemStack(recipe.getOutputItemFirst(), tick);
-        ItemStack promise = null;
-        if(recipe.getInputTier() > 0) {
-            promise = new ItemStack(ItemPromise.getItem(recipe.getInputTier()));
-        }
+        ItemStack input = prepareItemStacks(recipe.value().getInputIngredient()
+                .map(Ingredient::getItems)
+                .orElseGet(() -> new ItemStack[0]), tick);
+        ItemStack result = prepareItemStack(recipe.value().getOutputItemFirst(), tick);
+        ItemStack promise = recipe.value().getInputTier().map(inputTier -> {
+            if(inputTier > 0) {
+                return new ItemStack(ItemPromise.getItem(inputTier));
+            }
+            return null;
+        }).orElse(null);
 
         // Items
         renderItem(gui, guiGraphics, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
@@ -84,13 +89,14 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
         }
 
         renderItem(gui, guiGraphics, x + middle, y + 2, ItemHelpers.getBloodBucket(), mx, my, false, null);
-        renderItem(gui, guiGraphics, x + middle, y + SLOT_OFFSET_Y, new ItemStack(RegistryEntries.BLOCK_BLOOD_INFUSER), mx, my, false, null);
+        renderItem(gui, guiGraphics, x + middle, y + SLOT_OFFSET_Y, new ItemStack(RegistryEntries.BLOCK_BLOOD_INFUSER.get()), mx, my, false, null);
 
         // Blood amount text
         Font fontRenderer = gui.getFont();
-        FluidStack fluidStack = recipe.getInputFluid();
-        String line = fluidStack.getAmount() + " mB";
-        MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
-                .renderLeftAlignedNoShadow(guiGraphics, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
+        recipe.value().getInputFluid().ifPresent(fluidStack -> {
+            String line = fluidStack.getAmount() + " mB";
+            MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
+                    .renderLeftAlignedNoShadow(guiGraphics, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
+        });
     }
 }

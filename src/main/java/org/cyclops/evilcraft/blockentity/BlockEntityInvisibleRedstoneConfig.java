@@ -18,7 +18,7 @@ public class BlockEntityInvisibleRedstoneConfig extends BlockEntityConfig<BlockE
                 EvilCraft._instance,
                 "invisible_redstone",
                 (eConfig) -> new BlockEntityType<>(BlockEntityInvisibleRedstone::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_INVISIBLE_REDSTONE), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_INVISIBLE_REDSTONE.get()), null)
         );
     }
 

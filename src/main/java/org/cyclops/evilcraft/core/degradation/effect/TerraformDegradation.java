@@ -42,16 +42,16 @@ public class TerraformDegradation extends StochasticDegradationEffect {
         putReplacement(Blocks.COAL_BLOCK, Blocks.DIAMOND_BLOCK.defaultBlockState(), 10000);
 
         putReplacement(Blocks.DIRT, Blocks.NETHERRACK.defaultBlockState(), 30);
-        putReplacement(Blocks.GRASS, Blocks.NETHERRACK.defaultBlockState(), 20);
+        putReplacement(Blocks.GRASS_BLOCK, Blocks.NETHERRACK.defaultBlockState(), 20);
         putReplacement(Blocks.MYCELIUM, Blocks.NETHERRACK.defaultBlockState(), 5);
         putReplacement(Blocks.DIRT, Blocks.SAND.defaultBlockState());
-        putReplacement(Blocks.GRASS, Blocks.SAND.defaultBlockState());
+        putReplacement(Blocks.GRASS_BLOCK, Blocks.SAND.defaultBlockState());
         putReplacement(Blocks.MYCELIUM, Blocks.SAND.defaultBlockState());
         putReplacement(Blocks.DIRT, Blocks.CLAY.defaultBlockState(), 20);
-        putReplacement(Blocks.GRASS, Blocks.SAND.defaultBlockState(), 20);
+        putReplacement(Blocks.GRASS_BLOCK, Blocks.SAND.defaultBlockState(), 20);
         putReplacement(Blocks.MYCELIUM, Blocks.SAND.defaultBlockState(), 20);
 
-        putReplacement(Blocks.NETHERRACK, RegistryEntries.BLOCK_INFESTED_NETHER_NETHERRACK.defaultBlockState(), 50);
+        putReplacement(Blocks.NETHERRACK, RegistryEntries.BLOCK_INFESTED_NETHER_NETHERRACK.get().defaultBlockState(), 50);
 
         putReplacement(Blocks.SAND, null);
 

@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:brown_mushroom",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 2000
+  "input_item": {
+    "item": "minecraft:brown_mushroom"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 2000
+  },
+  "output_item": {
     "item": "minecraft:red_mushroom"
   },
   "duration": 150,

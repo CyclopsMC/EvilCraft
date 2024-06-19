@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -51,6 +53,8 @@ import javax.annotation.Nullable;
  */
 public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements CubeDetector.IDetectionListener {
 
+    public static final MapCodec<BlockColossalBloodChest> CODEC = simpleCodec(BlockColossalBloodChest::new);
+
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     public BlockColossalBloodChest(Block.Properties properties) {
@@ -61,9 +65,14 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST, level.isClientSide ? new BlockEntityColossalBloodChest.TickerClient() : new BlockEntityColossalBloodChest.TickerServer());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST.get(), level.isClientSide ? new BlockEntityColossalBloodChest.TickerClient() : new BlockEntityColossalBloodChest.TickerServer());
     }
 
     @Override

@@ -17,11 +17,11 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -202,7 +202,7 @@ public class ItemKineticator extends ItemBloodContainer {
     protected boolean canKineticateItem(ItemStack entityItem) {
         if(entityItem == null) return false;
         return !ItemKineticatorConfig.kineticateBlacklist
-                .contains(ForgeRegistries.ITEMS.getKey(entityItem.getItem()).toString());
+                .contains(BuiltInRegistries.ITEM.getKey(entityItem.getItem()).toString());
     }
 
     @OnlyIn(Dist.CLIENT)

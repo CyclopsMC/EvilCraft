@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.client.model;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
 import org.cyclops.evilcraft.client.render.model.ModelDisplayStand;
 
 /**

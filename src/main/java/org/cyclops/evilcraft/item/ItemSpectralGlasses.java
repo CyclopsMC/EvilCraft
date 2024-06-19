@@ -63,7 +63,7 @@ public class ItemSpectralGlasses extends ArmorItem {
 
         @Override
         public Ingredient getRepairIngredient() {
-            return Ingredient.of(RegistryEntries.ITEM_DARK_GEM_CRUSHED);
+            return Ingredient.of(RegistryEntries.ITEM_DARK_GEM_CRUSHED.get());
         }
 
         @Override

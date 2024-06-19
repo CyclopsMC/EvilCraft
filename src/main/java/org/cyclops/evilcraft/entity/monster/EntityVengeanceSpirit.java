@@ -6,6 +6,7 @@ import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -46,13 +47,12 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -61,7 +61,6 @@ import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -84,7 +83,7 @@ import java.util.Set;
 public class EntityVengeanceSpirit extends EntityNoMob {
 
     static {
-        MinecraftForge.EVENT_BUS.register(EntityVengeanceSpirit.class);
+        NeoForge.EVENT_BUS.register(EntityVengeanceSpirit.class);
     }
 
     private static final Set<String> IMC_BLACKLIST = Sets.newHashSet();
@@ -127,7 +126,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     public EntityVengeanceSpirit(Level level) {
-        this(RegistryEntries.ENTITY_VENGEANCE_SPIRIT, level, null);
+        this(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), level, null);
     }
 
     public EntityVengeanceSpirit(EntityType<? extends EntityVengeanceSpirit> type, Level level, @Nullable EntityType<?> preferredInnerEntity) {
@@ -232,7 +231,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @Override
     public ResourceLocation getDefaultLootTable() {
-        return new ResourceLocation(Reference.MOD_ID, "entities/" + ForgeRegistries.ENTITY_TYPES.getKey(getType()).getPath());
+        return new ResourceLocation(Reference.MOD_ID, "entities/" + BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath());
     }
 
     @Override
@@ -399,7 +398,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             float particleMotionZ = (-0.5F + random.nextFloat()) * 0.05F;
 
             Minecraft.getInstance().levelRenderer.addParticle(
-                    RegistryEntries.PARTICLE_DEGRADE, false,
+                    RegistryEntries.PARTICLE_DEGRADE.get(), false,
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
@@ -529,7 +528,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             }
         }
         try {
-            if (entityType != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
+            if (entityType != RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()) {
                 Entity entity = entityType.create(level());
                 if (canSustain((LivingEntity) entity)) {
                     return innerEntity = (Mob) entity;
@@ -561,7 +560,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      * @return If it can become a spirit.
      */
     public static boolean canSustain(LivingEntity entityLiving) {
-        String entityName = ForgeRegistries.ENTITY_TYPES.getKey(entityLiving.getType()).toString();
+        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entityLiving.getType()).toString();
         for (String blacklistedRegex : EntityVengeanceSpiritConfig.entityBlacklist) {
             if (entityName.matches(blacklistedRegex)) {
                 return false;
@@ -671,16 +670,16 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         if(getInnerEntity() != null) {
             return getInnerEntity().getDeathSound();
         }
-        return EvilCraftSoundEvents.mob_vengeancespirit_death;
+        return RegistryEntries.SOUNDEVENT_MOB_VENGEANCESPIRIT_DEATH.get();
     }
 
     @Override
     public SoundEvent getAmbientSound() {
         LivingEntity entity = getInnerEntity();
-        if(entity != null && entity instanceof Mob) {
-            return ((Mob) getInnerEntity()).getAmbientSound();
+        if(entity != null) {
+            return getInnerEntity().getAmbientSound();
         }
-        return EvilCraftSoundEvents.mob_vengeancespirit_ambient;
+        return RegistryEntries.SOUNDEVENT_MOB_VENGEANCESPIRIT_AMBIENT.get();
     }
 
     /**

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -23,11 +24,10 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.FakePlayerFactory;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.util.FakePlayerFactory;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
@@ -269,13 +269,13 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                         + "a Spirit Furnace mob drop config.");
             }
             ResourceLocation entityName = new ResourceLocation(split[0]);
-            if (!ForgeRegistries.ENTITY_TYPES.containsKey(entityName)) {
+            if (!BuiltInRegistries.ENTITY_TYPE.containsKey(entityName)) {
                 EvilCraft.clog("Invalid line '" + line + "' found for "
                         + "a Spirit Furnace mob drop config: " + split[0] + " does not refer to a valid entity name; skipping.");
                 continue;
             }
             ResourceLocation resourceLocation = new ResourceLocation(split[1]);
-            map.put(ForgeRegistries.ENTITY_TYPES.getValue(entityName), resourceLocation);
+            map.put(BuiltInRegistries.ENTITY_TYPE.get(entityName), resourceLocation);
         }
         return map;
     }

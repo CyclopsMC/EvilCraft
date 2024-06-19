@@ -9,12 +9,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.DistExecutor;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -40,7 +39,7 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
                         .sized(0.6F, 2.9F),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "werewolf_spawn_egg", Helpers.RGBToInt(105, 67, 18), Helpers.RGBToInt(57, 25, 10))
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributeCreationEvent);
+        EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
         DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
     }
 
@@ -48,7 +47,7 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        ForgeHooksClient.registerLayerDefinition(MODEL, ModelWerewolf::createBodyLayer);
+        ClientHooks.registerLayerDefinition(MODEL, ModelWerewolf::createBodyLayer);
     }
 
     @OnlyIn(Dist.CLIENT)

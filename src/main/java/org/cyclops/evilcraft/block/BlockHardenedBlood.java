@@ -33,7 +33,7 @@ public class BlockHardenedBlood extends Block {
             BlockState blockState = world.getBlockState(blockPos.offset(0, -1, 0));
 
             if (blockState.blocksMotion() || blockState.liquid()) {
-                world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.defaultBlockState());
+                world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.get().defaultBlockState());
             }
         }
         return drops;
@@ -41,6 +41,6 @@ public class BlockHardenedBlood extends Block {
 
     @Override
     public void handlePrecipitation(BlockState blockState, Level world, BlockPos blockPos, Biome.Precipitation precipitation) {
-        world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.defaultBlockState());
+        world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.get().defaultBlockState());
     }
 }

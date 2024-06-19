@@ -31,7 +31,7 @@ public class EntityNetherfish extends Silverfish {
     }
 
     public EntityNetherfish(Level world) {
-        this(RegistryEntries.ENTITY_NETHERFISH, world);
+        this(RegistryEntries.ENTITY_NETHERFISH.get(), world);
     }
 
     @Override

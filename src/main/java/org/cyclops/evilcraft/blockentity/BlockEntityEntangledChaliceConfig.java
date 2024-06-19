@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -22,8 +22,9 @@ public class BlockEntityEntangledChaliceConfig extends BlockEntityConfig<BlockEn
                 EvilCraft._instance,
                 "entangled_chalice",
                 (eConfig) -> new BlockEntityType<>(BlockEntityEntangledChalice::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_ENTANGLED_CHALICE), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_ENTANGLED_CHALICE.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntityEntangledChalice.CapabilityRegistrar(this::getInstance)::register);
     }
 
     @Override

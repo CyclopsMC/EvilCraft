@@ -1,10 +1,12 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.ImmutableMap;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -17,6 +19,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -24,6 +27,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,15 +40,14 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelProperty;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -63,6 +66,8 @@ import java.util.Map;
  *
  */
 public class BlockDisplayStand extends BlockWithEntity {
+
+    public static final MapCodec<BlockDisplayStand> CODEC = simpleCodec(BlockDisplayStand::new);
 
     private static final String NBT_TYPE = "displayStandType";
 
@@ -84,7 +89,7 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     public BlockDisplayStand(Block.Properties properties) {
         super(properties, BlockEntityDisplayStand::new);
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
 
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
@@ -92,9 +97,14 @@ public class BlockDisplayStand extends BlockWithEntity {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DISPLAY_STAND, new BlockEntityTickerDelayed<>());
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DISPLAY_STAND.get(), new BlockEntityTickerDelayed<>());
     }
 
     @Override
@@ -174,13 +184,14 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     public void fillItemCategory(NonNullList<ItemStack> list) {
         try {
-            ForgeRegistries.ITEMS.tags().getTag(ItemTags.PLANKS).stream()
-                    .forEach(item -> {
+            BuiltInRegistries.ITEM.getTag(ItemTags.PLANKS)
+                    .ifPresent(values -> values.forEach(holder -> {
+                        Item item = holder.value();
                         if (item instanceof BlockItem) {
                             BlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(new ItemStack(item));
                             list.add(getTypedDisplayStandItem(plankWoodBlockState));
                         }
-                    });
+                    }));
         } catch (IllegalStateException e) {
             // Can occur during mod loading when the tag has not been set yet
         }
@@ -212,7 +223,7 @@ public class BlockDisplayStand extends BlockWithEntity {
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
-                && event.getItemStack().getCapability(ForgeCapabilities.FLUID_HANDLER).isPresent()
+                && event.getItemStack().getCapability(Capabilities.FluidHandler.ITEM) != null
                 && event.getLevel().getBlockState(event.getPos()).getBlock() == this) {
             event.setUseBlock(Event.Result.ALLOW);
         }

@@ -10,7 +10,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
@@ -34,7 +34,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
     protected boolean isAllowed(ItemStack itemStack) {
         if(itemStack.isEmpty()) return false;
         for(String name : BlockPurifierConfig.disenchantBlacklist) {
-            if(ForgeRegistries.ITEMS.getKey(itemStack.getItem()).toString().matches(name)) {
+            if(BuiltInRegistries.ITEM.getKey(itemStack.getItem()).toString().matches(name)) {
                 return false;
             }
         }

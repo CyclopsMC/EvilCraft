@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.AABB;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityBeacon;
 import org.joml.Vector4f;
 
@@ -22,6 +23,11 @@ public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon> imple
 
     public RenderBlockEntityBeacon(BlockEntityRendererProvider.Context context) {
 
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(T blockEntity) {
+        return INFINITE_EXTENT_AABB;
     }
 
     @Override

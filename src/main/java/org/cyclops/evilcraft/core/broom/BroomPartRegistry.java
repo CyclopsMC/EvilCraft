@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -12,15 +13,15 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
@@ -33,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * Default registry for broom parts.
@@ -43,14 +45,15 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private static final String NBT_TAG_NAME = "broom_parts_tag";
 
     private final Map<ResourceLocation, IBroomPart> parts = Maps.newLinkedHashMap();
-    private final Multimap<IBroomPart, ItemStack> partItems = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
+    private final Multimap<IBroomPart, Supplier<ItemStack>> partItems = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifiers = Maps.newHashMap();
     @OnlyIn(Dist.CLIENT)
     private Map<IBroomPart, ResourceLocation> partModels;
 
     public BroomPartRegistry() {
-        MinecraftForge.EVENT_BUS.register(this);
+        EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, this::beforeItemsRegistered);
+        NeoForge.EVENT_BUS.register(this);
         if(MinecraftHelpers.isClientSide()) {
             partModels = Maps.newHashMap();
         }
@@ -65,9 +68,9 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    public <P extends IBroomPart> void registerPartItem(@Nullable P part, ItemStack item) {
+    public <P extends IBroomPart> void registerPartItem(@Nullable P part, Supplier<ItemStack> item) {
         if (part != null) {
-            Objects.requireNonNull(item.getItem());
+            Objects.requireNonNull(item);
             partItems.put(part, item);
         }
     }
@@ -112,13 +115,13 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public <P extends IBroomPart> Collection<ItemStack> getItemsFromPart(P part) {
-        return Collections.unmodifiableCollection(partItems.get(part));
+        return partItems.get(part).stream().map(Supplier::get).toList();
     }
 
     @Override
     public <P extends IBroomPart> P getPartFromItem(ItemStack item) {
-        for (Map.Entry<IBroomPart, ItemStack> entry : partItems.entries()) {
-            if (ItemStack.isSameItemSameTags(item, entry.getValue())) {
+        for (Map.Entry<IBroomPart, Supplier<ItemStack>> entry : partItems.entries()) {
+            if (ItemStack.isSameItemSameTags(item, entry.getValue().get())) {
                 return (P) entry.getKey();
             }
         }
@@ -220,10 +223,9 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void beforeItemsRegistered(RegisterEvent event) {
         // The block registry even is called before the items event
-        if (event.getRegistryKey().equals(ForgeRegistries.Keys.ITEMS)) {
+        if (event.getRegistryKey().equals(Registries.ITEM)) {
             parts.clear();
             partItems.clear();
             partsByType.clear();

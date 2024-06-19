@@ -13,16 +13,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
@@ -55,6 +54,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * A machine that can infuse things with blood.
@@ -107,7 +107,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_FILLBLOODPERTICK = Upgrades.newUpgradeEventType();
 
     public BlockEntityBloodInfuser(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_BLOOD_INFUSER, blockPos, blockState, SLOTS, 64, LIQUID_PER_SLOT, RegistryEntries.FLUID_BLOOD);
+        super(RegistryEntries.BLOCK_ENTITY_BLOOD_INFUSER.get(), blockPos, blockState, SLOTS, 64, LIQUID_PER_SLOT, RegistryEntries.FLUID_BLOOD.get());
         infuseTicker = addTicker(new TickComponent<>(this, INFUSE_TICK_ACTIONS, SLOT_INFUSE));
         addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
         assert getTickers().size() == TICKERS;
@@ -152,7 +152,8 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
 
                         // Make sure we always pick the highest tier when there are multiple matches
                         return level.getRecipeManager().getRecipesFor(getRegistry(), recipeInput, getLevel()).stream()
-                                .max(Comparator.comparingInt(RecipeBloodInfuser::getInputTier));
+                                .map(RecipeHolder::value)
+                                .max(Comparator.comparingInt(r -> r.getInputTier().orElse(0)));
                     }
 
                     @Override
@@ -165,17 +166,27 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
                 });
     }
 
-    @Override
-    protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerInfuse = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_INFUSE));
-        LazyOptional<IItemHandler> itemHandlerInfuseResult = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_INFUSE_RESULT));
-        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerInfuse);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerInfuseResult);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.NORTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.SOUTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.WEST, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.EAST, itemHandlerContainer);
+    public static class CapabilityRegistrar extends BlockEntityWorking.CapabilityRegistrar<BlockEntityBloodInfuser, MutableInt> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntityBloodInfuser>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void registerTankInventoryCapabilitiesItem() {
+            add(
+                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    (blockEntity, direction) -> {
+                        int slot = SLOT_CONTAINER;
+                        if (direction == Direction.UP) {
+                            slot = SLOT_INFUSE;
+                        }
+                        if (direction == Direction.DOWN) {
+                            slot = SLOT_INFUSE_RESULT;
+                        }
+                        return new ItemHandlerSlotMasked(blockEntity.getInventory(), slot);
+                    }
+            );
+        }
     }
 
     @Override
@@ -241,7 +252,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     }
 
     public RecipeType<RecipeBloodInfuser> getRegistry() {
-        return RegistryEntries.RECIPETYPE_BLOOD_INFUSER;
+        return RegistryEntries.RECIPETYPE_BLOOD_INFUSER.get();
     }
 
     @Override
@@ -275,7 +286,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
         public boolean canConsume(ItemStack itemStack, Level world) {
             // Valid fluid handler
             if (!itemStack.isEmpty()) {
-                LazyOptional<IFluidHandlerItem> fluidHandler = FluidUtil.getFluidHandler(itemStack.copy().split(1));
+                Optional<IFluidHandlerItem> fluidHandler = FluidUtil.getFluidHandler(itemStack.copy().split(1));
                 if (fluidHandler.isPresent()) {
                     return true;
                 }
@@ -287,7 +298,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
                     NonNullList.of(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE)),
                     Upgrades.TIERS);
             return world.getRecipeManager()
-                    .getRecipeFor(RegistryEntries.RECIPETYPE_BLOOD_INFUSER, recipeInput, world)
+                    .getRecipeFor(RegistryEntries.RECIPETYPE_BLOOD_INFUSER.get(), recipeInput, world)
                     .isPresent();
         }
 
@@ -298,7 +309,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
 
         @Override
         protected Block getBlock() {
-            return RegistryEntries.BLOCK_BLOOD_INFUSER;
+            return RegistryEntries.BLOCK_BLOOD_INFUSER.get();
         }
 
         /**
@@ -329,7 +340,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
             if(slot == SLOT_INFUSE)
                 return tile.getTileWorkingMetadata().canConsume(itemStack, tile.getLevel());
             if(slot == SLOT_CONTAINER)
-                return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
+                return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD.get());
             return super.canPlaceItem(slot, itemStack);
         }
     }

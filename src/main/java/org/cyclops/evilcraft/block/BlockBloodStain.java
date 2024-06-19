@@ -1,7 +1,9 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -12,19 +14,19 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
@@ -39,11 +41,18 @@ import java.util.Random;
  */
 public class BlockBloodStain extends BlockWithEntity {
 
+    public static final MapCodec<BlockBloodStain> CODEC = simpleCodec(BlockBloodStain::new);
+
     private static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     public BlockBloodStain(Block.Properties properties) {
         super(properties, BlockEntityBloodStain::new);
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -72,7 +81,7 @@ public class BlockBloodStain extends BlockWithEntity {
         }
 
         // Check if the block has been blacklisted
-        String blockName = ForgeRegistries.BLOCKS.getKey(blockstate.getBlock()).toString();
+        String blockName = BuiltInRegistries.BLOCK.getKey(blockstate.getBlock()).toString();
         for (String blacklistedRegex : BlockBloodStainConfig.spawnBlacklist) {
             if (blockName.matches(blacklistedRegex)) {
                 return false;

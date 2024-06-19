@@ -1,13 +1,15 @@
 package org.cyclops.evilcraft.network.packet;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 
 /**
@@ -18,6 +20,8 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
  */
 public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
 
+    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "update_world_shared_tank_client_cache");
+
     @CodecField
     private String tankID = null;
     @CodecField
@@ -27,7 +31,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
      * Creates a packet with no content
      */
     public UpdateWorldSharedTankClientCachePacket() {
-
+        super(ID);
     }
 
     @Override
@@ -36,6 +40,7 @@ public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
     }
 
     public UpdateWorldSharedTankClientCachePacket(String tankID, FluidStack fluidStack) {
+        super(ID);
         this.tankID = tankID;
         this.fluidStack = fluidStack;
     }

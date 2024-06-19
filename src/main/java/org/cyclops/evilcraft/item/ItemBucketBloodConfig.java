@@ -17,7 +17,7 @@ public class ItemBucketBloodConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 "bucket_blood",
-                eConfig -> new BucketItem(() -> RegistryEntries.FLUID_BLOOD, new Item.Properties()
+                eConfig -> new BucketItem(RegistryEntries.FLUID_BLOOD::get, new Item.Properties()
                         .craftRemainder(Items.BUCKET)
                         .stacksTo(1)
                         )

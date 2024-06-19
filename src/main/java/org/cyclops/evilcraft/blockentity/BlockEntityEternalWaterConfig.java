@@ -18,8 +18,9 @@ public class BlockEntityEternalWaterConfig extends BlockEntityConfig<BlockEntity
                 EvilCraft._instance,
                 "eternal_water",
                 (eConfig) -> new BlockEntityType<>(BlockEntityEternalWater::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_ETERNAL_WATER), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_ETERNAL_WATER.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntityEternalWater.CapabilityRegistrar(this::getInstance)::register);
     }
 
 }

@@ -1,10 +1,12 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -27,14 +29,21 @@ import javax.annotation.Nullable;
  */
 public class BlockInvisibleRedstone extends BlockWithEntity {
 
+    public static final MapCodec<BlockInvisibleRedstone> CODEC = simpleCodec(BlockInvisibleRedstone::new);
+
     public BlockInvisibleRedstone(Block.Properties properties) {
         super(properties, BlockEntityInvisibleRedstone::new);
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_INVISIBLE_REDSTONE, new BlockEntityInvisibleRedstone.TickerServer());
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_INVISIBLE_REDSTONE.get(), new BlockEntityInvisibleRedstone.TickerServer());
     }
 
     @Override

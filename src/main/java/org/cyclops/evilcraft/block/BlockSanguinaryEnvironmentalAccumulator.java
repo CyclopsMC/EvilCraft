@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -28,6 +30,8 @@ import javax.annotation.Nullable;
  */
 public class BlockSanguinaryEnvironmentalAccumulator extends BlockWithEntityGui {
 
+    public static final MapCodec<BlockSanguinaryEnvironmentalAccumulator> CODEC = simpleCodec(BlockSanguinaryEnvironmentalAccumulator::new);
+
     public static final BooleanProperty ON = BooleanProperty.create("on");
 
     public BlockSanguinaryEnvironmentalAccumulator(Block.Properties properties) {
@@ -38,9 +42,14 @@ public class BlockSanguinaryEnvironmentalAccumulator extends BlockWithEntityGui 
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR, level.isClientSide ? new BlockEntitySanguinaryEnvironmentalAccumulator.TickerClient() : new BlockEntitySanguinaryEnvironmentalAccumulator.TickerServer<BlockEntitySanguinaryEnvironmentalAccumulator, MutableInt>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get(), level.isClientSide ? new BlockEntitySanguinaryEnvironmentalAccumulator.TickerClient() : new BlockEntitySanguinaryEnvironmentalAccumulator.TickerServer<BlockEntitySanguinaryEnvironmentalAccumulator, MutableInt>());
     }
 
     @Override

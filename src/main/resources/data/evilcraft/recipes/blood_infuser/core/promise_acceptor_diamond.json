@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:diamond_block",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 160000
+  "input_item": {
+    "item": "minecraft:diamond_block"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 160000
+  },
+  "output_item": {
     "item": "evilcraft:promise_acceptor_diamond"
   },
   "duration": 5000,

@@ -25,6 +25,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.neoforged.neoforge.common.CommonHooks;
 
 import java.util.function.Predicate;
 
@@ -132,9 +133,9 @@ public class EntityNoMob extends PathfinderMob {
         if (p_33038_.getItem() instanceof ProjectileWeaponItem) {
             Predicate<ItemStack> predicate = ((ProjectileWeaponItem)p_33038_.getItem()).getSupportedHeldProjectiles();
             ItemStack itemstack = ProjectileWeaponItem.getHeldProjectile(this, predicate);
-            return net.minecraftforge.common.ForgeHooks.getProjectile(this, p_33038_, itemstack.isEmpty() ? new ItemStack(Items.ARROW) : itemstack);
+            return CommonHooks.getProjectile(this, p_33038_, itemstack.isEmpty() ? new ItemStack(Items.ARROW) : itemstack);
         } else {
-            return net.minecraftforge.common.ForgeHooks.getProjectile(this, p_33038_, ItemStack.EMPTY);
+            return CommonHooks.getProjectile(this, p_33038_, ItemStack.EMPTY);
         }
     }
 

@@ -15,13 +15,9 @@
     "criteria_0": {
       "trigger": "cyclopscore:item_crafted",
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "evilcraft:blood_extractor"
-            ]
-          }
-        ]
+        "item": {
+          "item": "evilcraft:blood_extractor"
+        }
       }
     }
   }

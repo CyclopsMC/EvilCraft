@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.entity.effect;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -15,15 +13,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
-import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -50,13 +45,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     }
 
     public EntityAntiVengeanceBeam(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM, entity, world);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), entity, world);
     }
 
     @Override
@@ -122,7 +111,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
             if(soundTick == 1) {
                 // Play beam sound
                 level().playLocalSound(getX(), getY(), getZ(),
-                        EvilCraftSoundEvents.effect_vengeancebeam_base, SoundSource.NEUTRAL,
+                        RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_BASE.get(), SoundSource.NEUTRAL,
                         0.5F + level().random.nextFloat() * 0.2F, 1.0F, false);
             }
         }

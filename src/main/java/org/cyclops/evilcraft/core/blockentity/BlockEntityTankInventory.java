@@ -1,18 +1,17 @@
 package org.cyclops.evilcraft.core.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
+import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 /**
  * @author rubensworks
@@ -32,22 +31,29 @@ public class BlockEntityTankInventory extends CyclopsBlockEntity {
             tank.setAcceptedFluid(acceptedFluid);
         }
 
-        addItemHandlerCapabilities();
-        addFluidHandlerCapabilities();
-
         // Add update listeners
         inventory.addDirtyMarkListener(this);
         tank.addDirtyMarkListener(this::onTankChanged);
     }
 
-    protected void addItemHandlerCapabilities() {
-        for (Direction side : Direction.values()) {
-            addCapabilityInternal(ForgeCapabilities.ITEM_HANDLER, LazyOptional.of(() -> inventory.getItemHandlerSided(side)));
+    public static class CapabilityRegistrar<T extends BlockEntityTankInventory> extends BlockEntityCapabilityRegistrar<T> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends T>> blockEntityType) {
+            super(blockEntityType);
         }
-    }
 
-    protected void addFluidHandlerCapabilities() {
-        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(() -> tank));
+        @Override
+        public void populate() {
+            registerTankInventoryCapabilitiesItem();
+            registerTankInventoryCapabilitiesFluid();
+        }
+
+        public void registerTankInventoryCapabilitiesItem() {
+            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> blockEntity.getInventory().getItemHandlerSided(direction));
+        }
+
+        public void registerTankInventoryCapabilitiesFluid() {
+            add(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, (blockEntity, direction) -> blockEntity.getTank());
+        }
     }
 
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {

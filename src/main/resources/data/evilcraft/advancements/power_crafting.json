@@ -16,13 +16,9 @@
     "criteria_0": {
       "trigger": "cyclopscore:item_crafted",
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "evilcraft:exalted_crafter"
-            ]
-          }
-        ]
+        "item": {
+          "item": "evilcraft:exalted_crafter"
+        }
       }
     }
   }

@@ -56,7 +56,7 @@ public class ContainerSanguinaryEnvironmentalAccumulator extends ContainerTileWo
 
     public ContainerSanguinaryEnvironmentalAccumulator(int id, Inventory playerInventory, Container inventory,
                                                        Optional<BlockEntitySanguinaryEnvironmentalAccumulator> tileSupplier) {
-        super(RegistryEntries.CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR, id, playerInventory, inventory, tileSupplier,
+        super(RegistryEntries.CONTAINER_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get(), id, playerInventory, inventory, tileSupplier,
                 BlockEntitySanguinaryEnvironmentalAccumulator.TICKERS, BlockEntitySanguinaryEnvironmentalAccumulator.INVENTORY_SIZE_UPGRADES);
 
         this.variableCanWork = registerSyncedVariable(Boolean.class, () -> getTileSupplier().get().canWork());

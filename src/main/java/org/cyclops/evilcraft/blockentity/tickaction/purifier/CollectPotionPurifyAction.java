@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
@@ -45,7 +46,10 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                 tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
             List<LivingEntity> entities = tile.getLevel().getEntitiesOfClass(LivingEntity.class,
-                    new AABB(tile.getBlockPos(), tile.getBlockPos().offset(1, 2, 1))
+                    new AABB(
+                            Vec3.atLowerCornerOf(tile.getBlockPos()),
+                            Vec3.atLowerCornerOf(tile.getBlockPos().offset(1, 2, 1))
+                    )
             );
             for(LivingEntity entity : entities) {
                 for(MobEffectInstance potionEffect : entity.getActiveEffects()) {
@@ -69,7 +73,10 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                 && tile.getAdditionalItem().getItem() == ALLOWED_ITEM && tile.getBucketsFloored() == tile.getMaxBuckets()) {
             @SuppressWarnings({"rawtypes", "unchecked"})
             List<LivingEntity> entities = tile.getLevel().getEntitiesOfClass(LivingEntity.class,
-                    new AABB(tile.getBlockPos(), tile.getBlockPos().offset(1, 2, 1))
+                    new AABB(
+                            Vec3.atLowerCornerOf(tile.getBlockPos()),
+                            Vec3.atLowerCornerOf(tile.getBlockPos().offset(1, 2, 1))
+                    )
             );
             for(LivingEntity entity : entities) {
                 if(!entity.getActiveEffects().isEmpty()) {

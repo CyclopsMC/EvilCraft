@@ -18,17 +18,18 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
+import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.helper.CraftingHelpers;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -51,6 +52,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Machine that can accumulate the weather and put it in a bottle.
@@ -100,24 +102,34 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
     // The recipe we're currently working on
     @Nullable
-    private RecipeEnvironmentalAccumulator recipe;
+    private RecipeHolder<RecipeEnvironmentalAccumulator> recipe;
     private String recipeId;
 
     /**
      * Make a new instance.
      */
     public BlockEntityEnvironmentalAccumulator(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR, blockPos, blockState);
+        super(RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR.get(), blockPos, blockState);
         recreateBossInfo();
 
         degradationExecutor = new DegradationExecutor(this);
 
         inventory = new Inventory(this);
-        addCapabilityInternal(ForgeCapabilities.ITEM_HANDLER, LazyOptional.of(inventory::getItemHandler));
         inventory.addDirtyMarkListener(this);
 
         if (MinecraftHelpers.isClientSide()) {
             setBeamColor(getOuterColorByState(state));
+        }
+    }
+
+    public static class CapabilityRegistrar extends BlockEntityCapabilityRegistrar<BlockEntityEnvironmentalAccumulator> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntityEnvironmentalAccumulator>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void populate() {
+            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> blockEntity.getInventory().getItemHandler());
         }
     }
 
@@ -158,7 +170,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
      * @return The maximum cooldown tick.
      */
     public int getMaxCooldownTick() {
-        return (recipe == null) ? BlockEnvironmentalAccumulatorConfig.defaultTickCooldown : recipe.getCooldownTime();
+        return (recipe == null) ? BlockEnvironmentalAccumulatorConfig.defaultTickCooldown : recipe.value().getCooldownTime();
     }
 
     /**
@@ -178,7 +190,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
      * @return Returns the recipe being processed, or null in case we're
      *         not processing anything at the moment.
      */
-    public RecipeEnvironmentalAccumulator getRecipe() {
+    public RecipeHolder<RecipeEnvironmentalAccumulator> getRecipe() {
         return recipe;
     }
 
@@ -186,14 +198,14 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         if (recipe == null)
             return BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
         else
-            return recipe.getDuration();
+            return recipe.value().getDuration();
     }
 
     private float getItemMoveSpeed() {
         if (recipe == null)
             return (float) BlockEnvironmentalAccumulatorConfig.defaultProcessItemSpeed;
         else
-            return (float) recipe.getProcessingSpeed();
+            return (float) recipe.value().getProcessingSpeed();
     }
 
     @Override
@@ -260,7 +272,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     protected RecipeType<RecipeEnvironmentalAccumulator> getRegistry() {
-        return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR;
+        return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get();
     }
 
     private void updateEnvironmentalAccumulatorIdle() {
@@ -272,9 +284,9 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
                 );
 
         // Loop over all recipes until we find an item dropped in the accumulator that matches a recipe
-        for (RecipeEnvironmentalAccumulator recipe : CraftingHelpers.findRecipes(level, getRegistry())) {
-            Ingredient recipeIngredient = recipe.getInputIngredient();
-            WeatherType weatherType = recipe.getInputWeather();
+        for (RecipeHolder<RecipeEnvironmentalAccumulator> recipe : CraftingHelpers.findRecipes(level, getRegistry())) {
+            Ingredient recipeIngredient = recipe.value().getInputIngredient();
+            WeatherType weatherType = recipe.value().getInputWeather();
 
             // Loop over all dropped items
             for (Object obj : entityItems) {
@@ -320,14 +332,14 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
                 entity.setItem(this.getInventory().getItem(0));
             } else {
                 // Recipe found, throw back the result
-                entity.setItem(recipe.assemble(getInventory(), level.registryAccess()));
+                entity.setItem(recipe.value().assemble(getInventory(), level.registryAccess()));
 
                 // Change the weather to the resulting weather
-                WeatherType weatherSource = recipe.getInputWeather();
+                WeatherType weatherSource = recipe.value().getInputWeather();
                 if (weatherSource != null)
                     weatherSource.deactivate((ServerLevel) level);
 
-                WeatherType weatherResult = recipe.getOutputWeather();
+                WeatherType weatherResult = recipe.value().getOutputWeather();
                 if (weatherResult != null)
                     weatherResult.activate((ServerLevel) level);
             }
@@ -352,7 +364,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         if (recipe == null)
             tick = BlockEnvironmentalAccumulatorConfig.defaultProcessItemTickCount;
         else
-            tick = recipe.getDuration();
+            tick = recipe.value().getDuration();
 
         state = BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM;
 
@@ -445,7 +457,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         tag.putInt("state", state);
 
         if (recipe != null)
-            tag.putString("recipe", recipe.getId().toString());
+            tag.putString("recipe", recipe.id().toString());
 
         degradationExecutor.write(tag);
     }
@@ -525,7 +537,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
             // Delayed loading of recipe when world is set
             if (blockEntity.recipeId != null && level != null) {
-                blockEntity.recipe = (RecipeEnvironmentalAccumulator) level.getRecipeManager().byKey(new ResourceLocation(blockEntity.recipeId)).orElse(null);
+                blockEntity.recipe = (RecipeHolder<RecipeEnvironmentalAccumulator>) level.getRecipeManager().byKey(new ResourceLocation(blockEntity.recipeId)).orElse(null);
                 blockEntity.recipeId = null;
             }
 

@@ -6,9 +6,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
 
@@ -30,9 +30,9 @@ public class ItemEffortlessRing extends Item {
 
     public ItemEffortlessRing(Properties properties) {
         super(properties);
-        MinecraftForge.EVENT_BUS.addListener(this::onPlayerFall);
-        MinecraftForge.EVENT_BUS.addListener(this::onPlayerJump);
-        MinecraftForge.EVENT_BUS.addListener(this::onPlayerUpdate);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerFall);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerJump);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerUpdate);
     }
 
     /**

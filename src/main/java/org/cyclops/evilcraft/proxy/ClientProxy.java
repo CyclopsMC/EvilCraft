@@ -5,14 +5,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
@@ -39,9 +39,9 @@ public class ClientProxy extends ClientProxyComponent {
 
     public ClientProxy() {
         super(new CommonProxy());
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelBakingCompleted);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelLoad);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onModelRegisterAdditional);
+        EvilCraft._instance.getModEventBus().addListener(this::onModelBakingCompleted);
+        EvilCraft._instance.getModEventBus().addListener(this::onModelLoad);
+        EvilCraft._instance.getModEventBus().addListener(this::onModelRegisterAdditional);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class ClientProxy extends ClientProxyComponent {
     public void registerEventHooks() {
         super.registerEventHooks();
 
-        MinecraftForge.EVENT_BUS.register(new RenderOverlayEventHook());
+        NeoForge.EVENT_BUS.register(new RenderOverlayEventHook());
     }
 
     public void onModelBakingCompleted(ModelEvent.BakingCompleted event) {
@@ -78,12 +78,12 @@ public class ClientProxy extends ClientProxyComponent {
     }
 
     public void onModelLoad(ModelEvent.RegisterGeometryLoaders event) {
-        event.register("broom", new ModelLoaderBroom());
-        event.register("broom_part", new ModelLoaderBroomPart());
-        event.register("box_of_eternal_closure", new ModelLoaderBoxOfEternalClosure());
-        event.register("dark_tank", new ModelLoaderDarkTank());
-        event.register("entangled_chalice", new ModelLoaderEntangledChalice());
-        event.register("display_stand", new ModelLoaderDisplayStand());
+        event.register(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
+        event.register(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
+        event.register(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
+        event.register(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
+        event.register(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
+        event.register(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
     }
 
     public void onModelRegisterAdditional(ModelEvent.RegisterAdditional event) {

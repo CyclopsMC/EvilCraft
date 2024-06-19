@@ -44,7 +44,7 @@ public class EntityControlledZombie extends Monster {
     }
 
     public EntityControlledZombie(Level world) {
-        this(RegistryEntries.ENTITY_CONTROLLED_ZOMBIE, world);
+        this(RegistryEntries.ENTITY_CONTROLLED_ZOMBIE.get(), world);
     }
 
     protected void registerGoals() {

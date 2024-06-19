@@ -19,11 +19,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.ExtendedDamageSources;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 import javax.annotation.Nullable;
@@ -80,7 +80,7 @@ public class ItemMaceOfDistortion extends ItemMace {
         }
 
         if (initiator instanceof ServerPlayer) {
-            Advancements.DISTORT.test((ServerPlayer) initiator, entities);
+            RegistryEntries.TRIGGER_DISTORT.get().test((ServerPlayer) initiator, entities);
         }
     }
 

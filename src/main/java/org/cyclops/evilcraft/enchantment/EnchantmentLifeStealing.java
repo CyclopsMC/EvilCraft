@@ -6,10 +6,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -22,7 +22,7 @@ public class EnchantmentLifeStealing extends Enchantment {
 
     public EnchantmentLifeStealing() {
         super(Rarity.UNCOMMON, EnchantmentCategory.WEAPON, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
@@ -62,7 +62,7 @@ public class EnchantmentLifeStealing extends Enchantment {
      * @param level The level of the enchant.
      */
     public static void stealLife(LivingEntity entity, float damage, int level) {
-        entity.heal(damage / RegistryEntries.ENCHANTMENT_LIFE_STEALING.getMaxLevel()
+        entity.heal(damage / RegistryEntries.ENCHANTMENT_LIFE_STEALING.get().getMaxLevel()
                 * (level + 1) * (float) EnchantmentLifeStealingConfig.healModifier);
     }
 

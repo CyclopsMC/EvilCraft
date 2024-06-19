@@ -18,8 +18,9 @@ public class BlockEntitySanguinaryEnvironmentalAccumulatorConfig extends BlockEn
                 EvilCraft._instance,
                 "sanguinary_environmental_accumulator",
                 (eConfig) -> new BlockEntityType<>(BlockEntitySanguinaryEnvironmentalAccumulator::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntitySanguinaryEnvironmentalAccumulator.CapabilityRegistrar(this::getInstance)::register);
     }
 
 }

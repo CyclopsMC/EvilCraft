@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.fluid;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 
 /**

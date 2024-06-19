@@ -10,13 +10,11 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.ForgeSpawnEggItem;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -44,6 +42,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
@@ -104,13 +103,13 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
      */
     public BlockEntitySpiritReanimator(BlockPos blockPos, BlockState blockState) {
         super(
-                RegistryEntries.BLOCK_ENTITY_SPIRIT_REANIMATOR,
+                RegistryEntries.BLOCK_ENTITY_SPIRIT_REANIMATOR.get(),
                 blockPos,
                 blockState,
                 SLOTS,
                 64,
                 LIQUID_PER_SLOT,
-                RegistryEntries.FLUID_BLOOD);
+                RegistryEntries.FLUID_BLOOD.get());
         reanimateTicker = addTicker(new TickComponent<>(this, REANIMATE_COOK_TICK_ACTIONS, SLOT_BOX, true, false));
         addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
 
@@ -144,17 +143,28 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
         });
     }
 
-    @Override
-    protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerInput = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_EGG));
-        LazyOptional<IItemHandler> itemHandlerOutput = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_OUTPUT));
-        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER, SLOT_BOX));
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerInput);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerOutput);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.NORTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.SOUTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.WEST, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.EAST, itemHandlerContainer);
+    public static class CapabilityRegistrar extends BlockEntityWorking.CapabilityRegistrar<BlockEntitySpiritReanimator, MutableDouble> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntitySpiritReanimator>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void registerTankInventoryCapabilitiesItem() {
+            add(
+                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    (blockEntity, direction) -> {
+                        int slots[];
+                        if (direction == Direction.UP) {
+                            slots = new int[]{SLOT_EGG};
+                        } else if (direction == Direction.DOWN) {
+                            slots = new int[]{SLOTS_OUTPUT};
+                        } else {
+                            slots = new int[]{SLOT_CONTAINER, SLOT_BOX};
+                        }
+                        return new ItemHandlerSlotMasked(blockEntity.getInventory(), slots);
+                    }
+            );
+        }
     }
 
     @Override
@@ -168,7 +178,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
                     return itemStack.getItem() == Items.EGG
                             /*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
                 if(slot == SLOT_CONTAINER)
-                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
+                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD.get());
                 return super.canPlaceItem(slot, itemStack);
             }
         };
@@ -207,7 +217,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
      * @return The allowed item.
      */
     public static Item getAllowedCookItem() {
-        return RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE;
+        return RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE.get();
     }
 
     /**
@@ -231,7 +241,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
         boolean validNameStack = entityType != null
                 && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
-                        && ForgeSpawnEggItem.fromEntityType(entityType) == outputStack.getItem()));
+                        && SpawnEggItem.byId(entityType) == outputStack.getItem()));
         return !eggStack.isEmpty() && validNameStack;
     }
 
@@ -263,7 +273,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
 
         @Override
         protected Block getBlock() {
-            return RegistryEntries.BLOCK_SPIRIT_REANIMATOR;
+            return RegistryEntries.BLOCK_SPIRIT_REANIMATOR.get();
         }
     }
 

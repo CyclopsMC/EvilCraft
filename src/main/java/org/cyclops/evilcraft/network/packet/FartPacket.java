@@ -1,17 +1,19 @@
 package org.cyclops.evilcraft.network.packet;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.packet.PlayerPositionPacket;
-import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
+import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.client.particle.ParticleFartData;
 
 import java.util.ArrayList;
@@ -27,6 +29,8 @@ import java.util.UUID;
  *
  */
 public class FartPacket extends PlayerPositionPacket {
+
+    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "fart");
 
     private static final int MAX_PARTICLES = 200;
     private static final int MIN_PARTICLES = 100;
@@ -46,7 +50,7 @@ public class FartPacket extends PlayerPositionPacket {
      * Creates a packet with no content
      */
     public FartPacket() {
-
+        super(ID);
     }
 
     /**
@@ -54,7 +58,7 @@ public class FartPacket extends PlayerPositionPacket {
      * @param player The player data.
      */
     public FartPacket(Player player) {
-        super(player);
+        super(ID, player);
     }
 
     @Override
@@ -118,7 +122,7 @@ public class FartPacket extends PlayerPositionPacket {
     @Override
     public void actionServer(Level world, ServerPlayer player) {
         if(GeneralConfig.farting) {
-            Advancements.FART.test(player);
+            RegistryEntries.TRIGGER_FART.get().test(player);
             super.actionServer(world, player);
         }
     }

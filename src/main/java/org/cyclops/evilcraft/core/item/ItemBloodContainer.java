@@ -17,9 +17,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -38,7 +38,7 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
     private boolean placeFluids = false;
 
     public ItemBloodContainer(Properties builder, int capacity) {
-        super(builder, capacity, () -> RegistryEntries.FLUID_BLOOD);
+        super(builder, capacity, RegistryEntries.FLUID_BLOOD::get);
     }
 
     @Override

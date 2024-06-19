@@ -13,6 +13,7 @@ import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.tickaction.TickComponent;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * A BlockEntity with Tank and Inventory that can tick.
@@ -33,6 +34,12 @@ public abstract class BlockEntityTickingTankInventory<T extends BlockEntityTankI
     public BlockEntityTickingTankInventory(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState, int inventorySize, int stackSize, int tankSize, Fluid acceptedFluid) {
         super(type, blockPos, blockState, inventorySize, stackSize, tankSize, acceptedFluid);
         tickers = Lists.newArrayList();
+    }
+
+    public static class CapabilityRegistrar<T extends BlockEntityTickingTankInventory<T>> extends BlockEntityTankInventory.CapabilityRegistrar<T> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends T>> blockEntityType) {
+            super(blockEntityType);
+        }
     }
 
     /**

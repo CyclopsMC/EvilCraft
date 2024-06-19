@@ -1,16 +1,20 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Config for the {@link BlockDarkTank}.
@@ -41,10 +45,24 @@ public class BlockDarkTankConfig extends BlockConfig {
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
                         )
         );
+        EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     @Override
     protected Collection<ItemStack> defaultCreativeTabEntries() {
+        // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
+        return Collections.emptyList();
+    }
+
+    protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab() || event.getTabKey().equals(CreativeModeTabs.SEARCH)) {
+            for (ItemStack itemStack : dynamicCreativeTabEntries()) {
+                event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+        }
+    }
+
+    protected Collection<ItemStack> dynamicCreativeTabEntries() {
         NonNullList<ItemStack> list = NonNullList.create();
         ((BlockDarkTank) getInstance()).fillItemCategory(list);
         return list;

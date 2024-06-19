@@ -3,8 +3,6 @@ package org.cyclops.evilcraft.entity.item;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
@@ -15,14 +13,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemLightningGrenade;
-
-import javax.annotation.Nonnull;
 
 /**
  * Entity for the {@link ItemLightningGrenade}.
@@ -33,17 +28,11 @@ import javax.annotation.Nonnull;
 public class EntityLightningGrenade extends ThrowableProjectile implements ItemSupplier {
 
     public EntityLightningGrenade(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_LIGHTNING_GRENADE, entity, world);
+        super(RegistryEntries.ENTITY_LIGHTNING_GRENADE.get(), entity, world);
     }
 
     public EntityLightningGrenade(EntityType<? extends EntityLightningGrenade> type, Level world) {
         super(type, world);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

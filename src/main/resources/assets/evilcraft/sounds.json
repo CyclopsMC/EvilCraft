@@ -1,43 +1,43 @@
 {
-    "effect.vengeancebeam.base": {
+    "effect_vengeancebeam_base": {
         "sounds": [
             "evilcraft:vengeance_beam1",
             "evilcraft:vengeance_beam2"
         ],
         "subtitle": "subtitles.evilcraft.effect.vengeancebeam.base"
     },
-    "effect.vengeancebeam.start": {
+    "effect_vengeancebeam_start": {
         "sounds": [
             "evilcraft:vengeance_beam_start"
         ],
         "subtitle": "subtitles.evilcraft.effect.vengeancebeam.start"
     },
-    "effect.vengeancebeam.stop": {
+    "effect_vengeancebeam_stop": {
         "sounds": [
             "evilcraft:vengeance_beam_stop"
         ],
         "subtitle": "subtitles.evilcraft.effect.vengeancebeam.stop"
     },
-    "mob.vengeancespirit.ambient": {
+    "mob_vengeancespirit_ambient": {
         "sounds": [
             "evilcraft:vengeance_spirit1",
             "evilcraft:vengeance_spirit2"
         ],
         "subtitle": "subtitles.evilcraft.mob.vengeancespirit.ambient"
     },
-    "mob.vengeancespirit.death": {
+    "mob_vengeancespirit_death": {
         "sounds": [
             "evilcraft:vengeance_spirit_death"
         ],
         "subtitle": "subtitles.evilcraft.mob.vengeancespirit.death"
     },
-    "effect.box.beam": {
+    "effect_box_beam": {
         "sounds": [
             "evilcraft:box_beam"
         ],
         "subtitle": "subtitles.evilcraft.effect.box.beam"
     },
-    "effect.page.flipsingle": {
+    "effect_page_flipsingle": {
         "sounds": [
             "evilcraft:page_flip1",
             "evilcraft:page_flip2",
@@ -45,7 +45,7 @@
         ],
         "subtitle": "subtitles.evilcraft.effect.page.flipsingle"
     },
-    "effect.page.flipmultiple": {
+    "effect_page_flipmultiple": {
         "sounds": [
             "evilcraft:pages_flip"
         ],

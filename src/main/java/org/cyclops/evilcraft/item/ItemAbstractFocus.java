@@ -14,11 +14,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.EvilCraftSoundEvents;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
  * A base focus item.
@@ -86,7 +86,7 @@ public abstract class ItemAbstractFocus extends Item {
     public void releaseUsing(ItemStack itemStack, Level world, LivingEntity player, int duration) {
         if(player.level().isClientSide() && getItemInUseDuration(player) > 6) {
             // Play stop sound
-            player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_stop, 0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
+            player.playSound(RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_STOP.get(), 0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
         }
     }
 
@@ -108,7 +108,7 @@ public abstract class ItemAbstractFocus extends Item {
         } else {
             if(duration == 3 && player.level().isClientSide()) {
                 // Play start sound
-                player.playSound(EvilCraftSoundEvents.effect_vengeancebeam_start,  0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
+                player.playSound(RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_START.get(),  0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
             }
         }
     }

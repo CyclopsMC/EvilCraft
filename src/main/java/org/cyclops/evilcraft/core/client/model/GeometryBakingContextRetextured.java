@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.client.model;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
+import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
 
 /**
  * Model configuration that has a texture override.

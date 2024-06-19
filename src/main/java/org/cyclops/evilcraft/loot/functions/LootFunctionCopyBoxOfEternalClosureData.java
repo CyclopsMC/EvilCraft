@@ -1,10 +1,8 @@
 package org.cyclops.evilcraft.loot.functions;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -12,18 +10,21 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import org.cyclops.cyclopscore.helper.LootHelpers;
-import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
+
+import java.util.List;
 
 /**
  * Copies BOEC data to the item.
  * @author rubensworks
  */
 public class LootFunctionCopyBoxOfEternalClosureData extends LootItemConditionalFunction {
-    public static final LootItemFunctionType TYPE = LootHelpers.registerFunction(new ResourceLocation(Reference.MOD_ID, "copy_box_of_eternal_closure_data"), new LootFunctionCopyBoxOfEternalClosureData.Serializer());
+    public static final Codec<LootFunctionCopyBoxOfEternalClosureData> CODEC = RecordCodecBuilder.create(
+            builder -> commonFields(builder).apply(builder, LootFunctionCopyBoxOfEternalClosureData::new)
+    );
+    public static final LootItemFunctionType TYPE = new LootItemFunctionType(LootFunctionCopyBoxOfEternalClosureData.CODEC);
 
-    protected LootFunctionCopyBoxOfEternalClosureData(LootItemCondition[] conditionsIn) {
+    protected LootFunctionCopyBoxOfEternalClosureData(List<LootItemCondition> conditionsIn) {
         super(conditionsIn);
     }
 
@@ -53,22 +54,4 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootItemConditional
     public LootItemFunctionType getType() {
         return TYPE;
     }
-
-    public static void load() {
-        // Dummy call, to enforce class loading
-    }
-
-    public static class Serializer extends LootItemConditionalFunction.Serializer<LootFunctionCopyBoxOfEternalClosureData> {
-
-        @Override
-        public void serialize(JsonObject jsonObject, LootFunctionCopyBoxOfEternalClosureData lootFunctionCopyId, JsonSerializationContext jsonSerializationContext) {
-
-        }
-
-        @Override
-        public LootFunctionCopyBoxOfEternalClosureData deserialize(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext, LootItemCondition[] conditionsIn) {
-            return new LootFunctionCopyBoxOfEternalClosureData(conditionsIn);
-        }
-    }
-
 }

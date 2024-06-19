@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -22,11 +21,8 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -73,7 +69,7 @@ public class ItemBucketEternalWater extends BucketItem {
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         IFluidHandler handler = BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(),
-                context.getClickedFace(), ForgeCapabilities.FLUID_HANDLER).orElse(null);
+                context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
         if(handler != null && !context.getLevel().isClientSide()) {
             handler.fill(new FluidStack(Fluids.WATER, FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
             return InteractionResult.SUCCESS;
@@ -98,15 +94,5 @@ public class ItemBucketEternalWater extends BucketItem {
         }
 
         return super.useOn(context);
-    }
-
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
-        return new FluidBucketWrapper(stack) {
-            @Override
-            protected void setFluid(FluidStack fluid) {
-                // Do nothing: we want to keep the item in-place
-            }
-        };
     }
 }

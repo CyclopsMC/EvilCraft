@@ -116,7 +116,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
 
     @Override
     protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.getDescriptionId() + ".help.invalid";
+        String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.get().getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
         lines.add(Component.translatable(prefix));
         if (!getMenu().hasEntity()) {

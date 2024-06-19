@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -10,9 +9,10 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -29,8 +29,8 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
 
     private final int maxCapacity;
 
-    public RecipeBloodExtractorCombination(ResourceLocation id, CraftingBookCategory category, int maxCapacity) {
-        super(id, category);
+    public RecipeBloodExtractorCombination(CraftingBookCategory category, int maxCapacity) {
+        super(category);
         this.maxCapacity = maxCapacity;
     }
 
@@ -54,7 +54,7 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
 
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getCraftingRemainingItem(itemstack));
+            aitemstack.set(i, CommonHooks.getCraftingRemainingItem(itemstack));
         }
 
         return aitemstack;
@@ -62,7 +62,7 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return RegistryEntries.RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION;
+        return RegistryEntries.RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION.get();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
                     tanks += element.getCount();
                     FluidStack fluidStack = FluidUtil.getFluidContained(element).orElse(FluidStack.EMPTY);
                     if(!fluidStack.isEmpty()) {
-                        if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD) {
+                        if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD.get()) {
                             return ItemStack.EMPTY;
                         }
                         totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
@@ -94,7 +94,7 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
                     extractors += element.getCount();
                     FluidStack fluidStack = FluidUtil.getFluidContained(element).orElse(FluidStack.EMPTY);
                     if(!fluidStack.isEmpty()) {
-                        if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD) {
+                        if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD.get()) {
                             return ItemStack.EMPTY;
                         }
                         totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());

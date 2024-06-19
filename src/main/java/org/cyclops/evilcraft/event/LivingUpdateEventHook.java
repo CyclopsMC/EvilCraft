@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.event;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.GeneralConfig;
 

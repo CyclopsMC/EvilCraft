@@ -2,13 +2,14 @@ package org.cyclops.evilcraft.api.broom;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.init.IRegistry;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Registry for broom parts.
@@ -26,11 +27,11 @@ public interface IBroomPartRegistry extends IRegistry {
 
     /**
      * Assign a part item to the given part.
+     * @param <P> The type of part.
      * @param part The part.
      * @param item The item-form of this part.
-     * @param <P> The type of part.
      */
-    public <P extends IBroomPart> void registerPartItem(@Nullable P part, ItemStack item);
+    public <P extends IBroomPart> void registerPartItem(@Nullable P part, Supplier<ItemStack> item);
 
     /**
      * Assign base modifiers to the given part.

@@ -8,9 +8,9 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
@@ -100,7 +100,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * Make a new instance.
      */
     public BlockEntityPurifier(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_PURIFIER, blockPos, blockState, SLOTS, 1, FluidHelpers.BUCKET_VOLUME * MAX_BUCKETS, RegistryEntries.FLUID_BLOOD);
+        super(RegistryEntries.BLOCK_ENTITY_PURIFIER.get(), blockPos, blockState, SLOTS, 1, FluidHelpers.BUCKET_VOLUME * MAX_BUCKETS, RegistryEntries.FLUID_BLOOD.get());
 
         // Trigger render update client-side
         getInventory().addDirtyMarkListener(this::sendUpdate);
@@ -268,7 +268,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
             float particleMotionZ = -0.01F + level.random.nextFloat() * 0.02F;
 
             Minecraft.getInstance().levelRenderer.addParticle(
-                    RegistryEntries.PARTICLE_BLOOD_BUBBLE, false,
+                    RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(), false,
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
@@ -304,7 +304,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
             float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
 
             Minecraft.getInstance().levelRenderer.addParticle(
-                    RegistryEntries.PARTICLE_MAGIC_FINISH, false,
+                    RegistryEntries.PARTICLE_MAGIC_FINISH.get(), false,
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }

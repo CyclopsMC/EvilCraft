@@ -8,8 +8,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityWorking;
 
@@ -75,7 +75,7 @@ public class ParticleBloodBubble extends WaterDropParticle {
                     float particlemotionZ = -0.1F + random.nextFloat() * 0.2F;
 
                     Minecraft.getInstance().levelRenderer.addParticle(
-                            RegistryEntries.PARTICLE_BLOOD_BUBBLE, false,
+                            RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(), false,
                             particleX, particleY, particleZ,
                             particlemotionX, particlemotionY, particlemotionZ);
                 }

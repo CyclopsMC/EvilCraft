@@ -18,11 +18,11 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.MobSpawnEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
 public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
 
     static {
-        MinecraftForge.EVENT_BUS.register(EntityPoisonousLibelle.class);
+        NeoForge.EVENT_BUS.register(EntityPoisonousLibelle.class);
     }
 
     private static final int POISON_DURATION = 2;
@@ -80,7 +80,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
     }
 
     public EntityPoisonousLibelle(Level world) {
-        this(RegistryEntries.ENTITY_POISONOUS_LIBELLE, world);
+        this(RegistryEntries.ENTITY_POISONOUS_LIBELLE.get(), world);
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)

@@ -27,8 +27,8 @@ public class OriginsOfDarknessBook extends InfoBook {
     private static OriginsOfDarknessBook _instance = null;
 
     static {
-        InfoBookParser.registerAppendixRecipeFactories(RegistryEntries.RECIPETYPE_BLOOD_INFUSER, BloodInfuserRecipeAppendix::new);
-        InfoBookParser.registerAppendixRecipeFactories(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR, EnvironmentalAccumulatorRecipeAppendix::new);
+        InfoBookParser.registerAppendixRecipeFactories(RegistryEntries.RECIPETYPE_BLOOD_INFUSER.get(), BloodInfuserRecipeAppendix::new);
+        InfoBookParser.registerAppendixRecipeFactories(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get(), EnvironmentalAccumulatorRecipeAppendix::new);
 
         InfoBookParser.registerAppendixFactory(Reference.MOD_ID + ":broom_modifier", new InfoBookParser.IAppendixFactory() {
             @Override

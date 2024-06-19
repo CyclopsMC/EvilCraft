@@ -5,8 +5,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -27,10 +25,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidType;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -41,8 +38,8 @@ import org.cyclops.evilcraft.client.particle.ParticleColoredSmokeData;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
+import org.joml.Vector3f;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -128,13 +125,7 @@ public class EntityBroom extends Entity {
     }
 
     public EntityBroom(Level world, double x, double y, double z) {
-        this(RegistryEntries.ENTITY_BROOM, world, x, y, z);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        this(RegistryEntries.ENTITY_BROOM.get(), world, x, y, z);
     }
 
     @Override
@@ -146,9 +137,8 @@ public class EntityBroom extends Entity {
         broomHoverTickOffset = random.nextInt((int)Math.PI);
     }
 
-    @Override
-    public double getPassengersRidingOffset() {
-        return 0.0;
+    protected Vector3f getPassengerAttachmentPoint(Entity p_294756_, EntityDimensions p_295396_, float p_296362_) {
+        return new Vector3f(0.0F, 0.0F, 0.0F);
     }
 
     @Override
@@ -183,7 +173,7 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean isTeleport) {
+    public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements) {
         posRotationIncrements += 6;
 
         //this.yOffset = 0.0F;

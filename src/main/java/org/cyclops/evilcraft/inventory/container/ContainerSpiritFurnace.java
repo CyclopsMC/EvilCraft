@@ -75,7 +75,7 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<BlockEntitySpir
 
     public ContainerSpiritFurnace(int id, Inventory playerInventory, Container inventory,
                                  Optional<BlockEntitySpiritFurnace> tileSupplier) {
-        super(RegistryEntries.CONTAINER_SPIRIT_FURNACE, id, playerInventory, inventory, tileSupplier,
+        super(RegistryEntries.CONTAINER_SPIRIT_FURNACE.get(), id, playerInventory, inventory, tileSupplier,
                 BlockEntitySpiritFurnace.TICKERS, BlockEntitySpiritFurnace.INVENTORY_SIZE_UPGRADES);
 
         this.variableHasEntity = registerSyncedVariable(Boolean.class, () -> getTileSupplier().get().getEntity() != null);
@@ -88,7 +88,7 @@ public class ContainerSpiritFurnace extends ContainerTileWorking<BlockEntitySpir
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritFurnace.SLOT_CONTAINER,
                 SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
-                RegistryEntries.FLUID_BLOOD)); // Container emptier
+                RegistryEntries.FLUID_BLOOD.get())); // Container emptier
         addSlot(new SlotWorking<>(BlockEntitySpiritFurnace.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level())); // Box slot
 
         int i = 0;

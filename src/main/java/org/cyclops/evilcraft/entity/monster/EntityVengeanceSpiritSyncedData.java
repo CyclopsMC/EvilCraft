@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.entity.monster;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nullable;
@@ -25,7 +25,7 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     public void register(SynchedEntityData dataManager) {
         this.dataManager = dataManager;
         EntityType<?> innerEntity = super.getInnerEntityType();
-        dataManager.define(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : ForgeRegistries.ENTITY_TYPES.getKey(innerEntity).toString());
+        dataManager.define(EntityVengeanceSpirit.WATCHERID_INNER, innerEntity == null ? "" : BuiltInRegistries.ENTITY_TYPE.getKey(innerEntity).toString());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_REMAININGLIFE, super.getRemainingLife());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_FROZENDURATION, super.getFrozenDuration());
         dataManager.define(EntityVengeanceSpirit.WATCHERID_GLOBALVENGEANCE, 0);
@@ -41,12 +41,12 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     @Override
     public EntityType<?> getInnerEntityType() {
         String entityName = dataManager.get(EntityVengeanceSpirit.WATCHERID_INNER);
-        return entityName.isEmpty() ? null : ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName));
+        return entityName.isEmpty() ? null : BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(entityName));
     }
 
     @Override
     public void setInnerEntityType(EntityType<?> innerEntityType) {
-        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntityType == null ? "" : ForgeRegistries.ENTITY_TYPES.getKey(innerEntityType).toString());
+        dataManager.set(EntityVengeanceSpirit.WATCHERID_INNER, innerEntityType == null ? "" : BuiltInRegistries.ENTITY_TYPE.getKey(innerEntityType).toString());
     }
 
     @Override

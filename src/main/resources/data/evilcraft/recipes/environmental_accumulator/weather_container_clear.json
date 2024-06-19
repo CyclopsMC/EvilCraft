@@ -1,14 +1,14 @@
 {
   "type": "evilcraft:environmental_accumulator",
-  "item": "evilcraft:weather_container",
-  "weather": "RAIN",
-  "result": {
-    "item": {
-      "item": "evilcraft:weather_container",
-      "nbt": {
-        "weather": "RAIN"
-      }
-    },
-    "weather": "CLEAR"
-  }
+  "input_item": {
+    "item": "evilcraft:weather_container"
+  },
+  "input_weather": "RAIN",
+  "output_item": {
+    "item": "evilcraft:weather_container",
+    "nbt": {
+      "weather": "RAIN"
+    }
+  },
+  "output_weather": "CLEAR"
 }

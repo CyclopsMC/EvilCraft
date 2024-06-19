@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -16,13 +15,11 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -33,7 +30,6 @@ import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -43,7 +39,7 @@ import java.util.List;
  */
 public class ItemCreativeBloodDrop extends ItemBloodContainer {
 
-    private static final int MB_FILL_PERTICK = 1000;
+    public static final int MB_FILL_PERTICK = 1000;
 
     public ItemCreativeBloodDrop(Item.Properties properties) {
         super(properties, MB_FILL_PERTICK);
@@ -104,16 +100,16 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         if (context.getPlayer().isCrouching()) {
             BlockPos pos = context.getClickedPos().offset(0, 1, 0);
-            if (RegistryEntries.BLOCK_BLOOD_STAIN
-                    .canSurvive(RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState(), context.getLevel(), pos)) {
+            if (RegistryEntries.BLOCK_BLOOD_STAIN.get()
+                    .canSurvive(RegistryEntries.BLOCK_BLOOD_STAIN.get().defaultBlockState(), context.getLevel(), pos)) {
                 if (context.getLevel().isClientSide()) {
                     ParticleBloodSplash.spawnParticles(context.getLevel(), pos, 5, 1 + context.getLevel().random.nextInt(2));
                 } else {
                     if (context.getLevel().isEmptyBlock(pos)) {
                         // Add new stain
-                        context.getLevel().setBlockAndUpdate(pos, RegistryEntries.BLOCK_BLOOD_STAIN.defaultBlockState());
+                        context.getLevel().setBlockAndUpdate(pos, RegistryEntries.BLOCK_BLOOD_STAIN.get().defaultBlockState());
                     }
-                    if (context.getLevel().getBlockState(pos).getBlock() == RegistryEntries.BLOCK_BLOOD_STAIN) {
+                    if (context.getLevel().getBlockState(pos).getBlock() == RegistryEntries.BLOCK_BLOOD_STAIN.get()) {
                         // Add blood to existing block
                         BlockEntityHelpers.get(context.getLevel(), pos, BlockEntityBloodStain.class)
                                 .ifPresent(tile -> tile.addAmount(FluidHelpers.BUCKET_VOLUME));
@@ -139,26 +135,5 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
             }
         }
         return MinecraftHelpers.successAction(itemStack);
-    }
-
-    @Override
-    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
-        return new FluidHandlerItemCapacity(stack, MB_FILL_PERTICK) {
-            @Override
-            public FluidStack getFluid() {
-                return new FluidStack(ItemCreativeBloodDrop.this.getFluid(), MB_FILL_PERTICK / 2);
-            }
-
-            @Nonnull
-            @Override
-            public FluidStack drain(int maxDrain, FluidAction action) {
-                return new FluidStack(getFluid(), maxDrain);
-            }
-
-            @Override
-            public int fill(FluidStack resource, FluidAction doFill) {
-                return resource.getAmount();
-            }
-        };
     }
 }

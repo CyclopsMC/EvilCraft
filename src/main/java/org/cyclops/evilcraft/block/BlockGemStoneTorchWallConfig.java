@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.fml.util.ObfuscationReflectionHelper;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -26,13 +26,13 @@ public class BlockGemStoneTorchWallConfig extends BlockConfig {
                 EvilCraft._instance,
             "gem_stone_torch_wall",
                 eConfig -> {
-                    WallTorchBlock block = new WallTorchBlock(Block.Properties.of()
+                    WallTorchBlock block = new WallTorchBlock(ParticleTypes.FLAME, Block.Properties.of()
                             .noCollission()
                             .strength(0)
                             .lightLevel((state) -> 14)
-                            .sound(SoundType.WOOD), ParticleTypes.FLAME);
+                            .sound(SoundType.WOOD));
                     ObfuscationReflectionHelper.setPrivateValue(BlockBehaviour.class, block,
-                            (Supplier<ResourceLocation>) () -> RegistryEntries.BLOCK_GEM_STONE_TORCH.getLootTable(), "lootTableSupplier");
+                            (Supplier<ResourceLocation>) () -> RegistryEntries.BLOCK_GEM_STONE_TORCH.get().getLootTable(), "lootTableSupplier");
                     return block;
                 },
                 null

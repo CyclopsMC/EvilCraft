@@ -1,6 +1,6 @@
 {
     "parent": "evilcraft:broom_part/head_player",
     "textures": {
-        "base": "entity/player/wide/steve"
+        "base": "evilcraft:broom_part/cap_head_player"
     }
 }

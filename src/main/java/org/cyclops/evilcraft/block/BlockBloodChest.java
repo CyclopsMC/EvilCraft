@@ -1,10 +1,12 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,6 +31,8 @@ import javax.annotation.Nullable;
  */
 public class BlockBloodChest extends BlockWithEntityGuiTank {
 
+    public static final MapCodec<BlockBloodChest> CODEC = simpleCodec(BlockBloodChest::new);
+
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
     public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
 
@@ -40,9 +44,14 @@ public class BlockBloodChest extends BlockWithEntityGuiTank {
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_CHEST, level.isClientSide ? new BlockEntityBloodChest.TickerClient() : new BlockEntityTickingTankInventory.TickerServer<>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_CHEST.get(), level.isClientSide ? new BlockEntityBloodChest.TickerClient() : new BlockEntityTickingTankInventory.TickerServer<>());
     }
 
     @Override

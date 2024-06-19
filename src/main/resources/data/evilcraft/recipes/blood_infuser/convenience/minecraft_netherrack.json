@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:cobblestone",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 500
+  "input_item": {
+    "item": "minecraft:cobblestone"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 500
+  },
+  "output_item": {
     "item": "minecraft:netherrack"
   },
   "duration": 500,

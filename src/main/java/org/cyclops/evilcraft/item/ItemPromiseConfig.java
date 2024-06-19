@@ -1,11 +1,10 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
@@ -25,7 +24,7 @@ public class ItemPromiseConfig extends ItemConfig {
 
                         .stacksTo(4), upgrade)
         );
-        FMLJavaModLoadingContext.get().getModEventBus().register(this);
+        EvilCraft._instance.getModEventBus().register(this);
     }
 
     @OnlyIn(Dist.CLIENT)

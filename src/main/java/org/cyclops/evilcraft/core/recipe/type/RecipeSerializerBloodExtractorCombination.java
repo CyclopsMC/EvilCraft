@@ -1,9 +1,8 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
@@ -15,17 +14,23 @@ import javax.annotation.Nullable;
  */
 public class RecipeSerializerBloodExtractorCombination implements RecipeSerializer<RecipeBloodExtractorCombination> {
 
+    public static final Codec<RecipeBloodExtractorCombination> CODEC = RecordCodecBuilder.create(
+            builder -> builder.group(
+                            Codec.INT.fieldOf("max_capacity").forGetter(RecipeBloodExtractorCombination::getMaxCapacity)
+                    )
+                    .apply(builder, (maxCapacity) -> new RecipeBloodExtractorCombination(CraftingBookCategory.MISC, maxCapacity))
+    );
+
     @Override
-    public RecipeBloodExtractorCombination fromJson(ResourceLocation recipeId, JsonObject json) {
-        int maxCapacity = GsonHelper.getAsInt(json, "maxCapacity");
-        return new RecipeBloodExtractorCombination(recipeId, CraftingBookCategory.MISC, maxCapacity);
+    public Codec<RecipeBloodExtractorCombination> codec() {
+        return CODEC;
     }
 
     @Nullable
     @Override
-    public RecipeBloodExtractorCombination fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public RecipeBloodExtractorCombination fromNetwork(FriendlyByteBuf buffer) {
         int maxCapacity = buffer.readInt();
-        return new RecipeBloodExtractorCombination(recipeId, CraftingBookCategory.MISC, maxCapacity);
+        return new RecipeBloodExtractorCombination(CraftingBookCategory.MISC, maxCapacity);
     }
 
     @Override

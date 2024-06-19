@@ -1,7 +1,7 @@
 {
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "base": "entity/player/wide/steve"
+        "base": "evilcraft:broom_part/cap_head_player"
     },
     "elements": [
         {

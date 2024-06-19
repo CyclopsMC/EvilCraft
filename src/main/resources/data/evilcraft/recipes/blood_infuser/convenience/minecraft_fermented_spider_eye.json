@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:spider_eye",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 1500
+  "input_item": {
+    "item": "minecraft:spider_eye"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 1500
+  },
+  "output_item": {
     "item": "minecraft:fermented_spider_eye"
   },
   "duration": 500,

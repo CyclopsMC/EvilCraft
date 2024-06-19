@@ -2,14 +2,13 @@ package org.cyclops.evilcraft;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigHandler;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
 import org.cyclops.cyclopscore.infobook.InfoBookRegistry;
 import org.cyclops.cyclopscore.init.ModBaseVersionable;
@@ -17,6 +16,10 @@ import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
 import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.IClientProxy;
 import org.cyclops.cyclopscore.proxy.ICommonProxy;
+import org.cyclops.evilcraft.advancement.criterion.BoxOfEternalClosureCaptureTriggerConfig;
+import org.cyclops.evilcraft.advancement.criterion.DistortTriggerConfig;
+import org.cyclops.evilcraft.advancement.criterion.FartTriggerConfig;
+import org.cyclops.evilcraft.advancement.criterion.NecromanceTriggerConfig;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
@@ -80,15 +83,27 @@ import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmenta
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnaceConfig;
 import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimatorConfig;
 import org.cyclops.evilcraft.item.*;
-import org.cyclops.evilcraft.loot.functions.LootFunctions;
+import org.cyclops.evilcraft.loot.functions.LootFunctionCopyBoxOfEternalClosureDataConfig;
+import org.cyclops.evilcraft.loot.functions.LootFunctionCopyDisplayStandDataConfig;
+import org.cyclops.evilcraft.loot.functions.LootFunctionCopyEntangledChaliceDataConfig;
+import org.cyclops.evilcraft.loot.functions.LootFunctionCopyTankDataConfig;
 import org.cyclops.evilcraft.loot.modifier.LootModifierInjectBoxOfEternalClosureConfig;
 import org.cyclops.evilcraft.metadata.RegistryExportables;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.potion.PotionPalingConfig;
 import org.cyclops.evilcraft.proxy.ClientProxy;
 import org.cyclops.evilcraft.proxy.CommonProxy;
+import org.cyclops.evilcraft.sound.SoundEventEffectBoxBeamConfig;
+import org.cyclops.evilcraft.sound.SoundEventEffectPageFlipMultipleConfig;
+import org.cyclops.evilcraft.sound.SoundEventEffectPageFlipSingleConfig;
+import org.cyclops.evilcraft.sound.SoundEventEffectVengeanceBeamBaseConfig;
+import org.cyclops.evilcraft.sound.SoundEventEffectVengeanceBeamStartConfig;
+import org.cyclops.evilcraft.sound.SoundEventEffectVengeanceBeamStopConfig;
+import org.cyclops.evilcraft.sound.SoundEventMobVengeanceSpiritAmbientConfig;
+import org.cyclops.evilcraft.sound.SoundEventMobVengeanceSpiritDeathConfig;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatureEvilDungeonConfig;
 import org.cyclops.evilcraft.world.gen.structure.WorldStructureDarkTempleConfig;
+import org.cyclops.evilcraft.world.gen.structure.WorldStructurePieceDarkTempleConfig;
 
 /**
  * The main mod class of EvilCraft.
@@ -105,8 +120,8 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
 
     public static GlobalCounters globalCounters = null;
 
-    public EvilCraft() {
-        super(Reference.MOD_ID, (instance) -> _instance = instance);
+    public EvilCraft(IEventBus modEventBus) {
+        super(Reference.MOD_ID, (instance) -> _instance = instance, modEventBus);
 
         // Register world storages
         registerWorldStorage(new WorldSharedTank.TankData(this));
@@ -119,11 +134,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         getRegistryManager().addRegistry(IBroomModifierRegistry.class, new BroomModifierRegistry());
         getRegistryManager().addRegistry(IInfoBookRegistry.class, new InfoBookRegistry());
         getRegistryManager().addRegistry(IPurifierActionRegistry.class, new PurifierActionRegistry());
-
-        // Register sounds
-        if (MinecraftHelpers.isClientSide()) {
-            FMLJavaModLoadingContext.get().getModEventBus().register(EvilCraftSoundEvents.class);
-        }
 
         BroomParts.init();
         BroomModifiers.init();
@@ -139,8 +149,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
     protected void setup(FMLCommonSetupEvent event) {
         super.setup(event);
 
-        Advancements.load();
-        LootFunctions.load();
         RegistryExportables.load();
 
         // Initialize info book
@@ -409,9 +417,32 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         // Features
         configHandler.addConfigurable(new WorldFeatureEvilDungeonConfig());
         configHandler.addConfigurable(new WorldStructureDarkTempleConfig());
+        configHandler.addConfigurable(new WorldStructurePieceDarkTempleConfig());
+
+        // Loot functions
+        configHandler.addConfigurable(new LootFunctionCopyBoxOfEternalClosureDataConfig());
+        configHandler.addConfigurable(new LootFunctionCopyDisplayStandDataConfig());
+        configHandler.addConfigurable(new LootFunctionCopyEntangledChaliceDataConfig());
+        configHandler.addConfigurable(new LootFunctionCopyTankDataConfig());
 
         // Loot modifiers
         configHandler.addConfigurable(new LootModifierInjectBoxOfEternalClosureConfig());
+
+        // Advancement criteria
+        configHandler.addConfigurable(new BoxOfEternalClosureCaptureTriggerConfig());
+        configHandler.addConfigurable(new DistortTriggerConfig());
+        configHandler.addConfigurable(new FartTriggerConfig());
+        configHandler.addConfigurable(new NecromanceTriggerConfig());
+
+        // Sound events
+        configHandler.addConfigurable(new SoundEventEffectBoxBeamConfig());
+        configHandler.addConfigurable(new SoundEventEffectPageFlipMultipleConfig());
+        configHandler.addConfigurable(new SoundEventEffectPageFlipSingleConfig());
+        configHandler.addConfigurable(new SoundEventEffectVengeanceBeamBaseConfig());
+        configHandler.addConfigurable(new SoundEventEffectVengeanceBeamStartConfig());
+        configHandler.addConfigurable(new SoundEventEffectVengeanceBeamStopConfig());
+        configHandler.addConfigurable(new SoundEventMobVengeanceSpiritAmbientConfig());
+        configHandler.addConfigurable(new SoundEventMobVengeanceSpiritDeathConfig());
     }
 
     @OnlyIn(Dist.CLIENT)

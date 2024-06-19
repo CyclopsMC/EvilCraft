@@ -10,10 +10,10 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.level.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingAttackEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.DamageableItemRepairAction;
 import org.cyclops.evilcraft.item.ItemVengeanceRing;
@@ -28,7 +28,7 @@ public class EnchantmentVengeance extends Enchantment {
     public EnchantmentVengeance() {
         super(Rarity.COMMON, EnchantmentCategory.BREAKABLE, new EquipmentSlot[] {EquipmentSlot.MAINHAND});
         DamageableItemRepairAction.BAD_ENCHANTS.add(this);
-        MinecraftForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class EnchantmentVengeance extends Enchantment {
         if (itemStack.isEmpty()) {
             return 0;
         }
-        return EnchantmentHelper.getItemEnchantmentLevel(RegistryEntries.ENCHANTMENT_VENGEANCE, itemStack);
+        return EnchantmentHelper.getItemEnchantmentLevel(RegistryEntries.ENCHANTMENT_VENGEANCE.get(), itemStack);
     }
 
     public static void apply(Level world, int level, LivingEntity entity) {

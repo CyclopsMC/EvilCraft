@@ -7,8 +7,8 @@ import net.minecraft.client.particle.WaterDropParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
 
 
@@ -38,7 +38,7 @@ public class ParticleBloodSplash extends WaterDropParticle {
             float z_r = blockPos.getZ() + random.nextFloat();
 
             Minecraft.getInstance().levelRenderer.addParticle(
-                    RegistryEntries.PARTICLE_BLOOD_SPLASH, false,
+                    RegistryEntries.PARTICLE_BLOOD_SPLASH.get(), false,
                     x_r, y_r, z_r,
                     velocity == 0 ? 0 : random.nextInt(velocity),
                     velocity == 0 ? 0 : random.nextInt(velocity),

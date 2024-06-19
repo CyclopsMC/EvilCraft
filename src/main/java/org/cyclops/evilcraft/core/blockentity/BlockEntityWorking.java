@@ -21,6 +21,7 @@ import org.cyclops.evilcraft.item.ItemPromise;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Evilcraft working block entity with upgrade declaration.
@@ -44,6 +45,12 @@ public abstract class BlockEntityWorking<T extends BlockEntityWorking<T, O>, O> 
     public BlockEntityWorking(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState, int inventorySize, int stackSize, int tankSize, Fluid acceptedFluid) {
         super(type, blockPos, blockState, inventorySize + INVENTORY_SIZE_UPGRADES, stackSize, tankSize, acceptedFluid);
         this.basicInventorySize = inventorySize;
+    }
+
+    public static class CapabilityRegistrar<T extends BlockEntityWorking<T, O>, O> extends BlockEntityTickingTankInventory.CapabilityRegistrar<T> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends T>> blockEntityType) {
+            super(blockEntityType);
+        }
     }
 
     public int getBasicInventorySize() {

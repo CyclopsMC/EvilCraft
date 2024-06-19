@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -10,8 +9,9 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -27,8 +27,8 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
     private final Ingredient fluidContainer;
     private final int maxCapacity;
 
-    public RecipeFluidContainerCombination(ResourceLocation id, CraftingBookCategory category, Ingredient fluidContainer, int maxCapacity) {
-        super(id, category);
+    public RecipeFluidContainerCombination(CraftingBookCategory category, Ingredient fluidContainer, int maxCapacity) {
+        super(category);
         this.fluidContainer = fluidContainer;
         this.maxCapacity = maxCapacity;
     }
@@ -57,7 +57,7 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
 
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getCraftingRemainingItem(itemstack));
+            aitemstack.set(i, CommonHooks.getCraftingRemainingItem(itemstack));
         }
 
         return aitemstack;
@@ -65,7 +65,7 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return RegistryEntries.RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION;
+        return RegistryEntries.RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION.get();
     }
 
     @Override

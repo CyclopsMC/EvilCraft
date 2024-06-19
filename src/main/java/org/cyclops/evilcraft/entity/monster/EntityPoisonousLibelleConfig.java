@@ -9,12 +9,11 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.DistExecutor;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
@@ -51,7 +50,7 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
                         .fireImmune(),
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "poisonous_libelle_spawn_egg", Helpers.RGBToInt(57, 125, 27), Helpers.RGBToInt(196, 213, 57))
         );
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributeCreationEvent);
+        EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
         DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
     }
 
@@ -59,7 +58,7 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
     @Override
     public void onForgeRegistered() {
         super.onForgeRegistered();
-        ForgeHooksClient.registerLayerDefinition(MODEL, ModelPoisonousLibelle::createBodyLayer);
+        ClientHooks.registerLayerDefinition(MODEL, ModelPoisonousLibelle::createBodyLayer);
     }
 
     @OnlyIn(Dist.CLIENT)

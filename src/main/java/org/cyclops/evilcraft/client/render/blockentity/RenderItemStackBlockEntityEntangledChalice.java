@@ -7,10 +7,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.fluids.FluidUtil;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
@@ -31,7 +31,7 @@ public class RenderItemStackBlockEntityEntangledChalice extends BlockEntityWitho
     public void render(ItemStack itemStackIn, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStackIn).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
-        BlockEntityEntangledChalice tile = new BlockEntityEntangledChalice(BlockPos.ZERO, RegistryEntries.BLOCK_ENTANGLED_CHALICE.defaultBlockState());
+        BlockEntityEntangledChalice tile = new BlockEntityEntangledChalice(BlockPos.ZERO, RegistryEntries.BLOCK_ENTANGLED_CHALICE.get().defaultBlockState());
         tile.setWorldTankId(tankId);
         this.blockEntityRenderDispatcher.renderItem(tile, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
     }

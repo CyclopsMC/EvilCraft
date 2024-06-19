@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -13,8 +12,8 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.Tags;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
@@ -24,8 +23,8 @@ import org.cyclops.evilcraft.RegistryEntries;
  */
 public class RecipeDeadBush extends CustomRecipe {
 
-    public RecipeDeadBush(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public RecipeDeadBush(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override
@@ -71,7 +70,7 @@ public class RecipeDeadBush extends CustomRecipe {
             if (itemStack.getItem() == Items.SHEARS) {
                 itemStack = itemStack.copy();
 
-                Player craftingPlayer = ForgeHooks.getCraftingPlayer();
+                Player craftingPlayer = CommonHooks.getCraftingPlayer();
                 if (craftingPlayer != null) {
                     // Regular item damaging if there is a player executing the recipe
                     itemStack.hurtAndBreak(1, craftingPlayer, (p) ->{});
@@ -83,7 +82,7 @@ public class RecipeDeadBush extends CustomRecipe {
                     }
                 }
             } else {
-                itemStack = ForgeHooks.getCraftingRemainingItem(itemStack);
+                itemStack = CommonHooks.getCraftingRemainingItem(itemStack);
             }
             stacks.add(itemStack);
         }
@@ -93,6 +92,6 @@ public class RecipeDeadBush extends CustomRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return RegistryEntries.RECIPESERIALIZER_DEAD_BUSH;
+        return RegistryEntries.RECIPESERIALIZER_DEAD_BUSH.get();
     }
 }

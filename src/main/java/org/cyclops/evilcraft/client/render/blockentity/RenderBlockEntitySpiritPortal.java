@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.phys.AABB;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritPortal;
 import org.joml.Matrix4f;
@@ -30,6 +31,11 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
 
     public RenderBlockEntitySpiritPortal(BlockEntityRendererProvider.Context context) {
 
+    }
+
+    @Override
+    public AABB getRenderBoundingBox(BlockEntitySpiritPortal blockEntity) {
+        return INFINITE_EXTENT_AABB;
     }
 
     @Override

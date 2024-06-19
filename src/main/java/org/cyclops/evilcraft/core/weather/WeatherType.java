@@ -1,9 +1,12 @@
 package org.cyclops.evilcraft.core.weather;
 
+import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 
 /**
  * Abstract class for weather types.
@@ -11,6 +14,15 @@ import java.lang.reflect.Field;
  *
  */
 public abstract class WeatherType {
+
+    public static final Codec<WeatherType> CODEC = Codec.STRING.xmap(
+            name -> {
+                WeatherType weatherType = WeatherType.valueOf(name);
+                if(weatherType == null) {
+                    throw new JsonSyntaxException(String.format("Could not found the weather '%s'", name));
+                }
+                return weatherType;
+            }, (weatherType) -> weatherType.toString().toUpperCase(Locale.ENGLISH));
 
     /**
      * Any weather type.

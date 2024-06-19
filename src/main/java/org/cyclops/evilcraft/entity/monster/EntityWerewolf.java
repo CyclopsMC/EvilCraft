@@ -24,11 +24,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -40,7 +40,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 public class EntityWerewolf extends Monster {
 
     static {
-        MinecraftForge.EVENT_BUS.register(EntityWerewolf.class);
+        NeoForge.EVENT_BUS.register(EntityWerewolf.class);
     }
 
     private CompoundTag villagerNBTTagCompound = new CompoundTag();
@@ -55,12 +55,12 @@ public class EntityWerewolf extends Monster {
     }
 
     public EntityWerewolf(Level world) {
-        super(RegistryEntries.ENTITY_WEREWOLF, world);
+        super(RegistryEntries.ENTITY_WEREWOLF.get(), world);
 
         this.setMaxUpStep(1.0F);
 
         // This sets the default villager profession ID.
-        this.villagerNBTTagCompound.putString("ProfessionName", ForgeRegistries.VILLAGER_PROFESSIONS.getKey(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF).toString());
+        this.villagerNBTTagCompound.putString("ProfessionName", BuiltInRegistries.VILLAGER_PROFESSION.getKey(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()).toString());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class EntityWerewolf extends Monster {
         if(event.getEntity() instanceof Villager && !event.getEntity().level().isClientSide()) {
             Villager villager = (Villager) event.getEntity();
             if(EntityWerewolf.isWerewolfTime(event.getEntity().level())
-                    && villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF
+                    && villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()
                     && villager.level().getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
                 EntityWerewolf.replaceVillager(villager);
             }
@@ -145,7 +145,7 @@ public class EntityWerewolf extends Monster {
         villager.setVillagerData(villager
                 .getVillagerData()
                 .setLevel(2)
-                .setProfession(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF));
+                .setProfession(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()));
     }
 
     /**

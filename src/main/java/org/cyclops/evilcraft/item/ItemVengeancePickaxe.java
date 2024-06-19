@@ -38,7 +38,7 @@ public class ItemVengeancePickaxe extends PickaxeItem {
         ItemStack pickaxe = new ItemStack(this);
         Map<Enchantment, Integer> enchantments = Maps.newHashMap();
         enchantments.put(Enchantments.BLOCK_FORTUNE, ItemVengeancePickaxeConfig.fortuneLevel);
-        enchantments.put(RegistryEntries.ENCHANTMENT_VENGEANCE, ItemVengeancePickaxeConfig.vengeanceLevel);
+        enchantments.put(RegistryEntries.ENCHANTMENT_VENGEANCE.get(), ItemVengeancePickaxeConfig.vengeanceLevel);
         EnchantmentHelper.setEnchantments(enchantments, pickaxe);
         return pickaxe;
     }

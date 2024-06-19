@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulator;
 import org.cyclops.evilcraft.blockentity.BlockEntityEnvironmentalAccumulator;
@@ -47,11 +48,11 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         return tile.getMovingItemY() >= 0;
     }
 
-    private void renderProcessingItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, RecipeEnvironmentalAccumulator recipe, Level world, float partialTickTime) {
+    private void renderProcessingItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, RecipeHolder<RecipeEnvironmentalAccumulator> recipe, Level world, float partialTickTime) {
         if (recipe == null)
             return;
 
-        ItemStack stack = recipe.getInputIngredient().getItems()[0];
+        ItemStack stack = recipe.value().getInputIngredient().getItems()[0];
         if (stack.isEmpty())
             return;
 

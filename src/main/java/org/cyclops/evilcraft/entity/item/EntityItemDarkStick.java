@@ -17,7 +17,6 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.world.gen.structure.WorldStructureDarkTempleConfig;
 
 import javax.annotation.Nullable;
 
@@ -40,7 +39,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     }
 
     public EntityItemDarkStick(Level world, ItemEntity original) {
-        super(RegistryEntries.ENTITY_ITEM_DARK_STICK, world, original);
+        super(RegistryEntries.ENTITY_ITEM_DARK_STICK.get(), world, original);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
         // Inspired by LocateCommand
         Registry<Structure> registry = level().registryAccess().registryOrThrow(Registries.STRUCTURE);
         HolderSet<Structure> holderset = registry
-                .getHolder(WorldStructureDarkTempleConfig.KEY)
+                .getHolder(RegistryEntries.STRUCTURE_DARK_TEMPLE.getKey())
                 .map(HolderSet::direct)
                 .orElseThrow();
 

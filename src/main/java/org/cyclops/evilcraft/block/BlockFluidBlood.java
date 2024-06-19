@@ -22,7 +22,7 @@ public class BlockFluidBlood extends LiquidBlock {
     private static final int CHANCE_HARDEN = 3;
 
     public BlockFluidBlood(Block.Properties builder) {
-        super(() -> RegistryEntries.FLUID_BLOOD, builder);
+        super(RegistryEntries.FLUID_BLOOD, builder);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BlockFluidBlood extends LiquidBlock {
         if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.getValue(LEVEL) == 0
                 && (!(world.isRaining() && world.getBiome(blockPos).value().hasPrecipitation()) || !world.canSeeSkyFromBelowWater(blockPos))
                 && !isWaterInArea(world, blockPos)) {
-            world.setBlock(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.get().defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
         }
         super.randomTick(blockState, world, blockPos, random);
     }

@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.fluid;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 /**
  * Marker for FluidStacks that are simulated.

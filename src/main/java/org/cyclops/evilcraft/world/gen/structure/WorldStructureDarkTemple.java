@@ -7,12 +7,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.VineBlock;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
@@ -67,16 +67,16 @@ public class WorldStructureDarkTemple extends Structure {
 
     @Override
     public StructureType<?> type() {
-        return RegistryEntries.STRUCTURE_DARK_TEMPLE;
+        return RegistryEntries.STRUCTURE_TYPE_DARK_TEMPLE.get();
     }
 
     public static class Piece extends WorldStructurePieceQuarterSymmetrical {
         public Piece(RandomSource random, int minX, int minY, int minZ) {
-            super(WorldStructureDarkTempleConfig.PIECE_TYPE, minX, minY, minZ, 9, 9, 9, getRandomHorizontalDirection(random));
+            super(RegistryEntries.STRUCTURE_PIECE_DARK_TEMPLE.get(), minX, minY, minZ, 9, 9, 9, getRandomHorizontalDirection(random));
         }
 
         public Piece(CompoundTag tag) {
-            super(WorldStructureDarkTempleConfig.PIECE_TYPE, tag);
+            super(RegistryEntries.STRUCTURE_PIECE_DARK_TEMPLE.get(), tag);
         }
 
         @Override
@@ -106,7 +106,7 @@ public class WorldStructureDarkTemple extends Structure {
             lc.action = (world, pos) -> {
                 RandomSource rand = RandomSource.create();
                 // Static method used instead of manual tile fetch -> member setLootTable to provide compatibility with Lootr.
-                RandomizableContainerBlockEntity.setLootTable(world, rand, pos, BuiltInLootTables.JUNGLE_TEMPLE);
+                RandomizableContainer.setBlockEntityLootTable(world, rand, pos, BuiltInLootTables.JUNGLE_TEMPLE);
             };
             BlockWrapper vi = new BlockWrapper(Blocks.VINE.defaultBlockState(), 0.3F);
             vi.action = (world, pos) -> {
@@ -123,7 +123,7 @@ public class WorldStructureDarkTemple extends Structure {
                 }
             };
 
-            BlockWrapper ea = new BlockWrapper(RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR);
+            BlockWrapper ea = new BlockWrapper(RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get());
             BlockWrapper o = null;    // Just to keep things compact...
 
             addLayer(1, new BlockWrapper[]{

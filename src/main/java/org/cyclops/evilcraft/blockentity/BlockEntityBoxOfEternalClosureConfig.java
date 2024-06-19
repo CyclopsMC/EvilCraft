@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -21,7 +21,7 @@ public class BlockEntityBoxOfEternalClosureConfig extends BlockEntityConfig<Bloc
                 EvilCraft._instance,
                 "box_of_eternal_closure",
                 (eConfig) -> new BlockEntityType<>(BlockEntityBoxOfEternalClosure::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.get()), null)
         );
     }
 

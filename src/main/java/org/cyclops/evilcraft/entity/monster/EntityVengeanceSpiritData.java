@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -77,7 +77,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public void readNBT(CompoundTag tag) {
-        setInnerEntityType(ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(tag.getString(NBTKEY_INNER_ENTITY))));
+        setInnerEntityType(BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString(NBTKEY_INNER_ENTITY))));
         setRemainingLife(tag.getInt(NBTKEY_REMAINING_LIFE));
         setFrozenDuration(tag.getInt(NBTKEY_FROZEN_DURATION));
         setSwarm(tag.getBoolean(NBTKEY_IS_SWARM));
@@ -89,7 +89,7 @@ public class EntityVengeanceSpiritData {
 
     public CompoundTag writeNBT(CompoundTag tag) {
         if (getInnerEntityType() != null)
-            tag.putString(NBTKEY_INNER_ENTITY, ForgeRegistries.ENTITY_TYPES.getKey(getInnerEntityType()).toString());
+            tag.putString(NBTKEY_INNER_ENTITY, BuiltInRegistries.ENTITY_TYPE.getKey(getInnerEntityType()).toString());
         tag.putInt(NBTKEY_REMAINING_LIFE, getRemainingLife());
         tag.putInt(NBTKEY_FROZEN_DURATION, getFrozenDuration());
         tag.putBoolean(NBTKEY_IS_SWARM, isSwarm());
@@ -109,7 +109,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public static EntityType<?> getRandomInnerEntity(RandomSource rand) {
-        List<EntityType<?>> entities = ForgeRegistries.ENTITY_TYPES.getValues().stream()
+        List<EntityType<?>> entities = BuiltInRegistries.ENTITY_TYPE.stream()
                 .filter(e -> e.getCategory() == MobCategory.MONSTER)
                 .collect(Collectors.toList());
         return entities.get(rand.nextInt(entities.size()));
@@ -124,7 +124,7 @@ public class EntityVengeanceSpiritData {
         if(tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             if (!innerEntity.isEmpty()) {
-                return ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(innerEntity));
+                return BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(innerEntity));
             }
         }
         return null;

@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:bone",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 2500
+  "input_item": {
+    "item": "minecraft:bone"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 2500
+  },
+  "output_item": {
     "item": "minecraft:blaze_rod"
   },
   "duration": 500,

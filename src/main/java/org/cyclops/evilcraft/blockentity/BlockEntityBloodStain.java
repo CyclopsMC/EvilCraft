@@ -1,16 +1,17 @@
 package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
+import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 /**
  * Tile for the {@link org.cyclops.evilcraft.block.BlockBloodStain}.
@@ -25,8 +26,18 @@ public class BlockEntityBloodStain extends CyclopsBlockEntity {
     private Integer amount = 0;
 
     public BlockEntityBloodStain(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_BLOOD_STAIN, blockPos, blockState);
-        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(() -> new FluidHandler(this)));
+        super(RegistryEntries.BLOCK_ENTITY_BLOOD_STAIN.get(), blockPos, blockState);
+    }
+
+    public static class CapabilityRegistrar extends BlockEntityCapabilityRegistrar<BlockEntityBloodStain> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntityBloodStain>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void populate() {
+            add(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, (blockEntity, direction) -> new FluidHandler(blockEntity));
+        }
     }
 
     /**
@@ -72,7 +83,7 @@ public class BlockEntityBloodStain extends CyclopsBlockEntity {
 
         @Override
         public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-            return tank == 0 && stack.getFluid() == RegistryEntries.FLUID_BLOOD;
+            return tank == 0 && stack.getFluid() == RegistryEntries.FLUID_BLOOD.get();
         }
 
         @Override
@@ -83,7 +94,7 @@ public class BlockEntityBloodStain extends CyclopsBlockEntity {
         @Nonnull
         @Override
         public FluidStack drain(FluidStack resource, FluidAction action) {
-            if (resource.getFluid() == RegistryEntries.FLUID_BLOOD) {
+            if (resource.getFluid() == RegistryEntries.FLUID_BLOOD.get()) {
                 return drain(resource.getAmount(), action);
             }
             return FluidStack.EMPTY;

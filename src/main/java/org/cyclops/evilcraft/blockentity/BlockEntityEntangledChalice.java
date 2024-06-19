@@ -3,14 +3,16 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
+import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
+
+import java.util.function.Supplier;
 
 /**
  * Tile Entity for the entangled chalice.
@@ -27,9 +29,19 @@ public class BlockEntityEntangledChalice extends CyclopsBlockEntity {
     private final WorldSharedTank tank;
 
     public BlockEntityEntangledChalice(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE, blockPos, blockState);
+        super(RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE.get(), blockPos, blockState);
         tank = new WorldSharedTank(BASE_CAPACITY);
-        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(this::getTank));
+    }
+
+    public static class CapabilityRegistrar extends BlockEntityCapabilityRegistrar<BlockEntityEntangledChalice> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntityEntangledChalice>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void populate() {
+            add(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, (blockEntity, direction) -> blockEntity.getTank());
+        }
     }
 
     public WorldSharedTank getTank() {

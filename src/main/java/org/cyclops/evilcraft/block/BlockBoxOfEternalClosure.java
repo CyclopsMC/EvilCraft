@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -29,7 +31,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.MinecraftForge;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -51,6 +52,8 @@ import static org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure.N
  */
 public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockRarityProvider {
 
+    public static final MapCodec<BlockBoxOfEternalClosure> CODEC = simpleCodec(BlockBoxOfEternalClosure::new);
+
     public static final String FORGOTTEN_PLAYER = "Forgotten Player";
     private static final int LIGHT_LEVEL = 6;
 
@@ -66,14 +69,17 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
 
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH));
+    }
 
-        MinecraftForge.EVENT_BUS.register(this);
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE, level.isClientSide ? new BlockEntityBoxOfEternalClosure.TickerClient() : new BlockEntityBoxOfEternalClosure.TickerServer());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE.get(), level.isClientSide ? new BlockEntityBoxOfEternalClosure.TickerClient() : new BlockEntityBoxOfEternalClosure.TickerServer());
     }
 
     @Override
@@ -105,7 +111,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
             }
             EntityType<?> spiritType = getSpiritTypeRaw(itemStack.getTag());
             if (spiritType == null && itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
-                return RegistryEntries.ENTITY_VENGEANCE_SPIRIT;
+                return RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get();
             }
             return spiritType;
         }

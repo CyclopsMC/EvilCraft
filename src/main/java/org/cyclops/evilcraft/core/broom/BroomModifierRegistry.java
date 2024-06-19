@@ -2,21 +2,24 @@ package org.cyclops.evilcraft.core.broom;
 
 import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
+import org.apache.commons.compress.utils.Lists;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
@@ -26,8 +29,10 @@ import org.cyclops.evilcraft.item.ItemBroomConfig;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * Default registry for broom modifiers.
@@ -41,10 +46,11 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newLinkedHashMap();
     private final Map<BroomModifier, IBroomPart> broomModifierParts = Maps.newHashMap();
-    private final Map<ItemStack, Map<BroomModifier, Float>> broomItems = Maps.newHashMap();
+    private final List<Pair<Supplier<ItemStack>, Map<BroomModifier, Float>>> broomItems = Lists.newArrayList();
 
     public BroomModifierRegistry() {
-        MinecraftForge.EVENT_BUS.register(this);
+        EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, this::beforeItemsRegistered);
+        NeoForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -74,13 +80,13 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     }
 
     @Override
-    public void registerModifiersItem(Map<BroomModifier, Float> modifiers, ItemStack item) {
-        Objects.requireNonNull(item.getItem());
-        broomItems.put(item, modifiers);
+    public void registerModifiersItem(Map<BroomModifier, Float> modifiers, Supplier<ItemStack> item) {
+        Objects.requireNonNull(item);
+        broomItems.add(Pair.of(item, modifiers));
     }
 
     @Override
-    public void registerModifiersItem(BroomModifier modifier, float modifierValue, ItemStack item) {
+    public void registerModifiersItem(BroomModifier modifier, float modifierValue, Supplier<ItemStack> item) {
         Map<BroomModifier, Float> map = Maps.newHashMap();
         map.put(modifier, modifierValue);
         registerModifiersItem(map, item);
@@ -88,8 +94,8 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     @Override
     public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item) {
-        for (Map.Entry<ItemStack, Map<BroomModifier, Float>> entry : broomItems.entrySet()) {
-            if (ItemStack.isSameItemSameTags(item, entry.getKey())) {
+        for (Pair<Supplier<ItemStack>, Map<BroomModifier, Float>> entry : broomItems) {
+            if (ItemStack.isSameItemSameTags(item, entry.getKey().get())) {
                 return entry.getValue();
             }
         }
@@ -99,10 +105,10 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @Override
     public Map<ItemStack, Float> getItemsFromModifier(BroomModifier modifier) {
         Map<ItemStack, Float> modifiers = Maps.newHashMap();
-        for (Map.Entry<ItemStack, Map<BroomModifier, Float>> entry : broomItems.entrySet()) {
+        for (Pair<Supplier<ItemStack>, Map<BroomModifier, Float>> entry : broomItems) {
             for (Map.Entry<BroomModifier, Float> itModifiers : entry.getValue().entrySet()) {
                 if (itModifiers.getKey() == modifier) {
-                    modifiers.put(entry.getKey(), itModifiers.getValue());
+                    modifiers.put(entry.getKey().get(), itModifiers.getValue());
                 }
             }
         }
@@ -196,10 +202,9 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void beforeItemsRegistered(RegisterEvent event) {
         // The block registry even is called before the items event
-        if (event.getRegistryKey().equals(ForgeRegistries.Keys.BLOCKS)) {
+        if (event.getRegistryKey().equals(Registries.BLOCK)) {
             broomModifiers.clear();
             broomModifierParts.clear();
             broomItems.clear();

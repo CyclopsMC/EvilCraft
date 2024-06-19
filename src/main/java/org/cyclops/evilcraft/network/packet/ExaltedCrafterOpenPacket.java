@@ -1,14 +1,16 @@
 package org.cyclops.evilcraft.network.packet;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.item.ItemExaltedCrafter;
 
 /**
@@ -18,6 +20,8 @@ import org.cyclops.evilcraft.item.ItemExaltedCrafter;
  */
 public class ExaltedCrafterOpenPacket extends PacketCodec {
 
+    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "exalted_crafter_open");
+
     @CodecField
     private ItemLocation itemLocation = null;
 
@@ -25,10 +29,11 @@ public class ExaltedCrafterOpenPacket extends PacketCodec {
      * Make a new instance.
      */
     public ExaltedCrafterOpenPacket() {
-
+        super(ID);
     }
 
     public ExaltedCrafterOpenPacket(ItemLocation itemLocation) {
+        super(ID);
         this.itemLocation = itemLocation;
     }
 

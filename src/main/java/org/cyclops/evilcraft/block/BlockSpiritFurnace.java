@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.InteractionHand;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -37,6 +39,8 @@ import javax.annotation.Nullable;
  */
 public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDetector.IDetectionListener {
 
+    public static final MapCodec<BlockSpiritFurnace> CODEC = simpleCodec(BlockSpiritFurnace::new);
+
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     public BlockSpiritFurnace(Block.Properties properties) {
@@ -47,9 +51,14 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SPIRIT_FURNACE, level.isClientSide ? new BlockEntitySpiritFurnace.TickerClient<>() : new BlockEntitySpiritFurnace.TickerServer<BlockEntitySpiritFurnace, MutableDouble>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SPIRIT_FURNACE.get(), level.isClientSide ? new BlockEntitySpiritFurnace.TickerClient<>() : new BlockEntitySpiritFurnace.TickerServer<BlockEntitySpiritFurnace, MutableDouble>());
     }
 
     @Override

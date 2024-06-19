@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.inventory.ResultSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.tuple.MutablePair;
@@ -58,7 +59,7 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
     }
 
     public ContainerExaltedCrafter(int id, Inventory inventory, ItemLocation itemLocation) {
-        super(RegistryEntries.CONTAINER_EXALTED_CRAFTER, id, inventory, itemLocation);
+        super(RegistryEntries.CONTAINER_EXALTED_CRAFTER.get(), id, inventory, itemLocation);
         initialized = false;
         this.world = player.level();
         this.result = new ResultContainer();
@@ -194,9 +195,9 @@ public class ContainerExaltedCrafter extends ItemInventoryContainer<ItemExaltedC
             ItemStack itemstack = ItemStack.EMPTY;
 
             // Slightly altered logic from Container#slotChangedCraftingGrid
-            CraftingRecipe irecipe = world.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingGrid, world).orElse(null);
+            RecipeHolder<CraftingRecipe> irecipe = world.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, craftingGrid, world).orElse(null);
             if (irecipe != null && result.setRecipeUsed(world, (ServerPlayer) player, irecipe)) {
-                itemstack = irecipe.assemble(craftingGrid, world.registryAccess());
+                itemstack = irecipe.value().assemble(craftingGrid, world.registryAccess());
             }
             result.setItem(0, itemstack);
             ((ServerPlayer) this.player).connection.send(new ClientboundContainerSetSlotPacket(this.containerId, getStateId(), 9, itemstack));

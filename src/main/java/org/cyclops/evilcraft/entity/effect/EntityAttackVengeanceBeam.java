@@ -6,8 +6,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -25,7 +25,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
     }
 
     public EntityAttackVengeanceBeam(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM, world, entity);
+        super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM.get(), world, entity);
     }
 
     @Override

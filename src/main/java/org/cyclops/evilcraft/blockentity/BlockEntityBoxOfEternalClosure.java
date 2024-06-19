@@ -11,18 +11,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
-import org.cyclops.evilcraft.Advancements;
-import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritData;
@@ -88,7 +83,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
      * Make a new instance.
      */
     public BlockEntityBoxOfEternalClosure(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE, blockPos, blockState);
+        super(RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE.get(), blockPos, blockState);
         innerRotation = new Random().nextInt(100000);
     }
 
@@ -321,7 +316,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
 
     private void captureSpirit(EntityVengeanceSpirit targetSpirit) {
         for (ServerPlayer player : targetSpirit.getEntanglingPlayers()) {
-            Advancements.BOX_OF_ETERNAL_CLOSURE_CAPTURE.test(player, targetSpirit.getInnerEntity());
+            RegistryEntries.TRIGGER_BOX_OF_ETERNAL_CLOSURE_CAPTURE.get().test(player, targetSpirit.getInnerEntity());
         }
         targetSpirit.remove(Entity.RemovalReason.DISCARDED);
         this.playerId = targetSpirit.getPlayerId();
@@ -347,7 +342,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     private void playBeamSound() {
         float volume = randomFloat(0.1f, 0.9f);
         float pitch = randomFloat(0.1f, 0.9f);
-        playSound(EvilCraftSoundEvents.effect_box_beam, SoundSource.AMBIENT, volume, pitch);
+        playSound(RegistryEntries.SOUNDEVENT_EFFECT_BOX_BEAM.get(), SoundSource.AMBIENT, volume, pitch);
     }
 
     private boolean findNextEntity() {
@@ -433,12 +428,6 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
             spiritData = EntityVengeanceSpiritData.fromNBT(getSpiritTag());
         }
         return spiritData;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public AABB getRenderBoundingBox() {
-        return BlockEntity.INFINITE_EXTENT_AABB;
     }
 
     @Override

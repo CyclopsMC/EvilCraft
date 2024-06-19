@@ -77,7 +77,7 @@ public class ContainerScreenSanguinaryEnvironmentalAccumulator extends Container
     @Override
     protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.drawAdditionalForeground(guiGraphics, mouseX, mouseY);
-        String prefix = RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.getDescriptionId() + ".help.invalid";
+        String prefix = RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get().getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
         lines.add(Component.translatable(prefix));
         if (!getMenu().getTileCanWork()){

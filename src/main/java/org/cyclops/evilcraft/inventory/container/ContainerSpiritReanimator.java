@@ -4,7 +4,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
 import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
@@ -76,15 +76,15 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
 
     public ContainerSpiritReanimator(int id, Inventory playerInventory, Container inventory,
                                   Optional<BlockEntitySpiritReanimator> tileSupplier) {
-        super(RegistryEntries.CONTAINER_SPIRIT_REANIMATOR, id, playerInventory, inventory, tileSupplier,
+        super(RegistryEntries.CONTAINER_SPIRIT_REANIMATOR.get(), id, playerInventory, inventory, tileSupplier,
                 BlockEntitySpiritReanimator.TICKERS, BlockEntitySpiritReanimator.INVENTORY_SIZE_UPGRADES);
 
-        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : ForgeRegistries.ENTITY_TYPES.getKey(getTileSupplier().get().getEntityType()).toString());
+        this.variableEntityName = registerSyncedVariable(String.class, () -> getTileSupplier().get().getEntityType() == null ? null : BuiltInRegistries.ENTITY_TYPE.getKey(getTileSupplier().get().getEntityType()).toString());
 
         // Adding inventory
         addSlot(new SlotFluidContainer(inventory, BlockEntitySpiritReanimator.SLOT_CONTAINER,
                 SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
-                RegistryEntries.FLUID_BLOOD)); // Container emptier
+                RegistryEntries.FLUID_BLOOD.get())); // Container emptier
         addSlot(new SlotWorking<BlockEntitySpiritReanimator>(BlockEntitySpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level())); // Box slot
         addSlot(new SlotSingleItem(inventory, BlockEntitySpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
         addSlot(new SlotRemoveOnly(inventory, BlockEntitySpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));

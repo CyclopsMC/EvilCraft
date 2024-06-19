@@ -26,14 +26,14 @@ public class BlockGemStoneTorchConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "gem_stone_torch",
-                eConfig -> new TorchBlock(Block.Properties.of()
+                eConfig -> new TorchBlock(ParticleTypes.FLAME, Block.Properties.of()
                         .noCollission()
                         .strength(0)
                         .lightLevel((state) -> 14)
-                        .sound(SoundType.WOOD), ParticleTypes.FLAME),
+                        .sound(SoundType.WOOD)),
                 (eConfig, block) -> {
                     Item.Properties itemProperties = new Item.Properties();
-                    return new StandingAndWallBlockItem(block, RegistryEntries.BLOCK_GEM_STONE_TORCH_WALL, itemProperties, Direction.DOWN);
+                    return new StandingAndWallBlockItem(block, RegistryEntries.BLOCK_GEM_STONE_TORCH_WALL.get(), itemProperties, Direction.DOWN);
                 }
         );
     }

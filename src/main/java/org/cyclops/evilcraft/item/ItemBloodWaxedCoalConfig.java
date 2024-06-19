@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -20,7 +20,7 @@ public class ItemBloodWaxedCoalConfig extends ItemConfig {
                 eConfig -> new Item(new Item.Properties()
                         )
         );
-        MinecraftForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEventEvent);
+        NeoForge.EVENT_BUS.addListener(this::onFurnaceFuelBurnTimeEventEvent);
     }
 
     public void onFurnaceFuelBurnTimeEventEvent(FurnaceFuelBurnTimeEvent event) {

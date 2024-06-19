@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "evilcraft:bowl_of_promises_dusted",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 5000
+  "input_item": {
+    "item": "evilcraft:bowl_of_promises_dusted"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 5000
+  },
+  "output_item": {
     "item": "evilcraft:bowl_of_promises_tier1"
   },
   "duration": 1000,

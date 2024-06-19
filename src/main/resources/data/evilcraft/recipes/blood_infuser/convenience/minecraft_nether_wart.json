@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:wheat_seeds",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 5000
+  "input_item": {
+    "item": "minecraft:wheat_seeds"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 5000
+  },
+  "output_item": {
     "item": "minecraft:nether_wart"
   },
   "duration": 1000,

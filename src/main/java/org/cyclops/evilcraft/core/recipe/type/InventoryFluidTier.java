@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.recipe.type.InventoryFluid;
 
 /**

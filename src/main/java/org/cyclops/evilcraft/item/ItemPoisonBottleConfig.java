@@ -1,13 +1,21 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
  * Config for the {@link ItemPoisonBottle}.
@@ -24,12 +32,21 @@ public class ItemPoisonBottleConfig extends ItemConfig {
 
                         .stacksTo(1))
         );
-        FMLJavaModLoadingContext.get().getModEventBus().register(this);
+        EvilCraft._instance.getModEventBus().register(this);
+        EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
     }
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onModLoaded(RegisterColorHandlersEvent.Item event) {
         event.register(new ItemPoisonBottle.ItemColor(), getInstance());
+    }
+
+    protected void registerCapability(RegisterCapabilitiesEvent event) {
+        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> {
+            FluidHandlerItemStackSimple.SwapEmpty capabilityProvider = new FluidHandlerItemStackSimple.SwapEmpty(stack, new ItemStack(Items.GLASS_BOTTLE), FluidHelpers.BUCKET_VOLUME);
+            capabilityProvider.fill(new FluidStack(RegistryEntries.FLUID_POISON, FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
+            return capabilityProvider;
+        }, getInstance());
     }
 }

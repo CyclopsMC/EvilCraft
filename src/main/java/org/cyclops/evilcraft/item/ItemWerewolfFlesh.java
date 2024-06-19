@@ -21,10 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.cyclops.cyclopscore.helper.Helpers;
 
 import javax.annotation.Nullable;
@@ -54,7 +54,7 @@ public class ItemWerewolfFlesh extends Item {
                         .build()));
         this.humanoid = humanoid;
         if (this.humanoid) {
-            MinecraftForge.EVENT_BUS.addListener(this::dropHumanoidFleshEvent);
+            NeoForge.EVENT_BUS.addListener(this::dropHumanoidFleshEvent);
         }
     }
 
@@ -165,7 +165,7 @@ public class ItemWerewolfFlesh extends Item {
             String player = ChatFormatting.ITALIC + "None";
             if(itemStack.hasTag()) {
                 GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
-                if (profile != null && profile.isComplete()) {
+                if (profile != null && !profile.getProperties().isEmpty()) {
                     player = profile.getName();
                 }
             }

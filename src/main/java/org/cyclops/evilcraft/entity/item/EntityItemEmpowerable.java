@@ -19,7 +19,7 @@ public class EntityItemEmpowerable extends EntityItemIndestructable {
     }
 
     public EntityItemEmpowerable(Level world, ItemEntity original) {
-        super(RegistryEntries.ENTITY_ITEM_EMPOWERABLE, world, original);
+        super(RegistryEntries.ENTITY_ITEM_EMPOWERABLE.get(), world, original);
     }
 
     @Override

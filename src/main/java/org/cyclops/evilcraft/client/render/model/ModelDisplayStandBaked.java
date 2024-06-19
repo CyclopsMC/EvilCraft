@@ -24,9 +24,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
-import net.minecraftforge.client.model.geometry.UnbakedGeometryHelper;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
+import net.neoforged.neoforge.client.model.geometry.UnbakedGeometryHelper;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -164,7 +164,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
     @Override
     public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
-        return handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.getDisplayStandType(itemStack), true);
+        return handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.get().getDisplayStandType(itemStack), true);
     }
 
     @Override

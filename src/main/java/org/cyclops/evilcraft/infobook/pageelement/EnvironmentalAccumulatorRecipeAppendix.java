@@ -6,9 +6,10 @@ import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -45,7 +46,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
     private static final AdvancedButtonEnum INPUT = AdvancedButtonEnum.create();
     private static final AdvancedButtonEnum RESULT = AdvancedButtonEnum.create();
 
-    public EnvironmentalAccumulatorRecipeAppendix(IInfoBook infoBook, RecipeEnvironmentalAccumulator recipe) {
+    public EnvironmentalAccumulatorRecipeAppendix(IInfoBook infoBook, RecipeHolder<RecipeEnvironmentalAccumulator> recipe) {
         super(infoBook, recipe);
     }
 
@@ -80,23 +81,23 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
 
         // Prepare items
         int tick = getTick(gui);
-        ItemStack input = prepareItemStacks(recipe.getInputIngredient().getItems(), tick);
-        ItemStack result = prepareItemStack(recipe.getOutputItemFirst(), tick);
+        ItemStack input = prepareItemStacks(recipe.value().getInputIngredient().getItems(), tick);
+        ItemStack result = prepareItemStack(recipe.value().getOutputItemFirst(), tick);
 
         // Items
         renderItem(gui, guiGraphics, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
         renderItem(gui, guiGraphics, x + START_X_RESULT, y + SLOT_OFFSET_Y, result, mx, my, RESULT);
 
         renderItem(gui, guiGraphics, x + middle, y + SLOT_OFFSET_Y, new ItemStack(sanguinary
-                ? RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR
-                : RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR), mx, my, false, null);
+                ? RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get()
+                : RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get()), mx, my, false, null);
 
         // Draw weathers
-        Integer inputX = X_ICON_OFFSETS.get(recipe.getInputWeather());
+        Integer inputX = X_ICON_OFFSETS.get(recipe.value().getInputWeather());
         if(inputX != null) {
             guiGraphics.blit(WEATHERS, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
             gui.drawOuterBorder(guiGraphics, x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
-            Integer outputX = X_ICON_OFFSETS.get(recipe.getOutputWeather());
+            Integer outputX = X_ICON_OFFSETS.get(recipe.value().getOutputWeather());
             guiGraphics.blit(WEATHERS, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
             gui.drawOuterBorder(guiGraphics, x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
         }
@@ -106,7 +107,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
 
             // Blood amount text
             Font fontRenderer = gui.getFont();
-            int amount = AccumulateItemTickAction.getUsage(recipe.getCooldownTime());
+            int amount = AccumulateItemTickAction.getUsage(recipe.value().getCooldownTime());
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
             MultiLineLabel.create(fontRenderer, Component.literal(line), 200)

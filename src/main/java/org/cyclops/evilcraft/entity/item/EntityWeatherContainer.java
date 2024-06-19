@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -15,12 +13,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 import org.cyclops.evilcraft.item.ItemWeatherContainer;
-
-import javax.annotation.Nonnull;
 
 /**
  * Entity for the {@link ItemWeatherContainer}.
@@ -36,18 +31,12 @@ public class EntityWeatherContainer extends EntityThrowable {
     }
 
     public EntityWeatherContainer(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_WEATHER_CONTAINER, world, entity);
+        super(RegistryEntries.ENTITY_WEATHER_CONTAINER.get(), world, entity);
     }
 
     public EntityWeatherContainer(Level world, LivingEntity entity, ItemStack stack) {
         this(world, entity);
         setItem(stack);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     public static void playImpactSounds(Level world) {

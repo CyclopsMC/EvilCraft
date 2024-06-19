@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -23,14 +23,13 @@ public class ItemCondensedBloodConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
             "condensed_blood",
-                eConfig -> new Item(new Item.Properties()
-                        ) {
-                    @Override
-                    public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
-                        return new FluidWrapper(stack);
-                    }
-                }
+                eConfig -> new Item(new Item.Properties())
         );
+        EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
+    }
+
+    protected void registerCapability(RegisterCapabilitiesEvent event) {
+        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> new FluidWrapper(stack), getInstance());
     }
 
     public static class FluidWrapper extends FluidBucketWrapper {

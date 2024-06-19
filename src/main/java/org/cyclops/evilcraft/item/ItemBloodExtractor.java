@@ -17,15 +17,14 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -48,8 +47,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     public ItemBloodExtractor(Item.Properties properties) {
         super(properties, ItemBloodExtractorConfig.containerSize);
         setPlaceFluids(true);
-        MinecraftForge.EVENT_BUS.addListener(this::bloodObtainEvent);
-
+        NeoForge.EVENT_BUS.addListener(this::bloodObtainEvent);
     }
 
     @Override
@@ -60,7 +58,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
                 RandomSource random = context.getLevel().random;
 
                 // Fill the extractor a bit
-                BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(), ForgeCapabilities.FLUID_HANDLER)
+                BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                         .ifPresent((source) -> {
                             FluidStack moved = FluidUtil.tryFluidTransfer(FluidUtil.getFluidHandler(itemStack).orElse(null), source, Integer.MAX_VALUE, true);
                             if (!moved.isEmpty() && context.getLevel().isClientSide()) {

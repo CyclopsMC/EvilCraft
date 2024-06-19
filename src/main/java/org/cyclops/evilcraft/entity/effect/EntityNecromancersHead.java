@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.entity.effect;
 
 import com.google.common.collect.Lists;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -19,17 +17,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
-import org.cyclops.evilcraft.Advancements;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityControlledZombie;
 import org.cyclops.evilcraft.item.ItemNecromancerStaff;
 
-import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,13 +49,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
     }
 
     public EntityNecromancersHead(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_NECROMANCER_HEAD, entity, world);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+        super(RegistryEntries.ENTITY_NECROMANCER_HEAD.get(), entity, world);
     }
 
     /**
@@ -90,7 +79,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
         setObserverMode();
 
         if (necromancer instanceof ServerPlayer) {
-            Advancements.NECROMANCE.test((ServerPlayer) necromancer, target);
+            RegistryEntries.TRIGGER_NECROMANCE_TRIGGER.get().test((ServerPlayer) necromancer, target);
         }
     }
 

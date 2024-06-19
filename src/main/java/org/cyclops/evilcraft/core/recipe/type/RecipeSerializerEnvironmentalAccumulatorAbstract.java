@@ -1,20 +1,22 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Either;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
+import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuserConfig;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Recipe serializer for abstract environmental accumulator recipes
@@ -22,6 +24,24 @@ import java.util.Locale;
  */
 public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends RecipeEnvironmentalAccumulator>
         implements RecipeSerializer<T> {
+
+    protected final Codec<T> codec = RecordCodecBuilder.create(
+            builder -> builder.group(
+                            Ingredient.CODEC_NONEMPTY.fieldOf("input_item").forGetter(RecipeEnvironmentalAccumulator::getInputIngredient),
+                            WeatherType.CODEC.fieldOf("input_weather").forGetter(RecipeEnvironmentalAccumulator::getInputWeather),
+                            RecipeSerializerHelpers.getCodecItemStackOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeEnvironmentalAccumulator::getOutputItem),
+                            WeatherType.CODEC.fieldOf("output_weather").forGetter(RecipeEnvironmentalAccumulator::getOutputWeather),
+                            ExtraCodecs.strictOptionalField(Codec.INT, "duration").forGetter(RecipeEnvironmentalAccumulator::getDurationRaw),
+                            ExtraCodecs.strictOptionalField(Codec.INT, "cooldown_time").forGetter(RecipeEnvironmentalAccumulator::getCooldownTimeRaw),
+                            ExtraCodecs.strictOptionalField(Codec.FLOAT, "processing_speed").forGetter(RecipeEnvironmentalAccumulator::getProcessingSpeedRaw)
+                    )
+                    .apply(builder, this::createRecipe)
+    );
+
+    @Override
+    public Codec<T> codec() {
+        return this.codec;
+    }
 
     protected WeatherType getWeatherType(String type) throws JsonSyntaxException {
         WeatherType weather = WeatherType.valueOf(type);
@@ -31,34 +51,13 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
         return weather;
     }
 
-    protected abstract T createRecipe(ResourceLocation id,
-                                      Ingredient inputIngredient, WeatherType inputWeather,
+    protected abstract T createRecipe(Ingredient inputIngredient, WeatherType inputWeather,
                                       Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
-                                      int duration, int cooldownTime, float processingSpeed);
-
-    @Override
-    public T fromJson(ResourceLocation recipeId, JsonObject json) {
-        JsonObject result = GsonHelper.getAsJsonObject(json, "result");
-
-        // Input
-        Ingredient inputIngredient = RecipeSerializerHelpers.getJsonIngredient(json, "item", false);
-        WeatherType inputWeather = getWeatherType(GsonHelper.getAsString(json, "weather"));
-
-        // Output
-        Either<ItemStack, ItemStackFromIngredient> outputItemStack = RecipeSerializerHelpers.getJsonItemStackOrTag(result, false);
-        WeatherType outputWeather = getWeatherType(GsonHelper.getAsString(result, "weather"));
-
-        // Other stuff
-        int duration = GsonHelper.getAsInt(json, "duration", -1);
-        int cooldownTime = GsonHelper.getAsInt(json, "cooldownTime", -1);
-        float processingSpeed = GsonHelper.getAsFloat(json, "processingSpeed", -1.0F);
-
-        return createRecipe(recipeId, inputIngredient, inputWeather, outputItemStack, outputWeather, duration, cooldownTime, processingSpeed);
-    }
+                                      Optional<Integer> duration, Optional<Integer> cooldownTime, Optional<Float> processingSpeed);
 
     @Nullable
     @Override
-    public T fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+    public T fromNetwork(FriendlyByteBuf buffer) {
         // Input
         Ingredient inputIngredient = Ingredient.fromNetwork(buffer);
         WeatherType inputWeather = getWeatherType(buffer.readUtf(20));
@@ -68,11 +67,11 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
         WeatherType outputWeather = getWeatherType(buffer.readUtf(20));
 
         // Other stuff
-        int duration = buffer.readVarInt();
-        int cooldownTime = buffer.readVarInt();
-        float processingSpeed = buffer.readFloat();
+        Optional<Integer> duration = RecipeSerializerHelpers.readOptionalFromNetwork(buffer, FriendlyByteBuf::readVarInt);
+        Optional<Integer> cooldownTime = RecipeSerializerHelpers.readOptionalFromNetwork(buffer, FriendlyByteBuf::readVarInt);
+        Optional<Float> processingSpeed = RecipeSerializerHelpers.readOptionalFromNetwork(buffer, FriendlyByteBuf::readFloat);
 
-        return createRecipe(recipeId, inputIngredient, inputWeather, outputItem, outputWeather, duration, cooldownTime, processingSpeed);
+        return createRecipe(inputIngredient, inputWeather, outputItem, outputWeather, duration, cooldownTime, processingSpeed);
     }
 
     @Override
@@ -86,8 +85,8 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
         buffer.writeUtf(recipe.getOutputWeather().toString().toUpperCase(Locale.ENGLISH));
 
         // Other stuff
-        buffer.writeVarInt(recipe.getDuration());
-        buffer.writeVarInt(recipe.getCooldownTime());
-        buffer.writeFloat(recipe.getProcessingSpeed());
+        RecipeSerializerHelpers.writeOptionalToNetwork(buffer, recipe.getDurationRaw(), FriendlyByteBuf::writeVarInt);
+        RecipeSerializerHelpers.writeOptionalToNetwork(buffer, recipe.getCooldownTimeRaw(), FriendlyByteBuf::writeVarInt);
+        RecipeSerializerHelpers.writeOptionalToNetwork(buffer, recipe.getProcessingSpeedRaw(), FriendlyByteBuf::writeFloat);
     }
 }

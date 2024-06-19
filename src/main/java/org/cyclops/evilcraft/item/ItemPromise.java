@@ -8,8 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -106,15 +106,15 @@ public class ItemPromise extends Item {
 
     public static Item getItem(Upgrades.Upgrade upgrade) {
         if (upgrade == Upgrades.UPGRADE_TIER1) {
-            return RegistryEntries.ITEM_PROMISE_TIER_1;
+            return RegistryEntries.ITEM_PROMISE_TIER_1.get();
         } else if (upgrade == Upgrades.UPGRADE_TIER2) {
-            return RegistryEntries.ITEM_PROMISE_TIER_2;
+            return RegistryEntries.ITEM_PROMISE_TIER_2.get();
         } else if (upgrade == Upgrades.UPGRADE_TIER3) {
-            return RegistryEntries.ITEM_PROMISE_TIER_3;
+            return RegistryEntries.ITEM_PROMISE_TIER_3.get();
         } else if (upgrade == Upgrades.UPGRADE_SPEED) {
-            return RegistryEntries.ITEM_PROMISE_SPEED;
+            return RegistryEntries.ITEM_PROMISE_SPEED.get();
         } else if (upgrade == Upgrades.UPGRADE_EFFICIENCY) {
-            return RegistryEntries.ITEM_PROMISE_EFFICIENCY;
+            return RegistryEntries.ITEM_PROMISE_EFFICIENCY.get();
         } else {
             throw new IllegalStateException("Could not find an item for " + upgrade);
         }

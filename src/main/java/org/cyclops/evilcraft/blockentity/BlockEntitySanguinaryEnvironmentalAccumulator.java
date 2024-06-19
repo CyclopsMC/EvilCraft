@@ -15,17 +15,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
@@ -57,6 +56,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * A machine that can infuse things with blood.
@@ -112,13 +112,13 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
     public BlockEntitySanguinaryEnvironmentalAccumulator(BlockPos blockPos, BlockState blockState) {
         super(
-                RegistryEntries.BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR,
+                RegistryEntries.BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get(),
                 blockPos,
                 blockState,
                 SLOTS,
                 64,
                 0,
-                RegistryEntries.FLUID_BLOOD);
+                RegistryEntries.FLUID_BLOOD.get());
         accumulateTicker = addTicker(
                 new TickComponent<>(this, ACCUMULATE_TICK_ACTIONS, SLOT_ACCUMULATE)
                 );
@@ -155,7 +155,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
                     public Optional<RecipeEnvironmentalAccumulator> getNewValue(Triple<ItemStack, FluidStack, WeatherType> key) {
                         Inventory recipeInput = new Inventory(1, 64, BlockEntitySanguinaryEnvironmentalAccumulator.this);
                         recipeInput.setItem(0, key.getLeft());
-                        return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getLevel());
+                        return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getLevel()).map(RecipeHolder::value);
                     }
 
                     @Override
@@ -171,21 +171,26 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         this.forceLoadTanks = true;
     }
 
-    @Override
-    protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerAccumulate = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_ACCUMULATE));
-        LazyOptional<IItemHandler> itemHandlerAccumulateResult = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_ACCUMULATE_RESULT));
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerAccumulate);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerAccumulateResult);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.NORTH, itemHandlerAccumulate);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.SOUTH, itemHandlerAccumulate);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.WEST, itemHandlerAccumulate);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.EAST, itemHandlerAccumulate);
-    }
+    public static class CapabilityRegistrar extends BlockEntityWorking.CapabilityRegistrar<BlockEntitySanguinaryEnvironmentalAccumulator, MutableInt> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntitySanguinaryEnvironmentalAccumulator>> blockEntityType) {
+            super(blockEntityType);
+        }
 
-    @Override
-    protected void addFluidHandlerCapabilities() {
-        // Do not expose dummy tank
+        @Override
+        public void registerTankInventoryCapabilitiesItem() {
+            add(
+                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
+                            blockEntity.getInventory(),
+                            direction == Direction.DOWN ? SLOT_ACCUMULATE_RESULT : SLOT_ACCUMULATE
+                    )
+            );
+        }
+
+        @Override
+        public void registerTankInventoryCapabilitiesFluid() {
+            // Do not expose dummy tank
+        }
     }
 
     @Override
@@ -219,7 +224,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     }
 
     protected RecipeType<RecipeEnvironmentalAccumulator> getRegistry() {
-        return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR;
+        return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -253,7 +258,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
                 double particleMotionZ = Mth.sin(rotationPitch / 180.0F * (float) Math.PI) * Mth.sin(rotationYaw / 180.0F * (float) Math.PI) * speed;
 
                 Minecraft.getInstance().levelRenderer.addParticle(
-                        RegistryEntries.PARTICLE_BLOOD_BUBBLE, false,
+                        RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(), false,
                         particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             }
         }
@@ -319,12 +324,12 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         for (int i = 0; i < tankOffsets.length; i++) {
             BlockPos offset = tankOffsets[i];
             BlockPos location = getBlockPos().offset(offset);
-            IFluidHandler handler = BlockEntityHelpers.getCapability(getLevel(), location, Direction.UP, ForgeCapabilities.FLUID_HANDLER).orElse(null);
+            IFluidHandler handler = BlockEntityHelpers.getCapability(getLevel(), location, Direction.UP, net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
             boolean oneValid = false;
             if (handler != null) {
                 int tankAmount = handler.getTanks();
                 for (int tank = 0; tank < tankAmount; tank++) {
-                    if (!handler.getFluidInTank(tank).isEmpty() && handler.getFluidInTank(tank).getFluid() == RegistryEntries.FLUID_BLOOD) {
+                    if (!handler.getFluidInTank(tank).isEmpty() && handler.getFluidInTank(tank).getFluid() == RegistryEntries.FLUID_BLOOD.get()) {
                         oneValid = true;
                         break;
                     }
@@ -384,13 +389,13 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
             // Valid custom recipe
             RecipeEnvironmentalAccumulator.Inventory recipeInput = new RecipeEnvironmentalAccumulator.InventoryDummy(itemStack);
             return world.getRecipeManager()
-                    .getRecipeFor(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR, recipeInput, world)
+                    .getRecipeFor(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get(), recipeInput, world)
                     .isPresent();
         }
 
         @Override
         protected Block getBlock() {
-            return RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR;
+            return RegistryEntries.BLOCK_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get();
         }
 
         /**

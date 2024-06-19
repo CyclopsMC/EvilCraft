@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodchest;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.EvilCraft;

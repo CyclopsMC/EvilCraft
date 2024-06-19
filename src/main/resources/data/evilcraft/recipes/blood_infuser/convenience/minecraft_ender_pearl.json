@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "evilcraft:potentia_sphere",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 2000
+  "input_item": {
+    "item": "evilcraft:potentia_sphere"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 2000
+  },
+  "output_item": {
     "item": "minecraft:ender_pearl"
   },
   "duration": 1000,

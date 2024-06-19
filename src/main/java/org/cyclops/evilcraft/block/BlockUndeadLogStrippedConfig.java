@@ -9,9 +9,9 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.MapColor;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.event.level.BlockEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.ToolActions;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -43,12 +43,12 @@ public class BlockUndeadLogStrippedConfig extends BlockConfig {
                 },
                 getDefaultItemConstructor(EvilCraft._instance)
         );
-        MinecraftForge.EVENT_BUS.addListener(this::toolActionEvent);
+        NeoForge.EVENT_BUS.addListener(this::toolActionEvent);
     }
 
     public void toolActionEvent(BlockEvent.BlockToolModificationEvent event) {
-        if (event.getToolAction() == ToolActions.AXE_STRIP && event.getState().getBlock() == RegistryEntries.BLOCK_UNDEAD_LOG) {
-            BlockState blockStateNew = RegistryEntries.BLOCK_UNDEAD_LOG_STRIPPED.defaultBlockState();
+        if (event.getToolAction() == ToolActions.AXE_STRIP && event.getState().getBlock() == RegistryEntries.BLOCK_UNDEAD_LOG.get()) {
+            BlockState blockStateNew = RegistryEntries.BLOCK_UNDEAD_LOG_STRIPPED.get().defaultBlockState();
             for (Property property : event.getState().getProperties()) {
                 if(blockStateNew.hasProperty(property))
                     blockStateNew = blockStateNew.setValue(property, event.getState().getValue(property));

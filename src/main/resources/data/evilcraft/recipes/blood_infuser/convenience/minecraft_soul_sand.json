@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:sand",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 2500
+  "input_item": {
+    "item": "minecraft:sand"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 2500
+  },
+  "output_item": {
     "item": "minecraft:soul_sand"
   },
   "duration": 1000,

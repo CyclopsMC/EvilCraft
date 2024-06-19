@@ -3,8 +3,6 @@ package org.cyclops.evilcraft.entity.item;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ItemSupplier;
@@ -13,13 +11,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemRedstoneGrenade;
-
-import javax.annotation.Nonnull;
 
 /**
  * Entity for the {@link ItemRedstoneGrenade}.
@@ -30,17 +25,11 @@ import javax.annotation.Nonnull;
 public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSupplier {
 
     public EntityRedstoneGrenade(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_REDSTONE_GRENADE, entity, world);
+        super(RegistryEntries.ENTITY_REDSTONE_GRENADE.get(), entity, world);
     }
 
     public EntityRedstoneGrenade(EntityType<? extends EntityRedstoneGrenade> type, Level world) {
         super(type, world);
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
@@ -49,7 +38,7 @@ public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSu
             BlockPos blockPos = ((BlockHitResult) pos).getBlockPos();
 
             if (level().isEmptyBlock(blockPos.relative(((BlockHitResult) pos).getDirection()))) {
-                level().setBlockAndUpdate(blockPos.offset(((BlockHitResult) pos).getDirection().getNormal()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.defaultBlockState());
+                level().setBlockAndUpdate(blockPos.offset(((BlockHitResult) pos).getDirection().getNormal()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.get().defaultBlockState());
 
                 if (level().isClientSide()) {
                     Minecraft.getInstance().levelRenderer.addParticle(

@@ -18,8 +18,9 @@ public class BlockEntitySpiritFurnaceConfig extends BlockEntityConfig<BlockEntit
                 EvilCraft._instance,
                 "spirit_furnace",
                 (eConfig) -> new BlockEntityType<>(BlockEntitySpiritFurnace::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_SPIRIT_FURNACE), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_SPIRIT_FURNACE.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntitySpiritFurnace.CapabilityRegistrar(this::getInstance)::register);
     }
 
 }

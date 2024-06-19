@@ -9,16 +9,14 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
-import org.cyclops.evilcraft.EvilCraftSoundEvents;
 import org.cyclops.evilcraft.RegistryEntries;
 
 
@@ -33,7 +31,7 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
     private Float progress = 0f;
 
     public BlockEntitySpiritPortal(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_SPIRIT_PORTAL, blockPos, blockState);
+        super(RegistryEntries.BLOCK_ENTITY_SPIRIT_PORTAL.get(), blockPos, blockState);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -55,12 +53,6 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
         return progress;
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public AABB getRenderBoundingBox() {
-        return BlockEntity.INFINITE_EXTENT_AABB;
-    }
-
     public static class Ticker extends BlockEntityTickerDelayed<BlockEntitySpiritPortal> {
         @Override
         protected void update(Level level, BlockPos pos, BlockState blockState, BlockEntitySpiritPortal blockEntity) {
@@ -74,7 +66,7 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
                 int progressModifier = (int) (blockEntity.getProgress() * 40f) + 1;
                 if(level.random.nextInt(5) == 0) {
                     level.playLocalSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F,
-                            EvilCraftSoundEvents.effect_vengeancebeam_base, SoundSource.AMBIENT,
+                            RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_BASE.get(), SoundSource.AMBIENT,
                             0.5F + level.random.nextFloat() * 0.2F, 1.0F, false);
                 }
                 for(int i = 0; i < level.random.nextInt(progressModifier); i++) {

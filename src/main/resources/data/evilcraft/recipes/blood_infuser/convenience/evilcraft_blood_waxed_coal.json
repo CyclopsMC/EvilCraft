@@ -1,13 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": {
+  "input_item": {
     "tag": "minecraft:coals"
   },
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 375
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 375
   },
-  "result": {
+  "output_item": {
     "item": "evilcraft:blood_waxed_coal"
   },
   "duration": 100,

@@ -14,10 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.ChunkRenderTypeSet;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.client.ChunkRenderTypeSet;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
@@ -66,7 +66,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     public List<BakedQuad> getGeneralQuads() {
         List<BakedQuad> combinedList = Lists.newArrayList();
         if(fluidStack != null && !fluidStack.isEmpty() && (BlockDarkTankConfig.staticBlockRendering || isItemStack())) {
-            boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.isActivated(itemStack, world);
+            boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.get().isActivated(itemStack, world);
             combinedList.addAll(getFluidQuads(fluidStack, capacity, flowing));
         }
         combinedList.addAll(baseModel.getQuads(blockState, getRenderingSide(), rand));

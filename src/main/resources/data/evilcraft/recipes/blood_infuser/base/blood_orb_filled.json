@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "evilcraft:blood_orb_empty",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 10000
+  "input_item": {
+    "item": "evilcraft:blood_orb_empty"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 10000
+  },
+  "output_item": {
     "item": "evilcraft:blood_orb_filled"
   },
   "duration": 3000,

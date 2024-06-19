@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
@@ -110,7 +110,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
 
     @Override
     protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.getDescriptionId() + ".help.invalid";
+        String prefix = RegistryEntries.BLOCK_SPIRIT_REANIMATOR.get().getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
         lines.add(Component.translatable(prefix));
         String entityName = getMenu().getEntityName();
@@ -122,7 +122,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
         else {
             ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
             if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
-                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName))) {
+                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(entityName))) {
                 lines.add(Component.translatable(prefix + ".different_egg"));
             }
         }

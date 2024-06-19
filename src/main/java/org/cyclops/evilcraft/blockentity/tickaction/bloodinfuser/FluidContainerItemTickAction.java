@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodinfuser;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;

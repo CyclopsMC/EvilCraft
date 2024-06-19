@@ -27,7 +27,7 @@ public class ContainerPrimedPendant extends ItemInventoryContainer<ItemPrimedPen
     }
 
     public ContainerPrimedPendant(int id, Inventory inventory, ItemLocation itemLocation) {
-        super(RegistryEntries.CONTAINER_PRIMED_PENDANT, id, inventory, itemLocation);
+        super(RegistryEntries.CONTAINER_PRIMED_PENDANT.get(), id, inventory, itemLocation);
         addSlot(new SlotSingleItem(getItem().getSupplementaryInventory(player, itemLocation),
                 0, SLOT_X, SLOT_Y, Items.POTION));
         this.addPlayerInventory(player.getInventory(), INVENTORY_OFFSET_X, INVENTORY_OFFSET_Y);

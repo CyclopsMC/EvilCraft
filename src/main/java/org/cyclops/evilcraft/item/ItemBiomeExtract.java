@@ -17,9 +17,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
@@ -73,7 +72,7 @@ public class ItemBiomeExtract extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        Registry<Biome> registry = world.registryAccess().registry(ForgeRegistries.Keys.BIOMES).get();
+        Registry<Biome> registry = world.registryAccess().registry(Registries.BIOME).get();
         if(!world.isClientSide() && getBiome(registry, itemStack) != null &&
                 !ItemBiomeExtractConfig.isUsageBlacklisted(registry, getBiome(registry, itemStack))) {
             world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
@@ -120,9 +119,7 @@ public class ItemBiomeExtract extends Item {
     public static Biome getBiome(Registry<Biome> registry, ItemStack itemStack) {
         if(itemStack.hasTag()) {
             String biomeName = itemStack.getTag().getString(NBT_BIOMEKEY);
-            if(registry.containsKey(new ResourceLocation(biomeName))) {
-                return registry.get(new ResourceLocation(biomeName));
-            }
+            return registry.get(new ResourceLocation(biomeName));
         }
         return null;
     }
@@ -165,7 +162,7 @@ public class ItemBiomeExtract extends Item {
         public int getColor(ItemStack itemStack, int renderPass) {
             if(renderPass == 0) {
                 Registry<Biome> biomeRegistry = getBiomeRegistry();
-                Biome biome = biomeRegistry != null ? RegistryEntries.ITEM_BIOME_EXTRACT.getBiome(biomeRegistry, itemStack) : null;
+                Biome biome = biomeRegistry != null ? RegistryEntries.ITEM_BIOME_EXTRACT.get().getBiome(biomeRegistry, itemStack) : null;
                 if(biome != null) {
                     return biome.getFoliageColor();
                 } else {

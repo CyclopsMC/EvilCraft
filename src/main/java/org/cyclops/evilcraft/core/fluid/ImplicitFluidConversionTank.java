@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 
 /**

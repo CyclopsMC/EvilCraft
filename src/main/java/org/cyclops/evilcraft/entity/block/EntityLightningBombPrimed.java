@@ -2,19 +2,15 @@ package org.cyclops.evilcraft.entity.block;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockLightningBomb;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
@@ -36,7 +32,7 @@ public class EntityLightningBombPrimed extends PrimedTnt {
     }
 
     public EntityLightningBombPrimed(Level world, double x, double y, double z, @Nullable LivingEntity placer) {
-        this(RegistryEntries.ENTITY_LIGHTNING_BOMB_PRIMED, world);
+        this(RegistryEntries.ENTITY_LIGHTNING_BOMB_PRIMED.get(), world);
         this.setPos(x, y, z);
         double d0 = world.random.nextDouble() * (double)((float)Math.PI * 2F);
         this.setDeltaMovement(-Math.sin(d0) * 0.02D, (double)0.2F, -Math.cos(d0) * 0.02D);
@@ -46,12 +42,6 @@ public class EntityLightningBombPrimed extends PrimedTnt {
         this.zo = z;
         this.placer = placer;
         setFuse();
-    }
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Nullable

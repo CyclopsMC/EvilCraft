@@ -15,13 +15,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestLidController;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.BlockHelpers;
@@ -43,6 +41,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 /**
@@ -108,23 +107,28 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
     }
 
     public BlockEntityBloodChest(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_BLOOD_CHEST, blockPos, blockState, SLOTS, 64, LIQUID_PER_SLOT, RegistryEntries.FLUID_BLOOD);
+        super(RegistryEntries.BLOCK_ENTITY_BLOOD_CHEST.get(), blockPos, blockState, SLOTS, 64, LIQUID_PER_SLOT, RegistryEntries.FLUID_BLOOD.get());
         for(int i = 0; i < SLOTS_CHEST; i++) {
             addTicker(new TickComponent<>(this, REPAIR_TICK_ACTIONS, i));
         }
         addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
     }
 
-    @Override
-    protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), IntStream.range(0, SLOTS_CHEST).toArray()));
-        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerChest);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerChest);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.NORTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.SOUTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.WEST, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.EAST, itemHandlerContainer);
+    public static class CapabilityRegistrar extends BlockEntityTickingTankInventory.CapabilityRegistrar<BlockEntityBloodChest> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntityBloodChest>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void registerTankInventoryCapabilitiesItem() {
+            add(
+                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
+                            blockEntity.getInventory(),
+                            (direction == Direction.UP || direction == Direction.DOWN) ? IntStream.range(0, SLOTS_CHEST).toArray() : new int[]{SLOT_CONTAINER}
+                    )
+            );
+        }
     }
 
     @Override
@@ -147,7 +151,7 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
             @Override
             public boolean canPlaceItem(int slot, ItemStack itemstack) {
                 if(slot == SLOT_CONTAINER)
-                    return SlotFluidContainer.checkIsItemValid(itemstack, RegistryEntries.FLUID_BLOOD);
+                    return SlotFluidContainer.checkIsItemValid(itemstack, RegistryEntries.FLUID_BLOOD.get());
                 else if(slot <= SLOTS_CHEST && slot >= 0)
                     return SlotRepairable.checkIsItemValid(itemstack);
                 return false;

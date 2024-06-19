@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.client.render.entity;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.properties.Property;
 import com.mojang.blaze3d.vertex.PoseStack;
 import lombok.Setter;
@@ -21,6 +20,7 @@ import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
@@ -66,21 +66,19 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
 
                     if(spirit.isPlayer()) {
                         GameProfile gameProfile = new GameProfile(spirit.getPlayerUUID(), spirit.getPlayerName());
-                        ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkin();
+                        ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultTexture();
                         Minecraft minecraft = Minecraft.getInstance();
                         // Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
                         if(!checkedProfiles.containsKey(gameProfile)) {
                             Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
                             if (property == null) {
                                 // The game profile enhanced with texture information.
-                                GameProfile newGameProfile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(gameProfile, true);
+                                GameProfile newGameProfile = Minecraft.getInstance().getMinecraftSessionService().fetchProfile(gameProfile.getId(), true).profile();
                                 checkedProfiles.put(gameProfile, newGameProfile);
                             }
                         } else {
-                            Map map = minecraft.getSkinManager().getInsecureSkinInformation(checkedProfiles.get(gameProfile));
-                            if (map.containsKey(MinecraftProfileTexture.Type.SKIN)) {
-                                resourcelocation = minecraft.getSkinManager().registerTexture((MinecraftProfileTexture) map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
-                            }
+                            PlayerSkin skin = minecraft.getSkinManager().getInsecureSkin(checkedProfiles.get(gameProfile));
+                            resourcelocation = skin.texture();
                         }
                         playerRenderer.setPlayerTexture(resourcelocation);
                         Minecraft.getInstance().options.hideGui = true; // Disables player name tag rendering, which causes a crash due to our posestack hack.

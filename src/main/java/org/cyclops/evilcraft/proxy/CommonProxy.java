@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.proxy;
 
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
 import org.cyclops.cyclopscore.init.ModBase;
 import org.cyclops.cyclopscore.network.PacketHandler;
 import org.cyclops.cyclopscore.proxy.CommonProxyComponent;
@@ -31,11 +31,11 @@ public class CommonProxy extends CommonProxyComponent {
         super.registerPacketHandlers(packetHandler);
 
         // Register packets.
-        packetHandler.register(FartPacket.class);
-        packetHandler.register(SanguinaryPedestalBlockReplacePacket.class);
-        packetHandler.register(ExaltedCrafterOpenPacket.class);
-        packetHandler.register(UpdateWorldSharedTankClientCachePacket.class);
-        packetHandler.register(ResetChunkColorsPacket.class);
+        packetHandler.register(FartPacket.ID, FartPacket::new);
+        packetHandler.register(SanguinaryPedestalBlockReplacePacket.ID, SanguinaryPedestalBlockReplacePacket::new);
+        packetHandler.register(ExaltedCrafterOpenPacket.ID, ExaltedCrafterOpenPacket::new);
+        packetHandler.register(UpdateWorldSharedTankClientCachePacket.ID, UpdateWorldSharedTankClientCachePacket::new);
+        packetHandler.register(ResetChunkColorsPacket.ID, ResetChunkColorsPacket::new);
 
         EvilCraft.clog("Registered packet handler.");
     }
@@ -43,9 +43,9 @@ public class CommonProxy extends CommonProxyComponent {
     @Override
     public void registerEventHooks() {
         super.registerEventHooks();
-        MinecraftForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
-        MinecraftForge.EVENT_BUS.register(new LivingUpdateEventHook());
-        MinecraftForge.EVENT_BUS.register(WorldSharedTankCache.getInstance());
+        NeoForge.EVENT_BUS.register(new EntityStruckByLightningEventHook());
+        NeoForge.EVENT_BUS.register(new LivingUpdateEventHook());
+        NeoForge.EVENT_BUS.register(WorldSharedTankCache.getInstance());
     }
 
 }

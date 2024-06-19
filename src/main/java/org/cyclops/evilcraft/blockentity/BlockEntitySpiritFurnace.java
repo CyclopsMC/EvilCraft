@@ -16,10 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.block.multi.AllowedBlock;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
@@ -52,6 +50,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * A furnace that is able to cook spirits for their inner entity drops.
@@ -113,13 +112,13 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
     public BlockEntitySpiritFurnace(BlockPos blockPos, BlockState blockState) {
         super(
-                RegistryEntries.BLOCK_ENTITY_SPIRIT_FURNACE,
+                RegistryEntries.BLOCK_ENTITY_SPIRIT_FURNACE.get(),
                 blockPos,
                 blockState,
                 SLOTS,
                 64,
                 LIQUID_PER_SLOT,
-                RegistryEntries.FLUID_BLOOD);
+                RegistryEntries.FLUID_BLOOD.get());
         cookTicker = addTicker(new TickComponent<>(this, BOX_COOK_TICK_ACTIONS, SLOT_BOX, true, false));
         addTicker(new TickComponent<>(this, EMPTY_IN_TANK_TICK_ACTIONS, SLOT_CONTAINER, false, true));
         assert getTickers().size() == TICKERS;
@@ -158,25 +157,30 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
         if (detector == null) {
             detector = new HollowCubeDetector(
                     new AllowedBlock[]{
-                            new AllowedBlock(RegistryEntries.BLOCK_DARK_BLOOD_BRICK),
-                            new AllowedBlock(RegistryEntries.BLOCK_SPIRIT_FURNACE).addCountValidator(new MaximumBlockCountValidator(1)),
+                            new AllowedBlock(RegistryEntries.BLOCK_DARK_BLOOD_BRICK.get()),
+                            new AllowedBlock(RegistryEntries.BLOCK_SPIRIT_FURNACE.get()).addCountValidator(new MaximumBlockCountValidator(1)),
                     },
-                    Lists.newArrayList(RegistryEntries.BLOCK_SPIRIT_FURNACE, RegistryEntries.BLOCK_DARK_BLOOD_BRICK)
+                    Lists.newArrayList(RegistryEntries.BLOCK_SPIRIT_FURNACE.get(), RegistryEntries.BLOCK_DARK_BLOOD_BRICK.get())
             ).addSizeValidator(minimumSizeValidator);
         }
         return detector;
     }
 
-    @Override
-    protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerBox = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_DROP));
-        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_BOX, SLOT_CONTAINER));
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerBox);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerBox);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.NORTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.SOUTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.WEST, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.EAST, itemHandlerContainer);
+    public static class CapabilityRegistrar extends BlockEntityWorking.CapabilityRegistrar<BlockEntitySpiritFurnace, MutableDouble> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntitySpiritFurnace>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void registerTankInventoryCapabilitiesItem() {
+            add(
+                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
+                            blockEntity.getInventory(),
+                            (direction == Direction.UP || direction == Direction.DOWN) ? SLOTS_DROP : new int[]{SLOT_BOX, SLOT_CONTAINER}
+                    )
+            );
+        }
     }
 
     @Override
@@ -187,7 +191,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
                 if(slot == SLOT_BOX)
                     return getTileWorkingMetadata().canConsume(itemStack, getLevel());
                 if(slot == SLOT_CONTAINER)
-                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
+                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD.get());
                 return super.canPlaceItem(slot, itemStack);
             }
 
@@ -221,7 +225,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
         ItemStack boxStack = getInventory().getItem(getConsumeSlot());
         if(!boxStack.isEmpty() && boxStack.getItem() == getAllowedCookItem()) {
             EntityType<?> id = BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(boxStack);
-            if(id != null && id != RegistryEntries.ENTITY_VENGEANCE_SPIRIT) {
+            if(id != null && id != RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()) {
                 // We cache the entity inside 'boxEntityCache' for obvious efficiency reasons.
                 if(boxEntityCache != null && id == boxEntityCache.getType()) {
                     return boxEntityCache;
@@ -311,7 +315,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
      * @return The allowed item.
      */
     public static Item getAllowedCookItem() {
-        return RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE;
+        return RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE.get();
     }
 
     /**
@@ -446,7 +450,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
         @Override
         protected Block getBlock() {
-            return RegistryEntries.BLOCK_SPIRIT_FURNACE;
+            return RegistryEntries.BLOCK_SPIRIT_FURNACE.get();
         }
     }
 }

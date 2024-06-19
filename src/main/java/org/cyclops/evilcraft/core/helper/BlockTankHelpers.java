@@ -3,20 +3,19 @@ package org.cyclops.evilcraft.core.helper;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.cyclops.cyclopscore.Capabilities;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
@@ -33,7 +32,7 @@ import javax.annotation.Nonnull;
 public class BlockTankHelpers {
 
     static {
-        MinecraftForge.EVENT_BUS.register(new BlockTankHelpers());
+        NeoForge.EVENT_BUS.register(new BlockTankHelpers());
     }
 
     private BlockTankHelpers() {
@@ -63,9 +62,9 @@ public class BlockTankHelpers {
      * @return The resulting itemstack.
      */
     public static ItemStack tileDataToItemStack(BlockEntity tile, ItemStack itemStack) {
-        IFluidHandler fluidHandlerTile = tile.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
+        IFluidHandler fluidHandlerTile = tile.getLevel().getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, tile.getBlockPos(), null, tile, null);
         if (fluidHandlerTile != null) {
-            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM_CAPACITY).orElse(null);
+            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.Item.FLUID_HANDLER_CAPACITY);
             if (fluidHandlerItemCapacity != null) {
                 if (fluidHandlerTile instanceof IFluidTank) {
                     IFluidTank fluidTank = (IFluidTank) fluidHandlerTile;
@@ -73,7 +72,7 @@ public class BlockTankHelpers {
                     itemStack = fluidHandlerItemCapacity.getContainer();
                 }
             }
-            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
+            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.ITEM);
             if (fluidHandlerItem != null) {
                 FluidActionResult res = FluidUtil.tryFillContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
                 if (res.isSuccess()) {
@@ -90,9 +89,9 @@ public class BlockTankHelpers {
      * @param tile The tile that has already been removed from the world.
      */
     public static void itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
-        IFluidHandler fluidHandlerTile = tile.getCapability(ForgeCapabilities.FLUID_HANDLER).orElse(null);
+        IFluidHandler fluidHandlerTile = tile.getLevel().getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, tile.getBlockPos(), null, tile, null);
         if (fluidHandlerTile != null) {
-            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.FLUID_HANDLER_ITEM_CAPACITY).orElse(null);
+            IFluidHandlerItemCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.Item.FLUID_HANDLER_CAPACITY);
             if (fluidHandlerItemCapacity != null) {
                 if (fluidHandlerTile instanceof FluidTank) {
                     FluidTank fluidTank = (FluidTank) fluidHandlerTile;
@@ -100,7 +99,7 @@ public class BlockTankHelpers {
                 }
             }
 
-            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).orElse(null);
+            IFluidHandlerItem fluidHandlerItem = itemStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.ITEM);
             if (fluidHandlerItem != null) {
                 FluidUtil.tryEmptyContainer(itemStack, fluidHandlerTile, Integer.MAX_VALUE, null, true);
             }
@@ -111,7 +110,7 @@ public class BlockTankHelpers {
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow shift-right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
-                && event.getItemStack().getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent()
+                && event.getItemStack().getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.ITEM) != null
                 && event.getLevel().getBlockState(event.getPos()).getBlock() instanceof IBlockTank) {
             event.setUseBlock(Event.Result.ALLOW);
         }

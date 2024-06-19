@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -25,12 +27,11 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelProperty;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -54,6 +55,8 @@ import java.util.List;
  */
 public class BlockEntangledChalice extends BlockWithEntity implements IInformationProvider, IBlockTank, IBlockRarityProvider {
 
+    public static final MapCodec<BlockEntangledChalice> CODEC = simpleCodec(BlockEntangledChalice::new);
+
     public static final BooleanProperty DRAINING = BooleanProperty.create("draining");
 
     // Model Properties
@@ -70,9 +73,14 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
     }
 
     @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE, new BlockEntityEntangledChalice.TickerServer());
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE.get(), new BlockEntityEntangledChalice.TickerServer());
     }
 
     @Override
@@ -165,13 +173,10 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
     }
 
     public void fillItemCategory(NonNullList<ItemStack> list) {
-        // Can be null during startup
-        if (ForgeCapabilities.FLUID_HANDLER_ITEM != null) {
-            ItemStack itemStack = new ItemStack(this);
-            ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
-            fluidHandler.setTankID("creative");
-            list.add(itemStack);
-        }
+        ItemStack itemStack = new ItemStack(this);
+        ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
+        fluidHandler.setTankID("creative");
+        list.add(itemStack);
     }
 
     @Override

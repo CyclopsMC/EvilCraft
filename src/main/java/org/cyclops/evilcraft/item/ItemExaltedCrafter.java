@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -18,15 +17,10 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
 import org.cyclops.cyclopscore.inventory.container.NamedContainerProviderItem;
@@ -139,19 +133,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
         return super.use(world, player, hand);
     }
 
-    @Override
-    public ICapabilityProvider initCapabilities(final ItemStack stack, CompoundTag nbt) {
-        final IItemHandler itemHandler = new ItemHandler(stack);
-        return new ICapabilityProvider() {
-            @Override
-            public <T> LazyOptional getCapability(Capability<T> capability, Direction facing) {
-                return ItemExaltedCrafter.this.wooden && capability == ForgeCapabilities.ITEM_HANDLER
-                        ? LazyOptional.of(() -> itemHandler) : LazyOptional.empty();
-            }
-        };
-    }
-
-    public class ItemHandler implements IItemHandlerModifiable {
+    public static class ItemHandler implements IItemHandlerModifiable {
 
         protected ItemStack itemStack;
 

@@ -3,18 +3,19 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
+import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 /**
  * Tile Entity for the eternal water blockState.
@@ -26,8 +27,18 @@ public class BlockEntityEternalWater extends CyclopsBlockEntity {
     public static final FluidStack WATER = new FluidStack(Fluids.WATER, Integer.MAX_VALUE);
 
     public BlockEntityEternalWater(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_ETERNAL_WATER, blockPos, blockState);
-        addCapabilityInternal(ForgeCapabilities.FLUID_HANDLER, LazyOptional.of(InfiniteWaterFluidCapability::new));
+        super(RegistryEntries.BLOCK_ENTITY_ETERNAL_WATER.get(), blockPos, blockState);
+    }
+
+    public static class CapabilityRegistrar extends BlockEntityCapabilityRegistrar<BlockEntityEternalWater> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntityEternalWater>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void populate() {
+            add(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, (blockEntity, direction) -> new InfiniteWaterFluidCapability());
+        }
     }
 
     public static class InfiniteWaterFluidCapability implements IFluidHandler {
@@ -80,7 +91,7 @@ public class BlockEntityEternalWater extends CyclopsBlockEntity {
 
             for(Direction direction : Direction.values()) {
                 BlockEntityHelpers.getCapability(level, pos.relative(direction),
-                                direction.getOpposite(), ForgeCapabilities.FLUID_HANDLER)
+                                direction.getOpposite(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                         .ifPresent(handler -> handler.fill(WATER, IFluidHandler.FluidAction.EXECUTE));
             }
         }

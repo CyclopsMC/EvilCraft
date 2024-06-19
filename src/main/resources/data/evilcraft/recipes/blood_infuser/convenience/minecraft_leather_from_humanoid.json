@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "evilcraft:flesh_humanoid",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 375
+  "input_item": {
+    "item": "evilcraft:flesh_humanoid"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 375
+  },
+  "output_item": {
     "item": "minecraft:leather"
   },
   "duration": 200,

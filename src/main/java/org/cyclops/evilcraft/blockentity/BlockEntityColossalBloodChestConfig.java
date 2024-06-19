@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfig;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -21,8 +21,9 @@ public class BlockEntityColossalBloodChestConfig extends BlockEntityConfig<Block
                 EvilCraft._instance,
                 "colossal_blood_chest",
                 (eConfig) -> new BlockEntityType<>(BlockEntityColossalBloodChest::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntityColossalBloodChest.CapabilityRegistrar(this::getInstance)::register);
     }
 
     @Override

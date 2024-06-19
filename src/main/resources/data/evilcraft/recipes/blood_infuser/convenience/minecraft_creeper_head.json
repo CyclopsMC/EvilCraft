@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:zombie_head",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 5000
+  "input_item": {
+    "item": "minecraft:zombie_head"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 5000
+  },
+  "output_item": {
     "item": "minecraft:creeper_head"
   },
   "duration": 1000,

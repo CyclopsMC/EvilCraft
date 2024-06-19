@@ -30,7 +30,7 @@ public class BloodFluidConverter extends ImplicitFluidConverter {
     }
 
     protected void resetTarget() {
-        setTarget(RegistryEntries.FLUID_BLOOD);
+        setTarget(RegistryEntries.FLUID_BLOOD.get());
     }
 
 }

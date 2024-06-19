@@ -1,11 +1,13 @@
 {
   "type": "evilcraft:blood_infuser",
-  "item": "minecraft:ghast_tear",
-  "fluid": {
-    "fluid": "evilcraft:blood",
-    "amount": 10000
+  "input_item": {
+    "item": "minecraft:ghast_tear"
   },
-  "result": {
+  "input_fluid": {
+    "FluidName": "evilcraft:blood",
+    "Amount": 10000
+  },
+  "output_item": {
     "item": "evilcraft:corrupted_tear"
   },
   "duration": 500,

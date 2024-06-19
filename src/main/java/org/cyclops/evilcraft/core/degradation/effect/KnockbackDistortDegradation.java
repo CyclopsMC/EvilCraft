@@ -41,7 +41,7 @@ public class KnockbackDistortDegradation implements IDegradationEffect {
         double y = center.getY();
         double z = center.getZ();
         for(Entity entity : entities) {
-            RegistryEntries.ITEM_MACE_OF_DISTORTION.distortEntity(
+            RegistryEntries.ITEM_MACE_OF_DISTORTION.get().distortEntity(
                     degradable.getDegradationWorld(),
                     null,
                     entity,

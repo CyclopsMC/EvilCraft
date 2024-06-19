@@ -2,10 +2,13 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -13,6 +16,7 @@ import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +50,7 @@ public class ItemPrimedPendantConfig extends ItemConfig {
 
                         .stacksTo(1))
         );
+        EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     public static double getMultiplier(MobEffect potion) {
@@ -57,7 +62,7 @@ public class ItemPrimedPendantConfig extends ItemConfig {
                 throw new IllegalArgumentException("Invalid line '" + line + "' found for "
                         + "a Primed Pendant potion multiplier config.");
             }
-            if (split[0].equals(ForgeRegistries.MOB_EFFECTS.getKey(potion).toString())) {
+            if (split[0].equals(BuiltInRegistries.MOB_EFFECT.getKey(potion).toString())) {
                 try {
                     double multiplier = 1.0D;
                     try {
@@ -79,6 +84,19 @@ public class ItemPrimedPendantConfig extends ItemConfig {
 
     @Override
     protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+        // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
+        return Collections.emptyList();
+    }
+
+    protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab() || event.getTabKey().equals(CreativeModeTabs.SEARCH)) {
+            for (ItemStack itemStack : dynamicCreativeTabEntries()) {
+                event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+        }
+    }
+
+    protected Collection<ItemStack> dynamicCreativeTabEntries() {
         return ((ItemPrimedPendant) getInstance()).getDefaultCreativeTabEntries();
     }
 

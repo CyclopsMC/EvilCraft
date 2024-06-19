@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -23,6 +24,11 @@ public class ItemExaltedCrafterConfig extends ItemConfig {
 
                         .stacksTo(1), wooden, empowered)
         );
+        EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
+    }
+
+    protected void registerCapability(RegisterCapabilitiesEvent event) {
+        event.registerItem(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.ITEM, (stack, context) -> new ItemExaltedCrafter.ItemHandler(stack), getInstance());
     }
 
 }

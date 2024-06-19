@@ -19,16 +19,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestLidController;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.cyclops.cyclopscore.block.multi.AllowedBlock;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
@@ -63,6 +58,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 /**
@@ -156,13 +152,13 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
      */
     public BlockEntityColossalBloodChest(BlockPos blockPos, BlockState blockState) {
         super(
-                RegistryEntries.BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST,
+                RegistryEntries.BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST.get(),
                 blockPos,
                 blockState,
                 SLOTS,
                 64,
                 LIQUID_PER_SLOT,
-                RegistryEntries.FLUID_BLOOD);
+                RegistryEntries.FLUID_BLOOD.get());
         for(int i = 0; i < SLOTS_CHEST; i++) {
             addTicker(
                     new TickComponent<
@@ -211,25 +207,30 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
         if (detector == null) {
             detector = new HollowCubeDetector(
                     new AllowedBlock[]{
-                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS),
-                            new AllowedBlock(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST).addCountValidator(new ExactBlockCountValidator(1))
+                            new AllowedBlock(RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS.get()),
+                            new AllowedBlock(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST.get()).addCountValidator(new ExactBlockCountValidator(1))
                     },
-                    Lists.newArrayList(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST, RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS)
+                    Lists.newArrayList(RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST.get(), RegistryEntries.BLOCK_REINFORCED_UNDEAD_PLANKS.get())
             ).addSizeValidator(exactSizeValidator);
         }
         return detector;
     }
 
-    @Override
-    protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerChest = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), IntStream.range(0, SLOTS_CHEST).toArray()));
-        LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_CONTAINER));
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerChest);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerChest);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.NORTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.SOUTH, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.WEST, itemHandlerContainer);
-        addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.EAST, itemHandlerContainer);
+    public static class CapabilityRegistrar extends BlockEntityWorking.CapabilityRegistrar<BlockEntityColossalBloodChest, MutableFloat> {
+        public CapabilityRegistrar(Supplier<BlockEntityType<? extends BlockEntityColossalBloodChest>> blockEntityType) {
+            super(blockEntityType);
+        }
+
+        @Override
+        public void registerTankInventoryCapabilitiesItem() {
+            add(
+                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
+                            blockEntity.getInventory(),
+                            (direction == Direction.UP || direction == Direction.DOWN) ? IntStream.range(0, SLOTS_CHEST).toArray() : new int[]{SLOT_CONTAINER}
+                    )
+            );
+        }
     }
 
     protected void resetSlotHistory() {
@@ -331,7 +332,7 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
             @Override
             public boolean canPlaceItem(int slot, ItemStack itemStack) {
                 if(slot == SLOT_CONTAINER)
-                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD);
+                    return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD.get());
                 else if(slot <= SLOTS_CHEST && slot >= 0)
                     return SlotRepairable.checkIsItemValid(itemStack);
                 return super.canPlaceItem(slot, itemStack);
@@ -384,12 +385,6 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     @Override
     public float getOpenNess(float value) {
         return this.chestLidController.getOpenness(value);
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public AABB getRenderBoundingBox() {
-        return new AABB(getBlockPos().subtract(new Vec3i(3, 3, 3)), getBlockPos().offset(3, 6, 3));
     }
 
     public void setCenter(BlockPos center) {
@@ -451,7 +446,7 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
 
         @Override
         protected Block getBlock() {
-            return RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST;
+            return RegistryEntries.BLOCK_COLOSSAL_BLOOD_CHEST.get();
         }
     }
 

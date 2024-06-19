@@ -181,9 +181,11 @@ public final class BroomParts {
     public static void loadPost() {
         for (IBroomPart part : REGISTRY.getParts()) {
             if (part.shouldAutoRegisterMissingItem() && REGISTRY.getItemsFromPart(part).isEmpty()) {
-                ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BROOM_PART);
-                REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
-                REGISTRY.registerPartItem(part, itemStack);
+                REGISTRY.registerPartItem(part, () -> {
+                    ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BROOM_PART);
+                    REGISTRY.setBroomParts(itemStack, Collections.singleton(part));
+                    return itemStack;
+                });
             }
         }
 

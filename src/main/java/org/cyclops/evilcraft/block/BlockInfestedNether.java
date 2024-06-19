@@ -54,11 +54,11 @@ public class BlockInfestedNether extends Block {
     public static Block wrapBlock(Type type) {
         switch (type) {
             case NETHERRACK:
-                return RegistryEntries.BLOCK_INFESTED_NETHER_NETHERRACK;
+                return RegistryEntries.BLOCK_INFESTED_NETHER_NETHERRACK.get();
             case NETHER_BRICKS:
-                return RegistryEntries.BLOCK_INFESTED_NETHER_NETHER_BRICK;
+                return RegistryEntries.BLOCK_INFESTED_NETHER_NETHER_BRICK.get();
             case SOUL_SAND:
-                return RegistryEntries.BLOCK_INFESTED_NETHER_SOUL_SAND;
+                return RegistryEntries.BLOCK_INFESTED_NETHER_SOUL_SAND.get();
         }
         return null;
     }

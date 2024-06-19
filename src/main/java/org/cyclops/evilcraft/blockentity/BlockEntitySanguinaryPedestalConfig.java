@@ -18,8 +18,9 @@ public class BlockEntitySanguinaryPedestalConfig extends BlockEntityConfig<Block
                 EvilCraft._instance,
                 "sanguinary_pedestal",
                 (eConfig) -> new BlockEntityType<>(BlockEntitySanguinaryPedestal::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_SANGUINARY_PEDESTAL_0, RegistryEntries.BLOCK_SANGUINARY_PEDESTAL_1), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_SANGUINARY_PEDESTAL_0.get(), RegistryEntries.BLOCK_SANGUINARY_PEDESTAL_1.get()), null)
         );
+        EvilCraft._instance.getModEventBus().addListener(new BlockEntitySanguinaryPedestal.CapabilityRegistrar(this::getInstance)::register);
     }
 
 }

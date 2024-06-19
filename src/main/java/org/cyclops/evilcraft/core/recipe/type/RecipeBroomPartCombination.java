@@ -6,14 +6,13 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
+import net.neoforged.neoforge.common.CommonHooks;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -35,8 +34,8 @@ import java.util.Set;
  */
 public class RecipeBroomPartCombination extends CustomRecipe {
 
-    public RecipeBroomPartCombination(ResourceLocation id, CraftingBookCategory category) {
-        super(id, category);
+    public RecipeBroomPartCombination(CraftingBookCategory category) {
+        super(category);
     }
 
     @Override
@@ -58,15 +57,15 @@ public class RecipeBroomPartCombination extends CustomRecipe {
         NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            aitemstack.set(i, net.minecraftforge.common.ForgeHooks.getCraftingRemainingItem(itemstack));
+            aitemstack.set(i, CommonHooks.getCraftingRemainingItem(itemstack));
         }
 
         Pair<ItemStack, List<ItemStack>> result = getResult(inventory);
         if(result != null) {
             List<ItemStack> extraOutputs = result.getRight();
             for (ItemStack extraOutput : extraOutputs) {
-                InventoryHelpers.tryReAddToStack(ForgeHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput,
-                        ForgeHooks.getCraftingPlayer().getUsedItemHand());
+                InventoryHelpers.tryReAddToStack(CommonHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput,
+                        CommonHooks.getCraftingPlayer().getUsedItemHand());
             }
         }
 
@@ -192,7 +191,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return RegistryEntries.RECIPESERIALIZER_BROOM_PART_COMBINATION;
+        return RegistryEntries.RECIPESERIALIZER_BROOM_PART_COMBINATION.get();
     }
 
     private boolean areValidBroomParts(Collection<IBroomPart> parts) {
