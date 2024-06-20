@@ -17,7 +17,7 @@
       "trigger": "cyclopscore:item_crafted",
       "conditions": {
         "item": {
-          "item": "evilcraft:exalted_crafter"
+          "items": ["evilcraft:exalted_crafter"]
         }
       }
     }

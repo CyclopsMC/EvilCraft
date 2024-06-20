@@ -16,7 +16,7 @@
       "trigger": "cyclopscore:item_crafted",
       "conditions": {
         "item": {
-          "item": "evilcraft:spirit_furnace"
+          "items": ["evilcraft:spirit_furnace"]
         }
       }
     }

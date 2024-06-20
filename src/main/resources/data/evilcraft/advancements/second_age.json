@@ -16,7 +16,7 @@
       "trigger": "cyclopscore:item_crafted",
       "conditions": {
         "item": {
-          "item": "evilcraft:blood_extractor"
+          "items": ["evilcraft:blood_extractor"]
         }
       }
     }
