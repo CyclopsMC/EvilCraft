@@ -5,7 +5,7 @@ import org.cyclops.evilcraft.core.config.configurabletypeaction.DegradationEffec
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 
 /**
- * The different types of {@link net.neoforged.neoforge.forgespi.language.IConfigurable}.
+ * The different types of configurable.
  * @author rubensworks
  *
  */
