@@ -9,12 +9,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
@@ -49,13 +49,14 @@ public class ItemBiomeExtractConfig extends ItemConfig {
                 eConfig -> new ItemBiomeExtract(new Item.Properties()
                         )
         );
-        EvilCraft._instance.getModEventBus().register(this);
+        if (MinecraftHelpers.isClientSide()) {
+            EvilCraft._instance.getModEventBus().addListener(this::onRegisterColors);
+        }
         EvilCraft._instance.getModEventBus().addListener(this::onCreativeModeTabBuildContents);
     }
 
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void onModLoaded(RegisterColorHandlersEvent.Item event) {
+    public void onRegisterColors(RegisterColorHandlersEvent.Item event) {
         event.register(new ItemBiomeExtract.ItemColor(), getInstance());
     }
 

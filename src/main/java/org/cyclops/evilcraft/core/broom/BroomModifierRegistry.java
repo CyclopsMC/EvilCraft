@@ -9,10 +9,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -50,7 +47,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     public BroomModifierRegistry() {
         EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, this::beforeItemsRegistered);
-        NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.addListener(this::onTooltipEvent);
     }
 
     @Override
@@ -182,8 +179,6 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
         BroomParts.REGISTRY.setBroomParts(broomStack, parts);
     }
 
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     public void onTooltipEvent(ItemTooltipEvent event) {
         if (ItemBroomConfig.broomModifierTooltips) {
             Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.getItemStack());

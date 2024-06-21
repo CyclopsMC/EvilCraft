@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -53,7 +52,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     public BroomPartRegistry() {
         EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, this::beforeItemsRegistered);
-        NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.addListener(this::onTooltipEvent);
         if(MinecraftHelpers.isClientSide()) {
             partModels = Maps.newHashMap();
         }
@@ -200,8 +199,6 @@ public class BroomPartRegistry implements IBroomPartRegistry {
         broomStack.getTag().put(NBT_TAG_NAME, list);
     }
 
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
     public void onTooltipEvent(ItemTooltipEvent event) {
         if (ItemBroomConfig.broomPartTooltips) {
             IBroomPart part = getPartFromItem(event.getItemStack());

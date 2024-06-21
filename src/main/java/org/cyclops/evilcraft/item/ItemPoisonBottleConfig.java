@@ -5,7 +5,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -14,6 +13,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -32,13 +32,14 @@ public class ItemPoisonBottleConfig extends ItemConfig {
 
                         .stacksTo(1))
         );
-        EvilCraft._instance.getModEventBus().register(this);
+        if (MinecraftHelpers.isClientSide()) {
+            EvilCraft._instance.getModEventBus().addListener(this::registerColors);
+        }
         EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
     }
 
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void onModLoaded(RegisterColorHandlersEvent.Item event) {
+    public void registerColors(RegisterColorHandlersEvent.Item event) {
         event.register(new ItemPoisonBottle.ItemColor(), getInstance());
     }
 

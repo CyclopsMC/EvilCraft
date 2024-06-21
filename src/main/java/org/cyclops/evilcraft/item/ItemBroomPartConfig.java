@@ -5,9 +5,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
@@ -26,12 +26,13 @@ public class ItemBroomPartConfig extends ItemConfig {
                 eConfig -> new ItemBroomPart(new Item.Properties()
                         )
         );
-        EvilCraft._instance.getModEventBus().register(this);
+        if (MinecraftHelpers.isClientSide()) {
+            EvilCraft._instance.getModEventBus().addListener(this::registerColors);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
-    @SubscribeEvent
-    public void onModLoaded(RegisterColorHandlersEvent.Item event) {
+    public void registerColors(RegisterColorHandlersEvent.Item event) {
         event.register(new ItemBroomPart.ItemColor(), getInstance());
     }
 
