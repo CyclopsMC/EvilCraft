@@ -227,7 +227,7 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
                     net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
                     (blockEntity, direction) -> new ItemHandlerSlotMasked(
                             blockEntity.getInventory(),
-                            (direction == Direction.UP || direction == Direction.DOWN) ? IntStream.range(0, SLOTS_CHEST).toArray() : new int[]{SLOT_CONTAINER}
+                            direction == Direction.DOWN ? new int[]{SLOTS_CHEST} : IntStream.range(0, SLOTS_CHEST + 1).toArray()
                     )
             );
         }

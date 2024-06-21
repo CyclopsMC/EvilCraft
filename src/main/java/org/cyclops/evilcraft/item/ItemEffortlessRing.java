@@ -1,12 +1,15 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
@@ -20,10 +23,9 @@ import org.cyclops.evilcraft.Reference;
 public class ItemEffortlessRing extends Item {
 
     private static final int TICK_MODULUS = 1;
-    private static final String PLAYER_NBT_KEY = Reference.MOD_ID + ":" + "lastStepSize";
 
     private static final float SPEED_BONUS = 0.05F;
-    private static final float STEP_SIZE = 1F;
+    private static final AttributeModifier STEP_SIZE_MODIFIER = new AttributeModifier(Reference.MOD_ID + ":stepHeightModifier", 1, AttributeModifier.Operation.ADDITION);
     private static final float JUMP_DISTANCE_FACTOR = 0.05F;
     private static final float JUMP_HEIGHT_FACTOR = 0.3F;
     private static final float FALLDISTANCE_REDUCTION = 2F;
@@ -47,10 +49,10 @@ public class ItemEffortlessRing extends Item {
         }
 
         // Step height
-        if(!player.getPersistentData().contains(PLAYER_NBT_KEY)) {
-            player.getPersistentData().putFloat(PLAYER_NBT_KEY, player.maxUpStep());
+        AttributeInstance attribute = player.getAttribute(NeoForgeMod.STEP_HEIGHT.value());
+        if (attribute != null && !attribute.hasModifier(STEP_SIZE_MODIFIER)) {
+            attribute.addTransientModifier(STEP_SIZE_MODIFIER);
         }
-        player.setMaxUpStep(player.isCrouching() ? 0.5F : STEP_SIZE);
 
         // Jump distance
         // Not possible anymore due to hardcoded value in LivingEntity#getFrictionInfluencedSpeed
@@ -72,10 +74,10 @@ public class ItemEffortlessRing extends Item {
         // Reset the step height.
         if(event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
-            if(player.getPersistentData().contains(PLAYER_NBT_KEY)) {
+            AttributeInstance attribute = player.getAttribute(NeoForgeMod.STEP_HEIGHT.value());
+            if (attribute != null && attribute.hasModifier(STEP_SIZE_MODIFIER)) {
                 if (!ItemStackHelpers.hasPlayerItem(player, this)) {
-                    player.setMaxUpStep(player.getPersistentData().getFloat(PLAYER_NBT_KEY));
-                    player.getPersistentData().remove(PLAYER_NBT_KEY);
+                    attribute.removeModifier(STEP_SIZE_MODIFIER.getId());
                 }
             }
         }

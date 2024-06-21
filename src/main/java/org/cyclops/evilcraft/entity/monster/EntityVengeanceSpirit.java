@@ -668,7 +668,11 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     @Override
     public SoundEvent getDeathSound() {
         if(getInnerEntity() != null) {
-            return getInnerEntity().getDeathSound();
+            try {
+                return getInnerEntity().getDeathSound();
+            } catch (RuntimeException e) {
+                // Catch crashes
+            }
         }
         return RegistryEntries.SOUNDEVENT_MOB_VENGEANCESPIRIT_DEATH.get();
     }
@@ -677,7 +681,11 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     public SoundEvent getAmbientSound() {
         LivingEntity entity = getInnerEntity();
         if(entity != null) {
-            return getInnerEntity().getAmbientSound();
+            try {
+                return getInnerEntity().getAmbientSound();
+            } catch (RuntimeException e) {
+                // Catch crashes
+            }
         }
         return RegistryEntries.SOUNDEVENT_MOB_VENGEANCESPIRIT_AMBIENT.get();
     }
