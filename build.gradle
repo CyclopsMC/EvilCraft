@@ -242,10 +242,9 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     def projectId = "74610" // my project url is http://minecraft.curseforge.com/mc-mods/74610/
 
     def mainFile = upload(projectId, shadowJar)
+	mainFile.releaseType = 'release'
 	mainFile.changelogType = "text"
-    if (new File("resources/changelog/${project.version}.txt").exists()) {
-        mainFile.changelog = file("resources/changelog/${project.version}.txt")
-    }
+	mainFile.changelog = file("resources/changelog/${project.minecraft_version}-${project.version}.txt")
 	mainFile.addGameVersion(project.minecraft_version)
 	mainFile.addModLoader("NeoForge")
 	
@@ -265,10 +264,10 @@ modrinth {
     versionType = project.release_type
     uploadFile = shadowJar
     gameVersions = [ project.minecraft_version ]
-    changelog = ""
-    if (new File("resources/changelog/${project.version}.txt").exists()) {
-        changelog = new File("resources/changelog/${project.version}.txt").text
-    }
+	changelog = ""
+	if (new File("resources/changelog/${project.version}.txt").exists()) {
+	  changelog = new File("resources/changelog/${project.version}.txt").text
+	}
     dependencies { // A special DSL for creating dependencies
       required.project "Z9DM0LJ4" // Cyclops Core
     }
