@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.19.0 or higher.
+
+Changes:
+* Remove unsupported compats from infobook, Closes CyclopsMC/EvilCraft#1028
+
