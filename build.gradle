@@ -214,7 +214,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set(''); // Replace the default JAR
-    append 'META-INF/mods.toml'
+    append 'META-INF/neoforge.mods.toml'
 }
 assemble.dependsOn shadowJar
 jar {
