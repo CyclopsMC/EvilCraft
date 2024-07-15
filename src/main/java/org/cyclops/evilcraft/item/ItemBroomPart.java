@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
@@ -31,15 +30,6 @@ public class ItemBroomPart extends Item {
             return part.getTranslationKey();
         }
         return super.getDescriptionId(itemStack);
-    }
-
-    @Override
-    public Rarity getRarity(ItemStack stack) {
-        IBroomPart part = getPart(stack);
-        if(part != null) {
-            return part.getRarity();
-        }
-        return super.getRarity(stack);
     }
 
     @Override

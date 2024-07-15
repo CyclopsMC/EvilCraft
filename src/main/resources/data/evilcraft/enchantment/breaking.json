@@ -1,0 +1,23 @@
+{
+  "anvil_cost": 100,
+  "description": {
+    "translate": "enchantment.evilcraft.breaking"
+  },
+  "effects": {
+    "evilcraft:amplify_damage": 2
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 2
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 8
+  },
+  "slots": [
+    "any"
+  ],
+  "supported_items": "#minecraft:enchantable/durability",
+  "weight": 1
+}

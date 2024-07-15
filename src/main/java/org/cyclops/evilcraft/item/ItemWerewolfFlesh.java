@@ -3,8 +3,7 @@ package org.cyclops.evilcraft.item;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -18,8 +17,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -49,8 +48,8 @@ public class ItemWerewolfFlesh extends Item {
         super(properties
                 .food((new FoodProperties.Builder())
                         .nutrition(0)
-                        .saturationMod(0)
-                        .alwaysEat()
+                        .saturationModifier(0)
+                        .alwaysEdible()
                         .build()));
         this.humanoid = humanoid;
         if (this.humanoid) {
@@ -77,12 +76,6 @@ public class ItemWerewolfFlesh extends Item {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public Rarity getRarity(ItemStack itemStack){
-        return isHumanFlesh(itemStack) ? Rarity.RARE : Rarity.EPIC;
-    }
-
-    @Override
     public boolean isFoil(ItemStack itemStack){
         return isPower(null);
     }
@@ -104,8 +97,9 @@ public class ItemWerewolfFlesh extends Item {
     }
 
     private boolean isOwnCanibal(ItemStack itemStack, Player player) {
-        if(itemStack.hasTag()) {
-            GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
+        ResolvableProfile resolvableProfile = itemStack.get(DataComponents.PROFILE);
+        if(resolvableProfile != null) {
+            GameProfile profile = resolvableProfile.gameProfile();
             return player.getGameProfile().equals(profile);
         }
         return false;
@@ -128,8 +122,8 @@ public class ItemWerewolfFlesh extends Item {
                 world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundSource.HOSTILE, 0.5F,
                         world.random.nextFloat() * 0.1F + 0.9F);
             } else if (isPower(world)) {
-                int foodLevel = getFoodProperties().getNutrition();
-                float saturationLevel = getFoodProperties().getSaturationModifier();
+                int foodLevel = getFoodProperties(itemStack, entity).nutrition();
+                float saturationLevel = getFoodProperties(itemStack, entity).saturation();
                 player.getFoodData().eat(foodLevel, saturationLevel);
                 player.getFoodData().addExhaustion(20);
                 if (!world.isClientSide()) {
@@ -159,12 +153,13 @@ public class ItemWerewolfFlesh extends Item {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
         if(isHumanFlesh(itemStack)) {
             String player = ChatFormatting.ITALIC + "None";
-            if(itemStack.hasTag()) {
-                GameProfile profile = NbtUtils.readGameProfile(itemStack.getTag());
+            ResolvableProfile resolvableProfile = itemStack.get(DataComponents.PROFILE);
+            if(resolvableProfile != null) {
+                GameProfile profile = resolvableProfile.gameProfile();
                 if (profile != null && !profile.getProperties().isEmpty()) {
                     player = profile.getName();
                 }
@@ -180,7 +175,7 @@ public class ItemWerewolfFlesh extends Item {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
             if (((ItemWerewolfFlesh) itemStack.getItem()).isHumanFlesh(itemStack)) {
-                return Helpers.RGBToInt(255, 200, 180);
+                return Helpers.RGBAToInt(255, 200, 180, 255);
             }
             return -1;
         }
@@ -192,8 +187,7 @@ public class ItemWerewolfFlesh extends Item {
                 && event.getEntity().level().random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
             ServerPlayer player = (ServerPlayer) event.getEntity();
             ItemStack itemStack = new ItemStack(this);
-            CompoundTag tag = itemStack.getOrCreateTag();
-            NbtUtils.writeGameProfile(tag, player.getGameProfile());
+            itemStack.set(DataComponents.PROFILE, new ResolvableProfile(player.getGameProfile()));
             double x = player.getX();
             double y = player.getY();
             double z = player.getZ();

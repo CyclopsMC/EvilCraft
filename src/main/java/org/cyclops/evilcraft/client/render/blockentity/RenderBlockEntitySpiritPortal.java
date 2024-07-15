@@ -27,7 +27,7 @@ import java.util.Random;
  */
 public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockEntitySpiritPortal> {
 
-    private static final ResourceLocation PORTALBASE = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portal_bases.png");
+    private static final ResourceLocation PORTALBASE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portal_bases.png");
 
     public RenderBlockEntitySpiritPortal(BlockEntityRendererProvider.Context context) {
 
@@ -35,7 +35,7 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
 
     @Override
     public AABB getRenderBoundingBox(BlockEntitySpiritPortal blockEntity) {
-        return INFINITE_EXTENT_AABB;
+        return AABB.INFINITE;
     }
 
     @Override
@@ -79,11 +79,11 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
             VertexConsumer vb = bufferIn.getBuffer(RenderType.lightning());
             Matrix4f matrix = matrixStackIn.last().pose();
-            vb.vertex(matrix, 0, 0, 0).color(171, 97, 210, (int)(MAX_OPACITY * (1.0F - f2))).endVertex();
-            vb.vertex(matrix, -0.866F * f4, f3, (-0.5F * f4)).color(175, 100, 215, 0).endVertex();
-            vb.vertex(matrix, 0.866F * f4, f3, (-0.5F * f4)).color(175, 100, 215, 0).endVertex();
-            vb.vertex(matrix, 0.0F, f3, (1.0F * f4)).color(175, 100, 215, 0).endVertex();
-            vb.vertex(matrix, -0.866F * f4, f3, (-0.5F * f4)).color(175, 100, 215, 0).endVertex();
+            vb.addVertex(matrix, 0, 0, 0).setColor(171, 97, 210, (int)(MAX_OPACITY * (1.0F - f2)));
+            vb.addVertex(matrix, -0.866F * f4, f3, (-0.5F * f4)).setColor(175, 100, 215, 0);
+            vb.addVertex(matrix, 0.866F * f4, f3, (-0.5F * f4)).setColor(175, 100, 215, 0);
+            vb.addVertex(matrix, 0.0F, f3, (1.0F * f4)).setColor(175, 100, 215, 0);
+            vb.addVertex(matrix, -0.866F * f4, f3, (-0.5F * f4)).setColor(175, 100, 215, 0);
         }
     }
 
@@ -116,10 +116,10 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
         int k = 150;
         VertexConsumer vb = bufferIn.getBuffer(RenderType.text(PORTALBASE));
         Matrix4f matrix = matrixStackIn.last().pose();
-        vb.vertex(matrix, 0, 1, 0).color(0.72F, 0.5f, 0.23F, 0.9F).uv(u1, v2).uv2(j, k).endVertex();
-        vb.vertex(matrix, 0, 0, 0).color(0.72F, 0.5f, 0.83F, 0.9F).uv(u1, v1).uv2(j, k).endVertex();
-        vb.vertex(matrix, 1, 0, 0).color(0.72F, 0.5f, 0.83F, 0.9F).uv(u2, v1).uv2(j, k).endVertex();
-        vb.vertex(matrix, 1, 1, 0).color(0.72F, 0.5f, 0.83F, 0.9F).uv(u2, v2).uv2(j, k).endVertex();
+        vb.addVertex(matrix, 0, 1, 0).setColor(0.72F, 0.5f, 0.23F, 0.9F).setUv(u1, v2).setUv2(j, k);
+        vb.addVertex(matrix, 0, 0, 0).setColor(0.72F, 0.5f, 0.83F, 0.9F).setUv(u1, v1).setUv2(j, k);
+        vb.addVertex(matrix, 1, 0, 0).setColor(0.72F, 0.5f, 0.83F, 0.9F).setUv(u2, v1).setUv2(j, k);
+        vb.addVertex(matrix, 1, 1, 0).setColor(0.72F, 0.5f, 0.83F, 0.9F).setUv(u2, v2).setUv2(j, k);
 
         matrixStackIn.popPose();
     }

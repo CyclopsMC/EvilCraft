@@ -9,8 +9,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -31,7 +31,7 @@ public class RenderOverlayEventHook {
 
     private static final int WIDTH = 5;
     private static final int HEIGHT = 51;
-    protected static final ResourceLocation BLOOD_OVERLAY = new ResourceLocation(Reference.MOD_ID, "textures/gui/overlay.png");
+    protected static final ResourceLocation BLOOD_OVERLAY = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/overlay.png");
 
     private int filledHeight = -1;
 
@@ -63,7 +63,7 @@ public class RenderOverlayEventHook {
             if (filledHeight > 0) {
                 RenderOverlayEventHook.OverlayPosition overlayPosition = RenderOverlayEventHook.OverlayPosition.values()[
                         Mth.clamp(GeneralConfig.bloodGuiOverlayPosition, 0, RenderOverlayEventHook.OverlayPosition.values().length - 1)];
-                Window resolution = event.getWindow();
+                Window resolution = Minecraft.getInstance().getWindow();
                 int x = overlayPosition.getX(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetX;
                 int y = overlayPosition.getY(resolution, WIDTH, HEIGHT) + GeneralConfig.bloodGuiOverlayPositionOffsetY;
 

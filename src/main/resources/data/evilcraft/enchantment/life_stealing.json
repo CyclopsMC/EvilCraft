@@ -1,0 +1,32 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.evilcraft.life_stealing"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "attacker",
+        "effect": {
+          "type": "evilcraft:heal_from_damage",
+          "damage_multiplier": 0.1
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 15
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 15,
+    "per_level_above_first": 15
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#minecraft:enchantable/weapon",
+  "weight": 3
+}

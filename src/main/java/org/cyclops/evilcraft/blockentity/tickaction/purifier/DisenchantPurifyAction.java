@@ -1,7 +1,9 @@
 package org.cyclops.evilcraft.blockentity.tickaction.purifier;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -9,14 +11,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
-import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
-
-import java.util.Map;
 
 /**
  * Purifier action to remove enchantments from tools.
@@ -55,7 +55,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
     public boolean canWork(BlockEntityPurifier tile) {
         if(tile.getBucketsFloored() == tile.getMaxBuckets() && !tile.getPurifyItem().isEmpty() &&
                 !tile.getAdditionalItem().isEmpty() && tile.getAdditionalItem().getItem() == ALLOWED_BOOK.get()) {
-            return isAllowed(tile.getPurifyItem()) && !EnchantmentHelper.getEnchantments(tile.getPurifyItem()).isEmpty();
+            return isAllowed(tile.getPurifyItem()) && tile.getPurifyItem().get(DataComponents.ENCHANTMENTS) != null;
         }
         return false;
     }
@@ -69,11 +69,11 @@ public class DisenchantPurifyAction implements IPurifierAction {
         int tick = tile.getTick();
 
         // Try disenchanting.
-        Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(purifyItem);
-        if (!enchantments.isEmpty()) {
+        ItemEnchantments enchantments = purifyItem.get(DataComponents.ENCHANTMENTS);
+        if (enchantments != null) {
             if (tick >= PURIFY_DURATION) {
                 if (!world.isClientSide()) {
-                    Enchantment enchantment = getRandomEnchantment(world, enchantments);
+                    Holder<Enchantment> enchantment = getRandomEnchantment(world, enchantments);
                     setResultingEnchantmentBook(tile, enchantments, enchantment);
                     removePriorWorkPenalty(enchantments, purifyItem);
                     purifyItem = setRemainingEnchantmentsOnPurifiedItem(enchantments, enchantment, purifyItem);
@@ -90,35 +90,32 @@ public class DisenchantPurifyAction implements IPurifierAction {
         return done;
     }
 
-    private Enchantment getRandomEnchantment(Level world, Map<Enchantment, Integer> enchantments) {
+    private Holder<Enchantment> getRandomEnchantment(Level world, ItemEnchantments enchantments) {
         int enchantmentIndex = world.random.nextInt(enchantments.size());
         return Lists.newArrayList(enchantments.keySet()).get(enchantmentIndex);
     }
 
-    private void setResultingEnchantmentBook(BlockEntityPurifier tile, Map<Enchantment, Integer> enchantments, Enchantment enchantment) {
+    private void setResultingEnchantmentBook(BlockEntityPurifier tile, ItemEnchantments enchantments, Holder<Enchantment> enchantment) {
         tile.setAdditionalItem(EnchantedBookItem.createForEnchantment(
-                new EnchantmentInstance(enchantment, enchantments.get(enchantment))));
+                new EnchantmentInstance(enchantment, enchantments.getLevel(enchantment))));
     }
 
-    private void removePriorWorkPenalty(Map<Enchantment, Integer> enchantments, ItemStack purifyItem) {
-        int penalty = purifyItem.getBaseRepairCost();
+    private void removePriorWorkPenalty(ItemEnchantments enchantments, ItemStack purifyItem) {
+        int penalty = purifyItem.getOrDefault(DataComponents.REPAIR_COST, 0);
         int remainingPenalty = penalty -  penalty / enchantments.size();
-        purifyItem.setRepairCost(remainingPenalty);
+        purifyItem.set(DataComponents.REPAIR_COST, remainingPenalty);
     }
 
-    private ItemStack setRemainingEnchantmentsOnPurifiedItem(Map<Enchantment, Integer> enchantments, Enchantment enchantment, ItemStack purifyItem) {
-        Map<Enchantment, Integer> remainingEnchantments = Maps.newHashMap(enchantments);
-        remainingEnchantments.remove(enchantment);
+    private ItemStack setRemainingEnchantmentsOnPurifiedItem(ItemEnchantments enchantments, Holder<Enchantment> enchantment, ItemStack purifyItem) {
+        ItemEnchantments.Mutable enchantmentsMutable = new ItemEnchantments.Mutable(enchantments);
+        enchantmentsMutable.set(enchantment, 0);
 
         // Hardcoded conversion to a regular book when enchantment list of enchanted book is empty.
-        if (remainingEnchantments.isEmpty() && purifyItem.getItem() == Items.ENCHANTED_BOOK) {
+        if (enchantmentsMutable.keySet().isEmpty() && purifyItem.getItem() == Items.ENCHANTED_BOOK) {
             purifyItem = new ItemStack(Items.BOOK);
         }
 
-        if (purifyItem.hasTag() && purifyItem.getTag().contains("StoredEnchantments")) {
-            purifyItem.getTag().remove("StoredEnchantments");
-        }
-        EnchantmentHelper.setEnchantments(remainingEnchantments, purifyItem);
+        EnchantmentHelper.setEnchantments(purifyItem, enchantmentsMutable.toImmutable());
         return purifyItem;
     }
 }

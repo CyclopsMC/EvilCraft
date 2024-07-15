@@ -6,7 +6,6 @@ import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.Entity;
 
 import java.util.List;
@@ -20,9 +19,9 @@ public class DistortTrigger extends SimpleCriterionTrigger<DistortTrigger.Instan
 
     public static final Codec<DistortTrigger.Instance> CODEC = RecordCodecBuilder.create(
             p_311401_ -> p_311401_.group(
-                            ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(DistortTrigger.Instance::player),
-                            ExtraCodecs.strictOptionalField(Codec.INT, "min_entities").forGetter(DistortTrigger.Instance::minEntities),
-                            ExtraCodecs.strictOptionalField(EntityPredicate.CODEC, "entity").forGetter(DistortTrigger.Instance::entityPredicate)
+                            EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(DistortTrigger.Instance::player),
+                            Codec.INT.optionalFieldOf("min_entities").forGetter(DistortTrigger.Instance::minEntities),
+                            EntityPredicate.CODEC.optionalFieldOf("entity").forGetter(DistortTrigger.Instance::entityPredicate)
                     )
                     .apply(p_311401_, DistortTrigger.Instance::new)
     );

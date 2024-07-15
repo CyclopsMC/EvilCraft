@@ -1,0 +1,40 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.evilcraft.poison_tip"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "minecraft:apply_mob_effect",
+          "max_amplifier": 1.0,
+          "max_duration": {
+            "type": "minecraft:linear",
+            "base": 40,
+            "per_level_above_first": 20
+          },
+          "min_amplifier": 1.0,
+          "min_duration": 1,
+          "to_apply": "minecraft:poison"
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 0
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 10,
+    "per_level_above_first": 0
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#minecraft:enchantable/bow",
+  "weight": 5
+}

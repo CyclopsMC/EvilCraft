@@ -21,7 +21,7 @@ public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlled
 
     public RenderControlledZombie(EntityControlledZombieConfig config, EntityRendererProvider.Context renderContext) {
         super(renderContext, new Model(renderContext), 0.5F);
-        this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
+        this.texture = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
 
     @Override

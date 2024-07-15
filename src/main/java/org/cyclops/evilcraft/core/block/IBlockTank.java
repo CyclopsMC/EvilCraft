@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.block;
 
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -29,10 +30,11 @@ public interface IBlockTank {
     public ItemStack toggleActivation(ItemStack itemStack, Level world, Player player);
     /**
      * If the given item is activated.
+     *
      * @param itemStack The item.
-     * @param world The world.
+     * @param context   The world.
      * @return If it is activated.
      */
-    public boolean isActivated(ItemStack itemStack, Level world);
+    public boolean isActivated(ItemStack itemStack, Item.TooltipContext context);
 
 }

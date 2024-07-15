@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "minecraft:wool"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "evilcraft:broom_part",
+      "components": {
+        "evilcraft:broom_parts": [
+          "evilcraft:brush_bare"
+        ]
+      }
+    },
+    {
+      "tag": "minecraft:wool"
+    }
+  ],
+  "result": {
+    "id": "evilcraft:broom_part",
+    "components": {
+      "evilcraft:broom_parts": [
+        "evilcraft:brush_wool"
+      ]
+    }
+  }
+}

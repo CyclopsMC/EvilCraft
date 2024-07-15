@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
 import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.core.helper.ItemHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.List;
 
@@ -18,15 +18,13 @@ import java.util.List;
  */
 public class ItemPowerableHelpers {
 
-    private static final String NBT_KEY_POWER = "power";
-
     /**
      * Get the power level of the given ItemStack.
      * @param itemStack The item to check.
      * @return The power this Mace currently has.
      */
     public static int getPower(ItemStack itemStack) {
-        return ItemHelpers.getNBTInt(itemStack, NBT_KEY_POWER);
+        return itemStack.getOrDefault(RegistryEntries.COMPONENT_POWER, 0);
     }
 
     /**
@@ -35,7 +33,7 @@ public class ItemPowerableHelpers {
      * @param power The new power level.
      */
     public static void setPower(ItemStack itemStack, int power) {
-        ItemHelpers.setNBTInt(itemStack, power, NBT_KEY_POWER);
+        itemStack.set(RegistryEntries.COMPONENT_POWER, power);
     }
 
     /**

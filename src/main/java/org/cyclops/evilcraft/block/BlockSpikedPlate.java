@@ -5,11 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BasePressurePlateBlock;
@@ -26,7 +23,6 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryPedestal;
 import org.cyclops.evilcraft.core.config.configurable.BlockPressurePlate;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -104,11 +100,6 @@ public class BlockSpikedPlate extends BlockPressurePlate {
 
     protected BlockState setSignalForState(BlockState blockState, int meta) {
         return blockState.setValue(POWERED, meta > 0);
-    }
-
-    @Override
-    public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos, SpawnPlacements.Type type, @Nullable EntityType<?> entityType) {
-        return true;
     }
 
 }

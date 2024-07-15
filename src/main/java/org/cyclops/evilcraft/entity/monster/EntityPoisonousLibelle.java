@@ -12,17 +12,15 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.FlyingMob;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.living.MobSpawnEvent;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.List;
@@ -84,11 +82,10 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void checkLibelleSpawn(MobSpawnEvent.FinalizeSpawn event) {
+    public static void checkLibelleSpawn(FinalizeSpawnEvent event) {
         if(event.getEntity() instanceof EntityPoisonousLibelle) {
             if(event.getEntity().getY() < EntityPoisonousLibelleConfig.minY) {
                 event.setSpawnCancelled(true);
-                event.setResult(Event.Result.DENY);
             }
         }
     }
@@ -111,11 +108,6 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
     @Override
     protected float getSoundVolume() {
         return 0.2F;
-    }
-
-    @Override
-    public MobType getMobType() {
-        return MobType.ARTHROPOD;
     }
 
     @Override

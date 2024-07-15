@@ -1,43 +1,30 @@
 package org.cyclops.evilcraft.client.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.RegistryEntries;
-
-import java.util.Locale;
 
 /**
  * @author rubensworks
  */
 public class ParticleBlurTargettedEntityData extends ParticleBlurData {
 
-    public static final Deserializer<ParticleBlurTargettedEntityData> DESERIALIZER = new Deserializer<ParticleBlurTargettedEntityData>() {
-        public ParticleBlurTargettedEntityData fromCommand(ParticleType<ParticleBlurTargettedEntityData> particleType, StringReader reader) throws CommandSyntaxException {
-            reader.expect(' ');
-            float red = (float)reader.readDouble();
-            reader.expect(' ');
-            float green = (float)reader.readDouble();
-            reader.expect(' ');
-            float blue = (float)reader.readDouble();
-            reader.expect(' ');
-            float scale = (float)reader.readDouble();
-            reader.expect(' ');
-            float ageMultiplier = (float)reader.readDouble();
-            reader.expect(' ');
-            int entityId = reader.readInt();
-            return new ParticleBlurTargettedEntityData(red, green, blue, scale, ageMultiplier, entityId);
-        }
-
-        public ParticleBlurTargettedEntityData fromNetwork(ParticleType<ParticleBlurTargettedEntityData> particleTypeIn, FriendlyByteBuf buffer) {
-            return new ParticleBlurTargettedEntityData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readInt());
-        }
-    };
-    public static final Codec<ParticleBlurTargettedEntityData> CODEC = RecordCodecBuilder.create((builder) -> builder
+    public static final StreamCodec<RegistryFriendlyByteBuf, ParticleBlurTargettedEntityData> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedEntityData::getRed,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedEntityData::getGreen,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedEntityData::getBlue,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedEntityData::getScale,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedEntityData::getAgeMultiplier,
+            ByteBufCodecs.INT, ParticleBlurTargettedEntityData::getEntityId,
+            ParticleBlurTargettedEntityData::new
+    );
+    public static final MapCodec<ParticleBlurTargettedEntityData> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder
             .group(
                     Codec.FLOAT.fieldOf("r").forGetter(ParticleBlurTargettedEntityData::getRed),
                     Codec.FLOAT.fieldOf("g").forGetter(ParticleBlurTargettedEntityData::getGreen),
@@ -62,18 +49,5 @@ public class ParticleBlurTargettedEntityData extends ParticleBlurData {
     @Override
     public ParticleType<?> getType() {
         return RegistryEntries.PARTICLE_BLUR_TARGETTED_ENTITY.get();
-    }
-
-    @Override
-    public void writeToNetwork(FriendlyByteBuf buffer) {
-        super.writeToNetwork(buffer);
-        buffer.writeInt(entityId);
-    }
-
-    @Override
-    public String writeToString() {
-        return String.format(Locale.ROOT, "%s %s",
-                super.writeToString(),
-                this.entityId);
     }
 }

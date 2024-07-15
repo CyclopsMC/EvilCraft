@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,7 +39,6 @@ import org.cyclops.evilcraft.client.particle.ParticleColoredSmokeData;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
-import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Map;
@@ -137,8 +137,8 @@ public class EntityBroom extends Entity {
         broomHoverTickOffset = random.nextInt((int)Math.PI);
     }
 
-    protected Vector3f getPassengerAttachmentPoint(Entity p_294756_, EntityDimensions p_295396_, float p_296362_) {
-        return new Vector3f(0.0F, 0.0F, 0.0F);
+    protected Vec3 getPassengerAttachmentPoint(Entity p_294756_, EntityDimensions p_295396_, float p_296362_) {
+        return new Vec3(0.0F, 0.0F, 0.0F);
     }
 
     @Override
@@ -538,8 +538,8 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    protected void defineSynchedData() {
-        entityData.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BROOM));
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BROOM));
     }
 
     @Override
@@ -600,8 +600,7 @@ public class EntityBroom extends Entity {
     @Override
     public CompoundTag saveWithoutId(CompoundTag tag) {
         tag = super.saveWithoutId(tag);
-        CompoundTag broomItemTag = new CompoundTag();
-        getBroomStack().save(broomItemTag);
+        Tag broomItemTag = getBroomStack().save(registryAccess());
         tag.put("broomItem", broomItemTag);
         return tag;
     }
@@ -609,7 +608,7 @@ public class EntityBroom extends Entity {
     @Override
     public void load(CompoundTag tagCompound) {
         super.load(tagCompound);
-        ItemStack broomStack = ItemStack.of(tagCompound.getCompound("broomItem"));
+        ItemStack broomStack = ItemStack.parseOptional(registryAccess(), tagCompound.getCompound("broomItem"));
         if (!broomStack.isEmpty()) {
             setBroomStack(broomStack);
         }

@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "id": "evilcraft:spirit_furnace"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.spirit_cooker"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.spirit_cooker.desc"
+    }
+  },
+  "parent": "evilcraft:second_age",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "cyclopscore:item_crafted",
+      "conditions": {
+        "item": {
+          "items": ["evilcraft:spirit_furnace"]
+        }
+      }
+    }
+  }
+}

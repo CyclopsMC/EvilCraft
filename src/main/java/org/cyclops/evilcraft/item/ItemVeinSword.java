@@ -1,10 +1,14 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.enchantment.Enchantments;
-import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 /**
  * A strong pickaxe that may call up spirits.
@@ -19,7 +23,7 @@ public class ItemVeinSword extends SwordItem {
     public static final int LOOTING_LEVEL = 2;
 
     public ItemVeinSword(Properties properties) {
-        super(Tiers.GOLD, 3, -2.4F, properties);
+        super(Tiers.GOLD, properties);
     }
 
     @Override
@@ -27,9 +31,11 @@ public class ItemVeinSword extends SwordItem {
         return ItemVeinSwordConfig.durability;
     }
 
-    public ItemStack getEnchantedItemStack() {
+    public ItemStack getEnchantedItemStack(HolderLookup.Provider holders) {
         ItemStack sword = new ItemStack(this);
-        EnchantmentHelpers.setEnchantmentLevel(sword, Enchantments.MOB_LOOTING, LOOTING_LEVEL);
+        ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        enchantments.set(holders.holderOrThrow(ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.parse("minecraft:looting"))), LOOTING_LEVEL);
+        EnchantmentHelper.setEnchantments(sword, enchantments.toImmutable());
         return sword;
     }
 

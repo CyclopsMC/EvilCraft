@@ -53,7 +53,7 @@ public class ItemPoisonBottle extends Item {
     public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
-            return renderPass == 0 ? Helpers.RGBToInt(77, 117, 15) : -1;
+            return renderPass == 0 ? Helpers.RGBAToInt(77, 117, 15, 255) : -1;
         }
     }
 

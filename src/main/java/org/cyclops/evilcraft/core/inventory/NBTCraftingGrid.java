@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.core.inventory;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import net.minecraft.world.item.component.ItemContainerContents;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
 
 /**
@@ -14,8 +14,6 @@ import org.cyclops.cyclopscore.inventory.ItemLocation;
  *
  */
 public class NBTCraftingGrid extends TransientCraftingContainer {
-
-    private static final String NBT_TAG_ROOT = "CraftingGridInventory";
 
     protected Player player;
     protected ItemLocation itemLocation;
@@ -28,10 +26,16 @@ public class NBTCraftingGrid extends TransientCraftingContainer {
      */
     public NBTCraftingGrid(Player player, ItemLocation itemLocation, AbstractContainerMenu eventHandler) {
         super(eventHandler, 3, 3);
-        ItemStack itemStack = itemLocation.getItemStack(player);
         this.player = player;
         this.itemLocation = itemLocation;
-        InventoryHelpers.validateNBTStorage(this, itemStack, NBT_TAG_ROOT);
+
+        ItemStack itemStack = itemLocation.getItemStack(player);
+        ItemContainerContents contents = itemStack.get(DataComponents.CONTAINER);
+        if (contents != null) {
+            for (int i = 0; i < contents.getSlots(); i++) {
+                setItem(i, contents.getStackInSlot(i));
+            }
+        }
     }
 
     /**
@@ -39,20 +43,7 @@ public class NBTCraftingGrid extends TransientCraftingContainer {
      */
     public void save() {
         ItemStack itemStack = itemLocation.getItemStack(player);
-        CompoundTag tag = itemStack.getTag();
-        if(tag == null) {
-            tag = new CompoundTag();
-        }
-        writeToNBT(tag, NBT_TAG_ROOT);
-        itemStack.setTag(tag);
-    }
-
-    protected void readFromNBT(CompoundTag data, String tagName) {
-        InventoryHelpers.readFromNBT(this, data, tagName);
-    }
-
-    protected void writeToNBT(CompoundTag data, String tagName) {
-        InventoryHelpers.writeToNBT(this, data, tagName);
+        itemStack.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(this.getItems()));
     }
 
 }

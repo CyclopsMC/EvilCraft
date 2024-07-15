@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -21,7 +23,7 @@ public class ItemExaltedCrafterConfig extends ItemConfig {
                 EvilCraft._instance,
                 "exalted_crafter" + (wooden ? "_wooden" : "") + (empowered ? "_empowered" : ""),
                 eConfig -> new ItemExaltedCrafter(new Item.Properties()
-
+                        .component(DataComponents.RARITY, empowered ? Rarity.UNCOMMON : Rarity.COMMON)
                         .stacksTo(1), wooden, empowered)
         );
         EvilCraft._instance.getModEventBus().addListener(this::registerCapability);

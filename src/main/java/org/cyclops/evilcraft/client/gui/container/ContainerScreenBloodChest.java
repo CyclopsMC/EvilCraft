@@ -39,7 +39,7 @@ public class ContainerScreenBloodChest extends ContainerScreenContainerTankInven
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_chest_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_chest_gui.png");
     }
 
     @Override

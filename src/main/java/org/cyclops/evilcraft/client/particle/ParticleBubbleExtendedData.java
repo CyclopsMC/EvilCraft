@@ -1,34 +1,25 @@
 package org.cyclops.evilcraft.client.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import org.cyclops.evilcraft.RegistryEntries;
-
-import java.util.Locale;
 
 /**
  * @author rubensworks
  */
 public class ParticleBubbleExtendedData implements ParticleOptions {
 
-    public static final ParticleOptions.Deserializer<ParticleBubbleExtendedData> DESERIALIZER = new ParticleOptions.Deserializer<ParticleBubbleExtendedData>() {
-        public ParticleBubbleExtendedData fromCommand(ParticleType<ParticleBubbleExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
-            reader.expect(' ');
-            float gravity = (float) reader.readDouble();
-            return new ParticleBubbleExtendedData(gravity);
-        }
-
-        public ParticleBubbleExtendedData fromNetwork(ParticleType<ParticleBubbleExtendedData> particleTypeIn, FriendlyByteBuf buffer) {
-            return new ParticleBubbleExtendedData(buffer.readFloat());
-        }
-    };
-    public static final Codec<ParticleBubbleExtendedData> CODEC = RecordCodecBuilder.create((builder) -> builder
+    public static final StreamCodec<RegistryFriendlyByteBuf, ParticleBubbleExtendedData> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT, ParticleBubbleExtendedData::getGravity,
+            ParticleBubbleExtendedData::new
+    );
+    public static final MapCodec<ParticleBubbleExtendedData> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder
             .group(
                     Codec.FLOAT.fieldOf("gravity").forGetter(ParticleBubbleExtendedData::getGravity)
             )
@@ -47,17 +38,5 @@ public class ParticleBubbleExtendedData implements ParticleOptions {
     @Override
     public ParticleType<?> getType() {
         return RegistryEntries.PARTICLE_BUBBLE_EXTENDED.get();
-    }
-
-    @Override
-    public void writeToNetwork(FriendlyByteBuf buffer) {
-        buffer.writeFloat(gravity);
-    }
-
-    @Override
-    public String writeToString() {
-        return String.format(Locale.ROOT, "%s %.2f",
-                BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                this.gravity);
     }
 }

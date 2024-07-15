@@ -29,6 +29,6 @@ public class ItemBowlOfPromisesConfig extends ItemConfig {
 
     @OnlyIn(Dist.CLIENT)
     public void registerColors(RegisterColorHandlersEvent.Item event) {
-        event.register(new ItemBiomeExtract.ItemColor(), getInstance());
+        event.register(new ItemBowlOfPromises.ItemColor(), getInstance());
     }
 }

@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " IS",
+    "GOG",
+    "SD "
+  ],
+  "key": {
+    "I": {
+      "item": "evilcraft:blood_infusion_core"
+    },
+    "S": {
+      "item": "evilcraft:dark_stick"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "O": {
+      "item": "evilcraft:blood_orb_filled"
+    },
+    "D": {
+      "tag": "c:gems/diamond"
+    }
+  },
+  "result": {
+    "id": "evilcraft:kineticator"
+  }
+}

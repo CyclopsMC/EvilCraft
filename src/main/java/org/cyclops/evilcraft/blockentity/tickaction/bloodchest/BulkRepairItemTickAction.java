@@ -49,7 +49,7 @@ public class BulkRepairItemTickAction implements ITickAction<BlockEntityColossal
                         getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
-                    float simulateMultiplier = actions.repair(itemStack, tile.getLevel().random, actionID, false, true).getLeft();
+                    float simulateMultiplier = actions.repair(itemStack, tile.getLevel().random, actionID, false, true, tile.getLevel().registryAccess()).getLeft();
                     if(tile.getTank().getFluidAmount() >= getRequiredFluid(tile, simulateMultiplier, tick) * simulateMultiplier) {
                         // Make sure that increasing speed by upgrades does not increase efficiency any faster.
                         Boolean slotHistory = tile.getSlotTickHistory().get(slot);
@@ -57,7 +57,7 @@ public class BulkRepairItemTickAction implements ITickAction<BlockEntityColossal
                             tile.setEfficiency(Math.min(tile.getEfficiency() + 1, BlockEntityColossalBloodChest.MAX_EFFICIENCY));
                             tile.getSlotTickHistory().put(slot, true);
                         }
-                        Pair<Float, ItemStack> repairResult = actions.repair(itemStack, tile.getLevel().random, actionID, true, true);
+                        Pair<Float, ItemStack> repairResult = actions.repair(itemStack, tile.getLevel().random, actionID, true, true, tile.getLevel().registryAccess());
                         itemStack = repairResult.getRight();
                         drainTank(tile, repairResult.getLeft(), tick);
                     }

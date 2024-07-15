@@ -15,7 +15,7 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
  */
 public class RenderBlockEntityBloodChest extends RenderBlockEntityChestBase<BlockEntityBloodChest> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "model/blood_chest");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "model/blood_chest");
 
     public RenderBlockEntityBloodChest(BlockEntityRendererProvider.Context p_i226008_1_) {
         super(p_i226008_1_);

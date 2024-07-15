@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CDC"
+  ],
+  "key": {
+    "C": {
+      "item": "evilcraft:dark_gem_crushed"
+    },
+    "D": {
+      "item": "evilcraft:dark_gem"
+    }
+  },
+  "result": {
+    "id": "evilcraft:broom_part",
+    "components": {
+      "evilcraft:broom_parts": [
+        "evilcraft:cap_bare"
+      ]
+    }
+  }
+}

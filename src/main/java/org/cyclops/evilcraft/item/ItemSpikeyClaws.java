@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ItemSpikeyClaws extends SwordItem {
 
     public ItemSpikeyClaws(Properties properties) {
-        super(Tiers.IRON, 3, -2.4F, properties);
+        super(Tiers.IRON, properties);
     }
 
     @Override

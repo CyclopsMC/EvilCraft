@@ -1,5 +1,5 @@
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.0.97'
+    id 'net.neoforged.gradle.userdev' version '7.0.145'
     id 'net.darkhax.curseforgegradle' version '1.0.8'
 	id 'com.github.kt3k.coveralls' version '2.10.2'
     id 'com.diffplug.spotless' version '5.14.3'
@@ -35,7 +35,7 @@ base {
 }
 
 // Set Java details
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 compileJava.options.compilerArgs << "-Xmaxerrs" << "9999"
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
@@ -89,21 +89,22 @@ dependencies {
     }
 
     // Add something like 'evilcraftcompat_version_local=0.1.0-DEV' to your secrets.properties if you want to use a custom local EvilCraft Compat version.
-    if(secrets.evilcraftcompat_version_local) {
-        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${secrets.evilcraftcompat_version_local}") {
-            transitive = false
-        }
-    } else {
-        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${project.evilcraftcompat_version}") {
-            transitive = false
-        }
-    }
+    // TODO
+//    if(secrets.evilcraftcompat_version_local) {
+//        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${secrets.evilcraftcompat_version_local}") {
+//            transitive = false
+//        }
+//    } else {
+//        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${project.evilcraftcompat_version}") {
+//            transitive = false
+//        }
+//    }
 
     // Project lombok
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
-	testCompileOnly 'org.projectlombok:lombok:1.18.22'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
+	testCompileOnly 'org.projectlombok:lombok:1.18.30'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 	
 	testImplementation "junit:junit:4.12"
 }
@@ -308,6 +309,8 @@ publishing {
 
 idea {
     module {
+        downloadSources = true
+        downloadJavadoc = true
         for (String excludeDirName in ["run", "out", "logs", "gradle"]) {
             File excludeDir = new File(projectDir, excludeDirName)
             excludeDirs.add(excludeDir)

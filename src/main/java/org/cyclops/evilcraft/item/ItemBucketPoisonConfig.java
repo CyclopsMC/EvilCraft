@@ -17,7 +17,7 @@ public class ItemBucketPoisonConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 "bucket_poison",
-                eConfig -> new BucketItem(() -> RegistryEntries.FLUID_POISON.get(), new Item.Properties()
+                eConfig -> new BucketItem(RegistryEntries.FLUID_POISON.get(), new Item.Properties()
                         .craftRemainder(Items.BUCKET)
                         .stacksTo(1)
                         )

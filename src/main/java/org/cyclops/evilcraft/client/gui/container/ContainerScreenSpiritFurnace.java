@@ -104,7 +104,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_furnace_gui.png");
     }
 
     private String prettyPrintSize(@Nullable Vec3i size) {

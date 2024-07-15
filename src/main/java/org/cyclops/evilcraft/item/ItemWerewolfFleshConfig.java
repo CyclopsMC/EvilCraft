@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -24,7 +25,7 @@ public class ItemWerewolfFleshConfig extends ItemConfig {
                 EvilCraft._instance,
                 humanoid ? "flesh_humanoid" : "flesh_werewolf",
                 eConfig -> new ItemWerewolfFlesh(new Item.Properties()
-
+                        .rarity(humanoid ? Rarity.RARE : Rarity.EPIC)
                         .stacksTo(16), humanoid)
         );
         if (MinecraftHelpers.isClientSide()) {

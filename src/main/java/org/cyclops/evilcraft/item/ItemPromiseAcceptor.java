@@ -40,9 +40,9 @@ public class ItemPromiseAcceptor extends Item {
     }
 
     public static enum Type {
-        IRON("iron", Helpers.RGBToInt(255, 255, 255)),
-        GOLD("gold", Helpers.RGBToInt(230, 230, 160)),
-        DIAMOND("diamond", Helpers.RGBToInt(150, 250, 200));
+        IRON("iron", Helpers.RGBAToInt(255, 255, 255, 255)),
+        GOLD("gold", Helpers.RGBAToInt(230, 230, 160, 255)),
+        DIAMOND("diamond", Helpers.RGBAToInt(150, 250, 200, 255));
 
         private final String name;
         private final int color;

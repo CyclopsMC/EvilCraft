@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.base.Predicate;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -21,7 +22,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.L10NHelpers;
@@ -75,8 +75,8 @@ public class ItemKineticator extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.attraction");
         list.add(Component.translatable(getDescriptionId() + ".info.area", getArea(itemStack))

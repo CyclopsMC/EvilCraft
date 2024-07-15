@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
@@ -66,7 +67,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     public List<BakedQuad> getGeneralQuads() {
         List<BakedQuad> combinedList = Lists.newArrayList();
         if(fluidStack != null && !fluidStack.isEmpty() && (BlockDarkTankConfig.staticBlockRendering || isItemStack())) {
-            boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.get().isActivated(itemStack, world);
+            boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.get().isActivated(itemStack, Item.TooltipContext.of(world));
             combinedList.addAll(getFluidQuads(fluidStack, capacity, flowing));
         }
         combinedList.addAll(baseModel.getQuads(blockState, getRenderingSide(), rand));

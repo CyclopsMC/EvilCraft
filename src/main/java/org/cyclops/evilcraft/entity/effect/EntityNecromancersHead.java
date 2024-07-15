@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.entity.effect;
 
 import com.google.common.collect.Lists;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -107,7 +108,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
 
     }
 

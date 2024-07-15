@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -72,7 +73,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
         return bonusFluidHandler;
     }
 
-    protected void afterBlockReplace(Level world, BlockPos location) {
+    protected void afterBlockReplace(ServerLevel world, BlockPos location) {
         // NOTE: this is only called server-side, so make sure to send packets where needed.
         EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(location.getX(), location.getY(), location.getZ()),
                 LocationHelpers.createTargetPointFromLocation(world, location, SanguinaryPedestalBlockReplacePacket.RANGE));
@@ -104,7 +105,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
                             .ifPresent((source) -> {
                                 FluidStack moved = FluidUtil.tryFluidTransfer(blockEntity.getBonusFluidHandler(), source, Integer.MAX_VALUE, true);
                                 if (!moved.isEmpty()) {
-                                    blockEntity.afterBlockReplace(level, location);
+                                    blockEntity.afterBlockReplace((ServerLevel) level, location);
                                 }
                             });
                 }
@@ -118,7 +119,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
                                     direction.getOpposite(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                             .ifPresent(handler -> {
                                 if(!blockEntity.getTank().isEmpty()) {
-                                    FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(), Math.min(MB_RATE, blockEntity.getTank().getFluidAmount()));
+                                    FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid().getFluid(), Math.min(MB_RATE, blockEntity.getTank().getFluidAmount()));
                                     if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
                                         int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
                                         blockEntity.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);

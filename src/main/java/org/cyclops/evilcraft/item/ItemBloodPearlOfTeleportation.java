@@ -8,7 +8,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
@@ -43,11 +42,6 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
             return MinecraftHelpers.successAction(itemStack);
         }
         return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, itemStack);
-    }
-
-    @Override
-    public Rarity getRarity(ItemStack itemStack) {
-        return Rarity.UNCOMMON;
     }
 
 }

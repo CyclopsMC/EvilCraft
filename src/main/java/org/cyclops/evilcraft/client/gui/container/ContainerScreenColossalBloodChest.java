@@ -94,7 +94,7 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "colossal_blood_chest_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "colossal_blood_chest_gui.png");
     }
 
     @Override

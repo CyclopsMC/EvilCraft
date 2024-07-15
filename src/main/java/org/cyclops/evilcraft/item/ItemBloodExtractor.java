@@ -78,8 +78,8 @@ public class ItemBloodExtractor extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.auto_supply");
     }

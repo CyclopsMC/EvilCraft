@@ -15,12 +15,12 @@ import net.neoforged.neoforge.common.util.FakePlayerFactory;
  */
 public class ExtendedDamageSources {
 
-    public static final ResourceKey<DamageType> DAMAGE_TYPE_BROOM = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Reference.MOD_ID, "broom"));
-    public static final ResourceKey<DamageType> DAMAGE_TYPE_DIE_WITHOUT_ANY_REASON = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Reference.MOD_ID, "die_without_any_reason"));
-    public static final ResourceKey<DamageType> DAMAGE_TYPE_DISTORTED = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Reference.MOD_ID, "distorted"));
-    public static final ResourceKey<DamageType> DAMAGE_TYPE_PALING = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Reference.MOD_ID, "paling"));
-    public static final ResourceKey<DamageType> DAMAGE_TYPE_SPIKED = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Reference.MOD_ID, "spiked"));
-    public static final ResourceKey<DamageType> DAMAGE_TYPE_VENGEANCE_BEAM = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Reference.MOD_ID, "vengeance_beam"));
+    public static final ResourceKey<DamageType> DAMAGE_TYPE_BROOM = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom"));
+    public static final ResourceKey<DamageType> DAMAGE_TYPE_DIE_WITHOUT_ANY_REASON = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "die_without_any_reason"));
+    public static final ResourceKey<DamageType> DAMAGE_TYPE_DISTORTED = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "distorted"));
+    public static final ResourceKey<DamageType> DAMAGE_TYPE_PALING = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "paling"));
+    public static final ResourceKey<DamageType> DAMAGE_TYPE_SPIKED = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "spiked"));
+    public static final ResourceKey<DamageType> DAMAGE_TYPE_VENGEANCE_BEAM = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "vengeance_beam"));
 
     public static DamageSource dieWithoutAnyReason(Level level) {
         return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_DIE_WITHOUT_ANY_REASON));

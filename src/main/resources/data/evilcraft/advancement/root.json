@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "id": "evilcraft:dark_gem"
+    },
+    "title": {
+      "translate": "itemGroup.evilcraft"
+    },
+    "description": {
+      "translate": "general.evilcraft.description"
+    },
+    "background": "evilcraft:textures/block/dark_blood_brick_off.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "criteria_0": {
+      "trigger": "cyclopscore:mod_item_obtained",
+      "conditions": {
+        "mod_id": "evilcraft"
+      }
+    }
+  }
+}

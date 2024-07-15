@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:stone"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "evilcraft:broom_part",
+      "components": {
+        "evilcraft:broom_parts": [
+          "evilcraft:rod_bare"
+        ]
+      }
+    },
+    {
+      "tag": "c:stone"
+    }
+  ],
+  "result": {
+    "id": "evilcraft:broom_part",
+    "components": {
+      "evilcraft:broom_parts": [
+        "evilcraft:rod_stone"
+      ]
+    }
+  }
+}

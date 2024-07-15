@@ -41,7 +41,7 @@ import org.joml.Matrix4f;
  */
 public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntityPurifier> {
 
-    public static final Material TEXTURE_BLOOK = new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(Reference.MOD_ID, "entity/blook"));
+    public static final Material TEXTURE_BLOOK = new Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entity/blook"));
     private final BookModel enchantmentBook;
 
     public RenderBlockEntityPurifier(BlockEntityRendererProvider.Context context) {
@@ -82,10 +82,10 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
 
             VertexConsumer vb = bufferIn.getBuffer(RenderType.text(icon.atlasLocation()));
             Matrix4f matrix = matrixStackIn.last().pose();
-            vb.vertex(matrix, 0.0625F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV1()).uv2(l2, i3).endVertex();
-            vb.vertex(matrix, 0.0625F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV0()).uv2(l2, i3).endVertex();
-            vb.vertex(matrix, 0.9375F, height, 0.9375F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV0()).uv2(l2, i3).endVertex();
-            vb.vertex(matrix, 0.9375F, height, 0.0625F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV1()).uv2(l2, i3).endVertex();
+            vb.addVertex(matrix, 0.0625F, height, 0.0625F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV1()).setUv2(l2, i3);
+            vb.addVertex(matrix, 0.0625F, height, 0.9375F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV0()).setUv2(l2, i3);
+            vb.addVertex(matrix, 0.9375F, height, 0.9375F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU1(), icon.getV0()).setUv2(l2, i3);
+            vb.addVertex(matrix, 0.9375F, height, 0.0625F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU1(), icon.getV1()).setUv2(l2, i3);
         });
     }
 
@@ -160,7 +160,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         this.enchantmentBook.setupAnim(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6);
         Material material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_LOCATION;
         VertexConsumer ivertexbuilder = material.buffer(bufferIn, RenderType::entitySolid);
-        this.enchantmentBook.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.enchantmentBook.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, Helpers.RGBToInt(256, 256, 256));
 
         matrixStackIn.popPose();
     }

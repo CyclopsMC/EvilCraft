@@ -7,14 +7,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -42,11 +39,11 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.data.ModelProperty;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
@@ -68,8 +65,6 @@ import java.util.Map;
 public class BlockDisplayStand extends BlockWithEntity {
 
     public static final MapCodec<BlockDisplayStand> CODEC = simpleCodec(BlockDisplayStand::new);
-
-    private static final String NBT_TYPE = "displayStandType";
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final BooleanProperty AXIS_X = BooleanProperty.create("axis_x");
@@ -198,25 +193,21 @@ public class BlockDisplayStand extends BlockWithEntity {
     }
 
     public ItemStack getTypedDisplayStandItem(BlockState blockState) {
-        Tag blockTag = BlockHelpers.serializeBlockState(blockState);
         ItemStack itemStack = new ItemStack(this);
-        CompoundTag tag = itemStack.getOrCreateTag();
-        tag.put(NBT_TYPE, blockTag);
+        itemStack.set(RegistryEntries.COMPONENT_DISPLAY_STAND_TYPE, blockState);
         return itemStack;
     }
 
     public ItemStack getDisplayStandType(ItemStack displayStandStack) {
-        CompoundTag tag = displayStandStack.getTag();
-        if (tag != null && tag.contains(NBT_TYPE)) {
-            BlockState blockState = BlockHelpers.deserializeBlockState(BlockHelpers.HOLDER_GETTER_FORGE, tag.getCompound(NBT_TYPE));
+        BlockState blockState = displayStandStack.get(RegistryEntries.COMPONENT_DISPLAY_STAND_TYPE);
+        if (blockState != null) {
             return BlockHelpers.getItemStackFromBlockState(blockState);
         }
         return null;
     }
 
     public static void setDisplayStandType(ItemStack displayStandStack, ItemStack type) {
-        CompoundTag tag = displayStandStack.getOrCreateTag();
-        tag.put(NBT_TYPE, BlockHelpers.serializeBlockState(BlockHelpers.getBlockStateFromItemStack(type)));
+        displayStandStack.set(RegistryEntries.COMPONENT_DISPLAY_STAND_TYPE, BlockHelpers.getBlockStateFromItemStack(type));
     }
 
     @SubscribeEvent
@@ -225,20 +216,20 @@ public class BlockDisplayStand extends BlockWithEntity {
         if (!event.getItemStack().isEmpty()
                 && event.getItemStack().getCapability(Capabilities.FluidHandler.ITEM) != null
                 && event.getLevel().getBlockState(event.getPos()).getBlock() == this) {
-            event.setUseBlock(Event.Result.ALLOW);
+            event.setUseBlock(TriState.TRUE);
         }
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult p_225533_6_) {
-        ItemStack itemStack = player.getItemInHand(hand);
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult p_225533_6_) {
+        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
         if (world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
             BlockEntityDisplayStand tile = BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class).orElse(null);
             if (tile != null) {
                 ItemStack tileStack = tile.getInventory().getItem(0);
-                if ((itemStack.isEmpty() || (ItemStack.isSameItemSameTags(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
+                if ((itemStack.isEmpty() || (ItemStack.isSameItemSameComponents(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
                     if(!itemStack.isEmpty()) {
                         tileStack.grow(itemStack.getCount());
                     }
@@ -260,8 +251,8 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
+        super.appendHoverText(stack, context, tooltip, flagIn);
         ItemStack blockType = getDisplayStandType(stack);
         if (blockType != null) {
             tooltip.add(((MutableComponent) blockType.getHoverName())

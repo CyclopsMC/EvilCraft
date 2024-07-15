@@ -11,12 +11,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.fml.DistExecutor;
 import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
 import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.render.entity.ModelPoisonousLibelle;
@@ -51,7 +51,9 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "poisonous_libelle_spawn_egg", Helpers.RGBToInt(57, 125, 27), Helpers.RGBToInt(196, 213, 57))
         );
         EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
-        DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
+        if (MinecraftHelpers.isClientSide()) {
+            ModelLoader.registerModel();
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -76,7 +78,7 @@ public class EntityPoisonousLibelleConfig extends EntityConfig<EntityPoisonousLi
 
     public static class ModelLoader {
         public static Object registerModel() {
-            MODEL = new ModelLayerLocation(new ResourceLocation(Reference.MOD_ID, "poisonous_libelle"), "main");
+            MODEL = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "poisonous_libelle"), "main");
             return null;
         }
     }

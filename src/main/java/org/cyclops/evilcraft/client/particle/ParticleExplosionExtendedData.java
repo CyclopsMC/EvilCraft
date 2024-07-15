@@ -1,40 +1,28 @@
 package org.cyclops.evilcraft.client.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import org.cyclops.evilcraft.RegistryEntries;
-
-import java.util.Locale;
 
 /**
  * @author rubensworks
  */
 public class ParticleExplosionExtendedData implements ParticleOptions {
 
-    public static final Deserializer<ParticleExplosionExtendedData> DESERIALIZER = new Deserializer<ParticleExplosionExtendedData>() {
-        public ParticleExplosionExtendedData fromCommand(ParticleType<ParticleExplosionExtendedData> particleType, StringReader reader) throws CommandSyntaxException {
-            reader.expect(' ');
-            float r = (float) reader.readDouble();
-            reader.expect(' ');
-            float g = (float) reader.readDouble();
-            reader.expect(' ');
-            float b = (float) reader.readDouble();
-            reader.expect(' ');
-            float alpha = (float) reader.readDouble();
-            return new ParticleExplosionExtendedData(r, g, b, alpha);
-        }
-
-        public ParticleExplosionExtendedData fromNetwork(ParticleType<ParticleExplosionExtendedData> particleTypeIn, FriendlyByteBuf buffer) {
-            return new ParticleExplosionExtendedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
-        }
-    };
-    public static final Codec<ParticleExplosionExtendedData> CODEC = RecordCodecBuilder.create((builder) -> builder
+    public static final StreamCodec<RegistryFriendlyByteBuf, ParticleExplosionExtendedData> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT, ParticleExplosionExtendedData::getR,
+            ByteBufCodecs.FLOAT, ParticleExplosionExtendedData::getG,
+            ByteBufCodecs.FLOAT, ParticleExplosionExtendedData::getB,
+            ByteBufCodecs.FLOAT, ParticleExplosionExtendedData::getAlpha,
+            ParticleExplosionExtendedData::new
+    );
+    public static final MapCodec<ParticleExplosionExtendedData> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder
             .group(
                     Codec.FLOAT.fieldOf("r").forGetter(ParticleExplosionExtendedData::getR),
                     Codec.FLOAT.fieldOf("g").forGetter(ParticleExplosionExtendedData::getG),
@@ -74,20 +62,5 @@ public class ParticleExplosionExtendedData implements ParticleOptions {
     @Override
     public ParticleType<?> getType() {
         return RegistryEntries.PARTICLE_EXPLOSION_EXTENDED.get();
-    }
-
-    @Override
-    public void writeToNetwork(FriendlyByteBuf buffer) {
-        buffer.writeFloat(r);
-        buffer.writeFloat(g);
-        buffer.writeFloat(b);
-        buffer.writeFloat(alpha);
-    }
-
-    @Override
-    public String writeToString() {
-        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f",
-                BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                this.r, this.g, this.b, this.alpha);
     }
 }

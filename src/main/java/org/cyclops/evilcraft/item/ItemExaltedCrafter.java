@@ -1,9 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -15,14 +13,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
+import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.container.NamedContainerProviderItem;
 import org.cyclops.cyclopscore.item.ItemGui;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -31,6 +26,7 @@ import org.cyclops.evilcraft.inventory.container.ContainerExaltedCrafter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 /**
  * A portable crafting table with a built-in ender chest.
@@ -38,9 +34,6 @@ import javax.annotation.Nullable;
  *
  */
 public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
-
-    private static final String NBT_RETURNTOINNER = "returnToInner";
-    private static final String NBT_INVENTORY = "inventory";
 
     private final boolean wooden;
     private final boolean empowered;
@@ -57,12 +50,6 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public Rarity getRarity(ItemStack itemStack){
-        return isEmpowered(itemStack) ? Rarity.UNCOMMON : super.getRarity(itemStack);
-    }
-
-    @Override
     public boolean isEmpowered(ItemStack itemStack) {
         return empowered;
     }
@@ -70,8 +57,8 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     @Override
     public ItemStack empower(ItemStack itemStack) {
         ItemStack newStack = new ItemStack(wooden ? RegistryEntries.ITEM_EXALTED_CRAFTER_WOODEN_EMPOWERED : RegistryEntries.ITEM_EXALTED_CRAFTER_EMPOWERED);
-        if (itemStack.hasTag()) {
-            newStack.setTag(itemStack.getTag().copy());
+        for (DataComponentType<?> componentType : itemStack.getComponents().keySet()) {
+            newStack.set((DataComponentType) componentType, itemStack.get(componentType));
         }
         return newStack;
     }
@@ -84,7 +71,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
      */
     public Container getSupplementaryInventory(Player player, ItemLocation itemLocation) {
         if(this.wooden) {
-            return new NBTSimpleInventoryItemHeld(player, itemLocation, 27, 64, ItemExaltedCrafter.NBT_INVENTORY);
+            return new NBTSimpleInventoryItemHeld(player, itemLocation, 27, 64, "default");
         }
         return player.getEnderChestInventory();
     }
@@ -100,16 +87,11 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
     }
 
     public static void setReturnToInner(ItemStack itemStack, boolean returnToInner) {
-        if(itemStack.hasTag()) {
-            itemStack.getTag().putBoolean(NBT_RETURNTOINNER, returnToInner);
-        }
+        itemStack.set(RegistryEntries.COMPONENT_EXALTED_CRAFTER_RETURN_TO_INNER, returnToInner);
     }
 
     public static boolean isReturnToInner(ItemStack itemStack) {
-        if(itemStack.hasTag()) {
-            return itemStack.getTag().getBoolean(NBT_RETURNTOINNER);
-        }
-        return false;
+        return itemStack.getOrDefault(RegistryEntries.COMPONENT_EXALTED_CRAFTER_RETURN_TO_INNER, false);
     }
 
     @Nullable
@@ -142,39 +124,19 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
         }
 
         protected NonNullList<ItemStack> getItemList() {
-            NonNullList<ItemStack> itemStacks = NonNullList.withSize(getSlots(), ItemStack.EMPTY);
-            CompoundTag rootTag = itemStack.getTag();
-            if (rootTag != null && rootTag.contains(ItemExaltedCrafter.NBT_INVENTORY, Tag.TAG_LIST)) {
-                ListTag nbttaglist = rootTag.getList(ItemExaltedCrafter.NBT_INVENTORY, Tag.TAG_COMPOUND);
-                for (int j = 0; j < nbttaglist.size(); ++j) {
-                    CompoundTag slot = nbttaglist.getCompound(j);
-                    int index;
-                    if (slot.contains("index")) {
-                        index = slot.getInt("index");
-                    } else {
-                        index = slot.getByte("Slot");
-                    }
-                    if (index >= 0 && index < getSlots()) {
-                        itemStacks.set(index, ItemStack.of(slot));
-                    }
-                }
+            SimpleInventory inventory = itemStack.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_INVENTORY);
+            if (inventory != null) {
+                return NonNullList.copyOf(Arrays.stream(inventory.getItemStacks()).toList());
             }
-            return itemStacks;
+            return NonNullList.withSize(getSlots(), ItemStack.EMPTY);
         }
 
         protected void setItemList(NonNullList<ItemStack> itemStacks) {
-            CompoundTag rootTag = itemStack.getOrCreateTag();
-            ListTag slots = new ListTag();
-            for (byte index = 0; index < getSlots(); ++index) {
-                ItemStack itemStack = itemStacks.get(index);
-                if (!itemStack.isEmpty() && itemStack.getCount() > 0) {
-                    CompoundTag slot = new CompoundTag();
-                    slots.add(slot);
-                    slot.putByte("Slot", index);
-                    itemStack.save(slot);
-                }
+            SimpleInventory inventory = new SimpleInventory(getSlots(), ItemStack.EMPTY.getMaxStackSize());
+            for (int i = 0; i < itemStacks.size(); i++) {
+                inventory.setItem(i, itemStacks.get(i));
             }
-            rootTag.put(ItemExaltedCrafter.NBT_INVENTORY, slots);
+            itemStack.set(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_INVENTORY, inventory);
         }
 
         @Override
@@ -205,7 +167,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
 
             int maxStackSize;
             if (!existingStack.isEmpty()) {
-                if (!ItemHandlerHelper.canItemStacksStack(stack, existingStack))
+                if (!ItemStack.isSameItemSameComponents(stack, existingStack))
                     return stack;
 
                 maxStackSize = Math.min(stack.getMaxStackSize(), getSlotLimit(slot)) - existingStack.getCount();

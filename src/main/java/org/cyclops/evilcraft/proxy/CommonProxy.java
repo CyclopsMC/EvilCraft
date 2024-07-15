@@ -31,11 +31,11 @@ public class CommonProxy extends CommonProxyComponent {
         super.registerPacketHandlers(packetHandler);
 
         // Register packets.
-        packetHandler.register(FartPacket.ID, FartPacket::new);
-        packetHandler.register(SanguinaryPedestalBlockReplacePacket.ID, SanguinaryPedestalBlockReplacePacket::new);
-        packetHandler.register(ExaltedCrafterOpenPacket.ID, ExaltedCrafterOpenPacket::new);
-        packetHandler.register(UpdateWorldSharedTankClientCachePacket.ID, UpdateWorldSharedTankClientCachePacket::new);
-        packetHandler.register(ResetChunkColorsPacket.ID, ResetChunkColorsPacket::new);
+        packetHandler.register(FartPacket.ID, FartPacket.CODEC);
+        packetHandler.register(SanguinaryPedestalBlockReplacePacket.ID, SanguinaryPedestalBlockReplacePacket.CODEC);
+        packetHandler.register(ExaltedCrafterOpenPacket.ID, ExaltedCrafterOpenPacket.CODEC);
+        packetHandler.register(UpdateWorldSharedTankClientCachePacket.ID, UpdateWorldSharedTankClientCachePacket.CODEC);
+        packetHandler.register(ResetChunkColorsPacket.ID, ResetChunkColorsPacket.CODEC);
 
         EvilCraft.clog("Registered packet handler.");
     }

@@ -154,7 +154,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
                     @Override
                     public Optional<RecipeEnvironmentalAccumulator> getNewValue(Triple<ItemStack, FluidStack, WeatherType> key) {
                         Inventory recipeInput = new Inventory(1, 64, BlockEntitySanguinaryEnvironmentalAccumulator.this);
-                        recipeInput.setItem(0, key.getLeft());
+                        recipeInput.setItem(0, key.getLeft());;
                         return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getLevel()).map(RecipeHolder::value);
                     }
 
@@ -162,7 +162,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
                     public boolean isKeyEqual(Triple<ItemStack, FluidStack, WeatherType> cacheKey, Triple<ItemStack, FluidStack, WeatherType> newKey) {
                         return cacheKey == null || newKey == null ||
                                 (ItemStack.matches(cacheKey.getLeft(), newKey.getLeft()) &&
-                                        FluidStack.areFluidStackTagsEqual(cacheKey.getMiddle(), newKey.getMiddle()) &&
+                                        FluidStack.isSameFluidSameComponents(cacheKey.getMiddle(), newKey.getMiddle()) &&
                                         cacheKey.getRight() == newKey.getRight());
                     }
                 });
@@ -371,6 +371,11 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         @Override
         public BlockPos getPos() {
             return tile.getBlockPos();
+        }
+
+        @Override
+        public int size() {
+            return getContainerSize();
         }
     }
 

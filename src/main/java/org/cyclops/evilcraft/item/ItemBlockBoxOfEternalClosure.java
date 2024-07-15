@@ -1,20 +1,21 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
@@ -25,10 +26,10 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
 
     @Override
     protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
-        if (tile instanceof BlockEntityBoxOfEternalClosure && itemStack.hasTag()) {
-            ((BlockEntityBoxOfEternalClosure) tile).setSpiritTag(itemStack.getTag().getCompound(BlockEntityBoxOfEternalClosure.NBTKEY_SPIRIT));
-            ((BlockEntityBoxOfEternalClosure) tile).setPlayerId(itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID));
-            ((BlockEntityBoxOfEternalClosure) tile).setPlayerName(itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME));
+        if (tile instanceof BlockEntityBoxOfEternalClosure) {
+            ((BlockEntityBoxOfEternalClosure) tile).setSpiritTag(itemStack.getOrDefault(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, new CompoundTag()));
+            ((BlockEntityBoxOfEternalClosure) tile).setPlayerId(itemStack.getOrDefault(RegistryEntries.COMPONENT_BOX_PLAYER_ID, ""));
+            ((BlockEntityBoxOfEternalClosure) tile).setPlayerName(itemStack.getOrDefault(RegistryEntries.COMPONENT_BOX_PLAYER_NAME, ""));
             ((BlockEntityBoxOfEternalClosure) tile).initializeState();
         }
         return true;
@@ -36,9 +37,9 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(getInfo(stack));
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, context, tooltip, flagIn);
     }
 
     @OnlyIn(Dist.CLIENT)

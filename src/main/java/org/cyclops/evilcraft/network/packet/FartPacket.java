@@ -1,5 +1,7 @@
 package org.cyclops.evilcraft.network.packet;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
@@ -28,9 +30,10 @@ import java.util.UUID;
  * @author immortaleeb
  *
  */
-public class FartPacket extends PlayerPositionPacket {
+public class FartPacket extends PlayerPositionPacket<FartPacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "fart");
+    public static final Type<FartPacket> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "fart"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, FartPacket> CODEC = getCodec(FartPacket::new);
 
     private static final int MAX_PARTICLES = 200;
     private static final int MIN_PARTICLES = 100;

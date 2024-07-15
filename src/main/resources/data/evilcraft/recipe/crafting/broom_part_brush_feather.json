@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "evilcraft:broom_part",
+      "components": {
+        "evilcraft:broom_parts": [
+          "evilcraft:brush_bare"
+        ]
+      }
+    },
+    {
+      "item": "minecraft:feather"
+    },
+    {
+      "item": "minecraft:feather"
+    }
+  ],
+  "result": {
+    "id": "evilcraft:broom_part",
+    "components": {
+      "evilcraft:broom_parts": [
+        "evilcraft:brush_feather"
+      ]
+    }
+  }
+}

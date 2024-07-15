@@ -1,17 +1,15 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
-import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
@@ -60,12 +58,12 @@ public class ItemBiomeExtractConfig extends ItemConfig {
         event.register(new ItemBiomeExtract.ItemColor(), getInstance());
     }
 
-    public static boolean isCraftingBlacklisted(Registry<Biome> biomeRegistry, Biome biome) {
-        return craftingBlacklist.contains(biomeRegistry.getKey(biome).toString());
+    public static boolean isCraftingBlacklisted(Holder<Biome> biome) {
+        return craftingBlacklist.contains(biome.getRegisteredName());
     }
 
-    public static boolean isUsageBlacklisted(Registry<Biome> biomeRegistry, Biome biome) {
-        return usageBlacklist.contains(biomeRegistry.getKey(biome).toString());
+    public static boolean isUsageBlacklisted(Holder<Biome> biome) {
+        return usageBlacklist.contains(biome.getRegisteredName());
     }
 
     @Override
@@ -80,10 +78,9 @@ public class ItemBiomeExtractConfig extends ItemConfig {
             list.add(new ItemStack(getInstance()));
             if (creativeTabVariants) {
                 try {
-                    Registry<Biome> registry = ServerLifecycleHooks.getCurrentServer().getLevel(Level.OVERWORLD).registryAccess().registryOrThrow(Registries.BIOME);
-                    for (Biome biome : ((ItemBiomeExtract) getInstance()).getBiomes()) {
-                        list.add(((ItemBiomeExtract) getInstance()).createItemStack(registry::getKey, biome, 1));
-                    }
+                    ((ItemBiomeExtract) getInstance()).getBiomes(event.getParameters().holders()).forEach(biome -> {
+                        list.add(((ItemBiomeExtract) getInstance()).createItemStack(biome, 1, event.getParameters().holders().lookupOrThrow(Registries.BIOME)));
+                    });
                 } catch (RuntimeException e) {
                     // Ignore errors
                 }

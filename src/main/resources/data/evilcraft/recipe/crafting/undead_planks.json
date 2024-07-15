@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "evilcraft:undead_logs"
+    }
+  ],
+  "result": {
+    "id": "evilcraft:undead_planks",
+    "count": 4
+  }
+}

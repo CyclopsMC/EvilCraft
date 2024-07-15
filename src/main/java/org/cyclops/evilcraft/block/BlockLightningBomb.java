@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -108,15 +109,16 @@ public class BlockLightningBomb extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult p_225533_6_) {
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
+        InteractionHand hand = player.getUsedItemHand();
         if (!player.getItemInHand(hand).isEmpty() &&
                 (player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL || player.getItemInHand(hand).getItem() == Items.FIRE_CHARGE)) {
             this.primeBomb(world, blockPos, defaultBlockState().setValue(PRIMED, true), player);
             world.removeBlock(blockPos, false);
-            player.getItemInHand(hand).hurtAndBreak(1, player, (e) -> {});
+            player.getItemInHand(hand).hurtAndBreak(1, (ServerLevel) world, player, (e) -> {});
             return InteractionResult.SUCCESS;
         } else {
-            return super.use(state, world, blockPos, player, hand, p_225533_6_);
+            return super.useWithoutItem(state, world, blockPos, player, p_225533_6_);
         }
     }
 

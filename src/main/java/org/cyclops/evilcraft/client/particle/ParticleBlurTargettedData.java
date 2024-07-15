@@ -1,47 +1,35 @@
 package org.cyclops.evilcraft.client.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.datafixers.util.Function8;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import java.util.Locale;
+import java.util.function.Function;
 
 /**
  * @author rubensworks
  */
 public class ParticleBlurTargettedData extends ParticleBlurData {
 
-    public static final Deserializer<ParticleBlurTargettedData> DESERIALIZER = new Deserializer<ParticleBlurTargettedData>() {
-        public ParticleBlurTargettedData fromCommand(ParticleType<ParticleBlurTargettedData> particleType, StringReader reader) throws CommandSyntaxException {
-            reader.expect(' ');
-            float red = (float)reader.readDouble();
-            reader.expect(' ');
-            float green = (float)reader.readDouble();
-            reader.expect(' ');
-            float blue = (float)reader.readDouble();
-            reader.expect(' ');
-            float scale = (float)reader.readDouble();
-            reader.expect(' ');
-            float ageMultiplier = (float)reader.readDouble();
-            reader.expect(' ');
-            float targetX = (float) reader.readDouble();
-            reader.expect(' ');
-            float targetY = (float) reader.readDouble();
-            reader.expect(' ');
-            float targetZ = (float) reader.readDouble();
-            return new ParticleBlurTargettedData(red, green, blue, scale, ageMultiplier, targetX, targetY, targetZ);
-        }
-
-        public ParticleBlurTargettedData fromNetwork(ParticleType<ParticleBlurTargettedData> particleTypeIn, FriendlyByteBuf buffer) {
-            return new ParticleBlurTargettedData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
-        }
-    };
-    public static final Codec<ParticleBlurTargettedData> CODEC = RecordCodecBuilder.create((builder) -> builder
+    public static final StreamCodec<RegistryFriendlyByteBuf, ParticleBlurTargettedData> STREAM_CODEC = composite(
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getRed,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getGreen,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getBlue,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getScale,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getAgeMultiplier,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getTargetX,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getTargetY,
+            ByteBufCodecs.FLOAT, ParticleBlurTargettedData::getTargetZ,
+            ParticleBlurTargettedData::new
+    );
+    public static final MapCodec<ParticleBlurTargettedData> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder
             .group(
                     Codec.FLOAT.fieldOf("r").forGetter(ParticleBlurTargettedData::getRed),
                     Codec.FLOAT.fieldOf("g").forGetter(ParticleBlurTargettedData::getGreen),
@@ -82,18 +70,49 @@ public class ParticleBlurTargettedData extends ParticleBlurData {
         return RegistryEntries.PARTICLE_BLUR_TARGETTED.get();
     }
 
-    @Override
-    public void writeToNetwork(FriendlyByteBuf buffer) {
-        super.writeToNetwork(buffer);
-        buffer.writeFloat(targetX);
-        buffer.writeFloat(targetY);
-        buffer.writeFloat(targetZ);
-    }
+    public static <B, C, T1, T2, T3, T4, T5, T6, T7, T8> StreamCodec<B, C> composite(
+            final StreamCodec<? super B, T1> codec1,
+            final Function<C, T1> getter1,
+            final StreamCodec<? super B, T2> codec2,
+            final Function<C, T2> getter2,
+            final StreamCodec<? super B, T3> codec3,
+            final Function<C, T3> getter3,
+            final StreamCodec<? super B, T4> codec4,
+            final Function<C, T4> getter4,
+            final StreamCodec<? super B, T5> codec5,
+            final Function<C, T5> getter5,
+            final StreamCodec<? super B, T6> codec6,
+            final Function<C, T6> getter6,
+            final StreamCodec<? super B, T7> codec7,
+            final Function<C, T7> getter7,
+            final StreamCodec<? super B, T8> codec8,
+            final Function<C, T8> getter8,
+            final Function8<T1, T2, T3, T4, T5, T6, T7, T8, C> p_331335_) {
+        return new StreamCodec<>() {
+            @Override
+            public C decode(B p_330310_) {
+                T1 t1 = codec1.decode(p_330310_);
+                T2 t2 = codec2.decode(p_330310_);
+                T3 t3 = codec3.decode(p_330310_);
+                T4 t4 = codec4.decode(p_330310_);
+                T5 t5 = codec5.decode(p_330310_);
+                T6 t6 = codec6.decode(p_330310_);
+                T7 t7 = codec7.decode(p_330310_);
+                T8 t8 = codec8.decode(p_330310_);
+                return p_331335_.apply(t1, t2, t3, t4, t5, t6, t7, t8);
+            }
 
-    @Override
-    public String writeToString() {
-        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f",
-                super.writeToString(),
-                this.targetX, this.targetY, this.targetZ);
+            @Override
+            public void encode(B p_332052_, C p_331912_) {
+                codec1.encode(p_332052_, getter1.apply(p_331912_));
+                codec2.encode(p_332052_, getter2.apply(p_331912_));
+                codec3.encode(p_332052_, getter3.apply(p_331912_));
+                codec4.encode(p_332052_, getter4.apply(p_331912_));
+                codec5.encode(p_332052_, getter5.apply(p_331912_));
+                codec6.encode(p_332052_, getter6.apply(p_331912_));
+                codec7.encode(p_332052_, getter7.apply(p_331912_));
+                codec8.encode(p_332052_, getter8.apply(p_331912_));
+            }
+        };
     }
 }

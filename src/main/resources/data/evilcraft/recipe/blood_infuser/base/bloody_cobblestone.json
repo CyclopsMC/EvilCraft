@@ -1,0 +1,14 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "input_item": {
+    "item": "minecraft:mossy_cobblestone"
+  },
+  "input_fluid": {
+    "id": "evilcraft:blood",
+    "amount": 500
+  },
+  "output_item": {
+    "id": "evilcraft:bloody_cobblestone"
+  },
+  "duration": 250
+}

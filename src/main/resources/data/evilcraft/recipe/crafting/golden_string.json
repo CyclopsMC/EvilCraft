@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "c:string"
+    },
+    {
+      "tag": "c:nuggets/gold"
+    }
+  ],
+  "result": {
+    "id": "evilcraft:golden_string"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PCP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "tag": "c:ender_pearls"
+    },
+    "C": {
+      "type": "neoforge:components",
+      "items": "evilcraft:weather_container",
+      "components": {
+        "evilcraft:weather_container_type": "LIGHTNING"
+      }
+    }
+  },
+  "result": {
+    "id": "evilcraft:lightning_grenade",
+    "count": 8
+  }
+}

@@ -26,11 +26,13 @@ import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
+import org.cyclops.evilcraft.armormaterial.ArmorMaterialSpectralGlassesConfig;
 import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.blockentity.*;
 import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.blockentity.tickaction.purifier.PurifierActionRegistry;
 import org.cyclops.evilcraft.client.particle.*;
+import org.cyclops.evilcraft.component.*;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.broom.BroomModifierRegistry;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
@@ -46,11 +48,10 @@ import org.cyclops.evilcraft.core.degradation.effect.SoundDegradationConfig;
 import org.cyclops.evilcraft.core.degradation.effect.TerraformDegradationConfig;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.recipe.type.*;
-import org.cyclops.evilcraft.enchantment.EnchantmentBreakingConfig;
-import org.cyclops.evilcraft.enchantment.EnchantmentLifeStealingConfig;
-import org.cyclops.evilcraft.enchantment.EnchantmentPoisonTipConfig;
-import org.cyclops.evilcraft.enchantment.EnchantmentUnusingConfig;
-import org.cyclops.evilcraft.enchantment.EnchantmentVengeanceConfig;
+import org.cyclops.evilcraft.enchantment.component.EnchantmentEffectComponentAmplifyDamageConfig;
+import org.cyclops.evilcraft.enchantment.component.EnchantmentEffectComponentStopDamageConfig;
+import org.cyclops.evilcraft.enchantment.entityeffect.EnchantmentEntityEffectHealFromDamageConfig;
+import org.cyclops.evilcraft.enchantment.entityeffect.EnchantmentEntityEffectSummonVengeanceSpiritConfig;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeamConfig;
@@ -366,12 +367,13 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new EntityNecromancersHeadConfig());
         configHandler.addConfigurable(new EntityAttackVengeanceBeamConfig());
 
-        // Enchantments
-        configHandler.addConfigurable(new EnchantmentUnusingConfig());
-        configHandler.addConfigurable(new EnchantmentBreakingConfig());
-        configHandler.addConfigurable(new EnchantmentLifeStealingConfig());
-        configHandler.addConfigurable(new EnchantmentPoisonTipConfig());
-        configHandler.addConfigurable(new EnchantmentVengeanceConfig());
+        // Enchantment effect components
+        configHandler.addConfigurable(new EnchantmentEffectComponentAmplifyDamageConfig());
+        configHandler.addConfigurable(new EnchantmentEffectComponentStopDamageConfig());
+
+        // Enchantment entity effects
+        configHandler.addConfigurable(new EnchantmentEntityEffectHealFromDamageConfig());
+        configHandler.addConfigurable(new EnchantmentEntityEffectSummonVengeanceSpiritConfig());
 
         // Degradation Effects
         configHandler.addConfigurable(new BiomeDegradationConfig());
@@ -406,9 +408,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputDisplayStandConfig());
         configHandler.addConfigurable(new RecipeSerializerDeadBushConfig());
         configHandler.addConfigurable(new RecipeSerializerBroomPartCombinationConfig());
-        configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputVengeancePickaxeConfig());
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputBoxOfEternalClosureConfig());
-        configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputVeinSwordConfig());
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputDarkTankLargeConfig());
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig());
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputEntangledChaliceCopyConfig());
@@ -443,6 +443,23 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new SoundEventEffectVengeanceBeamStopConfig());
         configHandler.addConfigurable(new SoundEventMobVengeanceSpiritAmbientConfig());
         configHandler.addConfigurable(new SoundEventMobVengeanceSpiritDeathConfig());
+
+        // Armor materials
+        configHandler.addConfigurable(new ArmorMaterialSpectralGlassesConfig());
+
+        // Data components
+        configHandler.addConfigurable(new DataComponentActivatedConfig());
+        configHandler.addConfigurable(new DataComponentBiomeConfig());
+        configHandler.addConfigurable(new DataComponentBoxPlayerIdConfig());
+        configHandler.addConfigurable(new DataComponentBoxPlayerNameConfig());
+        configHandler.addConfigurable(new DataComponentBoxSpiritConfig());
+        configHandler.addConfigurable(new DataComponentBroomModifiersConfig());
+        configHandler.addConfigurable(new DataComponentBroomPartsConfig());
+        configHandler.addConfigurable(new DataComponentDisplayStandTypeConfig());
+        configHandler.addConfigurable(new DataComponentExaltedCrafterReturnToInnerConfig());
+        configHandler.addConfigurable(new DataComponentPowerConfig());
+        configHandler.addConfigurable(new DataComponentWeatherContainerTypeConfig());
+        configHandler.addConfigurable(new DataComponentWorldSharedTankIdConfig());
     }
 
     @OnlyIn(Dist.CLIENT)

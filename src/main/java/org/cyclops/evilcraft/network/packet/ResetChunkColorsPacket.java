@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.network.packet;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -12,9 +14,10 @@ import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.Reference;
 
-public class ResetChunkColorsPacket extends PacketCodec {
+public class ResetChunkColorsPacket extends PacketCodec<ResetChunkColorsPacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "reset_chunk_colors");
+    public static final Type<ResetChunkColorsPacket> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "reset_chunk_colors"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, ResetChunkColorsPacket> CODEC = getCodec(ResetChunkColorsPacket::new);
 
     @CodecField
     private int chunkX;

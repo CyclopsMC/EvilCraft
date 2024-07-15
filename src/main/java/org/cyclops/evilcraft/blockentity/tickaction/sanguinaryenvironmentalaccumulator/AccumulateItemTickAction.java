@@ -11,7 +11,6 @@ import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -36,8 +35,7 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
                         if (production.isEmpty()) {
                             precondition = true;
                         } else if (!willProduce.isEmpty()
-                                && production.getItem() == willProduceItem(tile, recipe).getItem()
-                                && Objects.equals(production.getTag(), willProduceItem(tile, recipe).getTag())) {
+                                && ItemStack.isSameItemSameComponents(production, willProduceItem(tile, recipe))) {
                             if(production.getCount() + willProduce.getCount() <= production.getMaxStackSize())
                                 precondition = true;
                         }

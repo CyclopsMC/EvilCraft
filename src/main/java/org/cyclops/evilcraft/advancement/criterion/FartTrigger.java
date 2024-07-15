@@ -6,7 +6,6 @@ import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.ExtraCodecs;
 
 import java.util.Optional;
 
@@ -18,7 +17,7 @@ public class FartTrigger extends SimpleCriterionTrigger<FartTrigger.Instance> {
 
     public static final Codec<FartTrigger.Instance> CODEC = RecordCodecBuilder.create(
             p_311401_ -> p_311401_.group(
-                            ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(FartTrigger.Instance::player)
+                            EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(FartTrigger.Instance::player)
                     )
                     .apply(p_311401_, FartTrigger.Instance::new)
     );

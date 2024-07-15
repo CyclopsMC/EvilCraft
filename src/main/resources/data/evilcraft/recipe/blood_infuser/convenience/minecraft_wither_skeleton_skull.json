@@ -1,0 +1,16 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "input_item": {
+    "item": "minecraft:creeper_head"
+  },
+  "input_fluid": {
+    "id": "evilcraft:blood",
+    "amount": 25000
+  },
+  "output_item": {
+    "id": "minecraft:wither_skeleton_skull"
+  },
+  "duration": 1000,
+  "xp": 3,
+  "tier": 3
+}

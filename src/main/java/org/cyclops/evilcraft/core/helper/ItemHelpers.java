@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.core.helper;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +31,7 @@ public class ItemHelpers {
      * @return If it is an active container.
      */
     public static boolean isActivated(ItemStack itemStack) {
-        return !itemStack.isEmpty() && itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_ENABLED);
+        return !itemStack.isEmpty() && itemStack.getOrDefault(RegistryEntries.COMPONENT_ACTIVATED, false);
     }
 
     /**
@@ -40,40 +39,7 @@ public class ItemHelpers {
      * @param itemStack The item to toggle.
      */
     public static void toggleActivation(ItemStack itemStack) {
-        CompoundTag tag = itemStack.getTag();
-        if(tag == null) {
-            tag = new CompoundTag();
-            itemStack.setTag(tag);
-        }
-        tag.putBoolean(NBT_KEY_ENABLED, !isActivated(itemStack));
-    }
-
-    /**
-     * Get the integer value of the given ItemStack.
-     * @param itemStack The item to check.
-     * @param tag The tag in NBT for storing this value.
-     * @return The integer value for the given tag.
-     */
-    public static int getNBTInt(ItemStack itemStack, String tag) {
-        if(itemStack.isEmpty() || itemStack.getTag() == null) {
-            return 0;
-        }
-        return itemStack.getTag().getInt(tag);
-    }
-
-    /**
-     * Set the integer value of the given ItemStack for the given tag.
-     * @param itemStack The item to change.
-     * @param integer The new integer value.
-     * @param tag The tag in NBT for storing this value.
-     */
-    public static void setNBTInt(ItemStack itemStack, int integer, String tag) {
-        CompoundTag tagCompound = itemStack.getTag();
-        if(tagCompound == null) {
-            tagCompound = new CompoundTag();
-            itemStack.setTag(tagCompound);
-        }
-        tagCompound.putInt(tag, integer);
+        itemStack.set(RegistryEntries.COMPONENT_ACTIVATED, !isActivated(itemStack));
     }
 
     /**

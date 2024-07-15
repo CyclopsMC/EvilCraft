@@ -37,7 +37,7 @@ public class ModelEntangledChalice implements UnbakedModel, IUnbakedGeometry<Mod
 
     @Nullable
     @Override
-    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ResourceLocation modelLocation) {
+    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
         ModelEntangledChaliceBaked bakedModel = new ModelEntangledChaliceBaked();
 
         try {
@@ -51,8 +51,8 @@ public class ModelEntangledChalice implements UnbakedModel, IUnbakedGeometry<Mod
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-        return bake(baker, spriteGetter, modelState, modelLocation);
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+        return bake(baker, spriteGetter, modelState);
     }
 
 }

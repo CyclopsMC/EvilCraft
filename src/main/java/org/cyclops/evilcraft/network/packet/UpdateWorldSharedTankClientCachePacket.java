@@ -1,5 +1,7 @@
 package org.cyclops.evilcraft.network.packet;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -18,9 +20,10 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
  * @author rubensworks
  *
  */
-public class UpdateWorldSharedTankClientCachePacket extends PacketCodec {
+public class UpdateWorldSharedTankClientCachePacket extends PacketCodec<UpdateWorldSharedTankClientCachePacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "update_world_shared_tank_client_cache");
+    public static final Type<UpdateWorldSharedTankClientCachePacket> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "update_world_shared_tank_client_cache"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, UpdateWorldSharedTankClientCachePacket> CODEC = getCodec(UpdateWorldSharedTankClientCachePacket::new);
 
     @CodecField
     private String tankID = null;

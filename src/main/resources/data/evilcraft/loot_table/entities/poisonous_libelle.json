@@ -1,0 +1,26 @@
+{
+    "pools": [
+        {
+            "name": "evilcraft:poisonous_libelle",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "evilcraft:poison_sac",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "minecraft:enchanted_count_increase",
+                            "enchantment": "minecraft:looting",
+                            "count": {
+                                "type": "minecraft:uniform",
+                                "max": 3.0,
+                                "min": 1.0
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

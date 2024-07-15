@@ -12,7 +12,7 @@ public class SoundEventMobVengeanceSpiritDeathConfig extends org.cyclops.cyclops
         super(
                 EvilCraft._instance,
                 "mob_vengeancespirit_death",
-                (eConfig) -> SoundEvent.createVariableRangeEvent(new ResourceLocation(eConfig.getMod().getModId(), eConfig.getNamedId()))
+                (eConfig) -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(eConfig.getMod().getModId(), eConfig.getNamedId()))
         );
     }
 }

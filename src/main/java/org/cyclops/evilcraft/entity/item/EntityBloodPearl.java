@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -48,7 +49,7 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
             if (this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
                 ServerPlayer entityplayermp = (ServerPlayer)this.getOwner();
 
-                if (entityplayermp.connection.connection.isConnected() && entityplayermp.level() == this.level()) {
+                if (entityplayermp.connection.getConnection().isConnected() && entityplayermp.level() == this.level()) {
                     EntityTeleportEvent event = new EntityTeleportEvent(entityplayermp, this.getX(), this.getY(), this.getZ());
                     if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
                         if (this.getOwner().isPassenger()) {
@@ -75,7 +76,7 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
 
     }
 

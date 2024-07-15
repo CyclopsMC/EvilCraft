@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.client.particle;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
@@ -18,11 +20,16 @@ import javax.annotation.Nullable;
 public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
 
     public ParticleFartConfig() {
-        super(EvilCraft._instance, "fart", eConfig -> new ParticleType<ParticleFartData>(false, ParticleFartData.DESERIALIZER) {
+        super(EvilCraft._instance, "fart", eConfig -> new ParticleType<>(false) {
 
             @Override
-            public Codec<ParticleFartData> codec() {
+            public MapCodec<ParticleFartData> codec() {
                 return ParticleFartData.CODEC;
+            }
+
+            @Override
+            public StreamCodec<? super RegistryFriendlyByteBuf, ParticleFartData> streamCodec() {
+                return ParticleFartData.STREAM_CODEC;
             }
         });
     }

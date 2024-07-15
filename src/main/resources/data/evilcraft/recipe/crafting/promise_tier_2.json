@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      {
+        "item": "evilcraft:bowl_of_promises_tier1"
+      },
+      {
+        "item": "evilcraft:bowl_of_promises_tier2"
+      },
+      {
+        "item": "evilcraft:bowl_of_promises_tier3"
+      }
+    ],
+    {
+      "item": "evilcraft:promise_acceptor_gold"
+    },
+    {
+      "tag": "c:ender_pearls"
+    }
+  ],
+  "result": {
+    "id": "evilcraft:promise_tier_2"
+  }
+}

@@ -23,7 +23,7 @@ public class RecipeSerializerCraftingShapedCustomOutputDisplayStandConfig extend
                 "crafting_shaped_custom_output_display_stand",
                 eConfig -> new RecipeCraftingShapedCustomOutput.Serializer(() -> new ItemStack(RegistryEntries.BLOCK_DISPLAY_STAND.get()), (inventory, staticOutput) -> {
                     Wrapper<ItemStack> plankWoodStack = new Wrapper<>(ItemStack.EMPTY);
-                    for (int i = 0; i < inventory.getContainerSize(); i++) {
+                    for (int i = 0; i < inventory.size(); i++) {
                         int finalI = i;
                         BuiltInRegistries.ITEM.getTag(ItemTags.PLANKS).ifPresent(tag -> {
                             tag.stream().forEach(holder -> {

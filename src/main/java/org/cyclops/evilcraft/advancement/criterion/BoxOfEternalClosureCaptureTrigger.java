@@ -6,7 +6,6 @@ import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.Entity;
 
 import java.util.Optional;
@@ -19,8 +18,8 @@ public class BoxOfEternalClosureCaptureTrigger extends SimpleCriterionTrigger<Bo
 
     public static final Codec<BoxOfEternalClosureCaptureTrigger.Instance> CODEC = RecordCodecBuilder.create(
             p_311401_ -> p_311401_.group(
-                            ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(BoxOfEternalClosureCaptureTrigger.Instance::player),
-                            ExtraCodecs.strictOptionalField(EntityPredicate.CODEC, "entity").forGetter(BoxOfEternalClosureCaptureTrigger.Instance::entity)
+                            EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(BoxOfEternalClosureCaptureTrigger.Instance::player),
+                            EntityPredicate.CODEC.optionalFieldOf("entity").forGetter(BoxOfEternalClosureCaptureTrigger.Instance::entity)
                     )
                     .apply(p_311401_, BoxOfEternalClosureCaptureTrigger.Instance::new)
     );

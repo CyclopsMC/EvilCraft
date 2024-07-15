@@ -1,13 +1,14 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
+import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.Container;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -16,6 +17,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -110,17 +112,12 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     @Override
-    public ItemStack assemble(RecipeEnvironmentalAccumulator.Inventory inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(RecipeEnvironmentalAccumulator.Inventory inv, HolderLookup.Provider registryAccess) {
         ItemStack inputStack = inv.getItem(0);
         ItemStack itemStack = getResultItem(registryAccess).copy();
-        if (!inputStack.isEmpty() && inputStack.hasTag()) {
-            if(!itemStack.hasTag()) {
-                itemStack.setTag(new CompoundTag());
-            }
-            for (String key : inputStack.getTag().getAllKeys()) {
-                if(!itemStack.getTag().contains(key)) {
-                    itemStack.getTag().put(key, inputStack.getTag().get(key));
-                }
+        if (!inputStack.isEmpty()) {
+            for (DataComponentType<?> dataComponentType : inputStack.getComponents().keySet()) {
+                itemStack.set((DataComponentType) dataComponentType, inputStack.get(dataComponentType));
             }
         }
         return itemStack;
@@ -132,7 +129,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return this.getOutputItemFirst().copy();
     }
 
@@ -146,14 +143,16 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get();
     }
 
-    public static interface Inventory extends Container {
+    public static interface Inventory extends RecipeInput {
         public Level getWorld();
         public BlockPos getPos();
     }
 
-    public static class InventoryDummy extends net.minecraft.world.SimpleContainer implements Inventory {
+    public static class InventoryDummy implements Inventory {
+        private final List<ItemStack> itemStacks;
+
         public InventoryDummy(ItemStack... stacksIn) {
-            super(stacksIn);
+            this.itemStacks = Lists.newArrayList(stacksIn);
         }
 
         @Override
@@ -164,6 +163,16 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         @Override
         public BlockPos getPos() {
             return null;
+        }
+
+        @Override
+        public ItemStack getItem(int i) {
+            return itemStacks.get(i);
+        }
+
+        @Override
+        public int size() {
+            return itemStacks.size();
         }
     }
 

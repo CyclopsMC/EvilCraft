@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RGR",
+    "GBG",
+    "PGP"
+  ],
+  "key": {
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "G": {
+      "tag": "c:dusts/glowstone"
+    },
+    "B": {
+      "tag": "c:slimeballs"
+    },
+    "P": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "result": {
+    "id": "evilcraft:potentia_sphere"
+  }
+}

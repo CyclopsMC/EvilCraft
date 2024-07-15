@@ -23,9 +23,9 @@ import java.util.function.Function;
  */
 public class ModelBoxOfEternalClosure implements UnbakedModel, IUnbakedGeometry<ModelBoxOfEternalClosure> {
 
-    public static ResourceLocation boxModel = new ResourceLocation(Reference.MOD_ID, "block/box");
-    public static ResourceLocation boxLidModel = new ResourceLocation(Reference.MOD_ID, "block/box_lid");
-    public static ResourceLocation boxLidRotatedModel = new ResourceLocation(Reference.MOD_ID, "block/box_lid_rotated");
+    public static ResourceLocation boxModel = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/box");
+    public static ResourceLocation boxLidModel = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/box_lid");
+    public static ResourceLocation boxLidRotatedModel = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/box_lid_rotated");
 
     @Override
     public Collection<ResourceLocation> getDependencies() {
@@ -43,7 +43,7 @@ public class ModelBoxOfEternalClosure implements UnbakedModel, IUnbakedGeometry<
 
     @Nullable
     @Override
-    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ResourceLocation modelLocation) {
+    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
         ModelBoxOfEternalClosureBaked bakedModel = new ModelBoxOfEternalClosureBaked();
 
         try {
@@ -58,8 +58,8 @@ public class ModelBoxOfEternalClosure implements UnbakedModel, IUnbakedGeometry<
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-        return bake(baker, spriteGetter, modelState, modelLocation);
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+        return bake(baker, spriteGetter, modelState);
     }
 
 }

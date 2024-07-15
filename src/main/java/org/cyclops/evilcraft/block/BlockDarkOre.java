@@ -6,7 +6,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +13,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -25,6 +26,7 @@ import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.item.ItemDarkGem;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -57,8 +59,8 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    public int getExpDrop(BlockState state, net.minecraft.world.level.LevelReader world, RandomSource randomSource, BlockPos pos, int fortune, int silktouch) {
-        return silktouch == 0 ? 1 + randomSource.nextInt(INCREASE_XP) : 0;
+    public int getExpDrop(BlockState state, LevelAccessor level, BlockPos pos, @Nullable BlockEntity blockEntity, @Nullable Entity breaker, ItemStack tool) {
+        return 1 + level.getRandom().nextInt(INCREASE_XP);
     }
 
     @Override
@@ -74,9 +76,9 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult p_225533_6_) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult p_225533_6_) {
         this.glow(worldIn, pos);
-        return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
+        return super.useWithoutItem(state, worldIn, pos, player, p_225533_6_);
     }
 
     private boolean isGlowing(Level world, BlockPos blockPos) {

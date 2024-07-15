@@ -438,7 +438,7 @@
             <section name="info_book.evilcraft.second_age.tools.vengeance_pickaxe">
                 <tag>vengeance_pickaxe</tag>
                 <paragraph>info_book.evilcraft.second_age.tools.vengeance_pickaxe.text</paragraph>
-                <appendix type="minecraft:crafting">evilcraft:special/vengeance_pickaxe</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/vengeance_pickaxe</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.tools.gemstone_torch">
                 <tag>gem_stone_torch</tag>
@@ -455,7 +455,7 @@
             <section name="info_book.evilcraft.second_age.weapons.vein_sword">
                 <tag>vein_sword</tag>
                 <paragraph>info_book.evilcraft.second_age.weapons.vein_sword.text</paragraph>
-                <appendix type="minecraft:crafting">evilcraft:special/vein_sword</appendix>
+                <appendix type="minecraft:crafting">evilcraft:crafting/vein_sword</appendix>
             </section>
             <section name="info_book.evilcraft.second_age.weapons.mace_of_distortion">
                 <tag>mace_of_distortion</tag>

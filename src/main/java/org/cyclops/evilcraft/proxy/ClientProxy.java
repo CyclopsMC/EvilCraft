@@ -4,6 +4,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -78,26 +79,26 @@ public class ClientProxy extends ClientProxyComponent {
     }
 
     public void onModelLoad(ModelEvent.RegisterGeometryLoaders event) {
-        event.register(new ResourceLocation(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
-        event.register(new ResourceLocation(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
-        event.register(new ResourceLocation(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
-        event.register(new ResourceLocation(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
-        event.register(new ResourceLocation(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
-        event.register(new ResourceLocation(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
+        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
+        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
+        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
+        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
+        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
+        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
     }
 
     public void onModelRegisterAdditional(ModelEvent.RegisterAdditional event) {
         // Box of eternal closure
-        event.register(ModelBoxOfEternalClosure.boxModel);
-        event.register(ModelBoxOfEternalClosure.boxLidModel);
-        event.register(ModelBoxOfEternalClosure.boxLidRotatedModel);
+        event.register(ModelResourceLocation.standalone(ModelBoxOfEternalClosure.boxModel));
+        event.register(ModelResourceLocation.standalone(ModelBoxOfEternalClosure.boxLidModel));
+        event.register(ModelResourceLocation.standalone(ModelBoxOfEternalClosure.boxLidRotatedModel));
         // Broom
         for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
-            event.register(partModel);
+            event.register(ModelResourceLocation.standalone(partModel));
         }
         // Entangled chalice
-        event.register(ModelEntangledChaliceBaked.chaliceModelName);
-        event.register(ModelEntangledChaliceBaked.gemsModelName);
+        event.register(ModelResourceLocation.standalone(ModelEntangledChaliceBaked.chaliceModelName));
+        event.register(ModelResourceLocation.standalone(ModelEntangledChaliceBaked.gemsModelName));
     }
 
 }

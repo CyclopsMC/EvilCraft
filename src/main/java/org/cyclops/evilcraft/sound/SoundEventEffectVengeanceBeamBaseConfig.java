@@ -12,7 +12,7 @@ public class SoundEventEffectVengeanceBeamBaseConfig extends org.cyclops.cyclops
         super(
                 EvilCraft._instance,
                 "effect_vengeancebeam_base",
-                (eConfig) -> SoundEvent.createVariableRangeEvent(new ResourceLocation(eConfig.getMod().getModId(), eConfig.getNamedId()))
+                (eConfig) -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(eConfig.getMod().getModId(), eConfig.getNamedId()))
         );
     }
 }

@@ -22,7 +22,7 @@ public class BlockFluidBlood extends LiquidBlock {
     private static final int CHANCE_HARDEN = 3;
 
     public BlockFluidBlood(Block.Properties builder) {
-        super(RegistryEntries.FLUID_BLOOD, builder);
+        super(RegistryEntries.FLUID_BLOOD.get(), builder);
     }
 
     @Override

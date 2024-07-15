@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -47,11 +48,11 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
             Iterator<MobEffectInstance> it = Lists.newLinkedList(player.getActiveEffects()).iterator();
             while(reducableDuration > 0 && it.hasNext() && canConsume(amount, itemStack, player)) {
                 MobEffectInstance effect = it.next();
-                MobEffect potion = effect.getEffect();
+                Holder<MobEffect> potion = effect.getEffect();
 
                 boolean shouldClear = true;
                 if(potion != null) {
-                    shouldClear = potion.getCategory() == MobEffectCategory.HARMFUL;
+                    shouldClear = potion.value().getCategory() == MobEffectCategory.HARMFUL;
                 }
                 shouldClear = shouldClear & !effect.isAmbient();
 

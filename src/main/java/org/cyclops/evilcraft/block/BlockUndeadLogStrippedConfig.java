@@ -9,8 +9,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.ToolActions;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -47,7 +47,7 @@ public class BlockUndeadLogStrippedConfig extends BlockConfig {
     }
 
     public void toolActionEvent(BlockEvent.BlockToolModificationEvent event) {
-        if (event.getToolAction() == ToolActions.AXE_STRIP && event.getState().getBlock() == RegistryEntries.BLOCK_UNDEAD_LOG.get()) {
+        if (event.getItemAbility() == ItemAbilities.AXE_STRIP && event.getState().getBlock() == RegistryEntries.BLOCK_UNDEAD_LOG.get()) {
             BlockState blockStateNew = RegistryEntries.BLOCK_UNDEAD_LOG_STRIPPED.get().defaultBlockState();
             for (Property property : event.getState().getProperties()) {
                 if(blockStateNew.hasProperty(property))

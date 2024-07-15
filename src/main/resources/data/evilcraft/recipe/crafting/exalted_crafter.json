@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GCG",
+    "DED",
+    "GIG"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "D": {
+      "item": "evilcraft:dark_gem_crushed"
+    },
+    "E": {
+      "tag": "c:chests/ender"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "evilcraft:exalted_crafter"
+  }
+}

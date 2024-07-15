@@ -10,7 +10,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -64,9 +63,9 @@ public class EntityControlledZombie extends Monster {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(WATCHERID_TTL, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(WATCHERID_TTL, 0);
     }
 
     @Override
@@ -107,11 +106,6 @@ public class EntityControlledZombie extends Monster {
     @Override
     public SoundEvent getDeathSound() {
         return SoundEvents.ZOMBIE_DEATH;
-    }
-
-    @Override
-    public MobType getMobType() {
-        return MobType.UNDEAD;
     }
 
     @Override

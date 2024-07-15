@@ -160,7 +160,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     protected void drawTooltips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         FluidStack fluidStack = getMenu().getFluidStack();
         if(isHovering(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
-            Component fluidName = fluidStack.getDisplayName();
+            Component fluidName = fluidStack.getHoverName();
             drawBarTooltipTank(guiGraphics, fluidName, fluidStack, fluidStack.getAmount(), getMenu().getFluidCapacity(), mouseX, mouseY);
         }
     }

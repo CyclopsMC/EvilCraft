@@ -28,7 +28,8 @@ public class BlockSpikedPlateConfig extends BlockConfig {
                         .requiresCorrectToolForDrops()
                         .strength(2.0F)
                         .sound(SoundType.STONE)
-                        .noCollission()),
+                        .noCollission()
+                        .isValidSpawn((state, level, pos, type) -> false)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

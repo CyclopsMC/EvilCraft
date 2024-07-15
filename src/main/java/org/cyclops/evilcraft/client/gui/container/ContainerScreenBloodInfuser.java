@@ -88,6 +88,6 @@ public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<Cont
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_infuser_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_infuser_gui.png");
     }
 }

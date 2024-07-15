@@ -6,9 +6,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -37,6 +37,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
+import org.cyclops.evilcraft.core.helper.ItemHelpers;
 
 import javax.annotation.Nullable;
 import java.util.Locale;
@@ -49,8 +50,6 @@ import java.util.Locale;
 public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
 
     public static final MapCodec<BlockDarkTank> CODEC = simpleCodec(BlockDarkTank::new);
-
-    public static final String NBT_KEY_DRAINING = "enabled";
 
     // Model Properties
     public static final ModelProperty<FluidStack> TANK_FLUID = new ModelProperty<>();
@@ -97,8 +96,8 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult p_225533_6_) {
-        if (FluidUtil.interactWithFluidHandler(player, handIn, worldIn, pos, Direction.UP)) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult p_225533_6_) {
+        if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), worldIn, pos, Direction.UP)) {
             return InteractionResult.SUCCESS;
         } else if (!player.isCrouching()) {
             BlockEntityHelpers.get(worldIn, pos, BlockEntityDarkTank.class)
@@ -111,7 +110,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
                     });
             return InteractionResult.SUCCESS;
         }
-        return super.use(state, worldIn, pos, player, handIn, p_225533_6_);
+        return super.useWithoutItem(state, worldIn, pos, player, p_225533_6_);
     }
 
     @Override
@@ -139,14 +138,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
         if(player.isCrouching()) {
             if(!world.isClientSide()) {
                 ItemStack activated = itemStack.copy();
-                if (isActivated(itemStack, world)) {
-                    activated.getOrCreateTag().remove(NBT_KEY_DRAINING);
-                    if (activated.getTag().isEmpty()) {
-                        activated.setTag(null);
-                    }
-                } else {
-                    activated.getOrCreateTag().putBoolean(NBT_KEY_DRAINING, !isActivated(itemStack, world));
-                }
+                ItemHelpers.toggleActivation(activated);
                 return activated;
             }
             return itemStack;
@@ -155,8 +147,8 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public boolean isActivated(ItemStack itemStack, Level world) {
-        return itemStack.hasTag() && itemStack.getTag().getBoolean(NBT_KEY_DRAINING);
+    public boolean isActivated(ItemStack itemStack, Item.TooltipContext context) {
+        return ItemHelpers.isActivated(itemStack);
     }
 
     public void fillItemCategory(NonNullList<ItemStack> list) {

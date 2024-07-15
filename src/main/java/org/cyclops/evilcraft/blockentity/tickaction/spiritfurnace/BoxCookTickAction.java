@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -17,8 +19,10 @@ import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -27,7 +31,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
@@ -44,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 /**
  * {@link ITickAction} that is able to cook boxes with spirits.
@@ -66,15 +70,19 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         ));
         overridePlayerDropInner("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
         overridePlayerDropInner("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
-        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", new ItemStack(Items.BROWN_DYE).setHoverName(Component.literal("Lekkere Stront"))); // Davivs69
+        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", withName(new ItemStack(Items.BROWN_DYE), Component.literal("Lekkere Stront"))); // Davivs69
         overridePlayerDropInner("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.QUARTZ)); // Jona
         overridePlayerDropInner("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
-        overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", new ItemStack(Blocks.FURNACE).setHoverName(Component.literal("Fuurnas"))); // _KillaH229_
+        overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", withName(new ItemStack(Blocks.FURNACE), Component.literal("Fuurnas"))); // _KillaH229_
         overridePlayerDropInner("069a79f4-44e9-4726-a5be-fca90e38aaf5", new ItemStack(Items.ENCHANTED_GOLDEN_APPLE)); // Notch
-        overridePlayerDropInner("853c80ef-3c37-49fd-aa49-938b674adae6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(Component.literal("jeb_"))); // jeb_
-        overridePlayerDropInner("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", new ItemStack(Items.SHEEP_SPAWN_EGG).setHoverName(Component.literal("Dinnerbone"))); // Dinnerbone
-        overridePlayerDropInner("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", new ItemStack(Blocks.COBBLESTONE, 45).setHoverName(Component.literal("direwolf20"))); // direwolf20
+        overridePlayerDropInner("853c80ef-3c37-49fd-aa49-938b674adae6", withName(new ItemStack(Items.SHEEP_SPAWN_EGG), Component.literal("jeb_"))); // jeb_
+        overridePlayerDropInner("61699b2e-d327-4a01-9f1e-0ea8c3f06bc6", withName(new ItemStack(Items.SHEEP_SPAWN_EGG), Component.literal("Dinnerbone"))); // Dinnerbone
+        overridePlayerDropInner("bbb87dbe-690f-4205-bdc5-72ffb8ebc29d", withName(new ItemStack(Blocks.COBBLESTONE, 45), Component.literal("direwolf20"))); // direwolf20
         overridePlayerDropInner("0b7509f0-2458-4160-9ce1-2772b9a45ac2", new ItemStack(Items.PORKCHOP)); // iChun
+    }
+    public static ItemStack withName(ItemStack itemStack, Component name) {
+        itemStack.set(DataComponents.CUSTOM_NAME, name);
+        return itemStack;
     }
     public static final ItemStack[] PLAYERDROP_RANDOM = new ItemStack[] {
             new ItemStack(Items.BOOK),
@@ -141,8 +149,11 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
 
     protected ItemStack getPlayerSkull(String playerName) {
         ItemStack itemStack = new ItemStack(Items.PLAYER_HEAD);
-        itemStack.setTag(new CompoundTag());
-        itemStack.getTag().putString("SkullOwner", playerName);
+        try {
+            itemStack.set(DataComponents.PROFILE, new ResolvableProfile(SkullBlockEntity.fetchGameProfile(playerName).get().get()));
+        } catch (InterruptedException | ExecutionException | NullPointerException e) {
+            e.printStackTrace();
+        }
         return itemStack;
     }
 
@@ -192,21 +203,21 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                         tile.onItemDrop(drop);
                     }
                 } else {
-                    ResourceLocation deathLootTable;
+                    ResourceKey<LootTable> deathLootTable;
                     Map<EntityType<?>, ResourceLocation> mobDropTablesOverrides = getMobDropTablesOverrides();
                     if (mobDropTablesOverrides.containsKey(entity.getType())) {
-                        deathLootTable = mobDropTablesOverrides.get(entity.getType());
+                        deathLootTable = ResourceKey.create(Registries.LOOT_TABLE, mobDropTablesOverrides.get(entity.getType()));
                     } else {
                         deathLootTable = entity.getLootTable();
                     }
                     if(deathLootTable != null) {
-                        LootTable loottable = ServerLifecycleHooks.getCurrentServer().getLootData().getLootTable(deathLootTable);
+                        LootTable loottable = tile.getLevel().getServer().reloadableRegistries().getLootTable(deathLootTable);
                         FakePlayer killerEntity = FakePlayerFactory.getMinecraft((ServerLevel) tile.getLevel());
                         LootParams.Builder lootcontext$builder = (new LootParams.Builder((ServerLevel) tile.getLevel()))
                                 .withParameter(LootContextParams.THIS_ENTITY, entity)
                                 .withParameter(LootContextParams.ORIGIN, new Vec3(tile.getBlockPos().getX(), tile.getBlockPos().getY(), tile.getBlockPos().getZ()))
-                                .withParameter(LootContextParams.KILLER_ENTITY, killerEntity)
-                                .withParameter(LootContextParams.DIRECT_KILLER_ENTITY, killerEntity)
+                                .withParameter(LootContextParams.ATTACKING_ENTITY, killerEntity)
+                                .withParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, killerEntity)
                                 .withParameter(LootContextParams.DAMAGE_SOURCE, killerEntity.damageSources().generic())
                                 .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, killerEntity);
 
@@ -268,13 +279,13 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                 throw new IllegalArgumentException("Invalid line '" + line + "' found for "
                         + "a Spirit Furnace mob drop config.");
             }
-            ResourceLocation entityName = new ResourceLocation(split[0]);
+            ResourceLocation entityName = ResourceLocation.parse(split[0]);
             if (!BuiltInRegistries.ENTITY_TYPE.containsKey(entityName)) {
                 EvilCraft.clog("Invalid line '" + line + "' found for "
                         + "a Spirit Furnace mob drop config: " + split[0] + " does not refer to a valid entity name; skipping.");
                 continue;
             }
-            ResourceLocation resourceLocation = new ResourceLocation(split[1]);
+            ResourceLocation resourceLocation = ResourceLocation.parse(split[1]);
             map.put(BuiltInRegistries.ENTITY_TYPE.get(entityName), resourceLocation);
         }
         return map;
@@ -284,7 +295,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         int baseUsage;
         if(tile.isPlayer()) {
             baseUsage = BlockSpiritFurnaceConfig.playerMBPerTick;
-        } else if (tile.getEntity() != null && !tile.getEntity().canChangeDimensions()) {
+        } else if (tile.getEntity() != null && !tile.getEntity().canChangeDimensions(tile.getLevel(), tile.getLevel())) {
             baseUsage = BlockSpiritFurnaceConfig.bossMBPerTick;
         } else {
             baseUsage = BlockSpiritFurnaceConfig.mBPerTick;

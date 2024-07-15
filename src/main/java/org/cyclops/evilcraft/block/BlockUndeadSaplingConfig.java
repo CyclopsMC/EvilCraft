@@ -22,7 +22,7 @@ import java.util.Optional;
 public class BlockUndeadSaplingConfig extends BlockConfig {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> UNDEAD_TREE = ResourceKey
-            .create(Registries.CONFIGURED_FEATURE, new ResourceLocation(Reference.MOD_ID, "tree_undead"));
+            .create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "tree_undead"));
     public static final TreeGrower UNDEAD_TREE_GROWER = new TreeGrower(
             Reference.MOD_ID + ":menril_sapling",
             Optional.empty(), // Mega tree

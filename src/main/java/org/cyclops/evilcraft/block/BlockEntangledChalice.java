@@ -6,9 +6,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -99,8 +99,8 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-        if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
+        if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), world, blockPos, Direction.UP)) {
             return InteractionResult.SUCCESS;
         }
         if (world.isClientSide()) {
@@ -110,7 +110,7 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
             player.displayClientMessage(Component.translatable(L10NHelpers.localize(
                     "block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
         }
-        return super.use(state, world, blockPos, player, hand, rayTraceResult);
+        return super.useWithoutItem(state, world, blockPos, player, rayTraceResult);
     }
 
     @Override
@@ -139,14 +139,7 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
         if(player.isCrouching()) {
             if(!world.isClientSide()) {
                 ItemStack activated = itemStack.copy();
-                if (isActivated(itemStack, world)) {
-                    activated.getOrCreateTag().remove(ItemHelpers.NBT_KEY_ENABLED);
-                    if (activated.getTag().isEmpty()) {
-                        activated.setTag(null);
-                    }
-                } else {
-                    activated.getOrCreateTag().putBoolean(ItemHelpers.NBT_KEY_ENABLED, !isActivated(itemStack, world));
-                }
+                ItemHelpers.toggleActivation(activated);
                 return activated;
             }
             return itemStack;
@@ -155,7 +148,7 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
     }
 
     @Override
-    public boolean isActivated(ItemStack itemStack, Level world) {
+    public boolean isActivated(ItemStack itemStack, Item.TooltipContext context) {
         return ItemHelpers.isActivated(itemStack);
     }
 

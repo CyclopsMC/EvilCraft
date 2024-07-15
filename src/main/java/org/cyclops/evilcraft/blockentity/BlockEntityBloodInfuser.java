@@ -4,6 +4,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -195,15 +196,15 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     }
 
     @Override
-    public void saveAdditional(CompoundTag data) {
+    public void saveAdditional(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
         data.putFloat("xp", xp);
-        super.saveAdditional(data);
+        super.saveAdditional(data, holderLookupProvider);
     }
 
     @Override
-    public void read(CompoundTag data) {
+    public void read(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
         this.xp = data.getFloat("xp");
-        super.read(data);
+        super.read(data, holderLookupProvider);
     }
 
     @Override

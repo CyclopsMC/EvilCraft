@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "id": "evilcraft:blood_extractor"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.second_age"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.second_age.desc"
+    }
+  },
+  "parent": "evilcraft:first_age",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "cyclopscore:item_crafted",
+      "conditions": {
+        "item": {
+          "items": ["evilcraft:blood_extractor"]
+        }
+      }
+    }
+  }
+}

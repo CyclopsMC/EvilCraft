@@ -1,13 +1,14 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-
-import javax.annotation.Nullable;
 
 /**
  * Recipe serializer for energy container combinations.
@@ -15,30 +16,26 @@ import javax.annotation.Nullable;
  */
 public class RecipeSerializerFluidContainerCombination implements RecipeSerializer<RecipeFluidContainerCombination> {
 
-    public static final Codec<RecipeFluidContainerCombination> CODEC = RecordCodecBuilder.create(
+    public static final MapCodec<RecipeFluidContainerCombination> CODEC = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
                             Ingredient.CODEC_NONEMPTY.fieldOf("item").forGetter(RecipeFluidContainerCombination::getFluidContainer),
                             Codec.INT.fieldOf("max_capacity").forGetter(RecipeFluidContainerCombination::getMaxCapacity)
                     )
                     .apply(builder, (inputIngredient, maxCapacity) -> new RecipeFluidContainerCombination(CraftingBookCategory.MISC, inputIngredient, maxCapacity))
     );
+    public static final StreamCodec<RegistryFriendlyByteBuf, RecipeFluidContainerCombination> STREAM_CODEC = StreamCodec.composite(
+            Ingredient.CONTENTS_STREAM_CODEC, RecipeFluidContainerCombination::getFluidContainer,
+            ByteBufCodecs.INT, RecipeFluidContainerCombination::getMaxCapacity,
+            (inputIngredient, maxCapacity) -> new RecipeFluidContainerCombination(CraftingBookCategory.MISC, inputIngredient, maxCapacity)
+    );
 
     @Override
-    public Codec<RecipeFluidContainerCombination> codec() {
+    public MapCodec<RecipeFluidContainerCombination> codec() {
         return CODEC;
     }
 
-    @Nullable
     @Override
-    public RecipeFluidContainerCombination fromNetwork(FriendlyByteBuf buffer) {
-        Ingredient inputIngredient = Ingredient.fromNetwork(buffer);
-        int maxCapacity = buffer.readInt();
-        return new RecipeFluidContainerCombination(CraftingBookCategory.MISC, inputIngredient, maxCapacity);
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf buffer, RecipeFluidContainerCombination recipe) {
-        recipe.getFluidContainer().toNetwork(buffer);
-        buffer.writeInt(recipe.getMaxCapacity());
+    public StreamCodec<RegistryFriendlyByteBuf, RecipeFluidContainerCombination> streamCodec() {
+        return STREAM_CODEC;
     }
 }

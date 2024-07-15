@@ -4,11 +4,11 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -39,12 +39,12 @@ public class RecipeBroomPartCombination extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(CraftingContainer grid, Level world) {
+    public boolean matches(CraftingInput grid, Level world) {
         return !assemble(grid, world.registryAccess()).isEmpty();
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return getResultItem();
     }
 
@@ -53,8 +53,8 @@ public class RecipeBroomPartCombination extends CustomRecipe {
     }
 
     @Override
-    public NonNullList<ItemStack> getRemainingItems(CraftingContainer inventory) {
-        NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.getContainerSize(), ItemStack.EMPTY);
+    public NonNullList<ItemStack> getRemainingItems(CraftingInput inventory) {
+        NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.size(), ItemStack.EMPTY);
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
             aitemstack.set(i, CommonHooks.getCraftingRemainingItem(itemstack));
@@ -83,7 +83,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
         return map;
     }
 
-    protected Pair<ItemStack, List<ItemStack>> getResult(CraftingContainer grid) {
+    protected Pair<ItemStack, List<ItemStack>> getResult(CraftingInput grid) {
         ItemStack output = getResultItem().copy();
         List<ItemStack> extraOutputs = Lists.newLinkedList();
 
@@ -93,7 +93,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
         List<Map<BroomModifier, Float>> rawModifiers = Lists.newLinkedList();
 
         // Loop over the grid and find an existing broom
-        for (int j = 0; j < grid.getContainerSize(); j++) {
+        for (int j = 0; j < grid.size(); j++) {
             ItemStack element = grid.getItem(j);
             if (!element.isEmpty() && element.getItem() instanceof IBroom) {
                 Map<IBroomPart.BroomPartType, IBroomPart> currentExistingBroomParts = indexifyParts(BroomParts.REGISTRY.getBroomParts(element));
@@ -110,7 +110,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
         }
 
         // Loop over the grid and find parts and modifiers
-        for (int j = 0; j < grid.getContainerSize(); j++) {
+        for (int j = 0; j < grid.size(); j++) {
             ItemStack element = grid.getItem(j);
             if (!element.isEmpty()) {
                 IBroomPart part = BroomParts.REGISTRY.getPartFromItem(element);
@@ -176,7 +176,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer grid, RegistryAccess registryAccess) {
+    public ItemStack assemble(CraftingInput grid, HolderLookup.Provider registryAccess) {
         Pair<ItemStack, List<ItemStack>> result = getResult(grid);
         if(result == null) {
             return ItemStack.EMPTY;

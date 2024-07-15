@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -19,7 +20,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -51,20 +52,23 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
         ItemStack potionStack = getPotionStack(itemStack);
         if(!potionStack.isEmpty()) {
-            List<MobEffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
-            for(MobEffectInstance potionEffect : potionEffects) {
-                MutableComponent textComponent = Component.translatable(super.getDescriptionId(itemStack) + ".potion",
-                        Component.translatable(potionEffect.getDescriptionId()),
-                        Component.translatable("enchantment.level." + (potionEffect.getAmplifier() + 1)));
-                Double multiplier =  ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
-                if (multiplier != null && multiplier < 0) {
-                    textComponent.withStyle(ChatFormatting.STRIKETHROUGH);
+            PotionContents contents = potionStack.get(DataComponents.POTION_CONTENTS);
+            if (contents != null) {
+                List<MobEffectInstance> potionEffects = contents.customEffects();
+                for (MobEffectInstance potionEffect : potionEffects) {
+                    MutableComponent textComponent = Component.translatable(super.getDescriptionId(itemStack) + ".potion",
+                            Component.translatable(potionEffect.getDescriptionId()),
+                            Component.translatable("enchantment.level." + (potionEffect.getAmplifier() + 1)));
+                    Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
+                    if (multiplier != null && multiplier < 0) {
+                        textComponent.withStyle(ChatFormatting.STRIKETHROUGH);
+                    }
+                    list.add(textComponent);
                 }
-                list.add(textComponent);
             }
         }
     }
@@ -77,18 +81,21 @@ public class ItemPrimedPendant extends ItemBloodContainer {
             Player player = (Player) entity;
             ItemStack potionStack = getPotionStack(itemStack);
             if(!potionStack.isEmpty()) {
-                List<MobEffectInstance> potionEffects = PotionUtils.getMobEffects(potionStack);
-                for(MobEffectInstance potionEffect : potionEffects) {
-                    int toDrain = ItemPrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
-                    Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
-                    if(multiplier != null) {
-                        toDrain *= multiplier;
-                    }
-                    if((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
-                        player.addEffect(
-                                new MobEffectInstance(potionEffect.getEffect(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
-                                        !potionEffect.getCures().isEmpty(), true));
-                        consume(toDrain, itemStack, player);
+                PotionContents contents = potionStack.get(DataComponents.POTION_CONTENTS);
+                if (contents != null) {
+                    List<MobEffectInstance> potionEffects = contents.customEffects();
+                    for (MobEffectInstance potionEffect : potionEffects) {
+                        int toDrain = ItemPrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
+                        Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
+                        if (multiplier != null) {
+                            toDrain *= multiplier;
+                        }
+                        if ((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
+                            player.addEffect(
+                                    new MobEffectInstance(potionEffect.getEffect(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
+                                            !potionEffect.getCures().isEmpty(), true));
+                            consume(toDrain, itemStack, player);
+                        }
                     }
                 }
             }

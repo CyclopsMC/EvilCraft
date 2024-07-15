@@ -1,38 +1,27 @@
 package org.cyclops.evilcraft.client.particle;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import org.cyclops.evilcraft.RegistryEntries;
-
-import java.util.Locale;
 
 /**
  * @author rubensworks
  */
 public class ParticleColoredSmokeData implements ParticleOptions {
 
-    public static final Deserializer<ParticleColoredSmokeData> DESERIALIZER = new Deserializer<ParticleColoredSmokeData>() {
-        public ParticleColoredSmokeData fromCommand(ParticleType<ParticleColoredSmokeData> particleType, StringReader reader) throws CommandSyntaxException {
-            reader.expect(' ');
-            float r = (float) reader.readDouble();
-            reader.expect(' ');
-            float g = (float) reader.readDouble();
-            reader.expect(' ');
-            float b = (float) reader.readDouble();
-            return new ParticleColoredSmokeData(r, g, b);
-        }
-
-        public ParticleColoredSmokeData fromNetwork(ParticleType<ParticleColoredSmokeData> particleTypeIn, FriendlyByteBuf buffer) {
-            return new ParticleColoredSmokeData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
-        }
-    };
-    public static final Codec<ParticleColoredSmokeData> CODEC = RecordCodecBuilder.create((builder) -> builder
+    public static final StreamCodec<RegistryFriendlyByteBuf, ParticleColoredSmokeData> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT, ParticleColoredSmokeData::getR,
+            ByteBufCodecs.FLOAT, ParticleColoredSmokeData::getG,
+            ByteBufCodecs.FLOAT, ParticleColoredSmokeData::getB,
+            ParticleColoredSmokeData::new
+    );
+    public static final MapCodec<ParticleColoredSmokeData> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder
             .group(
                     Codec.FLOAT.fieldOf("r").forGetter(ParticleColoredSmokeData::getR),
                     Codec.FLOAT.fieldOf("g").forGetter(ParticleColoredSmokeData::getG),
@@ -65,19 +54,5 @@ public class ParticleColoredSmokeData implements ParticleOptions {
     @Override
     public ParticleType<?> getType() {
         return RegistryEntries.PARTICLE_COLORED_SMOKE.get();
-    }
-
-    @Override
-    public void writeToNetwork(FriendlyByteBuf buffer) {
-        buffer.writeFloat(r);
-        buffer.writeFloat(g);
-        buffer.writeFloat(b);
-    }
-
-    @Override
-    public String writeToString() {
-        return String.format(Locale.ROOT, "%s %.2f %.2f %.2f",
-                BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                this.r, this.g, this.b);
     }
 }

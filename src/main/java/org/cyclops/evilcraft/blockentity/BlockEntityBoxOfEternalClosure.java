@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -10,6 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -33,19 +35,6 @@ import java.util.Random;
  *
  */
 public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
-
-    /**
-     * The name of the NBT tag that will hold spirit entity data.
-     */
-    public static final String NBTKEY_SPIRIT = "spiritTag";
-    /**
-     * The name of the NBT tag that will hold the player id.
-     */
-    public static final String NBTKEY_PLAYERID = "playerId";
-    /**
-     * The name of the NBT tag that will hold the player name.
-     */
-    public static final String NBTKEY_PLAYERNAME = "playerName";
     /**
      * The lid angle for when this box is open.
      */
@@ -88,12 +77,8 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     @Nullable
-    public static EntityType<?> getSpiritType(@Nullable CompoundTag tag) {
-        if(tag != null) {
-            CompoundTag spiritTag = tag.getCompound(NBTKEY_SPIRIT);
-            return EntityVengeanceSpiritData.getSpiritType(spiritTag);
-        }
-        return null;
+    public static EntityType<?> getSpiritType(ItemStack itemStack) {
+        return EntityVengeanceSpiritData.getSpiritType(itemStack);
     }
 
     public CompoundTag getSpiritTag() {
@@ -431,8 +416,8 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     @Override
-    public void read(CompoundTag tag) {
-        super.read(tag);
+    public void read(CompoundTag tag, HolderLookup.Provider provider) {
+        super.read(tag, provider);
         initializeState();
         initializeLidAngle();
     }

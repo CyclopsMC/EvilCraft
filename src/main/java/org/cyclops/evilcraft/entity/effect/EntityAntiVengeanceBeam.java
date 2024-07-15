@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.entity.effect;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -49,7 +50,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     }
 
     @Override
-    protected float getGravity() {
+    protected double getDefaultGravity() {
         return 0.0F;
     }
 
@@ -60,7 +61,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
 
     }
 

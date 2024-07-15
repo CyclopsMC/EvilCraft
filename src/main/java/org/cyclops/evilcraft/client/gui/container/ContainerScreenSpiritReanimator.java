@@ -2,12 +2,12 @@ package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.core.registries.BuiltInRegistries;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritFurnace;
@@ -105,7 +105,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_reanimator_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_reanimator_gui.png");
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
         else {
             ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
             if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
-                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack.getTag()) != BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(entityName))) {
+                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack) != BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(entityName))) {
                 lines.add(Component.translatable(prefix + ".different_egg"));
             }
         }

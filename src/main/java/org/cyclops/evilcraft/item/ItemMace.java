@@ -1,25 +1,26 @@
 package org.cyclops.evilcraft.item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -29,6 +30,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedEntityData;
 import org.cyclops.evilcraft.client.particle.ParticleDistortData;
 import org.cyclops.evilcraft.client.particle.ParticleExplosionExtendedData;
@@ -80,7 +82,7 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public int getUseDuration(ItemStack itemStack) {
+    public int getUseDuration(ItemStack itemStack, LivingEntity entity) {
         return this.maximumCharge * (this.powerLevels - getPower(itemStack));
     }
 
@@ -114,7 +116,7 @@ public abstract class ItemMace extends ItemBloodContainer {
 
     @OnlyIn(Dist.CLIENT)
     protected void showUsingItemTick(Level world, ItemStack itemStack, LivingEntity entity, int duration) {
-        int itemUsedCount = getUseDuration(itemStack) - duration;
+        int itemUsedCount = getUseDuration(itemStack, entity) - duration;
         double area = getArea(itemUsedCount);
         int points = (int) (Math.pow(area, 0.55)) * 2 + 1;
         int particleChance = 5 * (this.powerLevels - getPower(itemStack));
@@ -205,16 +207,16 @@ public abstract class ItemMace extends ItemBloodContainer {
             IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack).orElse(null);
             Player player = (Player) entity;
             // Actual usage length
-            int itemUsedCount = getUseDuration(itemStack) - itemInUseCount;
+            int itemUsedCount = getUseDuration(itemStack, entity) - itemInUseCount;
 
             // Calculate how much blood to drain
             int toDrain = itemUsedCount * fluidHandler.getCapacity() * (getPower(itemStack) + 1)
-                    / (getUseDuration(itemStack) * this.powerLevels);
+                    / (getUseDuration(itemStack, entity) * this.powerLevels);
             FluidStack consumed = consume(toDrain, itemStack, player);
             int consumedAmount = consumed == null ? 0 : consumed.getAmount();
 
             // Recalculate the itemUsedCount depending on how much blood is available
-            itemUsedCount = consumedAmount * getUseDuration(itemStack) / fluidHandler.getCapacity();
+            itemUsedCount = consumedAmount * getUseDuration(itemStack, entity) / fluidHandler.getCapacity();
 
             // Only do something if there is some blood left
             if (consumedAmount > 0) {
@@ -260,19 +262,21 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack itemStack) {
-        if (slot == EquipmentSlot.MAINHAND) {
-            return ImmutableMultimap.of(Attributes.ATTACK_DAMAGE,
-                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.meleeDamage, AttributeModifier.Operation.ADDITION));
-        }
-        return super.getAttributeModifiers(slot, itemStack);
+    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack itemStack) {
+        return new ItemAttributeModifiers(Lists.newArrayList(
+                new ItemAttributeModifiers.Entry(
+                        Attributes.ATTACK_DAMAGE,
+                        new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), this.meleeDamage, AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND
+                )
+        ), true);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         ItemPowerableHelpers.addPreInformation(itemStack, list);
-        super.appendHoverText(itemStack, world, list, flag);
+        super.appendHoverText(itemStack, context, list, flag);
         ItemPowerableHelpers.addPostInformation(itemStack, list);
     }
 

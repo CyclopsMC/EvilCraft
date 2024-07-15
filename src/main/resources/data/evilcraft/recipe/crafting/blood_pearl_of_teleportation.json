@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PGP",
+    "GPG",
+    "PGP"
+  ],
+  "key": {
+    "P": {
+      "tag": "c:ender_pearls"
+    },
+    "G": {
+      "item": "evilcraft:dark_power_gem"
+    }
+  },
+  "result": {
+    "id": "evilcraft:blood_pearl_of_teleportation"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "IGI",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "item": "evilcraft:dark_gem"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "G": {
+      "tag": "c:glass"
+    }
+  },
+  "result": {
+    "id": "evilcraft:dark_tank"
+  }
+}

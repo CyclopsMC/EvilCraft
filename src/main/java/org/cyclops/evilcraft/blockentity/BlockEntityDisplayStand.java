@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -85,15 +86,15 @@ public class BlockEntityDisplayStand extends CyclopsBlockEntity {
     }
 
     @Override
-    public void read(CompoundTag tag) {
-        super.read(tag);
-        inventory.readFromNBT(tag, "inventory");
+    public void read(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+        super.read(tag, holderLookupProvider);
+        inventory.readFromNBT(holderLookupProvider, tag, "inventory");
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        inventory.writeToNBT(tag, "inventory");
-        super.saveAdditional(tag);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+        inventory.writeToNBT(holderLookupProvider, tag, "inventory");
+        super.saveAdditional(tag, holderLookupProvider);
     }
 
     @Override

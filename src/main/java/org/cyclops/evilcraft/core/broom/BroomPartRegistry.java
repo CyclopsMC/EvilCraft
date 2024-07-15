@@ -5,14 +5,12 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
@@ -22,6 +20,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
@@ -70,7 +69,11 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     public <P extends IBroomPart> void registerPartItem(@Nullable P part, Supplier<ItemStack> item) {
         if (part != null) {
             Objects.requireNonNull(item);
-            partItems.put(part, item);
+            partItems.put(part, () -> {
+                ItemStack itemStack = item.get();
+                itemStack.set(DataComponents.RARITY, part.getRarity());
+                return itemStack;
+            });
         }
     }
 
@@ -120,7 +123,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     @Override
     public <P extends IBroomPart> P getPartFromItem(ItemStack item) {
         for (Map.Entry<IBroomPart, Supplier<ItemStack>> entry : partItems.entries()) {
-            if (ItemStack.isSameItemSameTags(item, entry.getValue().get())) {
+            if (ItemStack.isSameItemSameComponents(item, entry.getValue().get())) {
                 return (P) entry.getKey();
             }
         }
@@ -164,15 +167,8 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     public Collection<IBroomPart> getBroomParts(ItemStack broomStack) {
         if(!broomStack.isEmpty()) {
             List<IBroomPart> parts = Lists.newArrayList();
-            if(broomStack.hasTag()) {
-                ListTag tags = broomStack.getTag().getList(NBT_TAG_NAME, Tag.TAG_STRING);
-                for (int i = 0; i < tags.size(); i++) {
-                    String id = tags.getString(i);
-                    IBroomPart part = getPart(new ResourceLocation(id));
-                    if (part != null) {
-                        parts.add(part);
-                    }
-                }
+            if(broomStack.has(RegistryEntries.COMPONENT_BROOM_PARTS)) {
+                parts.addAll(broomStack.get(RegistryEntries.COMPONENT_BROOM_PARTS).getParts());
             }
 
             if(parts.isEmpty()) {
@@ -189,14 +185,16 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     @Override
     public void setBroomParts(ItemStack broomStack, Collection<IBroomPart> broomParts) {
-        ListTag list = new ListTag();
-        for (IBroomPart broomPart : broomParts) {
-            list.add(StringTag.valueOf(broomPart.getId().toString()));
+        broomStack.set(RegistryEntries.COMPONENT_BROOM_PARTS, new BroomPartsContents(Lists.newArrayList(broomParts)));
+        broomStack.set(DataComponents.RARITY, getRarity(broomParts));
+    }
+
+    protected Rarity getRarity(Collection<IBroomPart> broomParts) {
+        int maxRarity = 0;
+        for (IBroomPart part : broomParts) {
+            maxRarity = Math.max(maxRarity, part.getRarity().ordinal());
         }
-        if(!broomStack.hasTag()) {
-            broomStack.setTag(new CompoundTag());
-        }
-        broomStack.getTag().put(NBT_TAG_NAME, list);
+        return Rarity.values()[maxRarity];
     }
 
     public void onTooltipEvent(ItemTooltipEvent event) {

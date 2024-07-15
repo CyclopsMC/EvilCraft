@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.client.gui.container;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -65,7 +66,7 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "exalted_crafter_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "exalted_crafter_gui.png");
     }
 
     @SuppressWarnings("unchecked")
@@ -93,7 +94,7 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
         // super.drawGuiContainerForegroundLayer(matrixStack, x, y);
         ItemStack itemStack = container.getItemStack(getMinecraft().player);
         Component name = Component.translatable("gui.exalted_crafting");
-        if(itemStack.hasCustomHoverName()) {
+        if(itemStack.has(DataComponents.CUSTOM_NAME)) {
             name = itemStack.getHoverName();
         }
         // MCP: drawString

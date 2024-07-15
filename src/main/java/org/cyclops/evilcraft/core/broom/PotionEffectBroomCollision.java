@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.broom;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -13,15 +14,15 @@ import org.cyclops.evilcraft.entity.item.EntityBroom;
  */
 public class PotionEffectBroomCollision implements BroomModifier.ICollisionListener {
 
-    private final MobEffect potion;
+    private final Holder<MobEffect> potion;
     private final int level;
 
-    public PotionEffectBroomCollision(MobEffect potion, int level) {
+    public PotionEffectBroomCollision(Holder<MobEffect> potion, int level) {
         this.potion = potion;
         this.level = level;
     }
 
-    public PotionEffectBroomCollision(MobEffect potion) {
+    public PotionEffectBroomCollision(Holder<MobEffect> potion) {
         this(potion, 1);
     }
 

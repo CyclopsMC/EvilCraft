@@ -2,6 +2,9 @@ package org.cyclops.evilcraft.core.weather;
 
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 
@@ -23,6 +26,16 @@ public abstract class WeatherType {
                 }
                 return weatherType;
             }, (weatherType) -> weatherType.toString().toUpperCase(Locale.ENGLISH));
+    public static final StreamCodec<ByteBuf, WeatherType> STREAM_CODEC = ByteBufCodecs.STRING_UTF8
+            .map(
+                    name -> {
+                        WeatherType weatherType = WeatherType.valueOf(name);
+                        if(weatherType == null) {
+                            throw new JsonSyntaxException(String.format("Could not found the weather '%s'", name));
+                        }
+                        return weatherType;
+                    }, (weatherType) -> weatherType.toString().toUpperCase(Locale.ENGLISH)
+            );
 
     /**
      * Any weather type.

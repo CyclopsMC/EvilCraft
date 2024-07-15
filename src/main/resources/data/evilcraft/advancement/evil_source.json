@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "id": "evilcraft:origins_of_darkness"
+    },
+    "title": {
+      "translate": "advancement.evilcraft.evil_source"
+    },
+    "description": {
+      "translate": "advancement.evilcraft.evil_source.desc"
+    },
+    "hidden": true
+  },
+  "parent": "evilcraft:root",
+  "criteria": {
+    "criteria_0": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "evilcraft:origins_of_darkness"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

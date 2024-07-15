@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
@@ -26,22 +27,22 @@ public class ItemDarkenedApple extends Item {
         super(properties
                 .food((new FoodProperties.Builder())
                         .nutrition(0)
-                        .saturationMod(0)
-                        .alwaysEat()
-                        .effect(() -> new MobEffectInstance(RegistryEntries.POTION_PALING.get(), POTION_DURATION * 20, POTION_AMPLIFIER), 1)
+                        .saturationModifier(0)
+                        .alwaysEdible()
+                        .effect(() -> new MobEffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER), 1)
                         .build()));
         NeoForge.EVENT_BUS.addListener(this::onInteract);
     }
 
     @Override
-    public int getUseDuration(ItemStack itemStack) {
+    public int getUseDuration(ItemStack itemStack, LivingEntity entity) {
         return 64;
     }
 
     public void onInteract(PlayerInteractEvent.EntityInteract event) {
         Entity entity = event.getTarget();
         if (event.getItemStack().getItem() == this && entity instanceof Animal animal) {
-            animal.addEffect(new MobEffectInstance(RegistryEntries.POTION_PALING.get(), POTION_DURATION * 20, POTION_AMPLIFIER));
+            animal.addEffect(new MobEffectInstance(RegistryEntries.POTION_PALING, POTION_DURATION * 20, POTION_AMPLIFIER));
             event.getItemStack().shrink(1);
             event.setCanceled(true);
             event.setCancellationResult(InteractionResult.CONSUME);

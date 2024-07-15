@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -55,7 +54,7 @@ public class ItemInvigoratingPendantConfig extends ItemConfig {
     }
 
     protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab() || event.getTabKey().equals(CreativeModeTabs.SEARCH)) {
+        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab()) {
             for (ItemStack itemStack : dynamicCreativeTabEntries()) {
                 event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }

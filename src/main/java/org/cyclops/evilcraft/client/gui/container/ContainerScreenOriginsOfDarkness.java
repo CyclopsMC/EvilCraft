@@ -26,7 +26,7 @@ public class ContainerScreenOriginsOfDarkness extends ScreenInfoBook<ContainerOr
 
     @Override
     protected ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "origins_of_darkness_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "origins_of_darkness_gui.png");
     }
 
     @Override

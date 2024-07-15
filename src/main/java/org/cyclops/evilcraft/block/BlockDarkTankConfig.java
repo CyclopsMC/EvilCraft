@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -55,7 +54,7 @@ public class BlockDarkTankConfig extends BlockConfig {
     }
 
     protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab() || event.getTabKey().equals(CreativeModeTabs.SEARCH)) {
+        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab()) {
             for (ItemStack itemStack : dynamicCreativeTabEntries()) {
                 event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }

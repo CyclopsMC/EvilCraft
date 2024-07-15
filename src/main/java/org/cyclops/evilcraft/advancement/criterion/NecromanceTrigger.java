@@ -6,7 +6,6 @@ import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.Entity;
 
 import java.util.Optional;
@@ -19,7 +18,7 @@ public class NecromanceTrigger extends SimpleCriterionTrigger<NecromanceTrigger.
 
     public static final Codec<NecromanceTrigger.Instance> CODEC = RecordCodecBuilder.create(
             p_311401_ -> p_311401_.group(
-                            ExtraCodecs.strictOptionalField(EntityPredicate.ADVANCEMENT_CODEC, "player").forGetter(NecromanceTrigger.Instance::player),
+                            EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(NecromanceTrigger.Instance::player),
                             EntityPredicate.CODEC.fieldOf("entity").forGetter(NecromanceTrigger.Instance::entityPredicate)
                     )
                     .apply(p_311401_, NecromanceTrigger.Instance::new)

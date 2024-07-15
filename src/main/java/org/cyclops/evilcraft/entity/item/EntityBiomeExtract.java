@@ -4,13 +4,10 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -23,10 +20,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.ImposterProtoChunk;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.PalettedContainer;
+import net.minecraft.world.level.chunk.status.ChunkStatus;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.apache.commons.lang3.tuple.Triple;
@@ -73,21 +70,21 @@ public class EntityBiomeExtract extends EntityThrowable {
         if (!level().isClientSide() && movingobjectposition.getType() == HitResult.Type.BLOCK) {
             ItemStack itemStack = getItem();
 
-            final Biome biome = ItemBiomeExtract.getBiome(level().registryAccess().registryOrThrow(Registries.BIOME), itemStack);
+            final Holder<Biome> biome = ItemBiomeExtract.getBiome(itemStack);
             if (biome != null) {
                 // Update biome in organic spread
                 Set<ChunkPos> updatedChunks = Sets.newHashSet();
                 OrganicSpread spread = new OrganicSpread(level(), 2, 5, new OrganicSpread.IOrganicSpreadable() {
                     @Override
                     public boolean isDone(Level world, BlockPos location) {
-                        return world.getBiome(location).value() == biome;
+                        return world.getBiome(location).is(biome);
                     }
 
                     @Override
                     public void spreadTo(Level world, BlockPos location) {
                         setBiome((ServerLevel) world, location, biome);
                         updatedChunks.add(new ChunkPos(location));
-                        int color = biome.getFoliageColor();
+                        int color = biome.value().getFoliageColor();
                         showChangedBiome((ServerLevel) world, new BlockPos(location.getX(), ((BlockHitResult) movingobjectposition).getBlockPos().getY(),
                                 location.getZ()), color);
                     }
@@ -119,7 +116,7 @@ public class EntityBiomeExtract extends EntityThrowable {
      * @param posIn The position.
      * @param biome The biome to change to.
      */
-    public static void setBiome(ServerLevel world, BlockPos posIn, Biome biome) {
+    public static void setBiome(ServerLevel world, BlockPos posIn, Holder<Biome> biome) {
         BiomeManager biomeManager = world.getBiomeManager();
         // Worldgen applies some funk "magnifier" position transformation to a "noise position",
         // which can change the pos into some other internal pos.
@@ -163,13 +160,6 @@ public class EntityBiomeExtract extends EntityThrowable {
             chunk = ((ImposterProtoChunk) chunk).getWrapped();
         }
         if(chunk != null) {
-            // HACK
-            // Due to some weird thing in MC, different instances of the same biome can exist.
-            // This hack allows us to convert to the biome instance that is required for chunk serialization.
-            // This avoids weird errors in the form of "Received invalid biome id: -1" (#818)
-            Registry<Biome> biomeRegistry = world.registryAccess().registryOrThrow(Registries.BIOME);
-            Holder<Biome> biomeHack = biomeRegistry.getHolder(ResourceKey.create(Registries.BIOME, biomeRegistry.getKey(biome))).get();
-
             // Update biome in chunk
             // Based on ChunkAccess#getNoiseBiome
             int minBuildHeight = QuartPos.fromBlock(chunk.getMinBuildHeight());
@@ -177,7 +167,7 @@ public class EntityBiomeExtract extends EntityThrowable {
             int dummyY = Mth.clamp(i3, minBuildHeight, maxHeight);
             int sectionIndex = chunk.getSectionIndex(QuartPos.toBlock(dummyY));
             //chunk.sections[sectionIndex].getNoiseBiome(l2 & 3, dummyY & 3, j3 & 3);
-            ((PalettedContainer<Holder<Biome>>) chunk.sections[sectionIndex].getBiomes()).set(l2 & 3, dummyY & 3, j3 & 3, biomeHack);
+            ((PalettedContainer<Holder<Biome>>) chunk.sections[sectionIndex].getBiomes()).set(l2 & 3, dummyY & 3, j3 & 3, biome);
 
             chunk.setUnsaved(true);
         } else {
@@ -186,7 +176,7 @@ public class EntityBiomeExtract extends EntityThrowable {
     }
 
     /**
-     * This should be called after {@link EntityBiomeExtract#setBiome(ServerLevel, BlockPos, Biome)}}
+     * This should be called after {@link EntityBiomeExtract#setBiome(ServerLevel, BlockPos, Holder)}
      * to notify players of biome change.
      * @param world The world.
      * @param chunkPos The chunk position in which one or more biome positions were changed.
@@ -224,9 +214,9 @@ public class EntityBiomeExtract extends EntityThrowable {
     }
 
     @Override
-    protected float getGravity() {
+    protected double getDefaultGravity() {
         // The bigger, the faster the entity falls to the ground
-        return 0.1F;
+        return 0.1D;
     }
 
     @Override
@@ -239,7 +229,7 @@ public class EntityBiomeExtract extends EntityThrowable {
     }
 
     @Override
-    protected void defineSynchedData() {
-        entityData.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT));
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(ITEMSTACK_INDEX, new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT));
     }
 }

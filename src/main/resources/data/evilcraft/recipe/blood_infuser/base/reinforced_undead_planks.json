@@ -1,0 +1,16 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "input_item": {
+    "item": "evilcraft:undead_planks"
+  },
+  "input_fluid": {
+    "id": "evilcraft:blood",
+    "amount": 1000
+  },
+  "output_item": {
+    "id": "evilcraft:reinforced_undead_planks"
+  },
+  "duration": 250,
+  "xp": 1.2,
+  "tier": 2
+}

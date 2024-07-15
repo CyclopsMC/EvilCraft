@@ -1,0 +1,66 @@
+{
+    "pools": [
+        {
+            "name": "evilcraft:werewolf_flesh",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "evilcraft:flesh_werewolf",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "minecraft:enchanted_count_increase",
+                            "enchantment": "minecraft:looting",
+                            "count": {
+                                "type": "minecraft:uniform",
+                                "max": 1.0,
+                                "min": 0.0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "evilcraft:werewolf_bone",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "evilcraft:werewolf_bone",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "minecraft:set_count",
+                            "count": {
+                                "min": 0,
+                                "max": 2
+                            }
+                        },
+                        {
+                            "function": "minecraft:enchanted_count_increase",
+                            "enchantment": "minecraft:looting",
+                            "count": {
+                                "type": "minecraft:uniform",
+                                "max": 1.0,
+                                "min": 0.0
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "evilcraft:werewolf_fur",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "minecraft:item",
+                    "name": "evilcraft:werewolf_fur",
+                    "weight": 1
+                }
+            ]
+        }
+    ]
+}

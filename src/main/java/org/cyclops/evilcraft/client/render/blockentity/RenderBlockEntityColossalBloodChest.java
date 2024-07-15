@@ -21,7 +21,7 @@ import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
  */
 public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestBase<BlockEntityColossalBloodChest> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Reference.MOD_ID, "model/colossal_blood_chest");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "model/colossal_blood_chest");
 
     public RenderBlockEntityColossalBloodChest(BlockEntityRendererProvider.Context p_i226008_1_) {
         super(p_i226008_1_);

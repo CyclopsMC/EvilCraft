@@ -38,12 +38,12 @@ public class ModelDisplayStand implements UnbakedModel, IUnbakedGeometry<ModelDi
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-        return new ModelDisplayStandBaked(this.blockModel, this.blockModel.bake(bakery, spriteGetter, modelState, modelLocation), context, modelState, spriteGetter);
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+        return new ModelDisplayStandBaked(this.blockModel, this.blockModel.bake(bakery, spriteGetter, modelState), context, modelState, spriteGetter);
     }
 
     @Override
-    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ResourceLocation modelLocation) {
+    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
         throw new UnsupportedOperationException("Use the other bake implementation!");
     }
 

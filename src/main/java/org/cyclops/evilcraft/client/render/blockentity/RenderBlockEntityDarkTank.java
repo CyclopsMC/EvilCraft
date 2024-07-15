@@ -106,10 +106,10 @@ public class RenderBlockEntityDarkTank implements BlockEntityRenderer<BlockEntit
             } else if (side == Direction.UP || side == Direction.DOWN) {
                 maxV = icon.getV1();
             }
-            vb.vertex(matrix, c[0][0], getHeight(side, c[0][1], height), c[0][2]).color(r, g, b, a).uv(minU, maxV).uv2(l2, i3).endVertex();
-            vb.vertex(matrix, c[1][0], getHeight(side, c[1][1], height), c[1][2]).color(r, g, b, a).uv(minU, minV).uv2(l2, i3).endVertex();
-            vb.vertex(matrix, c[2][0], getHeight(side, c[2][1], height), c[2][2]).color(r, g, b, a).uv(maxU, minV).uv2(l2, i3).endVertex();
-            vb.vertex(matrix, c[3][0], getHeight(side, c[3][1], height), c[3][2]).color(r, g, b, a).uv(maxU, maxV).uv2(l2, i3).endVertex();
+            vb.addVertex(matrix, c[0][0], getHeight(side, c[0][1], height), c[0][2]).setColor(r, g, b, a).setUv(minU, maxV).setUv2(l2, i3);
+            vb.addVertex(matrix, c[1][0], getHeight(side, c[1][1], height), c[1][2]).setColor(r, g, b, a).setUv(minU, minV).setUv2(l2, i3);
+            vb.addVertex(matrix, c[2][0], getHeight(side, c[2][1], height), c[2][2]).setColor(r, g, b, a).setUv(maxU, minV).setUv2(l2, i3);
+            vb.addVertex(matrix, c[3][0], getHeight(side, c[3][1], height), c[3][2]).setColor(r, g, b, a).setUv(maxU, maxV).setUv2(l2, i3);
         }
     }
 

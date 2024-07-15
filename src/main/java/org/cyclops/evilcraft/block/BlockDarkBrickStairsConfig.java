@@ -18,7 +18,7 @@ public class BlockDarkBrickStairsConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
                 "dark_brick_stairs",
-                eConfig -> new StairBlock(() -> RegistryEntries.BLOCK_DARK_BRICK.get().defaultBlockState(),
+                eConfig -> new StairBlock(RegistryEntries.BLOCK_DARK_BRICK.get().defaultBlockState(),
                         Block.Properties.of()
                                 .requiresCorrectToolForDrops()
                                 .strength(5.0F)

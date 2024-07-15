@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "evilcraft:bucket_poison"
+    },
+    {
+      "item": "minecraft:book"
+    }
+  ],
+  "result": {
+    "id": "minecraft:enchanted_book",
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "evilcraft:poison_tip": 1
+        },
+        "show_in_tooltip": true
+      }
+    }
+  }
+}

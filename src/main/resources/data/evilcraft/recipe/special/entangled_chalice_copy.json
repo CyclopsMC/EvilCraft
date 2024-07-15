@@ -1,0 +1,22 @@
+{
+  "type": "evilcraft:crafting_shaped_custom_output_entangled_chalice_copy",
+  "pattern": [
+    "GTG",
+    "DCD",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "T": {
+      "item": "evilcraft:corrupted_tear"
+    },
+    "D": {
+      "item": "evilcraft:dark_gem"
+    },
+    "C": {
+      "item": "evilcraft:entangled_chalice"
+    }
+  }
+}

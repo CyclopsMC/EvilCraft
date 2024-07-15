@@ -22,7 +22,7 @@ public abstract class RenderModelLiving<T extends Mob, M extends EntityModel<T>>
 
     public RenderModelLiving(EntityRendererProvider.Context context, ExtendedConfig<?, ?> config, M model, float par2) {
         super(context, model, par2);
-        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
+        texture = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
 
     @Override

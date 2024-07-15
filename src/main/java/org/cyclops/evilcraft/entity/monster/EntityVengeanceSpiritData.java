@@ -2,12 +2,14 @@ package org.cyclops.evilcraft.entity.monster;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.ItemStack;
+import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -77,7 +79,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public void readNBT(CompoundTag tag) {
-        setInnerEntityType(BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString(NBTKEY_INNER_ENTITY))));
+        setInnerEntityType(BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(tag.getString(NBTKEY_INNER_ENTITY))));
         setRemainingLife(tag.getInt(NBTKEY_REMAINING_LIFE));
         setFrozenDuration(tag.getInt(NBTKEY_FROZEN_DURATION));
         setSwarm(tag.getBoolean(NBTKEY_IS_SWARM));
@@ -120,11 +122,12 @@ public class EntityVengeanceSpiritData {
     }
 
     @Nullable
-    public static EntityType<?> getSpiritType(@Nullable CompoundTag tag) {
+    public static EntityType<?> getSpiritType(ItemStack itemStack) {
+        CompoundTag tag = itemStack.get(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA);
         if(tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             if (!innerEntity.isEmpty()) {
-                return BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(innerEntity));
+                return BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(innerEntity));
             }
         }
         return null;

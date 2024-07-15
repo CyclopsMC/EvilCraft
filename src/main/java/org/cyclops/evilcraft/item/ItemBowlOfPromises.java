@@ -42,7 +42,7 @@ public class ItemBowlOfPromises extends Item {
                 float division = (((float) (((Type.values().length - 2) -
                         (((ItemBowlOfPromises) itemStack.getItem()).type.getTier())) - 1) / 3) + 1);
                 int channel = (int) (255 / division);
-                return Helpers.RGBToInt(channel, channel, channel);
+                return Helpers.RGBAToInt(channel, channel, channel, 255);
             }
             return -1;
         }

@@ -1,0 +1,42 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.evilcraft.vengeance"
+  },
+  "effects": {
+    "minecraft:hit_block": [
+      {
+        "effect": {
+          "type": "evilcraft:summon_vengeance_spirit",
+          "area": 5,
+          "chance": 3
+        }
+      }
+    ],
+    "minecraft:post_attack": [
+      {
+        "affected": "attacker",
+        "effect": {
+          "type": "evilcraft:summon_vengeance_spirit",
+          "area": 5,
+          "chance": 3
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 50,
+    "per_level_above_first": 8
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 8
+  },
+  "slots": [
+    "mainhand"
+  ],
+  "supported_items": "#minecraft:enchantable/durability",
+  "weight": 1
+}

@@ -1,0 +1,15 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "input_item": {
+    "item": "minecraft:dead_bush"
+  },
+  "input_fluid": {
+    "id": "evilcraft:blood",
+    "amount": 800
+  },
+  "output_item": {
+    "id": "evilcraft:undead_sapling"
+  },
+  "duration": 200,
+  "xp": 1.5
+}

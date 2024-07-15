@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -427,10 +428,10 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     @Override
-    public void read(CompoundTag compound) {
-        super.read(compound);
+    public void read(CompoundTag compound, HolderLookup.Provider holderLookupProvider) {
+        super.read(compound, holderLookupProvider);
 
-        inventory.readFromNBT(compound, "inventory");
+        inventory.readFromNBT(holderLookupProvider, compound, "inventory");
 
         degradation = compound.getInt("degradation");
         tick = compound.getInt("tick");
@@ -447,10 +448,10 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+        super.saveAdditional(tag, holderLookupProvider);
 
-        inventory.writeToNBT(tag, "inventory");
+        inventory.writeToNBT(holderLookupProvider, tag, "inventory");
 
         tag.putInt("degradation", degradation);
         tag.putInt("tick", tick);
@@ -528,6 +529,11 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         public BlockPos getPos() {
             return this.tile.getBlockPos();
         }
+
+        @Override
+        public int size() {
+            return getContainerSize();
+        }
     }
 
     public static class Ticker extends BlockEntityTickerDelayed<BlockEntityEnvironmentalAccumulator> {
@@ -537,7 +543,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
             // Delayed loading of recipe when world is set
             if (blockEntity.recipeId != null && level != null) {
-                blockEntity.recipe = (RecipeHolder<RecipeEnvironmentalAccumulator>) level.getRecipeManager().byKey(new ResourceLocation(blockEntity.recipeId)).orElse(null);
+                blockEntity.recipe = (RecipeHolder<RecipeEnvironmentalAccumulator>) level.getRecipeManager().byKey(ResourceLocation.parse(blockEntity.recipeId)).orElse(null);
                 blockEntity.recipeId = null;
             }
 

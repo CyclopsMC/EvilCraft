@@ -62,7 +62,7 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
 
                 BlockState blockState = world.getBlockState(blockPos);
                 if (blockState.getBlock() instanceof LiquidBlock
-                        && ((LiquidBlock) blockState.getBlock()).getFluid() == getFluid()
+                        && ((LiquidBlock) blockState.getBlock()).fluid == getFluid()
                         && blockState.getValue(LiquidBlock.LEVEL) == 0) {
                     if(hasSpace) {
                         world.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);

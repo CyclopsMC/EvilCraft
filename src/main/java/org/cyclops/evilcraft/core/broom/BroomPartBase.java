@@ -48,7 +48,7 @@ public class BroomPartBase implements IBroomPart {
     @OnlyIn(Dist.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase(Locale.ROOT)));
+                ResourceLocation.fromNamespaceAndPath(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase(Locale.ROOT)));
     }
 
     @Override

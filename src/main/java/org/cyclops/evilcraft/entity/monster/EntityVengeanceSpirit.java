@@ -6,12 +6,14 @@ import lombok.experimental.Delegate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +28,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -108,7 +109,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     public static final EntityDataAccessor<String> WATCHERID_PLAYERID = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
     public static final EntityDataAccessor<String> WATCHERID_PLAYERNAME = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
 
-    public static final TagKey<Block> TAG_SPIRIT_BLOCKER = TagKey.create(Registries.BLOCK, new ResourceLocation("evilcraft:vengeance_spirit_blocker"));
+    public static final TagKey<Block> TAG_SPIRIT_BLOCKER = TagKey.create(Registries.BLOCK, ResourceLocation.parse("evilcraft:vengeance_spirit_blocker"));
 
     @Getter
     @Delegate
@@ -156,12 +157,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public float getStepHeight() {
-        return 5.0F;
-    }
-
-    @Override
-    public double getAttributeValue(Attribute attribute) {
+    public double getAttributeValue(Holder<Attribute> attribute) {
         if (attribute == Attributes.MOVEMENT_SPEED) {
             double speed = 0.25D;
             if(isSwarm()) {
@@ -209,12 +205,12 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public void defineSynchedData() {
-        super.defineSynchedData();
+    public void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
         if (preferredInnerEntity == null)
-            data = new EntityVengeanceSpiritSyncedData(this.entityData, EntityVengeanceSpiritData.getRandomInnerEntity(this.random));
+            data = new EntityVengeanceSpiritSyncedData(builder, this::getEntityData, EntityVengeanceSpiritData.getRandomInnerEntity(this.random));
         else
-            data = new EntityVengeanceSpiritSyncedData(this.entityData, preferredInnerEntity);
+            data = new EntityVengeanceSpiritSyncedData(builder, this::getEntityData, preferredInnerEntity);
     }
 
     @Override
@@ -230,18 +226,13 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public ResourceLocation getDefaultLootTable() {
-        return new ResourceLocation(Reference.MOD_ID, "entities/" + BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath());
+    public ResourceKey<LootTable> getDefaultLootTable() {
+        return ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entities/" + BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath()));
     }
 
     @Override
     public float getVoicePitch() {
         return super.getVoicePitch() / 3.0F;
-    }
-
-    @Override
-    public MobType getMobType() {
-        return MobType.UNDEAD;
     }
 
     @Override
@@ -276,15 +267,15 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         // Also drop loot from inner entity!
         LivingEntity innerEntity = getInnerEntity();
         if (innerEntity != null && damageSource != level().damageSources().fellOutOfWorld()) {
-            ResourceLocation deathLootTable = innerEntity.getLootTable();
+            ResourceKey<LootTable> deathLootTable = innerEntity.getLootTable();
             if (deathLootTable != null) {
-                LootTable loottable = level().getServer().getLootData().getLootTable(deathLootTable);
+                LootTable loottable = level().getServer().reloadableRegistries().getLootTable(deathLootTable);
                 LootParams.Builder lootcontext$builder = (new LootParams.Builder((ServerLevel) level()))
                         .withParameter(LootContextParams.THIS_ENTITY, innerEntity)
                         .withParameter(LootContextParams.ORIGIN, new Vec3(getX(), getY(), getZ()))
                         .withParameter(LootContextParams.DAMAGE_SOURCE, level().damageSources().generic())
-                        .withOptionalParameter(LootContextParams.KILLER_ENTITY, null)
-                        .withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, null);
+                        .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, null)
+                        .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, null);
 
                 if (fromPlayer && this.lastHurtByPlayer != null) {
                     lootcontext$builder = lootcontext$builder
@@ -362,15 +353,15 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         int numParticles = random.nextInt(5);
         if(!this.isAlive())
             numParticles *= 10;
-        float clearRange = size.width; // Particles can't spawn within this X and Z distance
+        float clearRange = size.width(); // Particles can't spawn within this X and Z distance
         for (int i=0; i < numParticles; i++) {
-            double particleX = getX() - size.width /2 + size.width * random.nextFloat();
-            if(particleX < 0.7F && particleX >= 0) particleX += size.width /2;
-            if(particleX > -0.7F && particleX <= 0) particleX -= size.width /2;
-            double particleY = getY() + size.height * random.nextFloat();
-            double particleZ = getZ() - size.width / 2 + size.width * random.nextFloat();
-            if(particleZ < clearRange && particleZ >= 0) particleZ += size.width /2;
-            if(particleZ > -clearRange && particleZ <= 0) particleZ -= size.width /2;
+            double particleX = getX() - size.width() /2 + size.width() * random.nextFloat();
+            if(particleX < 0.7F && particleX >= 0) particleX += size.width() /2;
+            if(particleX > -0.7F && particleX <= 0) particleX -= size.width() /2;
+            double particleY = getY() + size.height() * random.nextFloat();
+            double particleZ = getZ() - size.width() / 2 + size.width() * random.nextFloat();
+            if(particleZ < clearRange && particleZ >= 0) particleZ += size.width() /2;
+            if(particleZ > -clearRange && particleZ <= 0) particleZ -= size.width() /2;
 
             float particleMotionX = (-0.5F + random.nextFloat()) * 0.05F;
             float particleMotionY = (-0.5F + random.nextFloat()) * 0.05F;
@@ -387,11 +378,11 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         EntityDimensions size = getDimensions(getPose());
         int numParticles = 5 * (random.nextInt((getSwarmTier() << 1) + 1) + 1);
         for (int i=0; i < numParticles; i++) {
-            double particleX = getX() - size.width /2 + size.width * random.nextFloat();
-            if(particleX < 0.7F && particleX >= 0) particleX += size.width /2;
-            if(particleX > -0.7F && particleX <= 0) particleX -= size.width /2;
-            double particleY = getY() + size.height * random.nextFloat();
-            double particleZ = getZ() - size.width / 2 + size.width * random.nextFloat();
+            double particleX = getX() - size.width() /2 + size.width() * random.nextFloat();
+            if(particleX < 0.7F && particleX >= 0) particleX += size.width() /2;
+            if(particleX > -0.7F && particleX <= 0) particleX -= size.width() /2;
+            double particleY = getY() + size.height() * random.nextFloat();
+            double particleZ = getZ() - size.width() / 2 + size.width() * random.nextFloat();
 
             float particleMotionX = (-0.5F + random.nextFloat()) * 0.05F;
             float particleMotionY = (-0.5F + random.nextFloat()) * 0.05F;
@@ -501,7 +492,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public EntityDimensions getDimensions(Pose poseIn) {
+    protected EntityDimensions getDefaultDimensions(Pose poseIn) {
         if(isSwarm()) {
             return EntityDimensions.scalable(getSwarmTier() / 3 + 1, getSwarmTier() / 2 + 1);
         }
@@ -509,7 +500,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         if (innerEntity != null) {
             return innerEntity.getDimensions(poseIn);
         }
-        return super.getDimensions(poseIn);
+        return super.getDefaultDimensions(poseIn);
     }
 
     /**

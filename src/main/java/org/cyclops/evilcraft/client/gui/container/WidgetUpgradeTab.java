@@ -17,7 +17,7 @@ public class WidgetUpgradeTab extends WidgetTab {
 
     public WidgetUpgradeTab(AbstractContainerScreen gui, SlotEnabledCallback slotEnabledCallback) {
         super(28, 82, 0, 0, 0, 0, gui);
-        this.texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "gui_upgrades.png");
+        this.texture = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "gui_upgrades.png");
         this.slotEnabledCallback = slotEnabledCallback;
     }
 

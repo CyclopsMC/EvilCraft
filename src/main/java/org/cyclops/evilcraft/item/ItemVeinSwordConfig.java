@@ -1,7 +1,11 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.Tiers;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
 import org.cyclops.evilcraft.EvilCraft;
@@ -27,12 +31,25 @@ public class ItemVeinSwordConfig extends ItemConfig {
                 EvilCraft._instance,
                 "vein_sword",
                 eConfig -> new ItemVeinSword(new Item.Properties()
-                        )
+                            .attributes(SwordItem.createAttributes(Tiers.GOLD, 3, -2.4F)))
         );
+        EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     @Override
     protected Collection<ItemStack> getDefaultCreativeTabEntries() {
-        return Collections.singleton(((ItemVeinSword) getInstance()).getEnchantedItemStack());
+        return Collections.emptyList();
+    }
+
+    protected Collection<ItemStack> dynamicCreativeTabEntries(CreativeModeTab.ItemDisplayParameters parameters) {
+        return Collections.singleton(((ItemVeinSword) getInstance()).getEnchantedItemStack(parameters.holders()));
+    }
+
+    protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab()) {
+            for (ItemStack itemStack : dynamicCreativeTabEntries(event.getParameters())) {
+                event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+        }
     }
 }

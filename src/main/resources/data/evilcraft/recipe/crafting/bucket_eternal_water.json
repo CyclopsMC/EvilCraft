@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GWG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_gem"
+    },
+    "W": {
+      "type": "neoforge:components",
+      "items": "evilcraft:weather_container",
+      "components": {
+        "evilcraft:weather_container_type": "RAIN"
+      }
+    }
+  },
+  "result": {
+    "id": "evilcraft:bucket_eternal_water",
+    "count": 4
+  }
+}

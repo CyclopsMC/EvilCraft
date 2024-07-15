@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GIG",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "evilcraft:blood_orb_empty"
+  }
+}

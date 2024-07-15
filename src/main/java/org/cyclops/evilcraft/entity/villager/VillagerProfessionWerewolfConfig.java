@@ -23,7 +23,7 @@ public class VillagerProfessionWerewolfConfig extends VillagerConfig {
                 EvilCraft._instance,
                 "werewolf",
                 eConfig -> new VillagerProfession(
-                        new ResourceLocation(Reference.MOD_ID, eConfig.getNamedId()).toString(),
+                        ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, eConfig.getNamedId()).toString(),
                         (poiType) -> poiType.is(PoiTypes.BUTCHER),
                         (poiType) -> poiType.is(PoiTypes.BUTCHER),
                         ImmutableSet.of(),

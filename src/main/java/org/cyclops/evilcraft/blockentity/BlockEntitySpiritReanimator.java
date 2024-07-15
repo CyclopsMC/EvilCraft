@@ -207,7 +207,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
     public EntityType<?> getEntityType() {
         ItemStack boxStack = getInventory().getItem(getConsumeSlot());
         if(boxStack.getItem() == getAllowedCookItem()) {
-            return BlockBoxOfEternalClosure.getSpiritTypeRaw(boxStack.getTag());
+            return BlockBoxOfEternalClosure.getSpiritTypeRaw(boxStack);
         }
         return null;
     }

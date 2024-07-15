@@ -26,7 +26,7 @@ public class ContainerScreenPrimedPendant extends ContainerScreenExtended<Contai
 
     @Override
     public ResourceLocation constructGuiTexture() {
-        return new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "primed_pendant_gui.png");
+        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "primed_pendant_gui.png");
     }
 
     @Override

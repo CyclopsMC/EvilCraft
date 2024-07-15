@@ -79,75 +79,75 @@ public final class BroomParts {
 
     public static void loadPre() {
         ROD_BARE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_bare"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_bare"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_WOOD = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_wood"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_wood"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_STONE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_stone"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_stone"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_BONE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_bone"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_bone"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_BLAZE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_blaze"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_blaze"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_REED = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_reed"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_reed"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_NETHERRACK = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_netherrack"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_netherrack"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_OBSIDIAN = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_obsidian"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_obsidian"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_UNDEAD = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_undead"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_undead"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_PRISMARINE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_prismarine"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_prismarine"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_ICE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_ice"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_ice"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_SPONGE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_sponge"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_sponge"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_ENDSTONE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_endstone"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_endstone"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_PURPUR = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_purpur"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_purpur"),
                 IBroomPart.BroomPartType.ROD, 1F));
         ROD_BAMBOO = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "rod_bamboo"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "rod_bamboo"),
                 IBroomPart.BroomPartType.ROD, 1F));
 
         BRUSH_BARE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "brush_bare"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "brush_bare"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_WHEAT = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "brush_wheat"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "brush_wheat"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_WOOL = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "brush_wool"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "brush_wool"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_FEATHER = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "brush_feather"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "brush_feather"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_TWIG = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "brush_twig"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "brush_twig"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_LEAVES = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "brush_leaves"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "brush_leaves"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
         BRUSH_HONEY = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "brush_honey"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "brush_honey"),
                 IBroomPart.BroomPartType.BRUSH, 0.4375F));
 
         CAP_BARE = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "cap_bare"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "cap_bare"),
                 IBroomPart.BroomPartType.CAP, 0.0625F));
 
         CAP_GEM_DARK = registerCapGem("dark", 55, 55, 55);
@@ -174,7 +174,7 @@ public final class BroomParts {
         CAP_METAL_MANYULLYN = registerCapMetal("manyullyn", 117, 58, 159);
 
         CAP_SLIME = REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "cap_slime"),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "cap_slime"),
                 IBroomPart.BroomPartType.CAP, 0.0625F));
     }
 
@@ -410,19 +410,19 @@ public final class BroomParts {
 
     public static IBroomPart registerCapGem(String name, int r, int g, int b) {
         return REGISTRY.registerPart(new BroomPartCapGem(
-                new ResourceLocation(Reference.MOD_ID, "cap_gem_" + name),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "cap_gem_" + name),
                 Helpers.RGBToInt(r, g, b)));
     }
 
     public static IBroomPart registerCapHead(String name) {
         return REGISTRY.registerPart(new BroomPartBase(
-                new ResourceLocation(Reference.MOD_ID, "cap_head_" + name),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "cap_head_" + name),
                 IBroomPart.BroomPartType.CAP, 0.5F));
     }
 
     public static IBroomPart registerCapMetal(String name, int r, int g, int b) {
         return REGISTRY.registerPart(new BroomPartCapMetal(
-                new ResourceLocation(Reference.MOD_ID, "cap_metal_" + name),
+                ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "cap_metal_" + name),
                 Helpers.RGBToInt(r, g, b)));
     }
 }

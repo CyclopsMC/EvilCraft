@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.blockentity;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.Level;
@@ -61,8 +62,8 @@ public abstract class BlockEntityTickingTankInventory<T extends BlockEntityTankI
     }
 
     @Override
-    public void read(CompoundTag data) {
-        super.read(data);
+    public void read(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
+        super.read(data, holderLookupProvider);
         currentState = data.getInt("currentState");
         ListTag tickerList = data.getList("tickers", 10);
         for(int i = 0; i < tickers.size(); i++) {
@@ -76,8 +77,8 @@ public abstract class BlockEntityTickingTankInventory<T extends BlockEntityTankI
     }
 
     @Override
-    public void saveAdditional(CompoundTag data) {
-        super.saveAdditional(data);
+    public void saveAdditional(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
+        super.saveAdditional(data, holderLookupProvider);
         data.putInt("currentState", currentState);
         ListTag tickerList = new ListTag();
         for(TickComponent<T, ITickAction<T>> ticker : tickers) {

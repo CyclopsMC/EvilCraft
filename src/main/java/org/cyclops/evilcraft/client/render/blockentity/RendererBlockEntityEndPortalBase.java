@@ -38,10 +38,10 @@ public abstract class RendererBlockEntityEndPortalBase<T extends BlockEntity> im
 
     public void renderFace(T p_173695_, Matrix4f p_173696_, VertexConsumer p_173697_, float p_173698_, float p_173699_, float p_173700_, float p_173701_, float p_173702_, float p_173703_, float p_173704_, float p_173705_, Direction p_173706_) {
         if (shouldRenderFace(p_173706_)) {
-            p_173697_.vertex(p_173696_, p_173698_, p_173700_, p_173702_).endVertex();
-            p_173697_.vertex(p_173696_, p_173699_, p_173700_, p_173703_).endVertex();
-            p_173697_.vertex(p_173696_, p_173699_, p_173701_, p_173704_).endVertex();
-            p_173697_.vertex(p_173696_, p_173698_, p_173701_, p_173705_).endVertex();
+            p_173697_.addVertex(p_173696_, p_173698_, p_173700_, p_173702_);
+            p_173697_.addVertex(p_173696_, p_173699_, p_173700_, p_173703_);
+            p_173697_.addVertex(p_173696_, p_173699_, p_173701_, p_173704_);
+            p_173697_.addVertex(p_173696_, p_173698_, p_173701_, p_173705_);
         }
 
     }

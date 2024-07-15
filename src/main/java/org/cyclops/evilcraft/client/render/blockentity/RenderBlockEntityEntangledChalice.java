@@ -45,10 +45,10 @@ public class RenderBlockEntityEntangledChalice implements BlockEntityRenderer<Bl
 
                     VertexConsumer vb = renderTypeBuffer.getBuffer(RenderType.text(icon.atlasLocation()));
                     Matrix4f matrix = matrixStack.last().pose();
-                    vb.vertex(matrix, 0.1875F, height, 0.1875F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV1()).uv2(l2, i3).endVertex();
-                    vb.vertex(matrix, 0.1875F, height, 0.8125F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU0(), icon.getV0()).uv2(l2, i3).endVertex();
-                    vb.vertex(matrix, 0.8125F, height, 0.8125F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV0()).uv2(l2, i3).endVertex();
-                    vb.vertex(matrix, 0.8125F, height, 0.1875F).color(color.getLeft(), color.getMiddle(), color.getRight(), 1).uv(icon.getU1(), icon.getV1()).uv2(l2, i3).endVertex();
+                    vb.addVertex(matrix, 0.1875F, height, 0.1875F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV1()).setUv2(l2, i3);
+                    vb.addVertex(matrix, 0.1875F, height, 0.8125F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV0()).setUv2(l2, i3);
+                    vb.addVertex(matrix, 0.8125F, height, 0.8125F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU1(), icon.getV0()).setUv2(l2, i3);
+                    vb.addVertex(matrix, 0.8125F, height, 0.1875F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU1(), icon.getV1()).setUv2(l2, i3);
                 });
             } catch (NullPointerException e) {
                 // This can happen because worlds are multi-threaded, and the fluid suddenly may become null while out fluid context is being executed.

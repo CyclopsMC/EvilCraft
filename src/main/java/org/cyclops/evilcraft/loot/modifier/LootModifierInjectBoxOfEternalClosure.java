@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.loot.modifier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -23,7 +24,7 @@ import java.util.function.Supplier;
  * @author rubensworks
  */
 public class LootModifierInjectBoxOfEternalClosure extends LootModifier {
-    public static final Supplier<Codec<LootModifierInjectBoxOfEternalClosure>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.create(inst -> codecStart(inst).and(
+    public static final Supplier<MapCodec<LootModifierInjectBoxOfEternalClosure>> CODEC = Suppliers.memoize(() -> RecordCodecBuilder.mapCodec(inst -> codecStart(inst).and(
             Codec.list(Codec.STRING).fieldOf("loot_tables").forGetter(LootModifierInjectBoxOfEternalClosure::getLootTables)
     ).apply(inst, LootModifierInjectBoxOfEternalClosure::new)));
 
@@ -68,7 +69,7 @@ public class LootModifierInjectBoxOfEternalClosure extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return CODEC.get();
     }
 }

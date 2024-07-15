@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    " G ",
+    "STS"
+  ],
+  "key": {
+    "G": {
+      "item": "evilcraft:dark_power_gem"
+    },
+    "T": {
+      "item": "evilcraft:dark_stick"
+    },
+    "S": {
+      "item": "evilcraft:dark_spike"
+    }
+  },
+  "result": {
+    "id": "evilcraft:vein_sword",
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:looting": 2
+        },
+        "show_in_tooltip": true
+      }
+    }
+  }
+}

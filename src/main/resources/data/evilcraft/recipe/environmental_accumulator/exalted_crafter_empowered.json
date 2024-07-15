@@ -1,0 +1,11 @@
+{
+  "type": "evilcraft:environmental_accumulator",
+  "input_item": {
+    "item": "evilcraft:exalted_crafter"
+  },
+  "input_weather": "LIGHTNING",
+  "output_item": {
+    "id": "evilcraft:exalted_crafter_empowered"
+  },
+  "output_weather": "RAIN"
+}

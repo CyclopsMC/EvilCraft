@@ -5,9 +5,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -21,7 +21,7 @@ import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.core.block.IBlockTank;
-import org.cyclops.evilcraft.core.fluid.SimulatedFluidStack;
+import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
 
 import javax.annotation.Nonnull;
 
@@ -112,7 +112,7 @@ public class BlockTankHelpers {
         if (!event.getItemStack().isEmpty()
                 && event.getItemStack().getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.ITEM) != null
                 && event.getLevel().getBlockState(event.getPos()).getBlock() instanceof IBlockTank) {
-            event.setUseBlock(Event.Result.ALLOW);
+            event.setUseBlock(TriState.TRUE);
         }
     }
 
@@ -153,13 +153,13 @@ public class BlockTankHelpers {
         @Override
         public FluidStack drain(FluidStack resource, FluidAction action) {
             FluidStack drained = tank.drain(resource, action);
-            return action.execute() ? drained : new SimulatedFluidStack(drained.getFluid(), drained.getAmount());
+            return action.execute() ? drained : FluidContainerItemWrapperWithSimulation.asSimulatedFluidStack(new FluidStack(drained.getFluid(), drained.getAmount()));
         }
 
         @Override
         public FluidStack drain(int maxDrain, FluidAction action) {
             FluidStack drained = tank.drain(maxDrain, action);
-            return action.execute() ? drained : new SimulatedFluidStack(drained.getFluid(), drained.getAmount());
+            return action.execute() ? drained : FluidContainerItemWrapperWithSimulation.asSimulatedFluidStack(new FluidStack(drained.getFluid(), drained.getAmount()));
         }
 
         public boolean isFull() {

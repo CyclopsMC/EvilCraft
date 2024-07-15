@@ -1,12 +1,13 @@
 package org.cyclops.evilcraft.blockentity.tickaction.purifier;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import com.google.common.collect.Lists;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -15,6 +16,7 @@ import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Purifier action to collect entity potion effects in an empty bottle.
@@ -100,13 +102,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                                     ItemStack itemStack = new ItemStack(Items.POTION);
 
                                     // Add potion effects
-                                    CompoundTag tag = new CompoundTag();
-                                    ListTag tagList = new ListTag();
-                                    CompoundTag potionTag = new CompoundTag();
-                                    itemStack.setTag(tag);
-                                    potionEffect.save(potionTag);
-                                    tagList.add(potionTag);
-                                    tag.put("CustomPotionEffects", tagList);
+                                    itemStack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.empty(), Lists.newArrayList(potionEffect)));
 
                                     // Update purifier state
                                     tile.setBuckets(0, 0);

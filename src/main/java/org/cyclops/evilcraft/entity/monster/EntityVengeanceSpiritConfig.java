@@ -85,6 +85,7 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
                 .add(Attributes.MAX_HEALTH, 10.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3125D)
                 .add(Attributes.ATTACK_DAMAGE, 4.0D)
+                .add(Attributes.STEP_HEIGHT, 5.0D)
                 .build());
     }
 }

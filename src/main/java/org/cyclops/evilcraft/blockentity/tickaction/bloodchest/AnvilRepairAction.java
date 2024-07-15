@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodchest;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +27,7 @@ public class AnvilRepairAction implements IBloodChestRepairAction {
     }
 
     @Override
-    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, boolean doAction, boolean isBulk) {
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, boolean doAction, boolean isBulk, HolderLookup.Provider holderLookupProvider) {
         return Pair.of(25F, new ItemStack(itemStack.getItem() == Items.CHIPPED_ANVIL ? Items.ANVIL : Items.CHIPPED_ANVIL));
     }
 

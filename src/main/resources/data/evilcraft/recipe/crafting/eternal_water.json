@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GWG",
+    "GDG"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:glass_panes"
+    },
+    "W": {
+      "type": "neoforge:components",
+      "items": "evilcraft:weather_container",
+      "components": {
+        "evilcraft:weather_container_type": "RAIN"
+      }
+    },
+    "D": {
+      "item": "evilcraft:dark_block"
+    }
+  },
+  "result": {
+    "id": "evilcraft:eternal_water",
+    "count": 4
+  }
+}

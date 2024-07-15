@@ -41,7 +41,8 @@ public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfi
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.WOOD)
-                        .noOcclusion()),
+                        .noOcclusion()
+                        .isValidSpawn((state, level, pos, type) -> false)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
                         ) {
                     @Override

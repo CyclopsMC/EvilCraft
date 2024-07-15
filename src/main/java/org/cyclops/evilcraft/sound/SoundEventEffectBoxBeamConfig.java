@@ -12,7 +12,7 @@ public class SoundEventEffectBoxBeamConfig extends org.cyclops.cyclopscore.confi
         super(
                 EvilCraft._instance,
                 "effect_box_beam",
-                (eConfig) -> SoundEvent.createVariableRangeEvent(new ResourceLocation(eConfig.getMod().getModId(), eConfig.getNamedId()))
+                (eConfig) -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(eConfig.getMod().getModId(), eConfig.getNamedId()))
         );
     }
 }

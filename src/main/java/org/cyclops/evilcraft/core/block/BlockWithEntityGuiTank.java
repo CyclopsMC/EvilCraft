@@ -4,9 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -51,11 +51,11 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
-        if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
+    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
+        if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), world, blockPos, Direction.UP)) {
             return InteractionResult.SUCCESS;
         }
-        return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
+        return super.useWithoutItem(blockState, world, blockPos, player, rayTraceResult);
     }
 
     @Override
@@ -80,7 +80,7 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     }
 
     @Override
-    public boolean isActivated(ItemStack itemStack, Level world) {
+    public boolean isActivated(ItemStack itemStack, Item.TooltipContext context) {
         return false;
     }
 

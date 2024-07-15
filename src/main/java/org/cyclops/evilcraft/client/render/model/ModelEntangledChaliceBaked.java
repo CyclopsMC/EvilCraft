@@ -47,8 +47,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     private final static Map<String, Integer> seeds = Maps.newHashMap();
 
-    public static final ResourceLocation chaliceModelName = new ResourceLocation(Reference.MOD_ID, "block/chalice");;
-    public static final ResourceLocation gemsModelName = new ResourceLocation(Reference.MOD_ID, "block/gems");;
+    public static final ResourceLocation chaliceModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/chalice");;
+    public static final ResourceLocation gemsModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/gems");;
 
     public static BakedModel chaliceModel;
     public static BakedModel gemsModel;

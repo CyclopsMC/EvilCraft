@@ -1,0 +1,19 @@
+{
+  "type": "evilcraft:crafting_shaped_custom_output_dark_tank_large",
+  "pattern": [
+    " D ",
+    "IGI",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "item": "evilcraft:dark_block"
+    },
+    "I": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "G": {
+      "tag": "c:glass"
+    }
+  }
+}

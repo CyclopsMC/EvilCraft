@@ -1,0 +1,15 @@
+{
+  "type": "evilcraft:blood_infuser",
+  "input_item": {
+    "item": "evilcraft:dark_block"
+  },
+  "input_fluid": {
+    "id": "evilcraft:blood",
+    "amount": 2250
+  },
+  "output_item": {
+    "id": "evilcraft:dark_power_gem_block"
+  },
+  "duration": 1800,
+  "xp": 5
+}

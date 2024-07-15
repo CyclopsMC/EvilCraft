@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<RecipeEnvironmentalAccumulator> {
 
-    private static final ResourceLocation WEATHERS = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "weathers.png");
+    private static final ResourceLocation WEATHERS = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "weathers.png");
     private static final Map<WeatherType, Integer> X_ICON_OFFSETS = new HashMap<WeatherType, Integer>();
     static {
         X_ICON_OFFSETS.put(WeatherType.CLEAR, 0);

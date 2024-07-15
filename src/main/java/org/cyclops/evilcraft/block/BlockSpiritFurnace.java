@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -72,11 +71,11 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
+    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
         if (!BlockEntitySpiritFurnace.canWork(world, blockPos)) {
             return InteractionResult.FAIL;
         }
-        return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
+        return super.useWithoutItem(blockState, world, blockPos, player, rayTraceResult);
     }
 
     private void triggerDetector(LevelAccessor world, BlockPos blockPos, boolean valid) {

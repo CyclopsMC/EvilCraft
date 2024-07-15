@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.item;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
@@ -40,8 +41,8 @@ public class ItemVengeanceRing extends Item {
     private static final int BONUS_TICK_MODULUS = 5;
     private static final int BONUS_POTION_DURATION = 3 * 20;
     // Array of effects, each element: potion ID, duration, potion level.
-    private static final List<Triple<MobEffect, Integer, Integer>> RING_POWERS =
-            Lists.<Triple<MobEffect, Integer, Integer>>newArrayList(
+    private static final List<Triple<Holder<MobEffect>, Integer, Integer>> RING_POWERS =
+            Lists.newArrayList(
                     Triple.of(MobEffects.JUMP, BONUS_POTION_DURATION, 2),
                     Triple.of(MobEffects.INVISIBILITY, BONUS_POTION_DURATION, 1),
                     Triple.of(MobEffects.MOVEMENT_SPEED, BONUS_POTION_DURATION, 1),
@@ -131,7 +132,7 @@ public class ItemVengeanceRing extends Item {
      * @param player The player to receive the powers.
      */
     public static void updateRingPowers(Player player) {
-        for(Triple<MobEffect, Integer, Integer> power : RING_POWERS) {
+        for(Triple<Holder<MobEffect>, Integer, Integer> power : RING_POWERS) {
             player.addEffect(new MobEffectInstance(power.getLeft(), power.getMiddle(), power.getRight(), false, true));
         }
     }
@@ -151,8 +152,8 @@ public class ItemVengeanceRing extends Item {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
         L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.status");
     }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "LGL",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "tag": "c:glass"
+    },
+    "G": {
+      "item": "evilcraft:dark_gem"
+    }
+  },
+  "result": {
+    "id": "evilcraft:obscured_glass",
+    "count": 8
+  }
+}

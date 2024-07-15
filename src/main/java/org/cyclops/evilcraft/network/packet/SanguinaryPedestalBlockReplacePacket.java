@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.network.packet;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -19,9 +21,10 @@ import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
  * @author rubensworks
  *
  */
-public class SanguinaryPedestalBlockReplacePacket extends PacketCodec {
+public class SanguinaryPedestalBlockReplacePacket extends PacketCodec<SanguinaryPedestalBlockReplacePacket> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Reference.MOD_ID, "sanguinary_pedestal_block_replace");
+    public static final Type<SanguinaryPedestalBlockReplacePacket> ID = new Type<>(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "sanguinary_pedestal_block_replace"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SanguinaryPedestalBlockReplacePacket> CODEC = getCodec(SanguinaryPedestalBlockReplacePacket::new);
 
     public static final int RANGE = 15;
 

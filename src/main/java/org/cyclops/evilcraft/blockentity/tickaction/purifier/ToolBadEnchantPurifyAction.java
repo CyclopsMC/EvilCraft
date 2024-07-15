@@ -1,17 +1,15 @@
 package org.cyclops.evilcraft.blockentity.tickaction.purifier;
 
+import net.minecraft.core.Holder;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
-import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.DamageableItemRepairAction;
-import org.cyclops.evilcraft.enchantment.EnchantmentVengeance;
+import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.item.ItemVengeancePickaxe;
-
-import java.util.Map;
 
 /**
  * Purifier action to remove enchantments from tools.
@@ -33,72 +31,51 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
 
     @Override
     public boolean canWork(BlockEntityPurifier tile) {
+        Wrapper<Boolean> done = new Wrapper<>(false);
         if(!tile.getPurifyItem().isEmpty() && tile.getBucketsFloored() > 0) {
             // Check curses
-            for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(tile.getPurifyItem()).entrySet()) {
-                if (entry.getKey().isCurse()) {
-                    return true;
+            ItemStack purifyItem = tile.getPurifyItem();
+            EnchantmentHelpers.runIterationOnItem(purifyItem, (enchantment, level) -> {
+                if (enchantment.is(EnchantmentTags.CURSE) && !(purifyItem.getItem() instanceof ItemVengeancePickaxe)) {
+                    done.set(true);
                 }
-            }
-
-            // Check bad enchant registry
-            for(Enchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
-                if (!(tile.getPurifyItem().getItem() instanceof ItemVengeancePickaxe)
-                        || (enchant instanceof EnchantmentVengeance)) {
-                    int enchantmentListID = EnchantmentHelpers.doesEnchantApply(tile.getPurifyItem(), enchant);
-                    if (enchantmentListID >= 0) {
-                        return true;
-                    }
-                }
-            }
+            });
         }
-        return false;
+        return done.get();
     }
 
-    protected boolean removeEnchant(Level world, BlockEntityPurifier tile, ItemStack purifyItem, int tick, Enchantment enchant) {
-        int enchantmentListID = EnchantmentHelpers.doesEnchantApply(purifyItem, enchant);
-        if(enchantmentListID > -1) {
-            if(tick >= PURIFY_DURATION) {
-                if(!world.isClientSide()) {
-                    int level = EnchantmentHelpers.getEnchantmentLevel(purifyItem, enchantmentListID);
-                    EnchantmentHelpers.setEnchantmentLevel(purifyItem, enchantmentListID, level - 1);
-                }
-                tile.setBuckets(tile.getBucketsFloored() - 1, tile.getBucketsRest());
-                return true;
+    protected boolean removeEnchant(Level world, BlockEntityPurifier tile, ItemStack purifyItem, int tick, Holder<Enchantment> enchant, int level) {
+        if(tick >= PURIFY_DURATION) {
+            if(!world.isClientSide()) {
+                EnchantmentHelpers.setEnchantmentLevel(purifyItem, enchant, level - 1);
             }
-            if(world.isClientSide()) {
-                tile.showEffect();
-            }
+            tile.setBuckets(tile.getBucketsFloored() - 1, tile.getBucketsRest());
+            return true;
+        }
+        if(world.isClientSide()) {
+            tile.showEffect();
         }
         return false;
     }
 
     @Override
     public boolean work(BlockEntityPurifier tile) {
-        boolean done = false;
+        Wrapper<Boolean> done = new Wrapper<>(false);
 
         ItemStack purifyItem = tile.getPurifyItem();
         Level world = tile.getLevel();
         int tick = tile.getTick();
 
         // Try removing curses
-        for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(tile.getPurifyItem()).entrySet()) {
-            if (!done && entry.getKey().isCurse()) {
-                done = removeEnchant(world, tile, purifyItem, tick, entry.getKey());
-            }
-        }
-
-        // Try removing bad enchants.
-        for(Enchantment enchant : DamageableItemRepairAction.BAD_ENCHANTS) {
-            if(!done) {
-                if (!(tile.getPurifyItem().getItem() instanceof ItemVengeancePickaxe)
-                        || (enchant instanceof EnchantmentVengeance)) {
-                    done = removeEnchant(world, tile, purifyItem, tick, enchant);
+        EnchantmentHelpers.runIterationOnItem(purifyItem, (enchantment, level) -> {
+            if (enchantment.is(EnchantmentTags.CURSE) && !(purifyItem.getItem() instanceof ItemVengeancePickaxe)) {
+                if (removeEnchant(world, tile, purifyItem, tick, enchantment, level)) {
+                    done.set(true);
                 }
             }
-        }
+        });
 
-        return done;
+        return done.get();
     }
 
 }

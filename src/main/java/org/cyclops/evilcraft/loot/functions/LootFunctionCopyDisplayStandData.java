@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.loot.functions;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author rubensworks
  */
 public class LootFunctionCopyDisplayStandData extends LootItemConditionalFunction {
-    public static final Codec<LootFunctionCopyDisplayStandData> CODEC = RecordCodecBuilder.create(
+    public static final MapCodec<LootFunctionCopyDisplayStandData> CODEC = RecordCodecBuilder.mapCodec(
             builder -> commonFields(builder).apply(builder, LootFunctionCopyDisplayStandData::new)
     );
     public static final LootItemFunctionType TYPE = new LootItemFunctionType(LootFunctionCopyDisplayStandData.CODEC);

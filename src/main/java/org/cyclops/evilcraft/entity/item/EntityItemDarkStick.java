@@ -14,7 +14,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -33,6 +32,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     private double lastPosX = -1;
     private double lastPosY = -1;
     private double lastPosZ = -1;
+    private boolean loadedAngle = false;
 
     public EntityItemDarkStick(EntityType<? extends EntityItemDarkStick> type, Level world) {
         super(type, world);
@@ -43,11 +43,10 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     }
 
     @Override
-    public void defineSynchedData() {
-        super.defineSynchedData();
-        Float angle = MinecraftHelpers.isClientSide() ? null : loadRotation();
-        this.entityData.define(WATCHERID_VALID, angle != null ? 1 : 0);
-        this.entityData.define(WATCHERID_ANGLE, angle == null ? 0 : angle);
+    public void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(WATCHERID_VALID, 0);
+        builder.define(WATCHERID_ANGLE, 0F);
     }
 
     protected boolean hasMoved() {
@@ -61,7 +60,8 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     @Override
     public void tick() {
         super.tick();
-        if (!getCommandSenderWorld().isClientSide() && hasMoved()) {
+        if (!getCommandSenderWorld().isClientSide() && (hasMoved() || !this.loadedAngle)) {
+            this.loadedAngle = true;
             Float angle = loadRotation();
             setValid(angle != null);
             setAngle(angle == null ? 0 : angle);

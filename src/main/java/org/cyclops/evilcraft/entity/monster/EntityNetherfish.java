@@ -44,7 +44,7 @@ public class EntityNetherfish extends Silverfish {
     public boolean doHurtTarget(Entity entity) {
         // Ignite the attacked entity for a certain duration with a certain chance.
         if(this.random.nextFloat() < FIRE_CHANCE)
-            entity.setSecondsOnFire(this.random.nextInt(MAX_FIRE_DURATION));
+            entity.setRemainingFireTicks(this.random.nextInt(MAX_FIRE_DURATION));
         return super.doHurtTarget(entity);
     }
 

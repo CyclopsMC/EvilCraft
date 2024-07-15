@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -30,7 +31,6 @@ import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,7 +94,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if(block.isActivatable() && block.isActivated(stack, worldIn)) {
+        if(block.isActivatable() && block.isActivated(stack, Item.TooltipContext.of(worldIn))) {
             FluidUtil.getFluidHandler(stack)
                     .ifPresent(fluidHandler -> autofill(itemSlot, fluidHandler, worldIn, entityIn));
         }
@@ -103,13 +103,11 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
-        if (net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK != null) {
-            list.add(BlockTankHelpers.getInfoTank(itemStack));
-        }
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
+        list.add(BlockTankHelpers.getInfoTank(itemStack));
         if(block.isActivatable()) {
-            L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, world),
+            L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, context),
                     getDescriptionId() + ".info.auto_supply");
         }
     }

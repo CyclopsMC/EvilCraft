@@ -1,10 +1,15 @@
 package org.cyclops.evilcraft.item;
 
+import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,10 +27,12 @@ import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
@@ -46,18 +53,12 @@ public class ItemWeatherContainer extends Item {
     }
 
     public static WeatherContainerType getWeatherType(ItemStack itemStack) {
-        CompoundTag tag = itemStack.getTag();
-        if (tag != null) {
-            try {
-                return WeatherContainerType.valueOf(tag.getString("weather"));
-            } catch (IllegalArgumentException error) {}
-        }
-        return WeatherContainerType.EMPTY;
+        return itemStack.getOrDefault(RegistryEntries.COMPONENT_WEATHER_CONTAINER_TYPE, WeatherContainerType.EMPTY);
     }
 
     public static void setWeatherType(ItemStack itemStack, WeatherContainerType type) {
-        CompoundTag tag = itemStack.getOrCreateTag();
-        tag.putString("weather", type.name());
+        itemStack.set(RegistryEntries.COMPONENT_WEATHER_CONTAINER_TYPE, type);
+        itemStack.set(DataComponents.RARITY, type.rarity);
     }
 
     @Override
@@ -101,7 +102,7 @@ public class ItemWeatherContainer extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         WeatherContainerType type = getWeatherType(itemStack);
         list.add(type.description.withStyle(type.damageColor));
     }
@@ -125,19 +126,38 @@ public class ItemWeatherContainer extends Item {
         /**
          * Empty weather container.
          */
-        EMPTY(null, "empty", ChatFormatting.GRAY, Helpers.RGBToInt(125, 125, 125), Rarity.COMMON),
+        EMPTY(null, "empty", ChatFormatting.GRAY, Helpers.RGBAToInt(125, 125, 125, 255), Rarity.COMMON),
         /**
          * Clear weather container.
          */
-        CLEAR(WeatherType.CLEAR, "clear", ChatFormatting.AQUA, Helpers.RGBToInt(30, 150, 230), Rarity.UNCOMMON),
+        CLEAR(WeatherType.CLEAR, "clear", ChatFormatting.AQUA, Helpers.RGBAToInt(30, 150, 230, 255), Rarity.UNCOMMON),
         /**
          * Rain weather container.
          */
-        RAIN(WeatherType.RAIN, "rain", ChatFormatting.DARK_BLUE, Helpers.RGBToInt(0, 0, 255), Rarity.UNCOMMON),
+        RAIN(WeatherType.RAIN, "rain", ChatFormatting.DARK_BLUE, Helpers.RGBAToInt(0, 0, 255, 255), Rarity.UNCOMMON),
         /**
          * Lightning weather container.
          */
         LIGHTNING(WeatherType.LIGHTNING, "lightning", ChatFormatting.GOLD, Helpers.RGBToInt(255, 215, 0), Rarity.RARE);
+
+        public static final Codec<WeatherContainerType> CODEC = Codec.STRING.xmap(
+                name -> {
+                    WeatherContainerType weatherType = WeatherContainerType.valueOf(name);
+                    if(weatherType == null) {
+                        throw new JsonSyntaxException(String.format("Could not found the weather '%s'", name));
+                    }
+                    return weatherType;
+                }, (weatherType) -> weatherType.toString().toUpperCase(Locale.ENGLISH));
+        public static final StreamCodec<ByteBuf, WeatherContainerType> STREAM_CODEC = ByteBufCodecs.STRING_UTF8
+                .map(
+                        name -> {
+                            WeatherContainerType weatherType = WeatherContainerType.valueOf(name);
+                            if(weatherType == null) {
+                                throw new JsonSyntaxException(String.format("Could not found the weather '%s'", name));
+                            }
+                            return weatherType;
+                        }, (weatherType) -> weatherType.toString().toUpperCase(Locale.ENGLISH)
+                );
 
         private final WeatherType type;
 
@@ -205,16 +225,11 @@ public class ItemWeatherContainer extends Item {
         }
     }
 
-    @Override
-    public Rarity getRarity(ItemStack itemStack) {
-        return getWeatherType(itemStack).rarity;
-    }
-
     @OnlyIn(Dist.CLIENT)
     public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
         @Override
         public int getColor(ItemStack itemStack, int renderPass) {
-            return renderPass > 0 ? 16777215 : getWeatherType(itemStack).damageRenderColor;
+            return renderPass > 0 ? -1 : getWeatherType(itemStack).damageRenderColor;
         }
     }
 }

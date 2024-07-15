@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.api.tileentity.bloodchest;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
@@ -28,12 +29,14 @@ public interface IBloodChestRepairAction {
 
     /**
      * The repair logic for a given item for one tick.
-     * @param itemStack The item to repair.
-     * @param random A random instance.
-     * @param doAction If the actual repair action should be performed, otherwise this is just a simulation.
-     * @param isBulk If the repairing container repairs things in bulk.
+     *
+     * @param itemStack            The item to repair.
+     * @param random               A random instance.
+     * @param doAction             If the actual repair action should be performed, otherwise this is just a simulation.
+     * @param isBulk               If the repairing container repairs things in bulk.
+     * @param holderLookupProvider
      * @return Pair of blood usage multiplier and new itemstack.
      */
-    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, boolean doAction, boolean isBulk);
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, boolean doAction, boolean isBulk, HolderLookup.Provider holderLookupProvider);
 
 }

@@ -64,7 +64,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         @Override
         public BakedModel getNewValue(ResourceLocation textureName) {
             return bakeModel(blockModel, new GeometryBakingContextRetextured(context, textureName), blockModel.getElements(), transform,
-                    ItemOverrides.EMPTY, spriteGetter, new ResourceLocation(Reference.MOD_ID, "dummy"));
+                    ItemOverrides.EMPTY, spriteGetter, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "dummy"));
         }
 
         @Override
@@ -110,7 +110,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
             // Get reference texture
             BlockState blockState = BlockHelpers.getBlockStateFromItemStack(displayStandType);
             ResourceLocation textureName = Minecraft.getInstance().getModelManager().getBlockModelShaper()
-                    .getBlockModel(blockState).getParticleIcon().atlasLocation();
+                    .getBlockModel(blockState).getParticleIcon().contents().name();
             return modelCache.get(textureName);
         }
         return untexturedBakedModel;
@@ -121,23 +121,23 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
                                         ItemOverrides overrides, Function<Material, TextureAtlasSprite> spriteGetter,
                                         ResourceLocation modelName) {
         TextureAtlasSprite particle = spriteGetter.apply(context.getMaterial("particle"));
-        SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(blockModel, overrides, true).particle(particle);
+        SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(blockModel.hasAmbientOcclusion(), blockModel.getGuiLight().lightLikeBlock(), true, ModelHelpers.DEFAULT_CAMERA_TRANSFORMS, overrides).particle(particle);
         for(BlockElement blockPart : blockParts) {
             for(Direction direction : blockPart.faces.keySet()) {
                 BlockElementFace blockPartFace = blockPart.faces.get(direction);
 
                 // Remove mandatory hash at start of texture name
-                String texture = blockPartFace.texture;
+                String texture = blockPartFace.texture();
                 if (texture.charAt(0) == '#') {
                     texture = texture.substring(1);
                 }
                 TextureAtlasSprite sprite = spriteGetter.apply(context.getMaterial(texture));
 
-                if (blockPartFace.cullForDirection == null) {
-                    builder.addUnculledFace(UnbakedGeometryHelper.bakeElementFace(blockPart, blockPartFace, sprite, direction, transform, modelName));
+                if (blockPartFace.cullForDirection() == null) {
+                    builder.addUnculledFace(UnbakedGeometryHelper.bakeElementFace(blockPart, blockPartFace, sprite, direction, transform));
                 } else {
-                    builder.addCulledFace(Direction.rotate(transform.getRotation().getMatrix(), blockPartFace.cullForDirection),
-                            UnbakedGeometryHelper.bakeElementFace(blockPart, blockPartFace, sprite, direction, transform, modelName));
+                    builder.addCulledFace(Direction.rotate(transform.getRotation().getMatrix(), blockPartFace.cullForDirection()),
+                            UnbakedGeometryHelper.bakeElementFace(blockPart, blockPartFace, sprite, direction, transform));
                 }
             }
         }

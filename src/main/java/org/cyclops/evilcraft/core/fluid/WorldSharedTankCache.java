@@ -1,14 +1,16 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.LogicalSide;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
@@ -112,12 +114,7 @@ public class WorldSharedTankCache {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void onTickServer(TickEvent.ServerTickEvent event) {
-        this.onTick(event);
-    }
-
-    @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void onTickClient(TickEvent.ClientTickEvent event) {
+    public void onTickServer(ServerTickEvent.Pre event) {
         this.onTick(event);
     }
 
@@ -125,17 +122,15 @@ public class WorldSharedTankCache {
      * When a tick event is received.
      * @param event The received event.
      */
-    public void onTick(TickEvent event) {
-        if(event.phase == TickEvent.Phase.START) {
-            tick++;
-            if(event.side == LogicalSide.SERVER && getTickOffset() > INTERPOLATION_TICK_OFFSET) {
-                Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
-                while(it.hasNext()) {
-                    EvilCraft._instance.getPacketHandler().sendToAll(it.next().getValue());
-                    it.remove();
-                }
-                tick = 0;
+    public void onTick(ServerTickEvent.Pre event) {
+        tick++;
+        if(getTickOffset() > INTERPOLATION_TICK_OFFSET) {
+            Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
+            while(it.hasNext()) {
+                EvilCraft._instance.getPacketHandler().sendToAll(it.next().getValue());
+                it.remove();
             }
+            tick = 0;
         }
     }
 
@@ -153,13 +148,13 @@ public class WorldSharedTankCache {
      * Read the cache.
      * @param tag The tag to read from.
      */
-    public void readFromNBT(CompoundTag tag) {
+    public void readFromNBT(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
         if(tag != null) {
             ListTag list = tag.getList("tankCache", 10);
             for (int i = 0; i < list.size(); i++) {
                 CompoundTag subTag = list.getCompound(i);
                 setTankContent(subTag.getString("key"),
-                        FluidStack.loadFluidStackFromNBT(subTag.getCompound("value")));
+                        FluidStack.CODEC.decode(holderLookupProvider.createSerializationContext(NbtOps.INSTANCE), subTag.getCompound("value")).getOrThrow().getFirst());
             }
         }
     }
@@ -168,13 +163,12 @@ public class WorldSharedTankCache {
      * Write the cache.
      * @param tag The tag to write to.
      */
-    public void writeToNBT(CompoundTag tag) {
+    public void writeToNBT(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
         ListTag list = new ListTag();
         for(Map.Entry<String, FluidStack> entry : tankCache.entrySet()) {
             CompoundTag subTag = new CompoundTag();
             subTag.putString("key", removeMapID(entry.getKey()));
-            CompoundTag fluidTag = new CompoundTag();
-            entry.getValue().writeToNBT(fluidTag);
+            Tag fluidTag = FluidStack.CODEC.encodeStart(holderLookupProvider.createSerializationContext(NbtOps.INSTANCE), entry.getValue()).getOrThrow();
             subTag.put("value", fluidTag);
             list.add(subTag);
         }

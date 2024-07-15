@@ -32,7 +32,7 @@ import org.cyclops.cyclopscore.helper.MinecraftHelpers;
  */
 public class ItemBucketEternalWater extends BucketItem {
     public ItemBucketEternalWater(Properties properties) {
-        super(() -> Fluids.WATER, properties);
+        super(Fluids.WATER, properties);
     }
 
     @Override

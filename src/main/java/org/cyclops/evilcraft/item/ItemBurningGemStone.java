@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerDestroyItemEvent;
 import org.apache.commons.lang3.tuple.Pair;
@@ -26,11 +26,6 @@ public class ItemBurningGemStone extends Item {
         return ItemBurningGemStoneConfig.maxDamage;
     }
 
-    @Override
-    public Rarity getRarity(ItemStack itemStack) {
-        return Rarity.UNCOMMON;
-    }
-
     /**
      * Try damaging a burning gem stone inside the given player's inventory.
      * @param player The player.
@@ -45,9 +40,9 @@ public class ItemBurningGemStone extends Item {
             ItemStack itemStack = current.getRight();
             if(!itemStack.isEmpty() && itemStack.getItem() == RegistryEntries.ITEM_BURNING_GEM_STONE.get()) {
                 if(!simulate) {
-                    itemStack.hurtAndBreak(1 + swarmTier, player, (p) -> {
-                        p.getInventory().setItem(current.getLeft(), ItemStack.EMPTY);
-                        NeoForge.EVENT_BUS.post(new PlayerDestroyItemEvent(p, itemStack, null));
+                    itemStack.hurtAndBreak(1 + swarmTier, (ServerLevel) player.level(), player, (i) -> {
+                        player.getInventory().setItem(current.getLeft(), ItemStack.EMPTY);
+                        NeoForge.EVENT_BUS.post(new PlayerDestroyItemEvent(player, itemStack, null));
                     });
                     player.causeFoodExhaustion(10);
                 }

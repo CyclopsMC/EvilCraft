@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      {
+        "item": "evilcraft:bowl_of_promises_tier1"
+      },
+      {
+        "item": "evilcraft:bowl_of_promises_tier2"
+      },
+      {
+        "item": "evilcraft:bowl_of_promises_tier3"
+      }
+    ],
+    {
+      "item": "evilcraft:promise_acceptor_iron"
+    },
+    {
+      "tag": "c:storage_blocks/redstone"
+    }
+  ],
+  "result": {
+    "id": "evilcraft:promise_speed_0"
+  }
+}

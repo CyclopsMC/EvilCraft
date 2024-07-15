@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.loot.functions;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author rubensworks
  */
 public class LootFunctionCopyEntangledChaliceData extends LootItemConditionalFunction {
-    public static final Codec<LootFunctionCopyEntangledChaliceData> CODEC = RecordCodecBuilder.create(
+    public static final MapCodec<LootFunctionCopyEntangledChaliceData> CODEC = RecordCodecBuilder.mapCodec(
             builder -> commonFields(builder).apply(builder, LootFunctionCopyEntangledChaliceData::new)
     );
     public static final LootItemFunctionType TYPE = new LootItemFunctionType(LootFunctionCopyEntangledChaliceData.CODEC);

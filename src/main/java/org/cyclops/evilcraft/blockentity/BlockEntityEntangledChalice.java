@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -75,15 +76,15 @@ public class BlockEntityEntangledChalice extends CyclopsBlockEntity {
     }
 
     @Override
-    public void read(CompoundTag tag) {
-        super.read(tag);
-        tank.readFromNBT(tag, "tank");
+    public void read(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+        super.read(tag, holderLookupProvider);
+        tank.readFromNBT(holderLookupProvider, tag, "tank");
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        tank.writeToNBT(tag, "tank");
-        super.saveAdditional(tag);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+        tank.writeToNBT(holderLookupProvider, tag, "tank");
+        super.saveAdditional(tag, holderLookupProvider);
     }
 
     public static class TickerServer extends BlockEntityTickerDelayed<BlockEntityEntangledChalice> {

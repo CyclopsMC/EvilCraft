@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.MonsterRoomFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.neoforged.neoforge.common.MonsterRoomHooks;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -139,7 +140,7 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
                     BlockEntity tile = world.getBlockEntity(loopPos);
 
                     if (tile instanceof SpawnerBlockEntity) {
-                        ((SpawnerBlockEntity) tile).getSpawner().setEntityId(net.neoforged.neoforge.common.DungeonHooks.getRandomDungeonMob(random), null, random, loopPos);
+                        ((SpawnerBlockEntity) tile).getSpawner().setEntityId(MonsterRoomHooks.getRandomMonsterRoomMob(random), null, random, loopPos);
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

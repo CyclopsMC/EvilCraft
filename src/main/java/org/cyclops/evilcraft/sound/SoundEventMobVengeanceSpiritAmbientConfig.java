@@ -12,7 +12,7 @@ public class SoundEventMobVengeanceSpiritAmbientConfig extends org.cyclops.cyclo
         super(
                 EvilCraft._instance,
                 "mob_vengeancespirit_ambient",
-                (eConfig) -> SoundEvent.createVariableRangeEvent(new ResourceLocation(eConfig.getMod().getModId(), eConfig.getNamedId()))
+                (eConfig) -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(eConfig.getMod().getModId(), eConfig.getNamedId()))
         );
     }
 }

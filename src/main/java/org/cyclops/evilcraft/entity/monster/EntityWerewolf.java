@@ -1,7 +1,10 @@
 package org.cyclops.evilcraft.entity.monster;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -10,7 +13,6 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -24,11 +26,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -57,8 +59,6 @@ public class EntityWerewolf extends Monster {
     public EntityWerewolf(Level world) {
         super(RegistryEntries.ENTITY_WEREWOLF.get(), world);
 
-        this.setMaxUpStep(1.0F);
-
         // This sets the default villager profession ID.
         this.villagerNBTTagCompound.putString("ProfessionName", BuiltInRegistries.VILLAGER_PROFESSION.getKey(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()).toString());
     }
@@ -77,7 +77,7 @@ public class EntityWerewolf extends Monster {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public static void transformWerewolfVillager(LivingEvent.LivingTickEvent event) {
+    public static void transformWerewolfVillager(EntityTickEvent.Post event) {
         if(event.getEntity() instanceof Villager && !event.getEntity().level().isClientSide()) {
             Villager villager = (Villager) event.getEntity();
             if(EntityWerewolf.isWerewolfTime(event.getEntity().level())
@@ -193,8 +193,8 @@ public class EntityWerewolf extends Monster {
     }
 
     @Override
-    public ResourceLocation getDefaultLootTable() {
-        return new ResourceLocation(Reference.MOD_ID, "entities/werewolf");
+    public ResourceKey<LootTable> getDefaultLootTable() {
+        return ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entities/werewolf"));
     }
 
     @Override
@@ -215,11 +215,6 @@ public class EntityWerewolf extends Monster {
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState block) {
         this.playSound(SoundEvents.ZOMBIE_STEP, 0.15F, 1.0F);
-    }
-
-    @Override
-    public MobType getMobType() {
-        return MobType.ARTHROPOD;
     }
 
     @Override

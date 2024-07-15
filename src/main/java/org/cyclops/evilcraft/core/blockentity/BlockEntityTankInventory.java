@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -65,17 +66,17 @@ public class BlockEntityTankInventory extends CyclopsBlockEntity {
     }
 
     @Override
-    public void read(CompoundTag tag) {
-        super.read(tag);
-        inventory.readFromNBT(tag, "inventory");
-        tank.readFromNBT(tag, "tank");
+    public void read(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+        super.read(tag, holderLookupProvider);
+        inventory.readFromNBT(holderLookupProvider, tag, "inventory");
+        tank.readFromNBT(holderLookupProvider, tag, "tank");
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag) {
-        inventory.writeToNBT(tag, "inventory");
-        tank.writeToNBT(tag, "tank");
-        super.saveAdditional(tag);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+        inventory.writeToNBT(holderLookupProvider, tag, "inventory");
+        tank.writeToNBT(holderLookupProvider, tag, "tank");
+        super.saveAdditional(tag, holderLookupProvider);
     }
 
     public SimpleInventory getInventory() {

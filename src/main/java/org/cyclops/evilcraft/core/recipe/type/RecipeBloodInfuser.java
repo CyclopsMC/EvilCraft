@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import com.mojang.datafixers.util.Either;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -74,7 +74,7 @@ public class RecipeBloodInfuser implements Recipe<IInventoryFluidTier> {
     }
 
     @Override
-    public ItemStack assemble(IInventoryFluidTier inv, RegistryAccess registryAccess) {
+    public ItemStack assemble(IInventoryFluidTier inv, HolderLookup.Provider registryAccess) {
         return this.getOutputItemFirst().copy();
     }
 
@@ -84,7 +84,7 @@ public class RecipeBloodInfuser implements Recipe<IInventoryFluidTier> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return getResultItem();
     }
 

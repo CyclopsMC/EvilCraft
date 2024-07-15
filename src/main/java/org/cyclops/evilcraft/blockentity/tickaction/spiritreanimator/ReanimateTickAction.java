@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.blockentity.tickaction.spiritreanimator;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritReanimatorConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
@@ -43,7 +43,9 @@ public class ReanimateTickAction implements ITickAction<BlockEntitySpiritReanima
                 tile.getInventory().removeItem(BlockEntitySpiritReanimator.SLOT_EGG, 1);
             }
             if(BlockSpiritReanimatorConfig.clearBoxContents) {
-                itemStack.setTag(new CompoundTag());
+                itemStack.remove(RegistryEntries.COMPONENT_BOX_PLAYER_ID);
+                itemStack.remove(RegistryEntries.COMPONENT_BOX_PLAYER_NAME);
+                itemStack.remove(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA);
                 tile.getInventory().setItem(BlockEntitySpiritReanimator.SLOT_BOX, itemStack);
             }
         }

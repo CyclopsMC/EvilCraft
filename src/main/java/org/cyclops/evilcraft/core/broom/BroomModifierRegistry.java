@@ -4,9 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +15,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.IBroomModifierRegistry;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
@@ -37,10 +35,6 @@ import java.util.function.Supplier;
  */
 public class BroomModifierRegistry implements IBroomModifierRegistry {
 
-    private static final String NBT_TAG_NAME = "broom_modifiers_tag";
-    private static final String NBT_TAG_KEY = "id";
-    private static final String NBT_TAG_VALUE = "value";
-
     private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newLinkedHashMap();
     private final Map<BroomModifier, IBroomPart> broomModifierParts = Maps.newHashMap();
     private final List<Pair<Supplier<ItemStack>, Map<BroomModifier, Float>>> broomItems = Lists.newArrayList();
@@ -56,6 +50,12 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
         BroomPartModifier broomPart = new BroomPartModifier(modifier);
         overrideDefaultModifierPart(modifier, broomPart);
         return modifier;
+    }
+
+    @Nullable
+    @Override
+    public BroomModifier getModifier(ResourceLocation id) {
+        return broomModifiers.get(id);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @Override
     public Map<BroomModifier, Float> getModifiersFromItem(ItemStack item) {
         for (Pair<Supplier<ItemStack>, Map<BroomModifier, Float>> entry : broomItems) {
-            if (ItemStack.isSameItemSameTags(item, entry.getKey().get())) {
+            if (ItemStack.isSameItemSameComponents(item, entry.getKey().get())) {
                 return entry.getValue();
             }
         }
@@ -130,17 +130,8 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
             }
 
             // Hardcoded values
-            if(broomStack.hasTag()) {
-                ListTag tags = broomStack.getTag().getList(NBT_TAG_NAME, Tag.TAG_COMPOUND);
-                for (int i = 0; i < tags.size(); i++) {
-                    CompoundTag tag = tags.getCompound(i);
-                    String id = tag.getString(NBT_TAG_KEY);
-                    float value = tag.getFloat(NBT_TAG_VALUE);
-                    BroomModifier modifier = broomModifiers.get(new ResourceLocation(id));
-                    if (modifier != null) {
-                        modifiers.put(modifier, value);
-                    }
-                }
+            if(broomStack.has(RegistryEntries.COMPONENT_BROOM_MODIFIERS)) {
+                modifiers.putAll(broomStack.get(RegistryEntries.COMPONENT_BROOM_MODIFIERS).getModifiers());
             }
 
             return modifiers;
@@ -151,17 +142,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
     @Override
     public void setModifiers(ItemStack broomStack, Map<BroomModifier, Float> modifiers) {
         // Write modifiers
-        ListTag list = new ListTag();
-        for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
-            CompoundTag tag = new CompoundTag();
-            tag.putString(NBT_TAG_KEY, entry.getKey().getId().toString());
-            tag.putFloat(NBT_TAG_VALUE, entry.getValue());
-            list.add(tag);
-        }
-        if(!broomStack.hasTag()) {
-            broomStack.setTag(new CompoundTag());
-        }
-        broomStack.getTag().put(NBT_TAG_NAME, list);
+        broomStack.set(RegistryEntries.COMPONENT_BROOM_MODIFIERS, new BroomModifiersContents(modifiers));
 
         // Write corresponding modifier parts
         Collection<IBroomPart> parts = BroomParts.REGISTRY.getBroomParts(broomStack);

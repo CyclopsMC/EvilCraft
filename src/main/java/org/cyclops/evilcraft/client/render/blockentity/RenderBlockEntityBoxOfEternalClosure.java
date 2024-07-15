@@ -31,7 +31,7 @@ import org.joml.Matrix4f;
 public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEndPortalBase<BlockEntityBoxOfEternalClosure> {
 
     private static final ResourceLocation beamTexture =
-            new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
+            ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
     private static final RenderType renderTypeBeam = RenderType.entitySmoothCutout(beamTexture);
 
     public RenderBlockEntityBoxOfEternalClosure(BlockEntityRendererProvider.Context rendererDispatcherIn) {
@@ -40,7 +40,7 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
 
     @Override
     public AABB getRenderBoundingBox(BlockEntityBoxOfEternalClosure blockEntity) {
-        return INFINITE_EXTENT_AABB;
+        return AABB.INFINITE;
     }
 
     @Override

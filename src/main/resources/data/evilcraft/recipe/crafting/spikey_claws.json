@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    " I "
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:dark_spike"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "result": {
+    "id": "evilcraft:spikey_claws"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SDS",
+    "DTD",
+    " T "
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:hardened_blood_shard"
+    },
+    "D": {
+      "tag": "c:gems/diamond"
+    },
+    "T": {
+      "item": "evilcraft:dark_stick"
+    }
+  },
+  "result": {
+    "id": "evilcraft:vengeance_pickaxe",
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:fortune": 5,
+          "evilcraft:vengeance": 3
+        },
+        "show_in_tooltip": true
+      }
+    }
+  }
+}

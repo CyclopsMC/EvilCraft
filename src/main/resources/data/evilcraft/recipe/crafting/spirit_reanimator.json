@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CIC",
+    "CBC",
+    "CRC"
+  ],
+  "key": {
+    "C": {
+      "tag": "c:cobblestone"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "B": {
+      "item": "evilcraft:blood_infusion_core"
+    },
+    "R": {
+      "tag": "c:storage_blocks/iron"
+    }
+  },
+  "result": {
+    "id": "evilcraft:spirit_reanimator"
+  }
+}

@@ -4,15 +4,14 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -96,26 +95,20 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
     }
 
     @Override
-    public boolean isValidSpawn(BlockState state, BlockGetter world, BlockPos pos,
-                                    SpawnPlacements.Type type, @Nullable EntityType<?> entityType) {
-        return false;
-    }
-
-    @Override
     public boolean shouldDisplayFluidOverlay(BlockState blockState, BlockAndTintGetter world, BlockPos pos, FluidState fluidState) {
         return true;
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
+    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             if (!BlockEntityColossalBloodChest.canWork(world, blockPos)) {
                 return InteractionResult.FAIL;
             } else {
-                return super.use(blockState, world, blockPos, player, hand, rayTraceResult);
+                return super.useWithoutItem(blockState, world, blockPos, player, rayTraceResult);
             }
         } else {
-            addPlayerChatError(world, blockPos, player, hand);
+            addPlayerChatError(world, blockPos, player);
             return InteractionResult.FAIL;
         }
     }
@@ -132,7 +125,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
     @Override
     public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(world, pos, state, placer, stack);
-        if (stack.hasCustomHoverName()) {
+        if (stack.has(DataComponents.CUSTOM_NAME)) {
             BlockEntityColossalBloodChest tile = BlockEntityHelpers.get(world, pos, BlockEntityColossalBloodChest.class).orElse(null);
             if (tile != null) {
                 tile.setSize(Vec3i.ZERO);
@@ -181,10 +174,9 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
      * @param world The world.
      * @param blockPos The start position.
      * @param player The player.
-     * @param hand The used hand.
      */
-    public static void addPlayerChatError(Level world, BlockPos blockPos, Player player, InteractionHand hand) {
-        if(hand == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(hand).isEmpty()) {
+    public static void addPlayerChatError(Level world, BlockPos blockPos, Player player) {
+        if(player.getUsedItemHand() == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(player.getUsedItemHand()).isEmpty()) {
             DetectionResult result = BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, false);
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());

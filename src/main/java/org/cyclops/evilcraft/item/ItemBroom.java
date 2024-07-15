@@ -17,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -54,7 +53,7 @@ import java.util.Set;
  */
 public class ItemBroom extends ItemBloodContainer implements IBroom {
 
-    protected static final ResourceLocation OVERLAY = new ResourceLocation(Reference.MOD_ID, "textures/gui/overlay.png");
+    protected static final ResourceLocation OVERLAY = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/overlay.png");
 
     private static final float Y_SPAWN_OFFSET = 1.5f;
 
@@ -89,7 +88,9 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             world.addFreshEntity(entityBroom);
             player.startRiding(entityBroom);
 
-            stack.shrink(1);
+            if (!player.isCreative()) {
+                stack.shrink(1);
+            }
         }
 
         return MinecraftHelpers.successAction(stack);
@@ -118,15 +119,6 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     }
 
     @Override
-    public Rarity getRarity(ItemStack itemStack) {
-        int maxRarity = 0;
-        for (IBroomPart part : getBroomParts(itemStack)) {
-            maxRarity = Math.max(maxRarity, part.getRarity().ordinal());
-        }
-        return Rarity.values()[maxRarity];
-    }
-
-    @Override
     public Collection<IBroomPart> getBroomParts(ItemStack itemStack) {
         return BroomParts.REGISTRY.getBroomParts(itemStack);
     }
@@ -148,8 +140,8 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
         if(MinecraftHelpers.isShifted()) {
             list.add(Component.translatable("broom.parts." + Reference.MOD_ID + ".types")
                     .withStyle(ChatFormatting.ITALIC));
@@ -220,7 +212,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
         if (player.getVehicle() instanceof EntityBroom) {
             EntityBroom broom = (EntityBroom) player.getVehicle();
             ItemStack broomStack = broom.getBroomStack();
-            Window resolution = event.getWindow();
+            Window resolution = Minecraft.getInstance().getWindow();
             int height = 21;
             int width = 21;
             RenderOverlayEventHook.OverlayPosition overlayPosition = RenderOverlayEventHook.OverlayPosition.values()[

@@ -65,7 +65,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
     @Nullable
     protected ItemStack fill(ItemStack itemStack) {
         IFluidHandlerItem container = itemStack.getCapability(Capabilities.FluidHandler.ITEM);
-        FluidStack fluidStack = new FluidStack(getTank().getFluid(),
+        FluidStack fluidStack = new FluidStack(getTank().getFluid().getFluid(),
                 Math.min(GeneralConfig.mbFlowRate, getTank().getFluidAmount()));
         if (container.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
             int filled = container.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
@@ -91,7 +91,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
                 IFluidHandler handler = BlockEntityHelpers.getCapability(level, pos.relative(down), down.getOpposite(),
                         net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
                 if(handler != null) {
-                    FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid(),
+                    FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid().getFluid(),
                             Math.min(GeneralConfig.mbFlowRate, blockEntity.getTank().getFluidAmount()));
                     if(handler.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) > 0) {
                         int filled = handler.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);

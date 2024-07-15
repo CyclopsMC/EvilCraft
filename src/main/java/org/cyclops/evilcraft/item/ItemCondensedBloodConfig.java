@@ -61,7 +61,7 @@ public class ItemCondensedBloodConfig extends ItemConfig {
                 return FluidStack.EMPTY;
             }
             FluidStack fluidStack = getFluid();
-            if (!fluidStack.isEmpty() && fluidStack.isFluidEqual(resource)) {
+            if (!fluidStack.isEmpty() && FluidStack.matches(fluidStack, resource)) {
                 if (action.execute()) {
                     setFluid((FluidStack) null);
                 }

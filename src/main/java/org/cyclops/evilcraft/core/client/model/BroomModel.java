@@ -38,7 +38,7 @@ public class BroomModel implements UnbakedModel, IUnbakedGeometry<BroomModel> {
 
     @Nullable
     @Override
-    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ResourceLocation modelLocation) {
+    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
         BroomModelBaked bakedModel = new BroomModelBaked();
 
         // Add aspects to baked model.
@@ -55,7 +55,7 @@ public class BroomModel implements UnbakedModel, IUnbakedGeometry<BroomModel> {
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-        return bake(baker, spriteGetter, modelState, modelLocation);
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+        return bake(baker, spriteGetter, modelState);
     }
 }

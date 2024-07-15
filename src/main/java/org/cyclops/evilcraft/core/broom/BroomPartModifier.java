@@ -23,7 +23,7 @@ public class BroomPartModifier extends BroomPartBase {
     @OnlyIn(Dist.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
-                new ResourceLocation(getId().getNamespace(), "broom_part/ring"));
+                ResourceLocation.fromNamespaceAndPath(getId().getNamespace(), "broom_part/ring"));
     }
 
     @Nullable

@@ -3,9 +3,9 @@ package org.cyclops.evilcraft.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -67,7 +67,7 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult p_225533_6_) {
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
         if(world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
@@ -82,7 +82,7 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
                     player.getInventory().setItem(player.getInventory().selected, tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
                     return InteractionResult.SUCCESS;
-                } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
+                } else if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), world, blockPos, Direction.UP)) {
                     return InteractionResult.SUCCESS;
                 }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
@@ -147,7 +147,7 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public boolean isActivated(ItemStack itemStack, Level world) {
+    public boolean isActivated(ItemStack itemStack, Item.TooltipContext context) {
         return false;
     }
 }

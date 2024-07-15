@@ -3,19 +3,20 @@ package org.cyclops.evilcraft.core.recipe.type;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.ExtraCodecs;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuserConfig;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
-import javax.annotation.Nullable;
-import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -25,22 +26,37 @@ import java.util.Optional;
 public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends RecipeEnvironmentalAccumulator>
         implements RecipeSerializer<T> {
 
-    protected final Codec<T> codec = RecordCodecBuilder.create(
+    protected final MapCodec<T> codec = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
                             Ingredient.CODEC_NONEMPTY.fieldOf("input_item").forGetter(RecipeEnvironmentalAccumulator::getInputIngredient),
                             WeatherType.CODEC.fieldOf("input_weather").forGetter(RecipeEnvironmentalAccumulator::getInputWeather),
                             RecipeSerializerHelpers.getCodecItemStackOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeEnvironmentalAccumulator::getOutputItem),
                             WeatherType.CODEC.fieldOf("output_weather").forGetter(RecipeEnvironmentalAccumulator::getOutputWeather),
-                            ExtraCodecs.strictOptionalField(Codec.INT, "duration").forGetter(RecipeEnvironmentalAccumulator::getDurationRaw),
-                            ExtraCodecs.strictOptionalField(Codec.INT, "cooldown_time").forGetter(RecipeEnvironmentalAccumulator::getCooldownTimeRaw),
-                            ExtraCodecs.strictOptionalField(Codec.FLOAT, "processing_speed").forGetter(RecipeEnvironmentalAccumulator::getProcessingSpeedRaw)
+                            Codec.INT.optionalFieldOf("duration").forGetter(RecipeEnvironmentalAccumulator::getDurationRaw),
+                            Codec.INT.optionalFieldOf("cooldown_time").forGetter(RecipeEnvironmentalAccumulator::getCooldownTimeRaw),
+                            Codec.FLOAT.optionalFieldOf("processing_speed").forGetter(RecipeEnvironmentalAccumulator::getProcessingSpeedRaw)
                     )
                     .apply(builder, this::createRecipe)
     );
+    protected final StreamCodec<RegistryFriendlyByteBuf, T> STREAM_CODEC = NeoForgeStreamCodecs.composite(
+            Ingredient.CONTENTS_STREAM_CODEC, RecipeEnvironmentalAccumulator::getInputIngredient,
+            WeatherType.STREAM_CODEC, RecipeEnvironmentalAccumulator::getInputWeather,
+            RecipeSerializerHelpers.STREAM_CODEC_ITEMSTACK_OR_TAG, RecipeEnvironmentalAccumulator::getOutputItem,
+            WeatherType.STREAM_CODEC, RecipeEnvironmentalAccumulator::getOutputWeather,
+            ByteBufCodecs.optional(ByteBufCodecs.INT), RecipeEnvironmentalAccumulator::getDurationRaw,
+            ByteBufCodecs.optional(ByteBufCodecs.INT), RecipeEnvironmentalAccumulator::getCooldownTimeRaw,
+            ByteBufCodecs.optional(ByteBufCodecs.FLOAT), RecipeEnvironmentalAccumulator::getProcessingSpeedRaw,
+            this::createRecipe
+    );
 
     @Override
-    public Codec<T> codec() {
+    public MapCodec<T> codec() {
         return this.codec;
+    }
+
+    @Override
+    public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+        return STREAM_CODEC;
     }
 
     protected WeatherType getWeatherType(String type) throws JsonSyntaxException {
@@ -54,39 +70,4 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
     protected abstract T createRecipe(Ingredient inputIngredient, WeatherType inputWeather,
                                       Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
                                       Optional<Integer> duration, Optional<Integer> cooldownTime, Optional<Float> processingSpeed);
-
-    @Nullable
-    @Override
-    public T fromNetwork(FriendlyByteBuf buffer) {
-        // Input
-        Ingredient inputIngredient = Ingredient.fromNetwork(buffer);
-        WeatherType inputWeather = getWeatherType(buffer.readUtf(20));
-
-        // Output
-        Either<ItemStack, ItemStackFromIngredient> outputItem = RecipeSerializerHelpers.readItemStackOrItemStackIngredient(buffer);
-        WeatherType outputWeather = getWeatherType(buffer.readUtf(20));
-
-        // Other stuff
-        Optional<Integer> duration = RecipeSerializerHelpers.readOptionalFromNetwork(buffer, FriendlyByteBuf::readVarInt);
-        Optional<Integer> cooldownTime = RecipeSerializerHelpers.readOptionalFromNetwork(buffer, FriendlyByteBuf::readVarInt);
-        Optional<Float> processingSpeed = RecipeSerializerHelpers.readOptionalFromNetwork(buffer, FriendlyByteBuf::readFloat);
-
-        return createRecipe(inputIngredient, inputWeather, outputItem, outputWeather, duration, cooldownTime, processingSpeed);
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf buffer, RecipeEnvironmentalAccumulator recipe) {
-        // Input
-        recipe.getInputIngredient().toNetwork(buffer);
-        buffer.writeUtf(recipe.getInputWeather().toString().toUpperCase(Locale.ENGLISH));
-
-        // Output
-        RecipeSerializerHelpers.writeItemStackOrItemStackIngredient(buffer, recipe.getOutputItem());
-        buffer.writeUtf(recipe.getOutputWeather().toString().toUpperCase(Locale.ENGLISH));
-
-        // Other stuff
-        RecipeSerializerHelpers.writeOptionalToNetwork(buffer, recipe.getDurationRaw(), FriendlyByteBuf::writeVarInt);
-        RecipeSerializerHelpers.writeOptionalToNetwork(buffer, recipe.getCooldownTimeRaw(), FriendlyByteBuf::writeVarInt);
-        RecipeSerializerHelpers.writeOptionalToNetwork(buffer, recipe.getProcessingSpeedRaw(), FriendlyByteBuf::writeFloat);
-    }
 }

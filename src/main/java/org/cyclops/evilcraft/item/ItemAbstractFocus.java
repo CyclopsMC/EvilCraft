@@ -18,6 +18,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
@@ -38,18 +39,18 @@ public abstract class ItemAbstractFocus extends Item {
 
     @OnlyIn(Dist.CLIENT)
     protected void registerProperties() {
-        ItemProperties.register(this, new ResourceLocation("pull"), new ItemPropertyFunction() {
+        ItemProperties.register(this, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "pull"), new ItemPropertyFunction() {
             @OnlyIn(Dist.CLIENT)
             public float call(ItemStack stack, ClientLevel worldIn, LivingEntity entityIn, int id) {
                 if (entityIn == null) {
                     return 0.0F;
                 } else {
                     ItemStack itemStack = entityIn.getUseItem();
-                    return !itemStack.isEmpty() && itemStack.getItem() instanceof ItemAbstractFocus ? (float)(stack.getUseDuration() - entityIn.getUseItemRemainingTicks()) / 20.0F : 0.0F;
+                    return !itemStack.isEmpty() && itemStack.getItem() instanceof ItemAbstractFocus ? (float)(stack.getUseDuration(entityIn) - entityIn.getUseItemRemainingTicks()) / 20.0F : 0.0F;
                 }
             }
         });
-        ItemProperties.register(this, new ResourceLocation("pulling"), new ItemPropertyFunction() {
+        ItemProperties.register(this, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "pulling"), new ItemPropertyFunction() {
             @OnlyIn(Dist.CLIENT)
             public float call(ItemStack stack, ClientLevel worldIn, LivingEntity entityIn, int id) {
                 return entityIn != null && entityIn.isUsingItem() && entityIn.getUseItem() == stack ? 1.0F : 0.0F;
@@ -78,7 +79,7 @@ public abstract class ItemAbstractFocus extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack itemStack) {
+    public int getUseDuration(ItemStack itemStack, LivingEntity entity) {
         return Integer.MAX_VALUE;
     }
 
@@ -94,7 +95,7 @@ public abstract class ItemAbstractFocus extends Item {
 
     @Override
     public void onUseTick(Level level, LivingEntity player, ItemStack itemStack, int remaining) {
-        int duration = getUseDuration(itemStack) - remaining;
+        int duration = getUseDuration(itemStack, player) - remaining;
         if(duration > 6) {
             if(WorldHelpers.efficientTick(player.level(), TICK_MODULUS, player.getId())) {
                 ThrowableProjectile beam = newBeamEntity(player);

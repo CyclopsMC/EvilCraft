@@ -19,7 +19,8 @@ public class BlockDarkBrickConfig extends BlockConfig {
                 eConfig -> new Block(Block.Properties.of()
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
-                        .sound(SoundType.STONE)),
+                        .sound(SoundType.STONE)
+                        .isValidSpawn((state, level, pos, type) -> false)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }

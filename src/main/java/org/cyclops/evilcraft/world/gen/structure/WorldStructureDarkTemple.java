@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.world.gen.structure;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +36,7 @@ import java.util.Optional;
  * @author rubensworks
  */
 public class WorldStructureDarkTemple extends Structure {
-    public static final Codec<WorldStructureDarkTemple> CODEC = RecordCodecBuilder.create((builder) -> builder.group(
+    public static final MapCodec<WorldStructureDarkTemple> CODEC = RecordCodecBuilder.mapCodec((builder) -> builder.group(
             settingsCodec(builder),
             Codec.INT.fieldOf("minHeight").forGetter(instance -> instance.minHeight),
             Codec.INT.fieldOf("maxHeight").forGetter(instance -> instance.maxHeight)

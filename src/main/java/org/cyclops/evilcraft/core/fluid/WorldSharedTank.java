@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.fluid;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -177,15 +178,15 @@ public class WorldSharedTank extends SingleUseTank {
         }
 
         @Override
-        public void readFromNBT(CompoundTag tag) {
-            super.readFromNBT(tag);
-            WorldSharedTankCache.getInstance().readFromNBT(tag);
+        public void readFromNBT(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+            super.readFromNBT(tag, holderLookupProvider);
+            WorldSharedTankCache.getInstance().readFromNBT(tag, holderLookupProvider);
         }
 
         @Override
-        public void writeToNBT(CompoundTag tag) {
-            super.writeToNBT(tag);
-            WorldSharedTankCache.getInstance().writeToNBT(tag);
+        public void writeToNBT(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
+            super.writeToNBT(tag, holderLookupProvider);
+            WorldSharedTankCache.getInstance().writeToNBT(tag, holderLookupProvider);
         }
 
     }

@@ -19,7 +19,7 @@ public class RenderNetherfish extends SilverfishRenderer {
 
     public RenderNetherfish(EntityRendererProvider.Context renderContext, EntityNetherfishConfig config) {
         super(renderContext);
-        texture = new ResourceLocation(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
+        texture = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
 
     @Override

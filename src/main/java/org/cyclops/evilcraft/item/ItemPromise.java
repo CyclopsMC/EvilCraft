@@ -5,9 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
@@ -38,20 +36,20 @@ public class ItemPromise extends Item {
     public static final Map<Upgrades.Upgrade, Integer> MAIN_COLORS = Maps.newHashMap();
     public static final Map<Upgrades.Upgrade, Integer> SECONDARY_COLORS = Maps.newHashMap();
     static {
-        MAIN_COLORS.put(Upgrades.UPGRADE_TIER1, Helpers.RGBToInt(220, 220, 220));
-        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER1, Helpers.RGBToInt(255, 255, 255));
+        MAIN_COLORS.put(Upgrades.UPGRADE_TIER1, Helpers.RGBAToInt(220, 220, 220, 255));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER1, Helpers.RGBAToInt(255, 255, 255, 255));
 
-        MAIN_COLORS.put(Upgrades.UPGRADE_TIER2, Helpers.RGBToInt(234, 238, 87));
-        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER2, Helpers.RGBToInt(230, 230, 160));
+        MAIN_COLORS.put(Upgrades.UPGRADE_TIER2, Helpers.RGBAToInt(234, 238, 87, 255));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER2, Helpers.RGBAToInt(230, 230, 160, 255));
 
-        MAIN_COLORS.put(Upgrades.UPGRADE_TIER3, Helpers.RGBToInt(51, 235, 203));
-        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER3, Helpers.RGBToInt(150, 250, 200));
+        MAIN_COLORS.put(Upgrades.UPGRADE_TIER3, Helpers.RGBAToInt(51, 235, 203, 255));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_TIER3, Helpers.RGBAToInt(150, 250, 200, 255));
 
-        MAIN_COLORS.put(Upgrades.UPGRADE_SPEED, Helpers.RGBToInt(200, 90, 80));
-        SECONDARY_COLORS.put(Upgrades.UPGRADE_SPEED, Helpers.RGBToInt(240, 120, 110));
+        MAIN_COLORS.put(Upgrades.UPGRADE_SPEED, Helpers.RGBAToInt(200, 90, 80, 255));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_SPEED, Helpers.RGBAToInt(240, 120, 110, 255));
 
-        MAIN_COLORS.put(Upgrades.UPGRADE_EFFICIENCY, Helpers.RGBToInt(80, 70, 200));
-        SECONDARY_COLORS.put(Upgrades.UPGRADE_EFFICIENCY, Helpers.RGBToInt(120, 120, 210));
+        MAIN_COLORS.put(Upgrades.UPGRADE_EFFICIENCY, Helpers.RGBAToInt(80, 70, 200, 255));
+        SECONDARY_COLORS.put(Upgrades.UPGRADE_EFFICIENCY, Helpers.RGBAToInt(120, 120, 210, 255));
     }
 
     private final Upgrades.Upgrade upgrade;
@@ -71,8 +69,8 @@ public class ItemPromise extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, Level world, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, world, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
         if(MinecraftHelpers.isShifted()) {
             list.add(Component.translatable("item.evilcraft.promise.use_in")
                     .withStyle(ChatFormatting.DARK_GREEN));
@@ -126,11 +124,6 @@ public class ItemPromise extends Item {
      */
     public boolean isTierUpgrade(ItemStack itemStack) {
         return !itemStack.isEmpty() && upgrade.getTier() > 0;
-    }
-
-    @Override
-    public Rarity getRarity(ItemStack itemStack) {
-        return upgrade.getTier() > 0 ? Rarity.RARE : Rarity.UNCOMMON;
     }
 
     @OnlyIn(Dist.CLIENT)

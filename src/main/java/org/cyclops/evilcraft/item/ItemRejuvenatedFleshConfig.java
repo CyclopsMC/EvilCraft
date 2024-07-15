@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
@@ -29,8 +30,8 @@ public class ItemRejuvenatedFleshConfig extends ItemConfig {
                 EvilCraft._instance,
             "flesh_rejuvenated",
                 eConfig -> new ItemRejuvenatedFlesh(new Item.Properties()
-
-                        .stacksTo(1))
+                        .stacksTo(1)
+                        .component(DataComponents.RARITY, Rarity.RARE))
         );
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
@@ -42,7 +43,7 @@ public class ItemRejuvenatedFleshConfig extends ItemConfig {
     }
 
     protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab() || event.getTabKey().equals(CreativeModeTabs.SEARCH)) {
+        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab()) {
             for (ItemStack itemStack : dynamicCreativeTabEntries()) {
                 event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }

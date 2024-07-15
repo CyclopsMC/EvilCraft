@@ -50,20 +50,20 @@ public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
         // Not sure why, but we need to reset the y of the body to be in its correct position
         body.y = -13F;
 
-        head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        bipedEar1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        bipedEar2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        Upper_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        Lower_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        rightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        leftArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        rightLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        leftLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        bipedEar1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        bipedEar2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        Upper_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        Lower_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        rightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        leftArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        rightLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        leftLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
     }
 
     private void setRotation(ModelPart model, float x, float y, float z) {

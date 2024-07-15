@@ -25,7 +25,9 @@ public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCap
         if (doFill.simulate()) {
             return FluidAction.SIMULATE;
         }
-        if (resource instanceof SimulatedFluidStack) {
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        // Hacky hack to check if we're inside the part of FluidUtil that acts on the copy of the item to check filling...
+        if ("net.neoforged.neoforge.fluids.FluidUtil".equals(stackTraceElements[3].getClassName()) && "lambda$tryFillContainer$1".equals(stackTraceElements[3].getMethodName())) {
             doFill = FluidAction.SIMULATE;
         }
         return doFill;
@@ -41,8 +43,13 @@ public class FluidContainerItemWrapperWithSimulation extends FluidHandlerItemCap
         if (doDrain.execute() || drained.isEmpty() || drained.getAmount() == 0) {
             return drained;
         } else {
-            return new SimulatedFluidStack(drained.getFluid(), drained.getAmount());
+            return asSimulatedFluidStack(new FluidStack(drained.getFluid(), drained.getAmount()));
         }
+    }
+
+    public static FluidStack asSimulatedFluidStack(FluidStack fluidStack) {
+//        fluidStack.set(RegistryEntries.COMPONENT_SIMULATED, true);
+        return fluidStack;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodchest;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -57,8 +58,8 @@ public class BloodChestRepairActionRegistry implements IBloodChestRepairActionRe
     }
 
     @Override
-    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, int actionID, boolean doAction, boolean isBulk) {
-        return repairActions.get(actionID).repair(itemStack, random, doAction, isBulk);
+    public Pair<Float, ItemStack> repair(ItemStack itemStack, RandomSource random, int actionID, boolean doAction, boolean isBulk, HolderLookup.Provider holderLookupProvider) {
+        return repairActions.get(actionID).repair(itemStack, random, doAction, isBulk, holderLookupProvider);
     }
 
     protected boolean isNotBlacklisted(ItemStack itemStack) {

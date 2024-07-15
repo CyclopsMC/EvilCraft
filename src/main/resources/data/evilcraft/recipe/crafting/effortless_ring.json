@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SG ",
+    "IEI",
+    " G "
+  ],
+  "key": {
+    "S": {
+      "item": "evilcraft:promise_speed_0"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "E": {
+      "item": "evilcraft:promise_efficiency_0"
+    }
+  },
+  "result": {
+    "id": "evilcraft:effortless_ring"
+  }
+}

@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -17,15 +17,14 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.helper.FluidHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
-import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -77,8 +76,8 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, @Nullable Level worldIn, List<Component> list, TooltipFlag flagIn) {
-        super.appendHoverText(itemStack, worldIn, list, flagIn);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flagIn) {
+        super.appendHoverText(itemStack, context, list, flagIn);
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
         list.add(Component.translatable("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
@@ -122,14 +121,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
          * @return The tank id.
          */
         public String getTankID() {
-            CompoundTag tag = getContainer().getTag();
-            if(tag != null) {
-                if (!tag.contains(WorldSharedTank.NBT_TANKID)) {
-                    tag.putString(WorldSharedTank.NBT_TANKID, "");
-                }
-                return tag.getString(WorldSharedTank.NBT_TANKID);
-            }
-            return "";
+            return getContainer().getOrDefault(RegistryEntries.COMPONENT_WORLD_SHARED_TANK_ID, "");
         }
 
         /**
@@ -137,8 +129,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
          * @param tankID The tank id.
          */
         public void setTankID(String tankID) {
-            CompoundTag tag = getContainer().getOrCreateTag();
-            tag.putString(WorldSharedTank.NBT_TANKID, tankID);
+            getContainer().set(RegistryEntries.COMPONENT_WORLD_SHARED_TANK_ID, tankID);
         }
 
         /**

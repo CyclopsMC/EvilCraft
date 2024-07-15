@@ -77,7 +77,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
             BlockPos itPos = pos.relative(Direction.DOWN);
             while (attempts-- > 0) {
                 if (worldIn.getBlockState(itPos).getBlock() instanceof org.cyclops.evilcraft.block.BlockBloodStain
-                        || (worldIn.isEmptyBlock(itPos) && RegistryEntries.BLOCK_BLOOD_STAIN.get().canSurvive(state, worldIn, itPos))) {
+                        || (worldIn.isEmptyBlock(itPos) && state.canSurvive(worldIn, itPos))) {
 
                     // Set the air block to a blood stain
                     BlockState blockState = worldIn.getBlockState(itPos);

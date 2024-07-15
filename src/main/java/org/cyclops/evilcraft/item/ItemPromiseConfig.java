@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
@@ -21,7 +23,7 @@ public class ItemPromiseConfig extends ItemConfig {
                 EvilCraft._instance,
             "promise_" + upgrade.getId() + "_" + upgrade.getTier(),
                 eConfig -> new ItemPromise(new Item.Properties()
-
+                        .component(DataComponents.RARITY, upgrade.getTier() > 0 ? Rarity.RARE : Rarity.UNCOMMON)
                         .stacksTo(4), upgrade)
         );
         if (MinecraftHelpers.isClientSide()) {

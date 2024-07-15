@@ -40,13 +40,13 @@ public class ModelDarkTank implements UnbakedModel, IUnbakedGeometry<ModelDarkTa
 
     @Nullable
     @Override
-    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ResourceLocation modelLocation) {
-        return new ModelDarkTankBaked(this.blockModel.bake(bakery, spriteGetter, modelState, modelLocation));
+    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
+        return new ModelDarkTankBaked(this.blockModel.bake(bakery, spriteGetter, modelState));
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
-        return bake(baker, spriteGetter, modelState, modelLocation);
+    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
+        return bake(baker, spriteGetter, modelState);
     }
 
 }

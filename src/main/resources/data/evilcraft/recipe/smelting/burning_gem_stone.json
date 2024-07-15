@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "evilcraft:dark_block"
+  },
+  "result": {
+    "id": "evilcraft:burning_gem_stone"
+  },
+  "experience": 50,
+  "cookingtime": 200
+}

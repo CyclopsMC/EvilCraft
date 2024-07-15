@@ -1,17 +1,19 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
+import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import org.cyclops.cyclopscore.helper.ItemStackHelpers;
 import org.cyclops.evilcraft.Reference;
 
@@ -25,7 +27,7 @@ public class ItemEffortlessRing extends Item {
     private static final int TICK_MODULUS = 1;
 
     private static final float SPEED_BONUS = 0.05F;
-    private static final AttributeModifier STEP_SIZE_MODIFIER = new AttributeModifier(Reference.MOD_ID + ":stepHeightModifier", 1, AttributeModifier.Operation.ADDITION);
+    private static final AttributeModifier STEP_SIZE_MODIFIER = new AttributeModifier(ResourceLocation.parse(Reference.MOD_ID + ":step_height_modifier"), 1, AttributeModifier.Operation.ADD_VALUE);
     private static final float JUMP_DISTANCE_FACTOR = 0.05F;
     private static final float JUMP_HEIGHT_FACTOR = 0.3F;
     private static final float FALLDISTANCE_REDUCTION = 2F;
@@ -49,8 +51,8 @@ public class ItemEffortlessRing extends Item {
         }
 
         // Step height
-        AttributeInstance attribute = player.getAttribute(NeoForgeMod.STEP_HEIGHT.value());
-        if (attribute != null && !attribute.hasModifier(STEP_SIZE_MODIFIER)) {
+        AttributeInstance attribute = player.getAttribute(Attributes.STEP_HEIGHT);
+        if (attribute != null && !attribute.hasModifier(STEP_SIZE_MODIFIER.id())) {
             attribute.addTransientModifier(STEP_SIZE_MODIFIER);
         }
 
@@ -70,14 +72,14 @@ public class ItemEffortlessRing extends Item {
         }
     }
 
-    public void onPlayerUpdate(LivingEvent.LivingTickEvent event) {
+    public void onPlayerUpdate(EntityTickEvent.Pre event) {
         // Reset the step height.
         if(event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
-            AttributeInstance attribute = player.getAttribute(NeoForgeMod.STEP_HEIGHT.value());
-            if (attribute != null && attribute.hasModifier(STEP_SIZE_MODIFIER)) {
+            AttributeInstance attribute = player.getAttribute(Attributes.STEP_HEIGHT);
+            if (attribute != null && attribute.hasModifier(STEP_SIZE_MODIFIER.id())) {
                 if (!ItemStackHelpers.hasPlayerItem(player, this)) {
-                    attribute.removeModifier(STEP_SIZE_MODIFIER.getId());
+                    attribute.removeModifier(STEP_SIZE_MODIFIER.id());
                 }
             }
         }

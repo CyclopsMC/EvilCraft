@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,11 +21,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.player.FillBucketEvent;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
@@ -45,7 +39,6 @@ public class BlockEternalWater extends BlockWithEntity {
 
     public BlockEternalWater(Block.Properties properties) {
         super(properties, BlockEntityEternalWater::new);
-        NeoForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -70,15 +63,14 @@ public class BlockEternalWater extends BlockWithEntity {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos blockPos, Player player,
-                                             InteractionHand hand, BlockHitResult p_225533_6_) {
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
         ItemStack itemStack = player.getInventory().getSelected();
         if (!itemStack.isEmpty()) {
             if (itemStack.getItem() == Items.BUCKET) {
                 if (!world.isClientSide()) {
                     itemStack.shrink(1);
                     if (itemStack.isEmpty()) {
-                        player.setItemInHand(hand, new ItemStack(Items.WATER_BUCKET));
+                        player.setItemInHand(player.getUsedItemHand(), new ItemStack(Items.WATER_BUCKET));
                     } else if (!player.getInventory().add(new ItemStack(Items.WATER_BUCKET))) {
                         player.drop(new ItemStack(Items.WATER_BUCKET), false);
                     }
@@ -100,16 +92,6 @@ public class BlockEternalWater extends BlockWithEntity {
         if (!worldIn.isClientSide() && newState.getBlock() == Blocks.WATER) {
             worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             Block.dropResources(state, worldIn, pos);
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void stopFillWithEternalWaterBlock(FillBucketEvent event) {
-        if (event.getTarget() != null && event.getTarget().getType() == HitResult.Type.BLOCK) {
-            Block block = event.getLevel().getBlockState(((BlockHitResult) event.getTarget()).getBlockPos()).getBlock();
-            if (block instanceof BlockEternalWater) {
-                event.setCanceled(true);
-            }
         }
     }
 

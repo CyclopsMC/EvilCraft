@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.client.particle;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
@@ -18,11 +20,16 @@ import javax.annotation.Nullable;
 public class ParticleBlurTargettedEntityConfig extends ParticleConfig<ParticleBlurTargettedEntityData> {
 
     public ParticleBlurTargettedEntityConfig() {
-        super(EvilCraft._instance, "blur_targetted_entity", eConfig -> new ParticleType<ParticleBlurTargettedEntityData>(false, ParticleBlurTargettedEntityData.DESERIALIZER) {
+        super(EvilCraft._instance, "blur_targetted_entity", eConfig -> new ParticleType<>(false) {
 
             @Override
-            public Codec<ParticleBlurTargettedEntityData> codec() {
+            public MapCodec<ParticleBlurTargettedEntityData> codec() {
                 return ParticleBlurTargettedEntityData.CODEC;
+            }
+
+            @Override
+            public StreamCodec<? super RegistryFriendlyByteBuf, ParticleBlurTargettedEntityData> streamCodec() {
+                return ParticleBlurTargettedEntityData.STREAM_CODEC;
             }
         });
     }

@@ -80,14 +80,14 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        ass.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        Right_L_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        Left_L_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        Right_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        Left_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
+        head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        ass.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        Right_L_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        Left_L_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        Right_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
+        Left_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
     }
 
     public static LayerDefinition createBodyLayer() {

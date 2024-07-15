@@ -5,10 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -42,8 +40,6 @@ import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritData;
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
-
-import static org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure.NBTKEY_SPIRIT;
 
 /**
  * A box that can hold beings from higher dimensions.
@@ -105,12 +101,12 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
 
     @Nullable
     public static EntityType<?> getSpiritTypeWithFallbackSpirit(ItemStack itemStack) {
-        if(itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
+        if(itemStack.has(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA)) {
             if (hasPlayer(itemStack)) {
                 return EntityType.ZOMBIE;
             }
-            EntityType<?> spiritType = getSpiritTypeRaw(itemStack.getTag());
-            if (spiritType == null && itemStack.hasTag() && itemStack.getTag().contains(NBTKEY_SPIRIT)) {
+            EntityType<?> spiritType = getSpiritTypeRaw(itemStack);
+            if (spiritType == null && itemStack.has(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA)) {
                 return RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get();
             }
             return spiritType;
@@ -119,8 +115,8 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     }
 
     @Nullable
-    public static EntityType<?> getSpiritTypeRaw(@Nullable CompoundTag tag) {
-        return BlockEntityBoxOfEternalClosure.getSpiritType(tag);
+    public static EntityType<?> getSpiritTypeRaw(ItemStack itemStack) {
+        return BlockEntityBoxOfEternalClosure.getSpiritType(itemStack);
     }
 
     /**
@@ -128,7 +124,6 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
      * @param itemStack The box.
      */
     public static void setVengeanceSwarmContent(ItemStack itemStack) {
-        CompoundTag tag = new CompoundTag();
         CompoundTag spiritTag = new CompoundTag();
 
         EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
@@ -136,8 +131,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
         spiritData.setRandomSwarmTier(new Random());
         spiritData.writeNBT(spiritTag);
 
-        tag.put(NBTKEY_SPIRIT, spiritTag);
-        itemStack.setTag(tag);
+        itemStack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, spiritTag);
     }
 
     /**
@@ -146,32 +140,24 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
      * @param playerId The player id to set.
      */
     public static void setPlayerContent(ItemStack itemStack, UUID playerId, String name) {
-        CompoundTag tag = new CompoundTag();
         CompoundTag spiritTag = new CompoundTag();
 
         EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
         spiritData.setPlayerId(playerId.toString());
         spiritData.setPlayerName(name);
-        tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, spiritData.getPlayerId());
-        tag.putString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, spiritData.getPlayerName());
         spiritData.writeNBT(spiritTag);
 
-        tag.put(NBTKEY_SPIRIT, spiritTag);
-        itemStack.setTag(tag);
+        itemStack.set(RegistryEntries.COMPONENT_BOX_PLAYER_ID, spiritData.getPlayerId());
+        itemStack.set(RegistryEntries.COMPONENT_BOX_PLAYER_NAME, spiritData.getPlayerName());
+        itemStack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, spiritTag);
     }
 
     public static String getPlayerName(ItemStack itemStack) {
-        if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME, Tag.TAG_STRING)) {
-            return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERNAME);
-        }
-        return "";
+        return itemStack.getOrDefault(RegistryEntries.COMPONENT_BOX_PLAYER_NAME, "");
     }
 
     public static String getPlayerId(ItemStack itemStack) {
-        if(itemStack.hasTag() && itemStack.getTag().contains(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID, Tag.TAG_STRING)) {
-            return itemStack.getTag().getString(BlockEntityBoxOfEternalClosure.NBTKEY_PLAYERID);
-        }
-        return "";
+        return itemStack.getOrDefault(RegistryEntries.COMPONENT_BOX_PLAYER_ID, "");
     }
 
     public static boolean hasPlayer(ItemStack itemStack) {
@@ -201,16 +187,16 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult blockRayTraceResult) {
+    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult blockRayTraceResult) {
         return BlockEntityHelpers.get(worldIn, pos, BlockEntityBoxOfEternalClosure.class)
                 .map(tile -> {
                     if (tile.isClosed()) {
                         tile.open();
                         return InteractionResult.SUCCESS;
                     }
-                    return super.use(state, worldIn, pos, player, handIn, blockRayTraceResult);
+                    return super.useWithoutItem(state, worldIn, pos, player, blockRayTraceResult);
                 })
-                .orElseGet(() -> super.use(state, worldIn, pos, player, handIn, blockRayTraceResult));
+                .orElseGet(() -> super.useWithoutItem(state, worldIn, pos, player, blockRayTraceResult));
     }
 
     @Override
