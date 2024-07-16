@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.18.4 or higher.
+
+Fixes:
+* Fix missing blook entity texture, Closes #1030
+* Fix Promise of Tenacity III not showing in book, Closes #1031
+* Remove unsupported compats from infobook, Closes CyclopsMC/EvilCraft#1028
+
