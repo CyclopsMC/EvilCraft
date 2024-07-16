@@ -7,6 +7,10 @@
         {
             "type": "minecraft:single",
             "resource": "evilcraft:model/colossal_blood_chest"
+        },
+        {
+            "type": "minecraft:single",
+            "resource": "evilcraft:entity/blook"
         }
     ]
 }
