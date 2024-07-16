@@ -8,11 +8,11 @@ import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.EnchantTableRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
@@ -41,7 +41,7 @@ import org.joml.Matrix4f;
  */
 public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntityPurifier> {
 
-    public static final Material TEXTURE_BLOOK = new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation(Reference.MOD_ID, "entity/blook"));
+    public static final Material TEXTURE_BLOOK = new Material(Sheets.CHEST_SHEET, new ResourceLocation(Reference.MOD_ID, "entity/blook"));
     private final BookModel enchantmentBook;
 
     public RenderBlockEntityPurifier(BlockEntityRendererProvider.Context context) {
