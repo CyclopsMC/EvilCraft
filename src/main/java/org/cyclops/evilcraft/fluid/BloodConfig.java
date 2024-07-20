@@ -26,6 +26,8 @@ public class BloodConfig extends FluidConfig {
                                 .temperature(309)
                                 .rarity(Rarity.COMMON)
                                 .descriptionId("block.evilcraft.blood")
+                                .supportsBoating(true)
+                                .canHydrate(true)
                                 .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
                                 .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                                 .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH))
