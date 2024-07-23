@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "c:obsidian"
+      "tag": "c:obsidians"
     },
     {
       "type": "neoforge:components",

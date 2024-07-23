@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "c:stone"
+      "tag": "c:stones"
     },
     {
       "type": "neoforge:components",
@@ -14,7 +14,7 @@
       }
     },
     {
-      "tag": "c:stone"
+      "tag": "c:stones"
     }
   ],
   "result": {
