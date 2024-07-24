@@ -1,9 +1,13 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.helper.LootHelpers;
 import org.cyclops.evilcraft.EvilCraft;
+import org.cyclops.evilcraft.Reference;
 
 /**
  * Config for the {@link ItemBroom}.
@@ -43,6 +47,22 @@ public class ItemBroomConfig extends ItemConfig {
                         .stacksTo(1)
                         .tab(EvilCraft._instance.getDefaultItemGroup()))
         );
+    }
+
+    @Override
+    public void onForgeRegistered() {
+        super.onForgeRegistered();
+        if (lootChests) {
+            LootHelpers.injectLootTable(new ResourceLocation(Reference.MOD_ID, "inject/chests/broom"),
+                    BuiltInLootTables.SPAWN_BONUS_CHEST,
+                    BuiltInLootTables.VILLAGE_TOOLSMITH,
+                    BuiltInLootTables.VILLAGE_WEAPONSMITH,
+                    BuiltInLootTables.VILLAGE_SHEPHERD,
+                    BuiltInLootTables.SIMPLE_DUNGEON,
+                    BuiltInLootTables.ABANDONED_MINESHAFT,
+                    BuiltInLootTables.JUNGLE_TEMPLE,
+                    BuiltInLootTables.IGLOO_CHEST);
+        }
     }
 
 }

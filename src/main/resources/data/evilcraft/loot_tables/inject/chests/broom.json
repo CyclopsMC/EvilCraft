@@ -1,0 +1,76 @@
+{
+  "pools": [
+    {
+      "name": "main",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "entryName": "9500",
+          "name": "evilcraft:broom",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"broom_parts_tag\":[\"evilcraft:rod_wood\", \"evilcraft:brush_wheat\", \"evilcraft:cap_gem_dark\"],\"broom_modifiers_tag\":[{\"id\":\"evilcraft:speed\",\"value\":200.0}],\"Fluid\":{\"Amount\":9000,\"FluidName\":\"evilcraft:blood\"}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "7500",
+          "name": "evilcraft:broom",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"broom_parts_tag\":[\"evilcraft:rod_stone\", \"evilcraft:brush_wool\", \"evilcraft:cap_gem_diamond\"],\"broom_modifiers_tag\":[{\"id\":\"evilcraft:speed\",\"value\":300.0},{\"id\":\"evilcraft:particles\",\"value\":50.0}],\"Fluid\":{\"Amount\":7500,\"FluidName\":\"evilcraft:blood\"}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "6500",
+          "name": "evilcraft:broom",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"broom_parts_tag\":[\"evilcraft:rod_bamboo\", \"evilcraft:brush_twig\", \"evilcraft:cap_metal_gold\"],\"broom_modifiers_tag\":[{\"id\":\"evilcraft:speed\",\"value\":100.0},{\"id\":\"evilcraft:levitation\",\"value\":200.0},{\"id\":\"evilcraft:bouncy\",\"value\":20.0}],\"Fluid\":{\"Amount\":6500,\"FluidName\":\"evilcraft:blood\"}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "6000",
+          "name": "evilcraft:broom",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"broom_parts_tag\":[\"evilcraft:rod_blaze\", \"evilcraft:brush_feather\", \"evilcraft:cap_gem_dark_power\"],\"broom_modifiers_tag\":[{\"id\":\"evilcraft:speed\",\"value\":200.0}],\"Fluid\":{\"Amount\":6000,\"FluidName\":\"evilcraft:blood\"}}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "entryName": "5500",
+          "name": "evilcraft:broom",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{\"broom_parts_tag\":[\"evilcraft:rod_purpur\", \"evilcraft:brush_honey\", \"evilcraft:cap_metal_iron\"],\"broom_modifiers_tag\":[{\"id\":\"evilcraft:speed\",\"value\":200.0},{\"id\":\"evilcraft:levitation\",\"value\":200.0}],\"Fluid\":{\"Amount\":5500,\"FluidName\":\"evilcraft:blood\"}}"
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "random_chance",
+          "chance": 1
+        }
+      ]
+    }
+  ]
+}
