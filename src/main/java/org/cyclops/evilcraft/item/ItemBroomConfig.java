@@ -15,9 +15,6 @@ import java.util.Collection;
  */
 public class ItemBroomConfig extends ItemConfig {
 
-    @ConfigurableProperty(category = "item", comment = "If the broom should spawn in loot chests.")
-    public static boolean lootChests = true;
-
     @ConfigurableProperty(category = "item", comment = "The position to render the broom gui overlay at. (0=NE, 1=SE, 2=SW,3=NW)", isCommandable = true)
     public static int guiOverlayPosition = 1;
 

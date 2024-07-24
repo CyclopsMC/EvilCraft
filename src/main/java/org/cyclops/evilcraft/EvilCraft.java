@@ -82,6 +82,7 @@ import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimatorConfig
 import org.cyclops.evilcraft.item.*;
 import org.cyclops.evilcraft.loot.functions.LootFunctions;
 import org.cyclops.evilcraft.loot.modifier.LootModifierInjectBoxOfEternalClosureConfig;
+import org.cyclops.evilcraft.loot.modifier.LootModifierInjectBroomConfig;
 import org.cyclops.evilcraft.metadata.RegistryExportables;
 import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.potion.PotionPalingConfig;
@@ -412,6 +413,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
 
         // Loot modifiers
         configHandler.addConfigurable(new LootModifierInjectBoxOfEternalClosureConfig());
+        configHandler.addConfigurable(new LootModifierInjectBroomConfig());
     }
 
     @OnlyIn(Dist.CLIENT)
