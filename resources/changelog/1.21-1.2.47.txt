@@ -1,0 +1,13 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.19.1 or higher.
+
+Additions:
+
+Changes:
+* Make blood infuser recipe matching more accurate
+  Related to CyclopsMC/IntegratedDynamics#1369
+
+Fixes:
+* Fix server crash when igniting lightning bomb, Closes #1040
+
+
