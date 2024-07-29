@@ -115,7 +115,9 @@ public class BlockLightningBomb extends Block {
                 (player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL || player.getItemInHand(hand).getItem() == Items.FIRE_CHARGE)) {
             this.primeBomb(world, blockPos, defaultBlockState().setValue(PRIMED, true), player);
             world.removeBlock(blockPos, false);
-            player.getItemInHand(hand).hurtAndBreak(1, (ServerLevel) world, player, (e) -> {});
+            if (world instanceof ServerLevel serverLevel) {
+                player.getItemInHand(hand).hurtAndBreak(1, serverLevel, player, (e) -> {});
+            }
             return InteractionResult.SUCCESS;
         } else {
             return super.useWithoutItem(state, world, blockPos, player, p_225533_6_);
