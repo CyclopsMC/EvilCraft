@@ -7,7 +7,7 @@
   ],
   "key": {
     "G": {
-      "tag": "c:glass_blocks_panes"
+      "tag": "c:glass_panes"
     },
     "W": {
       "type": "neoforge:components",
