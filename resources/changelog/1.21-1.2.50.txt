@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.19.1 or higher.
+
+Fixes:
+* Fix incorrect ender tear loot table
+* Fix biome degradation crash with envir acc, Closes #1045
+* Fix incorrect localization for charge boss bar
+
