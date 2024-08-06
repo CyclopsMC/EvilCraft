@@ -312,7 +312,7 @@
   "_comment": "Chat messages",
   "chat.evilcraft.command.farting_enabled": "Farting enabled",
   "chat.evilcraft.command.farting_disabled": "Farting disabled",
-  "chat.evilcraft.boss_display.charge": "%s Charge",
+  "chat.evilcraft.boss_display.charge": "Charge",
 
   "_comment": "Death messages",
   "death.attack.evilcraft.die_without_any_reason": "%1$s dies without any apparent reason!",
