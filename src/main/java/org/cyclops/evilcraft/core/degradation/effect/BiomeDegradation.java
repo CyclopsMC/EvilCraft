@@ -1,11 +1,12 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import org.cyclops.cyclopscore.helper.LocationHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
@@ -57,8 +58,8 @@ public class BiomeDegradation implements IDegradationEffect, OrganicSpread.IOrga
         }
     }
 
-    public static DeferredHolder<Biome, Biome> getBiome(Level level) {
-        return RegistryEntries.BIOME_DEGRADED;
+    public static Holder.Reference<Biome> getBiome(Level level) {
+        return level.registryAccess().lookupOrThrow(Registries.BIOME).get(RegistryEntries.BIOME_DEGRADED).get();
     }
 
 }

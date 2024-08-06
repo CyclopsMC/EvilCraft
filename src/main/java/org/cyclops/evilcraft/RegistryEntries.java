@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
@@ -265,7 +266,7 @@ public class RegistryEntries {
 
     public static final DeferredHolder<VillagerProfession, VillagerProfession> VILLAGER_PROFESSION_WEREWOLF = DeferredHolder.create(Registries.VILLAGER_PROFESSION, ResourceLocation.parse("evilcraft:werewolf"));
 
-    public static final DeferredHolder<Biome, Biome> BIOME_DEGRADED = DeferredHolder.create(Registries.BIOME, ResourceLocation.parse("evilcraft:degraded"));
+    public static final ResourceKey<Biome> BIOME_DEGRADED = ResourceKey.create(Registries.BIOME, ResourceLocation.parse("evilcraft:degraded"));
 
     public static final DeferredHolder<Structure, Structure> STRUCTURE_DARK_TEMPLE = DeferredHolder.create(Registries.STRUCTURE, ResourceLocation.parse("evilcraft:dark_temple"));
     public static final DeferredHolder<StructureType<?>, StructureType<WorldStructureDarkTemple>> STRUCTURE_TYPE_DARK_TEMPLE = DeferredHolder.create(Registries.STRUCTURE_TYPE, ResourceLocation.parse("evilcraft:dark_temple"));
