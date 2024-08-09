@@ -18,18 +18,18 @@ An evil mod for Minecraft.
 [[dependencies.evilcraft]]
     modId="cyclopscore"
     type="required"
-    versionRange="[1.19.1,)"
+    versionRange="[1.19.10,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.evilcraft]]
     modId="neoforge"
     type="required"
-    versionRange="[21.0.43-beta,)"
+    versionRange="[21.1.2,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.evilcraft]]
     modId="minecraft"
     type="required"
-    versionRange="[1.21,]"
+    versionRange="[1.21.1,]"
     ordering="NONE"
     side="BOTH"
