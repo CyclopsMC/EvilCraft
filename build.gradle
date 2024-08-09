@@ -88,17 +88,16 @@ dependencies {
         implementation "org.cyclops.cyclopscore:cyclopscore-${project.minecraft_version}-neoforge:${project.cyclopscore_version}:deobf"
     }
 
-// TODO: enable
-//    // Add something like 'evilcraftcompat_version_local=0.1.0-DEV' to your secrets.properties if you want to use a custom local EvilCraft Compat version.
-//    if(secrets.evilcraftcompat_version_local) {
-//        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${secrets.evilcraftcompat_version_local}") {
-//            transitive = false
-//        }
-//    } else {
-//        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${project.evilcraftcompat_version}") {
-//            transitive = false
-//        }
-//    }
+    // Add something like 'evilcraftcompat_version_local=0.1.0-DEV' to your secrets.properties if you want to use a custom local EvilCraft Compat version.
+    if(secrets.evilcraftcompat_version_local) {
+        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${secrets.evilcraftcompat_version_local}") {
+            transitive = false
+        }
+    } else {
+        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${project.evilcraftcompat_version}") {
+            transitive = false
+        }
+    }
 
     // Project lombok
 	compileOnly 'org.projectlombok:lombok:1.18.30'
