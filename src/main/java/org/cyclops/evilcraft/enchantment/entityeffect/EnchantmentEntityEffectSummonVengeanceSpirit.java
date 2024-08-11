@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.enchantment.EnchantedItemInUse;
 import net.minecraft.world.item.enchantment.effects.EnchantmentEntityEffect;
 import net.minecraft.world.phys.Vec3;
@@ -30,6 +31,9 @@ public record EnchantmentEntityEffectSummonVengeanceSpirit(
         if (enchantmentLevel > 0) {
             int chance = Math.max(1, chance() / enchantmentLevel);
             if (chance > 0 && level.random.nextInt(chance) == 0) {
+                if (entity instanceof Projectile projectile) {
+                    entity = projectile.getEffectSource();
+                }
                 ItemVengeanceRing.toggleVengeanceArea(level, entity, area * enchantmentLevel, true, true, true);
             }
         }

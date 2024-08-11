@@ -12,7 +12,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -102,11 +101,13 @@ public class ItemVengeanceRing extends Item {
 
             // Vengeance all the spirits in the neighbourhood
             for(EntityVengeanceSpirit spirit : spirits) {
-                spirit.setEnabledVengeance((Player) entity, enableVengeance);
-                if(enableVengeance) {
-                    spirit.setTarget((LivingEntity) entity);
-                } else if(spirit.getTarget() == entity) {
-                    spirit.setTarget(null);
+                if (entity instanceof Player player) {
+                    spirit.setEnabledVengeance(player, enableVengeance);
+                    if (enableVengeance) {
+                        spirit.setTarget(player);
+                    } else if (spirit.getTarget() == player) {
+                        spirit.setTarget(null);
+                    }
                 }
             }
 
@@ -114,12 +115,14 @@ public class ItemVengeanceRing extends Item {
             if(spirits.size() == 0 && enableVengeance) {
                 EntityVengeanceSpirit spirit = EntityVengeanceSpirit.spawnRandom(world, blockPos, area / 4);
                 if(spirit != null) {
-                    if(forceGlobal) {
-                        spirit.setGlobalVengeance(true);
-                    } else {
-                        spirit.setEnabledVengeance((Player) entity, true);
+                    if (entity instanceof Player player) {
+                        if (forceGlobal) {
+                            spirit.setGlobalVengeance(true);
+                        } else {
+                            spirit.setEnabledVengeance(player, true);
+                        }
+                        spirit.setTarget(player);
                     }
-                    spirit.setTarget((LivingEntity) entity);
                     int chance = EntityVengeanceSpiritConfig.nonDegradedSpawnChance;
                     spirit.setSwarm(chance <= 0 || world.random.nextInt(chance) > 0);
                 }
