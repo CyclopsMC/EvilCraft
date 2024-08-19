@@ -70,7 +70,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
         // Try disenchanting.
         ItemEnchantments enchantments = purifyItem.get(DataComponents.ENCHANTMENTS);
-        if (enchantments != null) {
+        if (enchantments != null && !enchantments.isEmpty()) {
             if (tick >= PURIFY_DURATION) {
                 if (!world.isClientSide()) {
                     Holder<Enchantment> enchantment = getRandomEnchantment(world, enchantments);
