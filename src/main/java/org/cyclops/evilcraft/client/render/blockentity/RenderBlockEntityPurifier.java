@@ -160,7 +160,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         this.enchantmentBook.setupAnim(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6);
         Material material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_LOCATION;
         VertexConsumer ivertexbuilder = material.buffer(bufferIn, RenderType::entitySolid);
-        this.enchantmentBook.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, Helpers.RGBToInt(256, 256, 256));
+        this.enchantmentBook.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, -1);
 
         matrixStackIn.popPose();
     }
