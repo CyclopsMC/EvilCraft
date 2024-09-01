@@ -12,6 +12,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 import org.cyclops.evilcraft.Reference;
 
 /**
@@ -34,6 +35,11 @@ public record EnchantmentEntityEffectHealFromDamage(
         if (!event.getEntity().level().isClientSide()) {
             lastDamageEvent = event;
         }
+    }
+
+    @SubscribeEvent(priority = EventPriority.NORMAL)
+    public static void onServerStopped(ServerStoppedEvent event) {
+        lastDamageEvent = null;
     }
 
     @Override
