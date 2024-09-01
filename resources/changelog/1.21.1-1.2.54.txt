@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.20.0 or higher.
+
+Additions:
+* Add config option to disable villager lightning conversion, Closes #1053
+* Allow random bad enchant chance in Blood Chest to be configured
+
+Fixes:
+* Fix lightning-struck villagers always becoming werewolves, Closes #1052
+* Fix crash when adding bad enchant in Blood Chest, Closes #1054
+* Fix memory leak in heal-from-damage effects, Closes #1051
