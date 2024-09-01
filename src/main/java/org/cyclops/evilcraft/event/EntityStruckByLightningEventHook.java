@@ -9,6 +9,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityWerewolf;
+import org.cyclops.evilcraft.entity.villager.VillagerProfessionWerewolfConfig;
 import org.cyclops.evilcraft.item.IItemEmpowerable;
 
 import java.util.HashSet;
@@ -49,7 +50,7 @@ public class EntityStruckByLightningEventHook {
     private Set<Integer> affectedVillagers;
 
     private void transformVillager(EntityStruckByLightningEvent event) {
-        if (event.getEntity() instanceof Villager) {
+        if (event.getEntity() instanceof Villager && VillagerProfessionWerewolfConfig.convertOnLightning) {
             Villager entity = (Villager) event.getEntity();
             if(lastLightningBolt != event.getLightning()) {
                 lastLightningBolt = event.getLightning();
