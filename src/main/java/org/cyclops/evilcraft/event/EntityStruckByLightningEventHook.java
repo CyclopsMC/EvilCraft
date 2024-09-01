@@ -9,6 +9,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityWerewolf;
+import org.cyclops.evilcraft.entity.villager.VillagerProfessionWerewolfConfig;
 import org.cyclops.evilcraft.item.IItemEmpowerable;
 
 import java.util.HashSet;
@@ -46,25 +47,26 @@ public class EntityStruckByLightningEventHook {
     }
 
     private LightningBolt lastLightningBolt;
-    private Set<Villager> affectedVillagers;
+    private Set<Integer> affectedVillagers;
 
     private void transformVillager(EntityStruckByLightningEvent event) {
-        if (event.getEntity() instanceof Villager) {
+        if (event.getEntity() instanceof Villager && VillagerProfessionWerewolfConfig.convertOnLightning) {
             Villager entity = (Villager) event.getEntity();
             if(lastLightningBolt != event.getLightning()) {
                 lastLightningBolt = event.getLightning();
                 affectedVillagers = new HashSet<>();
             }
-            if(!affectedVillagers.add(entity)) {
+            if(!affectedVillagers.add(entity.getId())) {
                 // The same lightning bolt will strike multiple times. Only count the first time it hits any entity
                 event.setCanceled(true);
                 return;
             }
             if(entity.level().random.nextBoolean()) {
-                event.setCanceled(true); // 50% chance that they become a witch like vanilla does
-                return;
+                event.setCanceled(false);
+                return; // 50% chance that they become a witch like vanilla does
             }
             if(entity.getVillagerData().getProfession() != RegistryEntries.VILLAGER_PROFESSION_WEREWOLF) {
+                event.setCanceled(true);
                 EntityWerewolf.initializeWerewolfVillagerData(entity);
             }
         }
