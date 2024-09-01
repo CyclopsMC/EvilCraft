@@ -24,7 +24,11 @@ import java.util.function.Consumer;
 public class BlockBloodChestConfig extends BlockConfig {
 
     @ConfigurableProperty(category = "machine", comment = "If the Blood Chest should add random bad enchants with a small chance to repairing items.", isCommandable = true)
+    @Deprecated // TODO: rm in next major
     public static boolean addRandomBadEnchants = true;
+
+    @ConfigurableProperty(category = "machine", comment = "The 1/x chance the Blood Chest should add random bad enchants with a small chance to repairing items. Disabled by setting to a negative value.", isCommandable = true)
+    public static int randomBadEnchantsChance = 10000;
 
     @ConfigurableProperty(category = "machine", comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
     public static int mBPerDamage = 5;
