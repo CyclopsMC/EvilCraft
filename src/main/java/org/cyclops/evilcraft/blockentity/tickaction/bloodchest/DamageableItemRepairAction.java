@@ -50,7 +50,7 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
                 itemStack.enchant(
                         enchantment,
                         enchantment.value().getMinLevel() + random.nextInt(
-                                enchantment.value().getMaxLevel() - enchantment.value().getMinLevel())
+                                enchantment.value().getMaxLevel() - enchantment.value().getMinLevel() + 1) - 1
                 );
             }
         }
