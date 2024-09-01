@@ -46,7 +46,7 @@ public class EntityStruckByLightningEventHook {
     }
 
     private LightningBolt lastLightningBolt;
-    private Set<Villager> affectedVillagers;
+    private Set<Integer> affectedVillagers;
 
     private void transformVillager(EntityStruckByLightningEvent event) {
         if (event.getEntity() instanceof Villager) {
@@ -55,16 +55,17 @@ public class EntityStruckByLightningEventHook {
                 lastLightningBolt = event.getLightning();
                 affectedVillagers = new HashSet<>();
             }
-            if(!affectedVillagers.add(entity)) {
+            if(!affectedVillagers.add(entity.getId())) {
                 // The same lightning bolt will strike multiple times. Only count the first time it hits any entity
                 event.setCanceled(true);
                 return;
             }
             if(entity.getLevel().random.nextBoolean()) {
-                event.setCanceled(true); // 50% chance that they become a witch like vanilla does
-                return;
+                event.setCanceled(false);
+                return; // 50% chance that they become a witch like vanilla does
             }
             if(entity.getVillagerData().getProfession() != RegistryEntries.VILLAGER_PROFESSION_WEREWOLF) {
+                event.setCanceled(true);
                 EntityWerewolf.initializeWerewolfVillagerData(entity);
             }
         }
