@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.18.4 or higher.
+
+Additions:
+* Add config option to disable villager lightning conversion, Closes #1053
+
+Fixes:
+* Fix lightning-struck villagers always becoming werewolves, Closes #1052
