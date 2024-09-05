@@ -33,17 +33,18 @@ public class LootFunctionCopyTankData extends LootItemConditionalFunction {
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        BlockEntityTankInventory tile = (BlockEntityTankInventory) lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
-        SingleUseTank fluidHandlerTile = tile.getTank();
-        Optional.ofNullable(itemStack.getCapability(Capabilities.FluidHandler.ITEM))
-                .ifPresent(fluidHandlerItem -> {
-                    if (fluidHandlerItem instanceof IFluidHandlerMutable) {
-                        ((IFluidHandlerMutable) fluidHandlerItem).setFluidInTank(0, fluidHandlerTile.getFluidInTank(0));
-                    }
-                    if (fluidHandlerItem instanceof IFluidHandlerItemCapacity) {
-                        ((IFluidHandlerItemCapacity) fluidHandlerItem).setCapacity(fluidHandlerTile.getTankCapacity(0));
-                    }
-                });
+        if (lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY) instanceof BlockEntityTankInventory tile) {
+            SingleUseTank fluidHandlerTile = tile.getTank();
+            Optional.ofNullable(itemStack.getCapability(Capabilities.FluidHandler.ITEM))
+                    .ifPresent(fluidHandlerItem -> {
+                        if (fluidHandlerItem instanceof IFluidHandlerMutable) {
+                            ((IFluidHandlerMutable) fluidHandlerItem).setFluidInTank(0, fluidHandlerTile.getFluidInTank(0));
+                        }
+                        if (fluidHandlerItem instanceof IFluidHandlerItemCapacity) {
+                            ((IFluidHandlerItemCapacity) fluidHandlerItem).setCapacity(fluidHandlerTile.getTankCapacity(0));
+                        }
+                    });
+        }
         return itemStack;
     }
 
