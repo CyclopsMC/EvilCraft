@@ -178,7 +178,16 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
                     (blockEntity, direction) -> new ItemHandlerSlotMasked(
                             blockEntity.getInventory(),
                             (direction == Direction.UP || direction == Direction.DOWN) ? SLOTS_DROP : new int[]{SLOT_BOX, SLOT_CONTAINER}
-                    )
+                    ) {
+                        @Override
+                        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                            ItemStack extracted = super.extractItem(slot, amount, simulate);
+                            if (slot > SLOT_BOX && !extracted.isEmpty() && !simulate) {
+                                blockEntity.resetWork(false);
+                            }
+                            return extracted;
+                        }
+                    }
             );
         }
     }
