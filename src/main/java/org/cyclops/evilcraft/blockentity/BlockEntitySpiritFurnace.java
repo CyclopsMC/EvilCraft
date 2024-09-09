@@ -169,7 +169,16 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
 
     @Override
     protected void addItemHandlerCapabilities() {
-        LazyOptional<IItemHandler> itemHandlerBox = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_DROP));
+        LazyOptional<IItemHandler> itemHandlerBox = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOTS_DROP) {
+            @Override
+            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                ItemStack extracted = super.extractItem(slot, amount, simulate);
+                if (!extracted.isEmpty() && !simulate) {
+                    resetWork(false);
+                }
+                return extracted;
+            }
+        });
         LazyOptional<IItemHandler> itemHandlerContainer = LazyOptional.of(() -> new ItemHandlerSlotMasked(getInventory(), SLOT_BOX, SLOT_CONTAINER));
         addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.UP, itemHandlerBox);
         addCapabilitySided(ForgeCapabilities.ITEM_HANDLER, Direction.DOWN, itemHandlerBox);
