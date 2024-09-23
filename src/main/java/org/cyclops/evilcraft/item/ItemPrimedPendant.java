@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.item;
 
+import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,6 +21,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
@@ -83,7 +85,11 @@ public class ItemPrimedPendant extends ItemBloodContainer {
             if(!potionStack.isEmpty()) {
                 PotionContents contents = potionStack.get(DataComponents.POTION_CONTENTS);
                 if (contents != null) {
-                    List<MobEffectInstance> potionEffects = contents.customEffects();
+                    List<MobEffectInstance> potionEffects = Lists.newArrayList(contents.customEffects());
+                    contents.potion().ifPresent(potionHolder -> {
+                        Potion potion = potionHolder.value();
+                        potionEffects.addAll(potion.getEffects());
+                    });
                     for (MobEffectInstance potionEffect : potionEffects) {
                         int toDrain = ItemPrimedPendantConfig.usage * (potionEffect.getAmplifier() + 1);
                         Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
