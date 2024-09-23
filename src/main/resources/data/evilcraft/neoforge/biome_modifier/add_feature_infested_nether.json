@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_nether",
+  "biomes": "minecraft:soul_sand_valley",
   "features": [
     "evilcraft:ore_infested_nether"
   ],
