@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.20.0 or higher.
+
+Fixes:
+* Reduce default spawn rate of Silverfish and Netherfish
+  Netherfish will now only spawn in Soul Sand Valleys,
+  but can be overriden via datapacks.
+* Fix Primed Pendant not working for most potions, Closes #1062
