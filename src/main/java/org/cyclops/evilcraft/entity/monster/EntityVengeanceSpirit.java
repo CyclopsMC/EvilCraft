@@ -137,7 +137,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         this.blocksBuilding = false;
 
         float damage = 0.5F;
-        int remainingLife = Mth.nextInt(level.random, REMAININGLIFE_MIN, REMAININGLIFE_MAX);
+        int remainingLife = Mth.nextInt(this.getRandom(), REMAININGLIFE_MIN, REMAININGLIFE_MAX);
         if(isSwarm()) {
             damage += 0.5D * getSwarmTier();
             remainingLife += (REMAININGLIFE_MAX - REMAININGLIFE_MIN) * getSwarmTier();
@@ -638,9 +638,9 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         int baseDistance = 5;
         while(canSpawnNew(level, blockPos) && attempts > 0) {
             BlockPos spawnPos = blockPos.offset(
-                    Mth.nextInt(level.random, baseDistance, baseDistance + area) * Mth.nextInt(level.random, -1, 1),
-                    Mth.nextInt(level.random, 0, 3) * Mth.nextInt(level.random, -1, 1),
-                    Mth.nextInt(level.random, baseDistance, baseDistance + area) * Mth.nextInt(level.random, -1, 1)
+                    Mth.nextInt(spirit.random, baseDistance, baseDistance + area) * Mth.nextInt(spirit.random, -1, 1),
+                    Mth.nextInt(spirit.random, 0, 3) * Mth.nextInt(spirit.random, -1, 1),
+                    Mth.nextInt(spirit.random, baseDistance, baseDistance + area) * Mth.nextInt(spirit.random, -1, 1)
             );
 
             if(BlockHelpers.doesBlockHaveSolidTopSurface(level, spawnPos.offset(0, -1, 0))) {
