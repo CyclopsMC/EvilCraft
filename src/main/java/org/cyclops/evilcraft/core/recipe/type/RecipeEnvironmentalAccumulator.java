@@ -117,7 +117,9 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         ItemStack itemStack = getResultItem(registryAccess).copy();
         if (!inputStack.isEmpty()) {
             for (DataComponentType<?> dataComponentType : inputStack.getComponents().keySet()) {
-                itemStack.set((DataComponentType) dataComponentType, inputStack.get(dataComponentType));
+                if (dataComponentType != RegistryEntries.COMPONENT_WEATHER_CONTAINER_TYPE.value()) {
+                    itemStack.set((DataComponentType) dataComponentType, inputStack.get(dataComponentType));
+                }
             }
         }
         return itemStack;
