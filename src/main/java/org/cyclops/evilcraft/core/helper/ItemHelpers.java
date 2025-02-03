@@ -45,7 +45,11 @@ public class ItemHelpers {
             tag = new CompoundTag();
             itemStack.setTag(tag);
         }
-        tag.putBoolean(NBT_KEY_ENABLED, !isActivated(itemStack));
+        if (isActivated(itemStack)) {
+            tag.remove(NBT_KEY_ENABLED);
+        } else {
+            tag.putBoolean(NBT_KEY_ENABLED, true);
+        }
     }
 
     /**
@@ -73,7 +77,11 @@ public class ItemHelpers {
             tagCompound = new CompoundTag();
             itemStack.setTag(tagCompound);
         }
-        tagCompound.putInt(tag, integer);
+        if (integer == 0) {
+            tagCompound.remove(tag);
+        } else {
+            tagCompound.putInt(tag, integer);
+        }
     }
 
     /**
