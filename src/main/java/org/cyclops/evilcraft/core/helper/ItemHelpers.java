@@ -39,7 +39,11 @@ public class ItemHelpers {
      * @param itemStack The item to toggle.
      */
     public static void toggleActivation(ItemStack itemStack) {
-        itemStack.set(RegistryEntries.COMPONENT_ACTIVATED, !isActivated(itemStack));
+        if (isActivated(itemStack)) {
+            itemStack.remove(RegistryEntries.COMPONENT_ACTIVATED);
+        } else {
+            itemStack.set(RegistryEntries.COMPONENT_ACTIVATED, true);
+        }
     }
 
     /**
