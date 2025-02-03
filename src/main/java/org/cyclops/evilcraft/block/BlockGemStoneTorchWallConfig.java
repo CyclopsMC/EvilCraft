@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallTorchBlock;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.RegistryEntries;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,8 +27,7 @@ public class BlockGemStoneTorchWallConfig extends BlockConfig {
                         .noCollission()
                         .strength(0)
                         .lightLevel((state) -> 14)
-                        .sound(SoundType.WOOD)
-                        .lootFrom(RegistryEntries.BLOCK_GEM_STONE_TORCH::get)),
+                        .sound(SoundType.WOOD)),
                 null
         );
     }
