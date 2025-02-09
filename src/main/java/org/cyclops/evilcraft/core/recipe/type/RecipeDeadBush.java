@@ -55,7 +55,7 @@ public class RecipeDeadBush extends CustomRecipe {
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        return NonNullList.of(Ingredient.of(ItemTags.SAPLINGS), Ingredient.of(Tags.Items.TOOLS_SHEAR));
+        return NonNullList.of(Ingredient.EMPTY, Ingredient.of(ItemTags.SAPLINGS), Ingredient.of(Tags.Items.TOOLS_SHEAR));
     }
 
     @Override
