@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicLongMap;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransform;
@@ -32,10 +30,9 @@ import java.util.*;
 
 /**
  * A baked broom model.
+ *
  * @author rubensworks
  */
-@EqualsAndHashCode(callSuper = false)
-@Data
 public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     // Default perspective transforms
@@ -135,16 +132,17 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     /**
      * Offsets the z coordinate and color the quads
-     * @param quads The original quads
+     *
+     * @param quads  The original quads
      * @param offset The offset to apply
-     * @param color The color
+     * @param color  The color
      * @return The offsetted quads
      */
     private Collection<? extends BakedQuad> offsetAndColor(List<BakedQuad> quads, float offset, int color) {
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
             int[] vertexData = Arrays.copyOf(quad.getVertices(), quad.getVertices().length);
-            for(int i = 0; i < vertexData.length / 8; i++) {
+            for (int i = 0; i < vertexData.length / 8; i++) {
                 float originalZ = Float.intBitsToFloat(vertexData[i * 8 + 2]);
                 originalZ += offset;
                 vertexData[i * 8 + 2] = Float.floatToIntBits(originalZ);
@@ -160,5 +158,45 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     @Override
     public ItemTransforms getTransforms() {
         return PERSPECTIVE_TRANSFORMS;
+    }
+
+    public List<BakedQuad> getQuads() {
+        return this.quads;
+    }
+
+    public RandomSource getRand() {
+        return this.rand;
+    }
+
+    public String toString() {
+        return "BroomModelBaked(quads=" + this.getQuads() + ", rand=" + this.getRand() + ")";
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof BroomModelBaked)) return false;
+        final BroomModelBaked other = (BroomModelBaked) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$quads = this.getQuads();
+        final Object other$quads = other.getQuads();
+        if (this$quads == null ? other$quads != null : !this$quads.equals(other$quads)) return false;
+        final Object this$rand = this.getRand();
+        final Object other$rand = other.getRand();
+        if (this$rand == null ? other$rand != null : !this$rand.equals(other$rand)) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof BroomModelBaked;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $quads = this.getQuads();
+        result = result * PRIME + ($quads == null ? 43 : $quads.hashCode());
+        final Object $rand = this.getRand();
+        result = result * PRIME + ($rand == null ? 43 : $rand.hashCode());
+        return result;
     }
 }

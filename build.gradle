@@ -12,9 +12,10 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'jacoco'
 
-import net.neoforged.gradle.common.tasks.PotentiallySignJar
+
 import net.darkhax.curseforgegradle.Constants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import net.neoforged.gradle.common.tasks.PotentiallySignJar
 
 // Determine build number
 String build_number = "DEV" // this will be referenced as simply build_number from now on.
@@ -132,12 +133,6 @@ dependencies {
 //            transitive = false
 //        }
 //    }
-
-    // Project lombok
-	compileOnly 'org.projectlombok:lombok:1.18.30'
-	annotationProcessor 'org.projectlombok:lombok:1.18.30'
-	testCompileOnly 'org.projectlombok:lombok:1.18.30'
-	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
 	
 	testImplementation "junit:junit:4.12"
 }

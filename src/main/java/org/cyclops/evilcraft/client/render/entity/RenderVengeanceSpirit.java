@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.blaze3d.vertex.PoseStack;
-import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.PlayerModel;
@@ -142,7 +141,6 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
 
     public static class RenderPlayerSpirit extends LivingEntityRenderer<Mob, PlayerRenderState, PlayerModel> {
 
-        @Setter
         private ResourceLocation playerTexture;
 
         public RenderPlayerSpirit(EntityRendererProvider.Context context) {
@@ -158,6 +156,10 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
             this.addLayer(new ItemInHandLayer<>(this));
             this.addLayer(new ArrowLayer<>(this, context));
             this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
+        }
+
+        public void setPlayerTexture(ResourceLocation playerTexture) {
+            this.playerTexture = playerTexture;
         }
 
         @Override

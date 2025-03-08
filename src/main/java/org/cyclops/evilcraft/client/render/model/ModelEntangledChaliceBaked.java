@@ -2,8 +2,6 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -39,16 +37,15 @@ import java.util.Random;
 
 /**
  * A baked entangled chalice model.
+ *
  * @author rubensworks
  */
-@EqualsAndHashCode(callSuper = false)
-@Data
 public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockModel {
 
     private final static Map<String, Integer> seeds = Maps.newHashMap();
 
-    public static final ResourceLocation chaliceModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/chalice");;
-    public static final ResourceLocation gemsModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/gems");;
+    public static final ResourceLocation chaliceModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/chalice");
+    public static final ResourceLocation gemsModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/gems");
 
     public static BakedModel chaliceModel;
     public static BakedModel gemsModel;
@@ -76,12 +73,13 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     /**
      * Set the color seed of the chalice.
+     *
      * @param id Unique id of a chalice group.
      * @return The color seed
      */
     public static int getColorSeed(String id) {
         int gemColor;
-        if(seeds.containsKey(id)) {
+        if (seeds.containsKey(id)) {
             gemColor = seeds.get(id);
         } else {
             long res = id.hashCode();
@@ -101,16 +99,16 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
         // Colored gems
         int color = getColorSeed(this.id);
-        for(BakedQuad quad : gemsModel.getQuads(blockState, facing, rand)) {
+        for (BakedQuad quad : gemsModel.getQuads(blockState, facing, rand)) {
             int[] data = Arrays.copyOf(quad.getVertices(), quad.getVertices().length);
-            for(int i = 0; i < data.length / 8; i++) {
+            for (int i = 0; i < data.length / 8; i++) {
                 data[i * 8 + 3] = color;
             }
             quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false, 0, true));
         }
 
         // Fluid
-        if(!fluidStack.isEmpty()) {
+        if (!fluidStack.isEmpty()) {
             quads.addAll(getFluidQuads(fluidStack, BlockEntityEntangledChalice.BASE_CAPACITY));
         }
 
@@ -134,7 +132,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, ModelData modelData, RenderType renderType) {
         String tankId = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_ID, "");
         FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
-        if(!BlockEntangledChaliceConfig.staticBlockRendering) {
+        if (!BlockEntangledChaliceConfig.staticBlockRendering) {
             fluidStack = FluidStack.EMPTY;
         }
         return new ModelEntangledChaliceBaked(tankId, fluidStack, state, side, rand, modelData, renderType);
@@ -170,5 +168,46 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     @Override
     public ItemTransforms getTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public FluidStack getFluidStack() {
+        return this.fluidStack;
+    }
+
+    public String toString() {
+        return "ModelEntangledChaliceBaked(id=" + this.getId() + ", fluidStack=" + this.getFluidStack() + ")";
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof ModelEntangledChaliceBaked)) return false;
+        final ModelEntangledChaliceBaked other = (ModelEntangledChaliceBaked) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        final Object this$fluidStack = this.getFluidStack();
+        final Object other$fluidStack = other.getFluidStack();
+        if (this$fluidStack == null ? other$fluidStack != null : !this$fluidStack.equals(other$fluidStack))
+            return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof ModelEntangledChaliceBaked;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $id = this.getId();
+        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
+        final Object $fluidStack = this.getFluidStack();
+        result = result * PRIME + ($fluidStack == null ? 43 : $fluidStack.hashCode());
+        return result;
     }
 }

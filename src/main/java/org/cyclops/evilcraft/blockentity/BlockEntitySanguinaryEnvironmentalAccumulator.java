@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Lists;
-import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -84,7 +83,6 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     private SingleCache<Triple<ItemStack, FluidStack, WeatherType>, Optional<RecipeEnvironmentalAccumulator>> recipeCache;
     private VirtualTank virtualTank;
     private boolean forceLoadTanks;
-    @Getter
     private List<BlockPos> invalidLocations = Lists.newArrayList();
 
     private static final Map<Class<?>, ITickAction<BlockEntitySanguinaryEnvironmentalAccumulator>> ACCUMULATE_TICK_ACTIONS = new LinkedHashMap<Class<?>, ITickAction<BlockEntitySanguinaryEnvironmentalAccumulator>>();
@@ -188,6 +186,10 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         public void registerTankInventoryCapabilitiesFluid() {
             // Do not expose dummy tank
         }
+    }
+
+    public List<BlockPos> getInvalidLocations() {
+        return invalidLocations;
     }
 
     @Override

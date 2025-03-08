@@ -2,8 +2,6 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransform;
@@ -28,10 +26,9 @@ import java.util.List;
 
 /**
  * A baked boec model.
+ *
  * @author rubensworks
  */
-@EqualsAndHashCode(callSuper = false)
-@Data
 public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlockModel {
 
     // Default perspective transforms
@@ -67,7 +64,7 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
         List<BakedQuad> quads = Lists.newLinkedList();
 
         quads.addAll(boxModel.getQuads(blockState, facing, rand));
-        if(isOpen) {
+        if (isOpen) {
             quads.addAll(boxLidRotatedModel.getQuads(blockState, facing, rand));
         } else {
             quads.addAll(boxLidModel.getQuads(blockState, facing, rand));
@@ -100,5 +97,33 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     @Override
     public ItemTransforms getTransforms() {
         return TRANSFORMS;
+    }
+
+    public boolean isOpen() {
+        return this.isOpen;
+    }
+
+    public String toString() {
+        return "ModelBoxOfEternalClosureBaked(isOpen=" + this.isOpen() + ")";
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof ModelBoxOfEternalClosureBaked)) return false;
+        final ModelBoxOfEternalClosureBaked other = (ModelBoxOfEternalClosureBaked) o;
+        if (!other.canEqual((Object) this)) return false;
+        if (this.isOpen() != other.isOpen()) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof ModelBoxOfEternalClosureBaked;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        result = result * PRIME + (this.isOpen() ? 79 : 97);
+        return result;
     }
 }

@@ -1,7 +1,5 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,8 +15,6 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
 public class EntityVengeanceSpiritData {
     private static final int SWARM_TIERS = 5;
 
@@ -124,7 +120,7 @@ public class EntityVengeanceSpiritData {
     @Nullable
     public static EntityType<?> getSpiritType(ItemStack itemStack) {
         CompoundTag tag = itemStack.get(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA);
-        if(tag != null && !tag.isEmpty()) {
+        if (tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             if (!innerEntity.isEmpty()) {
                 return BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(innerEntity));
@@ -137,5 +133,70 @@ public class EntityVengeanceSpiritData {
         EntityVengeanceSpiritData data = new EntityVengeanceSpiritData();
         data.readNBT(tag);
         return data;
+    }
+
+    @Nullable
+    public EntityType<?> getInnerEntityType() {
+        return this.innerEntityType;
+    }
+
+    public int getRemainingLife() {
+        return this.remainingLife;
+    }
+
+    public int getFrozenDuration() {
+        return this.frozenDuration;
+    }
+
+    public boolean isSwarm() {
+        return this.isSwarm;
+    }
+
+    public int getSwarmTier() {
+        return this.swarmTier;
+    }
+
+    public int getBuildupDuration() {
+        return this.buildupDuration;
+    }
+
+    public String getPlayerId() {
+        return this.playerId;
+    }
+
+    public String getPlayerName() {
+        return this.playerName;
+    }
+
+    public void setInnerEntityType(@Nullable EntityType<?> innerEntityType) {
+        this.innerEntityType = innerEntityType;
+    }
+
+    public void setRemainingLife(int remainingLife) {
+        this.remainingLife = remainingLife;
+    }
+
+    public void setFrozenDuration(int frozenDuration) {
+        this.frozenDuration = frozenDuration;
+    }
+
+    public void setSwarm(boolean isSwarm) {
+        this.isSwarm = isSwarm;
+    }
+
+    public void setSwarmTier(int swarmTier) {
+        this.swarmTier = swarmTier;
+    }
+
+    public void setBuildupDuration(int buildupDuration) {
+        this.buildupDuration = buildupDuration;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 }

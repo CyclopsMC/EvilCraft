@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.blockentity;
 
-import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -51,7 +50,6 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     @NBTPersist
     private Float randomRotation = 0F;
 
-    @Getter
     private int tick = 0;
 
     public static final int MAX_BUCKETS = 3;
@@ -81,7 +79,6 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     private Integer finishedAnimation = 0;
 
     @NBTPersist
-    @Getter
     private Integer currentAction = -1;
 
     /* Copied from EnchantingTableTileEntity */
@@ -104,6 +101,14 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
 
         // Trigger render update client-side
         getInventory().addDirtyMarkListener(this::sendUpdate);
+    }
+
+    public int getTick() {
+        return tick;
+    }
+
+    public Integer getCurrentAction() {
+        return currentAction;
     }
 
     @Override

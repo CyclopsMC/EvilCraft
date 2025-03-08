@@ -2,8 +2,6 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -25,17 +23,12 @@ import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableFloat;
-import org.cyclops.cyclopscore.block.multi.AllowedBlock;
-import org.cyclops.cyclopscore.block.multi.CubeDetector;
-import org.cyclops.cyclopscore.block.multi.ExactBlockCountValidator;
-import org.cyclops.cyclopscore.block.multi.ExactSizeValidator;
-import org.cyclops.cyclopscore.block.multi.HollowCubeDetector;
+import org.cyclops.cyclopscore.block.multi.*;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
-import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -95,14 +88,11 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     private Vec3i size = IModHelpers.get().getLocationHelpers().copyLocation(Vec3i.ZERO);
     @NBTPersist(useDefaultValue = false)
     private Vec3i renderOffset = new Vec3i(0, 0, 0);
-    @Getter
-    @Setter
     @NBTPersist
     private Integer efficiency = 0;
     @NBTPersist
     private int rotation = 0;
     private int repairTicker;
-    @Getter
     private final Map<Integer, Boolean> slotTickHistory;
 
     private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
@@ -432,6 +422,18 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     @Override
     public Component getDisplayName() {
         return Component.translatable("block.evilcraft.colossal_blood_chest");
+    }
+
+    public Integer getEfficiency() {
+        return efficiency;
+    }
+
+    public void setEfficiency(Integer efficiency) {
+        this.efficiency = efficiency;
+    }
+
+    public Map<Integer, Boolean> getSlotTickHistory() {
+        return slotTickHistory;
     }
 
     private static class Metadata extends BlockEntityWorking.Metadata {
