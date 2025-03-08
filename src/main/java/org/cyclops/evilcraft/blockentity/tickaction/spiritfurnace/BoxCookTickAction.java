@@ -32,7 +32,7 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.cyclops.cyclopscore.helper.ItemStackHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
@@ -210,7 +210,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                     if (mobDropTablesOverrides.containsKey(entity.getType())) {
                         deathLootTable = ResourceKey.create(Registries.LOOT_TABLE, mobDropTablesOverrides.get(entity.getType()));
                     } else {
-                        deathLootTable = entity.getLootTable();
+                        deathLootTable = entity.getLootTable().orElse(null);
                     }
                     if(deathLootTable != null) {
                         LootTable loottable = tile.getLevel().getServer().reloadableRegistries().getLootTable(deathLootTable);
@@ -259,7 +259,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                     continue;
                 }
                 try {
-                    ItemStack itemStack = ItemStackHelpers.parseItemStack(split[1]);
+                    ItemStack itemStack = IModHelpers.get().getItemStackHelpers().parseItemStack(split[1]);
                     map.put(playerId, Lists.newArrayList(new WeightedItemStack(itemStack, 1)));
                 } catch (IllegalArgumentException e) {
                     EvilCraft.clog("Invalid item '" + split[1] + "' in "
@@ -288,7 +288,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                 continue;
             }
             ResourceLocation resourceLocation = ResourceLocation.parse(split[1]);
-            map.put(BuiltInRegistries.ENTITY_TYPE.get(entityName), resourceLocation);
+            map.put(BuiltInRegistries.ENTITY_TYPE.getValue(entityName), resourceLocation);
         }
         return map;
     }
@@ -297,7 +297,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         int baseUsage;
         if(tile.isPlayer()) {
             baseUsage = BlockSpiritFurnaceConfig.playerMBPerTick;
-        } else if (tile.getEntity() != null && !tile.getEntity().canChangeDimensions(tile.getLevel(), tile.getLevel())) {
+        } else if (tile.getEntity() != null && !tile.getEntity().canTeleport(tile.getLevel(), tile.getLevel())) {
             baseUsage = BlockSpiritFurnaceConfig.bossMBPerTick;
         } else {
             baseUsage = BlockSpiritFurnaceConfig.mBPerTick;

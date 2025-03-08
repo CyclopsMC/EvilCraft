@@ -1,22 +1,17 @@
 package org.cyclops.evilcraft.inventory.container;
 
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.MenuAccess;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.client.gui.ScreenFactorySafe;
-import org.cyclops.cyclopscore.config.extendedconfig.GuiConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.GuiConfigCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.GuiConfigScreenFactoryProvider;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.gui.container.ContainerScreenSpiritFurnace;
 
 /**
  * Config for {@link ContainerSpiritFurnace}.
  * @author rubensworks
  */
-public class ContainerSpiritFurnaceConfig extends GuiConfig<ContainerSpiritFurnace> {
+public class ContainerSpiritFurnaceConfig extends GuiConfigCommon<ContainerSpiritFurnace, IModBase> {
 
     public ContainerSpiritFurnaceConfig() {
         super(EvilCraft._instance,
@@ -24,10 +19,8 @@ public class ContainerSpiritFurnaceConfig extends GuiConfig<ContainerSpiritFurna
                 eConfig -> new MenuType<>(ContainerSpiritFurnace::new, FeatureFlags.VANILLA_SET));
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public <U extends Screen & MenuAccess<ContainerSpiritFurnace>> MenuScreens.ScreenConstructor<ContainerSpiritFurnace, U> getScreenFactory() {
-        return new ScreenFactorySafe<>(ContainerScreenSpiritFurnace::new);
+    public GuiConfigScreenFactoryProvider<ContainerSpiritFurnace> getScreenFactoryProvider() {
+        return new ContainerSpiritFurnaceConfigScreenFactoryProvider();
     }
-
 }

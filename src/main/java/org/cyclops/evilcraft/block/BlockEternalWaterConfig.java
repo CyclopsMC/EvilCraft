@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.world.level.block.Block;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -9,13 +9,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockEternalWaterConfig extends BlockConfig {
+public class BlockEternalWaterConfig extends BlockConfigCommon<IModBase> {
 
     public BlockEternalWaterConfig() {
         super(
                 EvilCraft._instance,
             "eternal_water",
-                eConfig -> new BlockEternalWater(Block.Properties.of()
+                (eConfig, properties) -> new BlockEternalWater(properties
                         .strength(0.5F)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

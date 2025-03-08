@@ -21,12 +21,10 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.client.model.DelegatingChildDynamicItemAndBlockModel;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.block.BlockDarkTankConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,7 +64,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     @Override
     public List<BakedQuad> getGeneralQuads() {
         List<BakedQuad> combinedList = Lists.newArrayList();
-        if(fluidStack != null && !fluidStack.isEmpty() && (BlockDarkTankConfig.staticBlockRendering || isItemStack())) {
+        if(fluidStack != null && !fluidStack.isEmpty() && isItemStack()) {
             boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.get().isActivated(itemStack, Item.TooltipContext.of(world));
             combinedList.addAll(getFluidQuads(fluidStack, capacity, flowing));
         }
@@ -77,7 +75,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     @Nonnull
     @Override
     public ModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull ModelData tileData) {
-        return BlockEntityHelpers.get(world, pos, BlockEntityDarkTank.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityDarkTank.class)
                 .map(tile -> {
                     ModelData.Builder builder = ModelData.builder();
                     builder.with(org.cyclops.evilcraft.block.BlockDarkTank.TANK_FLUID, tile.getTank().getFluid());
@@ -96,10 +94,10 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
 
     @Override
     public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
-        IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack).orElse(null);
+        IFluidHandlerItemCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemStack).orElse(null);
         if(!itemStack.isEmpty() && fluidHandler != null) {
             int capacity = fluidHandler.getCapacity();
-            FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
+            FluidStack fluidStack = IModHelpersNeoForge.get().getFluidHelpers().getFluid(fluidHandler);
             return new ModelDarkTankBaked(baseModel, capacity, fluidStack, itemStack, world, entity);
         }
         return new ModelDarkTankBaked(baseModel, 0, null, itemStack, world, entity);
@@ -107,7 +105,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
 
     public static TextureAtlasSprite getFluidIcon(FluidStack fluid, boolean flowing, Direction side) {
         IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid.getFluid());
-        return RenderHelpers.TEXTURE_GETTER.apply(flowing && side != Direction.UP && side != Direction.DOWN
+        return IModHelpers.get().getRenderHelpers().getBlockTextureGetter().apply(flowing && side != Direction.UP && side != Direction.DOWN
                 ? renderProperties.getFlowingTexture(fluid)
                 : renderProperties.getStillTexture(fluid));
     }
@@ -117,7 +115,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
         List<BakedQuad> quads = Lists.newArrayList();
         for(Direction side : Direction.values()) {
             TextureAtlasSprite texture = getFluidIcon(fluidStack, flowing, side);
-            int color = RenderHelpers.getFluidBakedQuadColor(fluidStack);
+            int color = IModHelpersNeoForge.get().getRenderHelpers().getFluidBakedQuadColor(fluidStack);
             if(side == Direction.UP) {
                 addBakedQuadRotated(quads, 0.13F, 0.87F, 0.13F, 0.87F, height, texture, side, ROTATION_FIX[side.ordinal()], true, color, ROTATION_UV);
             } else if(side == Direction.DOWN) {

@@ -7,8 +7,9 @@ import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfig;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.VillagerConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -17,9 +18,9 @@ import org.cyclops.evilcraft.RegistryEntries;
  * Config for the werewolf villager profession.
  * @author rubensworks
  */
-public class VillagerProfessionWerewolfConfig extends VillagerConfig {
+public class VillagerProfessionWerewolfConfig extends VillagerConfigCommon<IModBase> {
 
-    @ConfigurableProperty(category = "mob", comment = "If villagers struck by lightning should have a 50% chance of becoming a werewolf villager", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "mob", comment = "If villagers struck by lightning should have a 50% chance of becoming a werewolf villager", isCommandable = true)
     public static boolean convertOnLightning = true;
 
     public VillagerProfessionWerewolfConfig() {

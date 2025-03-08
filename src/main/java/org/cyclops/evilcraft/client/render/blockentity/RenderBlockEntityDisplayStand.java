@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
@@ -48,8 +48,8 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
         if(!tile.getInventory().getItem(0).isEmpty()) {
             BlockState blockState = tile.getLevel().getBlockState(tile.getBlockPos());
             renderItem(matrixStackIn, bufferIn, tile.getInventory().getItem(0),
-                    BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.FACING, Direction.NORTH),
-                    BlockHelpers.getSafeBlockStateProperty(blockState, BlockDisplayStand.AXIS_X, true),
+                    IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(blockState, BlockDisplayStand.FACING, Direction.NORTH),
+                    IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(blockState, BlockDisplayStand.AXIS_X, true),
                     tile.getDirection() == Direction.AxisDirection.POSITIVE, tile.getLevel());
         }
     }

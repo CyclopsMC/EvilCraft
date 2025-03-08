@@ -12,7 +12,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
 
@@ -62,7 +62,7 @@ public class WorldSharedTankCache {
     }
 
     protected String getMapID(String tankID) {
-        return tankID + (MinecraftHelpers.isClientSide() ? "C" : "S");
+        return tankID + (IModHelpers.get().getMinecraftHelpers().isClientSide() ? "C" : "S");
     }
 
     protected String removeMapID(String mapID) {
@@ -96,7 +96,7 @@ public class WorldSharedTankCache {
         } else if(shouldRefresh) {
             tankCache.put(key, fluidStack.copy());
         }
-        if(!MinecraftHelpers.isClientSide() && shouldRefresh) {
+        if(!IModHelpers.get().getMinecraftHelpers().isClientSide() && shouldRefresh) {
             bufferPacket(tankID, new UpdateWorldSharedTankClientCachePacket(tankID, fluidStack));
         }
     }
@@ -136,7 +136,7 @@ public class WorldSharedTankCache {
 
     @SubscribeEvent
     public void onLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        if(!MinecraftHelpers.isClientSide()) {
+        if(!IModHelpers.get().getMinecraftHelpers().isClientSide()) {
             for(Map.Entry<String, FluidStack> entry: tankCache.entrySet()) {
                 EvilCraft._instance.getPacketHandler().sendToPlayer(
                         new UpdateWorldSharedTankClientCachePacket(removeMapID(entry.getKey()), entry.getValue()), (ServerPlayer) event.getEntity());

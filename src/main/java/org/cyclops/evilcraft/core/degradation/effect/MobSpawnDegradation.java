@@ -2,12 +2,12 @@ package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
 import org.cyclops.evilcraft.core.degradation.StochasticDegradationEffect;
@@ -36,7 +36,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
     @Override
     public void runServerSide(IDegradable degradable) {
         ServerLevel world = (ServerLevel) degradable.getDegradationWorld();
-        BlockPos spawn = LocationHelpers.getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
+        BlockPos spawn = IModHelpers.get().getLocationHelpers().getRandomPointInSphere(degradable.getLocation(), degradable.getRadius());
         float x = spawn.getX() + 0.5F;
         float y = spawn.getY();
         float z = spawn.getZ() + 0.5F;
@@ -44,14 +44,13 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         Mob entityliving;
 
         try {
-            entityliving = (Mob)spawnlistentry.get().type.create(world);
+            entityliving = (Mob)spawnlistentry.get().type.create(world, null, spawn, EntitySpawnReason.MOB_SUMMONED, false, false);
         } catch (Exception exception) {
             exception.printStackTrace();
             return;
         }
 
-        entityliving.moveTo((double)x, (double)y, (double)z, world.random.nextFloat() * 360.0F, 0.0F);
-        EntityHelpers.spawnEntity(world, entityliving, MobSpawnType.MOB_SUMMONED);
+        EntityHelpers.spawnEntity(world, entityliving, EntitySpawnReason.MOB_SUMMONED);
     }
 
 }

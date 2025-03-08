@@ -4,15 +4,14 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
+import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
 import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
@@ -96,8 +95,9 @@ public class DisenchantPurifyAction implements IPurifierAction {
     }
 
     private void setResultingEnchantmentBook(BlockEntityPurifier tile, ItemEnchantments enchantments, Holder<Enchantment> enchantment) {
-        tile.setAdditionalItem(EnchantedBookItem.createForEnchantment(
-                new EnchantmentInstance(enchantment, enchantments.getLevel(enchantment))));
+        ItemStack itemStack = new ItemStack(Items.ENCHANTED_BOOK);
+        EnchantmentHelpers.setEnchantmentLevel(itemStack, enchantment, enchantments.getLevel(enchantment));
+        tile.setAdditionalItem(itemStack);
     }
 
     private void removePriorWorkPenalty(ItemEnchantments enchantments, ItemStack purifyItem) {

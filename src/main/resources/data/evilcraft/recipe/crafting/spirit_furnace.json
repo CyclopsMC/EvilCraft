@@ -6,12 +6,8 @@
     " B "
   ],
   "key": {
-    "B": {
-      "item": "evilcraft:dark_blood_brick"
-    },
-    "I": {
-      "item": "evilcraft:blood_infusion_core"
-    }
+    "B": "evilcraft:dark_blood_brick",
+    "I": "evilcraft:blood_infusion_core"
   },
   "result": {
     "id": "evilcraft:spirit_furnace"

@@ -5,13 +5,13 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.apache.logging.log4j.Level;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
@@ -24,17 +24,17 @@ import java.util.Map;
  * @author rubensworks
  *
  */
-public class ItemPrimedPendantConfig extends ItemConfig {
+public class ItemPrimedPendantConfig extends ItemConfigCommon<IModBase> {
 
     private static final String DELIMITER = ";";
 
-    @ConfigurableProperty(category = "item", comment = "The capacity of the pendant.", requiresMcRestart = true)
-    public static int capacity = FluidHelpers.BUCKET_VOLUME * 5;
+    @ConfigurablePropertyCommon(category = "item", comment = "The capacity of the pendant.", requiresMcRestart = true)
+    public static int capacity = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 5;
 
-    @ConfigurableProperty(category = "item", comment = "The amount of Blood to drain after one effect application.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "item", comment = "The amount of Blood to drain after one effect application.", isCommandable = true)
     public static int usage = 10;
 
-    @ConfigurableProperty(category = "item",
+    @ConfigurablePropertyCommon(category = "item",
             comment = "Usage multipliers. Potion ids are first, followed by floating numbers. A number smaller than one blacklists that potion.")
     public static List<String> potionMultipliers = Lists.newArrayList(
             "minecraft:health_boost" + DELIMITER + "-1",
@@ -45,8 +45,7 @@ public class ItemPrimedPendantConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 "primed_pendant",
-                eConfig -> new ItemPrimedPendant(new Item.Properties()
-
+                (eConfig, properties) -> new ItemPrimedPendant(properties
                         .stacksTo(1))
         );
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
@@ -82,7 +81,7 @@ public class ItemPrimedPendantConfig extends ItemConfig {
     }
 
     @Override
-    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<ItemStack> getDefaultCreativeTabEntries() {
         // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
         return Collections.emptyList();
     }

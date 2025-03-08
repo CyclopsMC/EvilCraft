@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.IFluidTank;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -83,7 +83,7 @@ public class VirtualTank implements IFluidTank {
         for (IFluidHandler tank : getTanks()) {
             int tanks = tank.getTanks();
             for (int i = 0; i < tanks; i++) {
-                total = Helpers.addSafe(total, tank.getTankCapacity(i));
+                total = IModHelpers.get().getBaseHelpers().addSafe(total, tank.getTankCapacity(i));
             }
         }
         return total;

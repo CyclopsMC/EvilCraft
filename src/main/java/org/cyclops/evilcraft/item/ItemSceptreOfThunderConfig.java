@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -9,14 +9,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemSceptreOfThunderConfig extends ItemConfig {
+public class ItemSceptreOfThunderConfig extends ItemConfigCommon<IModBase> {
 
     public ItemSceptreOfThunderConfig() {
         super(
                 EvilCraft._instance,
             "sceptre_of_thunder",
-                eConfig -> new ItemSceptreOfThunder(new Item.Properties()
-                        )
+                (eConfig, properties) -> new ItemSceptreOfThunder(properties)
         );
     }
 

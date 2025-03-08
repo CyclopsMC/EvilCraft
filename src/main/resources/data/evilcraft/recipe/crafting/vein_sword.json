@@ -6,15 +6,9 @@
     "STS"
   ],
   "key": {
-    "G": {
-      "item": "evilcraft:dark_power_gem"
-    },
-    "T": {
-      "item": "evilcraft:dark_stick"
-    },
-    "S": {
-      "item": "evilcraft:dark_spike"
-    }
+    "G": "evilcraft:dark_power_gem",
+    "T": "evilcraft:dark_stick",
+    "S": "evilcraft:dark_spike"
   },
   "result": {
     "id": "evilcraft:vein_sword",

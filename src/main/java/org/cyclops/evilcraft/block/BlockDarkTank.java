@@ -30,9 +30,9 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.cyclops.evilcraft.core.block.IBlockTank;
@@ -86,7 +86,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
         BlockEntityTankInventory tile = (BlockEntityTankInventory) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
+        return (int)Math.ceil(IModHelpers.get().getMinecraftHelpers().getComparatorMultiplier() * output);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
         if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), worldIn, pos, Direction.UP)) {
             return InteractionResult.SUCCESS;
         } else if (!player.isCrouching()) {
-            BlockEntityHelpers.get(worldIn, pos, BlockEntityDarkTank.class)
+            IModHelpers.get().getBlockEntityHelpers().get(worldIn, pos, BlockEntityDarkTank.class)
                     .ifPresent(tile -> {
                         tile.setEnabled(!tile.isEnabled());
                         player.displayClientMessage(Component.literal(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
@@ -115,7 +115,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        return BlockEntityHelpers.get(world, pos, BlockEntityDarkTank.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityDarkTank.class)
                 .map(tile -> tile.getTank().getFluidType() != null
                         ? (int) Math.min(15, tile.getFillRatio() * tile.getTank().getFluidType()
                             .getFluidType().getLightLevel(tile.getTank().getFluid()) * 15)
@@ -158,7 +158,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
         int capacity = capacityOriginal;
         int lastCapacity;
         do{
-            IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack.copy()).orElse(null);
+            IFluidHandlerItemCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemStack.copy()).orElse(null);
             fluidHandler.setCapacity(capacity);
             list.add(fluidHandler.getContainer().copy());
             fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, capacity), IFluidHandler.FluidAction.EXECUTE);
@@ -173,7 +173,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
                 if (fluid != RegistryEntries.FLUID_BLOOD.get() && fluid.isSource(fluid.defaultFluidState())) {
                     try {
                         ItemStack itemStackFilled = itemStack.copy();
-                        IFluidHandlerItemCapacity fluidHandlerFilled = FluidHelpers.getFluidHandlerItemCapacity(itemStackFilled).orElse(null);
+                        IFluidHandlerItemCapacity fluidHandlerFilled = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemStackFilled).orElse(null);
                         fluidHandlerFilled.setCapacity(capacityOriginal);
                         fluidHandlerFilled.fill(new FluidStack(fluid, capacityOriginal), IFluidHandler.FluidAction.EXECUTE);
                         list.add(fluidHandlerFilled.getContainer());

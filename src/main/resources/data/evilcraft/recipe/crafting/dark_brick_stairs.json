@@ -6,9 +6,7 @@
     "BBB"
   ],
   "key": {
-    "B": {
-      "item": "evilcraft:dark_brick"
-    }
+    "B": "evilcraft:dark_brick"
   },
   "result": {
     "id": "evilcraft:dark_brick_stairs",

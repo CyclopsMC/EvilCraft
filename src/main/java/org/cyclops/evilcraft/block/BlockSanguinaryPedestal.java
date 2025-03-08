@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryPedestal;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
@@ -61,7 +61,7 @@ public class BlockSanguinaryPedestal extends BlockWithEntity implements IBlockRa
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult p_225533_6_) {
-        BlockEntityHelpers.get(worldIn, pos, BlockEntitySanguinaryPedestal.class)
+        IModHelpers.get().getBlockEntityHelpers().get(worldIn, pos, BlockEntitySanguinaryPedestal.class)
                 .ifPresent(tile -> {
                     player.displayClientMessage(Component.literal(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
                             .append(" / ")
@@ -73,7 +73,7 @@ public class BlockSanguinaryPedestal extends BlockWithEntity implements IBlockRa
 
     @Override
     public int getDefaultCapacity() {
-        return FluidHelpers.BUCKET_VOLUME * BlockEntitySanguinaryPedestal.TANK_BUCKETS;
+        return IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * BlockEntitySanguinaryPedestal.TANK_BUCKETS;
     }
 
     @Override

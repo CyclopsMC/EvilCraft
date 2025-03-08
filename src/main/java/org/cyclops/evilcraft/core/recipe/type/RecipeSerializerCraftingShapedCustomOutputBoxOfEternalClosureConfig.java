@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.cyclopscore.recipe.type.RecipeCraftingShapedCustomOutput;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
@@ -9,7 +10,7 @@ import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
  * Config for box of eternal closure recipes.
  * @author rubensworks
  */
-public class RecipeSerializerCraftingShapedCustomOutputBoxOfEternalClosureConfig extends RecipeConfig<RecipeCraftingShapedCustomOutput> {
+public class RecipeSerializerCraftingShapedCustomOutputBoxOfEternalClosureConfig extends RecipeConfigCommon<RecipeCraftingShapedCustomOutput, IModBase> {
 
     public RecipeSerializerCraftingShapedCustomOutputBoxOfEternalClosureConfig() {
         super(EvilCraft._instance,

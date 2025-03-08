@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
 
 import javax.annotation.Nullable;
@@ -61,7 +61,7 @@ public class BroomModifier {
     }
 
     protected static int prepareColor(int modelColor, boolean baseModifier) {
-        return Helpers.rgbToBgra(modelColor, baseModifier ? 255 : 200);
+        return IModHelpers.get().getBaseHelpers().rgbToBgra(modelColor, baseModifier ? 255 : 200);
     }
 
     public ResourceLocation getId() {
@@ -189,7 +189,7 @@ public class BroomModifier {
         float count = 0;
         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
             BroomModifier modifier = entry.getKey();
-            Triple<Float, Float, Float> color = Helpers.intToRGB(modifier.getModelColor());
+            Triple<Float, Float, Float> color = IModHelpers.get().getBaseHelpers().intToRGB(modifier.getModelColor());
             float factor = entry.getValue() / modifier.getMaxTierValue();
             r += color.getLeft() * factor;
             g += color.getMiddle() * factor;

@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -10,13 +10,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockDarkBloodBrickConfig extends BlockConfig {
+public class BlockDarkBloodBrickConfig extends BlockConfigCommon<IModBase> {
 
     public BlockDarkBloodBrickConfig() {
         super(
                 EvilCraft._instance,
             "dark_blood_brick",
-                eConfig -> new BlockDarkBloodBrick(Block.Properties.of()
+                (eConfig, properties) -> new BlockDarkBloodBrick(properties
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.STONE)),

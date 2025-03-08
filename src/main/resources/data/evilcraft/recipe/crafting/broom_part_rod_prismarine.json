@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "minecraft:prismarine",
     {
-      "item": "minecraft:prismarine"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,9 +11,7 @@
         ]
       }
     },
-    {
-      "item": "minecraft:prismarine"
-    }
+    "minecraft:prismarine"
   ],
   "result": {
     "id": "evilcraft:broom_part",

@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import org.cyclops.cyclopscore.config.extendedconfig.RecipeTypeConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.RecipeTypeConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -8,7 +9,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class RecipeTypeEnvironmentalAccumulatorConfig extends RecipeTypeConfig<RecipeEnvironmentalAccumulator> {
+public class RecipeTypeEnvironmentalAccumulatorConfig extends RecipeTypeConfigCommon<RecipeEnvironmentalAccumulator, IModBase> {
     public RecipeTypeEnvironmentalAccumulatorConfig() {
         super(
                 EvilCraft._instance,

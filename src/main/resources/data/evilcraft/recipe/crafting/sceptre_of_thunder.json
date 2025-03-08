@@ -6,15 +6,9 @@
     "B  "
   ],
   "key": {
-    "D": {
-      "item": "evilcraft:dark_gem"
-    },
-    "O": {
-      "item": "evilcraft:blood_orb_filled"
-    },
-    "B": {
-      "item": "minecraft:blaze_rod"
-    }
+    "D": "evilcraft:dark_gem",
+    "O": "evilcraft:blood_orb_filled",
+    "B": "minecraft:blaze_rod"
   },
   "result": {
     "id": "evilcraft:sceptre_of_thunder"

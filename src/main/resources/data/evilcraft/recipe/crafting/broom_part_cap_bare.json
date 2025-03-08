@@ -4,12 +4,8 @@
     "CDC"
   ],
   "key": {
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    },
-    "D": {
-      "item": "evilcraft:dark_gem"
-    }
+    "C": "evilcraft:dark_gem_crushed",
+    "D": "evilcraft:dark_gem"
   },
   "result": {
     "id": "evilcraft:broom_part",

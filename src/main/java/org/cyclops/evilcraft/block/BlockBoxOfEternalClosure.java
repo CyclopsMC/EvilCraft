@@ -15,8 +15,8 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -25,13 +25,13 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.core.block.IBlockRarityProvider;
@@ -53,7 +53,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     public static final String FORGOTTEN_PLAYER = "Forgotten Player";
     private static final int LIGHT_LEVEL = 6;
 
-    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
+    public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public static final VoxelShape SHAPE_EW = Block.box(0.25F * 16F, 0F, 0.0F, 0.75F * 16F, 0.43F * 16F, 1.0F * 16F);
     public static final VoxelShape SHAPE_NS = Block.box(0.0F, 0F, 0.25F * 16F, 1.0F * 16F, 0.43F * 16F, 0.75F * 16F);
@@ -166,7 +166,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
+        return IModHelpers.get().getBlockHelpers().doesBlockHaveSolidTopSurface(worldIn, pos);
     }
 
     @Override
@@ -179,16 +179,16 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     }
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (!stateIn.isFaceSturdy(worldIn, currentPos.below(), Direction.UP)) {
-            worldIn.scheduleTick(currentPos, this, 1);
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (level instanceof ServerLevel serverLevel && !state.isFaceSturdy(level, pos.below(), Direction.UP)) {
+            serverLevel.scheduleTick(pos, this, 1);
         }
-        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult blockRayTraceResult) {
-        return BlockEntityHelpers.get(worldIn, pos, BlockEntityBoxOfEternalClosure.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(worldIn, pos, BlockEntityBoxOfEternalClosure.class)
                 .map(tile -> {
                     if (tile.isClosed()) {
                         tile.open();
@@ -201,7 +201,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        return BlockEntityHelpers.get(world, pos, BlockEntityBoxOfEternalClosure.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityBoxOfEternalClosure.class)
                 .map(tile -> tile.getLidAngle() > 0 ? LIGHT_LEVEL : super.getLightEmission(state, world, pos))
                 .orElse(0);
     }

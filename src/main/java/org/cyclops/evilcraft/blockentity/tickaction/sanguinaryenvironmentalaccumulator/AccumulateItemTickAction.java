@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.blockentity.tickaction.sanguinaryenvironmentalaccu
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntitySanguinaryEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
@@ -102,7 +102,7 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
      * @return If the item could be added or joined in the production slot.
      */
     public boolean addToProduceSlot(BlockEntitySanguinaryEnvironmentalAccumulator tile, ItemStack itemStack) {
-        return InventoryHelpers.addToSlot(tile.getInventory(), tile.getTileWorkingMetadata().getProduceSlot(), itemStack);
+        return IModHelpers.get().getInventoryHelpers().addToSlot(tile.getInventory(), tile.getTileWorkingMetadata().getProduceSlot(), itemStack);
     }
 
 }

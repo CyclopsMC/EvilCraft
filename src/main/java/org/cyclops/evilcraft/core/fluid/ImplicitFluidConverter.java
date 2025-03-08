@@ -1,10 +1,10 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import com.google.common.collect.Maps;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.minecraft.core.registries.BuiltInRegistries;
 import org.apache.logging.log4j.Level;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -117,7 +117,7 @@ public class ImplicitFluidConverter {
                 throw new IllegalArgumentException("Invalid line '" + line + "' found for "
                         + "a fluid converter config.");
             }
-            Fluid fluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(split[0]));
+            Fluid fluid = BuiltInRegistries.FLUID.getValue(ResourceLocation.parse(split[0]));
             if(fluid == null) {
                 EvilCraft.clog("Could not find a fluid by name '" + split[0] + "' for "
                         + "a fluid converter config.", Level.WARN);

@@ -1,23 +1,19 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-
-import javax.annotation.Nullable;
 
 /**
  * Config for {@link ParticleBlurTargetted}.
  * @author rubensworks
  */
-public class ParticleBlurTargettedConfig extends ParticleConfig<ParticleBlurTargettedData> {
+public class ParticleBlurTargettedConfig extends ParticleConfigCommon<ParticleBlurTargettedData, IModBase> {
 
     public ParticleBlurTargettedConfig() {
         super(EvilCraft._instance, "blur_targetted", eConfig -> new ParticleType<>(false) {
@@ -34,22 +30,8 @@ public class ParticleBlurTargettedConfig extends ParticleConfig<ParticleBlurTarg
         });
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
     @Override
-    public ParticleProvider<ParticleBlurTargettedData> getParticleFactory() {
-        return null;
+    public ParticleConfigComponentClient<ParticleBlurTargettedData, IModBase> getClientComponent() {
+        return new ParticleBlurTargettedConfigClientComponent();
     }
-
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
-    @Override
-    public ParticleEngine.SpriteParticleRegistration<ParticleBlurTargettedData> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<ParticleBlurTargettedData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleBlurTargetted particle = new ParticleBlurTargetted(particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.pickSprite(sprite);
-            return particle;
-        };
-    }
-
 }

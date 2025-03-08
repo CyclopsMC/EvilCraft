@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "evilcraft:burning_gem_stone"
-    },
-    {
-      "item": "evilcraft:dark_stick"
-    }
+    "evilcraft:burning_gem_stone",
+    "evilcraft:dark_stick"
   ],
   "result": {
     "id": "evilcraft:gem_stone_torch",

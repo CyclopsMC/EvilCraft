@@ -12,7 +12,6 @@ import net.minecraft.stats.Stat;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -27,7 +26,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.util.FakePlayer;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.inventory.InventoryLocationPlayer;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemHeld;
@@ -46,7 +45,7 @@ import java.util.List;
  */
 public class ItemPrimedPendant extends ItemBloodContainer {
 
-    private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
+    private static final int TICK_MODULUS = IModHelpers.get().getMinecraftHelpers().getSecondInTicks() / 2;
 
     public ItemPrimedPendant(Item.Properties properties) {
         super(properties, ItemPrimedPendantConfig.capacity);
@@ -62,7 +61,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
             if (contents != null) {
                 List<MobEffectInstance> potionEffects = contents.customEffects();
                 for (MobEffectInstance potionEffect : potionEffects) {
-                    MutableComponent textComponent = Component.translatable(super.getDescriptionId(itemStack) + ".potion",
+                    MutableComponent textComponent = Component.translatable(super.getDescriptionId() + ".potion",
                             Component.translatable(potionEffect.getDescriptionId()),
                             Component.translatable("enchantment.level." + (potionEffect.getAmplifier() + 1)));
                     Double multiplier = ItemPrimedPendantConfig.getMultiplier(potionEffect.getEffect());
@@ -99,7 +98,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
                         if ((multiplier == null || multiplier >= 0) && canConsume(toDrain, itemStack, player)) {
                             player.addEffect(
                                     new MobEffectInstance(potionEffect.getEffect(), TICK_MODULUS * 27, potionEffect.getAmplifier(),
-                                            !potionEffect.getCures().isEmpty(), true));
+                                            potionEffect.isAmbient(), true));
                             consume(toDrain, itemStack, player);
                         }
                     }
@@ -143,7 +142,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         return new NBTSimpleInventoryItemStack(itemStack, 1, 64, "inventoryItem");
     }
 
-    // --- TODO: copy of ItemGui methods, clean this up with Cyclops for 1.8 ---
+    // --- TODO: copy of ItemGui methods, clean this up future
 
     @Nullable
     public MenuProvider getContainer(Level world, Player playerEntity, ItemLocation itemLocation) {
@@ -189,16 +188,16 @@ public class ItemPrimedPendant extends ItemBloodContainer {
         return null;
     }
 
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (player instanceof FakePlayer) {
-            return new InteractionResultHolder(InteractionResult.FAIL, itemStack);
+            return InteractionResult.FAIL;
         } else {
             if (player instanceof ServerPlayer) {
                 openScreenForItemIndex(world, (ServerPlayer) player, InventoryLocationPlayer.getInstance().handToLocation(player, hand, player.getInventory().selected));
             }
 
-            return new InteractionResultHolder(InteractionResult.SUCCESS, itemStack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
         }
     }
 

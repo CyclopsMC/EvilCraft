@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "minecraft:bone",
     {
-      "item": "minecraft:bone"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,17 +11,13 @@
         ]
       }
     },
-    {
-      "item": "minecraft:bone"
-    }
+    "minecraft:bone"
   ],
   "pattern": [
     "MPM"
   ],
   "key": {
-    "M": {
-      "item": "minecraft:bone"
-    },
+    "M": "minecraft:bone",
     "P": {
       "item": "evilcraft:broom_part",
       "components": {

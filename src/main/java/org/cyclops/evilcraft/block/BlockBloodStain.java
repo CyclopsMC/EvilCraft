@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
@@ -27,10 +28,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
@@ -93,10 +95,11 @@ public class BlockBloodStain extends BlockWithEntity {
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        if (!worldIn.isClientSide) {
-            if (!state.canSurvive(worldIn, pos)) {
-                worldIn.removeBlock(pos, false);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, orientation, movedByPiston);
+        if (!level.isClientSide) {
+            if (!state.canSurvive(level, pos)) {
+                level.removeBlock(pos, false);
             }
         }
     }
@@ -163,7 +166,7 @@ public class BlockBloodStain extends BlockWithEntity {
                         }
                     }
                     // Add blood to existing block
-                    BlockEntityHelpers.get(event.getEntity().getCommandSenderWorld(), pos, BlockEntityBloodStain.class)
+                    IModHelpers.get().getBlockEntityHelpers().get(event.getEntity().getCommandSenderWorld(), pos, BlockEntityBloodStain.class)
                             .ifPresent(tile -> tile.addAmount(amount));
                 });
             } else {

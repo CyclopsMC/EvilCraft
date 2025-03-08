@@ -5,11 +5,9 @@
     " G "
   ],
   "key": {
-    "G": {
-      "item": "evilcraft:dark_gem"
-    },
+    "G": "evilcraft:dark_gem",
     "W": {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:weather_container",
       "components": {
         "evilcraft:weather_container_type": "RAIN"

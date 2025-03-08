@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.client.gui.container;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -37,7 +38,7 @@ public abstract class WidgetTab {
      * @param y Origin Y.
      */
     public void drawBackground(GuiGraphics guiGraphics, int x, int y) {
-        guiGraphics.blit(getResourceLocation(), x + posX, y + posY, u, v, width, height);
+        guiGraphics.blit(RenderType::guiTextured, getResourceLocation(), x + posX, y + posY, u, v, width, height, 256, 256);
     }
 
 }

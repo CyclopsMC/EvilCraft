@@ -3,12 +3,12 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 
@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author rubensworks
  *
  */
-public class BlockUndeadSaplingConfig extends BlockConfig {
+public class BlockUndeadSaplingConfig extends BlockConfigCommon<IModBase> {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> UNDEAD_TREE = ResourceKey
             .create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "tree_undead"));
@@ -34,7 +34,7 @@ public class BlockUndeadSaplingConfig extends BlockConfig {
         super(
                 EvilCraft._instance,
             "undead_sapling",
-                eConfig -> new SaplingBlock(UNDEAD_TREE_GROWER, Block.Properties.of()
+                (eConfig, properties) -> new SaplingBlock(UNDEAD_TREE_GROWER, properties
                         .noCollission()
                         .randomTicks()
                         .strength(0)

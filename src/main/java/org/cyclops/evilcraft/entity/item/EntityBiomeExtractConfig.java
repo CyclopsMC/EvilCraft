@@ -1,23 +1,18 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.core.client.render.RenderThrowable;
-import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 
 /**
  * Config for the {@link EntityWeatherContainer}.
  * @author rubensworks
  *
  */
-public class EntityBiomeExtractConfig extends EntityConfig<EntityBiomeExtract> {
+public class EntityBiomeExtractConfig extends EntityConfigCommon<IModBase, EntityBiomeExtract> {
 
     public EntityBiomeExtractConfig() {
         super(
@@ -29,9 +24,8 @@ public class EntityBiomeExtractConfig extends EntityConfig<EntityBiomeExtract> {
         );
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<EntityThrowable> getRender(EntityRendererProvider.Context context, ItemRenderer renderItem) {
-        return new RenderThrowable(context);
+    public EntityClientConfig<IModBase, EntityBiomeExtract> constructEntityClientConfig() {
+        return new EntityBiomeExtractConfigClient(this);
     }
 }

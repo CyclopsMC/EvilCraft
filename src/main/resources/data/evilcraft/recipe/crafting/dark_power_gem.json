@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "evilcraft:dark_power_gem_block"
-    }
+    "evilcraft:dark_power_gem_block"
   ],
   "result": {
     "id": "evilcraft:dark_power_gem",

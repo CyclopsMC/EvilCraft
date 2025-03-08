@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.StairBlock;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -12,14 +12,14 @@ import org.cyclops.evilcraft.RegistryEntries;
  * @author rubensworks
  *
  */
-public class BlockDarkBloodBrickStairsConfig extends BlockConfig {
+public class BlockDarkBloodBrickStairsConfig extends BlockConfigCommon<IModBase> {
 
     public BlockDarkBloodBrickStairsConfig() {
         super(
                 EvilCraft._instance,
                 "dark_blood_brick_stairs",
-                eConfig -> new StairBlock(RegistryEntries.BLOCK_DARK_BLOOD_BRICK.get().defaultBlockState(),
-                        Block.Properties.of()
+                (eConfig, properties) -> new StairBlock(RegistryEntries.BLOCK_DARK_BLOOD_BRICK.get().defaultBlockState(),
+                        properties
                                 .requiresCorrectToolForDrops()
                                 .strength(5.0F)
                                 .sound(SoundType.STONE)),

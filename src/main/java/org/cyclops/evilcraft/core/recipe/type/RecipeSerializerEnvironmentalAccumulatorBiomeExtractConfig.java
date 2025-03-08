@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -8,7 +9,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class RecipeSerializerEnvironmentalAccumulatorBiomeExtractConfig extends RecipeConfig<RecipeEnvironmentalAccumulatorBiomeExtract> {
+public class RecipeSerializerEnvironmentalAccumulatorBiomeExtractConfig extends RecipeConfigCommon<RecipeEnvironmentalAccumulatorBiomeExtract, IModBase> {
 
     public RecipeSerializerEnvironmentalAccumulatorBiomeExtractConfig() {
         super(

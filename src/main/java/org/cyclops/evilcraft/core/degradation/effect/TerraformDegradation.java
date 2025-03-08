@@ -6,8 +6,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.core.config.extendedconfig.DegradationEffectConfig;
@@ -105,7 +105,7 @@ public class TerraformDegradation extends StochasticDegradationEffect {
     public void runServerSide(IDegradable degradable) {
         Level world = degradable.getDegradationWorld();
 
-        BlockPos blockPos = LocationHelpers.getRandomPointInSphere(
+        BlockPos blockPos = IModHelpers.get().getLocationHelpers().getRandomPointInSphere(
                 degradable.getLocation(), degradable.getRadius());
 
         Block block = world.getBlockState(blockPos).getBlock();
@@ -117,7 +117,7 @@ public class TerraformDegradation extends StochasticDegradationEffect {
             if(replace.getBlock() == null) {
                 world.removeBlock(blockPos, false);
             } else if(replace.getDestroySpeed(world, blockPos) > 0) {
-                world.setBlock(blockPos, replace, MinecraftHelpers.BLOCK_NOTIFY_CLIENT | MinecraftHelpers.BLOCK_NOTIFY);
+                world.setBlock(blockPos, replace, IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient() | IModHelpers.get().getMinecraftHelpers().getBlockNotify());
             }
         }
     }

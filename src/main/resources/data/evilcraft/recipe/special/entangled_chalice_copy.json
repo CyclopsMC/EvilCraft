@@ -6,17 +6,9 @@
     "GGG"
   ],
   "key": {
-    "G": {
-      "tag": "c:ingots/gold"
-    },
-    "T": {
-      "item": "evilcraft:corrupted_tear"
-    },
-    "D": {
-      "item": "evilcraft:dark_gem"
-    },
-    "C": {
-      "item": "evilcraft:entangled_chalice"
-    }
+    "G": "#c:ingots/gold",
+    "T": "evilcraft:corrupted_tear",
+    "D": "evilcraft:dark_gem",
+    "C": "evilcraft:entangled_chalice"
   }
 }

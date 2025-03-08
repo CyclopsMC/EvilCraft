@@ -2,7 +2,8 @@ package org.cyclops.evilcraft.enchantment.component;
 
 import net.minecraft.util.ExtraCodecs;
 import net.neoforged.neoforge.common.NeoForge;
-import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentEffectComponentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentEffectComponentConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.enchantment.entityeffect.EnchantmentEntityEffectHealFromDamage;
 
@@ -11,7 +12,7 @@ import org.cyclops.evilcraft.enchantment.entityeffect.EnchantmentEntityEffectHea
  * @author rubensworks
  *
  */
-public class EnchantmentEffectComponentAmplifyDamageConfig extends EnchantmentEffectComponentConfig<Integer> {
+public class EnchantmentEffectComponentAmplifyDamageConfig extends EnchantmentEffectComponentConfigCommon<Integer, IModBase> {
     public EnchantmentEffectComponentAmplifyDamageConfig() {
         super(
                 EvilCraft._instance,

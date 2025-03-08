@@ -12,12 +12,10 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.HitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.block.component.ParticleDropBlockComponent;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
 
@@ -34,7 +32,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
     public BlockUndeadLeaves(Block.Properties properties) {
         super(properties);
 
-        if (MinecraftHelpers.isClientSide()) {
+        if (IModHelpers.get().getMinecraftHelpers().isClientSide()) {
             particleDropBlockComponent = new ParticleDropBlockComponent(1.0F, 0.0F, 0.0F);
             particleDropBlockComponent.setOffset(0);
             particleDropBlockComponent.setChance(50);
@@ -42,7 +40,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
     }
 
     @Override
-    public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
+    public int getLightBlock(BlockState state) {
         return 1;
     }
 
@@ -54,7 +52,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
         return new ItemStack(this);
     }
 
@@ -88,7 +86,7 @@ public class BlockUndeadLeaves extends LeavesBlock {
 
                     // Add blood to existing stain
                     if (blockState.getBlock() instanceof org.cyclops.evilcraft.block.BlockBloodStain) {
-                        BlockEntityHelpers.get(worldIn, itPos, BlockEntityBloodStain.class)
+                        IModHelpers.get().getBlockEntityHelpers().get(worldIn, itPos, BlockEntityBloodStain.class)
                                 .ifPresent(tile -> tile.addAmount(1 + worldIn.random.nextInt(BlockUndeadLeavesConfig.maxBloodStainAmount)));
                     }
 

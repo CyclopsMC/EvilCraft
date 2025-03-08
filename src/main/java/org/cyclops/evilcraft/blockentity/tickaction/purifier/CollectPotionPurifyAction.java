@@ -102,7 +102,7 @@ public class CollectPotionPurifyAction implements IPurifierAction {
                                     ItemStack itemStack = new ItemStack(Items.POTION);
 
                                     // Add potion effects
-                                    itemStack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.empty(), Lists.newArrayList(potionEffect)));
+                                    itemStack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.empty(), Lists.newArrayList(potionEffect), Optional.empty()));
 
                                     // Update purifier state
                                     tile.setBuckets(0, 0);

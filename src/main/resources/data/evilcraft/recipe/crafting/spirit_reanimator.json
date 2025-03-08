@@ -6,18 +6,10 @@
     "CRC"
   ],
   "key": {
-    "C": {
-      "tag": "c:cobblestones"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "B": {
-      "item": "evilcraft:blood_infusion_core"
-    },
-    "R": {
-      "tag": "c:storage_blocks/iron"
-    }
+    "C": "#c:cobblestones",
+    "I": "#c:ingots/iron",
+    "B": "evilcraft:blood_infusion_core",
+    "R": "#c:storage_blocks/iron"
   },
   "result": {
     "id": "evilcraft:spirit_reanimator"

@@ -6,15 +6,9 @@
     "GGG"
   ],
   "key": {
-    "D": {
-      "item": "evilcraft:dark_gem"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    },
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    }
+    "D": "evilcraft:dark_gem",
+    "G": "#c:glass_blocks",
+    "C": "evilcraft:dark_gem_crushed"
   },
   "result": {
     "id": "evilcraft:biome_extract",

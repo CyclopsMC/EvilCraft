@@ -6,21 +6,11 @@
     "GIG"
   ],
   "key": {
-    "G": {
-      "tag": "c:ingots/gold"
-    },
-    "C": {
-      "item": "minecraft:crafting_table"
-    },
-    "D": {
-      "item": "evilcraft:dark_gem_crushed"
-    },
-    "E": {
-      "tag": "c:chests/wooden"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    }
+    "G": "#c:ingots/gold",
+    "C": "minecraft:crafting_table",
+    "D": "evilcraft:dark_gem_crushed",
+    "E": "#c:chests/wooden",
+    "I": "#c:ingots/iron"
   },
   "result": {
     "id": "evilcraft:exalted_crafter_wooden"

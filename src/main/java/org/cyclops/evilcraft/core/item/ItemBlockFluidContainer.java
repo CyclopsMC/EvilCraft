@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.core.item;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -22,8 +21,8 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.block.BlockDarkTankConfig;
@@ -65,7 +64,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
-        BlockEntityHelpers.getCapability(tile.getLevel(), tile.getBlockPos(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
+        IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(tile.getLevel(), tile.getBlockPos(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                 .ifPresent(fluidHandlerTile -> {
                     Optional.ofNullable(itemStack.getCapability(Capabilities.FluidHandler.ITEM))
                             .ifPresent(fluidHandlerItem -> {
@@ -81,9 +80,9 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         if(block.isActivatable()) {
-            return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, block.toggleActivation(player.getItemInHand(hand), world, player));
+            return InteractionResult.SUCCESS.heldItemTransformedTo(block.toggleActivation(player.getItemInHand(hand), world, player));
         }
         return super.use(world, player, hand);
     }
@@ -107,7 +106,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         super.appendHoverText(itemStack, context, list, flag);
         list.add(BlockTankHelpers.getInfoTank(itemStack));
         if(block.isActivatable()) {
-            L10NHelpers.addStatusInfo(list, block.isActivated(itemStack, context),
+            IModHelpers.get().getL10NHelpers().addStatusInfo(list, block.isActivated(itemStack, context),
                     getDescriptionId() + ".info.auto_supply");
         }
     }

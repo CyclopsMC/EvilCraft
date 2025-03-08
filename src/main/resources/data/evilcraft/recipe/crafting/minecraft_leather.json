@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "evilcraft:werewolf_fur"
-    }
+    "evilcraft:werewolf_fur"
   ],
   "result": {
     "id": "minecraft:leather",

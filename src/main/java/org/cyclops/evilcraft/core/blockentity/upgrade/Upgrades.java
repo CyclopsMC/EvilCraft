@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.blockentity.upgrade;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
 
 import java.util.Collection;
 import java.util.Map;
@@ -117,7 +117,7 @@ public class Upgrades {
 
         private String id;
         private int tier;
-        private Set<BlockConfig> upgradableInfo;
+        private Set<BlockConfigCommon> upgradableInfo;
 
         private Upgrade(String id, int tier) {
             this.id = id;
@@ -133,11 +133,11 @@ public class Upgrades {
             return this.tier;
         }
 
-        public void addUpgradableInfo(BlockConfig upgradableInfo) {
+        public void addUpgradableInfo(BlockConfigCommon upgradableInfo) {
             this.upgradableInfo.add(upgradableInfo);
         }
 
-        public Set<BlockConfig> getUpgradables() {
+        public Set<BlockConfigCommon> getUpgradables() {
             return this.upgradableInfo;
         }
 

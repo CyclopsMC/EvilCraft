@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "evilcraft:dark_power_gem",
     {
-      "item": "evilcraft:dark_power_gem"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,9 +11,7 @@
         ]
       }
     },
-    {
-      "item": "evilcraft:dark_power_gem"
-    }
+    "evilcraft:dark_power_gem"
   ],
   "result": {
     "id": "evilcraft:broom_part",

@@ -13,8 +13,8 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.biome.Biome;
@@ -178,6 +178,9 @@ public class RegistryEntries {
     public static final DeferredHolder<RecipeType<?>, RecipeType<RecipeBloodInfuser>> RECIPETYPE_BLOOD_INFUSER = DeferredHolder.create(Registries.RECIPE_TYPE, ResourceLocation.parse("evilcraft:blood_infuser"));
     public static final DeferredHolder<RecipeType<?>, RecipeType<RecipeEnvironmentalAccumulator>> RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.RECIPE_TYPE, ResourceLocation.parse("evilcraft:environmental_accumulator"));
 
+    public static final DeferredHolder<RecipeBookCategory, RecipeBookCategory> RECIPEBOOKCATEGORY_BLOOD_INFUSER = DeferredHolder.create(Registries.RECIPE_BOOK_CATEGORY, ResourceLocation.parse("evilcraft:blood_infuser"));
+    public static final DeferredHolder<RecipeBookCategory, RecipeBookCategory> RECIPEBOOKCATEGORY_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.RECIPE_BOOK_CATEGORY, ResourceLocation.parse("evilcraft:environmental_accumulator"));
+
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeBloodInfuser>> RECIPESERIALIZER_BLOOD_INFUSER = DeferredHolder.create(Registries.RECIPE_SERIALIZER, ResourceLocation.parse("evilcraft:blood_infuser"));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeEnvironmentalAccumulator>> RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR = DeferredHolder.create(Registries.RECIPE_SERIALIZER, ResourceLocation.parse("evilcraft:environmental_accumulator"));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeBloodExtractorCombination>> RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION = DeferredHolder.create(Registries.RECIPE_SERIALIZER, ResourceLocation.parse("evilcraft:crafting_special_bloodextractor_combination"));
@@ -243,8 +246,6 @@ public class RegistryEntries {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ENCHANTMENTEFFECT_COMPONENT_AMPLIFY_DAMAGE = DeferredHolder.create(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, ResourceLocation.parse("evilcraft:amplify_damage"));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ENCHANTMENTEFFECT_COMPONENT_STOP_DAMAGE = DeferredHolder.create(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, ResourceLocation.parse("evilcraft:stop_damage"));
-
-    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> ARMORMATERIAL_SPECTRAL_GLASSES = DeferredHolder.create(Registries.ARMOR_MATERIAL, ResourceLocation.parse("evilcraft:spectral_glasses"));
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> COMPONENT_ACTIVATED = DeferredHolder.create(Registries.DATA_COMPONENT_TYPE, ResourceLocation.parse("evilcraft:activated"));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<DataComponentBiomeConfig.BiomeHolder>> COMPONENT_BIOME = DeferredHolder.create(Registries.DATA_COMPONENT_TYPE, ResourceLocation.parse("evilcraft:biome"));

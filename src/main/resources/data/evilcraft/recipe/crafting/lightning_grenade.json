@@ -6,11 +6,9 @@
     "PPP"
   ],
   "key": {
-    "P": {
-      "tag": "c:ender_pearls"
-    },
+    "P": "#c:ender_pearls",
     "C": {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:weather_container",
       "components": {
         "evilcraft:weather_container_type": "LIGHTNING"

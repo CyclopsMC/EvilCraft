@@ -10,13 +10,14 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
  * @author rubensworks
  */
-public class DataComponentBiomeConfig extends DataComponentConfig<DataComponentBiomeConfig.BiomeHolder> {
+public class DataComponentBiomeConfig extends DataComponentConfigCommon<DataComponentBiomeConfig.BiomeHolder, IModBase> {
     public DataComponentBiomeConfig() {
         super(EvilCraft._instance, "biome", builder -> builder
                 .persistent(BiomeHolder.CODEC)

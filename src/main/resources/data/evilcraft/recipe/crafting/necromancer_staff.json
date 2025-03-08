@@ -6,21 +6,11 @@
     " D "
   ],
   "key": {
-    "G": {
-      "item": "evilcraft:dark_power_gem"
-    },
-    "H": {
-      "tag": "minecraft:skulls"
-    },
-    "S": {
-      "item": "evilcraft:dark_spike"
-    },
-    "I": {
-      "item": "evilcraft:inverted_potentia_empowered"
-    },
-    "D": {
-      "item": "evilcraft:dark_stick"
-    }
+    "G": "evilcraft:dark_power_gem",
+    "H": "#minecraft:skulls",
+    "S": "evilcraft:dark_spike",
+    "I": "evilcraft:inverted_potentia_empowered",
+    "D": "evilcraft:dark_stick"
   },
   "result": {
     "id": "evilcraft:necromancer_staff"

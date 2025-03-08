@@ -3,14 +3,14 @@ package org.cyclops.evilcraft.core.client.model;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.UnbakedModelLoader;
 import org.cyclops.evilcraft.client.render.model.ModelDarkTank;
 
 /**
  * Custom model loader for the box of eternal closure.
  * @author rubensworks
  */
-public class ModelLoaderDarkTank implements IGeometryLoader<ModelDarkTank> {
+public class ModelLoaderDarkTank implements UnbakedModelLoader<ModelDarkTank> {
 
     @Override
     public ModelDarkTank read(JsonObject modelContents, JsonDeserializationContext deserializationContext) {

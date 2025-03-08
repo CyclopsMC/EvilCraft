@@ -1,14 +1,17 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -16,8 +19,11 @@ import org.cyclops.cyclopscore.infobook.ScreenInfoBook;
 import org.cyclops.cyclopscore.infobook.pageelement.RecipeAppendix;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayBloodInfuser;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
 import org.cyclops.evilcraft.item.ItemPromise;
+
+import java.util.function.Supplier;
 
 /**
  * Blood Infuser recipes.
@@ -33,8 +39,8 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
     private static final AdvancedButtonEnum RESULT = AdvancedButtonEnum.create();
     private static final AdvancedButtonEnum PROMISE = AdvancedButtonEnum.create();
 
-    public BloodInfuserRecipeAppendix(IInfoBook infoBook, RecipeHolder<RecipeBloodInfuser> recipe) {
-        super(infoBook, recipe);
+    public BloodInfuserRecipeAppendix(IInfoBook infoBook, Supplier<RecipeDisplayEntry> recipeDisplaySupplier) {
+        super(infoBook, recipeDisplaySupplier);
     }
 
     @Override
@@ -67,17 +73,17 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
         gui.drawArrowRight(guiGraphics, x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
         // Prepare items
+        RecipeDisplayEntry recipeDisplay = getRecipeDisplay();
+        if (recipeDisplay == null) {
+            return;
+        }
         int tick = getTick(gui);
-        ItemStack input = prepareItemStacks(recipe.value().getInputIngredient()
-                .map(Ingredient::getItems)
-                .orElseGet(() -> new ItemStack[0]), tick);
-        ItemStack result = prepareItemStack(recipe.value().getOutputItemFirst(), tick);
-        ItemStack promise = recipe.value().getInputTier().map(inputTier -> {
-            if(inputTier > 0) {
-                return new ItemStack(ItemPromise.getItem(inputTier));
-            }
-            return null;
-        }).orElse(null);
+        ContextMap contextMap = SlotDisplayContext.fromLevel(Minecraft.getInstance().level);
+        RecipeDisplayBloodInfuser display = ((RecipeDisplayBloodInfuser) recipeDisplay.display());
+        ItemStack input = prepareItemStacks(display.inputIngredient().resolveForStacks(contextMap), tick);
+        ItemStack result = prepareItemStack(display.outputItem().resolveForFirstStack(contextMap), tick);
+        int inputTier = display.inputTier();
+        ItemStack promise = inputTier > 0 ? new ItemStack(ItemPromise.getItem(inputTier)) : null;
 
         // Items
         renderItem(gui, guiGraphics, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
@@ -93,10 +99,11 @@ public class BloodInfuserRecipeAppendix extends RecipeAppendix<RecipeBloodInfuse
 
         // Blood amount text
         Font fontRenderer = gui.getFont();
-        recipe.value().getInputFluid().ifPresent(fluidStack -> {
+        FluidStack fluidStack = display.inputFluid();
+        if (!fluidStack.isEmpty()) {
             String line = fluidStack.getAmount() + " mB";
             MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
                     .renderLeftAlignedNoShadow(guiGraphics, x + middle + SLOT_SIZE + 1, y + 6, 9, 0);
-        });
+        }
     }
 }

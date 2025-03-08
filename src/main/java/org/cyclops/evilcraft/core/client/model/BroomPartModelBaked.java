@@ -21,12 +21,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A baked broom part model.
@@ -96,7 +91,7 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
             for(int i = 0; i < vertexData.length / 8; i++) {
                 vertexData[i * 8 + 3] = color;
             }
-            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false));
+            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false, quad.getLightEmission(), quad.hasAmbientOcclusion()));
         }
         return offsetQuads;
     }

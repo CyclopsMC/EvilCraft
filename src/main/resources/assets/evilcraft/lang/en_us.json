@@ -244,7 +244,7 @@
   "item.evilcraft.primed_pendant.info": "Applies the chosen potion effect.",
   "item.evilcraft.primed_pendant.potion": "§7Effect: %s (%s)",
   "item.evilcraft.golden_string": "Golden String",
-  "item.evilcraft.biome_extract": "Biome Extract",
+  "item.evilcraft.biome_extract": "Biome Extract Bottle",
   "item.evilcraft.biome_extract.empty": "Biome Extract Bottle",
   "item.evilcraft.biome_extract.info": "Transforms the target area to the contained biome. Crafted in Environmental Accumulator at desired biome.",
   "item.evilcraft.biome_extract.info.content": "Contents: %s",

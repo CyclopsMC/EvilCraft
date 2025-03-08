@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.client.render.entity;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SilverfishRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.monster.Silverfish;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.entity.monster.EntityNetherfishConfig;
 
@@ -23,8 +23,7 @@ public class RenderNetherfish extends SilverfishRenderer {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Silverfish entity) {
+    public ResourceLocation getTextureLocation(LivingEntityRenderState renderState) {
         return texture;
     }
-
 }

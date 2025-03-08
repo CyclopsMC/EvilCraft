@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.world.level.block.Block;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Locale;
@@ -11,13 +11,13 @@ import java.util.Locale;
  * @author rubensworks
  *
  */
-public class BlockInfestedNetherConfig extends BlockConfig {
+public class BlockInfestedNetherConfig extends BlockConfigCommon<IModBase> {
 
     public BlockInfestedNetherConfig(BlockInfestedNether.Type type) {
         super(
             EvilCraft._instance,
             "infested_nether_" + type.name().toLowerCase(Locale.ROOT),
-                eConfig -> new BlockInfestedNether(Block.Properties.of()
+                (eConfig, properties) -> new BlockInfestedNether(properties
                         .strength(0.0F), type),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

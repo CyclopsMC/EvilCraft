@@ -6,15 +6,9 @@
     " D "
   ],
   "key": {
-    "D": {
-      "item": "evilcraft:dark_gem"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    }
+    "D": "evilcraft:dark_gem",
+    "I": "#c:ingots/iron",
+    "G": "#c:glass_blocks"
   },
   "result": {
     "id": "evilcraft:dark_tank"

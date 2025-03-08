@@ -17,9 +17,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.BlockWithEntityGui;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
@@ -47,7 +45,7 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
         BlockEntityTankInventory tile = (BlockEntityTankInventory) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
+        return (int)Math.ceil(IModHelpers.get().getMinecraftHelpers().getComparatorMultiplier() * output);
     }
 
     @Override
@@ -87,8 +85,8 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     @Override
     public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
         if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            BlockEntityHelpers.get(world, blockPos, BlockEntityTankInventory.class)
-                    .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
+            IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityTankInventory.class)
+                    .ifPresent(tile -> IModHelpers.get().getInventoryHelpers().dropItems(world, tile.getInventory(), blockPos));
         }
         super.onRemove(oldState, world, blockPos, newState, isMoving);
     }

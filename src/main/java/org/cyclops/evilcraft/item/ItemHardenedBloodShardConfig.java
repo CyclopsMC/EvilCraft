@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -9,14 +10,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemHardenedBloodShardConfig extends ItemConfig {
+public class ItemHardenedBloodShardConfig extends ItemConfigCommon<IModBase> {
 
     public ItemHardenedBloodShardConfig() {
         super(
                 EvilCraft._instance,
             "hardened_blood_shard",
-                eConfig -> new Item(new Item.Properties()
-                        )
+                (eConfig, properties) -> new Item(properties)
         );
     }
 

@@ -79,7 +79,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public void readNBT(CompoundTag tag) {
-        setInnerEntityType(BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(tag.getString(NBTKEY_INNER_ENTITY))));
+        setInnerEntityType(BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(tag.getString(NBTKEY_INNER_ENTITY))));
         setRemainingLife(tag.getInt(NBTKEY_REMAINING_LIFE));
         setFrozenDuration(tag.getInt(NBTKEY_FROZEN_DURATION));
         setSwarm(tag.getBoolean(NBTKEY_IS_SWARM));
@@ -127,7 +127,7 @@ public class EntityVengeanceSpiritData {
         if(tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT);
             if (!innerEntity.isEmpty()) {
-                return BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(innerEntity));
+                return BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(innerEntity));
             }
         }
         return null;

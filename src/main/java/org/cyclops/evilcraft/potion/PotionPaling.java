@@ -1,9 +1,10 @@
 package org.cyclops.evilcraft.potion;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 
 /**
@@ -14,7 +15,7 @@ import org.cyclops.evilcraft.ExtendedDamageSources;
 public class PotionPaling extends MobEffect {
 
     public PotionPaling() {
-        super(MobEffectCategory.HARMFUL, Helpers.RGBToInt(56, 25, 97));
+        super(MobEffectCategory.HARMFUL, IModHelpers.get().getBaseHelpers().RGBToInt(56, 25, 97));
     }
 
     @Override
@@ -23,8 +24,8 @@ public class PotionPaling extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
         entity.hurt(ExtendedDamageSources.paling(entity.level()), ((float) amplifier) / 4);
-        return super.applyEffectTick(entity, amplifier);
+        return super.applyEffectTick(level, entity, amplifier);
     }
 }

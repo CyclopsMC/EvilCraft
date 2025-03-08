@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "evilcraft:item/template_poison_bottle",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 5076239
+      },
+      {
+        "type": "minecraft:constant",
+        "value": -1
+      }
+    ]
+  }
+}

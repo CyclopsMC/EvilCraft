@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -9,7 +8,8 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import javax.annotation.Nonnull;
@@ -21,20 +21,20 @@ import java.util.Collections;
  * @author rubensworks
  *
  */
-public class ItemCreativeBloodDropConfig extends ItemConfig {
+public class ItemCreativeBloodDropConfig extends ItemConfigCommon<IModBase> {
 
     public ItemCreativeBloodDropConfig() {
         super(
                 EvilCraft._instance,
             "creative_blood_drop",
-                eConfig -> new ItemCreativeBloodDrop(new Item.Properties())
+                (eConfig, properties) -> new ItemCreativeBloodDrop(properties)
         );
         EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     @Override
-    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<ItemStack> getDefaultCreativeTabEntries() {
         // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
         return Collections.emptyList();
     }

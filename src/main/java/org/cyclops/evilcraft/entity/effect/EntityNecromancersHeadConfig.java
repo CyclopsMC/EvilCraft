@@ -1,14 +1,10 @@
 package org.cyclops.evilcraft.entity.effect;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -16,7 +12,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class EntityNecromancersHeadConfig extends EntityConfig<EntityNecromancersHead> {
+public class EntityNecromancersHeadConfig extends EntityConfigCommon<IModBase, EntityNecromancersHead> {
 
     public EntityNecromancersHeadConfig() {
         super(
@@ -27,9 +23,8 @@ public class EntityNecromancersHeadConfig extends EntityConfig<EntityNecromancer
         );
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<EntityNecromancersHead> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
-        return new ThrownItemRenderer<>(renderContext);
+    public EntityClientConfig<IModBase, EntityNecromancersHead> constructEntityClientConfig() {
+        return new EntityNecromancersHeadConfigClient(this);
     }
 }

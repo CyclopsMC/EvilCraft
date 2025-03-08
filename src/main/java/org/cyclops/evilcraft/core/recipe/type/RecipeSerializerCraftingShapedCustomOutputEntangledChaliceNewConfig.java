@@ -2,8 +2,9 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
-import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfigCommon;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.cyclopscore.recipe.type.RecipeCraftingShapedCustomOutput;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -13,7 +14,7 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
  * Config for vengeance pickaxe recipes.
  * @author rubensworks
  */
-public class RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig extends RecipeConfig<RecipeCraftingShapedCustomOutput> {
+public class RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig extends RecipeConfigCommon<RecipeCraftingShapedCustomOutput, IModBase> {
 
     public RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig() {
         super(EvilCraft._instance,
@@ -21,7 +22,7 @@ public class RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig
                 eConfig -> new RecipeCraftingShapedCustomOutput.Serializer(() -> new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE, 2), (inventory, staticOutput) -> {
                     ItemStack newStack = new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE);
                     ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(newStack).orElse(null);
-                    if (!MinecraftHelpers.isClientSideThread()) {
+                    if (!IModHelpers.get().getMinecraftHelpers().isClientSideThread()) {
                         fluidHandler.setNextTankID();
                     }
                     ItemStack output = fluidHandler.getContainer();

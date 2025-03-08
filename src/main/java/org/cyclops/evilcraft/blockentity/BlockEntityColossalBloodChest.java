@@ -32,10 +32,10 @@ import org.cyclops.cyclopscore.block.multi.ExactSizeValidator;
 import org.cyclops.cyclopscore.block.multi.HollowCubeDetector;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -85,14 +85,14 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 10;
 
     public static final int MAX_EFFICIENCY = 200;
 
     public static Metadata METADATA = new Metadata();
 
     @NBTPersist(useDefaultValue = false)
-    private Vec3i size = LocationHelpers.copyLocation(Vec3i.ZERO);
+    private Vec3i size = IModHelpers.get().getLocationHelpers().copyLocation(Vec3i.ZERO);
     @NBTPersist(useDefaultValue = false)
     private Vec3i renderOffset = new Vec3i(0, 0, 0);
     @Getter
@@ -288,7 +288,7 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
      * @return If it is valid.
      */
     public static boolean canWork(Level world, BlockPos location) {
-        return BlockEntityHelpers.get(world, location, BlockEntityColossalBloodChest.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, location, BlockEntityColossalBloodChest.class)
                 .map(BlockEntityColossalBloodChest::canWork)
                 .orElse(false);
     }

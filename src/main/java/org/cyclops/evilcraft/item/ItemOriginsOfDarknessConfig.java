@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -10,14 +10,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemOriginsOfDarknessConfig extends ItemConfig {
+public class ItemOriginsOfDarknessConfig extends ItemConfigCommon<IModBase> {
 
     public ItemOriginsOfDarknessConfig() {
         super(
                 EvilCraft._instance,
             "origins_of_darkness",
-                eConfig -> new ItemOriginsOfDarkness(new Item.Properties()
-
+                (eConfig, properties) -> new ItemOriginsOfDarkness(properties
                         .stacksTo(1)
                         .rarity(Rarity.UNCOMMON))
         );

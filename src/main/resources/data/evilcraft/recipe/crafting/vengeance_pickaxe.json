@@ -6,15 +6,9 @@
     " T "
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:hardened_blood_shard"
-    },
-    "D": {
-      "tag": "c:gems/diamond"
-    },
-    "T": {
-      "item": "evilcraft:dark_stick"
-    }
+    "S": "evilcraft:hardened_blood_shard",
+    "D": "#c:gems/diamond",
+    "T": "evilcraft:dark_stick"
   },
   "result": {
     "id": "evilcraft:vengeance_pickaxe",

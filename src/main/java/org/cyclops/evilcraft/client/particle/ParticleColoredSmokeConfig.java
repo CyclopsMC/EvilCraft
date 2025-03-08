@@ -1,23 +1,19 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-
-import javax.annotation.Nullable;
 
 /**
  * Config for {@link ParticleColoredSmoke}.
  * @author rubensworks
  */
-public class ParticleColoredSmokeConfig extends ParticleConfig<ParticleColoredSmokeData> {
+public class ParticleColoredSmokeConfig extends ParticleConfigCommon<ParticleColoredSmokeData, IModBase> {
 
     public ParticleColoredSmokeConfig() {
         super(EvilCraft._instance, "colored_smoke", eConfig -> new ParticleType<>(false) {
@@ -34,24 +30,8 @@ public class ParticleColoredSmokeConfig extends ParticleConfig<ParticleColoredSm
         });
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
     @Override
-    public ParticleProvider<ParticleColoredSmokeData> getParticleFactory() {
-        return null;
+    public ParticleConfigComponentClient<ParticleColoredSmokeData, IModBase> getClientComponent() {
+        return new ParticleColoredSmokeConfigClientComponent();
     }
-
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
-    @Override
-    public ParticleEngine.SpriteParticleRegistration<ParticleColoredSmokeData> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<ParticleColoredSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleColoredSmoke particle = new ParticleColoredSmoke(worldIn, x, y, z,
-                    particleData.getR(), particleData.getG(), particleData.getB(),
-                    xSpeed, ySpeed, zSpeed);
-            particle.pickSprite(sprite);
-            return particle;
-        };
-    }
-
 }

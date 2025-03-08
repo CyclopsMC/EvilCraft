@@ -16,7 +16,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
+import net.minecraft.world.phys.Vec3;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
@@ -39,13 +40,18 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
     }
 
     @Override
+    public boolean shouldRender(BlockEntityBoxOfEternalClosure blockEntity, Vec3 cameraPos) {
+        return blockEntity.getBlockPos() == BlockPos.ZERO || super.shouldRender(blockEntity, cameraPos);
+    }
+
+    @Override
     public AABB getRenderBoundingBox(BlockEntityBoxOfEternalClosure blockEntity) {
         return AABB.INFINITE;
     }
 
     @Override
     public void render(BlockEntityBoxOfEternalClosure tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        Direction direction = BlockHelpers.getSafeBlockStateProperty(
+        Direction direction = IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(
                 tile.getLevel().getBlockState(tile.getBlockPos()), org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
         matrixStackIn.pushPose();
         short rotation = 0;
@@ -85,27 +91,25 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
 
         // Render box inside
         if(angle > 0) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0F, 0.75F, 0F);
             super.render(tile, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+            matrixStackIn.popPose();
         }
         matrixStackIn.popPose();
 
         // Optionally render beam
-        // Copied from EnderCrystalRenderer
+        // Copied from EndCrystalRenderer
         EntityVengeanceSpirit target = tile.getTargetSpirit();
         if(target != null) {
-            float f = getY(tile, partialTicks);
             BlockPos blockpos = tile.getBlockPos();
 
-            float f3 = (float)target.getX() + 0.5F;
-            float f4 = (float)target.getY() + 0.5F - (target.getEyeHeight() / 2);
-            float f5 = (float)target.getZ()  + 0.5F;
-            float f6 = (float)((double)f3 - blockpos.getX());
-            float f7 = (float)((double)f4 - blockpos.getY());
-            float f8 = (float)((double)f5 - blockpos.getZ());
-
-            matrixStackIn.translate(f6, f7, f8);
-            MultiBufferSource bufferOverride = (type) -> bufferIn.getBuffer(renderTypeBeam);
-            EnderDragonRenderer.renderCrystalBeams(-f6, -f7 + f, -f8, partialTicks, tile.innerRotation, matrixStackIn, bufferOverride, combinedLightIn);
+            float f = getY(tile, partialTicks);
+            float f1 = (float)target.getX() + 0.5F - blockpos.getX();
+            float f2 = (float)target.getY() + 0.5F - (target.getEyeHeight() / 2) - blockpos.getY();
+            float f3 = (float)target.getZ()  + 0.5F - blockpos.getZ();
+            matrixStackIn.translate(f1, f2, f3);
+            EnderDragonRenderer.renderCrystalBeams(-f1, -f2 + f, -f3, partialTicks, matrixStackIn, bufferIn, combinedLightIn);
         }
     }
 

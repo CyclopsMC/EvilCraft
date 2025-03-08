@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "minecraft:player_head",
     {
-      "item": "minecraft:player_head"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [

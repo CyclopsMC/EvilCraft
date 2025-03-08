@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -28,8 +29,8 @@ import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -83,7 +84,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 10;
 
     public static Metadata METADATA = new Metadata();
 
@@ -152,7 +153,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
                                 key.getRight());
 
                         // Make sure we always pick the highest tier when there are multiple matches
-                        return level.getRecipeManager().getRecipesFor(getRegistry(), recipeInput, getLevel()).stream()
+                        return ((ServerLevel) level).recipeAccess().getRecipeFor(getRegistry(), recipeInput, getLevel()).stream()
                                 .map(RecipeHolder::value)
                                 .max(Comparator.comparingInt(r -> r.getInputTier().orElse(0)));
                     }
@@ -209,7 +210,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
 
     @Override
     public Direction getRotation() {
-        return BlockHelpers.getSafeBlockStateProperty(getBlockState(), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
+        return IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(getBlockState(), BlockBloodInfuser.FACING, Direction.NORTH).getOpposite();
     }
 
     @Override
@@ -228,7 +229,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     public void onStateChanged() {
         sendUpdate();
         level.setBlockAndUpdate(getBlockPos(), getBlockState().setValue(BlockBloodInfuser.ON, isWorking()));
-        BlockHelpers.markForUpdate(getLevel(), getBlockPos());
+        IModHelpers.get().getBlockHelpers().markForUpdate(getLevel(), getBlockPos());
     }
 
     @Override
@@ -293,14 +294,15 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
                 }
             }
 
-            // Valid custom recipe
-            IInventoryFluidTier recipeInput = new InventoryFluidTier(
-                    NonNullList.of(ItemStack.EMPTY, itemStack),
-                    NonNullList.of(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE)),
-                    Upgrades.TIERS);
-            return world.getRecipeManager()
-                    .getRecipeFor(RegistryEntries.RECIPETYPE_BLOOD_INFUSER.get(), recipeInput, world)
-                    .isPresent();
+            // Not easily possible anymore to validate recipe validity client-side, so we just accept all.
+//            // Valid custom recipe
+//            IInventoryFluidTier recipeInput = new InventoryFluidTier(
+//                    NonNullList.of(ItemStack.EMPTY, itemStack),
+//                    NonNullList.of(FluidStack.EMPTY, new FluidStack(RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE)),
+//                    Upgrades.TIERS);
+//            return IModHelpers.get().getCraftingHelpers().findRecipe(RegistryEntries.RECIPETYPE_BLOOD_INFUSER.get(), recipeInput, world)
+//                    .isPresent();
+            return true;
         }
 
         @Override

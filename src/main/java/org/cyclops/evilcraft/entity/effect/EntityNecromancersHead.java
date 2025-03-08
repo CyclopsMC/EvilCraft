@@ -4,12 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityControlledZombie;
 import org.cyclops.evilcraft.item.ItemNecromancerStaff;
@@ -49,8 +44,8 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
         super(type, world);
     }
 
-    public EntityNecromancersHead(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_NECROMANCER_HEAD.get(), entity, world);
+    public EntityNecromancersHead(Level world, double x, double y, double z) {
+        super(RegistryEntries.ENTITY_NECROMANCER_HEAD.get(), x, y, z, world);
     }
 
     /**
@@ -69,7 +64,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
             if(mob.canAttackType(target.getType())) {
                 mob.copyPosition(necromancer);
                 mob.move(MoverType.SELF, new Vec3(world.random.nextInt(20) - 10, 0, world.random.nextInt(20) - 10));
-                if(EntityHelpers.spawnEntity((ServerLevel) world, mob, MobSpawnType.MOB_SUMMONED)) {
+                if(EntityHelpers.spawnEntity((ServerLevel) world, mob, EntitySpawnReason.MOB_SUMMONED)) {
                     observables.add(mob);
                 }
                 mob.setTarget(target);
@@ -87,7 +82,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
     @Override
     public void tick() {
         super.tick();
-        if(observing && !level().isClientSide() && WorldHelpers.efficientTick(level(), 10)) {
+        if(observing && !level().isClientSide() && IModHelpers.get().getWorldHelpers().efficientTick(level(), 10)) {
             if(!observables.isEmpty()) {
                 Iterator<EntityControlledZombie> it = observables.iterator();
                 while(it.hasNext()) {

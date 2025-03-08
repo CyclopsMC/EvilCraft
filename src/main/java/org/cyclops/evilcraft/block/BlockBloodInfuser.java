@@ -16,14 +16,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
@@ -41,7 +40,7 @@ public class BlockBloodInfuser extends BlockWithEntityGuiTank {
 
     public static final MapCodec<BlockBloodChest> CODEC = simpleCodec(BlockBloodChest::new);
 
-    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
+    public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class, Direction.Plane.HORIZONTAL);
     public static final BooleanProperty ON = BooleanProperty.create("on");
 
     public BlockBloodInfuser(Block.Properties properties) {
@@ -84,20 +83,20 @@ public class BlockBloodInfuser extends BlockWithEntityGuiTank {
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         ParticleBloodBubble.randomDisplayTick((BlockEntityWorking) worldIn.getBlockEntity(pos), worldIn, pos,
-                rand, BlockHelpers.getSafeBlockStateProperty(stateIn, FACING, Direction.NORTH));
+                rand, IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(stateIn, FACING, Direction.NORTH));
         super.animateTick(stateIn, worldIn, pos, rand);
     }
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        return BlockEntityHelpers.get(world, pos, BlockEntityBloodInfuser.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityBloodInfuser.class)
                 .map(tile -> tile.isVisuallyWorking() ? 4 : super.getLightEmission(state, world, pos))
                 .orElse(0);
     }
 
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        BlockEntityHelpers.get(world, pos, BlockEntityBloodInfuser.class)
+        IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityBloodInfuser.class)
                 .ifPresent(tile -> {
                     EntityHelpers.spawnXpAtPlayer(player.level(), player, (int) Math.floor(tile.getXp()));
                     tile.resetXp();

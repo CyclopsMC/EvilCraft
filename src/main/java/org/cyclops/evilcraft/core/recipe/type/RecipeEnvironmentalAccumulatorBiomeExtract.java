@@ -6,6 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
@@ -26,7 +27,7 @@ public class RecipeEnvironmentalAccumulatorBiomeExtract extends RecipeEnvironmen
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<Inventory>> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_BIOME_EXTRACT.get();
     }
 

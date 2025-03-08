@@ -6,8 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 
 import javax.annotation.Nullable;
@@ -36,7 +36,7 @@ public class BroomPartBase implements IBroomPart {
         this.length = length;
         this.rarity = rarity;
         this.effect = effect;
-        if(MinecraftHelpers.isClientSide()) {
+        if(IModHelpers.get().getMinecraftHelpers().isClientSide()) {
             registerModelResourceLocation();
         }
     }
@@ -70,6 +70,6 @@ public class BroomPartBase implements IBroomPart {
 
     @Override
     public int getModelColor() {
-        return Helpers.RGBAToInt(255, 255, 255, 255);
+        return IModHelpers.get().getBaseHelpers().RGBAToInt(255, 255, 255, 255);
     }
 }

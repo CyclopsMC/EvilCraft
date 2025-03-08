@@ -2,53 +2,41 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockClientConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
-import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.function.Consumer;
 
 /**
  * Config for the {@link BlockEntangledChalice}.
  * @author rubensworks
  *
  */
-public class BlockEntangledChaliceConfig extends BlockConfig {
+public class BlockEntangledChaliceConfig extends BlockConfigCommon<ModBaseNeoForge<?>> {
 
-    @ConfigurableProperty(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.", requiresMcRestart = true)
+    @ConfigurablePropertyCommon(category = "machine", comment = "If the fluid should be rendered statically. Fluids won't be shown fluently, but more efficiently.", requiresMcRestart = true)
     public static boolean staticBlockRendering = false;
 
     public BlockEntangledChaliceConfig() {
         super(
                 EvilCraft._instance,
                 "entangled_chalice",
-                eConfig -> new BlockEntangledChalice(Block.Properties.of()
+                (eConfig, properties) -> new BlockEntangledChalice(properties
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.STONE)),
-                (eConfig, block) -> new ItemEntangledChalice(block, (new Item.Properties())
-                        ) {
-                    @OnlyIn(Dist.CLIENT)
-                    @Override
-                    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-                        consumer.accept(new RenderItemStackBlockEntityEntangledChalice.ItemRenderProperties());
-                    }
-                }
+                (eConfig, block) -> new ItemEntangledChalice(block, eConfig.createDefaultItemProperties())
         );
         EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
@@ -59,7 +47,7 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
     }
 
     @Override
-    protected Collection<ItemStack> defaultCreativeTabEntries() {
+    public Collection<ItemStack> getDefaultCreativeTabEntries() {
         // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
         return Collections.emptyList();
     }
@@ -76,5 +64,10 @@ public class BlockEntangledChaliceConfig extends BlockConfig {
         NonNullList<ItemStack> list = NonNullList.create();
         ((BlockEntangledChalice) getInstance()).fillItemCategory(list);
         return list;
+    }
+
+    @Override
+    public BlockClientConfig<ModBaseNeoForge<?>> constructBlockClientConfig() {
+        return new BlockEntangledChaliceConfigClient(this);
     }
 }

@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityBeacon;
 import org.joml.Vector4f;
 
@@ -41,7 +41,7 @@ public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon> imple
             Vector4f beamColor = tile.getBeamColor();
             BeaconRenderer.renderBeaconBeam(matrixStackIn, bufferIn, BEACON_TEXTURE, partialTicks, 1.0F,
                     tile.getLevel().getGameTime(), 0, 256,
-                    Helpers.RGBToInt((int) (beamColor.x() * 256), (int) (beamColor.y() * 256), (int) (beamColor.z() * 256)), isInnerBeam(tile) ? 0 : 0.2F, 0.25F);
+                    IModHelpers.get().getBaseHelpers().RGBToInt((int) (beamColor.x() * 256), (int) (beamColor.y() * 256), (int) (beamColor.z() * 256)), isInnerBeam(tile) ? 0 : 0.2F, 0.25F);
         }
     }
 

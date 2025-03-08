@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "minecraft:stick",
     {
-      "item": "minecraft:stick"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,12 +11,8 @@
         ]
       }
     },
-    {
-      "item": "minecraft:stick"
-    },
-    {
-      "item": "minecraft:stick"
-    }
+    "minecraft:stick",
+    "minecraft:stick"
   ],
   "result": {
     "id": "evilcraft:broom_part",

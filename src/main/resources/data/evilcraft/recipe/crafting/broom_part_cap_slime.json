@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "#c:slime_balls",
     {
-      "tag": "c:slimeballs"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,9 +11,7 @@
         ]
       }
     },
-    {
-      "tag": "c:slimeballs"
-    }
+    "#c:slime_balls"
   ],
   "result": {
     "id": "evilcraft:broom_part",

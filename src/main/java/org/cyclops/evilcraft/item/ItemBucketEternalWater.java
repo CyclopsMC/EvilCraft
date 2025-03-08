@@ -6,7 +6,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
@@ -23,9 +22,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 
 /**
  * @author rubensworks
@@ -36,17 +33,12 @@ public class ItemBucketEternalWater extends BucketItem {
     }
 
     @Override
-    public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
+    public ItemStack getCraftingRemainder(ItemStack itemStack) {
         return new ItemStack(this);
     }
 
     @Override
-    public boolean hasCraftingRemainingItem(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand).copy();
         HitResult position = this.getPlayerPOVHitResult(world, player, ClipContext.Fluid.SOURCE_ONLY);
         if(position != null && position.getType() == HitResult.Type.BLOCK) {
@@ -54,14 +46,14 @@ public class ItemBucketEternalWater extends BucketItem {
             BlockState blockState = world.getBlockState(pos);
             if(blockState.getBlock() == Blocks.WATER && blockState.getValue(LiquidBlock.LEVEL) == 0) {
                 world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-                return MinecraftHelpers.successAction(itemStack);
+                return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
             }
         }
 
-        InteractionResultHolder<ItemStack> result = super.use(world, player, hand);
-        if(!result.getObject().isEmpty() && result.getObject().getItem() == Items.BUCKET) {
+        InteractionResult result = super.use(world, player, hand);
+        if(result instanceof InteractionResult.Success success && !success.heldItemTransformedTo().isEmpty() && success.heldItemTransformedTo().getItem() == Items.BUCKET) {
             player.setItemInHand(hand, itemStack);
-            return MinecraftHelpers.successAction(itemStack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
         }
 
         return result;
@@ -69,10 +61,10 @@ public class ItemBucketEternalWater extends BucketItem {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-        IFluidHandler handler = BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(),
+        IFluidHandler handler = IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), context.getClickedPos(),
                 context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
         if(handler != null && !context.getLevel().isClientSide()) {
-            handler.fill(new FluidStack(Fluids.WATER, FluidHelpers.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE);
+            handler.fill(new FluidStack(Fluids.WATER, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()), IFluidHandler.FluidAction.EXECUTE);
             return InteractionResult.SUCCESS;
         }
         return super.onItemUseFirst(stack, context);

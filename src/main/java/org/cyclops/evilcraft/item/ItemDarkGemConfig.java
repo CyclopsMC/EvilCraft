@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -9,14 +9,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemDarkGemConfig extends ItemConfig {
+public class ItemDarkGemConfig extends ItemConfigCommon<IModBase> {
 
     public ItemDarkGemConfig() {
         super(
                 EvilCraft._instance,
                 "dark_gem",
-                eConfig -> new ItemDarkGem(new Item.Properties()
-                        )
+                (eConfig, properties) -> new ItemDarkGem(properties)
         );
     }
 

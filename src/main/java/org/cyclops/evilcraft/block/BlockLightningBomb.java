@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimed;
 import org.cyclops.evilcraft.entity.item.EntityLightningGrenade;
@@ -62,24 +63,24 @@ public class BlockLightningBomb extends Block {
     }
 
     @Override
-    public void neighborChanged(BlockState blockState, Level world, BlockPos blockPos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        super.neighborChanged(blockState, world, blockPos, blockIn, fromPos, isMoving);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @org.jetbrains.annotations.Nullable Orientation orientation, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, orientation, movedByPiston);
 
-        if (world.hasNeighborSignal(blockPos)) {
-            this.destroy(world, blockPos, blockState.setValue(PRIMED, true));
-            world.removeBlock(blockPos, false);
+        if (level.hasNeighborSignal(pos)) {
+            this.destroy(level, pos, state.setValue(PRIMED, true));
+            level.removeBlock(pos, false);
         }
     }
 
     @Override
-    public void onBlockExploded(BlockState state, Level world, BlockPos blockPos, Explosion explosion) {
-        if (!world.isClientSide()) {
-            EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(world,
-                    (double)((float)blockPos.getX() + 0.5F), (double)((float)blockPos.getY() + 0.5F),
-                    (double)((float)blockPos.getZ() + 0.5F), explosion.getIndirectSourceEntity());
-            entityprimed.setFuse(world.random.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
-            world.addFreshEntity(entityprimed);
-            world.removeBlock(blockPos, false);
+    public void onBlockExploded(BlockState state, ServerLevel level, BlockPos pos, Explosion explosion) {
+        if (!level.isClientSide()) {
+            EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(level,
+                    (double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F),
+                    (double)((float)pos.getZ() + 0.5F), explosion.getIndirectSourceEntity());
+            entityprimed.setFuse(level.random.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
+            level.addFreshEntity(entityprimed);
+            level.removeBlock(pos, false);
         }
     }
 

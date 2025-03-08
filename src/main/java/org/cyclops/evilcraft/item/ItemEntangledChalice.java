@@ -14,7 +14,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -51,7 +51,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
             FluidStack tickFluid;
             PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
             do {
-                tickFluid = FluidHelpers.getFluid(source);
+                tickFluid = IModHelpersNeoForge.get().getFluidHelpers().getFluid(source);
                 ItemStack toFill = it.next();
                 if (tickFluid != null && !toFill.isEmpty() && toFill.getCount() == 1) {
                     ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, toFill, tickFluid, player);

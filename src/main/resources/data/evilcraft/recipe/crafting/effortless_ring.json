@@ -6,18 +6,10 @@
     " G "
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:promise_speed_0"
-    },
-    "G": {
-      "tag": "c:ingots/gold"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "E": {
-      "item": "evilcraft:promise_efficiency_0"
-    }
+    "S": "evilcraft:promise_speed_0",
+    "G": "#c:ingots/gold",
+    "I": "#c:ingots/iron",
+    "E": "evilcraft:promise_efficiency_0"
   },
   "result": {
     "id": "evilcraft:effortless_ring"

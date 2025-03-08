@@ -6,14 +6,8 @@
     " P "
   ],
   "key": {
-    "S": {
-      "item": "minecraft:stick"
-    },
-    "L": {
-      "tag": "minecraft:wooden_slabs"
-    },
-    "P": {
-      "tag": "minecraft:planks"
-    }
+    "S": "minecraft:stick",
+    "L": "#minecraft:wooden_slabs",
+    "P": "#minecraft:planks"
   }
 }

@@ -4,12 +4,8 @@
     "RGR"
   ],
   "key": {
-    "R": {
-      "item": "evilcraft:vengeance_ring"
-    },
-    "G": {
-      "item": "evilcraft:garmonbozia"
-    }
+    "R": "evilcraft:vengeance_ring",
+    "G": "evilcraft:garmonbozia"
   },
   "result": {
     "id": "evilcraft:spectral_glasses"

@@ -2,6 +2,8 @@ package org.cyclops.evilcraft.metadata;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.core.Holder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -11,6 +13,9 @@ import org.cyclops.cyclopscore.metadata.RegistryExportableRecipeAbstract;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Environmental accumulator recipe exporter.
@@ -30,10 +35,10 @@ public class RegistryExportableEnvirAccRecipe extends RegistryExportableRecipeAb
         JsonObject object = new JsonObject();
 
         // Recipe object
-        ItemStack[] inputItems = recipe.getInputIngredient().getItems();
+        List<Holder<Item>> inputItems = recipe.getInputIngredient().items().collect(Collectors.toList());
         JsonArray arrayInputs = new JsonArray();
-        for (ItemStack input : inputItems) {
-            arrayInputs.add(IRegistryExportable.serializeItemStack(input));
+        for (Holder<Item> input : inputItems) {
+            arrayInputs.add(IRegistryExportable.serializeItemStack(new ItemStack(input)));
         }
         object.add("input", arrayInputs);
         object.add("output", IRegistryExportable.serializeItemStack(recipe.getOutputItemFirst()));

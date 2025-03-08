@@ -6,13 +6,13 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -26,9 +26,8 @@ import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
@@ -58,8 +57,8 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     private static final float Y_SPAWN_OFFSET = 1.5f;
 
     public ItemBroom(Item.Properties properties) {
-        super(properties, 10 * FluidHelpers.BUCKET_VOLUME);
-        if (MinecraftHelpers.isClientSide()) {
+        super(properties, 10 * IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume());
+        if (IModHelpers.get().getMinecraftHelpers().isClientSide()) {
             NeoForge.EVENT_BUS.addListener(this::onFovEvent);
             NeoForge.EVENT_BUS.addListener(this::onRenderOverlayEvent);
         }
@@ -76,7 +75,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!world.isClientSide() && player.getVehicle() == null && !player.isCrouching()) {
             player.setPos(player.getX(), player.getY() + Y_SPAWN_OFFSET, player.getZ());
@@ -93,14 +92,14 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             }
         }
 
-        return MinecraftHelpers.successAction(stack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(stack);
     }
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
             BlockPos blockPos = context.getClickedPos();
-            if (!BlockEntityHelpers.getCapability(context.getLevel(), blockPos, context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).isPresent()
+            if (!IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), blockPos, context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).isPresent()
                     && context.getLevel().isEmptyBlock(blockPos.offset(0, (int) Y_SPAWN_OFFSET, 0))) {
                 EntityBroom entityBroom = new EntityBroom(context.getLevel(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
                 entityBroom.setBroomStack(stack);
@@ -135,14 +134,14 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     @Override
     public int consumeBroom(int amount, ItemStack itemStack, @Nullable LivingEntity entityLiving) {
-        return FluidHelpers.getAmount(consume(amount, itemStack, entityLiving instanceof Player ? (Player) entityLiving : null));
+        return IModHelpersNeoForge.get().getFluidHelpers().getAmount(consume(amount, itemStack, entityLiving instanceof Player ? (Player) entityLiving : null));
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, list, flag);
-        if(MinecraftHelpers.isShifted()) {
+        if(IModHelpers.get().getMinecraftClientHelpers().isShifted()) {
             list.add(Component.translatable("broom.parts." + Reference.MOD_ID + ".types")
                     .withStyle(ChatFormatting.ITALIC));
             Map<BroomModifier, Float> baseModifiers = BroomParts.REGISTRY.getBaseModifiersFromBroom(itemStack);
@@ -225,7 +224,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
             GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             // Render slot
-            event.getGuiGraphics().blit(OVERLAY, x, y, 11, 0, 24, 24);
+            event.getGuiGraphics().blit(RenderType::guiTextured, OVERLAY, x, y, 11, 0, 24, 24, 256, 256);
 
             // Render item
             Lighting.setupFor3DItems();

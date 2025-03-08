@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ItemSpikeyClaws extends SwordItem {
 
     public ItemSpikeyClaws(Properties properties) {
-        super(Tiers.IRON, properties);
+        super(ToolMaterial.IRON, 3, -2.4F, properties);
     }
 
     @Override

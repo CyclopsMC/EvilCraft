@@ -1,11 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -13,23 +9,14 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemPromiseAcceptorConfig extends ItemConfig {
+public class ItemPromiseAcceptorConfig extends ItemConfigCommon<IModBase> {
 
     public ItemPromiseAcceptorConfig(ItemPromiseAcceptor.Type type) {
         super(
                 EvilCraft._instance,
                 "promise_acceptor_" + type.getName(),
-                eConfig -> new ItemPromiseAcceptor(new Item.Properties()
-                        , type)
+                (eConfig, properties) -> new ItemPromiseAcceptor(properties, type)
         );
-        if (MinecraftHelpers.isClientSide()) {
-            EvilCraft._instance.getModEventBus().addListener(this::registerColors);
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public void registerColors(RegisterColorHandlersEvent.Item event) {
-        event.register(new ItemPromiseAcceptor.ItemColor(), getInstance());
     }
 
 }

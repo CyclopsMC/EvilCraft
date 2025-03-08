@@ -1,8 +1,6 @@
 {
   "type": "evilcraft:environmental_accumulator",
-  "input_item": {
-    "item": "evilcraft:weather_container"
-  },
+  "input_item": "evilcraft:weather_container",
   "input_weather": "RAIN",
   "output_item": {
     "id": "evilcraft:weather_container",

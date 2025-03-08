@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "evilcraft:item/template_biome_extract",
+    "tints": [
+      {
+        "type": "evilcraft:biome_extract"
+      }
+    ]
+  }
+}

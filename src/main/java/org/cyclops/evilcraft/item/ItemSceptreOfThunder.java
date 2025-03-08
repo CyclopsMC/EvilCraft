@@ -2,12 +2,11 @@ package org.cyclops.evilcraft.item;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.weather.WeatherTypeLightning;
 import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
 
@@ -23,7 +22,7 @@ public class ItemSceptreOfThunder extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (!world.isClientSide()) {
             WeatherTypeLightning.activateThunder((ServerLevel) world);
@@ -32,7 +31,7 @@ public class ItemSceptreOfThunder extends Item {
         if (!player.isCreative()) {
             itemStack.shrink(1);
         }
-        return MinecraftHelpers.successAction(itemStack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
     }
 
 }

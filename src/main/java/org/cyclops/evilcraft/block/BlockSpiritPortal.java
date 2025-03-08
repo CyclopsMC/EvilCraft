@@ -20,7 +20,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritPortal;
@@ -72,7 +72,7 @@ public class BlockSpiritPortal extends BlockWithEntity {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void palingDeath(LivingDeathEvent event) {
         if(event.getSource().type()
-                .equals(event.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ExtendedDamageSources.DAMAGE_TYPE_PALING).value())) {
+                .equals(event.getEntity().level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(ExtendedDamageSources.DAMAGE_TYPE_PALING).value())) {
             tryPlacePortal(event.getEntity().level(), event.getEntity().blockPosition().offset(0, 1, 0));
         }
     }
@@ -83,7 +83,7 @@ public class BlockSpiritPortal extends BlockWithEntity {
             BlockPos location = it.next();
             if(canReplaceBlock(world.getBlockState(location), world, blockPos)) {
                 world.setBlock(location, RegistryEntries.BLOCK_SPIRIT_PORTAL.get().defaultBlockState(),
-                        MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                        IModHelpers.get().getMinecraftHelpers().getBlockNotify() | IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
                 return true;
             }
             attempts--;

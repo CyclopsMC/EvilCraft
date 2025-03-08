@@ -3,12 +3,12 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -16,13 +16,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockUndeadWoodConfig extends BlockConfig {
+public class BlockUndeadWoodConfig extends BlockConfigCommon<IModBase> {
 
     public BlockUndeadWoodConfig() {
         super(
                 EvilCraft._instance,
             "undead_wood",
-                eConfig -> new RotatedPillarBlock(Block.Properties.of()
+                (eConfig, properties) -> new RotatedPillarBlock(properties
                         .mapColor(MapColor.TERRACOTTA_ORANGE)
                         .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)) {

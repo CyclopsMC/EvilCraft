@@ -1,44 +1,59 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author rubensworks
  */
 @OnlyIn(Dist.CLIENT)
-public class RenderItemStackBlockEntityEntangledChalice extends BlockEntityWithoutLevelRenderer {
+public class RenderItemStackBlockEntityEntangledChalice implements SpecialModelRenderer<ItemStack> {
 
     private final BlockEntityRenderDispatcher blockEntityRenderDispatcher;
 
     public RenderItemStackBlockEntityEntangledChalice() {
-        super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
         this.blockEntityRenderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
     }
 
-    public void render(ItemStack itemStackIn, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStackIn).orElse(null);
+    @Override
+    public void render(@Nullable ItemStack patterns, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, boolean hasFoilType) {
+        ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(patterns).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
         BlockEntityEntangledChalice tile = new BlockEntityEntangledChalice(BlockPos.ZERO, RegistryEntries.BLOCK_ENTANGLED_CHALICE.get().defaultBlockState());
         tile.setWorldTankId(tankId);
-        this.blockEntityRenderDispatcher.renderItem(tile, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+        this.blockEntityRenderDispatcher.render(tile, 0, poseStack, bufferSource);
     }
 
-    public static class ItemRenderProperties implements IClientItemExtensions {
+    @Override
+    public @Nullable ItemStack extractArgument(ItemStack stack) {
+        return stack;
+    }
+
+    public static record Unbaked() implements SpecialModelRenderer.Unbaked {
+        public static final MapCodec<RenderItemStackBlockEntityEntangledChalice.Unbaked> MAP_CODEC = MapCodec.unit(RenderItemStackBlockEntityEntangledChalice.Unbaked::new);
+
         @Override
-        public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+        public MapCodec<RenderItemStackBlockEntityEntangledChalice.Unbaked> type() {
+            return MAP_CODEC;
+        }
+
+        @Override
+        public SpecialModelRenderer<?> bake(EntityModelSet entityModelSet) {
             return new RenderItemStackBlockEntityEntangledChalice();
         }
     }

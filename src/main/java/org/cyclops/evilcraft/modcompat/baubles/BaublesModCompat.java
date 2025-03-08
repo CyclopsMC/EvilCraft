@@ -31,7 +31,7 @@ public class BaublesModCompat implements IModCompat {
 
     @Override
     public ICompatInitializer createInitializer() {
-        return () -> canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
+        return (mod) -> canBeUsed = EvilCraft._instance.getModCompatLoader().shouldLoadModCompat(this);
     }
 
     /**

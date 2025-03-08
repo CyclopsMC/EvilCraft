@@ -6,9 +6,7 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "evilcraft:blood_waxed_coal"
-    }
+    "C": "evilcraft:blood_waxed_coal"
   },
   "result": {
     "id": "evilcraft:blood_waxed_coal_block"

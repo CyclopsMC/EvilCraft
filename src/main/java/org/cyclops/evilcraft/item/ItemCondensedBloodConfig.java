@@ -6,7 +6,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -17,13 +18,13 @@ import javax.annotation.Nullable;
  * @author rubensworks
  *
  */
-public class ItemCondensedBloodConfig extends ItemConfig {
+public class ItemCondensedBloodConfig extends ItemConfigCommon<IModBase> {
 
     public ItemCondensedBloodConfig() {
         super(
                 EvilCraft._instance,
             "condensed_blood",
-                eConfig -> new Item(new Item.Properties())
+                (eConfig, properties) -> new Item(properties)
         );
         EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
     }

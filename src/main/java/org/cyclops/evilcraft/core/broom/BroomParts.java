@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.broom;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -411,7 +411,7 @@ public final class BroomParts {
     public static IBroomPart registerCapGem(String name, int r, int g, int b) {
         return REGISTRY.registerPart(new BroomPartCapGem(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "cap_gem_" + name),
-                Helpers.RGBToInt(r, g, b)));
+                IModHelpers.get().getBaseHelpers().RGBToInt(r, g, b)));
     }
 
     public static IBroomPart registerCapHead(String name) {
@@ -423,6 +423,6 @@ public final class BroomParts {
     public static IBroomPart registerCapMetal(String name, int r, int g, int b) {
         return REGISTRY.registerPart(new BroomPartCapMetal(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "cap_metal_" + name),
-                Helpers.RGBToInt(r, g, b)));
+                IModHelpers.get().getBaseHelpers().RGBToInt(r, g, b)));
     }
 }

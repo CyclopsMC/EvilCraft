@@ -4,8 +4,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
-import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 
 import javax.annotation.Nullable;
@@ -13,17 +13,16 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Config for upgradable blocks with tile entities.
  * @author rubensworks
  */
-public class UpgradableBlockContainerConfig extends BlockConfig {
+public class UpgradableBlockContainerConfig extends BlockConfigCommon<IModBase> {
 
     public static final Map<Block, Set<Upgrades.Upgrade>> BLOCK_UPGRADES = Maps.newIdentityHashMap();
 
-    public UpgradableBlockContainerConfig(ModBase mod, String namedId, Function<BlockConfig, ? extends Block> blockConstructor, @Nullable BiFunction<BlockConfig, Block, ? extends Item> itemConstructor) {
+    public UpgradableBlockContainerConfig(IModBase mod, String namedId, BiFunction<BlockConfigCommon<IModBase>, Block.Properties, ? extends Block> blockConstructor, @Nullable BiFunction<BlockConfigCommon<IModBase>, Block, ? extends Item> itemConstructor) {
         super(mod, namedId, blockConstructor, itemConstructor);
     }
 

@@ -33,7 +33,7 @@ public class LootFunctionCopyTankData extends LootItemConditionalFunction {
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        if (lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY) instanceof BlockEntityTankInventory tile) {
+        if (lootContext.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof BlockEntityTankInventory tile) {
             SingleUseTank fluidHandlerTile = tile.getTank();
             Optional.ofNullable(itemStack.getCapability(Capabilities.FluidHandler.ITEM))
                     .ifPresent(fluidHandlerItem -> {

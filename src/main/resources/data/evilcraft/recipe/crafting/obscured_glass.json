@@ -6,12 +6,8 @@
     "LLL"
   ],
   "key": {
-    "L": {
-      "tag": "c:glass_blocks"
-    },
-    "G": {
-      "item": "evilcraft:dark_gem"
-    }
+    "L": "#c:glass_blocks",
+    "G": "evilcraft:dark_gem"
   },
   "result": {
     "id": "evilcraft:obscured_glass",

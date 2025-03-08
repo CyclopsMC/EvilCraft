@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.broom;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 
 /**
  * A broom part for a metal cap
@@ -14,7 +14,7 @@ public class BroomPartCapMetal extends BroomPartBase {
 
     public BroomPartCapMetal(ResourceLocation id, int color) {
         super(id, BroomPartType.CAP, 0.25F);
-        this.color = Helpers.rgbToBgr(color);
+        this.color = IModHelpers.get().getBaseHelpers().rgbToBgr(color);
     }
 
     @OnlyIn(Dist.CLIENT)

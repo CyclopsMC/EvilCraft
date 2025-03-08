@@ -11,7 +11,7 @@ import net.neoforged.api.distmarker.OnlyIn;
  *
  */
 @OnlyIn(Dist.CLIENT)
-public class RenderHelpers {
+public class RenderHelpers{
     /**
      * Texture sheet of all blocks.
      */

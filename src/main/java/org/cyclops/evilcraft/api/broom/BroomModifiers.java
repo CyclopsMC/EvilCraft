@@ -34,7 +34,7 @@ import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.Reference;
@@ -106,86 +106,86 @@ public class BroomModifiers {
         MODIFIER_COUNT = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "modifier_count"),
                 BroomModifier.Type.ADDITIVE, 0F, 1F, 3, true,
-                ChatFormatting.BOLD, Helpers.RGBToInt(0, 0, 0)));
+                ChatFormatting.BOLD, IModHelpers.get().getBaseHelpers().RGBToInt(0, 0, 0)));
         REGISTRY.overrideDefaultModifierPart(MODIFIER_COUNT, null);
         SPEED = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "speed"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                ChatFormatting.RED, Helpers.RGBToInt(230, 20, 20)));
+                ChatFormatting.RED, IModHelpers.get().getBaseHelpers().RGBToInt(230, 20, 20)));
         ACCELERATION = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "acceleration"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                ChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
+                ChatFormatting.DARK_GRAY, IModHelpers.get().getBaseHelpers().RGBToInt(20, 20, 20)));
         MANEUVERABILITY = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "maneuverability"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                ChatFormatting.YELLOW, Helpers.RGBToInt(160, 160, 20)));
+                ChatFormatting.YELLOW, IModHelpers.get().getBaseHelpers().RGBToInt(160, 160, 20)));
         LEVITATION = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "levitation"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, true,
-                ChatFormatting.WHITE, Helpers.RGBToInt(230, 230, 230)));
+                ChatFormatting.WHITE, IModHelpers.get().getBaseHelpers().RGBToInt(230, 230, 230)));
 
         // Optional modifiers
         DAMAGE = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "damage"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                ChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
+                ChatFormatting.GRAY, IModHelpers.get().getBaseHelpers().RGBToInt(100, 100, 100)));
         PARTICLES = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "particles"),
                 BroomModifier.Type.ADDITIVE, 0F, 50F, 1, false,
-                ChatFormatting.LIGHT_PURPLE, Helpers.RGBToInt(160, 20, 160)));
+                ChatFormatting.LIGHT_PURPLE, IModHelpers.get().getBaseHelpers().RGBToInt(160, 20, 160)));
         FLAME = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "flame"),
                 BroomModifier.Type.ADDITIVE, 0F, 4F, 3, false,
-                ChatFormatting.GOLD, Helpers.RGBToInt(100, 100, 0)));
+                ChatFormatting.GOLD, IModHelpers.get().getBaseHelpers().RGBToInt(100, 100, 0)));
         SMASH = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "smash"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 2, false,
-                ChatFormatting.AQUA, Helpers.RGBToInt(20, 60, 60)));
+                ChatFormatting.AQUA, IModHelpers.get().getBaseHelpers().RGBToInt(20, 60, 60)));
         BOUNCY = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "bouncy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                ChatFormatting.GREEN, Helpers.RGBToInt(20, 200, 60)));
+                ChatFormatting.GREEN, IModHelpers.get().getBaseHelpers().RGBToInt(20, 200, 60)));
         WITHERER = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "witherer"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                ChatFormatting.DARK_GRAY, Helpers.RGBToInt(20, 20, 20)));
+                ChatFormatting.DARK_GRAY, IModHelpers.get().getBaseHelpers().RGBToInt(20, 20, 20)));
         HUNGERER = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "hungerer"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                ChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
+                ChatFormatting.DARK_GREEN, IModHelpers.get().getBaseHelpers().RGBToInt(20, 120, 20)));
         KAMIKAZE = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "kamikaze"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                ChatFormatting.DARK_GREEN, Helpers.RGBToInt(20, 120, 20)));
+                ChatFormatting.DARK_GREEN, IModHelpers.get().getBaseHelpers().RGBToInt(20, 120, 20)));
         WITHERSHIELD = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "withershield"),
                 BroomModifier.Type.ADDITIVE, 0F, 5F, 4, false,
-                ChatFormatting.DARK_BLUE, Helpers.RGBToInt(20, 20, 120)));
+                ChatFormatting.DARK_BLUE, IModHelpers.get().getBaseHelpers().RGBToInt(20, 20, 120)));
         STURDYNESS = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "sturdyness"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                ChatFormatting.GRAY, Helpers.RGBToInt(100, 100, 100)));
+                ChatFormatting.GRAY, IModHelpers.get().getBaseHelpers().RGBToInt(100, 100, 100)));
         /*LUCK = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "luck"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                TextFormatting.BLUE, Helpers.RGBToInt(30, 20, 210)));*/
+                TextFormatting.BLUE, IModHelpers.get().getBaseHelpers().RGBToInt(30, 20, 210)));*/
         EFFICIENCY = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "efficiency"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                ChatFormatting.DARK_RED, Helpers.RGBToInt(92, 29, 29)));
+                ChatFormatting.DARK_RED, IModHelpers.get().getBaseHelpers().RGBToInt(92, 29, 29)));
         SWIMMING = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "swimming"),
                 BroomModifier.Type.ADDITIVE, 0F, 100F, 3, false,
-                ChatFormatting.AQUA, Helpers.RGBToInt(150, 150, 235)));
+                ChatFormatting.AQUA, IModHelpers.get().getBaseHelpers().RGBToInt(150, 150, 235)));
         ICY = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "icy"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                ChatFormatting.WHITE, Helpers.RGBToInt(220, 220, 240)));
+                ChatFormatting.WHITE, IModHelpers.get().getBaseHelpers().RGBToInt(220, 220, 240)));
         STICKY = REGISTRY.registerModifier(new BroomModifier(
                 ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "sticky"),
                 BroomModifier.Type.ADDITIVE, 0F, 10F, 3, false,
-                ChatFormatting.GOLD, Helpers.RGBToInt(78, 58, 12)));
+                ChatFormatting.GOLD, IModHelpers.get().getBaseHelpers().RGBToInt(78, 58, 12)));
 
         // Set modifier events
         DAMAGE.addCollisionListener(new BroomModifier.ICollisionListener() {
@@ -403,7 +403,7 @@ public class BroomModifiers {
     }
 
     public static void registerModifierTagItem(BroomModifier modifier, float value, ResourceLocation name) {
-        Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.getTag(TagKey.create(Registries.ITEM, name));
+        Optional<HolderSet.Named<Item>> tag = BuiltInRegistries.ITEM.get(TagKey.create(Registries.ITEM, name));
         if (tag.isPresent()) {
             tag.get().stream().forEach(holder -> REGISTRY.registerModifiersItem(modifier, value, () -> new ItemStack(holder.value())));
         } else {

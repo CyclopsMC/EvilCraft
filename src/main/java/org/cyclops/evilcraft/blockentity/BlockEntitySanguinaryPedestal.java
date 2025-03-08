@@ -12,9 +12,8 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.fluid.FluidHandlerWrapper;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.network.IPacketHandler;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
@@ -43,7 +42,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
     private RegionIterator regionIterator;
 
     public BlockEntitySanguinaryPedestal(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_SANGUINARY_PEDESTAL.get(), blockPos, blockState, 0, 1, FluidHelpers.BUCKET_VOLUME * TANK_BUCKETS, RegistryEntries.FLUID_BLOOD.get());
+        super(RegistryEntries.BLOCK_ENTITY_SANGUINARY_PEDESTAL.get(), blockPos, blockState, 0, 1, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * TANK_BUCKETS, RegistryEntries.FLUID_BLOOD.get());
         this.bonusFluidHandler = new FluidHandlerWrapper(getTank()) {
             @Override
             public int fill(FluidStack resource, FluidAction action) {
@@ -75,8 +74,8 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
 
     protected void afterBlockReplace(ServerLevel world, BlockPos location) {
         // NOTE: this is only called server-side, so make sure to send packets where needed.
-        EvilCraft._instance.getPacketHandler().sendToAllAround(new SanguinaryPedestalBlockReplacePacket(location.getX(), location.getY(), location.getZ()),
-                LocationHelpers.createTargetPointFromLocation(world, location, SanguinaryPedestalBlockReplacePacket.RANGE));
+        EvilCraft._instance.getPacketHandler().sendToAllAroundPoint(new SanguinaryPedestalBlockReplacePacket(location.getX(), location.getY(), location.getZ()),
+                IPacketHandler.createTargetPointFromLocation(world, location, SanguinaryPedestalBlockReplacePacket.RANGE));
     }
 
     protected boolean hasEfficiency() {
@@ -101,7 +100,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
                 BlockPos location = blockEntity.getNextLocation();
                 Block block = level.getBlockState(location).getBlock();
                 if(block instanceof BlockBloodStain) {
-                    BlockEntityHelpers.getCapability(level, location, net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
+                    IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(level, location, net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                             .ifPresent((source) -> {
                                 FluidStack moved = FluidUtil.tryFluidTransfer(blockEntity.getBonusFluidHandler(), source, Integer.MAX_VALUE, true);
                                 if (!moved.isEmpty()) {
@@ -115,7 +114,7 @@ public class BlockEntitySanguinaryPedestal extends BlockEntityTankInventory {
             // Auto-drain the inner tank
             if(!blockEntity.getTank().isEmpty()) {
                 for(Direction direction : Direction.values()) {
-                    BlockEntityHelpers.getCapability(level, pos.relative(direction),
+                    IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(level, pos.relative(direction),
                                     direction.getOpposite(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                             .ifPresent(handler -> {
                                 if(!blockEntity.getTank().isEmpty()) {

@@ -1,50 +1,29 @@
 package org.cyclops.evilcraft.core.client.model;
 
-import com.google.common.collect.ImmutableSet;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
-import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.function.Function;
 
 /**
  * Model for a variant of a broom item.
  * @author rubensworks
  */
-public class BroomModel implements UnbakedModel, IUnbakedGeometry<BroomModel> {
+public class BroomModel implements UnbakedModel {
 
     @Override
-    public Collection<ResourceLocation> getDependencies() {
-        ImmutableSet.Builder<ResourceLocation> builder = ImmutableSet.builder();
-        builder.addAll(BroomParts.REGISTRY.getPartModels());
-        return builder.build();
-    }
-
-    @Override
-    public void resolveParents(Function<ResourceLocation, UnbakedModel> resolver) {
-
-    }
-
-    @Nullable
-    @Override
-    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
+    public BakedModel bake(TextureSlots textureSlots, ModelBaker baker, ModelState modelState, boolean hasAmbientOcclusion, boolean useBlockLight, ItemTransforms transforms) {
         BroomModelBaked bakedModel = new BroomModelBaked();
 
         // Add aspects to baked model.
         for(IBroomPart part : BroomParts.REGISTRY.getParts()) {
             try {
-                BakedModel bakedAspectModel = bakery.bake(BroomParts.REGISTRY.getPartModel(part), modelState, spriteGetter);
+                BakedModel bakedAspectModel = baker.bake(BroomParts.REGISTRY.getPartModel(part), modelState);
                 BroomModelBaked.addBroomModel(part, bakedAspectModel);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -55,7 +34,9 @@ public class BroomModel implements UnbakedModel, IUnbakedGeometry<BroomModel> {
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
-        return bake(baker, spriteGetter, modelState);
+    public void resolveDependencies(Resolver resolver) {
+        for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
+            resolver.resolve(partModel);
+        }
     }
 }

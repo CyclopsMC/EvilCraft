@@ -16,7 +16,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.GeneralConfig;
@@ -88,7 +88,7 @@ public class BlockEntityDarkTank extends BlockEntityTankInventory {
 
             if(!blockEntity.getTank().isEmpty() && blockEntity.isEnabled()) {
                 Direction down = Direction.DOWN;
-                IFluidHandler handler = BlockEntityHelpers.getCapability(level, pos.relative(down), down.getOpposite(),
+                IFluidHandler handler = IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(level, pos.relative(down), down.getOpposite(),
                         net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
                 if(handler != null) {
                     FluidStack fluidStack = new FluidStack(blockEntity.getTank().getFluid().getFluid(),

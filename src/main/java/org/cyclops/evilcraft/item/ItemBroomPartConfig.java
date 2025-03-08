@@ -1,13 +1,9 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
@@ -17,27 +13,18 @@ import java.util.Collection;
  * @author rubensworks
  *
  */
-public class ItemBroomPartConfig extends ItemConfig {
+public class ItemBroomPartConfig extends ItemConfigCommon<IModBase> {
 
     public ItemBroomPartConfig() {
         super(
             EvilCraft._instance,
             "broom_part",
-                eConfig -> new ItemBroomPart(new Item.Properties()
-                        )
+                (eConfig, properties) -> new ItemBroomPart(properties)
         );
-        if (MinecraftHelpers.isClientSide()) {
-            EvilCraft._instance.getModEventBus().addListener(this::registerColors);
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public void registerColors(RegisterColorHandlersEvent.Item event) {
-        event.register(new ItemBroomPart.ItemColor(), getInstance());
     }
 
     @Override
-    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<ItemStack> getDefaultCreativeTabEntries() {
         NonNullList<ItemStack> list = NonNullList.create();
         ((ItemBroomPart) getInstance()).fillItemCategory(list);
         return list;

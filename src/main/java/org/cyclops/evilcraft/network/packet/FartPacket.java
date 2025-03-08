@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.cyclopscore.network.packet.PlayerPositionPacket;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.GeneralConfig;
@@ -136,7 +136,7 @@ public class FartPacket extends PlayerPositionPacket<FartPacket> {
     }
 
     @Override
-    protected ModBase getModInstance() {
+    protected IModBase getModInstance() {
         return EvilCraft._instance;
     }
 }

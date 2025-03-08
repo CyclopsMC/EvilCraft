@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 
@@ -23,7 +23,7 @@ public class ItemVeinSword extends SwordItem {
     public static final int LOOTING_LEVEL = 2;
 
     public ItemVeinSword(Properties properties) {
-        super(Tiers.GOLD, properties);
+        super(ToolMaterial.GOLD, 3.0F, -2.4F, properties);
     }
 
     @Override

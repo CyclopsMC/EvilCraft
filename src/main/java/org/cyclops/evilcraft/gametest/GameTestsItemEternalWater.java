@@ -6,7 +6,6 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -43,15 +42,16 @@ public class GameTestsItemEternalWater {
         helper.setBlock(POS.east(), Blocks.STONE);
         helper.setBlock(POS.south(), Blocks.STONE);
         helper.setBlock(POS.west(), Blocks.STONE);
+        helper.setBlock(POS.below(), Blocks.STONE);
 
         // Right click with bucket as player
-        InteractionResultHolder<ItemStack> result = itemStack.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
+        InteractionResult result = itemStack.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result.getResult() == InteractionResult.SUCCESS, "Result is not successful");
-            helper.assertFalse(result.getObject().isEmpty(), "Result is empty");
-            helper.assertTrue(result.getObject().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Result item is incorrect");
+            helper.assertTrue(result instanceof InteractionResult.Success, "Result is not successful");
+            helper.assertFalse(((InteractionResult.Success) result).heldItemTransformedTo().isEmpty(), "Result is empty");
+            helper.assertTrue(((InteractionResult.Success) result).heldItemTransformedTo().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Result item is incorrect");
 
             // Check placed water block
             helper.assertBlockPresent(Blocks.WATER, POS);
@@ -81,13 +81,13 @@ public class GameTestsItemEternalWater {
         helper.setBlock(POS, Blocks.WATER);
 
         // Right click with bucket as player
-        InteractionResultHolder<ItemStack> result = itemStack.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
+        InteractionResult result = itemStack.use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result.getResult() == InteractionResult.SUCCESS, "Result is not successful");
-            helper.assertFalse(result.getObject().isEmpty(), "Result is empty");
-            helper.assertTrue(result.getObject().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Result item is incorrect");
+            helper.assertTrue(result instanceof InteractionResult.Success, "Result is not successful");
+            helper.assertFalse(((InteractionResult.Success) result).heldItemTransformedTo().isEmpty(), "Result is empty");
+            helper.assertTrue(((InteractionResult.Success) result).heldItemTransformedTo().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Result item is incorrect");
 
             // Check removed water block
             helper.assertBlockNotPresent(Blocks.WATER, POS);

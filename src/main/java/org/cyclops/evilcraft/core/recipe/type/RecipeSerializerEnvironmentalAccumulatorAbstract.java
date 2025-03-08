@@ -11,7 +11,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuserConfig;
@@ -28,7 +27,7 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
 
     protected final MapCodec<T> codec = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
-                            Ingredient.CODEC_NONEMPTY.fieldOf("input_item").forGetter(RecipeEnvironmentalAccumulator::getInputIngredient),
+                            Ingredient.CODEC.fieldOf("input_item").forGetter(RecipeEnvironmentalAccumulator::getInputIngredient),
                             WeatherType.CODEC.fieldOf("input_weather").forGetter(RecipeEnvironmentalAccumulator::getInputWeather),
                             RecipeSerializerHelpers.getCodecItemStackOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeEnvironmentalAccumulator::getOutputItem),
                             WeatherType.CODEC.fieldOf("output_weather").forGetter(RecipeEnvironmentalAccumulator::getOutputWeather),
@@ -38,7 +37,7 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
                     )
                     .apply(builder, this::createRecipe)
     );
-    protected final StreamCodec<RegistryFriendlyByteBuf, T> STREAM_CODEC = NeoForgeStreamCodecs.composite(
+    protected final StreamCodec<RegistryFriendlyByteBuf, T> STREAM_CODEC = StreamCodec.composite(
             Ingredient.CONTENTS_STREAM_CODEC, RecipeEnvironmentalAccumulator::getInputIngredient,
             WeatherType.STREAM_CODEC, RecipeEnvironmentalAccumulator::getInputWeather,
             RecipeSerializerHelpers.STREAM_CODEC_ITEMSTACK_OR_TAG, RecipeEnvironmentalAccumulator::getOutputItem,

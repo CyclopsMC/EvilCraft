@@ -1,13 +1,11 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tiers;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
@@ -18,26 +16,25 @@ import java.util.Collections;
  * @author rubensworks
  *
  */
-public class ItemVeinSwordConfig extends ItemConfig {
+public class ItemVeinSwordConfig extends ItemConfigCommon<IModBase> {
 
-    @ConfigurableProperty(category = "item", comment = "The multiply boost this sword has on the blood that is obtained.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "item", comment = "The multiply boost this sword has on the blood that is obtained.", isCommandable = true)
     public static double extractionBoost = 2.0;
 
-    @ConfigurableProperty(category = "item", comment = "Maximum uses for this item.")
+    @ConfigurablePropertyCommon(category = "item", comment = "Maximum uses for this item.")
     public static int durability = 32;
 
     public ItemVeinSwordConfig() {
         super(
                 EvilCraft._instance,
                 "vein_sword",
-                eConfig -> new ItemVeinSword(new Item.Properties()
-                            .attributes(SwordItem.createAttributes(Tiers.GOLD, 3, -2.4F)))
+                (eConfig, properties) -> new ItemVeinSword(properties)
         );
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     @Override
-    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<ItemStack> getDefaultCreativeTabEntries() {
         return Collections.emptyList();
     }
 

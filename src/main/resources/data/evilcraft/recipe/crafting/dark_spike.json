@@ -5,12 +5,8 @@
     "I  "
   ],
   "key": {
-    "G": {
-      "item": "evilcraft:dark_gem"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    }
+    "G": "evilcraft:dark_gem",
+    "I": "#c:ingots/iron"
   },
   "result": {
     "id": "evilcraft:dark_spike",

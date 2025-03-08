@@ -6,18 +6,10 @@
     "PGP"
   ],
   "key": {
-    "R": {
-      "tag": "c:dusts/redstone"
-    },
-    "G": {
-      "tag": "c:dusts/glowstone"
-    },
-    "B": {
-      "tag": "c:slimeballs"
-    },
-    "P": {
-      "item": "minecraft:lapis_lazuli"
-    }
+    "R": "#c:dusts/redstone",
+    "G": "#c:dusts/glowstone",
+    "B": "#c:slime_balls",
+    "P": "minecraft:lapis_lazuli"
   },
   "result": {
     "id": "evilcraft:potentia_sphere"

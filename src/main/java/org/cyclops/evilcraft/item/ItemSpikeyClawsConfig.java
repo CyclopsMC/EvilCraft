@@ -1,9 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tiers;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -11,14 +9,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemSpikeyClawsConfig extends ItemConfig {
+public class ItemSpikeyClawsConfig extends ItemConfigCommon<IModBase> {
 
     public ItemSpikeyClawsConfig() {
         super(
                 EvilCraft._instance,
                 "spikey_claws",
-                eConfig -> new ItemSpikeyClaws(new Item.Properties()
-                        .attributes(SwordItem.createAttributes(Tiers.IRON, 3, -2.4F))
+                (eConfig, properties) -> new ItemSpikeyClaws(properties
                         .durability(256))
         );
     }

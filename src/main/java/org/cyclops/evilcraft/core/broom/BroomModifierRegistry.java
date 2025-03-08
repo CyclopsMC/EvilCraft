@@ -12,7 +12,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -164,7 +164,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
         if (ItemBroomConfig.broomModifierTooltips) {
             Map<BroomModifier, Float> modifiers = getModifiersFromItem(event.getItemStack());
             if (modifiers != null) {
-                if (MinecraftHelpers.isShifted()) {
+                if (IModHelpers.get().getMinecraftClientHelpers().isShifted()) {
                     event.getToolTip().add(Component.translatable("broom.modifiers." + Reference.MOD_ID + ".types")
                             .withStyle(ChatFormatting.ITALIC));
                     for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {

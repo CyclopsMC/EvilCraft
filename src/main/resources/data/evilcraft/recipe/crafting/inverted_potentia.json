@@ -6,12 +6,8 @@
     " G "
   ],
   "key": {
-    "G": {
-      "item": "evilcraft:dark_gem"
-    },
-    "S": {
-      "item": "evilcraft:potentia_sphere"
-    }
+    "G": "evilcraft:dark_gem",
+    "S": "evilcraft:potentia_sphere"
   },
   "result": {
     "id": "evilcraft:inverted_potentia"

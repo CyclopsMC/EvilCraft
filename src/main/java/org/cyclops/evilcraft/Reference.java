@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft;
 
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 
 /**
  * Class that can hold basic static things that are better not hard-coded
@@ -14,7 +14,7 @@ public class Reference {
     // Mod info
     public static final String MOD_ID = "evilcraft";
     public static final String GA_TRACKING_ID = "UA-65307010-2";
-    public static final String VERSION_URL = "https://raw.githubusercontent.com/CyclopsMC/Versions/master/" + MinecraftHelpers.getMinecraftVersionMajorMinor() + "/EvilCraft.txt";
+    public static final String VERSION_URL = "https://raw.githubusercontent.com/CyclopsMC/Versions/master/" + IModHelpers.get().getMinecraftHelpers().getMinecraftVersionMajorMinor() + "/EvilCraft.txt";
     public static final String BOOK_URL = "https://evilcraft.rubensworks.net/book/";
 
     // Paths

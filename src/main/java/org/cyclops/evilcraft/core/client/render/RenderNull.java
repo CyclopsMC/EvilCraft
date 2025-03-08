@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.client.render;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.entity.Entity;
 
 /**
@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
  * @author rubensworks
  *
  */
-public class RenderNull extends EntityRenderer<Entity> {
+public class RenderNull extends EntityRenderer<Entity, EntityRenderState> {
 
     public RenderNull(EntityRendererProvider.Context context) {
         super(context);
@@ -24,8 +24,8 @@ public class RenderNull extends EntityRenderer<Entity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Entity entity) {
-        return null;
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
     }
 
 }

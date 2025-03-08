@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "minecraft:item/ender_chest",
+    "model": {
+      "type": "evilcraft:box_of_eternal_closure"
+    }
+  }
+}

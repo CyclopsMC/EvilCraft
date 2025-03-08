@@ -5,12 +5,8 @@
     " I "
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:dark_spike"
-    },
-    "I": {
-      "tag": "c:ingots/iron"
-    }
+    "S": "evilcraft:dark_spike",
+    "I": "#c:ingots/iron"
   },
   "result": {
     "id": "evilcraft:spikey_claws"

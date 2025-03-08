@@ -6,8 +6,6 @@ import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * An extension of {@link ThrowableProjectile} that now
@@ -15,7 +13,6 @@ import net.neoforged.api.distmarker.OnlyIn;
  * @author rubensworks
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public abstract class EntityThrowable extends ThrowableProjectile implements ItemSupplier {
 
     public EntityThrowable(EntityType<? extends EntityThrowable> type, Level world) {
@@ -23,7 +20,7 @@ public abstract class EntityThrowable extends ThrowableProjectile implements Ite
     }
 
     public EntityThrowable(EntityType<? extends EntityThrowable> type, Level world, LivingEntity entity) {
-        super(type, entity, world);
+        super(type, entity.getX(), entity.getY(), entity.getZ(), world);
     }
 
 }

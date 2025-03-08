@@ -6,8 +6,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.BookItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -80,7 +80,7 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
                         new AABB(
                                 pos.getX() - 0.5D, pos.getY() - 0.5D, pos.getZ() - 0.5D,
                                 pos.getX() + 1.5D, pos.getY() + 1.5D, pos.getZ() + 1.5D))) {
-                    if (entityItem.getItem().getItem() instanceof BookItem) {
+                    if (entityItem.getItem().getItem() == Items.BOOK) {
                         Entity entity = new ItemEntity(level, entityItem.getX(), entityItem.getY(), entityItem.getZ(),
                                 new ItemStack(RegistryEntries.ITEM_ORIGINS_OF_DARKNESS, entityItem.getItem().getCount()));
                         entity.setDeltaMovement(entityItem.getDeltaMovement());

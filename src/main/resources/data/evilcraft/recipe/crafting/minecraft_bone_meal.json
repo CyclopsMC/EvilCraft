@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "evilcraft:werewolf_bone"
-    }
+    "evilcraft:werewolf_bone"
   ],
   "result": {
     "id": "minecraft:bone_meal",

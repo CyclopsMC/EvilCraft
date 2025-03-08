@@ -8,10 +8,10 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.Level;
-import org.cyclops.cyclopscore.config.ConfigHandler;
+import org.cyclops.cyclopscore.config.ConfigHandlerCommon;
 import org.cyclops.cyclopscore.infobook.IInfoBookRegistry;
 import org.cyclops.cyclopscore.infobook.InfoBookRegistry;
-import org.cyclops.cyclopscore.init.ModBaseVersionable;
+import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.cyclopscore.modcompat.ModCompatLoader;
 import org.cyclops.cyclopscore.persist.world.GlobalCounters;
 import org.cyclops.cyclopscore.proxy.IClientProxy;
@@ -26,7 +26,6 @@ import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierActionRegistry;
-import org.cyclops.evilcraft.armormaterial.ArmorMaterialSpectralGlassesConfig;
 import org.cyclops.evilcraft.block.*;
 import org.cyclops.evilcraft.blockentity.*;
 import org.cyclops.evilcraft.blockentity.tickaction.bloodchest.BloodChestRepairActionRegistry;
@@ -38,15 +37,12 @@ import org.cyclops.evilcraft.core.broom.BroomModifierRegistry;
 import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
-import org.cyclops.evilcraft.core.degradation.effect.BiomeDegradationConfig;
-import org.cyclops.evilcraft.core.degradation.effect.KnockbackDistortDegradationConfig;
-import org.cyclops.evilcraft.core.degradation.effect.MobSpawnDegradationConfig;
-import org.cyclops.evilcraft.core.degradation.effect.NauseateDegradationConfig;
-import org.cyclops.evilcraft.core.degradation.effect.PalingDegradationConfig;
-import org.cyclops.evilcraft.core.degradation.effect.ParticleDegradationConfig;
-import org.cyclops.evilcraft.core.degradation.effect.SoundDegradationConfig;
-import org.cyclops.evilcraft.core.degradation.effect.TerraformDegradationConfig;
+import org.cyclops.evilcraft.core.degradation.effect.*;
 import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
+import org.cyclops.evilcraft.core.recipe.category.RecipeBookCategoryBloodInfuserConfig;
+import org.cyclops.evilcraft.core.recipe.category.RecipeBookCategoryEnvironmentalAccumulatorConfig;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayBloodInfuserConfig;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.recipe.type.*;
 import org.cyclops.evilcraft.enchantment.component.EnchantmentEffectComponentAmplifyDamageConfig;
 import org.cyclops.evilcraft.enchantment.component.EnchantmentEffectComponentStopDamageConfig;
@@ -56,34 +52,18 @@ import org.cyclops.evilcraft.entity.block.EntityLightningBombPrimedConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAntiVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityNecromancersHeadConfig;
-import org.cyclops.evilcraft.entity.item.EntityBiomeExtractConfig;
-import org.cyclops.evilcraft.entity.item.EntityBloodPearlConfig;
-import org.cyclops.evilcraft.entity.item.EntityBroomConfig;
-import org.cyclops.evilcraft.entity.item.EntityItemDarkStickConfig;
-import org.cyclops.evilcraft.entity.item.EntityItemEmpowerableConfig;
-import org.cyclops.evilcraft.entity.item.EntityItemUndespawnableConfig;
-import org.cyclops.evilcraft.entity.item.EntityLightningGrenadeConfig;
-import org.cyclops.evilcraft.entity.item.EntityRedstoneGrenadeConfig;
-import org.cyclops.evilcraft.entity.item.EntityWeatherContainerConfig;
-import org.cyclops.evilcraft.entity.monster.EntityControlledZombieConfig;
-import org.cyclops.evilcraft.entity.monster.EntityNetherfishConfig;
-import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelleConfig;
-import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritConfig;
-import org.cyclops.evilcraft.entity.monster.EntityWerewolfConfig;
+import org.cyclops.evilcraft.entity.item.*;
+import org.cyclops.evilcraft.entity.monster.*;
 import org.cyclops.evilcraft.entity.villager.VillagerProfessionWerewolfConfig;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.fluid.PoisonConfig;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
-import org.cyclops.evilcraft.inventory.container.ContainerBloodChestConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerBloodInfuserConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerColossalBloodChestConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerExaltedCrafterConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerOriginsOfDarknessConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerPrimedPendantConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerSanguinaryEnvironmentalAccumulatorConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerSpiritFurnaceConfig;
-import org.cyclops.evilcraft.inventory.container.ContainerSpiritReanimatorConfig;
+import org.cyclops.evilcraft.inventory.container.*;
 import org.cyclops.evilcraft.item.*;
+import org.cyclops.evilcraft.itemtintsource.ItemTintSourceBiomeExtractConfig;
+import org.cyclops.evilcraft.itemtintsource.ItemTintSourceBowlOfPromisesTypeConfig;
+import org.cyclops.evilcraft.itemtintsource.ItemTintSourceBroomPartConfig;
+import org.cyclops.evilcraft.itemtintsource.ItemTintSourceWeatherContainerTypeConfig;
 import org.cyclops.evilcraft.loot.functions.LootFunctionCopyBoxOfEternalClosureDataConfig;
 import org.cyclops.evilcraft.loot.functions.LootFunctionCopyDisplayStandDataConfig;
 import org.cyclops.evilcraft.loot.functions.LootFunctionCopyEntangledChaliceDataConfig;
@@ -95,14 +75,7 @@ import org.cyclops.evilcraft.modcompat.baubles.BaublesModCompat;
 import org.cyclops.evilcraft.potion.PotionPalingConfig;
 import org.cyclops.evilcraft.proxy.ClientProxy;
 import org.cyclops.evilcraft.proxy.CommonProxy;
-import org.cyclops.evilcraft.sound.SoundEventEffectBoxBeamConfig;
-import org.cyclops.evilcraft.sound.SoundEventEffectPageFlipMultipleConfig;
-import org.cyclops.evilcraft.sound.SoundEventEffectPageFlipSingleConfig;
-import org.cyclops.evilcraft.sound.SoundEventEffectVengeanceBeamBaseConfig;
-import org.cyclops.evilcraft.sound.SoundEventEffectVengeanceBeamStartConfig;
-import org.cyclops.evilcraft.sound.SoundEventEffectVengeanceBeamStopConfig;
-import org.cyclops.evilcraft.sound.SoundEventMobVengeanceSpiritAmbientConfig;
-import org.cyclops.evilcraft.sound.SoundEventMobVengeanceSpiritDeathConfig;
+import org.cyclops.evilcraft.sound.*;
 import org.cyclops.evilcraft.world.gen.feature.WorldFeatureEvilDungeonConfig;
 import org.cyclops.evilcraft.world.gen.structure.WorldStructureDarkTempleConfig;
 import org.cyclops.evilcraft.world.gen.structure.WorldStructurePieceDarkTempleConfig;
@@ -113,7 +86,7 @@ import org.cyclops.evilcraft.world.gen.structure.WorldStructurePieceDarkTempleCo
  *
  */
 @Mod(Reference.MOD_ID)
-public class EvilCraft extends ModBaseVersionable<EvilCraft> {
+public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
 
     /**
      * The unique instance of this mod.
@@ -165,7 +138,7 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
     }
 
     @Override
-    protected void onConfigsRegister(ConfigHandler configHandler) {
+    protected void onConfigsRegister(ConfigHandlerCommon configHandler) {
         super.onConfigsRegister(configHandler);
 
         configHandler.addConfigurable(new GeneralConfig());
@@ -401,6 +374,14 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new RecipeTypeBloodInfuserConfig());
         configHandler.addConfigurable(new RecipeTypeEnvironmentalAccumulatorConfig());
 
+        // Recipe book categories
+        configHandler.addConfigurable(new RecipeBookCategoryBloodInfuserConfig());
+        configHandler.addConfigurable(new RecipeBookCategoryEnvironmentalAccumulatorConfig());
+
+        // Recipe display types
+        configHandler.addConfigurable(new RecipeDisplayBloodInfuserConfig());
+        configHandler.addConfigurable(new RecipeDisplayEnvironmentalAccumulatorConfig());
+
         // Recipes
         configHandler.addConfigurable(new RecipeSerializerBloodInfuserConfig());
         configHandler.addConfigurable(new RecipeSerializerEnvironmentalAccumulatorConfig());
@@ -446,9 +427,6 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new SoundEventMobVengeanceSpiritAmbientConfig());
         configHandler.addConfigurable(new SoundEventMobVengeanceSpiritDeathConfig());
 
-        // Armor materials
-        configHandler.addConfigurable(new ArmorMaterialSpectralGlassesConfig());
-
         // Data components
         configHandler.addConfigurable(new DataComponentActivatedConfig());
         configHandler.addConfigurable(new DataComponentBiomeConfig());
@@ -462,6 +440,12 @@ public class EvilCraft extends ModBaseVersionable<EvilCraft> {
         configHandler.addConfigurable(new DataComponentPowerConfig());
         configHandler.addConfigurable(new DataComponentWeatherContainerTypeConfig());
         configHandler.addConfigurable(new DataComponentWorldSharedTankIdConfig());
+
+        // Item tint sources
+        configHandler.addConfigurable(new ItemTintSourceBiomeExtractConfig());
+        configHandler.addConfigurable(new ItemTintSourceBowlOfPromisesTypeConfig());
+        configHandler.addConfigurable(new ItemTintSourceBroomPartConfig());
+        configHandler.addConfigurable(new ItemTintSourceWeatherContainerTypeConfig());
     }
 
     @OnlyIn(Dist.CLIENT)

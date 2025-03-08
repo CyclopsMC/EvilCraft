@@ -1,26 +1,21 @@
 package org.cyclops.evilcraft.entity.effect;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.core.client.render.RenderNull;
 
 /**
  * Config for the {@link EntityAttackVengeanceBeam}.
  * @author rubensworks
  *
  */
-public class EntityAttackVengeanceBeamConfig extends EntityConfig<EntityAttackVengeanceBeam> {
+public class EntityAttackVengeanceBeamConfig extends EntityConfigCommon<IModBase, EntityAttackVengeanceBeam> {
 
-    @ConfigurableProperty(category = "entity", comment = "If crossed beams should cause explosions.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "entity", comment = "If crossed beams should cause explosions.", isCommandable = true)
     public static boolean crossBeamsExplosions = true;
 
     public EntityAttackVengeanceBeamConfig() {
@@ -32,10 +27,8 @@ public class EntityAttackVengeanceBeamConfig extends EntityConfig<EntityAttackVe
         );
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<Entity> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
-        return new RenderNull(renderContext);
+    public EntityClientConfig<IModBase, EntityAttackVengeanceBeam> constructEntityClientConfig() {
+        return new EntityAttackVengeanceBeamConfigClient(this);
     }
-
 }

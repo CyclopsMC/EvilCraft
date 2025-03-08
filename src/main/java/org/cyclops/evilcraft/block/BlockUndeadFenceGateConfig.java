@@ -5,11 +5,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -17,13 +17,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockUndeadFenceGateConfig extends BlockConfig {
+public class BlockUndeadFenceGateConfig extends BlockConfigCommon<IModBase> {
 
     public BlockUndeadFenceGateConfig() {
         super(
                 EvilCraft._instance,
             "undead_fence_gate",
-                eConfig -> new FenceGateBlock(WoodType.OAK, BlockBehaviour.Properties.of()
+                (eConfig, properties) -> new FenceGateBlock(WoodType.OAK, properties
                         .mapColor(MapColor.TERRACOTTA_ORANGE)
                         .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)) {

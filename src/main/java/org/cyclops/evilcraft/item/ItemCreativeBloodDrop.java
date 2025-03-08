@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -20,10 +20,10 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
 import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
@@ -55,7 +55,7 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, list, flag);
-        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+        IModHelpers.get().getL10NHelpers().addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.auto_supply");
     }
 
@@ -110,8 +110,8 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
                     }
                     if (context.getLevel().getBlockState(pos).getBlock() == RegistryEntries.BLOCK_BLOOD_STAIN.get()) {
                         // Add blood to existing block
-                        BlockEntityHelpers.get(context.getLevel(), pos, BlockEntityBloodStain.class)
-                                .ifPresent(tile -> tile.addAmount(FluidHelpers.BUCKET_VOLUME));
+                        IModHelpers.get().getBlockEntityHelpers().get(context.getLevel(), pos, BlockEntityBloodStain.class)
+                                .ifPresent(tile -> tile.addAmount(IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()));
                     }
                 }
                 return InteractionResult.PASS;
@@ -121,7 +121,7 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!player.isCrouching()) {
             return super.use(world, player, hand);
@@ -133,6 +133,6 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
                 }
             }
         }
-        return MinecraftHelpers.successAction(itemStack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
     }
 }

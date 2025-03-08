@@ -14,11 +14,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
 import org.cyclops.evilcraft.client.particle.ParticleBloodBubble;
@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 public class BlockSpiritReanimator extends BlockWithEntityGuiTank {
 
     public static final MapCodec<BlockSpiritReanimator> CODEC = simpleCodec(BlockSpiritReanimator::new);
-    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.Plane.HORIZONTAL);
+    public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class, Direction.Plane.HORIZONTAL);
     public static final BooleanProperty ON = BooleanProperty.create("on");
 
     public BlockSpiritReanimator(Block.Properties properties) {
@@ -78,7 +78,7 @@ public class BlockSpiritReanimator extends BlockWithEntityGuiTank {
     @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState blockState, Level world, BlockPos blockPos, RandomSource random) {
         ParticleBloodBubble.randomDisplayTick((BlockEntityWorking) world.getBlockEntity(blockPos), world, blockPos,
-                random, BlockHelpers.getSafeBlockStateProperty(blockState, FACING, Direction.NORTH));
+                random, IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(blockState, FACING, Direction.NORTH));
         super.animateTick(blockState, world, blockPos, random);
     }
 }

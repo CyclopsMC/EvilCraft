@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.blockentity.tickaction.purifier.DisenchantPurifyAction;
 
@@ -10,20 +11,19 @@ import org.cyclops.evilcraft.blockentity.tickaction.purifier.DisenchantPurifyAct
  * @author rubensworks
  *
  */
-public class ItemBlookConfig extends ItemConfig {
+public class ItemBlookConfig extends ItemConfigCommon<IModBase> {
 
     public ItemBlookConfig() {
         super(
                 EvilCraft._instance,
             "blook",
-                eConfig -> new Item(new Item.Properties()
-                        )
+                (eConfig, properties) -> new Item(properties)
         );
     }
 
     @Override
-    public void onForgeRegistered() {
-        super.onForgeRegistered();
+    public void onRegistryRegistered() {
+        super.onRegistryRegistered();
         DisenchantPurifyAction.ALLOWED_BOOK.set(getInstance());
     }
 }

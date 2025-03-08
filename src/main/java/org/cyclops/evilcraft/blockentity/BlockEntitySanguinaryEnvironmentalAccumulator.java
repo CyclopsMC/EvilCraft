@@ -30,7 +30,8 @@ import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
-import org.cyclops.cyclopscore.helper.*;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulator;
@@ -151,7 +152,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
                     public Optional<RecipeEnvironmentalAccumulator> getNewValue(Triple<ItemStack, FluidStack, WeatherType> key) {
                         Inventory recipeInput = new Inventory(1, 64, BlockEntitySanguinaryEnvironmentalAccumulator.this);
                         recipeInput.setItem(0, key.getLeft());;
-                        return CraftingHelpers.findServerRecipe(getRegistry(), recipeInput, getLevel()).map(RecipeHolder::value);
+                        return IModHelpers.get().getCraftingHelpers().findRecipe(getRegistry(), recipeInput, getLevel()).map(RecipeHolder::value);
                     }
 
                     @Override
@@ -239,8 +240,8 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
             double y = location.getY() + 0.5;
             double z = location.getZ() + 0.5;
 
-            float rotationYaw = (float) LocationHelpers.getYaw(location, target);
-            float rotationPitch = (float) LocationHelpers.getPitch(location, target);
+            float rotationYaw = (float) IModHelpers.get().getLocationHelpers().getYaw(location, target);
+            float rotationPitch = (float) IModHelpers.get().getLocationHelpers().getPitch(location, target);
 
             for (int i = 0; i < 1 + random.nextInt(5); i++) {
                 double particleX = x - 0.2 + random.nextDouble() * 0.4;
@@ -286,7 +287,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     public void onStateChanged() {
         BlockState blockState = level.getBlockState(getBlockPos()).setValue(BlockSanguinaryEnvironmentalAccumulator.ON, isWorking());
         level.setBlockAndUpdate(getBlockPos(), blockState);
-        level.sendBlockUpdated(getBlockPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT); // Update light
+        level.sendBlockUpdated(getBlockPos(), blockState, blockState, IModHelpers.get().getMinecraftHelpers().getBlockNotify() | IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient()); // Update light
     }
 
     @Override
@@ -296,7 +297,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
     @Override
     public boolean canWork() {
-        if(!forceLoadTanks && invalidLocations != null && (level.isClientSide() || !WorldHelpers.efficientTick(level, TANK_CHECK_TICK_OFFSET, getBlockPos()))) {
+        if(!forceLoadTanks && invalidLocations != null && (level.isClientSide() || !IModHelpers.get().getWorldHelpers().efficientTick(level, TANK_CHECK_TICK_OFFSET, getBlockPos()))) {
             return invalidLocations.isEmpty();
         }
         forceLoadTanks = false;
@@ -320,7 +321,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         for (int i = 0; i < tankOffsets.length; i++) {
             BlockPos offset = tankOffsets[i];
             BlockPos location = getBlockPos().offset(offset);
-            IFluidHandler handler = BlockEntityHelpers.getCapability(getLevel(), location, Direction.UP, net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
+            IFluidHandler handler = IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(getLevel(), location, Direction.UP, net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
             boolean oneValid = false;
             if (handler != null) {
                 int tankAmount = handler.getTanks();
@@ -387,11 +388,13 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
         @Override
         public boolean canConsume(ItemStack itemStack, Level world) {
-            // Valid custom recipe
-            RecipeEnvironmentalAccumulator.Inventory recipeInput = new RecipeEnvironmentalAccumulator.InventoryDummy(itemStack);
-            return world.getRecipeManager()
-                    .getRecipeFor(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get(), recipeInput, world)
-                    .isPresent();
+            return true;
+            // We can't easily check recipes client-side anymore...
+//            // Valid custom recipe
+//            RecipeEnvironmentalAccumulator.Inventory recipeInput = new RecipeEnvironmentalAccumulator.InventoryDummy(itemStack);
+//            return world.getRecipeManager()
+//                    .getRecipeFor(RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get(), recipeInput, world)
+//                    .isPresent();
         }
 
         @Override

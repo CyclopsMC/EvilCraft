@@ -5,13 +5,14 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.codec.ByteBufCodecs;
-import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
  * @author rubensworks
  */
-public class DataComponentBoxSpiritConfig extends DataComponentConfig<CompoundTag> {
+public class DataComponentBoxSpiritConfig extends DataComponentConfigCommon<CompoundTag, IModBase> {
 
     public DataComponentBoxSpiritConfig() {
         super(EvilCraft._instance, "box_spirit", builder -> builder

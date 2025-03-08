@@ -4,13 +4,12 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import org.cyclops.cyclopscore.client.key.IKeyRegistry;
-import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
@@ -20,12 +19,7 @@ import org.cyclops.evilcraft.client.key.Keys;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelEntangledChaliceBaked;
 import org.cyclops.evilcraft.core.broom.BroomParts;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderBoxOfEternalClosure;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderDarkTank;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderDisplayStand;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderEntangledChalice;
+import org.cyclops.evilcraft.core.client.model.*;
 import org.cyclops.evilcraft.event.RenderOverlayEventHook;
 
 /**
@@ -46,7 +40,7 @@ public class ClientProxy extends ClientProxyComponent {
     }
 
     @Override
-    public ModBase getMod() {
+    public ModBaseNeoForge<EvilCraft> getMod() {
         return EvilCraft._instance;
     }
 
@@ -78,7 +72,7 @@ public class ClientProxy extends ClientProxyComponent {
         this.modelBakery = event.getModelBakery();
     }
 
-    public void onModelLoad(ModelEvent.RegisterGeometryLoaders event) {
+    public void onModelLoad(ModelEvent.RegisterLoaders event) {
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
@@ -89,16 +83,16 @@ public class ClientProxy extends ClientProxyComponent {
 
     public void onModelRegisterAdditional(ModelEvent.RegisterAdditional event) {
         // Box of eternal closure
-        event.register(ModelResourceLocation.standalone(ModelBoxOfEternalClosure.boxModel));
-        event.register(ModelResourceLocation.standalone(ModelBoxOfEternalClosure.boxLidModel));
-        event.register(ModelResourceLocation.standalone(ModelBoxOfEternalClosure.boxLidRotatedModel));
+        event.register(ModelBoxOfEternalClosure.boxModel);
+        event.register(ModelBoxOfEternalClosure.boxLidModel);
+        event.register(ModelBoxOfEternalClosure.boxLidRotatedModel);
         // Broom
         for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
-            event.register(ModelResourceLocation.standalone(partModel));
+            event.register(partModel);
         }
         // Entangled chalice
-        event.register(ModelResourceLocation.standalone(ModelEntangledChaliceBaked.chaliceModelName));
-        event.register(ModelResourceLocation.standalone(ModelEntangledChaliceBaked.gemsModelName));
+        event.register(ModelEntangledChaliceBaked.chaliceModelName);
+        event.register(ModelEntangledChaliceBaked.gemsModelName);
     }
 
 }

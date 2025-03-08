@@ -6,8 +6,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.init.ModBase;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.cyclopscore.persist.world.WorldStorage;
 
 /**
@@ -62,7 +62,7 @@ public class WorldSharedTank extends SingleUseTank {
     }
 
     protected void writeWorldFluid() {
-        if (!MinecraftHelpers.isClientSideThread()) {
+        if (!IModHelpers.get().getMinecraftHelpers().isClientSideThread()) {
             WorldSharedTankCache.getInstance().setTankContent(tankID, this.fluid);
         }
     }
@@ -163,7 +163,7 @@ public class WorldSharedTank extends SingleUseTank {
          * Make a new instance.
          * @param mod The mod.
          */
-        public TankData(ModBase mod) {
+        public TankData(ModBaseNeoForge mod) {
             super(mod);
         }
 

@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
@@ -49,7 +50,7 @@ public class BlockEntityTankInventory extends CyclopsBlockEntity {
         }
 
         public void registerTankInventoryCapabilitiesItem() {
-            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> blockEntity.getInventory().getItemHandlerSided(direction));
+            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> new SidedInvWrapper(blockEntity.getInventory(), direction));
         }
 
         public void registerTankInventoryCapabilitiesFluid() {

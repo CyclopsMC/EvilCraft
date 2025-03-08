@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.entity.monster;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -41,11 +42,11 @@ public class EntityNetherfish extends Silverfish {
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         // Ignite the attacked entity for a certain duration with a certain chance.
         if(this.random.nextFloat() < FIRE_CHANCE)
             entity.setRemainingFireTicks(this.random.nextInt(MAX_FIRE_DURATION));
-        return super.doHurtTarget(entity);
+        return super.doHurtTarget(level, entity);
     }
 
     @Override

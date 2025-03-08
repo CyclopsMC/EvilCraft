@@ -14,7 +14,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingFallEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
-import org.cyclops.cyclopscore.helper.ItemStackHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
 
 /**
@@ -66,7 +66,7 @@ public class ItemEffortlessRing extends Item {
     public void onPlayerJump(LivingEvent.LivingJumpEvent event) {
         if(event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
-            if(ItemStackHelpers.hasPlayerItem(player, this)) {
+            if(IModHelpers.get().getItemStackHelpers().hasPlayerItem(player, this)) {
                 player.setDeltaMovement(player.getDeltaMovement().add(0, JUMP_HEIGHT_FACTOR, 0));;
             }
         }
@@ -78,7 +78,7 @@ public class ItemEffortlessRing extends Item {
             Player player = (Player) event.getEntity();
             AttributeInstance attribute = player.getAttribute(Attributes.STEP_HEIGHT);
             if (attribute != null && attribute.hasModifier(STEP_SIZE_MODIFIER.id())) {
-                if (!ItemStackHelpers.hasPlayerItem(player, this)) {
+                if (!IModHelpers.get().getItemStackHelpers().hasPlayerItem(player, this)) {
                     attribute.removeModifier(STEP_SIZE_MODIFIER.id());
                 }
             }
@@ -88,7 +88,7 @@ public class ItemEffortlessRing extends Item {
     public void onPlayerFall(LivingFallEvent event) {
         if(event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
-            if(ItemStackHelpers.hasPlayerItem(player, this)) {
+            if(IModHelpers.get().getItemStackHelpers().hasPlayerItem(player, this)) {
                 event.setDistance(event.getDistance() - FALLDISTANCE_REDUCTION);
             }
         }

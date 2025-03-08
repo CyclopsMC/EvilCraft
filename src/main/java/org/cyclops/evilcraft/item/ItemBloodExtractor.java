@@ -6,7 +6,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -25,9 +24,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
@@ -58,7 +56,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
                 RandomSource random = context.getLevel().random;
 
                 // Fill the extractor a bit
-                BlockEntityHelpers.getCapability(context.getLevel(), context.getClickedPos(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
+                IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), context.getClickedPos(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                         .ifPresent((source) -> {
                             FluidStack moved = FluidUtil.tryFluidTransfer(FluidUtil.getFluidHandler(itemStack).orElse(null), source, Integer.MAX_VALUE, true);
                             if (!moved.isEmpty() && context.getLevel().isClientSide()) {
@@ -80,12 +78,12 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, list, flag);
-        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+        IModHelpers.get().getL10NHelpers().addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.auto_supply");
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!player.isCrouching()) {
             return super.use(world, player, hand);
@@ -97,7 +95,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
                 }
             }
         }
-        return MinecraftHelpers.successAction(itemStack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
     }
 
     /**

@@ -22,8 +22,8 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.item.ItemDarkGem;
 import org.jetbrains.annotations.Nullable;
@@ -82,7 +82,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     private boolean isGlowing(Level world, BlockPos blockPos) {
-        return BlockHelpers.getSafeBlockStateProperty(world.getBlockState(blockPos), GLOWING, true);
+        return IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(world.getBlockState(blockPos), GLOWING, true);
     }
 
     private void glow(Level world, BlockPos blockPos) {
@@ -90,7 +90,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
             this.sparkle(world, blockPos);
 
         if (!isGlowing(world, blockPos)) {
-            world.setBlock(blockPos, defaultBlockState().setValue(GLOWING, true), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos, defaultBlockState().setValue(GLOWING, true), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
         }
     }
 
@@ -102,7 +102,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos blockPos, RandomSource rand) {
         if (isGlowing(world, blockPos)) {
-            world.setBlock(blockPos, defaultBlockState().setValue(GLOWING, false), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos, defaultBlockState().setValue(GLOWING, false), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
         }
     }
 

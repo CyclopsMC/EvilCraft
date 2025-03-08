@@ -11,7 +11,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nonnull;
@@ -90,7 +90,7 @@ public class BlockEntityEternalWater extends CyclopsBlockEntity {
             super.update(level, pos, blockState, blockEntity);
 
             for(Direction direction : Direction.values()) {
-                BlockEntityHelpers.getCapability(level, pos.relative(direction),
+                IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(level, pos.relative(direction),
                                 direction.getOpposite(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
                         .ifPresent(handler -> handler.fill(WATER, IFluidHandler.FluidAction.EXECUTE));
             }

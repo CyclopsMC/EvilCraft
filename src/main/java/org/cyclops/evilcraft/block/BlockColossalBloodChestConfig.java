@@ -1,21 +1,14 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Sets;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntityBloodChest;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.config.extendedconfig.UpgradableBlockContainerConfig;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
 import java.util.Set;
-import java.util.function.Consumer;
 
 /**
  * Config for the {@link BlockColossalBloodChest}.
@@ -24,33 +17,26 @@ import java.util.function.Consumer;
  */
 public class BlockColossalBloodChestConfig extends UpgradableBlockContainerConfig {
 
-    @ConfigurableProperty(category = "machine", comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "machine", comment = "The amount Blood mB required for repairing one damage value.", isCommandable = true)
     public static int baseMBPerDamage = 5;
 
-    @ConfigurableProperty(category = "machine", comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "machine", comment = "The amount of ticks required for repairing one damage value.", isCommandable = true)
     public static int ticksPerDamage = 2;
 
-    @ConfigurableProperty(category = "machine", comment = "The base amount of concurrent items that need to be available before efficiency can rise.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "machine", comment = "The base amount of concurrent items that need to be available before efficiency can rise.", isCommandable = true)
     public static int baseConcurrentItems = 1;
 
     public BlockColossalBloodChestConfig() {
         super(
                 EvilCraft._instance,
             "colossal_blood_chest",
-                eConfig -> new BlockColossalBloodChest(Block.Properties.of()
+                (eConfig, properties) -> new BlockColossalBloodChest(properties
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
                         .sound(SoundType.WOOD)
                         .noOcclusion()
                         .isValidSpawn((state, level, pos, type) -> false)),
-                (eConfig, block) -> new ItemBlockFluidContainer(block, (new Item.Properties())
-                        ) {
-                    @Override
-                    @OnlyIn(Dist.CLIENT)
-                    public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-                        consumer.accept(new RenderItemStackBlockEntityBloodChest.ItemRenderProperties());
-                    }
-                }
+                (eConfig, block) -> new ItemBlockFluidContainer(block, eConfig.createDefaultItemProperties())
         );
     }
 

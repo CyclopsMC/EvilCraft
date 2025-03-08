@@ -1,27 +1,21 @@
 package org.cyclops.evilcraft.entity.block;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.item.PrimedTnt;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.client.render.block.RenderBombPrimed;
 
 /**
  * Config for {@link EntityLightningBombPrimed}.
  * @author rubensworks
  *
  */
-public class EntityLightningBombPrimedConfig extends EntityConfig<EntityLightningBombPrimed> {
+public class EntityLightningBombPrimedConfig extends EntityConfigCommon<IModBase, EntityLightningBombPrimed> {
 
-    @ConfigurableProperty(category = "entity", comment = "The amount of ticks (on average), this bomb should tick before explosion.")
+    @ConfigurablePropertyCommon(category = "entity", comment = "The amount of ticks (on average), this bomb should tick before explosion.")
     public static int fuse = 100;
 
     public EntityLightningBombPrimedConfig() {
@@ -32,10 +26,8 @@ public class EntityLightningBombPrimedConfig extends EntityConfig<EntityLightnin
         );
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<PrimedTnt> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
-        return new RenderBombPrimed(renderContext, RegistryEntries.BLOCK_LIGHTNING_BOMB_PRIMED.get());
+    public EntityClientConfig<IModBase, EntityLightningBombPrimed> constructEntityClientConfig() {
+        return new EntityLightningBombPrimedConfigClient(this);
     }
-
 }

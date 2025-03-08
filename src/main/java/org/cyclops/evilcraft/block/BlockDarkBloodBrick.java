@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritFurnace;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 
@@ -69,7 +69,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
 
     @Override
     public void destroy(LevelAccessor world, BlockPos blockPos, BlockState blockState) {
-        if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) triggerDetector(world, blockPos, false);
+        if(IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(blockState, ACTIVE, false)) triggerDetector(world, blockPos, false);
         super.destroy(world, blockPos, blockState);
     }
 
@@ -77,8 +77,8 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
     public void onDetect(LevelReader world, BlockPos location, Vec3i size, boolean valid, BlockPos originCorner) {
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
-            boolean change = !BlockHelpers.getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
-            ((Level) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            boolean change = !IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(world.getBlockState(location), ACTIVE, false);
+            ((Level) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
             if(change) {
                 BlockEntitySpiritFurnace.detectStructure(world, location, size, valid, originCorner);
             }
@@ -87,7 +87,7 @@ public class BlockDarkBloodBrick extends Block implements CubeDetector.IDetectio
 
     @Override
     public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
-        if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
+        if(IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             BlockEntitySpiritFurnace.getCubeDetector().detect(world, blockPos, null, (location, blockState1) -> {
                 if(blockState1.getBlock() instanceof BlockSpiritFurnace) {

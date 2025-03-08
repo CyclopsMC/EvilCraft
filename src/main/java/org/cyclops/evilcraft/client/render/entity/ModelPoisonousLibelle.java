@@ -5,8 +5,6 @@
 // - ZeuX
 package org.cyclops.evilcraft.client.render.entity;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -14,7 +12,6 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import org.cyclops.evilcraft.entity.monster.EntityPoisonousLibelle;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +19,7 @@ import java.util.List;
 /**
  * @author Davivs69
  */
-public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
+public class ModelPoisonousLibelle extends EntityModel<RenderStatePoisonousLibelle> {
     //fields
     ModelPart head;
     ModelPart body;
@@ -39,6 +36,7 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
      * Make a new instance.
      */
     public ModelPoisonousLibelle(ModelPart modelPart) {
+        super(modelPart);
         head = modelPart.getChild("head");
         setRotation(head, 0F, 0F, 0F);
         body = modelPart.getChild("body");
@@ -67,8 +65,10 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
     }
 
     @Override
-    public void setupAnim(EntityPoisonousLibelle entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        float wingRotation = entity.getWingProgressScaled(0.2617994F);
+    public void setupAnim(RenderStatePoisonousLibelle renderState) {
+        super.setupAnim(renderState);
+
+        float wingRotation = renderState.wingRotation;
         rotateWings(wings_left, -wingRotation);
         rotateWings(wings_right, wingRotation);
     }
@@ -77,17 +77,6 @@ public class ModelPoisonousLibelle extends EntityModel<EntityPoisonousLibelle> {
         for(ModelPart wing : wings) {
             setRotation(wing, 0F, 0F, rotation);
         }
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
-        head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        ass.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        Right_L_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        Left_L_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        Right_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        Left_M_wing.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
     }
 
     public static LayerDefinition createBodyLayer() {

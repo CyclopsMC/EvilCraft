@@ -6,15 +6,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulatorConfig;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 import java.util.List;
@@ -33,6 +32,8 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     private final Optional<Integer> duration;
     private final Optional<Integer> cooldownTime;
     private final Optional<Float> processingSpeed;
+
+    private PlacementInfo placementInfo;
 
     public RecipeEnvironmentalAccumulator(Ingredient inputIngredient, WeatherType inputWeather,
                                           Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
@@ -125,24 +126,45 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         return itemStack;
     }
 
-    @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height <= 1;
-    }
-
-    @Override
     public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return this.getOutputItemFirst().copy();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<Inventory>> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_ENVIRONMENTAL_ACCUMULATOR.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<Inventory>> getType() {
         return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get();
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        if (this.placementInfo == null) {
+            this.placementInfo = PlacementInfo.create(this.inputIngredient);
+        }
+        return this.placementInfo;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RegistryEntries.RECIPEBOOKCATEGORY_ENVIRONMENTAL_ACCUMULATOR.get();
+    }
+
+    @Override
+    public List<RecipeDisplay> display() {
+        return List.of(new RecipeDisplayEnvironmentalAccumulator(
+                this.getInputIngredient().display(),
+                this.getInputWeather(),
+                new SlotDisplay.ItemStackSlotDisplay(this.getOutputItemFirst()),
+                this.getOutputWeather(),
+                new SlotDisplay.ItemSlotDisplay(RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get().asItem()),
+                this.getDuration(),
+                this.getCooldownTime(),
+                this.getProcessingSpeed()
+        ));
     }
 
     public static interface Inventory extends RecipeInput {

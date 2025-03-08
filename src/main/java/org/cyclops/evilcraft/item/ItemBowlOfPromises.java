@@ -2,9 +2,6 @@ package org.cyclops.evilcraft.item;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.helper.Helpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
@@ -21,31 +18,16 @@ public class ItemBowlOfPromises extends Item {
         this.type = type;
     }
 
+    public Type getType() {
+        return type;
+    }
+
     @Override
-    public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
+    public ItemStack getCraftingRemainder(ItemStack itemStack) {
         if(type.isActive()) {
             return new ItemStack(RegistryEntries.ITEM_BOWL_OF_PROMISES_EMPTY);
         }
-        return super.getCraftingRemainingItem(itemStack);
-    }
-
-    @Override
-    public boolean hasCraftingRemainingItem(ItemStack itemStack) {
-        return type.isActive();
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
-        @Override
-        public int getColor(ItemStack itemStack, int renderPass) {
-            if(((ItemBowlOfPromises) itemStack.getItem()).type.isActive() && renderPass == 0) {
-                float division = (((float) (((Type.values().length - 2) -
-                        (((ItemBowlOfPromises) itemStack.getItem()).type.getTier())) - 1) / 3) + 1);
-                int channel = (int) (255 / division);
-                return Helpers.RGBAToInt(channel, channel, channel, 255);
-            }
-            return -1;
-        }
+        return super.getCraftingRemainder(itemStack);
     }
 
     public static enum Type {

@@ -23,26 +23,26 @@ public class ExtendedDamageSources {
     public static final ResourceKey<DamageType> DAMAGE_TYPE_VENGEANCE_BEAM = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "vengeance_beam"));
 
     public static DamageSource dieWithoutAnyReason(Level level) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_DIE_WITHOUT_ANY_REASON));
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DAMAGE_TYPE_DIE_WITHOUT_ANY_REASON));
     }
 
     public static DamageSource distorted(Level level) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_DISTORTED));
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DAMAGE_TYPE_DISTORTED));
     }
 
     public static DamageSource spikedDamage(ServerLevel level) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_SPIKED), FakePlayerFactory.getMinecraft(level));
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DAMAGE_TYPE_SPIKED), FakePlayerFactory.getMinecraft(level));
     }
 
     public static DamageSource paling(Level level) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_PALING));
+        return new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DAMAGE_TYPE_PALING));
     }
 
     public static DamageSource broomDamage(LivingEntity attacker) {
-        return new DamageSource(attacker.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_BROOM), attacker);
+        return new DamageSource(attacker.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DAMAGE_TYPE_BROOM), attacker);
     }
 
     public static DamageSource vengeanceBeam(LivingEntity attacker) {
-        return new DamageSource(attacker.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_VENGEANCE_BEAM), attacker);
+        return new DamageSource(attacker.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DAMAGE_TYPE_VENGEANCE_BEAM), attacker);
     }
 }

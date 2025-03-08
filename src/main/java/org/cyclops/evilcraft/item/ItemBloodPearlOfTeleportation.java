@@ -4,12 +4,10 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 import org.cyclops.evilcraft.entity.item.EntityBloodPearl;
 
@@ -25,7 +23,7 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(canConsume(100, itemStack, player)) {
             this.consume(100, itemStack, player);
@@ -39,9 +37,9 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
                 world.addFreshEntity(pearl);
             }
 
-            return MinecraftHelpers.successAction(itemStack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
         }
-        return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, itemStack);
+        return InteractionResult.PASS;
     }
 
 }

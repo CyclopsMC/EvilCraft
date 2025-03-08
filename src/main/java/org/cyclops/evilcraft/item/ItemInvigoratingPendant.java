@@ -10,8 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 
 import java.util.Iterator;
@@ -23,7 +22,7 @@ import java.util.Iterator;
  */
 public class ItemInvigoratingPendant extends ItemBloodContainer {
 
-    private static final int TICK_MODULUS = MinecraftHelpers.SECOND_IN_TICKS / 2;
+    private static final int TICK_MODULUS = IModHelpers.get().getMinecraftHelpers().getSecondInTicks() / 2;
 
     public ItemInvigoratingPendant(Item.Properties properties) {
         super(properties, ItemInvigoratingPendantConfig.capacity);
@@ -42,7 +41,7 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
         int amount = ItemInvigoratingPendantConfig.usage;
         if(canConsume(amount, itemStack, player)) {
 
-            int originalReducableDuration = ItemInvigoratingPendantConfig.reduceDuration * MinecraftHelpers.SECOND_IN_TICKS;
+            int originalReducableDuration = ItemInvigoratingPendantConfig.reduceDuration * IModHelpers.get().getMinecraftHelpers().getSecondInTicks();
             int reducableDuration = originalReducableDuration;
 
             Iterator<MobEffectInstance> it = Lists.newLinkedList(player.getActiveEffects()).iterator();
@@ -87,7 +86,7 @@ public class ItemInvigoratingPendant extends ItemBloodContainer {
     @Override
     public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
         if(entity instanceof Player
-                && WorldHelpers.efficientTick(world, TICK_MODULUS, entity.getId())) {
+                && IModHelpers.get().getWorldHelpers().efficientTick(world, TICK_MODULUS, entity.getId())) {
             clearBadEffects(itemStack, (Player) entity);
         }
         super.inventoryTick(itemStack, world, entity, par4, par5);

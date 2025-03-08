@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "evilcraft:undead_planks",
     {
-      "item": "evilcraft:undead_planks"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,12 +11,8 @@
         ]
       }
     },
-    {
-      "item": "evilcraft:undead_planks"
-    },
-    {
-      "item": "evilcraft:undead_planks"
-    }
+    "evilcraft:undead_planks",
+    "evilcraft:undead_planks"
   ],
   "result": {
     "id": "evilcraft:broom_part",

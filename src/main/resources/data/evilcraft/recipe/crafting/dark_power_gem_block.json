@@ -6,9 +6,7 @@
     "GGG"
   ],
   "key": {
-    "G": {
-      "item": "evilcraft:dark_power_gem"
-    }
+    "G": "evilcraft:dark_power_gem"
   },
   "result": {
     "id": "evilcraft:dark_power_gem_block"

@@ -22,9 +22,9 @@ import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
@@ -106,7 +106,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
             for(int i = 0; i < data.length / 8; i++) {
                 data[i * 8 + 3] = color;
             }
-            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false));
+            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false, 0, true));
         }
 
         // Fluid
@@ -120,7 +120,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     @Nonnull
     @Override
     public ModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull ModelData tileData) {
-        return BlockEntityHelpers.get(world, pos, BlockEntityEntangledChalice.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityEntangledChalice.class)
                 .map(tile -> {
                     ModelData.Builder builder = ModelData.builder();
                     builder.with(BlockEntangledChalice.TANK_FLUID, tile.getTank().getFluid());
@@ -156,8 +156,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity) {
         float height = Math.min(0.95F, ((float) fluidStack.getAmount() / (float) capacity)) * 0.1875F + 0.8125F;
         List<BakedQuad> quads = Lists.newArrayList();
-        TextureAtlasSprite texture = org.cyclops.cyclopscore.helper.RenderHelpers.getFluidIcon(fluidStack, Direction.UP);
-        int color = RenderHelpers.getFluidBakedQuadColor(fluidStack);
+        TextureAtlasSprite texture = IModHelpersNeoForge.get().getRenderHelpers().getFluidIcon(fluidStack, Direction.UP);
+        int color = IModHelpersNeoForge.get().getRenderHelpers().getFluidBakedQuadColor(fluidStack);
         addBakedQuadRotated(quads, 0.1875F, 0.8125F, 0.1875F, 0.8125F, height, texture, Direction.UP, ROTATION_FIX[Direction.UP.ordinal()], true, color, ROTATION_UV);
         return quads;
     }

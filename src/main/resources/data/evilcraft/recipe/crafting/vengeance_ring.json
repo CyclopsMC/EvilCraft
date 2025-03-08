@@ -6,12 +6,8 @@
     "CIC"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    }
+    "I": "#c:ingots/iron",
+    "C": "evilcraft:dark_gem_crushed"
   },
   "result": {
     "id": "evilcraft:vengeance_ring"

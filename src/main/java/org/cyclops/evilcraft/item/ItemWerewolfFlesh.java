@@ -20,11 +20,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
-import org.cyclops.cyclopscore.helper.Helpers;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -122,8 +119,9 @@ public class ItemWerewolfFlesh extends Item {
                 world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundSource.HOSTILE, 0.5F,
                         world.random.nextFloat() * 0.1F + 0.9F);
             } else if (isPower(world)) {
-                int foodLevel = getFoodProperties(itemStack, entity).nutrition();
-                float saturationLevel = getFoodProperties(itemStack, entity).saturation();
+                FoodProperties foodProperties = itemStack.get(DataComponents.FOOD);
+                int foodLevel = foodProperties.nutrition();
+                float saturationLevel = foodProperties.saturation();
                 player.getFoodData().eat(foodLevel, saturationLevel);
                 player.getFoodData().addExhaustion(20);
                 if (!world.isClientSide()) {
@@ -146,12 +144,11 @@ public class ItemWerewolfFlesh extends Item {
                 world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_HURT, SoundSource.HOSTILE, 0.5F,
                         world.random.nextFloat() * 0.1F + 0.9F);
             }
-            entity.eat(world, itemStack);
+            itemStack.get(DataComponents.CONSUMABLE).onConsume(world, entity, itemStack);
         }
         return itemStack;
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, list, flag);
@@ -167,17 +164,6 @@ public class ItemWerewolfFlesh extends Item {
             list.add(Component.literal("Player: ")
                     .withStyle(ChatFormatting.WHITE)
                     .append(player));
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
-        @Override
-        public int getColor(ItemStack itemStack, int renderPass) {
-            if (((ItemWerewolfFlesh) itemStack.getItem()).isHumanFlesh(itemStack)) {
-                return Helpers.RGBAToInt(255, 200, 180, 255);
-            }
-            return -1;
         }
     }
 

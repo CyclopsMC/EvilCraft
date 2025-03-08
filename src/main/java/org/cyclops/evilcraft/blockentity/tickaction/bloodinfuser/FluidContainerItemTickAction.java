@@ -6,7 +6,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 import org.cyclops.evilcraft.blockentity.tickaction.EmptyFluidContainerInTankTickAction;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
@@ -45,7 +45,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
             // Everything ok, filling the container bit by bit
             tile.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
             tile.getInventory().setItem(tile.getTileWorkingMetadata().getConsumeSlot(), infuseStack);
-            if (!FluidHelpers.getFluid(container).isEmpty() && FluidHelpers.getAmount(FluidHelpers.getFluid(container)) == FluidHelpers.getCapacity(container)) {
+            if (!IModHelpersNeoForge.get().getFluidHelpers().getFluid(container).isEmpty() && IModHelpersNeoForge.get().getFluidHelpers().getAmount(IModHelpersNeoForge.get().getFluidHelpers().getFluid(container)) == IModHelpersNeoForge.get().getFluidHelpers().getCapacity(container)) {
                 if (addToProduceSlot(tile, infuseStack)) {
                     tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                 }
@@ -80,7 +80,7 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         if (!smallContainer.isEmpty()) {
             return smallContainer;
         }
-        return FluidUtil.tryFillContainer(itemStack, tile.getTank(), FluidHelpers.BUCKET_VOLUME, null, false).getResult();
+        return FluidUtil.tryFillContainer(itemStack, tile.getTank(), IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume(), null, false).getResult();
     }
 
 }

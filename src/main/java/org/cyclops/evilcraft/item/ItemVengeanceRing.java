@@ -7,7 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -21,9 +21,9 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritConfig;
@@ -53,12 +53,12 @@ public class ItemVengeanceRing extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(player.isCrouching()) {
             if(!world.isClientSide())
                 ItemHelpers.toggleActivation(itemStack);
-            return MinecraftHelpers.successAction(itemStack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
         }
         return super.use(world, player, hand);
     }
@@ -143,7 +143,7 @@ public class ItemVengeanceRing extends Item {
     @Override
     public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
         if(entity instanceof Player && !world.isClientSide()
-                && WorldHelpers.efficientTick(world, BONUS_TICK_MODULUS, entity.getId())) {
+                && IModHelpers.get().getWorldHelpers().efficientTick(world, BONUS_TICK_MODULUS, entity.getId())) {
             int area = ItemVengeanceRingConfig.areaOfEffect;
             toggleVengeanceArea(world, entity, area, ItemHelpers.isActivated(itemStack), true, false);
             if(ItemHelpers.isActivated(itemStack)) {
@@ -157,7 +157,7 @@ public class ItemVengeanceRing extends Item {
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, list, flag);
-        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+        IModHelpers.get().getL10NHelpers().addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.status");
     }
 

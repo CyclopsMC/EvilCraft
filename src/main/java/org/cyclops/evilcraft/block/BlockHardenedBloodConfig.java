@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -10,13 +10,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockHardenedBloodConfig extends BlockConfig {
+public class BlockHardenedBloodConfig extends BlockConfigCommon<IModBase> {
 
     public BlockHardenedBloodConfig() {
         super(
                 EvilCraft._instance,
             "hardened_blood",
-                eConfig -> new BlockHardenedBlood(Block.Properties.of()
+                (eConfig, properties) -> new BlockHardenedBlood(properties
                         .strength(0.5F)
                         .sound(SoundType.STONE)),
                 getDefaultItemConstructor(EvilCraft._instance)

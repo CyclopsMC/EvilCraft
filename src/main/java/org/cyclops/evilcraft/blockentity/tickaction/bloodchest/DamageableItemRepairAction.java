@@ -22,12 +22,12 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
 
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
-        return itemStack.isRepairable();
+        return itemStack.isCombineRepairable();
     }
 
     @Override
     public boolean canRepair(ItemStack itemStack, int tick) {
-        return itemStack.isDamaged() && itemStack.isRepairable();
+        return itemStack.isDamaged() && itemStack.isCombineRepairable();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
             itemStack.setDamageValue(newDamage);
 
             // Add bad enchant with a certain chance
-            if (!isBulk && BlockBloodChestConfig.addRandomBadEnchants && BlockBloodChestConfig.randomBadEnchantsChance >= 0 && random.nextInt(BlockBloodChestConfig.randomBadEnchantsChance) == 0) {
+            if (!isBulk && BlockBloodChestConfig.randomBadEnchantsChance >= 0 && random.nextInt(BlockBloodChestConfig.randomBadEnchantsChance) == 0) {
                 List<Holder.Reference<Enchantment>> curses = holderLookupProvider.lookupOrThrow(Registries.ENCHANTMENT)
                         .listElements()
                         .filter(p_344414_ -> p_344414_.is(EnchantmentTags.CURSE))

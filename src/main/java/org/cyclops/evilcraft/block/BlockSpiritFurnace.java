@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -24,7 +25,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.block.multi.CubeDetector;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritFurnace;
 import org.cyclops.evilcraft.core.block.BlockWithEntityGuiTank;
@@ -103,7 +104,7 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
     }
 
     @Override
-    public void onBlockExploded(BlockState state, Level world, BlockPos pos, Explosion explosion) {
+    public void onBlockExploded(BlockState state, ServerLevel world, BlockPos pos, Explosion explosion) {
         if(world.getBlockState(pos).getValue(ACTIVE)) triggerDetector(world, pos, false);
         // IForgeBlock.super.onBlockExploded(state, world, pos, explosion);
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
@@ -115,7 +116,7 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
         Block block = world.getBlockState(location).getBlock();
         if(block == this) {
             boolean change = !world.getBlockState(location).getValue(ACTIVE);
-            ((Level) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            ((Level) world).setBlock(location, world.getBlockState(location).setValue(ACTIVE, valid), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
             BlockEntity tile = world.getBlockEntity(location);
             if(tile != null) {
                 ((BlockEntitySpiritFurnace) tile).setSize(valid ? size : Vec3i.ZERO);

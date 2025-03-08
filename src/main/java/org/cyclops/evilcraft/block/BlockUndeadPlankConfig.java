@@ -6,7 +6,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -14,13 +15,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockUndeadPlankConfig extends BlockConfig {
+public class BlockUndeadPlankConfig extends BlockConfigCommon<IModBase> {
 
     public BlockUndeadPlankConfig() {
         super(
                 EvilCraft._instance,
             "undead_planks",
-                eConfig -> new Block(Block.Properties.of()
+                (eConfig, properties) -> new Block(properties
                         .strength(2.0F)
                         .sound(SoundType.WOOD)) {
                     @Override

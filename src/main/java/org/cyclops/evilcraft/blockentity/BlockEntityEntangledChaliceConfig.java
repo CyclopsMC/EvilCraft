@@ -4,7 +4,8 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
@@ -15,14 +16,14 @@ import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntityEntangle
  * @author rubensworks
  *
  */
-public class BlockEntityEntangledChaliceConfig extends BlockEntityConfig<BlockEntityEntangledChalice> {
+public class BlockEntityEntangledChaliceConfig extends BlockEntityConfigCommon<BlockEntityEntangledChalice, IModBase> {
 
     public BlockEntityEntangledChaliceConfig() {
         super(
                 EvilCraft._instance,
                 "entangled_chalice",
                 (eConfig) -> new BlockEntityType<>(BlockEntityEntangledChalice::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_ENTANGLED_CHALICE.get()), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_ENTANGLED_CHALICE.get()))
         );
         EvilCraft._instance.getModEventBus().addListener(new BlockEntityEntangledChalice.CapabilityRegistrar(this::getInstance)::register);
     }

@@ -1,23 +1,19 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-
-import javax.annotation.Nullable;
 
 /**
  * Config for {@link ParticleFart}.
  * @author rubensworks
  */
-public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
+public class ParticleFartConfig extends ParticleConfigCommon<ParticleFartData, IModBase> {
 
     public ParticleFartConfig() {
         super(EvilCraft._instance, "fart", eConfig -> new ParticleType<>(false) {
@@ -34,22 +30,8 @@ public class ParticleFartConfig extends ParticleConfig<ParticleFartData> {
         });
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
     @Override
-    public ParticleProvider<ParticleFartData> getParticleFactory() {
-        return null;
+    public ParticleConfigComponentClient<ParticleFartData, IModBase> getClientComponent() {
+        return new ParticleFartConfigClientComponent();
     }
-
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
-    @Override
-    public ParticleEngine.SpriteParticleRegistration<ParticleFartData> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<ParticleFartData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleFart particle = new ParticleFart(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getRainbow());
-            particle.pickSprite(sprite);
-            return particle;
-        };
-    }
-
 }

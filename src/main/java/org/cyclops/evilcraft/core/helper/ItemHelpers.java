@@ -10,7 +10,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -85,7 +85,7 @@ public class ItemHelpers {
     public static ItemStack tryFillContainerForPlayer(IFluidHandlerItem toDrain, ItemStack toFill, FluidStack tickFluid, Player player) {
         int maxFill = MB_FILL_PERTICK;
         if (toFill.getItem() == Items.BUCKET) {
-            maxFill = FluidHelpers.BUCKET_VOLUME;
+            maxFill = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume();
         }
         if(!toFill.isEmpty() && toFill != toDrain.getContainer() && FluidUtil.getFluidHandler(toFill) != null
                 && player.getUseItemRemainingTicks() == 0 && FluidUtil.tryFillContainer(toFill, toDrain, Math.min(maxFill, tickFluid.getAmount()), player, false).isSuccess()) {

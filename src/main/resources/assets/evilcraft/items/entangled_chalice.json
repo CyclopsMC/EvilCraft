@@ -1,0 +1,18 @@
+{
+  "model": {
+    "type": "minecraft:composite",
+    "models": [
+      {
+        "type": "minecraft:special",
+        "base": "evilcraft:item/entangled_chalice",
+        "model": {
+          "type": "evilcraft:entangled_chalice_fluid_overlay"
+        }
+      },
+      {
+        "type": "cyclopscore:dynamic_item_and_block_model",
+        "model": "evilcraft:item/entangled_chalice"
+      }
+    ]
+  }
+}

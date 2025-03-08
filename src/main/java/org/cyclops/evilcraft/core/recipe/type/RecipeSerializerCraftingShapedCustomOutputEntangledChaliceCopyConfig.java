@@ -2,7 +2,8 @@ package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
-import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.cyclopscore.recipe.type.RecipeCraftingShapedCustomOutput;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -12,7 +13,7 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
  * Config for vengeance pickaxe recipes.
  * @author rubensworks
  */
-public class RecipeSerializerCraftingShapedCustomOutputEntangledChaliceCopyConfig extends RecipeConfig<RecipeCraftingShapedCustomOutput> {
+public class RecipeSerializerCraftingShapedCustomOutputEntangledChaliceCopyConfig extends RecipeConfigCommon<RecipeCraftingShapedCustomOutput, IModBase> {
 
     public RecipeSerializerCraftingShapedCustomOutputEntangledChaliceCopyConfig() {
         super(EvilCraft._instance,

@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -64,7 +64,7 @@ public class ItemPowerableHelpers {
      * @param lines The lines to add the information to.
      */
     public static void addPreInformation(ItemStack itemStack, List<Component> lines) {
-        L10NHelpers.addOptionalInfo(lines, "item." + Reference.MOD_ID + ".powerable");
+        IModHelpers.get().getL10NHelpers().addOptionalInfo(lines, "item." + Reference.MOD_ID + ".powerable");
     }
 
     /**

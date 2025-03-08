@@ -10,20 +10,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.component.DataComponentBiomeConfig;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
@@ -55,17 +48,21 @@ public class ItemBiomeExtract extends Item {
     }
 
     @Override
-    public String getDescriptionId(ItemStack itemStack) {
-        return super.getDescriptionId(itemStack) + (getBiome(itemStack) == null ? ".empty" : "");
+    public Component getName(ItemStack stack) {
+        Holder<Biome> biome = getBiome(stack);
+        if (biome == null) {
+            return Component.translatable(getDescriptionId() + ".empty");
+        }
+        return super.getName(stack);
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BOW;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.BOW;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!world.isClientSide() && getBiome(itemStack) != null &&
                 !ItemBiomeExtractConfig.isUsageBlacklisted(getBiome(itemStack))) {
@@ -79,7 +76,7 @@ public class ItemBiomeExtract extends Item {
             }
         }
 
-        return MinecraftHelpers.successAction(itemStack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
     }
 
     @Override
@@ -134,22 +131,5 @@ public class ItemBiomeExtract extends Item {
         return biome.value().getMobSettings().getCreatureProbability() <= 0.05F
                 ? Rarity.EPIC
                 : (biome.value().getMobSettings().getCreatureProbability() <= 0.1F ? Rarity.RARE : Rarity.UNCOMMON);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
-        @Override
-        public int getColor(ItemStack itemStack, int renderPass) {
-            if(renderPass == 0) {
-                Holder<Biome> biome = RegistryEntries.ITEM_BIOME_EXTRACT.get().getBiome(itemStack);
-                if(biome != null) {
-                    Triple<Float, Float, Float> rgb = Helpers.intToRGB(biome.value().getFoliageColor());
-                    return Helpers.RGBAToInt((int) (rgb.getLeft() * 255), (int) (rgb.getMiddle() * 255), (int) (rgb.getRight() * 255), 255);
-                } else {
-                    return Helpers.RGBAToInt(125, 125, 125, 255);
-                }
-            }
-            return -1;
-        }
     }
 }

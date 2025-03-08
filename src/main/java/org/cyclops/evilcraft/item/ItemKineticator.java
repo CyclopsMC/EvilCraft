@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -23,9 +23,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 import org.cyclops.evilcraft.entity.item.EntityItemUndespawnable;
@@ -42,7 +41,7 @@ public class ItemKineticator extends ItemBloodContainer {
     private static final int POWER_LEVELS = 5;
     private static final int RANGE_PER_LEVEL = 2;
     private static final double USAGE_PER_D = 0.1;
-    private static final int CONTAINER_SIZE = FluidHelpers.BUCKET_VOLUME;
+    private static final int CONTAINER_SIZE = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume();
 
     private final boolean repelling;
 
@@ -60,12 +59,12 @@ public class ItemKineticator extends ItemBloodContainer {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, POWER_LEVELS, false) && !world.isClientSide()) {
             ItemHelpers.toggleActivation(itemStack);
         }
-        return MinecraftHelpers.successAction(itemStack);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
     }
 
     @Override
@@ -77,7 +76,7 @@ public class ItemKineticator extends ItemBloodContainer {
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, list, flag);
-        L10NHelpers.addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+        IModHelpers.get().getL10NHelpers().addStatusInfo(list, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.attraction");
         list.add(Component.translatable(getDescriptionId() + ".info.area", getArea(itemStack))
                 .withStyle(ChatFormatting.BOLD));
@@ -214,7 +213,7 @@ public class ItemKineticator extends ItemBloodContainer {
         float blue = rand.nextFloat() * 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 2.5D + 10D);
 
-        world.addParticle(new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
+        world.addParticle(new ParticleBlurData(red, green, blue, scale, ageMultiplier),
                 entity.getX(), entity.getY(), entity.getZ(),
                 -dx, -dy, -dz);
     }

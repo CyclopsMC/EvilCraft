@@ -2,15 +2,20 @@ package org.cyclops.evilcraft.metadata;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.core.Holder;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
+import org.apache.commons.compress.utils.Lists;
 import org.cyclops.cyclopscore.metadata.IRegistryExportable;
 import org.cyclops.cyclopscore.metadata.RegistryExportableRecipeAbstract;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.recipe.type.IInventoryFluidTier;
 import org.cyclops.evilcraft.core.recipe.type.RecipeBloodInfuser;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Blood infuser recipe exporter.
@@ -36,12 +41,12 @@ public class RegistryExportableBloodInfuserRecipe extends RegistryExportableReci
 
         // Inputs
         JsonObject inputObject = new JsonObject();
-        ItemStack[] inputItems = recipe.getInputIngredient()
-                .map(Ingredient::getItems)
-                .orElseGet(() -> new ItemStack[0]);
+        List<Holder<Item>> inputItems = recipe.getInputIngredient()
+                .map(i -> i.items().collect(Collectors.toList()))
+                .orElseGet(Lists::newArrayList);
         JsonArray arrayInputs = new JsonArray();
-        for (ItemStack input : inputItems) {
-            arrayInputs.add(IRegistryExportable.serializeItemStack(input));
+        for (Holder<Item> input : inputItems) {
+            arrayInputs.add(IRegistryExportable.serializeItemStack(new ItemStack(input)));
         }
         inputObject.add("item", arrayInputs);
         recipe.getInputFluid()

@@ -1,23 +1,19 @@
 package org.cyclops.evilcraft.client.particle;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.particle.ParticleEngine;
-import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-
-import javax.annotation.Nullable;
 
 /**
  * Config for {@link ParticleBubbleExtended}.
  * @author rubensworks
  */
-public class ParticleBubbleExtendedConfig extends ParticleConfig<ParticleBubbleExtendedData> {
+public class ParticleBubbleExtendedConfig extends ParticleConfigCommon<ParticleBubbleExtendedData, IModBase> {
 
     public ParticleBubbleExtendedConfig() {
         super(EvilCraft._instance, "bubble_extended", eConfig -> new ParticleType<>(false) {
@@ -34,22 +30,8 @@ public class ParticleBubbleExtendedConfig extends ParticleConfig<ParticleBubbleE
         });
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
     @Override
-    public ParticleProvider<ParticleBubbleExtendedData> getParticleFactory() {
-        return null;
+    public ParticleConfigComponentClient<ParticleBubbleExtendedData, IModBase> getClientComponent() {
+        return new ParticleBubbleExtendedConfigClientComponent();
     }
-
-    @OnlyIn(Dist.CLIENT)
-    @Nullable
-    @Override
-    public ParticleEngine.SpriteParticleRegistration<ParticleBubbleExtendedData> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<ParticleBubbleExtendedData>) (particleData, world, x, y, z, motionX, motionY, motionZ) -> {
-            ParticleBubbleExtended particle = new ParticleBubbleExtended(world, x, y, z, motionX, motionY, motionZ, particleData.getGravity());
-            particle.pickSprite(sprite);
-            return particle;
-        };
-    }
-
 }

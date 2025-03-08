@@ -18,7 +18,7 @@ public class RecipeSerializerFluidContainerCombination implements RecipeSerializ
 
     public static final MapCodec<RecipeFluidContainerCombination> CODEC = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
-                            Ingredient.CODEC_NONEMPTY.fieldOf("item").forGetter(RecipeFluidContainerCombination::getFluidContainer),
+                            Ingredient.CODEC.fieldOf("item").forGetter(RecipeFluidContainerCombination::getFluidContainer),
                             Codec.INT.fieldOf("max_capacity").forGetter(RecipeFluidContainerCombination::getMaxCapacity)
                     )
                     .apply(builder, (inputIngredient, maxCapacity) -> new RecipeFluidContainerCombination(CraftingBookCategory.MISC, inputIngredient, maxCapacity))

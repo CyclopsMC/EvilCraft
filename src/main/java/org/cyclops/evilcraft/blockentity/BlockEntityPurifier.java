@@ -13,7 +13,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.EvilCraft;
@@ -100,7 +100,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * Make a new instance.
      */
     public BlockEntityPurifier(BlockPos blockPos, BlockState blockState) {
-        super(RegistryEntries.BLOCK_ENTITY_PURIFIER.get(), blockPos, blockState, SLOTS, 1, FluidHelpers.BUCKET_VOLUME * MAX_BUCKETS, RegistryEntries.FLUID_BLOOD.get());
+        super(RegistryEntries.BLOCK_ENTITY_PURIFIER.get(), blockPos, blockState, SLOTS, 1, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * MAX_BUCKETS, RegistryEntries.FLUID_BLOOD.get());
 
         // Trigger render update client-side
         getInventory().addDirtyMarkListener(this::sendUpdate);
@@ -139,7 +139,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * @return The amount of buckets.
      */
     public int getBucketsFloored() {
-        return (int) Math.floor(getTank().getFluidAmount() / (double) FluidHelpers.BUCKET_VOLUME);
+        return (int) Math.floor(getTank().getFluidAmount() / (double) IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume());
     }
 
     /**
@@ -148,7 +148,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * @return The rest of the fluid.
      */
     public int getBucketsRest() {
-        return getTank().getFluidAmount() % FluidHelpers.BUCKET_VOLUME;
+        return getTank().getFluidAmount() % IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume();
     }
 
     /**
@@ -157,7 +157,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * @param rest The rest of the fluid.
      */
     public void setBuckets(int buckets, int rest) {
-        getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, FluidHelpers.BUCKET_VOLUME * buckets + rest));
+        getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * buckets + rest));
         sendUpdate();
     }
 

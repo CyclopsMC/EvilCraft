@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.event;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -14,9 +15,8 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.Reference;
@@ -40,7 +40,7 @@ public class RenderOverlayEventHook {
     public void onRenderOverlayEvent(RenderGuiEvent.Post event) {
         Player player = Minecraft.getInstance().player;
         if (GeneralConfig.bloodGuiOverlay) {
-            if (filledHeight < 0 || WorldHelpers.efficientTick(player.level(), 50)) {
+            if (filledHeight < 0 || IModHelpers.get().getWorldHelpers().efficientTick(player.level(), 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
                 Wrapper<Integer> capacity = new Wrapper<Integer>(1);
                 PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
@@ -48,12 +48,12 @@ public class RenderOverlayEventHook {
                     ItemStack itemStack = it.next();
                     IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
                     if (!itemStack.isEmpty() && fluidHandler != null) {
-                        FluidStack fluidStack = FluidHelpers.getFluid(fluidHandler);
+                        FluidStack fluidStack = IModHelpersNeoForge.get().getFluidHelpers().getFluid(fluidHandler);
                         if (!fluidStack.isEmpty() && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
                             amount.set(amount.get() + fluidStack.getAmount());
                         }
                         if (fluidStack.isEmpty() || BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
-                            capacity.set(capacity.get() + FluidHelpers.getCapacity(fluidHandler));
+                            capacity.set(capacity.get() + IModHelpersNeoForge.get().getFluidHelpers().getCapacity(fluidHandler));
                         }
                     }
                 }
@@ -70,10 +70,10 @@ public class RenderOverlayEventHook {
                 event.getGuiGraphics().pose().pushPose();
                 GlStateManager._enableBlend();
                 GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                RenderHelpers.bindTexture(BLOOD_OVERLAY);
+                IModHelpers.get().getRenderHelpers().bindTexture(BLOOD_OVERLAY);
 
-                event.getGuiGraphics().blit(BLOOD_OVERLAY, x, y, 0, 0, WIDTH, HEIGHT);
-                event.getGuiGraphics().blit(BLOOD_OVERLAY, x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight);
+                event.getGuiGraphics().blit(RenderType::guiTextured, BLOOD_OVERLAY, x, y, 0, 0, WIDTH, HEIGHT, 256, 256);
+                event.getGuiGraphics().blit(RenderType::guiTextured, BLOOD_OVERLAY, x, y + (HEIGHT - filledHeight), WIDTH, HEIGHT - filledHeight, WIDTH, filledHeight, 256, 256);
 
                 GlStateManager._disableBlend();
                 event.getGuiGraphics().pose().popPose();

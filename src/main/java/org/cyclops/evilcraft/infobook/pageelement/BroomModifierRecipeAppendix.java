@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.infobook.AdvancedButtonEnum;
 import org.cyclops.cyclopscore.infobook.IInfoBook;
 import org.cyclops.cyclopscore.infobook.InfoSection;
@@ -76,7 +76,7 @@ public class BroomModifierRecipeAppendix extends RecipeAppendix<RecipeBloodInfus
         renderItem(gui, guiGraphics, x, y, input, mx, my, INPUT);
 
         // Effect
-        String line = String.format("+ %s %s", value.getValue().toString(), L10NHelpers.localize(modifier.getTranslationKey()));
+        String line = String.format("+ %s %s", value.getValue().toString(), IModHelpers.get().getL10NHelpers().localize(modifier.getTranslationKey()));
         drawString(gui, guiGraphics, line, x + SLOT_SIZE + 4, y + 3);
     }
 

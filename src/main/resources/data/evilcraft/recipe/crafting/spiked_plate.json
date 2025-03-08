@@ -5,12 +5,8 @@
     " P "
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:dark_spike"
-    },
-    "P": {
-      "item": "minecraft:heavy_weighted_pressure_plate"
-    }
+    "S": "evilcraft:dark_spike",
+    "P": "minecraft:heavy_weighted_pressure_plate"
   },
   "result": {
     "id": "evilcraft:spiked_plate"

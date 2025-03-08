@@ -14,7 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
 import javax.annotation.Nullable;
@@ -71,9 +71,9 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     @Nullable
     private Float loadRotation() {
         // Inspired by LocateCommand
-        Registry<Structure> registry = level().registryAccess().registryOrThrow(Registries.STRUCTURE);
+        Registry<Structure> registry = level().registryAccess().lookupOrThrow(Registries.STRUCTURE);
         HolderSet<Structure> holderset = registry
-                .getHolder(RegistryEntries.STRUCTURE_DARK_TEMPLE.getKey())
+                .get(RegistryEntries.STRUCTURE_DARK_TEMPLE.getKey())
                 .map(HolderSet::direct)
                 .orElseThrow();
 
@@ -82,7 +82,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
         if(closestHolder != null) {
             BlockPos closest = new BlockPos(closestHolder.getFirst().getX(), 0, closestHolder.getFirst().getZ());
             double d = closest.distSqr(new BlockPos((int) getX(), 0, (int) getZ()));
-            if(d <= WorldHelpers.CHUNK_SIZE * WorldHelpers.CHUNK_SIZE) {
+            if(d <= IModHelpers.get().getWorldHelpers().getChunkSize() * IModHelpers.get().getWorldHelpers().getChunkSize()) {
                 return null;
             }
             BlockPos normalized = new BlockPos(closest.getX() - (int) getX(), 0,

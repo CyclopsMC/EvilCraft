@@ -9,18 +9,13 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +25,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
@@ -192,11 +187,8 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
-        if (!this.level().isClientSide() && this.isAlive()) {
-            if (this.isInvulnerableTo(source)) {
-                return false;
-            }
+    public boolean hurtServer(ServerLevel level, DamageSource source, float amount) {
+        if (this.isAlive()) {
             if (source.getEntity() instanceof Player && source.getEntity() != lastMounted) {
                 if (isVehicle()) {
                     this.stopRiding();
@@ -205,7 +197,7 @@ public class EntityBroom extends Entity {
                     Player player = (Player) source.getEntity();
                     if (!player.isCreative()) {
                         ItemStack itemStack = getBroomStack().copy();
-                        this.spawnAtLocation(itemStack, 0.0F);
+                        this.spawnAtLocation(level, itemStack, 0.0F);
                     }
                 }
             }
@@ -263,7 +255,7 @@ public class EntityBroom extends Entity {
                 updateMountedClient();
             }
 
-            if(MinecraftHelpers.isClientSide() && getModifier(BroomModifiers.PARTICLES) > 0) {
+            if(IModHelpers.get().getMinecraftHelpers().isClientSide() && getModifier(BroomModifiers.PARTICLES) > 0) {
                 showParticles(this);
             }
 
@@ -306,7 +298,7 @@ public class EntityBroom extends Entity {
             stopAllowFlying(lastMounted);
             Player player = (Player) lastMounted;
             // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
-            if (player.isAlive() && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.isCreative())) {
+            if (player.isAlive() && (!IModHelpers.get().getMinecraftHelpers().isPlayerInventoryFull(player) || player.isCreative())) {
                 // Return to inventory if he's not in creative mode
                 if (!player.isCreative()) {
                     player.getInventory().add(getBroomStack());

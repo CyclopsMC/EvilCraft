@@ -1,0 +1,11 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "evilcraft:item/template_bowl_of_promises",
+    "tints": [
+      {
+        "type": "evilcraft:bowl_of_promises_type"
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -9,14 +9,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemSpectralGlassesConfig extends ItemConfig {
+public class ItemSpectralGlassesConfig extends ItemConfigCommon<IModBase> {
 
     public ItemSpectralGlassesConfig() {
         super(
                 EvilCraft._instance,
             "spectral_glasses",
-                eConfig -> new ItemSpectralGlasses(new Item.Properties()
-                        )
+                (eConfig, properties) -> new ItemSpectralGlasses(properties)
         );
     }
 

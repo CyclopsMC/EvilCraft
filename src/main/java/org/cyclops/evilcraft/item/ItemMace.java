@@ -9,7 +9,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,8 +17,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
@@ -28,8 +27,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedEntityData;
 import org.cyclops.evilcraft.client.particle.ParticleDistortData;
@@ -77,8 +75,8 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.BOW;
+    public ItemUseAnimation getUseAnimation(ItemStack stack) {
+        return ItemUseAnimation.BOW;
     }
 
     @Override
@@ -87,22 +85,22 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+    public InteractionResult use(Level world, Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if(ItemPowerableHelpers.onPowerableItemItemRightClick(itemStack, world, player, this.powerLevels, true)) {
-            return MinecraftHelpers.successAction(itemStack);
+            return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
         } else {
             if(isUsable(itemStack, player)) {
                 player.startUsingItem(hand);
-                return MinecraftHelpers.successAction(itemStack);
+                return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
             } else {
                 if(world.isClientSide()) {
                     animateOutOfEnergy(world, player);
-                    return new InteractionResultHolder<ItemStack>(InteractionResult.FAIL, itemStack);
+                    return InteractionResult.FAIL;
                 }
             }
         }
-        return new InteractionResultHolder<ItemStack>(InteractionResult.PASS, itemStack);
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -202,9 +200,9 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public void releaseUsing(ItemStack itemStack, Level world, LivingEntity entity, int itemInUseCount) {
+    public boolean releaseUsing(ItemStack itemStack, Level world, LivingEntity entity, int itemInUseCount) {
         if(entity instanceof Player) {
-            IFluidHandlerItemCapacity fluidHandler = FluidHelpers.getFluidHandlerItemCapacity(itemStack).orElse(null);
+            IFluidHandlerItemCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemStack).orElse(null);
             Player player = (Player) entity;
             // Actual usage length
             int itemUsedCount = getUseDuration(itemStack, entity) - itemInUseCount;
@@ -229,7 +227,9 @@ public abstract class ItemMace extends ItemBloodContainer {
             } else if (world.isClientSide()) {
                 animateOutOfEnergy(world, entity);
             }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -254,11 +254,6 @@ public abstract class ItemMace extends ItemBloodContainer {
 
         world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.NOTE_BLOCK_BASEDRUM.value(),
                 SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return 15;
     }
 
     @Override

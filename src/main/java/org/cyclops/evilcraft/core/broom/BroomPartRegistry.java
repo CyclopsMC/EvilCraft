@@ -17,7 +17,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -52,7 +52,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     public BroomPartRegistry() {
         EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, this::beforeItemsRegistered);
         NeoForge.EVENT_BUS.addListener(this::onTooltipEvent);
-        if(MinecraftHelpers.isClientSide()) {
+        if(IModHelpers.get().getMinecraftHelpers().isClientSide()) {
             partModels = Maps.newHashMap();
         }
     }
@@ -203,7 +203,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
             if (part != null) {
                 Map<BroomModifier, Float> modifiers = getBaseModifiersFromPart(part);
                 if (!modifiers.isEmpty()) {
-                    if (MinecraftHelpers.isShifted()) {
+                    if (IModHelpers.get().getMinecraftClientHelpers().isShifted()) {
                         event.getToolTip().add(Component.translatable("broom.modifiers." + Reference.MOD_ID + ".types")
                                 .withStyle(ChatFormatting.ITALIC));
                         for (Map.Entry<BroomModifier, Float> entry : modifiers.entrySet()) {
@@ -225,7 +225,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
             partItems.clear();
             partsByType.clear();
             baseModifiers.clear();
-            if (MinecraftHelpers.isClientSide()) {
+            if (IModHelpers.get().getMinecraftHelpers().isClientSide()) {
                 partModels.clear();
             }
         }

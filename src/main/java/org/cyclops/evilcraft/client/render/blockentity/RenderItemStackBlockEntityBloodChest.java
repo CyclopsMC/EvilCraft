@@ -1,10 +1,11 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.BlockPos;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import org.cyclops.cyclopscore.client.render.blockentity.ItemStackBlockEntityRendererBase;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
@@ -19,9 +20,16 @@ public class RenderItemStackBlockEntityBloodChest extends ItemStackBlockEntityRe
         super(() -> new BlockEntityBloodChest(BlockPos.ZERO, RegistryEntries.BLOCK_BLOOD_CHEST.get().defaultBlockState()));
     }
 
-    public static class ItemRenderProperties implements IClientItemExtensions {
+    public static record Unbaked() implements SpecialModelRenderer.Unbaked {
+        public static final MapCodec<RenderItemStackBlockEntityBloodChest.Unbaked> MAP_CODEC = MapCodec.unit(RenderItemStackBlockEntityBloodChest.Unbaked::new);
+
         @Override
-        public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+        public MapCodec<RenderItemStackBlockEntityBloodChest.Unbaked> type() {
+            return MAP_CODEC;
+        }
+
+        @Override
+        public SpecialModelRenderer<?> bake(EntityModelSet entityModelSet) {
             return new RenderItemStackBlockEntityBloodChest();
         }
     }

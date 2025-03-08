@@ -6,12 +6,8 @@
     " P "
   ],
   "key": {
-    "P": {
-      "item": "evilcraft:reinforced_undead_planks"
-    },
-    "I": {
-      "item": "evilcraft:blood_infusion_core"
-    }
+    "P": "evilcraft:reinforced_undead_planks",
+    "I": "evilcraft:blood_infusion_core"
   },
   "result": {
     "id": "evilcraft:colossal_blood_chest"

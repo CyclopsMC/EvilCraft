@@ -15,7 +15,7 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
@@ -54,7 +54,7 @@ public class LootModifierInjectBroom extends LootModifier {
             ItemStack stack = new ItemStack(RegistryEntries.ITEM_BROOM);
 
             // Fill with blood
-            IFluidHandlerItemCapacity fluidHanderFull = FluidHelpers.getFluidHandlerItemCapacity(stack).orElse((IFluidHandlerItemCapacity) null);
+            IFluidHandlerItemCapacity fluidHanderFull = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(stack).orElse((IFluidHandlerItemCapacity) null);
             fluidHanderFull.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, fluidHanderFull.getCapacity() / 2 + context.getRandom().nextInt(fluidHanderFull.getCapacity() / 2)), IFluidHandler.FluidAction.EXECUTE);
             stack = fluidHanderFull.getContainer();
 

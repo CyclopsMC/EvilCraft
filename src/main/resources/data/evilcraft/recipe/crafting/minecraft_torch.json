@@ -5,12 +5,8 @@
     "S  "
   ],
   "key": {
-    "C": {
-      "item": "evilcraft:blood_waxed_coal"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "C": "evilcraft:blood_waxed_coal",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "minecraft:torch",

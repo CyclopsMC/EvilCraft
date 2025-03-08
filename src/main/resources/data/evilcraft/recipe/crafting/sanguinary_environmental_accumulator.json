@@ -6,21 +6,11 @@
     "CBC"
   ],
   "key": {
-    "C": {
-      "tag": "c:cobblestones"
-    },
-    "E": {
-      "item": "evilcraft:environmental_accumulation_core"
-    },
-    "I": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "G": {
-      "item": "evilcraft:garmonbozia"
-    },
-    "B": {
-      "item": "evilcraft:blood_infusion_core"
-    }
+    "C": "#c:cobblestones",
+    "E": "evilcraft:environmental_accumulation_core",
+    "I": "#c:storage_blocks/iron",
+    "G": "evilcraft:garmonbozia",
+    "B": "evilcraft:blood_infusion_core"
   },
   "result": {
     "id": "evilcraft:sanguinary_environmental_accumulator"

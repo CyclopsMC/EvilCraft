@@ -1,26 +1,18 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.UnbakedModel;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
-import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
-
-import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.function.Function;
 
 /**
  * Model for the dark tank.
  * @author rubensworks
  */
-public class ModelDarkTank implements UnbakedModel, IUnbakedGeometry<ModelDarkTank> {
+public class ModelDarkTank implements UnbakedModel {
 
     private final BlockModel blockModel;
 
@@ -29,24 +21,17 @@ public class ModelDarkTank implements UnbakedModel, IUnbakedGeometry<ModelDarkTa
     }
 
     @Override
-    public Collection<ResourceLocation> getDependencies() {
-        return this.blockModel.getDependencies();
+    public BakedModel bake(TextureSlots textureSlots, ModelBaker baker, ModelState modelState, boolean hasAmbientOcclusion, boolean useBlockLight, ItemTransforms transforms) {
+        return new ModelDarkTankBaked(this.blockModel.bake(textureSlots, baker, modelState, hasAmbientOcclusion, useBlockLight, transforms));
     }
 
     @Override
-    public void resolveParents(Function<ResourceLocation, UnbakedModel> resolver) {
-         this.blockModel.resolveParents(resolver);
-    }
-
-    @Nullable
-    @Override
-    public BakedModel bake(ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState) {
-        return new ModelDarkTankBaked(this.blockModel.bake(bakery, spriteGetter, modelState));
+    public void resolveDependencies(Resolver resolver) {
+        this.blockModel.resolveDependencies(resolver);
     }
 
     @Override
-    public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
-        return bake(baker, spriteGetter, modelState);
+    public TextureSlots.Data getTextureSlots() {
+        return this.blockModel.getTextureSlots();
     }
-
 }

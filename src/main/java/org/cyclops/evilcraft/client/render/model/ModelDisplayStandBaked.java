@@ -1,48 +1,37 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockElement;
-import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.BlockModelRotation;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.resources.model.SimpleBakedModel;
+import net.minecraft.client.resources.model.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
-import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
-import net.neoforged.neoforge.client.model.geometry.UnbakedGeometryHelper;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
-import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
-import org.cyclops.evilcraft.core.client.model.GeometryBakingContextRetextured;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * The dynamic item model for the display stand.
@@ -60,94 +49,66 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
             .put(Direction.DOWN, BlockModelRotation.X0_Y0)
             .build();
 
-    private final SingleCache<ResourceLocation, BakedModel> modelCache = new SingleCache<>(new SingleCache.ICacheUpdater<ResourceLocation, BakedModel>() {
+    private final SingleCache<Pair<Material, ItemTransforms>, BakedModel> modelCache = new SingleCache<>(new SingleCache.ICacheUpdater<Pair<Material, ItemTransforms>, BakedModel>() {
         @Override
-        public BakedModel getNewValue(ResourceLocation textureName) {
-            return bakeModel(blockModel, new GeometryBakingContextRetextured(context, textureName), blockModel.getElements(), transform,
-                    ItemOverrides.EMPTY, spriteGetter, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "dummy"));
+        public BakedModel getNewValue(Pair<Material, ItemTransforms> key) {
+            return bakeModel(blockModel, textureSlots, untexturedBakedModel, key.getKey(), baker, transform, key.getRight());
         }
 
         @Override
-        public boolean isKeyEqual(ResourceLocation resourceLocation, ResourceLocation k1) {
-            return resourceLocation.equals(k1);
+        public boolean isKeyEqual(Pair<Material, ItemTransforms> k1, Pair<Material, ItemTransforms> k2) {
+            return k1.getLeft().equals(k2.getLeft());
         }
     });
 
     private final BlockModel blockModel;
+    private final TextureSlots textureSlots;
     private final BakedModel untexturedBakedModel;
-    private final TextureAtlasSprite texture;
-    private final IGeometryBakingContext context;
+    private final Material material;
+    private final ModelBaker baker;
     private final ModelState transform;
-    private final Function<Material, TextureAtlasSprite> spriteGetter;
 
-    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, IGeometryBakingContext context, ModelState transform, Function<Material, TextureAtlasSprite> spriteGetter) {
+    public ModelDisplayStandBaked(BlockModel blockModel, TextureSlots textureSlots, BakedModel untexturedBakedModel, ModelBaker baker, ModelState transform) {
         super(true, false);
         this.blockModel = blockModel;
+        this.textureSlots = textureSlots;
         this.untexturedBakedModel = untexturedBakedModel;
-        this.context = context;
+        this.baker = baker;
         this.transform = transform;
-        this.texture = null;
-        this.spriteGetter = spriteGetter;
-    }
-
-    public ModelDisplayStandBaked(BlockModel blockModel, BakedModel untexturedBakedModel, TextureAtlasSprite texture, boolean item, IGeometryBakingContext context, ModelState transform, Function<Material, TextureAtlasSprite> spriteGetter) {
-        super(false, item);
-        this.blockModel = blockModel;
-        this.untexturedBakedModel = untexturedBakedModel;
-        this.texture = texture;
-        this.context = context;
-        this.transform = transform;
-        this.spriteGetter = spriteGetter;
+        this.material = null;
     }
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return this.texture;
+        return this.material.sprite();
     }
 
-    protected BakedModel handleDisplayStandType(ItemStack displayStandType, boolean item) {
+    protected BakedModel handleDisplayStandType(ItemStack displayStandType, ItemTransforms itemTransforms) {
         if (displayStandType != null && !displayStandType.isEmpty()) {
             // Get reference texture
-            BlockState blockState = BlockHelpers.getBlockStateFromItemStack(displayStandType);
-            ResourceLocation textureName = Minecraft.getInstance().getModelManager().getBlockModelShaper()
-                    .getBlockModel(blockState).getParticleIcon().contents().name();
-            return modelCache.get(textureName);
+            BlockState blockState = IModHelpers.get().getBlockHelpers().getBlockStateFromItemStack(displayStandType);
+            TextureAtlasSprite texture = Minecraft.getInstance().getModelManager().getBlockModelShaper()
+                    .getBlockModel(blockState).getParticleIcon();
+            return modelCache.get(Pair.of(new Material(texture.atlasLocation(), texture.contents().name()), itemTransforms));
         }
         return untexturedBakedModel;
     }
 
-    // Inspired by TCon's TableModel, SimpleBlockModel and RetexturedModel
-    public static BakedModel bakeModel(BlockModel blockModel, IGeometryBakingContext context, List<BlockElement> blockParts, ModelState transform,
-                                        ItemOverrides overrides, Function<Material, TextureAtlasSprite> spriteGetter,
-                                        ResourceLocation modelName) {
-        TextureAtlasSprite particle = spriteGetter.apply(context.getMaterial("particle"));
-        SimpleBakedModel.Builder builder = new SimpleBakedModel.Builder(blockModel.hasAmbientOcclusion(), blockModel.getGuiLight().lightLikeBlock(), true, ModelHelpers.DEFAULT_CAMERA_TRANSFORMS, overrides).particle(particle);
-        for(BlockElement blockPart : blockParts) {
-            for(Direction direction : blockPart.faces.keySet()) {
-                BlockElementFace blockPartFace = blockPart.faces.get(direction);
-
-                // Remove mandatory hash at start of texture name
-                String texture = blockPartFace.texture();
-                if (texture.charAt(0) == '#') {
-                    texture = texture.substring(1);
-                }
-                TextureAtlasSprite sprite = spriteGetter.apply(context.getMaterial(texture));
-
-                if (blockPartFace.cullForDirection() == null) {
-                    builder.addUnculledFace(UnbakedGeometryHelper.bakeElementFace(blockPart, blockPartFace, sprite, direction, transform));
-                } else {
-                    builder.addCulledFace(Direction.rotate(transform.getRotation().getMatrix(), blockPartFace.cullForDirection()),
-                            UnbakedGeometryHelper.bakeElementFace(blockPart, blockPartFace, sprite, direction, transform));
-                }
-            }
+    public static BakedModel bakeModel(BlockModel blockModel, TextureSlots textureSlots, BakedModel untexturedBakedModel, Material material, ModelBaker baker, ModelState modelState, ItemTransforms itemTransforms) {
+        // Override all textures in the model to the given texture
+        Map<String, Material> resolvedValuesOverride = Maps.newHashMap();
+        for (Map.Entry<String, Material> entry : textureSlots.resolvedValues.entrySet()) {
+            resolvedValuesOverride.put(entry.getKey(), material);
         }
-        return builder.build();
+        TextureSlots textureSlotsOverride = new TextureSlots(resolvedValuesOverride);
+
+        return blockModel.bake(textureSlotsOverride, baker, modelState, untexturedBakedModel.useAmbientOcclusion(), untexturedBakedModel.usesBlockLight(), itemTransforms, ContextMap.EMPTY);
     }
 
     @Nonnull
     @Override
     public ModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull ModelData tileData) {
-        return BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityDisplayStand.class)
                 .map(tile -> {
                     ModelData.Builder builder = ModelData.builder();
                     builder.with(BlockDisplayStand.DIRECTION, tile.getDirection());
@@ -159,20 +120,21 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
     @Override
     public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, ModelData modelData, RenderType renderType) {
-        return handleDisplayStandType(ModelHelpers.getSafeProperty(modelData, BlockDisplayStand.TYPE, ItemStack.EMPTY), false);
+        return handleDisplayStandType(ModelHelpers.getSafeProperty(modelData, BlockDisplayStand.TYPE, ItemStack.EMPTY), getTransforms());
     }
 
     @Override
     public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
-        return handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.get().getDisplayStandType(itemStack), true);
+        throw new UnsupportedOperationException("handleItemState is not supported with these parameters");
+    }
+
+    public BakedModel handleItemState(ItemStack itemStack, ItemTransforms itemTransforms) {
+        return handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.get().getDisplayStandType(itemStack), itemTransforms);
     }
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
-        return this.untexturedBakedModel.getQuads(null, null, null)
-                .stream()
-                .map(quad -> new BakedQuad(quad.getVertices(), quad.getTintIndex(), quad.getDirection(), this.texture, quad.isShade()))
-                .collect(Collectors.toList());
+        throw new UnsupportedOperationException("getGeneralQuads is not supported in a factory");
     }
 
     @Override
@@ -187,7 +149,6 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
     @Override
     public TextureAtlasSprite getParticleIcon(@Nonnull ModelData data) {
-        return handleDisplayStandType(ModelHelpers.getSafeProperty(data, BlockDisplayStand.TYPE, ItemStack.EMPTY), false)
-                .getParticleIcon();
+        return handleDisplayStandType(ModelHelpers.getSafeProperty(data, BlockDisplayStand.TYPE, ItemStack.EMPTY), getTransforms()).getParticleIcon();
     }
 }

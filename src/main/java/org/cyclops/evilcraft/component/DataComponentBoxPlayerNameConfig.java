@@ -2,13 +2,14 @@ package org.cyclops.evilcraft.component;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.network.codec.ByteBufCodecs;
-import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
  * @author rubensworks
  */
-public class DataComponentBoxPlayerNameConfig extends DataComponentConfig<String> {
+public class DataComponentBoxPlayerNameConfig extends DataComponentConfigCommon<String, IModBase> {
     public DataComponentBoxPlayerNameConfig() {
         super(EvilCraft._instance, "box_player_name", builder -> builder
                 .persistent(Codec.STRING)

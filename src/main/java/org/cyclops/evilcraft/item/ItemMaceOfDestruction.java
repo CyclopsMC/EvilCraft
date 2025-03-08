@@ -4,7 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 
 /**
  * A mace that produces explosions around the player, without damaging that player.
@@ -20,7 +20,7 @@ public class ItemMaceOfDestruction extends ItemMace {
 
     private static final int MAXIMUM_CHARGE = 100;
     private static final float MELEE_DAMAGE = 10.0F;
-    private static final int CONTAINER_SIZE = FluidHelpers.BUCKET_VOLUME * 4;
+    private static final int CONTAINER_SIZE = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 4;
     private static final int HIT_USAGE = 6;
     private static final int POWER_LEVELS = 5;
 

@@ -1,0 +1,16 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "evilcraft:item/template_promise",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": 7895250
+      },
+      {
+        "type": "minecraft:constant",
+        "value": 5261000
+      }
+    ]
+  }
+}

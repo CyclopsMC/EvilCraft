@@ -1,8 +1,6 @@
 {
   "type": "evilcraft:blood_infuser",
-  "input_item": {
-    "item": "minecraft:dirt"
-  },
+  "input_item": "minecraft:dirt",
   "input_fluid": {
     "id": "evilcraft:blood",
     "amount": 350

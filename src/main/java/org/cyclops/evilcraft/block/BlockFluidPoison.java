@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
@@ -28,7 +28,7 @@ public class BlockFluidPoison extends LiquidBlock {
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if(entity instanceof LivingEntity && WorldHelpers.efficientTick(world, (POISON_DURATION / 2) * 20)) {
+        if(entity instanceof LivingEntity && IModHelpers.get().getWorldHelpers().efficientTick(world, (POISON_DURATION / 2) * 20)) {
             ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION * 20, 1));
         }
         super.entityInside(state, world, pos, entity);

@@ -6,7 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
-import org.cyclops.cyclopscore.helper.ItemStackHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockInvisibleRedstone;
 import org.cyclops.evilcraft.item.ItemRedstoneGrenadeConfig;
@@ -36,7 +36,7 @@ public class BlockEntityInvisibleRedstone extends CyclopsBlockEntity {
             if (blockEntity.destroyCountDown-- <= 0) {
                 level.removeBlock(pos, false);
                 if(ItemRedstoneGrenadeConfig.dropAfterUsage) {
-                    ItemStackHelpers.spawnItemStack(level, pos, new ItemStack(RegistryEntries.ITEM_REDSTONE_GRENADE));
+                    IModHelpers.get().getItemStackHelpers().spawnItemStack(level, pos, new ItemStack(RegistryEntries.ITEM_REDSTONE_GRENADE));
                 }
             }
         }

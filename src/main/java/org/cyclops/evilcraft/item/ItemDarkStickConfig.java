@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.Item;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -9,14 +9,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class ItemDarkStickConfig extends ItemConfig {
+public class ItemDarkStickConfig extends ItemConfigCommon<IModBase> {
 
     public ItemDarkStickConfig() {
         super(
                 EvilCraft._instance,
                 "dark_stick",
-                eConfig -> new ItemDarkStick(new Item.Properties()
-                        )
+                (eConfig, properties) -> new ItemDarkStick(properties)
         );
     }
 

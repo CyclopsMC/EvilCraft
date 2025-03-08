@@ -6,15 +6,9 @@
     " D "
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:dark_spike"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    },
-    "D": {
-      "item": "evilcraft:dark_gem"
-    }
+    "S": "evilcraft:dark_spike",
+    "G": "#c:glass_blocks",
+    "D": "evilcraft:dark_gem"
   },
   "result": {
     "id": "evilcraft:blood_extractor"

@@ -7,12 +7,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.joml.Matrix4f;
@@ -29,19 +31,24 @@ public class RenderBlockEntityEntangledChalice implements BlockEntityRenderer<Bl
     }
 
     @Override
+    public boolean shouldRender(BlockEntityEntangledChalice blockEntity, Vec3 cameraPos) {
+        return blockEntity.getBlockPos() == BlockPos.ZERO || BlockEntityRenderer.super.shouldRender(blockEntity, cameraPos);
+    }
+
+    @Override
     public void render(final BlockEntityEntangledChalice tile, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int combinedLight, int combinedOverlayIn) {
         if(tile != null && !tile.getTank().getFluid().isEmpty() && tile.getTank().getFluid().getFluid() != null) {
             try {
                 FluidStack fluid = tile.getTank().getFluid();
-                RenderHelpers.renderFluidContext(tile.getTank().getFluid(), matrixStack, () -> {
+                IModHelpersNeoForge.get().getRenderHelpers().renderFluidContext(tile.getTank().getFluid(), matrixStack, () -> {
                     float height = Math.min(0.95F, ((float) fluid.getAmount() / (float) tile.getTank().getCapacity())) * 0.1875F + 0.8125F;
                     IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid.getFluid());
                     int brightness = Math.max(combinedLight, fluid.getFluid().getFluidType().getLightLevel(fluid));
                     int l2 = brightness >> 0x10 & 0xFFFF;
                     int i3 = brightness & 0xFFFF;
 
-                    TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
-                    Triple<Float, Float, Float> color = Helpers.intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
+                    TextureAtlasSprite icon = IModHelpersNeoForge.get().getRenderHelpers().getFluidIcon(fluid, Direction.UP);
+                    Triple<Float, Float, Float> color = IModHelpers.get().getBaseHelpers().intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
 
                     VertexConsumer vb = renderTypeBuffer.getBuffer(RenderType.text(icon.atlasLocation()));
                     Matrix4f matrix = matrixStack.last().pose();

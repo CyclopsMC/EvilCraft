@@ -20,10 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
@@ -33,7 +30,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -47,9 +44,7 @@ import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
 
@@ -66,7 +61,7 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     public static final MapCodec<BlockDisplayStand> CODEC = simpleCodec(BlockDisplayStand::new);
 
-    public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
+    public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class, Direction.values());
     public static final BooleanProperty AXIS_X = BooleanProperty.create("axis_x");
 
     // Model Properties
@@ -109,7 +104,7 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-        return FACING_BOUNDS.get(BlockHelpers.getSafeBlockStateProperty(state, FACING, Direction.DOWN));
+        return FACING_BOUNDS.get(IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(state, FACING, Direction.DOWN));
     }
 
     @Override
@@ -119,7 +114,7 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     @Override
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
-        return BlockEntityHelpers.get(world, blockPos, BlockEntityDisplayStand.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityDisplayStand.class)
                 .map(tile -> !tile.getInventory().getItem(0).isEmpty() ? 15 : 0)
                 .orElse(0);
     }
@@ -144,7 +139,7 @@ public class BlockDisplayStand extends BlockWithEntity {
     public void setPlacedBy(Level world, BlockPos blockPos, BlockState blockState, LivingEntity entity, ItemStack stack) {
         super.setPlacedBy(world, blockPos, blockState, entity, stack);
         if (!world.isClientSide()) {
-            BlockEntityHelpers.get(world, blockPos, BlockEntityDisplayStand.class)
+            IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityDisplayStand.class)
                     .ifPresent(tile -> {
                         tile.setDisplayStandType(getDisplayStandType(stack));
                         tile.setDirection(entity.getDirection().getAxisDirection());
@@ -154,7 +149,7 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     @Override
     public BlockState rotate(BlockState blockState, LevelAccessor world, BlockPos pos, Rotation direction) {
-        return BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class)
+        return IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityDisplayStand.class)
                 .map(tile -> {
                     if (tile.getDirection() == Direction.AxisDirection.POSITIVE) {
                         if (blockState.getValue(AXIS_X)) {
@@ -179,11 +174,11 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     public void fillItemCategory(NonNullList<ItemStack> list) {
         try {
-            BuiltInRegistries.ITEM.getTag(ItemTags.PLANKS)
+            BuiltInRegistries.ITEM.get(ItemTags.PLANKS)
                     .ifPresent(values -> values.forEach(holder -> {
                         Item item = holder.value();
                         if (item instanceof BlockItem) {
-                            BlockState plankWoodBlockState = BlockHelpers.getBlockStateFromItemStack(new ItemStack(item));
+                            BlockState plankWoodBlockState = IModHelpers.get().getBlockHelpers().getBlockStateFromItemStack(new ItemStack(item));
                             list.add(getTypedDisplayStandItem(plankWoodBlockState));
                         }
                     }));
@@ -201,13 +196,13 @@ public class BlockDisplayStand extends BlockWithEntity {
     public ItemStack getDisplayStandType(ItemStack displayStandStack) {
         BlockState blockState = displayStandStack.get(RegistryEntries.COMPONENT_DISPLAY_STAND_TYPE);
         if (blockState != null) {
-            return BlockHelpers.getItemStackFromBlockState(blockState);
+            return IModHelpers.get().getBlockHelpers().getItemStackFromBlockState(blockState);
         }
         return null;
     }
 
     public static void setDisplayStandType(ItemStack displayStandStack, ItemStack type) {
-        displayStandStack.set(RegistryEntries.COMPONENT_DISPLAY_STAND_TYPE, BlockHelpers.getBlockStateFromItemStack(type));
+        displayStandStack.set(RegistryEntries.COMPONENT_DISPLAY_STAND_TYPE, IModHelpers.get().getBlockHelpers().getBlockStateFromItemStack(type));
     }
 
     @SubscribeEvent
@@ -226,7 +221,7 @@ public class BlockDisplayStand extends BlockWithEntity {
         if (world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
-            BlockEntityDisplayStand tile = BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class).orElse(null);
+            BlockEntityDisplayStand tile = IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityDisplayStand.class).orElse(null);
             if (tile != null) {
                 ItemStack tileStack = tile.getInventory().getItem(0);
                 if ((itemStack.isEmpty() || (ItemStack.isSameItemSameComponents(itemStack, tileStack) && tileStack.getCount() < tileStack.getMaxStackSize())) && !tileStack.isEmpty()) {
@@ -262,7 +257,7 @@ public class BlockDisplayStand extends BlockWithEntity {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
-        return BlockHelpers.doesBlockHaveSolidTopSurface(worldIn, pos);
+        return IModHelpers.get().getBlockHelpers().doesBlockHaveSolidTopSurface(worldIn, pos);
     }
 
     @Override
@@ -275,18 +270,18 @@ public class BlockDisplayStand extends BlockWithEntity {
     }
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (!stateIn.canSurvive(worldIn, currentPos)) {
-            worldIn.scheduleTick(currentPos, this, 1);
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (level instanceof ServerLevel serverLevel && !state.canSurvive(level, pos)) {
+            serverLevel.scheduleTick(pos, this, 1);
         }
-        return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+        return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override
     public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
         if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            BlockEntityHelpers.get(world, blockPos, BlockEntityDisplayStand.class)
-                    .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
+            IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityDisplayStand.class)
+                    .ifPresent(tile -> IModHelpers.get().getInventoryHelpers().dropItems(world, tile.getInventory(), blockPos));
         }
         super.onRemove(oldState, world, blockPos, newState, isMoving);
     }

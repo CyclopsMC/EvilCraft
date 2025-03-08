@@ -6,18 +6,10 @@
     "GBG"
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:hardened_blood_shard"
-    },
-    "G": {
-      "item": "evilcraft:dark_gem"
-    },
-    "I": {
-      "item": "evilcraft:blood_infusion_core"
-    },
-    "B": {
-      "item": "evilcraft:dark_block"
-    }
+    "S": "evilcraft:hardened_blood_shard",
+    "G": "evilcraft:dark_gem",
+    "I": "evilcraft:blood_infusion_core",
+    "B": "evilcraft:dark_block"
   },
   "result": {
     "id": "evilcraft:purifier"

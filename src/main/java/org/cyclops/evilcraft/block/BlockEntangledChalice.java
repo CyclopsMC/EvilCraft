@@ -33,8 +33,8 @@ import net.neoforged.neoforge.client.model.data.ModelProperty;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.L10NHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
@@ -104,10 +104,10 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
             return InteractionResult.SUCCESS;
         }
         if (world.isClientSide()) {
-            String tankId = BlockEntityHelpers.get(world, blockPos, BlockEntityEntangledChalice.class)
+            String tankId = IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityEntangledChalice.class)
                     .map(BlockEntityEntangledChalice::getWorldTankId)
                     .orElse("null");
-            player.displayClientMessage(Component.translatable(L10NHelpers.localize(
+            player.displayClientMessage(Component.translatable(IModHelpers.get().getL10NHelpers().localize(
                     "block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
         }
         return super.useWithoutItem(state, world, blockPos, player, rayTraceResult);

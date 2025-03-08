@@ -1,14 +1,10 @@
 package org.cyclops.evilcraft.entity.item;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -16,7 +12,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class EntityItemUndespawnableConfig extends EntityConfig<EntityItemUndespawnable> {
+public class EntityItemUndespawnableConfig extends EntityConfigCommon<IModBase, EntityItemUndespawnable> {
 
     public EntityItemUndespawnableConfig() {
         super(
@@ -27,9 +23,8 @@ public class EntityItemUndespawnableConfig extends EntityConfig<EntityItemUndesp
         );
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<ItemEntity> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
-        return new net.minecraft.client.renderer.entity.ItemEntityRenderer(renderContext);
+    public EntityClientConfig<IModBase, EntityItemUndespawnable> constructEntityClientConfig() {
+        return new EntityItemUndespawnableConfigClient(this);
     }
 }

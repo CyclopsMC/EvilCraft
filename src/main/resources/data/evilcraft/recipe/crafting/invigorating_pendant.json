@@ -6,15 +6,9 @@
     "CIC"
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:golden_string"
-    },
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    },
-    "I": {
-      "item": "evilcraft:blood_infusion_core"
-    }
+    "S": "evilcraft:golden_string",
+    "C": "evilcraft:dark_gem_crushed",
+    "I": "evilcraft:blood_infusion_core"
   },
   "result": {
     "id": "evilcraft:invigorating_pendant"

@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -51,7 +51,7 @@ public class ItemMaceOfDistortion extends ItemMace {
     private static final int MAXIMUM_CHARGE = 100;
     private static final float MELEE_DAMAGE = 7.0F;
     private static final float RADIAL_DAMAGE = 3.0F;
-    private static final int CONTAINER_SIZE = FluidHelpers.BUCKET_VOLUME * 4;
+    private static final int CONTAINER_SIZE = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 4;
     private static final int HIT_USAGE = 5;
     private static final int POWER_LEVELS = 5;
 
@@ -160,11 +160,6 @@ public class ItemMaceOfDistortion extends ItemMace {
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
 
         world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.RECORDS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
-    }
-
-    @Override
-    public int getEnchantmentValue(ItemStack itemStack) {
-        return 15;
     }
 
     @Override

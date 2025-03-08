@@ -2,18 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:weather_container",
       "components": {
         "evilcraft:weather_container_type": "RAIN"
       }
     },
-    {
-      "tag": "c:dusts/glowstone"
-    },
-    {
-      "tag": "c:dusts/glowstone"
-    }
+    "#c:dusts/glowstone",
+    "#c:dusts/glowstone"
   ],
   "result": {
     "id": "evilcraft:weather_container",

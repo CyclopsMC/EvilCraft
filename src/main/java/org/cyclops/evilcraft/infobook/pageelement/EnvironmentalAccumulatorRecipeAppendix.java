@@ -1,12 +1,16 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -19,11 +23,13 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.tickaction.sanguinaryenvironmentalaccumulator.AccumulateItemTickAction;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Blood Infuser recipes.
@@ -46,8 +52,8 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
     private static final AdvancedButtonEnum INPUT = AdvancedButtonEnum.create();
     private static final AdvancedButtonEnum RESULT = AdvancedButtonEnum.create();
 
-    public EnvironmentalAccumulatorRecipeAppendix(IInfoBook infoBook, RecipeHolder<RecipeEnvironmentalAccumulator> recipe) {
-        super(infoBook, recipe);
+    public EnvironmentalAccumulatorRecipeAppendix(IInfoBook infoBook, Supplier<RecipeDisplayEntry> recipeDisplaySupplier) {
+        super(infoBook, recipeDisplaySupplier);
     }
 
     @Override
@@ -80,9 +86,15 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
         gui.drawArrowRight(guiGraphics, x + middle - 3, y + SLOT_OFFSET_Y + 2);
 
         // Prepare items
+        RecipeDisplayEntry recipeDisplay = getRecipeDisplay();
+        if (recipeDisplay == null) {
+            return;
+        }
         int tick = getTick(gui);
-        ItemStack input = prepareItemStacks(recipe.value().getInputIngredient().getItems(), tick);
-        ItemStack result = prepareItemStack(recipe.value().getOutputItemFirst(), tick);
+        ContextMap contextMap = SlotDisplayContext.fromLevel(Minecraft.getInstance().level);
+        RecipeDisplayEnvironmentalAccumulator display = ((RecipeDisplayEnvironmentalAccumulator) recipeDisplay.display());
+        ItemStack input = prepareItemStacks(display.inputIngredient().resolveForStacks(contextMap), tick);
+        ItemStack result = prepareItemStack(display.outputItem().resolveForFirstStack(contextMap), tick);
 
         // Items
         renderItem(gui, guiGraphics, x + SLOT_OFFSET_X, y + SLOT_OFFSET_Y, input, mx, my, INPUT);
@@ -93,12 +105,12 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
                 : RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get()), mx, my, false, null);
 
         // Draw weathers
-        Integer inputX = X_ICON_OFFSETS.get(recipe.value().getInputWeather());
+        Integer inputX = X_ICON_OFFSETS.get(display.inputWeather());
         if(inputX != null) {
-            guiGraphics.blit(WEATHERS, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16);
+            guiGraphics.blit(RenderType::guiTextured, WEATHERS, x + SLOT_OFFSET_X, y + Y_START, inputX, 0, 16, 16, 2565, 256);
             gui.drawOuterBorder(guiGraphics, x + SLOT_OFFSET_X, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
-            Integer outputX = X_ICON_OFFSETS.get(recipe.value().getOutputWeather());
-            guiGraphics.blit(WEATHERS, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16);
+            Integer outputX = X_ICON_OFFSETS.get(display.outputWeather());
+            guiGraphics.blit(RenderType::guiTextured, WEATHERS, x + START_X_RESULT, y + Y_START, outputX, 0, 16, 16, 256, 256);
             gui.drawOuterBorder(guiGraphics, x + START_X_RESULT, y + Y_START, SLOT_SIZE, SLOT_SIZE, 1, 1, 1, 0.2f);
         }
         if(sanguinary) {
@@ -107,7 +119,7 @@ public class EnvironmentalAccumulatorRecipeAppendix extends RecipeAppendix<Recip
 
             // Blood amount text
             Font fontRenderer = gui.getFont();
-            int amount = AccumulateItemTickAction.getUsage(recipe.value().getCooldownTime());
+            int amount = AccumulateItemTickAction.getUsage(display.cooldownTime());
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
             MultiLineLabel.create(fontRenderer, Component.literal(line), 200)

@@ -11,7 +11,7 @@ import net.minecraft.core.Direction;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.cyclops.evilcraft.client.render.model.ModelDarkTankBaked;
 import org.joml.Matrix4f;
@@ -74,7 +74,7 @@ public class RenderBlockEntityDarkTank implements BlockEntityRenderer<BlockEntit
     @Override
     public void render(final BlockEntityDarkTank tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         FluidStack fluid = tile.getTank().getFluid();
-        RenderHelpers.renderFluidContext(fluid, matrixStackIn, () -> {
+        IModHelpersNeoForge.get().getRenderHelpers().renderFluidContext(fluid, matrixStackIn, () -> {
             float height = (float) (tile.getFillRatio() * 0.99F);
             int brightness = Math.max(combinedLightIn, fluid.getFluid().getFluidType().getLightLevel(fluid));
             renderFluidSides(height, tile.getTank().getFluid(), tile.isEnabled(), brightness, matrixStackIn, bufferIn);
@@ -84,7 +84,7 @@ public class RenderBlockEntityDarkTank implements BlockEntityRenderer<BlockEntit
     public static void renderFluidSides(float height, FluidStack fluid, boolean flowing, int brightness, PoseStack matrixStackIn, MultiBufferSource bufferIn) {
         int l2 = brightness >> 0x10 & 0xFFFF;
         int i3 = brightness & 0xFFFF;
-        Triple<Float, Float, Float> colorParts = RenderHelpers.getFluidVertexBufferColor(fluid);
+        Triple<Float, Float, Float> colorParts = IModHelpersNeoForge.get().getRenderHelpers().getFluidVertexBufferColor(fluid);
         float r = colorParts.getLeft();
         float g = colorParts.getMiddle();
         float b = colorParts.getRight();

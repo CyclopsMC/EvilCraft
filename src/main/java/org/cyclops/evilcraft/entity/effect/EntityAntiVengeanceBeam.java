@@ -41,12 +41,12 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     }
 
     public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, Level world, LivingEntity entity) {
-        super(type, entity, world);
+        super(type, entity.getX(), entity.getY(), entity.getZ(), world);
         setDeltaMovement(getDeltaMovement().multiply(0.25, 0.25, 0.25));
     }
 
     public EntityAntiVengeanceBeam(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), entity, world);
+        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), entity.getX(), entity.getY(), entity.getZ(), world);
     }
 
     @Override

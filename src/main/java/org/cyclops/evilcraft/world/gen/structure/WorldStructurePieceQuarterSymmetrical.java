@@ -15,7 +15,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.ScatteredFeaturePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 
 import java.util.List;
 import java.util.Random;
@@ -63,7 +63,7 @@ public abstract class WorldStructurePieceQuarterSymmetrical extends ScatteredFea
                     BlockWrapper wrapper = layer[(getQuarterWidth() - xr - 1) * getQuarterHeight() + zr];
                     BlockPos posOffset = blockPos.offset(xr * incX, layerHeight, zr * incZ);
                     if (wrapper != null && (wrapper.chance > 0 && wrapper.chance >= r.nextFloat())) { // not an air blockState?
-                        world.setBlock(blockPos.offset(xr * incX, layerHeight, zr * incZ), wrapper.blockState, MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                        world.setBlock(blockPos.offset(xr * incX, layerHeight, zr * incZ), wrapper.blockState, IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
                         if(wrapper.action != null) {
                             wrapper.action.run(world, posOffset);
                         }

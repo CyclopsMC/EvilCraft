@@ -4,6 +4,7 @@ import net.minecraft.client.model.AbstractZombieModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
+import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 import net.minecraft.resources.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.entity.monster.EntityControlledZombie;
@@ -15,7 +16,7 @@ import org.cyclops.evilcraft.entity.monster.EntityControlledZombieConfig;
  * @author rubensworks
  *
  */
-public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlledZombie, AbstractZombieModel<EntityControlledZombie>> {
+public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlledZombie, ZombieRenderState, AbstractZombieModel<ZombieRenderState>> {
 
     private final ResourceLocation texture;
 
@@ -25,18 +26,25 @@ public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlled
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EntityControlledZombie entity) {
+    public ResourceLocation getTextureLocation(ZombieRenderState renderState) {
         return texture;
     }
 
-    public static class Model extends AbstractZombieModel<EntityControlledZombie> {
+    @Override
+    public ZombieRenderState createRenderState() {
+        return new ZombieRenderState();
+    }
+
+    @Override
+    public void extractRenderState(EntityControlledZombie entity, ZombieRenderState state, float partialTick) {
+        super.extractRenderState(entity, state, partialTick);
+        state.isAggressive = entity.isAggressive();
+        state.isConverting = false;
+    }
+
+    public static class Model extends AbstractZombieModel<ZombieRenderState> {
         protected Model(EntityRendererProvider.Context context) {
             super(context.bakeLayer(ModelLayers.ZOMBIE));
-        }
-
-        @Override
-        public boolean isAggressive(EntityControlledZombie p_212850_1_) {
-            return p_212850_1_.isAggressive();
         }
     }
 

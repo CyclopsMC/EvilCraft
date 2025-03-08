@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritReanimatorConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
@@ -71,7 +71,7 @@ public class ReanimateTickAction implements ITickAction<BlockEntitySpiritReanima
      * @return If the item could be added or joined in the output slot.
      */
     public boolean addToProduceSlot(BlockEntitySpiritReanimator tile, ItemStack itemStack) {
-        return InventoryHelpers.addToSlot(tile.getInventory(), BlockEntitySpiritReanimator.SLOTS_OUTPUT, itemStack);
+        return IModHelpers.get().getInventoryHelpers().addToSlot(tile.getInventory(), BlockEntitySpiritReanimator.SLOTS_OUTPUT, itemStack);
     }
 
 }

@@ -3,14 +3,14 @@ package org.cyclops.evilcraft.core.client.model;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import net.minecraft.client.renderer.block.model.BlockModel;
-import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.UnbakedModelLoader;
 import org.cyclops.evilcraft.client.render.model.ModelDisplayStand;
 
 /**
  * Custom model loader for the display stand.
  * @author rubensworks
  */
-public class ModelLoaderDisplayStand implements IGeometryLoader<ModelDisplayStand> {
+public class ModelLoaderDisplayStand implements UnbakedModelLoader<ModelDisplayStand> {
 
     @Override
     public ModelDisplayStand read(JsonObject modelContents, JsonDeserializationContext deserializationContext) {

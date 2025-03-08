@@ -2,22 +2,12 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     [
-      {
-        "item": "evilcraft:bowl_of_promises_tier1"
-      },
-      {
-        "item": "evilcraft:bowl_of_promises_tier2"
-      },
-      {
-        "item": "evilcraft:bowl_of_promises_tier3"
-      }
+      "evilcraft:bowl_of_promises_tier1",
+      "evilcraft:bowl_of_promises_tier2",
+      "evilcraft:bowl_of_promises_tier3"
     ],
-    {
-      "item": "evilcraft:promise_acceptor_iron"
-    },
-    {
-      "tag": "c:storage_blocks/lapis"
-    }
+    "evilcraft:promise_acceptor_iron",
+    "#c:storage_blocks/lapis"
   ],
   "result": {
     "id": "evilcraft:promise_efficiency_0"

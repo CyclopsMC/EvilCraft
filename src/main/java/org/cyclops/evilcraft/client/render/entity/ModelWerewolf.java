@@ -5,8 +5,6 @@
 // - ZeuX
 package org.cyclops.evilcraft.client.render.entity;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -14,12 +12,11 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import org.cyclops.evilcraft.entity.monster.EntityWerewolf;
 
 /**
  * @author Davivs69
  */
-public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
+public class ModelWerewolf extends HumanoidModel<RenderStateWerewolf> {
     //fields
     ModelPart bipedEar1;
     ModelPart bipedEar2;
@@ -49,23 +46,6 @@ public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
         setRotation(leftLeg, 0F, 0F, 0F);
     }
 
-    @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
-        // Not sure why, but we need to reset the y of the body to be in its correct position
-        body.y = -13F;
-
-        head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        bipedEar1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        bipedEar2.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        Upper_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        Lower_Jaw.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        rightArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        leftArm.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        rightLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-        leftLeg.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
-    }
-
     private void setRotation(ModelPart model, float x, float y, float z) {
         model.xRot = x;
         model.yRot = y;
@@ -73,8 +53,9 @@ public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
     }
 
     @Override
-    public void setupAnim(EntityWerewolf entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    public void setupAnim(RenderStateWerewolf renderState) {
+        super.setupAnim(renderState);
+
         head.setPos(0F, -13F, 0F);
         rightArm.setPos(-7F, -8F, 0F);
         leftArm.setPos(7F, -8F, 0F);
@@ -86,7 +67,7 @@ public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
         this.bipedEar2.yRot = this.head.yRot;
         this.bipedEar2.xRot = this.head.xRot;
 
-        float barkRotation = entityIn.getBarkProgressScaled(0.1745329F);
+        float barkRotation = renderState.barkProgress;
         setRotation(Upper_Jaw, this.head.xRot + 0F, this.head.yRot + 0F, 0F);
         setRotation(Lower_Jaw, this.head.xRot + barkRotation, this.head.yRot + 0F, 0F);
     }
@@ -95,12 +76,12 @@ public class ModelWerewolf extends HumanoidModel<EntityWerewolf> {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        partdefinition.addOrReplaceChild("head", CubeListBuilder.create()
+        PartDefinition partdefinition1 = partdefinition.addOrReplaceChild("head", CubeListBuilder.create()
                         .texOffs(24, 0)
                         .addBox(-5F, -10F, -5F, 10, 10, 10)
                         .mirror(),
                 PartPose.offset(0F, -13F, 0F));
-        partdefinition.addOrReplaceChild("hat", CubeListBuilder.create(),
+        partdefinition1.addOrReplaceChild("hat", CubeListBuilder.create(),
                 PartPose.offset(0F, 0F, 0F));
         partdefinition.addOrReplaceChild("bipedEar1", CubeListBuilder.create()
                         .texOffs(18, 0)

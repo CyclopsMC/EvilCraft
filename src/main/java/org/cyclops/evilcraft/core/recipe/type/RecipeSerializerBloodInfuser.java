@@ -21,7 +21,7 @@ public class RecipeSerializerBloodInfuser implements RecipeSerializer<RecipeBloo
 
     public static final MapCodec<RecipeBloodInfuser> CODEC = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
-                            Ingredient.CODEC_NONEMPTY.optionalFieldOf("input_item").forGetter(RecipeBloodInfuser::getInputIngredient),
+                            Ingredient.CODEC.optionalFieldOf("input_item").forGetter(RecipeBloodInfuser::getInputIngredient),
                             FluidStack.CODEC.optionalFieldOf("input_fluid").forGetter(RecipeBloodInfuser::getInputFluid),
                             Codec.INT.optionalFieldOf("tier").forGetter(RecipeBloodInfuser::getInputTier),
                             RecipeSerializerHelpers.getCodecItemStackOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeBloodInfuser::getOutputItem),

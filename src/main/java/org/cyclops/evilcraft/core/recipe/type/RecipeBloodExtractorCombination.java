@@ -9,13 +9,12 @@ import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDarkTank;
 import org.cyclops.evilcraft.item.ItemBloodExtractor;
@@ -43,7 +42,6 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
         return !assemble(grid, world.registryAccess()).isEmpty();
     }
 
-    @Override
     public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
         return new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
     }
@@ -54,14 +52,14 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
 
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            aitemstack.set(i, CommonHooks.getCraftingRemainingItem(itemstack));
+            aitemstack.set(i, itemstack.getCraftingRemainder());
         }
 
         return aitemstack;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_BLOODEXTRACTOR_COMBINATION.get();
     }
 
@@ -85,9 +83,9 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
                         if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD.get()) {
                             return ItemStack.EMPTY;
                         }
-                        totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
+                        totalContent = IModHelpers.get().getBaseHelpers().addSafe(totalContent, fluidStack.getAmount() * element.getCount());
                     }
-                    totalCapacity = Helpers.addSafe(totalCapacity, FluidHelpers.getFluidHandlerItemCapacity(element)
+                    totalCapacity = IModHelpers.get().getBaseHelpers().addSafe(totalCapacity, IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(element)
                             .map(IFluidHandlerItemCapacity::getCapacity)
                             .orElse(0) * element.getCount());
                 } else if(element.getItem() instanceof ItemBloodExtractor) {
@@ -97,9 +95,9 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
                         if(fluidStack.getFluid() != RegistryEntries.FLUID_BLOOD.get()) {
                             return ItemStack.EMPTY;
                         }
-                        totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
+                        totalContent = IModHelpers.get().getBaseHelpers().addSafe(totalContent, fluidStack.getAmount() * element.getCount());
                     }
-                    totalCapacity = Helpers.addSafe(totalCapacity, FluidHelpers.getFluidHandlerItemCapacity(element)
+                    totalCapacity = IModHelpers.get().getBaseHelpers().addSafe(totalCapacity, IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(element)
                             .map(IFluidHandlerItemCapacity::getCapacity)
                             .orElse(0) * element.getCount());
                 } else {
@@ -114,15 +112,10 @@ public class RecipeBloodExtractorCombination extends CustomRecipe {
         }
 
         // Set capacity and fill fluid into output.
-        IFluidHandlerItemCapacity fluidHandlerOutput = FluidHelpers.getFluidHandlerItemCapacity(output).orElse(null);
+        IFluidHandlerItemCapacity fluidHandlerOutput = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(output).orElse(null);
         fluidHandlerOutput.setCapacity(totalCapacity);
         fluidHandlerOutput.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, totalContent), IFluidHandler.FluidAction.EXECUTE);
 
         return output;
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= 1;
     }
 }

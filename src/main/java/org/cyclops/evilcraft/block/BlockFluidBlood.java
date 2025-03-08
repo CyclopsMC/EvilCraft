@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 
 /**
@@ -35,13 +35,13 @@ public class BlockFluidBlood extends LiquidBlock {
         if(random.nextInt(CHANCE_HARDEN) == 0 && blockState.getValue(LEVEL) == 0
                 && (!(world.isRaining() && world.getBiome(blockPos).value().hasPrecipitation()) || !world.canSeeSkyFromBelowWater(blockPos))
                 && !isWaterInArea(world, blockPos)) {
-            world.setBlock(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.get().defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+            world.setBlock(blockPos, RegistryEntries.BLOCK_HARDENED_BLOOD.get().defaultBlockState(), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
         }
         super.randomTick(blockState, world, blockPos, random);
     }
 
     protected boolean isWaterInArea(Level world, BlockPos blockPos) {
-        return WorldHelpers.foldArea(world, 4, blockPos,
+        return IModHelpers.get().getWorldHelpers().foldArea(world, 4, blockPos,
                 (input, world1, blockPos1) -> input || world1.getBlockState(blockPos1).getBlock() == Blocks.WATER, false);
     }
 

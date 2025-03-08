@@ -24,7 +24,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.RegistryEntries;
 
@@ -221,11 +221,11 @@ public class WorldStructureDarkTemple extends Structure {
             world.setBlock(blockPos.offset(3 * incX, 5, 4 * incZ), Blocks.STONE_STAIRS.defaultBlockState()
                     .setValue(StairBlock.FACING, DirectionHelpers.getEnumFacingFromXSign(incX))
                     .setValue(StairBlock.HALF, Half.TOP)
-                    .setValue(StairBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                    .setValue(StairBlock.SHAPE, StairsShape.STRAIGHT), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
             world.setBlock(blockPos.offset(4 * incX, 5, 3 * incZ), Blocks.STONE_STAIRS.defaultBlockState()
                     .setValue(StairBlock.FACING, DirectionHelpers.getEnumFacingFromZSing(incZ))
                     .setValue(StairBlock.HALF, Half.TOP)
-                    .setValue(StairBlock.SHAPE, StairsShape.STRAIGHT), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                    .setValue(StairBlock.SHAPE, StairsShape.STRAIGHT), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
 
             // pillars to the ground
             int xx = 4 * incX;
@@ -233,7 +233,7 @@ public class WorldStructureDarkTemple extends Structure {
             int pillarHeight = getPillarHeightForCornerAt(world, blockPos, incX, incZ);
 
             for (int yOffset = 0; yOffset < pillarHeight; yOffset++) {
-                world.setBlock(blockPos.offset(xx, -yOffset, zz), Blocks.COBBLESTONE.defaultBlockState(), MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+                world.setBlock(blockPos.offset(xx, -yOffset, zz), Blocks.COBBLESTONE.defaultBlockState(), IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
             }
         }
 
@@ -250,7 +250,7 @@ public class WorldStructureDarkTemple extends Structure {
             int res = 0;
             while (!isSolidBlock(world, loopPos)) {
                 loopPos = loopPos.offset(0, -1, 0);
-                if (loopPos.getY() <= world.getMinBuildHeight()) {
+                if (loopPos.getY() <= world.getMinY()) {
                     return res;
                 }
                 res++;

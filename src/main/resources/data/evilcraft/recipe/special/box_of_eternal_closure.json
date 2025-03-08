@@ -6,11 +6,9 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    },
+    "C": "evilcraft:dark_gem_crushed",
     "P": {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "minecraft:potion",
       "components": {
         "minecraft:potion_contents": {
@@ -18,8 +16,6 @@
         }
       }
     },
-    "E": {
-      "tag": "c:chests/ender"
-    }
+    "E": "#c:chests/ender"
   }
 }

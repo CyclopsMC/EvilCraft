@@ -6,18 +6,10 @@
     "CIC"
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:golden_string"
-    },
-    "G": {
-      "item": "evilcraft:garmonbozia"
-    },
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    },
-    "I": {
-      "item": "evilcraft:blood_infusion_core"
-    }
+    "S": "evilcraft:golden_string",
+    "G": "evilcraft:garmonbozia",
+    "C": "evilcraft:dark_gem_crushed",
+    "I": "evilcraft:blood_infusion_core"
   },
   "result": {
     "id": "evilcraft:primed_pendant"

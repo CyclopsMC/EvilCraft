@@ -6,12 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": {
-      "item": "minecraft:sugar"
-    },
-    "G": {
-      "tag": "c:gunpowders"
-    }
+    "S": "minecraft:sugar",
+    "G": "#c:gunpowders"
   },
   "result": {
     "id": "evilcraft:dull_dust",

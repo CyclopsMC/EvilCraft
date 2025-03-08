@@ -1,26 +1,22 @@
 package org.cyclops.evilcraft.entity.monster;
 
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
-import org.cyclops.cyclopscore.helper.Helpers;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.client.render.entity.RenderNetherfish;
 
 /**
  * Config for the {@link EntityNetherfish}.
  * @author rubensworks
  *
  */
-public class EntityNetherfishConfig extends EntityConfig<EntityNetherfish> {
+public class EntityNetherfishConfig extends EntityConfigCommon<IModBase, EntityNetherfish> {
 
     public EntityNetherfishConfig() {
         super(
@@ -29,15 +25,14 @@ public class EntityNetherfishConfig extends EntityConfig<EntityNetherfish> {
                 eConfig -> EntityType.Builder.<EntityNetherfish>of(EntityNetherfish::new, MobCategory.MONSTER)
                         .sized(0.4F, 0.3F)
                         .fireImmune(),
-                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "netherfish_spawn_egg", Helpers.RGBToInt(73, 27, 20), Helpers.RGBToInt(160, 45, 27))
+                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "netherfish_spawn_egg", IModHelpers.get().getBaseHelpers().RGBToInt(73, 27, 20), IModHelpers.get().getBaseHelpers().RGBToInt(160, 45, 27))
         );
         EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public EntityRenderer<? super EntityNetherfish> getRender(EntityRendererProvider.Context renderContext, ItemRenderer itemRenderer) {
-        return new RenderNetherfish(renderContext, this);
+    public EntityClientConfig<IModBase, EntityNetherfish> constructEntityClientConfig() {
+        return new EntityNetherfishConfigClient(this);
     }
 
     public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {

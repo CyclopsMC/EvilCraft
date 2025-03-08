@@ -22,8 +22,8 @@ import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -70,7 +70,7 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 10;
 
     private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         protected void onOpen(Level level, BlockPos pos, BlockState blockState) {
@@ -137,7 +137,7 @@ public class BlockEntityBloodChest extends BlockEntityTickingTankInventory<Block
         if (getLevel() == null) {
             return Direction.SOUTH;
         }
-        return BlockHelpers.getSafeBlockStateProperty(getBlockState(), org.cyclops.evilcraft.block.BlockBloodChest.FACING, Direction.SOUTH).getOpposite();
+        return IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(getBlockState(), org.cyclops.evilcraft.block.BlockBloodChest.FACING, Direction.SOUTH).getOpposite();
     }
 
     @Override

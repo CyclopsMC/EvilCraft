@@ -26,8 +26,8 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.blockentity.tickaction.purifier.DisenchantPurifyAction;
@@ -70,15 +70,15 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
 
         // Render fluid
         FluidStack fluid = tile.getTank().getFluid();
-        RenderHelpers.renderFluidContext(fluid, matrixStackIn, () -> {
+        IModHelpersNeoForge.get().getRenderHelpers().renderFluidContext(fluid, matrixStackIn, () -> {
             float height = (float) ((fluid.getAmount() * 0.7D) / tile.getTank().getCapacity() + 0.23D + 0.01D);
             int brightness = Math.max(combinedLightIn, fluid.getFluid().getFluidType().getLightLevel(fluid));
             int l2 = brightness >> 0x10 & 0xFFFF;
             int i3 = brightness & 0xFFFF;
 
-            TextureAtlasSprite icon = RenderHelpers.getFluidIcon(fluid, Direction.UP);
+            TextureAtlasSprite icon = IModHelpersNeoForge.get().getRenderHelpers().getFluidIcon(fluid, Direction.UP);
             IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid.getFluid());
-            Triple<Float, Float, Float> color = Helpers.intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
+            Triple<Float, Float, Float> color = IModHelpers.get().getBaseHelpers().intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), tile.getLevel(), tile.getBlockPos()));
 
             VertexConsumer vb = bufferIn.getBuffer(RenderType.text(icon.atlasLocation()));
             Matrix4f matrix = matrixStackIn.last().pose();
@@ -160,7 +160,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         this.enchantmentBook.setupAnim(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6);
         Material material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_LOCATION;
         VertexConsumer ivertexbuilder = material.buffer(bufferIn, RenderType::entitySolid);
-        this.enchantmentBook.render(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, -1);
+        this.enchantmentBook.renderToBuffer(matrixStackIn, ivertexbuilder, combinedLightIn, combinedOverlayIn, -1);
 
         matrixStackIn.popPose();
     }

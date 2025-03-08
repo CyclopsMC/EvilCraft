@@ -2,10 +2,9 @@ package org.cyclops.evilcraft.block;
 
 
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
@@ -16,23 +15,23 @@ import java.util.Collections;
  * @author rubensworks
  *
  */
-public class BlockFluidPoisonConfig extends BlockConfig {
+public class BlockFluidPoisonConfig extends BlockConfigCommon<IModBase> {
 
     public BlockFluidPoisonConfig() {
         super(
                 EvilCraft._instance,
             "poison",
-                eConfig -> new BlockFluidPoison(Block.Properties.of()
+                (eConfig, properties) -> new BlockFluidPoison(properties
                         .liquid()
                         .noCollission()
                         .strength(100.0F)
                         .randomTicks()),
-                (eConfig, block) -> new BlockItem(block, new Item.Properties())
+                (eConfig, block) -> new BlockItem(block, eConfig.createDefaultItemProperties())
         );
     }
 
     @Override
-    protected Collection<ItemStack> defaultCreativeTabEntries() {
+    public Collection<ItemStack> getDefaultCreativeTabEntries() {
         return Collections.emptyList();
     }
 

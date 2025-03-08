@@ -2,11 +2,11 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import org.cyclops.cyclopscore.config.ConfigurableProperty;
-import org.cyclops.cyclopscore.config.extendedconfig.ItemConfig;
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
@@ -18,18 +18,18 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class ItemKineticatorConfig extends ItemConfig {
+public class ItemKineticatorConfig extends ItemConfigCommon<IModBase> {
 
-    @ConfigurableProperty(category = "item", comment = "If the Kineticator should also attract XP orbs.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "item", comment = "If the Kineticator should also attract XP orbs.", isCommandable = true)
     public static boolean moveXP = true;
 
-    @ConfigurableProperty(category = "item", comment = "The amount of ticks inbetween each area checking for items.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "item", comment = "The amount of ticks inbetween each area checking for items.", isCommandable = true)
     public static int tickHoldoff = 1;
 
-    @ConfigurableProperty(category = "item", comment = "The amount of ticks in between each blood consumption when there are valid items in the area.", isCommandable = true)
+    @ConfigurablePropertyCommon(category = "item", comment = "The amount of ticks in between each blood consumption when there are valid items in the area.", isCommandable = true)
     public static int consumeHoldoff = 20;
 
-    @ConfigurableProperty(category = "mob",
+    @ConfigurablePropertyCommon(category = "mob",
             comment = "The blacklisted items which should not be influenced by the Kineticator, by unique item/blockState name.")
     public static List<String> kineticateBlacklist = Lists.newArrayList(
             "appliedenergistics2:item.ItemCrystalSeed"
@@ -39,14 +39,13 @@ public class ItemKineticatorConfig extends ItemConfig {
         super(
                 EvilCraft._instance,
                 "kineticator" + (repelling ? "_repelling" : ""),
-                eConfig -> new ItemKineticator(new Item.Properties()
-                        , repelling)
+                (eConfig, properties) -> new ItemKineticator(properties, repelling)
         );
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     @Override
-    protected Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<ItemStack> getDefaultCreativeTabEntries() {
         // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
         return Collections.emptyList();
     }

@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.world.gen.structure;
 
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import org.cyclops.cyclopscore.config.extendedconfig.WorldStructurePieceConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.WorldStructurePieceConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 
@@ -10,7 +11,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class WorldStructurePieceDarkTempleConfig extends WorldStructurePieceConfig {
+public class WorldStructurePieceDarkTempleConfig extends WorldStructurePieceConfigCommon<IModBase> {
     public WorldStructurePieceDarkTempleConfig() {
         super(
                 EvilCraft._instance,

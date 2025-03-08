@@ -14,7 +14,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.CommonHooks;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
@@ -43,11 +43,6 @@ public class RecipeBroomPartCombination extends CustomRecipe {
         return !assemble(grid, world.registryAccess()).isEmpty();
     }
 
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        return getResultItem();
-    }
-
     public ItemStack getResultItem() {
         return new ItemStack(RegistryEntries.ITEM_BROOM);
     }
@@ -57,14 +52,14 @@ public class RecipeBroomPartCombination extends CustomRecipe {
         NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.size(), ItemStack.EMPTY);
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            aitemstack.set(i, CommonHooks.getCraftingRemainingItem(itemstack));
+            aitemstack.set(i, itemstack.getCraftingRemainder());
         }
 
         Pair<ItemStack, List<ItemStack>> result = getResult(inventory);
         if(result != null) {
             List<ItemStack> extraOutputs = result.getRight();
             for (ItemStack extraOutput : extraOutputs) {
-                InventoryHelpers.tryReAddToStack(CommonHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput,
+                IModHelpers.get().getInventoryHelpers().tryReAddToStack(CommonHooks.getCraftingPlayer(), ItemStack.EMPTY, extraOutput,
                         CommonHooks.getCraftingPlayer().getUsedItemHand());
             }
         }
@@ -185,12 +180,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= 1;
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends CustomRecipe> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_BROOM_PART_COMBINATION.get();
     }
 

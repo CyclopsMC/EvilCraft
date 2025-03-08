@@ -3,8 +3,8 @@ package org.cyclops.evilcraft.core.client.gui.container;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -12,7 +12,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.ContainerScreenExtended;
-import org.cyclops.cyclopscore.helper.RenderHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
@@ -86,8 +87,8 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     protected void renderBg(GuiGraphics guiGraphics, float f, int x, int y) {
         super.renderBg(guiGraphics, f, x, y);
         if(isShowProgress()) {
-            guiGraphics.blit(getGuiTexture(), leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
-                    getProgressXScaled(progressWidth), getProgressYScaled(progressHeight));
+            guiGraphics.blit(RenderType::guiTextured, getGuiTexture(), leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
+                    getProgressXScaled(progressWidth), getProgressYScaled(progressHeight), 256, 256);
         }
     }
 
@@ -95,14 +96,13 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
 
     protected void drawForgegroundString(GuiGraphics guiGraphics) {
         // MCP: drawString
-        font.drawInBatch(getName(), 8 + offsetX, 4 + offsetY, 4210752, false,
-                guiGraphics.pose().last().pose(), guiGraphics.bufferSource(), Font.DisplayMode.NORMAL, 0, 15728880);
+        guiGraphics.drawString(font, getName(), 8 + offsetX, 4 + offsetY, 4210752, false);
     }
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         drawForgegroundString(guiGraphics);
-        RenderHelpers.bindTexture(texture);
+        IModHelpers.get().getRenderHelpers().bindTexture(texture);
         GlStateManager._enableBlend();
         GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -134,7 +134,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     protected void drawTank(GuiGraphics guiGraphics, int xOffset, int yOffset, Fluid fluid, int level) {
         if(fluid != null) {
             FluidStack stack = new FluidStack(fluid, 1);
-            TextureAtlasSprite icon = RenderHelpers.getFluidIcon(stack, Direction.UP);
+            TextureAtlasSprite icon = IModHelpersNeoForge.get().getRenderHelpers().getFluidIcon(stack, Direction.UP);
 
             int verticalOffset = 0;
 
@@ -149,11 +149,11 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
                     level = 0;
                 }
 
-                guiGraphics.blit(xOffset, yOffset - textureHeight - verticalOffset, 0, tankWidth, textureHeight, icon);
+                guiGraphics.blitSprite(RenderType::guiTextured, icon, xOffset, yOffset - textureHeight - verticalOffset, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
 
-            guiGraphics.blit(texture, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight);
+            guiGraphics.blit(RenderType::guiTextured, texture, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight, 256, 256);
         }
     }
 

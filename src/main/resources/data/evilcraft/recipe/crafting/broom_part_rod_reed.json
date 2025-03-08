@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "minecraft:sugar_cane",
     {
-      "item": "minecraft:sugar_cane"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,9 +11,7 @@
         ]
       }
     },
-    {
-      "item": "minecraft:sugar_cane"
-    }
+    "minecraft:sugar_cane"
   ],
   "result": {
     "id": "evilcraft:broom_part",

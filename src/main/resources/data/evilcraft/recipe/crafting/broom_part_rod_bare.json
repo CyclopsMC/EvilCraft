@@ -6,12 +6,8 @@
     " S "
   ],
   "key": {
-    "S": {
-      "item": "evilcraft:dark_stick"
-    },
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    }
+    "S": "evilcraft:dark_stick",
+    "C": "evilcraft:dark_gem_crushed"
   },
   "result": {
     "id": "evilcraft:broom_part",

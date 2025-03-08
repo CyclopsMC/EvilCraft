@@ -43,7 +43,7 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     @Override
     public EntityType<?> getInnerEntityType() {
         String entityName = dataManager.get().get(EntityVengeanceSpirit.WATCHERID_INNER);
-        return entityName.isEmpty() ? null : BuiltInRegistries.ENTITY_TYPE.get(ResourceLocation.parse(entityName));
+        return entityName.isEmpty() ? null : BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(entityName));
     }
 
     @Override

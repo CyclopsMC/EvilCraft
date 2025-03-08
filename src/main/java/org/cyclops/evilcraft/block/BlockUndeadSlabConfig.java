@@ -5,10 +5,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -16,13 +16,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockUndeadSlabConfig extends BlockConfig {
+public class BlockUndeadSlabConfig extends BlockConfigCommon<IModBase> {
 
     public BlockUndeadSlabConfig() {
         super(
                 EvilCraft._instance,
             "undead_slab",
-                eConfig -> new SlabBlock(BlockBehaviour.Properties.of()
+                (eConfig, properties) -> new SlabBlock(properties
                         .mapColor(MapColor.TERRACOTTA_ORANGE)
                         .strength(2.0F, 3.0F)
                         .sound(SoundType.WOOD)) {

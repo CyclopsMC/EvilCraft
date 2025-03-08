@@ -6,14 +6,8 @@
     " D "
   ],
   "key": {
-    "D": {
-      "item": "evilcraft:dark_block"
-    },
-    "I": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    }
+    "D": "evilcraft:dark_block",
+    "I": "#c:storage_blocks/iron",
+    "G": "#c:glass_blocks"
   }
 }

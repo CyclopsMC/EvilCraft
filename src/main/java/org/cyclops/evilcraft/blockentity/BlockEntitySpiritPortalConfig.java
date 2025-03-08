@@ -4,7 +4,8 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntitySpiritPortal;
@@ -14,14 +15,14 @@ import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntitySpiritPo
  * @author rubensworks
  *
  */
-public class BlockEntitySpiritPortalConfig extends BlockEntityConfig<BlockEntitySpiritPortal> {
+public class BlockEntitySpiritPortalConfig extends BlockEntityConfigCommon<BlockEntitySpiritPortal, IModBase> {
 
     public BlockEntitySpiritPortalConfig() {
         super(
                 EvilCraft._instance,
                 "spirit_portal",
                 (eConfig) -> new BlockEntityType<>(BlockEntitySpiritPortal::new,
-                        Sets.newHashSet(RegistryEntries.BLOCK_SPIRIT_PORTAL.get()), null)
+                        Sets.newHashSet(RegistryEntries.BLOCK_SPIRIT_PORTAL.get()))
         );
     }
 

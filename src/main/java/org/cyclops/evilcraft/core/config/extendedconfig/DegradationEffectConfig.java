@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.core.config.extendedconfig;
 
-import org.cyclops.cyclopscore.config.ConfigurableType;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.ConfigurableTypeCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
 import org.cyclops.evilcraft.core.config.ExtendedConfigurableType;
@@ -11,9 +12,9 @@ import java.util.function.Function;
 /**
  * Config for degradation effects.
  * @author rubensworks
- * @see ExtendedConfig
+ * @see ExtendedConfigCommon
  */
-public abstract class DegradationEffectConfig extends ExtendedConfig<DegradationEffectConfig, IDegradationEffect> {
+public abstract class DegradationEffectConfig extends ExtendedConfigCommon<DegradationEffectConfig, IDegradationEffect, IModBase> {
 
     private int weight;
 
@@ -28,7 +29,7 @@ public abstract class DegradationEffectConfig extends ExtendedConfig<Degradation
     }
 
     @Override
-    public ConfigurableType getConfigurableType() {
+    public ConfigurableTypeCommon getConfigurableType() {
         return ExtendedConfigurableType.DEGRADATIONEFFECT;
     }
 

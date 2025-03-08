@@ -5,8 +5,12 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -28,14 +32,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
-import org.cyclops.cyclopscore.helper.CraftingHelpers;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
-import org.cyclops.cyclopscore.helper.Helpers;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
@@ -118,7 +120,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         inventory = new Inventory(this);
         inventory.addDirtyMarkListener(this);
 
-        if (MinecraftHelpers.isClientSide()) {
+        if (IModHelpers.get().getMinecraftHelpers().isClientSide()) {
             setBeamColor(getOuterColorByState(state));
         }
     }
@@ -130,7 +132,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
         @Override
         public void populate() {
-            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> blockEntity.getInventory().getItemHandler());
+            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> new InvWrapper(blockEntity.getInventory()));
         }
     }
 
@@ -151,7 +153,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
             return Triple.of(0F, 0F, 0F);
         }
         Biome biome = getLevel().getBiome(getBlockPos()).value();
-        return Helpers.intToRGB(biome.getGrassColor(getBlockPos().getX(), getBlockPos().getZ()));
+        return IModHelpers.get().getBaseHelpers().intToRGB(biome.getGrassColor(getBlockPos().getX(), getBlockPos().getZ()));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -226,8 +228,8 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
             double y = location.getY() + 0.5;
             double z = location.getZ() + 0.5;
 
-            float rotationYaw = (float) LocationHelpers.getYaw(location, target);
-            float rotationPitch = (float) LocationHelpers.getPitch(location, target);
+            float rotationYaw = (float) IModHelpers.get().getLocationHelpers().getYaw(location, target);
+            float rotationPitch = (float) IModHelpers.get().getLocationHelpers().getPitch(location, target);
 
             for (int i = 0; i < random.nextInt(2); i++) {
                 double particleX = x - 0.2 + random.nextDouble() * 0.4;
@@ -285,7 +287,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
                 );
 
         // Loop over all recipes until we find an item dropped in the accumulator that matches a recipe
-        for (RecipeHolder<RecipeEnvironmentalAccumulator> recipe : CraftingHelpers.findRecipes(level, getRegistry())) {
+        for (RecipeHolder<RecipeEnvironmentalAccumulator> recipe : IModHelpers.get().getCraftingHelpers().findRecipes((ServerLevel) level, getRegistry())) {
             Ingredient recipeIngredient = recipe.value().getInputIngredient();
             WeatherType weatherType = recipe.value().getInputWeather();
 
@@ -401,6 +403,11 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+        super.onDataPacket(net, pkt, lookupProvider);
+        onUpdateReceived();
+    }
+
     public void onUpdateReceived() {
         // If we receive an update from the server and our new state is the
         // finished processing item state, show the corresponding effect
@@ -543,7 +550,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
             // Delayed loading of recipe when world is set
             if (blockEntity.recipeId != null && level != null) {
-                blockEntity.recipe = (RecipeHolder<RecipeEnvironmentalAccumulator>) level.getRecipeManager().byKey(ResourceLocation.parse(blockEntity.recipeId)).orElse(null);
+                blockEntity.recipe = IModHelpers.get().getCraftingHelpers().getRecipe(blockEntity.getRegistry(), ResourceKey.create(Registries.RECIPE, ResourceLocation.parse(blockEntity.recipeId))).orElse(null);
                 blockEntity.recipeId = null;
             }
 
@@ -551,7 +558,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
             if (blockEntity.tick > 0)
                 blockEntity.tick--;
 
-            if (blockEntity.state == BlockEnvironmentalAccumulator.STATE_IDLE) {
+            if (blockEntity.state == BlockEnvironmentalAccumulator.STATE_IDLE && !level.isClientSide()) {
                 blockEntity.updateEnvironmentalAccumulatorIdle();
             } // Are we processing an item?
             else if (blockEntity.state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM) {

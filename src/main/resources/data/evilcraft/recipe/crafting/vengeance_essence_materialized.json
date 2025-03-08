@@ -6,12 +6,8 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "evilcraft:dark_gem_crushed"
-    },
-    "E": {
-      "item": "evilcraft:vengeance_essence"
-    }
+    "C": "evilcraft:dark_gem_crushed",
+    "E": "evilcraft:vengeance_essence"
   },
   "result": {
     "id": "evilcraft:vengeance_essence_materialized"

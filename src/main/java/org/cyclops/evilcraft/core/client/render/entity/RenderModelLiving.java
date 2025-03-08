@@ -3,9 +3,10 @@ package org.cyclops.evilcraft.core.client.render.entity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
-import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.ExtendedConfigCommon;
 import org.cyclops.evilcraft.Reference;
 
 /**
@@ -16,17 +17,17 @@ import org.cyclops.evilcraft.Reference;
  * @param <T> The type of entity.
  * @param <M> The model that will be rendered.
  */
-public abstract class RenderModelLiving<T extends Mob, M extends EntityModel<T>> extends MobRenderer<T, M> {
+public abstract class RenderModelLiving<T extends Mob, S extends LivingEntityRenderState, M extends EntityModel<S>> extends MobRenderer<T, S, M> {
 
     private ResourceLocation texture;
 
-    public RenderModelLiving(EntityRendererProvider.Context context, ExtendedConfig<?, ?> config, M model, float par2) {
+    public RenderModelLiving(EntityRendererProvider.Context context, ExtendedConfigCommon<?, ?, ?> config, M model, float par2) {
         super(context, model, par2);
         texture = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + config.getNamedId() + ".png");
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public ResourceLocation getTextureLocation(S renderState) {
         return texture;
     }
 

@@ -6,9 +6,7 @@
     "PPP"
   ],
   "key": {
-    "P": {
-      "item": "evilcraft:reinforced_undead_planks"
-    }
+    "P": "evilcraft:reinforced_undead_planks"
   },
   "result": {
     "id": "evilcraft:reinforced_undead_planks_stairs",

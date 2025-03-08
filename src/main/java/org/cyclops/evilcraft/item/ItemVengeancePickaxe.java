@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class ItemVengeancePickaxe extends PickaxeItem {
 
     public ItemVengeancePickaxe(Properties properties) {
-        super(Tiers.DIAMOND, properties);
+        super(ToolMaterial.DIAMOND, 1.0F, -2.8F, properties);
     }
 
     @Override

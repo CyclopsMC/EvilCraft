@@ -17,8 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
@@ -316,7 +316,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     private boolean findsTargetEntity() {
-        return WorldHelpers.efficientTick(getLevel(), TICK_MODULUS, getBlockPos())
+        return IModHelpers.get().getWorldHelpers().efficientTick(getLevel(), TICK_MODULUS, getBlockPos())
                 && findNextEntity();
     }
 
@@ -351,7 +351,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
 
     protected void updateLight() {
         BlockState blockState = getLevel().getBlockState(getBlockPos());
-        level.sendBlockUpdated(getBlockPos(), blockState, blockState, MinecraftHelpers.BLOCK_NOTIFY | MinecraftHelpers.BLOCK_NOTIFY_CLIENT);
+        level.sendBlockUpdated(getBlockPos(), blockState, blockState, IModHelpers.get().getMinecraftHelpers().getBlockNotify() | IModHelpers.get().getMinecraftHelpers().getBlockNotifyClient());
     }
 
     public float getLidAngle() {

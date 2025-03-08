@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import org.cyclops.cyclopscore.config.extendedconfig.BlockConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -10,13 +10,13 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockLightningBombConfig extends BlockConfig {
+public class BlockLightningBombConfig extends BlockConfigCommon<IModBase> {
 
     public BlockLightningBombConfig() {
         super(
                 EvilCraft._instance,
             "lightning_bomb",
-                eConfig -> new BlockLightningBomb(Block.Properties.of()
+                (eConfig, properties) -> new BlockLightningBomb(properties
                         .strength(0.0F)
                         .sound(SoundType.GRAVEL)),
                 getDefaultItemConstructor(EvilCraft._instance)

@@ -22,20 +22,10 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
@@ -56,9 +46,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
-import org.cyclops.cyclopscore.helper.BlockHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
-import org.cyclops.cyclopscore.helper.WorldHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.EvilCraft;
@@ -74,6 +62,7 @@ import org.cyclops.evilcraft.item.ItemVengeanceRing;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -183,7 +172,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                 level.addFreshEntity(spirit);
                 if(directToPlayer) {
                     Player player = (Player) event.getSource().getDirectEntity();
-                    spirit.setBuildupDuration(3 * MinecraftHelpers.SECOND_IN_TICKS);
+                    spirit.setBuildupDuration(3 * IModHelpers.get().getMinecraftHelpers().getSecondInTicks());
                     spirit.setGlobalVengeance(true);
                     spirit.setTarget(player);
                 }
@@ -226,8 +215,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public ResourceKey<LootTable> getDefaultLootTable() {
-        return ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entities/" + BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath()));
+    public Optional<ResourceKey<LootTable>> getLootTable() {
+        return Optional.of(ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entities/" + BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath())));
     }
 
     @Override
@@ -236,12 +225,12 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public boolean isInvulnerableTo(DamageSource damageSource) {
+    public boolean isInvulnerableTo(ServerLevel level, DamageSource damageSource) {
         return !(damageSource.is(ExtendedDamageSources.DAMAGE_TYPE_VENGEANCE_BEAM) || damageSource == level().damageSources().fellOutOfWorld());
     }
 
     @Override
-    public boolean doHurtTarget(Entity entity) {
+    public boolean doHurtTarget(ServerLevel level, Entity entity) {
         if(getBuildupDuration() > 0) return false; // Don't attack anything when still building up.
 
         this.remove(RemovalReason.KILLED);
@@ -257,17 +246,17 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                 return false;
             }
         }
-        return super.doHurtTarget(entity);
+        return super.doHurtTarget(level, entity);
     }
 
     @Override
-    protected void dropFromLootTable(DamageSource damageSource, boolean fromPlayer) {
-        super.dropFromLootTable(damageSource, fromPlayer);
+    protected void dropFromLootTable(ServerLevel level, DamageSource damageSource, boolean fromPlayer) {
+        super.dropFromLootTable(level, damageSource, fromPlayer);
 
         // Also drop loot from inner entity!
         LivingEntity innerEntity = getInnerEntity();
         if (innerEntity != null && damageSource != level().damageSources().fellOutOfWorld()) {
-            ResourceKey<LootTable> deathLootTable = innerEntity.getLootTable();
+            ResourceKey<LootTable> deathLootTable = innerEntity.getLootTable().orElse(null);
             if (deathLootTable != null) {
                 LootTable loottable = level().getServer().reloadableRegistries().getLootTable(deathLootTable);
                 LootParams.Builder lootcontext$builder = (new LootParams.Builder((ServerLevel) level()))
@@ -284,7 +273,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                 }
 
                 for (ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.ENTITY))) {
-                    this.spawnAtLocation(itemstack, 0.0F);
+                    this.spawnAtLocation(level, itemstack, 0.0F);
                 }
             }
         }
@@ -520,7 +509,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         }
         try {
             if (entityType != RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()) {
-                Entity entity = entityType.create(level());
+                Entity entity = entityType.create(level(), EntitySpawnReason.LOAD);
                 if (canSustain((LivingEntity) entity)) {
                     return innerEntity = (Mob) entity;
                 }
@@ -583,7 +572,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             return false;
         }
 
-        return WorldHelpers.foldArea(level, BlockGemStoneTorchConfig.area, blockPos,
+        return IModHelpers.get().getWorldHelpers().foldArea(level, BlockGemStoneTorchConfig.area, blockPos,
                 (input, level1, blockPos1) -> input
                         && !level1.getBlockState(blockPos1).is(TAG_SPIRIT_BLOCKER), true);
     }
@@ -643,7 +632,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                     Mth.nextInt(spirit.random, baseDistance, baseDistance + area) * Mth.nextInt(spirit.random, -1, 1)
             );
 
-            if(BlockHelpers.doesBlockHaveSolidTopSurface(level, spawnPos.offset(0, -1, 0))) {
+            if(IModHelpers.get().getBlockHelpers().doesBlockHaveSolidTopSurface(level, spawnPos.offset(0, -1, 0))) {
                 spirit.setPos((double) spawnPos.getX() + 0.5, (double) spawnPos.getY() + 0.5, (double) spawnPos.getZ() + 0.5);
                 if(!level.noCollision(spirit)
                         && !level.containsAnyLiquid(spirit.getBoundingBox())) {

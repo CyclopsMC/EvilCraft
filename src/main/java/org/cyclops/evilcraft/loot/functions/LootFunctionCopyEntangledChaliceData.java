@@ -31,7 +31,7 @@ public class LootFunctionCopyEntangledChaliceData extends LootItemConditionalFun
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        BlockEntity tile = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
+        BlockEntity tile = lootContext.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (tile instanceof BlockEntityEntangledChalice) {
             String tankId = ((BlockEntityEntangledChalice) tile).getWorldTankId();
             ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);

@@ -6,12 +6,8 @@
     "P  "
   ],
   "key": {
-    "G": {
-      "item": "evilcraft:dark_gem"
-    },
-    "P": {
-      "item": "evilcraft:undead_planks"
-    }
+    "G": "evilcraft:dark_gem",
+    "P": "evilcraft:undead_planks"
   },
   "result": {
     "id": "evilcraft:dark_stick",

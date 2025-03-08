@@ -3,15 +3,17 @@ package org.cyclops.evilcraft.core.recipe.type;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayBloodInfuser;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +28,8 @@ public class RecipeBloodInfuser implements Recipe<IInventoryFluidTier> {
     private final Either<ItemStack, ItemStackFromIngredient> outputItem;
     private final int duration;
     private final Optional<Float> xp;
+
+    private PlacementInfo placementInfo;
 
     public RecipeBloodInfuser(Optional<Ingredient> inputIngredient, Optional<FluidStack> inputFluid, Optional<Integer> inputTier,
                               Either<ItemStack, ItemStackFromIngredient> outputItem, int duration, Optional<Float> xp) {
@@ -78,27 +82,43 @@ public class RecipeBloodInfuser implements Recipe<IInventoryFluidTier> {
         return this.getOutputItemFirst().copy();
     }
 
-    @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return width * height <= 1;
-    }
-
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-        return getResultItem();
-    }
-
     public ItemStack getResultItem() {
         return this.getOutputItemFirst().copy();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<? extends Recipe<IInventoryFluidTier>> getSerializer() {
         return RegistryEntries.RECIPESERIALIZER_BLOOD_INFUSER.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<IInventoryFluidTier>> getType() {
         return RegistryEntries.RECIPETYPE_BLOOD_INFUSER.get();
+    }
+
+    @Override
+    public PlacementInfo placementInfo() {
+        if (this.placementInfo == null) {
+            this.placementInfo = PlacementInfo.create(this.inputIngredient.orElse(Ingredient.of(Items.BUCKET)));
+        }
+        return this.placementInfo;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return RegistryEntries.RECIPEBOOKCATEGORY_BLOOD_INFUSER.get();
+    }
+
+    @Override
+    public List<RecipeDisplay> display() {
+        return List.of(new RecipeDisplayBloodInfuser(
+                this.getInputIngredient().map(Ingredient::display).orElse(SlotDisplay.Empty.INSTANCE),
+                this.getInputFluid().orElse(FluidStack.EMPTY),
+                this.getInputTier().orElse(-1),
+                new SlotDisplay.ItemStackSlotDisplay(this.getOutputItemFirst()),
+                new SlotDisplay.ItemSlotDisplay(RegistryEntries.BLOCK_BLOOD_INFUSER.get().asItem()),
+                this.getDuration(),
+                this.getXp().orElse(0F)
+        ));
     }
 }

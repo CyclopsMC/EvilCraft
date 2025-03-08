@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "#c:ingots/cobalt",
     {
-      "tag": "c:ingots/cobalt"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,9 +11,7 @@
         ]
       }
     },
-    {
-      "tag": "c:ingots/cobalt"
-    }
+    "#c:ingots/cobalt"
   ],
   "result": {
     "id": "evilcraft:broom_part",

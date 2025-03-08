@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "evilcraft:undead_planks"
-    }
+    "#": "evilcraft:undead_planks"
   },
   "result": {
     "id": "evilcraft:undead_slab",

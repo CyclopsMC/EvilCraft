@@ -7,6 +7,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -19,16 +20,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.cyclops.cyclopscore.block.multi.AllowedBlock;
-import org.cyclops.cyclopscore.block.multi.CubeDetector;
-import org.cyclops.cyclopscore.block.multi.HollowCubeDetector;
-import org.cyclops.cyclopscore.block.multi.MaximumBlockCountValidator;
-import org.cyclops.cyclopscore.block.multi.MinimumSizeValidator;
+import org.cyclops.cyclopscore.block.multi.*;
 import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.LocationHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -81,7 +78,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
     /**
      * The capacity of the tank.
      */
-    public static final int LIQUID_PER_SLOT = FluidHelpers.BUCKET_VOLUME * 10;
+    public static final int LIQUID_PER_SLOT = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 10;
 
     protected static final MinimumSizeValidator minimumSizeValidator = new MinimumSizeValidator(new Vec3i(2, 2, 2));
 
@@ -102,7 +99,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
     public static final Upgrades.UpgradeEventType UPGRADEEVENT_BLOODUSAGE = Upgrades.newUpgradeEventType();
 
     @NBTPersist(useDefaultValue = false)
-    private Vec3i size = LocationHelpers.copyLocation(Vec3i.ZERO);
+    private Vec3i size = IModHelpers.get().getLocationHelpers().copyLocation(Vec3i.ZERO);
     @NBTPersist
     private Boolean forceHalt = false;
     @NBTPersist
@@ -239,7 +236,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
                 if(boxEntityCache != null && id == boxEntityCache.getType()) {
                     return boxEntityCache;
                 } else {
-                    Entity entity = id.create(level);
+                    Entity entity = id.create(level, EntitySpawnReason.MOB_SUMMONED);
                     boxEntityCache = entity;
                     return entity;
                 }
@@ -366,7 +363,7 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
      * @return the actual inner size.
      */
     public Vec3i getInnerSize() {
-        return LocationHelpers.subtract(getSize(), new Vec3i(1, 1, 1));
+        return IModHelpers.get().getLocationHelpers().subtract(getSize(), new Vec3i(1, 1, 1));
     }
 
     /**

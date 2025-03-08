@@ -6,7 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -14,6 +16,8 @@ import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulator;
 import org.cyclops.evilcraft.blockentity.BlockEntityEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
+
+import java.util.Optional;
 
 
 /**
@@ -52,9 +56,10 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         if (recipe == null)
             return;
 
-        ItemStack stack = recipe.value().getInputIngredient().getItems()[0];
-        if (stack.isEmpty())
+        Optional<Holder<Item>> firstItem = recipe.value().getInputIngredient().items().findFirst();
+        if (firstItem.isEmpty())
             return;
+        ItemStack stack = new ItemStack(firstItem.get());
 
         // Calculate angle for the spinning item
         double totalTickTime = world.getGameTime() + partialTickTime;

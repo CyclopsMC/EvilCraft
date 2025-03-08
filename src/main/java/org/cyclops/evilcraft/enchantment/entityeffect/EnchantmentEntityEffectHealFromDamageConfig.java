@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.enchantment.entityeffect;
 
-import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentEntityEffectConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EnchantmentEntityEffectConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -8,7 +9,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class EnchantmentEntityEffectHealFromDamageConfig extends EnchantmentEntityEffectConfig {
+public class EnchantmentEntityEffectHealFromDamageConfig extends EnchantmentEntityEffectConfigCommon<IModBase> {
     public EnchantmentEntityEffectHealFromDamageConfig() {
         super(
                 EvilCraft._instance,

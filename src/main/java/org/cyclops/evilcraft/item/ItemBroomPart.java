@@ -1,10 +1,9 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
@@ -24,12 +23,12 @@ public class ItemBroomPart extends Item {
     }
 
     @Override
-    public String getDescriptionId(ItemStack itemStack) {
-        IBroomPart part = getPart(itemStack);
+    public Component getName(ItemStack stack) {
+        IBroomPart part = getPart(stack);
         if(part != null) {
-            return part.getTranslationKey();
+            return Component.translatable(part.getTranslationKey());
         }
-        return super.getDescriptionId(itemStack);
+        return super.getName(stack);
     }
 
     @Override
@@ -48,18 +47,6 @@ public class ItemBroomPart extends Item {
                     list.add(itemStack);
                 }
             }
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static class ItemColor implements net.minecraft.client.color.item.ItemColor {
-        @Override
-        public int getColor(ItemStack itemStack, int renderPass) {
-            IBroomPart part = ItemBroomPart.getPart(itemStack);
-            if (part != null) {
-                return part.getModelColor();
-            }
-            return -1;
         }
     }
 }

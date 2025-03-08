@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.potion;
 
-import org.cyclops.cyclopscore.config.extendedconfig.EffectConfig;
+import org.cyclops.cyclopscore.config.extendedconfig.EffectConfigCommon;
+import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -8,7 +9,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class PotionPalingConfig extends EffectConfig {
+public class PotionPalingConfig extends EffectConfigCommon<IModBase> {
 
     public PotionPalingConfig() {
         super(

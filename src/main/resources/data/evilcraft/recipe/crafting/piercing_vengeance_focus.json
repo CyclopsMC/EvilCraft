@@ -6,18 +6,10 @@
     "PCP"
   ],
   "key": {
-    "O": {
-      "item": "evilcraft:blood_orb_filled"
-    },
-    "C": {
-      "item": "minecraft:end_crystal"
-    },
-    "F": {
-      "item": "evilcraft:vengeance_focus"
-    },
-    "P": {
-      "item": "minecraft:popped_chorus_fruit"
-    }
+    "O": "evilcraft:blood_orb_filled",
+    "C": "minecraft:end_crystal",
+    "F": "evilcraft:vengeance_focus",
+    "P": "minecraft:popped_chorus_fruit"
   },
   "result": {
     "id": "evilcraft:piercing_vengeance_focus"

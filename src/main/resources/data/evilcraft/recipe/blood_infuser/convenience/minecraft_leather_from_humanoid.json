@@ -1,8 +1,6 @@
 {
   "type": "evilcraft:blood_infuser",
-  "input_item": {
-    "item": "evilcraft:flesh_humanoid"
-  },
+  "input_item": "evilcraft:flesh_humanoid",
   "input_fluid": {
     "id": "evilcraft:blood",
     "amount": 375

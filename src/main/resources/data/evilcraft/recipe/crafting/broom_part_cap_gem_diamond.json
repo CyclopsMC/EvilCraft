@@ -1,11 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
+    "#c:gems/diamond",
     {
-      "tag": "c:gems/diamond"
-    },
-    {
-      "type": "neoforge:components",
+      "neoforge:ingredient_type": "neoforge:components",
       "items": "evilcraft:broom_part",
       "components": {
         "evilcraft:broom_parts": [
@@ -13,9 +11,7 @@
         ]
       }
     },
-    {
-      "tag": "c:gems/diamond"
-    }
+    "#c:gems/diamond"
   ],
   "result": {
     "id": "evilcraft:broom_part",

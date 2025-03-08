@@ -26,7 +26,7 @@ import org.cyclops.evilcraft.item.ItemRedstoneGrenade;
 public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSupplier {
 
     public EntityRedstoneGrenade(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_REDSTONE_GRENADE.get(), entity, world);
+        super(RegistryEntries.ENTITY_REDSTONE_GRENADE.get(), entity.getX(), entity.getY(), entity.getZ(), world);
     }
 
     public EntityRedstoneGrenade(EntityType<? extends EntityRedstoneGrenade> type, Level world) {
@@ -39,7 +39,7 @@ public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSu
             BlockPos blockPos = ((BlockHitResult) pos).getBlockPos();
 
             if (level().isEmptyBlock(blockPos.relative(((BlockHitResult) pos).getDirection()))) {
-                level().setBlockAndUpdate(blockPos.offset(((BlockHitResult) pos).getDirection().getNormal()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.get().defaultBlockState());
+                level().setBlockAndUpdate(blockPos.offset(((BlockHitResult) pos).getDirection().getUnitVec3i()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.get().defaultBlockState());
 
                 if (level().isClientSide()) {
                     Minecraft.getInstance().levelRenderer.addParticle(

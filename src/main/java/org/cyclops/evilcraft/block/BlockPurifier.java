@@ -22,10 +22,8 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
-import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
-import org.cyclops.cyclopscore.helper.FluidHelpers;
-import org.cyclops.cyclopscore.helper.InventoryHelpers;
-import org.cyclops.cyclopscore.helper.MinecraftHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpers;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.core.block.IBlockTank;
@@ -119,21 +117,21 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
     public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
         BlockEntityPurifier tile = (BlockEntityPurifier) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
-        return (int)Math.ceil(MinecraftHelpers.COMPARATOR_MULTIPLIER * output);
+        return (int)Math.ceil(IModHelpers.get().getMinecraftHelpers().getComparatorMultiplier() * output);
     }
 
     @Override
     public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
         if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            BlockEntityHelpers.get(world, blockPos, BlockEntityPurifier.class)
-                    .ifPresent(tile -> InventoryHelpers.dropItems(world, tile.getInventory(), blockPos));
+            IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityPurifier.class)
+                    .ifPresent(tile -> IModHelpers.get().getInventoryHelpers().dropItems(world, tile.getInventory(), blockPos));
         }
         super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 
     @Override
     public int getDefaultCapacity() {
-        return FluidHelpers.BUCKET_VOLUME * BlockEntityPurifier.MAX_BUCKETS;
+        return IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * BlockEntityPurifier.MAX_BUCKETS;
     }
 
     @Override
