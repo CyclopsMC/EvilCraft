@@ -27,12 +27,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A baked broom model.
@@ -72,6 +67,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
             ));
 
     private static final Map<IBroomPart, BakedModel> broomPartModels = Maps.newHashMap();
+    private static TextureAtlasSprite particleIcon;
 
     private final List<BakedQuad> quads;
     private final RandomSource rand = RandomSource.create();
@@ -98,6 +94,9 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     public static void addBroomModel(IBroomPart part, BakedModel bakedModel) {
         broomPartModels.put(part, bakedModel);
+        if (part == BroomParts.ROD_WOOD) {
+            particleIcon = bakedModel.getParticleIcon();
+        }
     }
 
     @Override
@@ -107,7 +106,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return null;
+        return particleIcon;
     }
 
     @Override
