@@ -35,6 +35,7 @@ import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -181,6 +182,7 @@ public class EntityBroom extends Entity {
     }
 
     @Override
+    @Nullable
     public LivingEntity getControllingPassenger() {
         List<Entity> list = this.getPassengers();
         return list.isEmpty() ? null : (LivingEntity) list.get(0);
