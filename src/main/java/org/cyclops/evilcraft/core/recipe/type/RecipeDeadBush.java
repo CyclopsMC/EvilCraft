@@ -34,6 +34,11 @@ public class RecipeDeadBush extends CustomRecipe {
     }
 
     @Override
+    public boolean isSpecial() {
+        return false;
+    }
+
+    @Override
     public boolean matches(CraftingInput inv, Level worldIn) {
         int bushes = 0;
         int shears = 0;
