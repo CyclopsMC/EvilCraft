@@ -93,9 +93,10 @@ public class RecipeDeadBush extends CustomRecipe {
                     itemStack.hurtAndBreak(1, craftingPlayer, EquipmentSlot.MAINHAND);
                 } else {
                     // Fallback in case there is no crafting player
-                    itemStack.setDamageValue(itemStack.getDamageValue() + 1);
-                    if (itemStack.getDamageValue() > itemStack.getMaxDamage()) {
+                    if (itemStack.getDamageValue() + 1 > itemStack.getMaxDamage()) {
                         itemStack.shrink(1);
+                    } else {
+                        itemStack.setDamageValue(itemStack.getDamageValue() + 1);
                     }
                 }
             } else {
