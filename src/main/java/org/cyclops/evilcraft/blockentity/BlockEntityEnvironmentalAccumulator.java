@@ -5,13 +5,11 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -47,6 +46,7 @@ import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedData;
 import org.cyclops.evilcraft.client.particle.ParticleBubbleExtendedData;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityBeacon;
 import org.cyclops.evilcraft.core.degradation.DegradationExecutor;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.joml.Vector4f;
@@ -106,7 +106,10 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     // The recipe we're currently working on
     @Nullable
     private RecipeHolder<RecipeEnvironmentalAccumulator> recipe;
+    @Nullable
     private String recipeId;
+    @Nullable
+    private RecipeDisplay recipeDisplay;
 
     /**
      * Make a new instance.
@@ -195,6 +198,10 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
      */
     public RecipeHolder<RecipeEnvironmentalAccumulator> getRecipe() {
         return recipe;
+    }
+
+    public RecipeDisplayEnvironmentalAccumulator getRecipeDisplay() {
+        return (RecipeDisplayEnvironmentalAccumulator) this.recipeDisplay;
     }
 
     private int getItemMoveDuration() {
@@ -303,6 +310,11 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
                     // Save the recipe
                     this.recipe = recipe;
+                    this.recipeDisplay = IModHelpers.get().getCraftingHelpers().getRecipeDisplays(
+                            this.recipe.value().getType(),
+                            this.recipe.id()
+                    ).getFirst().display();
+                    this.sendUpdate();
 
                     if (!level.isClientSide()) {
                         decreaseStackSize(entityItem, 1);
@@ -446,6 +458,9 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
         // Delay loading of recipe when world is set during ticking
         this.recipeId = compound.getString("recipe");
+        if (compound.contains("recipeDisplay")) {
+            this.recipeDisplay = RecipeDisplay.CODEC.decode(holderLookupProvider.createSerializationContext(NbtOps.INSTANCE), compound.get("recipeDisplay")).getOrThrow().getFirst();
+        }
 
         degradationExecutor.read(compound);
 
@@ -464,8 +479,10 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         tag.putInt("tick", tick);
         tag.putInt("state", state);
 
-        if (recipe != null)
+        if (recipe != null) {
             tag.putString("recipe", recipe.id().toString());
+            tag.put("recipeDisplay", RecipeDisplay.CODEC.encodeStart(holderLookupProvider.createSerializationContext(NbtOps.INSTANCE), recipeDisplay).getOrThrow());
+        }
 
         degradationExecutor.write(tag);
     }
@@ -547,12 +564,6 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         @Override
         protected void update(Level level, BlockPos pos, BlockState blockState, BlockEntityEnvironmentalAccumulator blockEntity) {
             super.update(level, pos, blockState, blockEntity);
-
-            // Delayed loading of recipe when world is set
-            if (blockEntity.recipeId != null && level != null) {
-                blockEntity.recipe = IModHelpers.get().getCraftingHelpers().getRecipe(blockEntity.getRegistry(), ResourceKey.create(Registries.RECIPE, ResourceLocation.parse(blockEntity.recipeId))).orElse(null);
-                blockEntity.recipeId = null;
-            }
 
             // Keep ticking if necessary
             if (blockEntity.tick > 0)

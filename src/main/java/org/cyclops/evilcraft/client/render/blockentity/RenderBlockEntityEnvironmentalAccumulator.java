@@ -6,18 +6,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.Holder;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.minecraft.world.level.Level;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulator;
 import org.cyclops.evilcraft.blockentity.BlockEntityEnvironmentalAccumulator;
-import org.cyclops.evilcraft.core.recipe.type.RecipeEnvironmentalAccumulator;
-
-import java.util.Optional;
+import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayEnvironmentalAccumulator;
 
 
 /**
@@ -40,7 +36,7 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         if (tile.getMovingItemY() != -1.0f) {
             matrixStack.pushPose();
             matrixStack.translate(-0.5f, -0.5f + tile.getMovingItemY(), -0.5f);
-            renderProcessingItem(matrixStack, bufferIn, tile.getRecipe(), tile.getDegradationWorld(), partialTicks);
+            renderProcessingItem(matrixStack, bufferIn, tile.getRecipeDisplay(), tile.getDegradationWorld(), partialTicks);
             matrixStack.popPose();
         }
 
@@ -52,14 +48,11 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         return tile.getMovingItemY() >= 0;
     }
 
-    private void renderProcessingItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, RecipeHolder<RecipeEnvironmentalAccumulator> recipe, Level world, float partialTickTime) {
+    private void renderProcessingItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, RecipeDisplayEnvironmentalAccumulator recipe, Level world, float partialTickTime) {
         if (recipe == null)
             return;
 
-        Optional<Holder<Item>> firstItem = recipe.value().getInputIngredient().items().findFirst();
-        if (firstItem.isEmpty())
-            return;
-        ItemStack stack = new ItemStack(firstItem.get());
+        ItemStack stack = recipe.inputIngredient().resolveForFirstStack(SlotDisplayContext.fromLevel(world));
 
         // Calculate angle for the spinning item
         double totalTickTime = world.getGameTime() + partialTickTime;
