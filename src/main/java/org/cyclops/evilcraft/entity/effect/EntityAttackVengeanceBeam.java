@@ -26,6 +26,7 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
 
     public EntityAttackVengeanceBeam(Level world, LivingEntity entity) {
         super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM.get(), world, entity);
+        setOwner(entity);
     }
 
     @Override
