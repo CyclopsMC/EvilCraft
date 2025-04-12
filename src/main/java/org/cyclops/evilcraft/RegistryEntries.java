@@ -62,6 +62,7 @@ public class RegistryEntries {
     public static final DeferredHolder<Item, Item> ITEM_BUCKET_BLOOD = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bucket_blood"));
     public static final DeferredHolder<Item, Item> ITEM_BUCKET_POISON = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bucket_poison"));
     public static final DeferredHolder<Item, Item> ITEM_BLOOK = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:blook"));
+    public static final DeferredHolder<Item, Item> ITEM_CONDENSED_BLOOD = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:condensed_blood"));
     public static final DeferredHolder<Item, Item> ITEM_DARK_GEM = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:dark_gem"));
     public static final DeferredHolder<Item, Item> ITEM_DARK_GEM_CRUSHED = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:dark_gem_crushed"));
     public static final DeferredHolder<Item, Item> ITEM_DARK_POWER_GEM = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:dark_power_gem"));
@@ -96,7 +97,10 @@ public class RegistryEntries {
     public static final DeferredHolder<Item, ItemVeinSword> ITEM_VEIN_SWORD = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:vein_sword"));
     public static final DeferredHolder<Item, Item> ITEM_UNDEAD_SAPLING = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:undead_sapling"));
     public static final DeferredHolder<Item, Item> ITEM_VENGEANCE_FOCUS = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:vengeance_focus"));
+    public static final DeferredHolder<Item, Item> ITEM_PIERCING_VENGEANCE_FOCUS = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:piercing_vengeance_focus"));
     public static final DeferredHolder<Item, ItemVengeancePickaxe> ITEM_VENGEANCE_PICKAXE = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:vengeance_pickaxe"));
+    public static final DeferredHolder<Item, Item> ITEM_VENGEANCE_ESSENCE = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:vengeance_essence"));
+    public static final DeferredHolder<Item, Item> ITEM_VENGEANCE_RING = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:vengeance_ring"));
     public static final DeferredHolder<Item, Item> ITEM_WEATHER_CONTAINER = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:weather_container"));
     public static final DeferredHolder<Item, Item> ITEM_ETERNAL_WATER = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bucket_eternal_water"));
 

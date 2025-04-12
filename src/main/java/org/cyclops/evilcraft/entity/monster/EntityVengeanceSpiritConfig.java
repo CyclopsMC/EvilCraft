@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
@@ -72,6 +73,7 @@ public class EntityVengeanceSpiritConfig extends EntityConfigCommon<IModBase, En
             }
             return false;
         });
+        NeoForge.EVENT_BUS.register(EntityVengeanceSpirit.class);
     }
 
     public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {

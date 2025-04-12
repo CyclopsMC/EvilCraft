@@ -235,6 +235,10 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
         setState(State.CLOSING);
     }
 
+    public void closeImmediately() {
+        setState(State.CLOSED);
+    }
+
     public void initializeState() {
         if (hasSpirit())
             setState(State.CLOSED);
@@ -299,7 +303,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
         }
     }
 
-    private void captureSpirit(EntityVengeanceSpirit targetSpirit) {
+    public void captureSpirit(EntityVengeanceSpirit targetSpirit) {
         for (ServerPlayer player : targetSpirit.getEntanglingPlayers()) {
             RegistryEntries.TRIGGER_BOX_OF_ETERNAL_CLOSURE_CAPTURE.get().test(player, targetSpirit.getInnerEntity());
         }
