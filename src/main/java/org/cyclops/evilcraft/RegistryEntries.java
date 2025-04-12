@@ -62,6 +62,7 @@ public class RegistryEntries {
     public static final DeferredHolder<Item, Item> ITEM_BUCKET_BLOOD = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bucket_blood"));
     public static final DeferredHolder<Item, Item> ITEM_BUCKET_POISON = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bucket_poison"));
     public static final DeferredHolder<Item, Item> ITEM_BLOOK = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:blook"));
+    public static final DeferredHolder<Item, Item> ITEM_CONDENSED_BLOOD = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:condensed_blood"));
     public static final DeferredHolder<Item, Item> ITEM_DARK_GEM = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:dark_gem"));
     public static final DeferredHolder<Item, Item> ITEM_DARK_GEM_CRUSHED = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:dark_gem_crushed"));
     public static final DeferredHolder<Item, Item> ITEM_DARK_POWER_GEM = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:dark_power_gem"));
