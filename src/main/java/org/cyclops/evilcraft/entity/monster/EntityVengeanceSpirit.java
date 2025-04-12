@@ -52,7 +52,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -82,10 +81,6 @@ import java.util.Set;
  *
  */
 public class EntityVengeanceSpirit extends EntityNoMob {
-
-    static {
-        NeoForge.EVENT_BUS.register(EntityVengeanceSpirit.class);
-    }
 
     private static final Set<String> IMC_BLACKLIST = Sets.newHashSet();
 

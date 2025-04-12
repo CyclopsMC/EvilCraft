@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfig;
@@ -77,6 +78,7 @@ public class EntityVengeanceSpiritConfig extends EntityConfig<EntityVengeanceSpi
             }
             return false;
         });
+        NeoForge.EVENT_BUS.register(EntityVengeanceSpirit.class);
     }
 
     public void onEntityAttributeCreationEvent(EntityAttributeCreationEvent event) {
