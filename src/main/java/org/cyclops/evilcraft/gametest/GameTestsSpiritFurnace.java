@@ -88,7 +88,7 @@ public class GameTestsSpiritFurnace {
         });
     }
 
-    protected static ItemStack createBox(GameTestHelper helper, EntityType<?> entityType) {
+    public static ItemStack createBox(GameTestHelper helper, EntityType<?> entityType) {
         ItemStack stack = new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE);
         EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
         spiritDummy.setInnerEntityType(entityType);

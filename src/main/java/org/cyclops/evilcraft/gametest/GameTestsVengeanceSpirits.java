@@ -54,15 +54,15 @@ public class GameTestsVengeanceSpirits {
     @GameTest(template = TEMPLATE_EMPTY)
     public void testVengeanceSpiritRelease(GameTestHelper helper) {
         // Add filled box
-        helper.setBlock(POS, RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
-        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS);
+        helper.setBlock(POS.above(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
+        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.above());
         EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
         spiritDummy.setInnerEntityType(EntityType.ZOMBIE);
         box.captureSpirit(spiritDummy);
         box.closeImmediately();
 
         // Open box
-        helper.getBlockState(POS).useWithoutItem(helper.getLevel(), helper.makeMockPlayer(GameType.SURVIVAL), new BlockHitResult(helper.absolutePos(POS).getCenter(), Direction.DOWN, helper.absolutePos(POS), false));
+        helper.getBlockState(POS.above()).useWithoutItem(helper.getLevel(), helper.makeMockPlayer(GameType.SURVIVAL), new BlockHitResult(helper.absolutePos(POS.above()).getCenter(), Direction.DOWN, helper.absolutePos(POS.above()), false));
 
         helper.succeedWhen(() -> {
             helper.assertFalse(box.hasSpirit(), "Box is not empty");
