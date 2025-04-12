@@ -89,7 +89,7 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
                     if(!fluidStack.isEmpty()) {
                         if(commonFluid == null) {
                             commonFluid = fluidStack;
-                        } else if(!commonFluid.equals(fluidStack)) {
+                        } else if(!FluidStack.isSameFluidSameComponents(commonFluid, fluidStack)) {
                             return ItemStack.EMPTY;
                         }
                         totalContent = Helpers.addSafe(totalContent, fluidStack.getAmount() * element.getCount());
