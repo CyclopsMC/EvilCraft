@@ -5,7 +5,6 @@ org.cyclops.evilcraft.api.degradation
 org.cyclops.evilcraft.api.gameevent
 org.cyclops.evilcraft.api.tileentity.bloodchest
 org.cyclops.evilcraft.api.tileentity.purifier
-org.cyclops.evilcraft.armormaterial
 org.cyclops.evilcraft.block
 org.cyclops.evilcraft.blockentity
 org.cyclops.evilcraft.blockentity.tickaction
@@ -47,6 +46,8 @@ org.cyclops.evilcraft.core.inventory.container
 org.cyclops.evilcraft.core.inventory.slot
 org.cyclops.evilcraft.core.item
 org.cyclops.evilcraft.core.monster
+org.cyclops.evilcraft.core.recipe.category
+org.cyclops.evilcraft.core.recipe.display
 org.cyclops.evilcraft.core.recipe.type
 org.cyclops.evilcraft.core.weather
 org.cyclops.evilcraft.enchantment.component
@@ -64,6 +65,7 @@ org.cyclops.evilcraft.infobook.pageelement
 org.cyclops.evilcraft.inventory.container
 org.cyclops.evilcraft.inventory.slot
 org.cyclops.evilcraft.item
+org.cyclops.evilcraft.itemtintsource
 org.cyclops.evilcraft.loot.functions
 org.cyclops.evilcraft.loot.modifier
 org.cyclops.evilcraft.metadata
