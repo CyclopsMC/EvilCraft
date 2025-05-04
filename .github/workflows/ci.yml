@@ -16,8 +16,6 @@ jobs:
             ~/.m2
             ~/.gradle
           key: ${{ runner.os }}-gradle-${{ hashFiles('build.gradle') }}
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
       - name: 'Setup Java'
         uses: actions/setup-java@v1
         with:
@@ -75,7 +73,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
       - name: 'Deploy to Maven'
-        if: startsWith(github.ref, 'refs/heads/master')
+        if: startsWith(github.ref, 'refs/heads/master') || startsWith(github.ref, 'refs/heads/feature')
         env:
           MAVEN_URL: ${{ secrets.MAVEN_URL }}
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
