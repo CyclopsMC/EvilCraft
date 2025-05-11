@@ -51,10 +51,13 @@ public class EnchantmentEffectComponentStopDamage {
         Wrapper<Boolean> ret = new Wrapper<Boolean>(false);
         EnchantmentHelpers.runIterationOnItem(itemStack, (enchantment, level) -> {
             if (enchantment.value().effects().getOrDefault(RegistryEntries.ENCHANTMENTEFFECT_COMPONENT_STOP_DAMAGE.get(), false)) {
-                int damageBorder = itemStack.getMaxDamage() - 5;
-                if(itemStack.getDamageValue() >= damageBorder) {
-                    itemStack.setDamageValue(damageBorder);
-                    ret.set(true);
+                int maxDamage = itemStack.getMaxDamage();
+                if (maxDamage > 0) {
+                    int damageBorder = maxDamage - 5;
+                    if (itemStack.getDamageValue() >= damageBorder) {
+                        itemStack.setDamageValue(damageBorder);
+                        ret.set(true);
+                    }
                 }
             }
         });
