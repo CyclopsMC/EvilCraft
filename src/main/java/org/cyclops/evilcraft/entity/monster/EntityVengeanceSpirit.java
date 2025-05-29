@@ -215,7 +215,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @Override
     public boolean isInvulnerableTo(ServerLevel level, DamageSource damageSource) {
-        return !(damageSource.is(ExtendedDamageSources.DAMAGE_TYPE_VENGEANCE_BEAM) || damageSource == level().damageSources().fellOutOfWorld());
+        return !(damageSource.is(ExtendedDamageSources.DAMAGE_TYPE_VENGEANCE_BEAM) || damageSource == level.damageSources().fellOutOfWorld() || damageSource == level.damageSources().genericKill());
     }
 
     @Override
