@@ -12,7 +12,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -221,10 +222,10 @@ public class BlockDisplayStand extends BlockWithEntity {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult p_225533_6_) {
-        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult pHitResult) {
+        ItemStack itemStack = player.getItemInHand(hand);
         if (world.isClientSide()) {
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else {
             BlockEntityDisplayStand tile = BlockEntityHelpers.get(world, pos, BlockEntityDisplayStand.class).orElse(null);
             if (tile != null) {
@@ -236,17 +237,17 @@ public class BlockDisplayStand extends BlockWithEntity {
                     player.getInventory().setItem(player.getInventory().selected, tileStack);
                     tile.getInventory().setItem(0, ItemStack.EMPTY);
                     tile.sendUpdate();
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 } else if (!itemStack.isEmpty() && tile.getInventory().getItem(0).isEmpty()) {
                     tile.getInventory().setItem(0, itemStack.split(1));
                     if (itemStack.getCount() <= 0)
                         player.getInventory().setItem(player.getInventory().selected, ItemStack.EMPTY);
                     tile.sendUpdate();
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
         }
-        return InteractionResult.PASS;
+        return super.useItemOn(pStack, pState, world, pos, player, hand, pHitResult);
     }
 
     @Override

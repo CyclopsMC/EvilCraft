@@ -3,17 +3,13 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -112,7 +108,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHitResult) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, new CubeDetector.IValidationAction() {
@@ -128,12 +124,12 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
             }, false);
             BlockPos tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
-                return world.getBlockState(tileLocation).useWithoutItem(world, player, rayTraceResult.withPosition(tileLocation));
+                return world.getBlockState(tileLocation).useItemOn(pStack, world, player, pHand, pHitResult.withPosition(tileLocation));
             }
-            return super.useWithoutItem(blockState, world, blockPos, player, rayTraceResult);
+            return super.useItemOn(pStack, blockState, world, blockPos, player, pHand, pHitResult);
         } else {
-            BlockColossalBloodChest.addPlayerChatError(world, blockPos, player);
-            return InteractionResult.FAIL;
+            BlockColossalBloodChest.addPlayerChatError(world, blockPos, player, pHand);
+            return ItemInteractionResult.FAIL;
         }
     }
 

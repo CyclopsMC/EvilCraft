@@ -10,17 +10,12 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -100,16 +95,16 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHitResult) {
         if(BlockHelpers.getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             if (!BlockEntityColossalBloodChest.canWork(world, blockPos)) {
-                return InteractionResult.FAIL;
+                return ItemInteractionResult.FAIL;
             } else {
-                return super.useWithoutItem(blockState, world, blockPos, player, rayTraceResult);
+                return super.useItemOn(pStack, blockState, world, blockPos, player, pHand, pHitResult);
             }
         } else {
-            addPlayerChatError(world, blockPos, player);
-            return InteractionResult.FAIL;
+            addPlayerChatError(world, blockPos, player, pHand);
+            return ItemInteractionResult.FAIL;
         }
     }
 
@@ -175,8 +170,8 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
      * @param blockPos The start position.
      * @param player The player.
      */
-    public static void addPlayerChatError(Level world, BlockPos blockPos, Player player) {
-        if(player.getUsedItemHand() == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(player.getUsedItemHand()).isEmpty()) {
+    public static void addPlayerChatError(Level world, BlockPos blockPos, Player player, InteractionHand hand) {
+        if(hand == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(hand).isEmpty()) {
             DetectionResult result = BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, false);
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());

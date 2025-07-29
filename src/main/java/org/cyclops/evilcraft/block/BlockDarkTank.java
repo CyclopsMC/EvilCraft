@@ -6,7 +6,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -96,9 +97,9 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level worldIn, BlockPos pos, Player player, BlockHitResult p_225533_6_) {
-        if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), worldIn, pos, Direction.UP)) {
-            return InteractionResult.SUCCESS;
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level worldIn, BlockPos pos, Player player, InteractionHand hand, BlockHitResult pHitResult) {
+        if (FluidUtil.interactWithFluidHandler(player, hand, worldIn, pos, Direction.UP)) {
+            return ItemInteractionResult.SUCCESS;
         } else if (!player.isCrouching()) {
             BlockEntityHelpers.get(worldIn, pos, BlockEntityDarkTank.class)
                     .ifPresent(tile -> {
@@ -108,9 +109,9 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
                                 .append(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
                                 .append(" mB"), true);
                     });
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return super.useWithoutItem(state, worldIn, pos, player, p_225533_6_);
+        return super.useItemOn(pStack, pState, worldIn, pos, player, hand, pHitResult);
     }
 
     @Override

@@ -3,7 +3,8 @@ package org.cyclops.evilcraft.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -67,9 +68,9 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
+    protected ItemInteractionResult useItemOn(ItemStack pStack, BlockState pState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult pHitResult) {
         if(world.isClientSide()) {
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else {
             ItemStack itemStack = player.getInventory().getSelected();
             BlockEntityPurifier tile = (BlockEntityPurifier) world.getBlockEntity(blockPos);
@@ -77,29 +78,29 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
                 if (itemStack.isEmpty() && !tile.getPurifyItem().isEmpty()) {
                     player.getInventory().setItem(player.getInventory().selected, tile.getPurifyItem());
                     tile.setPurifyItem(ItemStack.EMPTY);
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 } else if (itemStack.isEmpty() && !tile.getAdditionalItem().isEmpty()) {
                     player.getInventory().setItem(player.getInventory().selected, tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
-                    return InteractionResult.SUCCESS;
-                } else if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), world, blockPos, Direction.UP)) {
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
+                } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
+                    return ItemInteractionResult.SUCCESS;
                 }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
                     copy.setCount(1);
                     tile.setAdditionalItem(copy);
                     itemStack.shrink(1);
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 } else if(!itemStack.isEmpty() && tile.getActions().isItemValidForMainSlot(itemStack) && tile.getPurifyItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
                     copy.setCount(1);
                     tile.setPurifyItem(copy);
                     itemStack.shrink(1);
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
         }
-        return InteractionResult.FAIL;
+        return super.useItemOn(pStack, pState, world, blockPos, player, hand, pHitResult);
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
