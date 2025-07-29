@@ -164,7 +164,7 @@ public class EntityBroom extends Entity {
     public void push(Entity entityIn) {
         if (!this.level().isClientSide()) {
             if (!entityIn.noPhysics && !this.noPhysics) {
-                Entity controlling = this.getControllingPassenger();
+                Entity controlling = this.getControllingPassengerRaw();
                 if (entityIn != controlling) {
                     if (entityIn instanceof LivingEntity
                             && !(entityIn instanceof Player)
@@ -193,8 +193,13 @@ public class EntityBroom extends Entity {
     @Override
     @Nullable
     public LivingEntity getControllingPassenger() {
+        Entity entity = getControllingPassengerRaw();
+        return entity instanceof LivingEntity livingEntity ? livingEntity : null;
+    }
+
+    public Entity getControllingPassengerRaw() {
         List<Entity> list = this.getPassengers();
-        return list.isEmpty() ? null : (LivingEntity) list.get(0);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
@@ -243,7 +248,7 @@ public class EntityBroom extends Entity {
     public void tick() {
         super.tick();
 
-        Entity rider = getControllingPassenger();
+        Entity rider = getControllingPassengerRaw();
         if (!level().isClientSide() && !isVehicle() && lastMounted != null) {
             onDismount();
 
@@ -331,7 +336,7 @@ public class EntityBroom extends Entity {
 
     @Override
     protected void removePassenger(Entity passenger) {
-        if (!getCommandSenderWorld().isClientSide() && getControllingPassenger() == passenger) {
+        if (!getCommandSenderWorld().isClientSide() && getControllingPassengerRaw() == passenger) {
             onDismount();
         }
         super.removePassenger(passenger);
@@ -464,7 +469,7 @@ public class EntityBroom extends Entity {
         double playerSpeed = lastMounted.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
         playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
         int amount = ItemBroomConfig.bloodUsage;
-        LivingEntity currentRidingEntity = getControllingPassenger() instanceof LivingEntity ? (LivingEntity) getControllingPassenger() : null;
+        LivingEntity currentRidingEntity = getControllingPassenger();
         float moveForward = canConsume(amount, currentRidingEntity) ? lastMounted.zza : lastMounted.zza / 10F;
         playerSpeed *= moveForward;
         if(moveForward != 0) {
