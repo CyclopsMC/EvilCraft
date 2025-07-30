@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -8,6 +9,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
 
 /**
@@ -30,8 +32,10 @@ public class ExtendedDamageSources {
         return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_DISTORTED));
     }
 
-    public static DamageSource spikedDamage(ServerLevel level) {
-        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_SPIKED), FakePlayerFactory.getMinecraft(level));
+    public static DamageSource spikedDamage(ServerLevel level, BlockPos pos) {
+        FakePlayer entity = FakePlayerFactory.getMinecraft(level);
+        entity.setPos(pos.getCenter());
+        return new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DAMAGE_TYPE_SPIKED), entity);
     }
 
     public static DamageSource paling(Level level) {

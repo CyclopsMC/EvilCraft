@@ -63,7 +63,7 @@ public class BlockSpikedPlate extends BlockPressurePlate {
             // To make sure the entity actually will drop something.
             ((LivingEntity) entity).lastHurtByPlayerTime = 100;
 
-            if(entity.hurt(ExtendedDamageSources.spikedDamage(world), damage)) {
+            if(entity.hurt(ExtendedDamageSources.spikedDamage(world, blockPos), damage)) {
                 BlockEntity tile = world.getBlockEntity(blockPos.offset(0, -1, 0));
                 if(tile != null && tile instanceof BlockEntitySanguinaryPedestal) {
                     int amount = Mth.floor(damage * (float) BlockSpikedPlateConfig.mobMultiplier);
