@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.client.gui.container;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -129,13 +129,13 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
             }
         }
         if(lines.size() > 1) {
-            guiGraphics.blit(RenderType::guiTextured, getGuiTexture(), PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getGuiTexture(), PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESS_INVALIDX,
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT, 256, 256);
             if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
                 mouseX -= leftPos;
                 mouseY -= topPos;
-                drawTooltip(lines, guiGraphics.pose(), mouseX, mouseY);
+                drawTooltip(lines, guiGraphics, mouseX, mouseY);
             }
         }
     }

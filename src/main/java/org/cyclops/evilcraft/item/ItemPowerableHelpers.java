@@ -9,7 +9,7 @@ import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Helpers for items.
@@ -63,7 +63,7 @@ public class ItemPowerableHelpers {
      * @param itemStack The itemstack with a power
      * @param lines The lines to add the information to.
      */
-    public static void addPreInformation(ItemStack itemStack, List<Component> lines) {
+    public static void addPreInformation(ItemStack itemStack, Consumer<Component> lines) {
         IModHelpers.get().getL10NHelpers().addOptionalInfo(lines, "item." + Reference.MOD_ID + ".powerable");
     }
 
@@ -72,8 +72,8 @@ public class ItemPowerableHelpers {
      * @param itemStack The itemstack with a power
      * @param lines The lines to add the information to.
      */
-    public static void addPostInformation(ItemStack itemStack, List<Component> lines) {
-        lines.add(Component.translatable("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
+    public static void addPostInformation(ItemStack itemStack, Consumer<Component> lines) {
+        lines.accept(Component.translatable("item." + Reference.MOD_ID + ".powerable.info.power", getPower(itemStack))
                 .withStyle(ChatFormatting.BOLD));
     }
 

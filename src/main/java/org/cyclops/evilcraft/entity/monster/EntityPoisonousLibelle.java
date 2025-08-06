@@ -10,12 +10,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.FlyingMob;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -35,7 +30,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
+public class EntityPoisonousLibelle extends Mob implements Enemy {
 
     static {
         NeoForge.EVENT_BUS.register(EntityPoisonousLibelle.class);
@@ -154,17 +149,9 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
 
         if (this.level().isClientSide()) {
             // Correct rotation of the entity when rotating
-            if (this.lerpSteps > 0) {
-                distanceX = this.getX() + (this.lerpX - this.getX()) / (double)this.lerpSteps;
-                distanceY = this.getY() + (this.lerpY - this.getY()) / (double)this.lerpSteps;
-                distanceZ = this.getZ() + (this.lerpZ - this.getZ()) / (double)this.lerpSteps;
-                distance = Mth.wrapDegrees(this.lerpYRot - (double) this.getYRot());
-                this.setYRot((float)((double)this.getYRot() + distance / (double)this.lerpSteps));
-                // MCP: newPosX should probably be interpPitch
-                this.setXRot((float)((double)this.getXRot() + (this.targetX - (double)this.getXRot()) / (double)this.lerpSteps));
-                --this.lerpSteps;
-                this.setPos(distanceX, distanceY, distanceZ);
-                this.setRot(this.getYRot(), this.getXRot());
+            if (this.interpolation.hasActiveInterpolation()) { // TODO: can this be removed?
+                this.setPos(this.interpolation.position());
+                this.setRot(this.interpolation.yRot(), this.interpolation.xRot());
             }
         } else {
             // Calc distance to target
@@ -305,7 +292,7 @@ public class EntityPoisonousLibelle extends FlyingMob implements Enemy {
         this.forceNewTarget = false;
 
         boolean targetSet = false;
-        if (this.random.nextInt(2) == 0 && !this.level().players().isEmpty() && !this.level().isDay()) {
+        if (this.random.nextInt(2) == 0 && !this.level().players().isEmpty() && this.level().isDarkOutside()) {
             this.target = (Entity)this.level().players().get(this.random.nextInt(this.level().players().size()));
             targetSet = true;
             if(target instanceof Player) {

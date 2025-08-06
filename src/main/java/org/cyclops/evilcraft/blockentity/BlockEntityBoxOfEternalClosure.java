@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -14,10 +13,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.phys.AABB;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -255,7 +254,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     private void setSpirit(EntityVengeanceSpirit spirit) {
-        spirit.getData().writeNBT(getSpiritTag());
+        setSpiritTag(IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spirit.getData()::writeNBT, spirit.level().registryAccess()));
     }
 
     private void updateLidAngle() {
@@ -414,14 +413,14 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
 
     private EntityVengeanceSpiritData loadSpiritDataLazy() {
         if (spiritData == null) {
-            spiritData = EntityVengeanceSpiritData.fromNBT(getSpiritTag());
+            spiritData = EntityVengeanceSpiritData.fromNBT(getSpiritTag(), level.registryAccess());
         }
         return spiritData;
     }
 
     @Override
-    public void read(CompoundTag tag, HolderLookup.Provider provider) {
-        super.read(tag, provider);
+    public void read(ValueInput input) {
+        super.read(input);
         initializeState();
         initializeLidAngle();
     }

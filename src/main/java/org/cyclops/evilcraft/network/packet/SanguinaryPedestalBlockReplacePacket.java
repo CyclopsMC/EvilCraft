@@ -8,13 +8,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
+import org.cyclops.evilcraft.core.helper.ParticleHelpers;
 
 /**
  * Packet for playing a sound at a location.
@@ -55,11 +53,10 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec<Sanguinary
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void actionClient(Level world, Player player) {
         world.playLocalSound(x, y, z, RegistryEntries.BLOCK_BLOOD_STAIN.get().defaultBlockState().getSoundType().getBreakSound(), SoundSource.BLOCKS, 0.1F + world.random.nextFloat() * 0.5F,
                 0.9F + world.random.nextFloat() * 0.1F, false);
-        ParticleBloodSplash.spawnParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.random.nextInt(2), 1 + world.random.nextInt(2));
+        ParticleHelpers.spawnBloodSplashParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.random.nextInt(2), 1 + world.random.nextInt(2));
     }
 
     @Override

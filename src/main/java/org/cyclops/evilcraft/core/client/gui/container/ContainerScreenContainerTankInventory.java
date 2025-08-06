@@ -1,24 +1,21 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.client.gui.container.ContainerScreenExtended;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.item.DamageIndicatedItemComponent;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTickingTankInventory;
 import org.cyclops.evilcraft.core.inventory.container.ContainerInventoryTickingTank;
-import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -87,7 +84,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     protected void renderBg(GuiGraphics guiGraphics, float f, int x, int y) {
         super.renderBg(guiGraphics, f, x, y);
         if(isShowProgress()) {
-            guiGraphics.blit(RenderType::guiTextured, getGuiTexture(), leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getGuiTexture(), leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
                     getProgressXScaled(progressWidth), getProgressYScaled(progressHeight), 256, 256);
         }
     }
@@ -96,23 +93,18 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
 
     protected void drawForgegroundString(GuiGraphics guiGraphics) {
         // MCP: drawString
-        guiGraphics.drawString(font, getName(), 8 + offsetX, 4 + offsetY, 4210752, false);
+        guiGraphics.drawString(font, getName(), 8 + offsetX, 4 + offsetY, ARGB.opaque(4210752), false);
     }
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         drawForgegroundString(guiGraphics);
-        IModHelpers.get().getRenderHelpers().bindTexture(texture);
-        GlStateManager._enableBlend();
-        GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         FluidStack fluidStack = getMenu().getFluidStack();
         if(shouldRenderTank(fluidStack) && getMenu().getFluidCapacity() > 0) {
             int tankSize = Math.min(getMenu().getFluidCapacity(), Math.min(getMenu().getFluidCapacity(), fluidStack.getAmount()) * tankHeight / getMenu().getFluidCapacity());
             drawTank(guiGraphics, tankTargetX, tankTargetY, fluidStack.getFluid(), tankSize);
         }
         drawAdditionalForeground(guiGraphics, mouseX, mouseY);
-        GlStateManager._disableBlend();
     }
 
     protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
@@ -149,11 +141,11 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
                     level = 0;
                 }
 
-                guiGraphics.blitSprite(RenderType::guiTextured, icon, xOffset, yOffset - textureHeight - verticalOffset, tankWidth, textureHeight);
+                guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, icon, xOffset, yOffset - textureHeight - verticalOffset, tankWidth, textureHeight);
                 verticalOffset = verticalOffset + 16;
             }
 
-            guiGraphics.blit(RenderType::guiTextured, texture, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight, 256, 256);
+            guiGraphics.blit(RenderPipelines.GUI_TEXTURED, texture, xOffset, yOffset - tankHeight, tankX, tankY, tankWidth, tankHeight, 256, 256);
         }
     }
 
@@ -169,10 +161,10 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         List<Component> lines = Lists.newArrayList();
         lines.add(name);
         lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));
-        guiGraphics.pose().pushPose();
-        guiGraphics.pose().translate(this.leftPos, this.topPos, 0);
-        drawTooltip(lines, guiGraphics.pose(), x - this.leftPos, y - this.topPos);
-        guiGraphics.pose().popPose();
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().translate(this.leftPos, this.topPos);
+        drawTooltip(lines, guiGraphics, x, y);
+        guiGraphics.pose().popMatrix();
     }
 
 }

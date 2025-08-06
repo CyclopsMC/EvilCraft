@@ -36,7 +36,7 @@ public class RenderBlockEntityEntangledChalice implements BlockEntityRenderer<Bl
     }
 
     @Override
-    public void render(final BlockEntityEntangledChalice tile, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int combinedLight, int combinedOverlayIn) {
+    public void render(final BlockEntityEntangledChalice tile, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int combinedLight, int combinedOverlayIn, Vec3 cameraPos) {
         if(tile != null && !tile.getTank().getFluid().isEmpty() && tile.getTank().getFluid().getFluid() != null) {
             try {
                 FluidStack fluid = tile.getTank().getFluid();

@@ -65,7 +65,7 @@ public class EntityStruckByLightningEventHook {
                 event.setCanceled(false);
                 return; // 50% chance that they become a witch like vanilla does
             }
-            if(entity.getVillagerData().getProfession() != RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()) {
+            if(entity.getVillagerData().profession().is(RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.getKey())) {
                 event.setCanceled(true);
                 EntityWerewolf.initializeWerewolfVillagerData(entity);
             }

@@ -1,10 +1,7 @@
 package org.cyclops.evilcraft.core.degradation.effect;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
@@ -27,7 +24,6 @@ public class ParticleDegradation implements IDegradationEffect {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void runClientSide(IDegradable degradable) {
         BlockPos center = degradable.getLocation();
         Level world = degradable.getDegradationWorld();
@@ -44,8 +40,8 @@ public class ParticleDegradation implements IDegradationEffect {
         float particleMotionX = world.random.nextFloat() * 1.4F - 0.7F;
         float particleMotionY = -0.2F;
         float particleMotionZ = world.random.nextFloat() * 1.4F - 0.7F;
-        Minecraft.getInstance().levelRenderer.addParticle(
-                RegistryEntries.PARTICLE_DEGRADE.get(), false,
+        world.addParticle(
+                RegistryEntries.PARTICLE_DEGRADE.get(),
                 particleX, particleY, particleZ,
                 particleMotionX, particleMotionY, particleMotionZ);
     }

@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.gametest;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -15,17 +15,14 @@ import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 
-@GameTestHolder(Reference.MOD_ID)
-@PrefixGameTestTemplate(false)
 public class GameTestsItemEternalWater {
 
-    public static final String TEMPLATE_EMPTY = "empty10";
+    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
     @GameTest(template = TEMPLATE_EMPTY)
@@ -49,16 +46,16 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result instanceof InteractionResult.Success, "Result is not successful");
-            helper.assertFalse(((InteractionResult.Success) result).heldItemTransformedTo().isEmpty(), "Result is empty");
-            helper.assertTrue(((InteractionResult.Success) result).heldItemTransformedTo().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Result item is incorrect");
+            helper.assertTrue(result instanceof InteractionResult.Success, Component.literal("Result is not successful"));
+            helper.assertFalse(((InteractionResult.Success) result).heldItemTransformedTo().isEmpty(), Component.literal("Result is empty"));
+            helper.assertTrue(((InteractionResult.Success) result).heldItemTransformedTo().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), Component.literal("Result item is incorrect"));
 
             // Check placed water block
             helper.assertBlockPresent(Blocks.WATER, POS);
 
             // Check if player still has the bucket
-            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), "Item in hand is empty");
-            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Item in hand is incorrect");
+            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), Component.literal("Item in hand is empty"));
+            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), Component.literal("Item in hand is incorrect"));
         });
     }
 
@@ -85,16 +82,16 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result instanceof InteractionResult.Success, "Result is not successful");
-            helper.assertFalse(((InteractionResult.Success) result).heldItemTransformedTo().isEmpty(), "Result is empty");
-            helper.assertTrue(((InteractionResult.Success) result).heldItemTransformedTo().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Result item is incorrect");
+            helper.assertTrue(result instanceof InteractionResult.Success, Component.literal("Result is not successful"));
+            helper.assertFalse(((InteractionResult.Success) result).heldItemTransformedTo().isEmpty(), Component.literal("Result is empty"));
+            helper.assertTrue(((InteractionResult.Success) result).heldItemTransformedTo().getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), Component.literal("Result item is incorrect"));
 
             // Check removed water block
             helper.assertBlockNotPresent(Blocks.WATER, POS);
 
             // Check if player still has the bucket
-            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), "Item in hand is empty");
-            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Item in hand is incorrect");
+            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), Component.literal("Item in hand is empty"));
+            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), Component.literal("Item in hand is incorrect"));
         });
     }
 
@@ -113,15 +110,15 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result == InteractionResult.SUCCESS, "Result is not successful");
+            helper.assertTrue(result == InteractionResult.SUCCESS, Component.literal("Result is not successful"));
 
             // Check tank has water
-            BlockEntityDarkTank tank = helper.getBlockEntity(POS);
-            helper.assertTrue(FluidStack.matches(tank.getTank().getFluid(), new FluidStack(Fluids.WATER, 1000)), "Fluid in tank is incorrect");
+            BlockEntityDarkTank tank = helper.getBlockEntity(POS, BlockEntityDarkTank.class);
+            helper.assertTrue(FluidStack.matches(tank.getTank().getFluid(), new FluidStack(Fluids.WATER, 1000)), Component.literal("Fluid in tank is incorrect"));
 
             // Check if player still has the bucket
-            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), "Item in hand is empty");
-            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Item in hand is incorrect");
+            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), Component.literal("Item in hand is empty"));
+            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), Component.literal("Item in hand is incorrect"));
         });
     }
 
@@ -140,15 +137,15 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result == InteractionResult.SUCCESS, "Result is not successful");
+            helper.assertTrue(result == InteractionResult.SUCCESS, Component.literal("Result is not successful"));
 
             // Check filled cauldron
             helper.assertBlockPresent(Blocks.WATER_CAULDRON, POS);
             helper.assertBlockProperty(POS, LayeredCauldronBlock.LEVEL, 3);
 
             // Check if player still has the bucket
-            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), "Item in hand is empty");
-            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Item in hand is incorrect");
+            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), Component.literal("Item in hand is empty"));
+            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), Component.literal("Item in hand is incorrect"));
         });
     }
 
@@ -167,15 +164,15 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result == InteractionResult.SUCCESS, "Result is not successful");
+            helper.assertTrue(result == InteractionResult.SUCCESS, Component.literal("Result is not successful"));
 
             // Check filled cauldron
             helper.assertBlockPresent(Blocks.WATER_CAULDRON, POS);
             helper.assertBlockProperty(POS, LayeredCauldronBlock.LEVEL, 3);
 
             // Check if player still has the bucket
-            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), "Item in hand is empty");
-            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), "Item in hand is incorrect");
+            helper.assertFalse(player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty(), Component.literal("Item in hand is empty"));
+            helper.assertTrue(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == RegistryEntries.ITEM_ETERNAL_WATER.get(), Component.literal("Item in hand is incorrect"));
         });
     }
 

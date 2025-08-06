@@ -4,8 +4,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -16,10 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
  * @author rubensworks
  *
  */
-public class ItemVengeancePickaxe extends PickaxeItem {
+public class ItemVengeancePickaxe extends Item {
 
     public ItemVengeancePickaxe(Properties properties) {
-        super(ToolMaterial.DIAMOND, 1.0F, -2.8F, properties);
+        super(properties.pickaxe(ToolMaterial.DIAMOND, 1.0F, -2.8F));
     }
 
     @Override

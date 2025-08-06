@@ -2,13 +2,10 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntityPurifier;
 
 /**
  * Config for the {@link BlockEntityPurifier}.
@@ -25,13 +22,6 @@ public class BlockEntityPurifierConfig extends BlockEntityConfigCommon<BlockEnti
                         Sets.newHashSet(RegistryEntries.BLOCK_PURIFIER.get()))
         );
         EvilCraft._instance.getModEventBus().addListener(new BlockEntityPurifier.CapabilityRegistrar<>(this::getInstance)::register);
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void onRegistered() {
-        super.onRegistered();
-        getMod().getProxy().registerRenderer(getInstance(), RenderBlockEntityPurifier::new);
     }
 
 }

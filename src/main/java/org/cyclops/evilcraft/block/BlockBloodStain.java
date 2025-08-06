@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -21,8 +22,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -30,7 +29,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
-import org.cyclops.evilcraft.client.particle.ParticleBloodSplash;
+import org.cyclops.evilcraft.core.helper.ParticleHelpers;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.jetbrains.annotations.Nullable;
 
@@ -104,20 +103,18 @@ public class BlockBloodStain extends BlockWithEntity {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
         splash(worldIn, pos);
         super.attack(state, worldIn, pos, player);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
-        if (entityIn.getDeltaMovement().length() > 0.1D) {
-            splash(worldIn, pos);
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+        if (entity.getDeltaMovement().length() > 0.1D) {
+            splash(level, pos);
         }
-        super.entityInside(state, worldIn, pos, entityIn);
+        super.entityInside(state, level, pos, entity, effectApplier);
     }
 
     /**
@@ -125,10 +122,9 @@ public class BlockBloodStain extends BlockWithEntity {
      * @param world The world.
      * @param blockPos The position.
      */
-    @OnlyIn(Dist.CLIENT)
     public static void splash(Level world, BlockPos blockPos) {
         if(world.isClientSide()) {
-            ParticleBloodSplash.spawnParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
+            ParticleHelpers.spawnBloodSplashParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
         }
     }
 
@@ -161,19 +157,19 @@ public class BlockBloodStain extends BlockWithEntity {
                         pos = pos.offset(0, 1, 0);
 
                         // Add a new blood stain block
-                        if (event.getEntity().getCommandSenderWorld().isEmptyBlock(pos) && canSurvive(defaultBlockState(), event.getEntity().getCommandSenderWorld(), pos)) {
-                            event.getEntity().getCommandSenderWorld().setBlockAndUpdate(pos, defaultBlockState());
+                        if (event.getEntity().level().isEmptyBlock(pos) && canSurvive(defaultBlockState(), event.getEntity().level(), pos)) {
+                            event.getEntity().level().setBlockAndUpdate(pos, defaultBlockState());
                         }
                     }
                     // Add blood to existing block
-                    IModHelpers.get().getBlockEntityHelpers().get(event.getEntity().getCommandSenderWorld(), pos, BlockEntityBloodStain.class)
+                    IModHelpers.get().getBlockEntityHelpers().get(event.getEntity().level(), pos, BlockEntityBloodStain.class)
                             .ifPresent(tile -> tile.addAmount(amount));
                 });
             } else {
                 // Init particles
                 Random random = new Random();
                 BlockPos pos = new BlockPos(x, y, z);
-                ParticleBloodSplash.spawnParticles(event.getEntity().level(), pos.offset(0, 1, 0),
+                ParticleHelpers.spawnBloodSplashParticles(event.getEntity().level(), pos.offset(0, 1, 0),
                         ((int) event.getEntity().getMaxHealth()) + random.nextInt(15), 5 + random.nextInt(5));
             }
         }

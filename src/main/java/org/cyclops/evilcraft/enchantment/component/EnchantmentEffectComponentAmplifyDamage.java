@@ -20,7 +20,7 @@ public class EnchantmentEffectComponentAmplifyDamage {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void livingDamage(LivingDamageEvent.Post event) {
-        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getSource().getEntity() instanceof LivingEntity) {
+        if (!event.getEntity().level().isClientSide() && event.getSource().getEntity() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getSource().getEntity();
             InteractionHand hand = entity.getUsedItemHand();
             if (hand != null) {

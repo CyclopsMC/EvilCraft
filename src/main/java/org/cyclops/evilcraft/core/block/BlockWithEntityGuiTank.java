@@ -12,8 +12,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.cyclopscore.block.BlockWithEntityGui;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
@@ -62,7 +60,6 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void provideInformation(ItemStack itemStack, Level world, List<Component> list, TooltipFlag iTooltipFlag) {
 
     }
@@ -80,14 +77,5 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
     @Override
     public boolean isActivated(ItemStack itemStack, Item.TooltipContext context) {
         return false;
-    }
-
-    @Override
-    public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityTankInventory.class)
-                    .ifPresent(tile -> IModHelpers.get().getInventoryHelpers().dropItems(world, tile.getInventory(), blockPos));
-        }
-        super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 }

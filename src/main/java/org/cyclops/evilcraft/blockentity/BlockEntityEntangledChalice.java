@@ -1,11 +1,11 @@
 package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
@@ -54,7 +54,7 @@ public class BlockEntityEntangledChalice extends CyclopsBlockEntity {
      * @return The ratio.
      */
     public double getFillRatio() {
-        int prev = ((WorldSharedTank) getTank()).getPreviousAmount();
+        int prev = getTank().getPreviousAmount();
         float alpha = (float) (WorldSharedTankCache.getInstance().getTickOffset()) / (float) WorldSharedTankCache.INTERPOLATION_TICK_OFFSET;
         double interpolatedAmount = prev * (1.0F - alpha) + getTank().getFluidAmount() * alpha;
         return Math.min(1.0D, (interpolatedAmount) / (double) getTank().getCapacity());
@@ -64,7 +64,7 @@ public class BlockEntityEntangledChalice extends CyclopsBlockEntity {
      * @return The unique key of the internal tank.
      */
     public String getWorldTankId() {
-        return ((WorldSharedTank) getTank()).getTankID();
+        return getTank().getTankID();
     }
 
     /**
@@ -72,19 +72,19 @@ public class BlockEntityEntangledChalice extends CyclopsBlockEntity {
      * @param tankId The new id.
      */
     public void setWorldTankId(String tankId) {
-        ((WorldSharedTank) getTank()).setTankID(tankId);
+        getTank().setTankID(tankId);
     }
 
     @Override
-    public void read(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-        super.read(tag, holderLookupProvider);
-        tank.readFromNBT(holderLookupProvider, tag, "tank");
+    public void read(ValueInput input) {
+        super.read(input);
+        tank.deserialize(input, "tank");
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-        tank.writeToNBT(holderLookupProvider, tag, "tank");
-        super.saveAdditional(tag, holderLookupProvider);
+    public void saveAdditional(ValueOutput output) {
+        tank.serialize(output, "tank");
+        super.saveAdditional(output);
     }
 
     public static class TickerServer extends BlockEntityTickerDelayed<BlockEntityEntangledChalice> {

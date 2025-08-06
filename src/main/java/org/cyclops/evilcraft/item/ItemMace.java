@@ -20,9 +20,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -34,7 +33,7 @@ import org.cyclops.evilcraft.client.particle.ParticleDistortData;
 import org.cyclops.evilcraft.client.particle.ParticleExplosionExtendedData;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * An abstract powerable mace.
@@ -62,11 +61,10 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack itemStack, LivingEntity attacked, LivingEntity attacker) {
+    public void hurtEnemy(ItemStack itemStack, LivingEntity attacked, LivingEntity attacker) {
         if(attacker instanceof Player && isUsable(itemStack, (Player) attacker)) {
             FluidUtil.getFluidHandler(itemStack).orElseGet(null).drain(hitUsage, IFluidHandler.FluidAction.EXECUTE);
         }
-        return true;
     }
 
     @Override
@@ -112,7 +110,6 @@ public abstract class ItemMace extends ItemBloodContainer {
         super.onUseTick(level, player, itemStack, duration);
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showUsingItemTick(Level world, ItemStack itemStack, LivingEntity entity, int duration) {
         int itemUsedCount = getUseDuration(itemStack, entity) - duration;
         double area = getArea(itemUsedCount);
@@ -141,8 +138,8 @@ public abstract class ItemMace extends ItemBloodContainer {
                     float particleMotionY = (float) (yOffset * 10);
                     float particleMotionZ = (float) (zOffset * 10);
 
-                    Minecraft.getInstance().levelRenderer.addParticle(
-                            new ParticleDistortData((float) area * 3), false,
+                    world.addParticle(
+                            new ParticleDistortData((float) area * 3),
                             particleX, particleY, particleZ,
                             particleMotionX, particleMotionY, particleMotionZ);
 
@@ -158,8 +155,8 @@ public abstract class ItemMace extends ItemBloodContainer {
                         double motionY = spread - world.random.nextDouble() * 2 * spread;
                         double motionZ = spread - world.random.nextDouble() * 2 * spread;
 
-                        Minecraft.getInstance().levelRenderer.addParticle(
-                                new ParticleBlurTargettedEntityData(r, g, b, scale2, ageMultiplier2, entity.getId()), false,
+                        world.addParticle(
+                                new ParticleBlurTargettedEntityData(r, g, b, scale2, ageMultiplier2, entity.getId()),
                                 particleX, particleY, particleZ,
                                 motionX, motionY, motionZ);
                     }
@@ -168,7 +165,6 @@ public abstract class ItemMace extends ItemBloodContainer {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showUsedItemTick(Level world, LivingEntity player, int power) {
         int particles = (power + 1) * (power + 1) * (power + 1) * 10;
         for(int i = 0; i < particles; i++) {
@@ -184,8 +180,8 @@ public abstract class ItemMace extends ItemBloodContainer {
             float g = 0.2F + 0.01F * world.random.nextFloat();
             float b = 0.1F + 0.5F * world.random.nextFloat();
 
-            Minecraft.getInstance().levelRenderer.addParticle(
-                    new ParticleExplosionExtendedData(r, g, b, 0.3F), false,
+            world.addParticle(
+                    new ParticleExplosionExtendedData(r, g, b, 0.3F),
                     x, y, z, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
@@ -241,7 +237,6 @@ public abstract class ItemMace extends ItemBloodContainer {
      */
     protected abstract void use(Level world, LivingEntity entity, int itemUsedCount, int power);
 
-    @OnlyIn(Dist.CLIENT)
     protected void animateOutOfEnergy(Level world, LivingEntity entity) {
         double xCoord = entity.getX();
         double yCoord = entity.getY();
@@ -264,15 +259,14 @@ public abstract class ItemMace extends ItemBloodContainer {
                         new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), this.meleeDamage, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
-        ), true);
+        ));
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
-        ItemPowerableHelpers.addPreInformation(itemStack, list);
-        super.appendHoverText(itemStack, context, list, flag);
-        ItemPowerableHelpers.addPostInformation(itemStack, list);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        ItemPowerableHelpers.addPreInformation(itemStack, tooltipAdder);
+        super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
+        ItemPowerableHelpers.addPostInformation(itemStack, tooltipAdder);
     }
 
     /**

@@ -2,23 +2,20 @@ package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -34,14 +31,11 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.client.model.data.ModelProperty;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.model.data.ModelProperty;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -49,7 +43,6 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -228,31 +221,20 @@ public class BlockDisplayStand extends BlockWithEntity {
                     if(!itemStack.isEmpty()) {
                         tileStack.grow(itemStack.getCount());
                     }
-                    player.getInventory().setItem(player.getInventory().selected, tileStack);
+                    player.getInventory().setSelectedItem(tileStack);
                     tile.getInventory().setItem(0, ItemStack.EMPTY);
                     tile.sendUpdate();
                     return InteractionResult.SUCCESS;
                 } else if (!itemStack.isEmpty() && tile.getInventory().getItem(0).isEmpty()) {
                     tile.getInventory().setItem(0, itemStack.split(1));
                     if (itemStack.getCount() <= 0)
-                        player.getInventory().setItem(player.getInventory().selected, ItemStack.EMPTY);
+                        player.getInventory().setSelectedItem(ItemStack.EMPTY);
                     tile.sendUpdate();
                     return InteractionResult.SUCCESS;
                 }
             }
         }
         return InteractionResult.PASS;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
-        super.appendHoverText(stack, context, tooltip, flagIn);
-        ItemStack blockType = getDisplayStandType(stack);
-        if (blockType != null) {
-            tooltip.add(((MutableComponent) blockType.getHoverName())
-                    .withStyle(ChatFormatting.GRAY));
-        }
     }
 
     @Override
@@ -275,14 +257,5 @@ public class BlockDisplayStand extends BlockWithEntity {
             serverLevel.scheduleTick(pos, this, 1);
         }
         return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
-    }
-
-    @Override
-    public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityDisplayStand.class)
-                    .ifPresent(tile -> IModHelpers.get().getInventoryHelpers().dropItems(world, tile.getInventory(), blockPos));
-        }
-        super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 }

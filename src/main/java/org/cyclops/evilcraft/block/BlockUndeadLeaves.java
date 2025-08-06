@@ -10,10 +10,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.TintedParticleLeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.block.component.ParticleDropBlockComponent;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -25,12 +23,12 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodStain;
  * @author rubensworks
  *
  */
-public class BlockUndeadLeaves extends LeavesBlock {
+public class BlockUndeadLeaves extends TintedParticleLeavesBlock {
 
     private ParticleDropBlockComponent particleDropBlockComponent;
 
     public BlockUndeadLeaves(Block.Properties properties) {
-        super(properties);
+        super(0.01F, properties);
 
         if (IModHelpers.get().getMinecraftHelpers().isClientSide()) {
             particleDropBlockComponent = new ParticleDropBlockComponent(1.0F, 0.0F, 0.0F);
@@ -45,7 +43,6 @@ public class BlockUndeadLeaves extends LeavesBlock {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
         super.animateTick(stateIn, worldIn, pos, rand);
         particleDropBlockComponent.randomDisplayTick(stateIn, worldIn, pos, rand);

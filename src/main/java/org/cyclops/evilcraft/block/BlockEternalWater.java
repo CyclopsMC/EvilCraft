@@ -12,7 +12,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -64,7 +63,7 @@ public class BlockEternalWater extends BlockWithEntity {
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
-        ItemStack itemStack = player.getInventory().getSelected();
+        ItemStack itemStack = player.getInventory().getSelectedItem();
         if (!itemStack.isEmpty()) {
             if (itemStack.getItem() == Items.BUCKET) {
                 if (!world.isClientSide()) {
@@ -83,16 +82,6 @@ public class BlockEternalWater extends BlockWithEntity {
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
-    }
-
-    @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        super.onRemove(state, worldIn, pos, newState, isMoving);
-        // When removing this block, it will drop water, so forcefully set to air instead.
-        if (!worldIn.isClientSide() && newState.getBlock() == Blocks.WATER) {
-            worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            Block.dropResources(state, worldIn, pos);
-        }
     }
 
     @Override

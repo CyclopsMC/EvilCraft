@@ -4,9 +4,7 @@ import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -21,6 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
@@ -197,15 +197,15 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
     }
 
     @Override
-    public void saveAdditional(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
-        data.putFloat("xp", xp);
-        super.saveAdditional(data, holderLookupProvider);
+    public void saveAdditional(ValueOutput valueOutput) {
+        valueOutput.putFloat("xp", xp);
+        super.saveAdditional(valueOutput);
     }
 
     @Override
-    public void read(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
-        this.xp = data.getFloat("xp");
-        super.read(data, holderLookupProvider);
+    public void read(ValueInput valueInput) {
+        this.xp = valueInput.getFloatOr("xp", 0);
+        super.read(valueInput);
     }
 
     @Override

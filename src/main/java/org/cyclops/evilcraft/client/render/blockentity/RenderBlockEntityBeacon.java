@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityBeacon;
 import org.joml.Vector4f;
@@ -32,7 +33,7 @@ public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon> imple
     }
 
     @Override
-    public void render(T tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(T tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
         renderBeacon(tileentity, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
     }
 
@@ -48,7 +49,7 @@ public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon> imple
     protected abstract boolean isInnerBeam(T tile);
 
     @Override
-    public boolean shouldRenderOffScreen(T te) {
+    public boolean shouldRenderOffScreen() {
         return true;
     }
 

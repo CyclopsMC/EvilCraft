@@ -2,11 +2,14 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockModelPart;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ResolvedModel;
+import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -16,9 +19,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.data.ModelData;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.model.data.ModelData;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
@@ -28,6 +31,7 @@ import org.cyclops.evilcraft.block.BlockEntangledChalice;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -47,8 +51,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     public static final ResourceLocation chaliceModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/chalice");
     public static final ResourceLocation gemsModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/gems");
 
-    public static BakedModel chaliceModel;
-    public static BakedModel gemsModel;
+    public static BlockStateModel chaliceModel;
+    public static BlockStateModel gemsModel;
 
     private final String id;
     private final FluidStack fluidStack;
@@ -59,8 +63,8 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         fluidStack = null;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, BlockState blockState, Direction facing, RandomSource rand, ModelData modelData, RenderType renderType) {
-        super(blockState, facing, rand, modelData, renderType);
+    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, BlockAndTintGetter level, BlockState blockState, Direction facing, RandomSource rand, ModelData modelData, ChunkSectionLayer renderType) {
+        super(level, blockState, facing, rand, modelData, renderType);
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
     }
@@ -95,16 +99,20 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         List<BakedQuad> quads = Lists.newLinkedList();
 
         // Base chalice model
-        quads.addAll(chaliceModel.getQuads(blockState, facing, rand));
+        for (BlockModelPart blockModelPart : chaliceModel.collectParts(level, BlockPos.ZERO, blockState, rand)) {
+            quads.addAll(blockModelPart.getQuads(null));
+        }
 
         // Colored gems
         int color = getColorSeed(this.id);
-        for (BakedQuad quad : gemsModel.getQuads(blockState, facing, rand)) {
-            int[] data = Arrays.copyOf(quad.getVertices(), quad.getVertices().length);
-            for (int i = 0; i < data.length / 8; i++) {
-                data[i * 8 + 3] = color;
+        for (BlockModelPart blockModelPart : gemsModel.collectParts(level, BlockPos.ZERO, blockState, rand)) {
+            for (BakedQuad quad : blockModelPart.getQuads(null)) {
+                int[] data = Arrays.copyOf(quad.vertices(), quad.vertices().length);
+                for (int i = 0; i < data.length / 8; i++) {
+                    data[i * 8 + 3] = color;
+                }
+                quads.add(new BakedQuad(data, quad.tintIndex(), quad.direction(), quad.sprite(), false, 0, true));
             }
-            quads.add(new BakedQuad(data, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false, 0, true));
         }
 
         // Fluid
@@ -129,26 +137,31 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, ModelData modelData, RenderType renderType) {
+    public List<ChunkSectionLayer> getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
+        return List.of(ChunkSectionLayer.SOLID);
+    }
+
+    @Override
+    public List<BakedQuad> handleBlockState(BlockAndTintGetter level, BlockPos pos, BlockState state, Direction side, RandomSource rand, ModelData extraData, ChunkSectionLayer renderType) {
         String tankId = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_ID, "");
         FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
         if (!BlockEntangledChaliceConfig.staticBlockRendering) {
             fluidStack = FluidStack.EMPTY;
         }
-        return new ModelEntangledChaliceBaked(tankId, fluidStack, state, side, rand, modelData, renderType);
+        return new ModelEntangledChaliceBaked(tankId, fluidStack, level, state, side, rand, modelData, renderType).getGeneralQuads();
     }
 
     @Override
-    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
+    public List<BakedQuad> handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
         String id = FluidUtil.getFluidHandler(itemStack)
                 .map((h -> ((ItemEntangledChalice.FluidHandler) h).getTankID()))
                 .orElse("");
-        return new ModelEntangledChaliceBaked(id, FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY), itemStack, world, entity);
+        return new ModelEntangledChaliceBaked(id, FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY), itemStack, world, entity).getGeneralQuads();
     }
 
     @Override
-    public TextureAtlasSprite getParticleIcon() {
-        return chaliceModel.getParticleIcon();
+    public TextureAtlasSprite particleIcon() {
+        return chaliceModel.particleIcon();
     }
 
     protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity) {
@@ -166,7 +179,17 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     }
 
     @Override
-    public ItemTransforms getTransforms() {
+    public UnbakedModel wrapped() {
+        return null;
+    }
+
+    @Override
+    public @Nullable ResolvedModel parent() {
+        return null;
+    }
+
+    @Override
+    public ItemTransforms getTopTransforms() {
         return ModelHelpers.DEFAULT_CAMERA_TRANSFORMS;
     }
 
@@ -209,5 +232,10 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         final Object $fluidStack = this.getFluidStack();
         result = result * PRIME + ($fluidStack == null ? 43 : $fluidStack.hashCode());
         return result;
+    }
+
+    @Override
+    public String debugName() {
+        return Reference.MOD_ID + ":entangled_chalice";
     }
 }

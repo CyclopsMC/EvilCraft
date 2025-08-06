@@ -121,7 +121,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         playerRenderState.passengerOffset = renderState.passengerOffset;
         playerRenderState.nameTag = renderState.nameTag;
         playerRenderState.nameTagAttachment = renderState.nameTagAttachment;
-        playerRenderState.leashState = renderState.leashState;
+        playerRenderState.leashStates = renderState.leashStates;
         playerRenderState.partialTick = renderState.partialTick;
 
         return playerRenderState;

@@ -1,19 +1,20 @@
 package org.cyclops.evilcraft.core.item;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidUtil;
@@ -30,8 +31,9 @@ import org.cyclops.evilcraft.core.block.IBlockTank;
 import org.cyclops.evilcraft.core.helper.BlockTankHelpers;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 
-import java.util.List;
+import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * {@link BlockItem} that can be used for blocks that have a tile entity with a fluid container.
@@ -87,26 +89,25 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         return super.use(world, player, hand);
     }
 
-    protected void autofill(int itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
+    protected void autofill(EquipmentSlot itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
         ItemHelpers.updateAutoFill(source, world, entity, BlockDarkTankConfig.autoFillBuckets);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-        if(block.isActivatable() && block.isActivated(stack, Item.TooltipContext.of(worldIn))) {
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
+        if(block.isActivatable() && block.isActivated(stack, Item.TooltipContext.of(level))) {
             FluidUtil.getFluidHandler(stack)
-                    .ifPresent(fluidHandler -> autofill(itemSlot, fluidHandler, worldIn, entityIn));
+                    .ifPresent(fluidHandler -> autofill(slot, fluidHandler, level, entity));
         }
-        super.inventoryTick(stack, worldIn, entityIn, itemSlot, isSelected);
+        super.inventoryTick(stack, level, entity, slot);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, context, list, flag);
-        list.add(BlockTankHelpers.getInfoTank(itemStack));
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
+        tooltipAdder.accept(BlockTankHelpers.getInfoTank(itemStack));
         if(block.isActivatable()) {
-            IModHelpers.get().getL10NHelpers().addStatusInfo(list, block.isActivated(itemStack, context),
+            IModHelpers.get().getL10NHelpers().addStatusInfo(tooltipAdder, block.isActivated(itemStack, context),
                     getDescriptionId() + ".info.auto_supply");
         }
     }

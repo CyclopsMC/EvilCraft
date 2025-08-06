@@ -18,7 +18,7 @@ public class EnchantmentEffectComponentStopDamage {
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public void unusingEvent(LivingDamageEvent.Pre event) {
-        if (!event.getEntity().getCommandSenderWorld().isClientSide() && event.getContainer().getSource().getEntity() instanceof LivingEntity) {
+        if (!event.getEntity().level().isClientSide() && event.getContainer().getSource().getEntity() instanceof LivingEntity) {
             LivingEntity entity = (LivingEntity) event.getContainer().getSource().getEntity();
             InteractionHand hand = entity.getUsedItemHand();
             if (hand != null) {

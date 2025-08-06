@@ -10,7 +10,6 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
@@ -52,7 +51,7 @@ public class EntityVengeanceSpiritConfig extends EntityConfigCommon<IModBase, En
                 eConfig -> EntityType.Builder.<EntityVengeanceSpirit>of(EntityVengeanceSpirit::new, MobCategory.MONSTER)
                         .sized(1, 1) // Dummy size, to avoid rare bounding box crashes before inner entity is init.
                         .fireImmune(),
-                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "vengeance_spirit_spawn_egg", IModHelpers.get().getBaseHelpers().RGBToInt(64, 16, 93), IModHelpers.get().getBaseHelpers().RGBToInt(134, 60, 169))
+                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "vengeance_spirit_spawn_egg")
         );
         EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
     }
@@ -66,7 +65,7 @@ public class EntityVengeanceSpiritConfig extends EntityConfigCommon<IModBase, En
     public void onRegistered() {
         super.onRegistered();
         EvilCraft._instance.getImcHandler().registerAction(Reference.IMC_BLACKLIST_VENGEANCESPIRIT, message -> {
-            Object value = message.getMessageSupplier().get();
+            Object value = message.messageSupplier().get();
             if (value instanceof String) {
                 EntityVengeanceSpirit.addToBlacklistIMC((String) value);
                 return true;

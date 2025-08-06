@@ -3,8 +3,6 @@ package org.cyclops.evilcraft.core.broom;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 
@@ -34,16 +32,13 @@ public class BroomPartBase implements IBroomPart {
         this.length = length;
         this.rarity = rarity;
         this.effect = effect;
-        if (IModHelpers.get().getMinecraftHelpers().isClientSide()) {
-            registerModelResourceLocation();
-        }
+        registerModelResourceLocation();
     }
 
     public ResourceLocation getId() {
         return this.id;
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
                 ResourceLocation.fromNamespaceAndPath(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase(Locale.ROOT)));

@@ -69,15 +69,15 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
         if(world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
-            ItemStack itemStack = player.getInventory().getSelected();
+            ItemStack itemStack = player.getInventory().getSelectedItem();
             BlockEntityPurifier tile = (BlockEntityPurifier) world.getBlockEntity(blockPos);
             if(tile != null) {
                 if (itemStack.isEmpty() && !tile.getPurifyItem().isEmpty()) {
-                    player.getInventory().setItem(player.getInventory().selected, tile.getPurifyItem());
+                    player.getInventory().setSelectedItem(tile.getPurifyItem());
                     tile.setPurifyItem(ItemStack.EMPTY);
                     return InteractionResult.SUCCESS;
                 } else if (itemStack.isEmpty() && !tile.getAdditionalItem().isEmpty()) {
-                    player.getInventory().setItem(player.getInventory().selected, tile.getAdditionalItem());
+                    player.getInventory().setSelectedItem(tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
                     return InteractionResult.SUCCESS;
                 } else if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), world, blockPos, Direction.UP)) {
@@ -118,15 +118,6 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
         BlockEntityPurifier tile = (BlockEntityPurifier) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(IModHelpers.get().getMinecraftHelpers().getComparatorMultiplier() * output);
-    }
-
-    @Override
-    public void onRemove(BlockState oldState, Level world, BlockPos blockPos, BlockState newState, boolean isMoving) {
-        if (!world.isClientSide() && oldState.getBlock() != newState.getBlock()) {
-            IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityPurifier.class)
-                    .ifPresent(tile -> IModHelpers.get().getInventoryHelpers().dropItems(world, tile.getInventory(), blockPos));
-        }
-        super.onRemove(oldState, world, blockPos, newState, isMoving);
     }
 
     @Override

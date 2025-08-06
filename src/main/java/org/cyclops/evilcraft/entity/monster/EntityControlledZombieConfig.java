@@ -7,7 +7,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -24,7 +23,7 @@ public class EntityControlledZombieConfig extends EntityConfigCommon<IModBase, E
             "controlled_zombie",
                 eConfig -> EntityType.Builder.<EntityControlledZombie>of(EntityControlledZombie::new, MobCategory.MONSTER)
                         .sized(0.6F, 1.8F),
-                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "controlled_zombie_spawn_egg", IModHelpers.get().getBaseHelpers().RGBToInt(10, 10, 10), IModHelpers.get().getBaseHelpers().RGBToInt(114, 80, 129))
+                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "controlled_zombie_spawn_egg")
         );
         EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
     }

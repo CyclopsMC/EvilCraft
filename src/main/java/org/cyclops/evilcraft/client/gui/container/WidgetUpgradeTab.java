@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.client.gui.container;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.client.gui.container.WidgetTab;
@@ -37,7 +37,7 @@ public class WidgetUpgradeTab extends WidgetTab {
         super.drawBackground(guiGraphics, x, y);
         for(int i = 0; i < 4; i++) {
             if(slotEnabledCallback != null && !slotEnabledCallback.isSlotEnabled(i)) {
-                guiGraphics.blit(RenderType::guiTextured, getResourceLocation(), x + posX + 5, y + posY + 5 + 18 * i, 28, 0, 18, 18, 256, 256);
+                guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getResourceLocation(), x + posX + 5, y + posY + 5 + 18 * i, 28, 0, 18, 18, 256, 256);
             }
         }
     }

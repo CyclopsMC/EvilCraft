@@ -4,8 +4,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,9 +18,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidType;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -99,7 +97,6 @@ public class EntityBroom extends Entity {
      * that was set by this broom during its last
      * update.
      */
-    @OnlyIn(Dist.CLIENT)
     private double oldHoverOffset;
 
     private Map<BroomModifier, Float> cachedModifiers = null;
@@ -168,18 +165,19 @@ public class EntityBroom extends Entity {
         }
     }
 
-    @Override
-    public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements) {
-        posRotationIncrements += 6;
-
-        //this.yOffset = 0.0F;
-        this.newPosX = x;
-        this.newPosY = y;
-        this.newPosZ = z;
-        this.newRotationYaw = (double)yaw;
-        this.newRotationPitch = (double)pitch;
-        this.newPosRotationIncrements = posRotationIncrements;
-    }
+    // TODO: check the new InterpolationHandler
+//    @Override
+//    public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements) {
+//        posRotationIncrements += 6;
+//
+//        //this.yOffset = 0.0F;
+//        this.newPosX = x;
+//        this.newPosY = y;
+//        this.newPosZ = z;
+//        this.newRotationYaw = (double)yaw;
+//        this.newRotationPitch = (double)pitch;
+//        this.newPosRotationIncrements = posRotationIncrements;
+//    }
 
     @Override
     @Nullable
@@ -319,13 +317,12 @@ public class EntityBroom extends Entity {
 
     @Override
     protected void removePassenger(Entity passenger) {
-        if (!getCommandSenderWorld().isClientSide() && getControllingPassenger() == passenger) {
+        if (!level().isClientSide() && getControllingPassenger() == passenger) {
             onDismount();
         }
         super.removePassenger(passenger);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void showParticles(EntityBroom broom) {
         Level world = broom.level();
         if (world.isClientSide() && broom.lastMounted.zza != 0) {
@@ -337,8 +334,8 @@ public class EntityBroom extends Entity {
                 float g = color.getMiddle();
                 float b = color.getRight();
                 Vec3 motion = broom.getDeltaMovement();
-                Minecraft.getInstance().levelRenderer.addParticle(
-                        new ParticleColoredSmokeData(r, g, b), false,
+                world.addParticle(
+                        new ParticleColoredSmokeData(r, g, b),
                         broom.getX() - motion.x * 1.5D + Math.random() * 0.4D - 0.2D,
                         broom.getY() - motion.y * 1.5D + Math.random() * 0.4D - 0.2D,
                         broom.getZ() - motion.z * 1.5D + Math.random() * 0.4D - 0.2D,
@@ -521,7 +518,7 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource damageSource) {
+    public boolean causeFallDamage(double fallDistance, float damageMultiplier, DamageSource damageSource) {
         // Makes sure the player doesn't get any fall damage when on the broom
         return false;
     }
@@ -537,12 +534,12 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag nbttagcompound) {
+    protected void readAdditionalSaveData(ValueInput p_422333_) {
 
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag nbttagcompound) {
+    protected void addAdditionalSaveData(ValueOutput p_421996_) {
 
     }
 
@@ -592,17 +589,15 @@ public class EntityBroom extends Entity {
     }
 
     @Override
-    public CompoundTag saveWithoutId(CompoundTag tag) {
-        tag = super.saveWithoutId(tag);
-        Tag broomItemTag = getBroomStack().save(registryAccess());
-        tag.put("broomItem", broomItemTag);
-        return tag;
+    public void saveWithoutId(ValueOutput valueOutput) {
+        super.saveWithoutId(valueOutput);
+        valueOutput.store("broomItem", ItemStack.OPTIONAL_CODEC, getBroomStack());
     }
 
     @Override
-    public void load(CompoundTag tagCompound) {
-        super.load(tagCompound);
-        ItemStack broomStack = ItemStack.parseOptional(registryAccess(), tagCompound.getCompound("broomItem"));
+    public void load(ValueInput valueInput) {
+        super.load(valueInput);
+        ItemStack broomStack = valueInput.read("broomItem", ItemStack.OPTIONAL_CODEC).orElseThrow();
         if (!broomStack.isEmpty()) {
             setBroomStack(broomStack);
         }

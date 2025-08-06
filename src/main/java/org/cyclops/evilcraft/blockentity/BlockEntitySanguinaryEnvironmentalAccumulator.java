@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,8 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.apache.commons.lang3.mutable.MutableInt;
@@ -226,12 +223,10 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         return RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get();
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showAccumulatingParticles() {
         BlockEntityEnvironmentalAccumulator.showAccumulatingParticles(level, getBlockPos().getX() + 0.5F, getBlockPos().getY() + 0.5F, getBlockPos().getZ() + 0.5F, BlockEntityEnvironmentalAccumulator.SPREAD);
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showTankBeams() {
         RandomSource random = level.random;
         BlockPos target = getBlockPos();
@@ -256,14 +251,13 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
                 double particleMotionY = Mth.cos(rotationPitch / 180.0F * (float) Math.PI) * -speed;
                 double particleMotionZ = Mth.sin(rotationPitch / 180.0F * (float) Math.PI) * Mth.sin(rotationYaw / 180.0F * (float) Math.PI) * speed;
 
-                Minecraft.getInstance().levelRenderer.addParticle(
-                        RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(), false,
+                level.addParticle(
+                        RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(),
                         particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             }
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showMissingTanks() {
         if(level.getGameTime() % 10 == 0) {
             RandomSource random = level.random;
@@ -277,8 +271,8 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
                     double particleY = y - 0.2 + random.nextDouble() * 0.4;
                     double particleZ = z - 0.2 + random.nextDouble() * 0.4;
 
-                    Minecraft.getInstance().levelRenderer.addParticle(
-                            ParticleTypes.SMOKE, false,
+                    level.addParticle(
+                            ParticleTypes.SMOKE,
                             particleX, particleY, particleZ, 0, 0, 0);
                 }
             }
@@ -354,6 +348,12 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     @Override
     public Component getDisplayName() {
         return Component.translatable("block.evilcraft.sanguinary_environmental_accumulator");
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        IModHelpers.get().getInventoryHelpers().dropItems(level, getInventory(), pos);
     }
 
     public static class Inventory extends BlockEntityWorking.Inventory<BlockEntitySanguinaryEnvironmentalAccumulator> implements RecipeEnvironmentalAccumulator.Inventory {

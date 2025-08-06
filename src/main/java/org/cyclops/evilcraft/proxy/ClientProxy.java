@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.proxy;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.resources.ResourceLocation;
@@ -13,14 +12,16 @@ import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.Reference;
+import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
-import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosure;
-import org.cyclops.evilcraft.client.render.model.ModelEntangledChaliceBaked;
-import org.cyclops.evilcraft.core.broom.BroomParts;
+import org.cyclops.evilcraft.client.render.blockentity.*;
 import org.cyclops.evilcraft.core.client.model.*;
 import org.cyclops.evilcraft.event.RenderOverlayEventHook;
+
+import java.lang.reflect.Field;
 
 /**
  * Proxy for the client side.
@@ -36,7 +37,6 @@ public class ClientProxy extends ClientProxyComponent {
         super(new CommonProxy());
         EvilCraft._instance.getModEventBus().addListener(this::onModelBakingCompleted);
         EvilCraft._instance.getModEventBus().addListener(this::onModelLoad);
-        EvilCraft._instance.getModEventBus().addListener(this::onModelRegisterAdditional);
     }
 
     @Override
@@ -46,7 +46,14 @@ public class ClientProxy extends ClientProxyComponent {
 
     @Override
     public void registerKeyBindings(IKeyRegistry keyRegistry, RegisterKeyMappingsEvent event) {
-        Options settings = Minecraft.getInstance().options;
+        Options settings;
+        try {
+            Field field = RegisterKeyMappingsEvent.class.getDeclaredField("options");
+            field.setAccessible(true);
+            settings = (Options) field.get(event);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
 
         for (KeyMapping key : Keys.KEYS)
             event.register(key);
@@ -68,6 +75,23 @@ public class ClientProxy extends ClientProxyComponent {
         NeoForge.EVENT_BUS.register(new RenderOverlayEventHook());
     }
 
+    @Override
+    public void registerRenderers() {
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_BLOOD_CHEST.get(), RenderBlockEntityBloodChest::new);
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE.get(), RenderBlockEntityBoxOfEternalClosure::new);
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST.get(), RenderBlockEntityColossalBloodChest::new);
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_DARK_TANK.get(), RenderBlockEntityDarkTank::new);
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_DISPLAY_STAND.get(), RenderBlockEntityDisplayStand::new);
+        if (!BlockEntangledChaliceConfig.staticBlockRendering) {
+            registerRenderer(RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE.get(), RenderBlockEntityEntangledChalice::new);
+        }
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_ENVIRONMENTAL_ACCUMULATOR.get(), RenderBlockEntityEnvironmentalAccumulator::new);
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_PURIFIER.get(), RenderBlockEntityPurifier::new);
+        registerRenderer(RegistryEntries.BLOCK_ENTITY_SPIRIT_PORTAL.get(), RenderBlockEntitySpiritPortal::new);
+
+        super.registerRenderers();
+    }
+
     public void onModelBakingCompleted(ModelEvent.BakingCompleted event) {
         this.modelBakery = event.getModelBakery();
     }
@@ -76,23 +100,8 @@ public class ClientProxy extends ClientProxyComponent {
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure"), new ModelLoaderBoxOfEternalClosure());
-        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "dark_tank"), new ModelLoaderDarkTank());
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
-        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "display_stand"), new ModelLoaderDisplayStand());
-    }
-
-    public void onModelRegisterAdditional(ModelEvent.RegisterAdditional event) {
-        // Box of eternal closure
-        event.register(ModelBoxOfEternalClosure.boxModel);
-        event.register(ModelBoxOfEternalClosure.boxLidModel);
-        event.register(ModelBoxOfEternalClosure.boxLidRotatedModel);
-        // Broom
-        for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
-            event.register(partModel);
-        }
-        // Entangled chalice
-        event.register(ModelEntangledChaliceBaked.chaliceModelName);
-        event.register(ModelEntangledChaliceBaked.gemsModelName);
+        event.register(ModelLoaderDisplayStand.ID, ModelLoaderDisplayStand.getInstance());
     }
 
 }

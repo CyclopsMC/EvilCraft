@@ -2,8 +2,6 @@ package org.cyclops.evilcraft.core.client.render;
 
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
 
 /**
@@ -11,7 +9,6 @@ import org.cyclops.evilcraft.core.entity.item.EntityThrowable;
  * @author rubensworks
  *
  */
-@OnlyIn(Dist.CLIENT)
 public class RenderThrowable extends ThrownItemRenderer<EntityThrowable> {
 
     public RenderThrowable(EntityRendererProvider.Context context) {

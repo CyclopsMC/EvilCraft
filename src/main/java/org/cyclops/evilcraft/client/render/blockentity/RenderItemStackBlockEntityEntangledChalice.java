@@ -10,18 +10,18 @@ import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
+
+import java.util.Set;
 
 /**
  * @author rubensworks
  */
-@OnlyIn(Dist.CLIENT)
 public class RenderItemStackBlockEntityEntangledChalice implements SpecialModelRenderer<ItemStack> {
 
     private final BlockEntityRenderDispatcher blockEntityRenderDispatcher;
@@ -37,6 +37,11 @@ public class RenderItemStackBlockEntityEntangledChalice implements SpecialModelR
         BlockEntityEntangledChalice tile = new BlockEntityEntangledChalice(BlockPos.ZERO, RegistryEntries.BLOCK_ENTANGLED_CHALICE.get().defaultBlockState());
         tile.setWorldTankId(tankId);
         this.blockEntityRenderDispatcher.render(tile, 0, poseStack, bufferSource);
+    }
+
+    @Override
+    public void getExtents(Set<Vector3f> p_428206_) {
+
     }
 
     @Override

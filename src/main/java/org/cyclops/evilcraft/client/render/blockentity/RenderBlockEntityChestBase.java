@@ -16,8 +16,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Calendar;
 
@@ -25,7 +24,6 @@ import java.util.Calendar;
  * A modified copy of {@link ChestRenderer}.
  * @author rubensworks
  */
-@OnlyIn(Dist.CLIENT)
 public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBlockEntity> implements BlockEntityRenderer<T> {
 
     private final ModelPart lid;
@@ -70,7 +68,8 @@ public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBloc
         matrixStack.mulPose(Axis.YP.rotationDegrees(-f));
     }
 
-    public void render(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    @Override
+    public void render(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5D, 0.5D, 0.5D);
         handleRotation(tileEntityIn, matrixStackIn);

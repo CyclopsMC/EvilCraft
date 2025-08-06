@@ -7,16 +7,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
 
@@ -36,13 +35,11 @@ public class ItemBlockBoxOfEternalClosure extends ItemBlockNBT {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(getInfo(stack));
-        super.appendHoverText(stack, context, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flagIn) {
+        tooltipAdder.accept(getInfo(stack));
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, flagIn);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public Component getInfo(ItemStack itemStack) {
         Component content = Component.translatable("general." + Reference.MOD_ID + ".info.empty")
                 .withStyle(ChatFormatting.ITALIC);

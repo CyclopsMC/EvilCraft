@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -27,10 +28,10 @@ public class BlockFluidPoison extends LiquidBlock {
     }
 
     @Override
-    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if(entity instanceof LivingEntity && IModHelpers.get().getWorldHelpers().efficientTick(world, (POISON_DURATION / 2) * 20)) {
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+        super.entityInside(state, level, pos, entity, effectApplier);
+        if(entity instanceof LivingEntity && IModHelpers.get().getWorldHelpers().efficientTick(level, (POISON_DURATION / 2) * 20)) {
             ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION * 20, 1));
         }
-        super.entityInside(state, world, pos, entity);
     }
 }

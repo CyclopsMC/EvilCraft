@@ -41,7 +41,7 @@ public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestB
     }
 
     @Override
-    public boolean shouldRenderOffScreen(BlockEntityColossalBloodChest tile) {
+    public boolean shouldRenderOffScreen() {
         return true;
     }
 
@@ -65,9 +65,9 @@ public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestB
     }
 
     @Override
-    public void render(BlockEntityColossalBloodChest tile, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntityColossalBloodChest tile, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
         if (tile.isStructureComplete()) {
-            super.render(tile, partialTicks, matrixStack, renderTypeBuffer, combinedLightIn, combinedOverlayIn);
+            super.render(tile, partialTicks, matrixStack, renderTypeBuffer, combinedLightIn, combinedOverlayIn, cameraPos);
         }
     }
 

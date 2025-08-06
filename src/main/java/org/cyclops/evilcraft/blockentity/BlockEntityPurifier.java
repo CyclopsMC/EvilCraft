@@ -1,17 +1,15 @@
 package org.cyclops.evilcraft.blockentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -261,7 +259,6 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
         getInventory().setItem(SLOT_ADDITIONAL, itemStack);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void showEffect() {
         for (int i=0; i < 1; i++) {
             double particleX = getBlockPos().getX() + 0.2 + level.random.nextDouble() * 0.6;
@@ -272,13 +269,12 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
             float particleMotionY = 0.01F;
             float particleMotionZ = -0.01F + level.random.nextFloat() * 0.02F;
 
-            Minecraft.getInstance().levelRenderer.addParticle(
-                    RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(), false,
+            level.addParticle(
+                    RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(),
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void showEnchantingEffect() {
         if(level.random.nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {
@@ -290,14 +286,13 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
                 float particleMotionY = -level.random.nextFloat();
                 float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
 
-                Minecraft.getInstance().levelRenderer.addParticle(
-                        ParticleTypes.ENCHANT, false,
+                level.addParticle(
+                        ParticleTypes.ENCHANT,
                         particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             }
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void showEnchantedEffect() {
         for (int i=0; i < 100; i++) {
             double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
@@ -308,8 +303,8 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
             float particleMotionY = -0.4F + level.random.nextFloat() * 0.8F;
             float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
 
-            Minecraft.getInstance().levelRenderer.addParticle(
-                    RegistryEntries.PARTICLE_MAGIC_FINISH.get(), false,
+            level.addParticle(
+                    RegistryEntries.PARTICLE_MAGIC_FINISH.get(),
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
@@ -326,6 +321,12 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public void onTankChanged() {
         super.onTankChanged();
         sendUpdate();
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        IModHelpers.get().getInventoryHelpers().dropItems(level, getInventory(), pos);
     }
 
     public static class Ticker extends BlockEntityTickerDelayed<BlockEntityPurifier> {

@@ -9,7 +9,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -24,7 +24,7 @@ import java.util.EnumMap;
  * @author rubensworks
  *
  */
-public class ItemSpectralGlasses extends ArmorItem {
+public class ItemSpectralGlasses extends Item {
 
     public static final ArmorMaterial MATERIAL = new ArmorMaterial(25, Util.make(new EnumMap<>(ArmorType.class), p_371202_ -> {
         p_371202_.put(ArmorType.BOOTS, 1);
@@ -37,7 +37,7 @@ public class ItemSpectralGlasses extends ArmorItem {
             ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "spectral")));
 
     public ItemSpectralGlasses(Properties properties) {
-        super(MATERIAL, ArmorType.HELMET, properties);
+        super(properties.humanoidArmor(MATERIAL, ArmorType.HELMET));
     }
 
     @Override

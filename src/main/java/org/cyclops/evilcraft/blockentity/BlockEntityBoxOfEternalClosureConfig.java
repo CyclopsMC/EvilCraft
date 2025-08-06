@@ -2,13 +2,10 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Sets;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockEntityConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.RegistryEntries;
-import org.cyclops.evilcraft.client.render.blockentity.RenderBlockEntityBoxOfEternalClosure;
 
 /**
  * Config for the {@link BlockEntityBoxOfEternalClosure}.
@@ -24,12 +21,6 @@ public class BlockEntityBoxOfEternalClosureConfig extends BlockEntityConfigCommo
                 (eConfig) -> new BlockEntityType<>(BlockEntityBoxOfEternalClosure::new,
                         Sets.newHashSet(RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.get()))
         );
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public void onRegistered() {
-        EvilCraft._instance.getProxy().registerRenderer(getInstance(), RenderBlockEntityBoxOfEternalClosure::new);
     }
 
 }

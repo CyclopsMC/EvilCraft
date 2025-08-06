@@ -12,8 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemRedstoneGrenade;
 
@@ -22,7 +20,6 @@ import org.cyclops.evilcraft.item.ItemRedstoneGrenade;
  * @author immortaleeb
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSupplier {
 
     public EntityRedstoneGrenade(Level world, LivingEntity entity) {

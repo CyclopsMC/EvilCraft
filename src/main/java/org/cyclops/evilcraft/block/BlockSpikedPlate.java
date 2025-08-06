@@ -61,7 +61,7 @@ public class BlockSpikedPlate extends BlockPressurePlate {
             float damage = (float) BlockSpikedPlateConfig.damage;
 
             // To make sure the entity actually will drop something.
-            ((LivingEntity) entity).lastHurtByPlayerTime = 100;
+            ((LivingEntity) entity).lastHurtByPlayerMemoryTime = 100;
 
             entity.hurt(ExtendedDamageSources.spikedDamage(world), damage);
             BlockEntity tile = world.getBlockEntity(blockPos.offset(0, -1, 0));

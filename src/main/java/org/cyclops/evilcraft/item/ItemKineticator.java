@@ -4,22 +4,23 @@ import com.google.common.base.Predicate;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -29,7 +30,9 @@ import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 import org.cyclops.evilcraft.entity.item.EntityItemUndespawnable;
 
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Item that can attract items and XP orbs.
@@ -72,13 +75,12 @@ public class ItemKineticator extends ItemBloodContainer {
         return ItemHelpers.isActivated(itemStack);
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, context, list, flag);
-        IModHelpers.get().getL10NHelpers().addStatusInfo(list, ItemHelpers.isActivated(itemStack),
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
+        IModHelpers.get().getL10NHelpers().addStatusInfo(tooltipAdder, ItemHelpers.isActivated(itemStack),
                 getDescriptionId() + ".info.attraction");
-        list.add(Component.translatable(getDescriptionId() + ".info.area", getArea(itemStack))
+        tooltipAdder.accept(Component.translatable(getDescriptionId() + ".info.area", getArea(itemStack))
                 .withStyle(ChatFormatting.BOLD));
     }
 
@@ -101,11 +103,11 @@ public class ItemKineticator extends ItemBloodContainer {
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level world, Entity entity, int par4, boolean par5) {
+    public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
         if(entity instanceof Player) {
-            kineticate(itemStack, world, entity);
+            kineticate(itemStack, level, entity);
         }
-        super.inventoryTick(itemStack, world, entity, par4, par5);
+        super.inventoryTick(itemStack, level, entity, slot);
     }
 
     @Override
@@ -204,7 +206,6 @@ public class ItemKineticator extends ItemBloodContainer {
                 .contains(BuiltInRegistries.ITEM.getKey(entityItem.getItem()).toString());
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showEntityMoved(Level world, Entity player, Entity entity, double dx, double dy, double dz) {
         RandomSource rand = world.random;
         float scale = 0.05F;

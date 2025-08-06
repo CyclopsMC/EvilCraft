@@ -29,7 +29,7 @@ public class BlockInfestedNether extends Block {
     public void destroy(LevelAccessor world, BlockPos blockPos, BlockState blockState) {
         if (!world.isClientSide()) {
             EntityNetherfish netherfish = new EntityNetherfish((Level) world);
-            netherfish.moveTo((double)blockPos.getX() + 0.5D, (double)blockPos.getY(), (double)blockPos.getZ() + 0.5D, 0.0F, 0.0F);
+            netherfish.snapTo(blockPos, 0.0F, 0.0F);
             world.addFreshEntity(netherfish);
             netherfish.spawnAnim();
         }

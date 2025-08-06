@@ -60,7 +60,7 @@ public class EntityItemDarkStick extends EntityItemDefinedRotation {
     @Override
     public void tick() {
         super.tick();
-        if (!getCommandSenderWorld().isClientSide() && (hasMoved() || !this.loadedAngle)) {
+        if (!level().isClientSide() && (hasMoved() || !this.loadedAngle)) {
             this.loadedAngle = true;
             Float angle = loadRotation();
             setValid(angle != null);

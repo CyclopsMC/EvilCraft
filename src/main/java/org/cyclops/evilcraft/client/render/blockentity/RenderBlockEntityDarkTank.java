@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
@@ -72,7 +73,7 @@ public class RenderBlockEntityDarkTank implements BlockEntityRenderer<BlockEntit
     }
 
     @Override
-    public void render(final BlockEntityDarkTank tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(final BlockEntityDarkTank tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
         FluidStack fluid = tile.getTank().getFluid();
         IModHelpersNeoForge.get().getRenderHelpers().renderFluidContext(fluid, matrixStackIn, () -> {
             float height = (float) (tile.getFillRatio() * 0.99F);

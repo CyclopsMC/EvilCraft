@@ -82,7 +82,7 @@ public class EntityLightningBombPrimed extends PrimedTnt {
         if (!world.isClientSide()) {
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), EXPLOSION_STRENGTH, Level.ExplosionInteraction.MOB);
             LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(world, EntitySpawnReason.TRIGGERED);
-            bolt.moveTo(x, y, z);
+            bolt.snapTo(x, y, z);
         } else {
             Random rand = new Random();
             for (int i = 0; i < 32; ++i) {

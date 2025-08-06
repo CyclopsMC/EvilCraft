@@ -2,8 +2,6 @@ package org.cyclops.evilcraft;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -38,7 +36,7 @@ import org.cyclops.evilcraft.core.broom.BroomPartRegistry;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.degradation.DegradationRegistry;
 import org.cyclops.evilcraft.core.degradation.effect.*;
-import org.cyclops.evilcraft.core.fluid.WorldSharedTank;
+import org.cyclops.evilcraft.core.fluid.WorldStorageSharedTank;
 import org.cyclops.evilcraft.core.recipe.category.RecipeBookCategoryBloodInfuserConfig;
 import org.cyclops.evilcraft.core.recipe.category.RecipeBookCategoryEnvironmentalAccumulatorConfig;
 import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayBloodInfuserConfig;
@@ -57,6 +55,7 @@ import org.cyclops.evilcraft.entity.monster.*;
 import org.cyclops.evilcraft.entity.villager.VillagerProfessionWerewolfConfig;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.fluid.PoisonConfig;
+import org.cyclops.evilcraft.gametest.*;
 import org.cyclops.evilcraft.infobook.OriginsOfDarknessBook;
 import org.cyclops.evilcraft.inventory.container.*;
 import org.cyclops.evilcraft.item.*;
@@ -93,14 +92,15 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
      */
     public static EvilCraft _instance;
 
-    public static GlobalCounters globalCounters = null;
+    public static GlobalCounters.Access globalCounters = null;
+    public static WorldStorageSharedTank.Access sharedTanks = null;
 
     public EvilCraft(IEventBus modEventBus) {
         super(Reference.MOD_ID, (instance) -> _instance = instance, modEventBus);
 
         // Register world storages
-        registerWorldStorage(new WorldSharedTank.TankData(this));
-        registerWorldStorage(globalCounters = new GlobalCounters(this));
+        registerWorldStorage(sharedTanks = new WorldStorageSharedTank.Access(this));
+        registerWorldStorage(globalCounters = new GlobalCounters.Access(this));
 
         // Create registries
         getRegistryManager().addRegistry(IDegradationRegistry.class, new DegradationRegistry());
@@ -448,7 +448,6 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
         configHandler.addConfigurable(new ItemTintSourceWeatherContainerTypeConfig());
     }
 
-    @OnlyIn(Dist.CLIENT)
     @Override
     protected IClientProxy constructClientProxy() {
         return new ClientProxy();
@@ -457,6 +456,21 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
     @Override
     protected ICommonProxy constructCommonProxy() {
         return new CommonProxy();
+    }
+
+    @Override
+    public Class<?>[] getGameTestClasses() {
+        return new Class<?>[]{
+                GameTestsBiomeExtract.class,
+                GameTestsBloodChest.class,
+                GameTestsBloodInfuser.class,
+                GameTestsItemEternalWater.class,
+                GameTestsItemStacking.class,
+                GameTestsRecipes.class,
+                GameTestsSpiritFurnace.class,
+                GameTestsSpiritReanimator.class,
+                GameTestsVengeanceSpirits.class,
+        };
     }
 
     /**

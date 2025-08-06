@@ -1,6 +1,6 @@
 {
   "model": {
-    "type": "evilcraft:display_stand",
+    "type": "minecraft:model",
     "model": "evilcraft:item/display_stand"
   }
 }

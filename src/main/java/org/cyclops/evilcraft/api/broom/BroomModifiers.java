@@ -327,7 +327,7 @@ public class BroomModifiers {
                 }
             }
         });
-        ICY.addCollisionListener(new PotionEffectBroomCollision(MobEffects.MOVEMENT_SLOWDOWN, 2));
+        ICY.addCollisionListener(new PotionEffectBroomCollision(MobEffects.SLOWNESS, 2));
         STICKY.addCollisionListener(new BroomModifier.ICollisionListener() {
             @Override
             public void onCollide(EntityBroom broom, Entity entity, float modifierValue) {

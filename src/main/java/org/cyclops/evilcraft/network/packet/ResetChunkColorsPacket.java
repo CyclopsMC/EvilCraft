@@ -1,15 +1,11 @@
 package org.cyclops.evilcraft.network.packet;
 
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.network.CodecField;
 import org.cyclops.cyclopscore.network.PacketCodec;
 import org.cyclops.evilcraft.Reference;
@@ -40,9 +36,8 @@ public class ResetChunkColorsPacket extends PacketCodec<ResetChunkColorsPacket> 
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void actionClient(Level world, Player player) {
-        ((ClientLevel) world).onChunkLoaded(new ChunkPos(chunkX, chunkZ));
+        ResetChunkColorsPacketClient.onChunkLoaded(world, chunkX, chunkZ);
     }
 
     @Override

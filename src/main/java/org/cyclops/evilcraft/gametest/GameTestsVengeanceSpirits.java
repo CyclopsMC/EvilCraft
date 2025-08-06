@@ -2,8 +2,8 @@ package org.cyclops.evilcraft.gametest;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Zombie;
@@ -13,18 +13,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
-@GameTestHolder(Reference.MOD_ID)
-@PrefixGameTestTemplate(false)
 public class GameTestsVengeanceSpirits {
 
-    public static final String TEMPLATE_EMPTY = "empty10";
+    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + "empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
     @GameTest(template = TEMPLATE_EMPTY)
@@ -43,11 +40,11 @@ public class GameTestsVengeanceSpirits {
 
         // Add box
         helper.setBlock(POS.north(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
-        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.north());
+        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.north(), BlockEntityBoxOfEternalClosure.class);
 
         helper.succeedWhen(() -> {
-            helper.assertTrue(box.hasSpirit(), "Box is empty");
-            helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityType.ZOMBIE, "Box contains invalid entity type");
+            helper.assertTrue(box.hasSpirit(), Component.literal("Box is empty"));
+            helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Box contains invalid entity type"));
         });
     }
 
@@ -55,7 +52,7 @@ public class GameTestsVengeanceSpirits {
     public void testVengeanceSpiritRelease(GameTestHelper helper) {
         // Add filled box
         helper.setBlock(POS.above(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
-        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.above());
+        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.above(), BlockEntityBoxOfEternalClosure.class);
         EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
         spiritDummy.setInnerEntityType(EntityType.ZOMBIE);
         box.captureSpirit(spiritDummy);
@@ -65,10 +62,10 @@ public class GameTestsVengeanceSpirits {
         helper.getBlockState(POS.above()).useWithoutItem(helper.getLevel(), helper.makeMockPlayer(GameType.SURVIVAL), new BlockHitResult(helper.absolutePos(POS.above()).getCenter(), Direction.DOWN, helper.absolutePos(POS.above()), false));
 
         helper.succeedWhen(() -> {
-            helper.assertFalse(box.hasSpirit(), "Box is not empty");
+            helper.assertFalse(box.hasSpirit(), Component.literal("Box is not empty"));
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
-            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, "Spirit contains invalid entity type");
+            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
         });
     }
 
@@ -122,8 +119,8 @@ public class GameTestsVengeanceSpirits {
             helper.assertEntityNotPresent(EntityType.ZOMBIE);
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
-            helper.assertValueEqual(spirit.getTarget(), player, "Spirit targets player");
-            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, "Spirit contains invalid entity type");
+            helper.assertValueEqual(spirit.getTarget(), player, Component.literal("Spirit targets player"));
+            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
         });
     }
 
@@ -150,8 +147,8 @@ public class GameTestsVengeanceSpirits {
             helper.assertEntityNotPresent(EntityType.ZOMBIE);
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
-            helper.assertTrue(spirit.getTarget() == null, "Spirit targets nothing");
-            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, "Spirit contains invalid entity type");
+            helper.assertTrue(spirit.getTarget() == null, Component.literal("Spirit targets nothing"));
+            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
         });
     }
 

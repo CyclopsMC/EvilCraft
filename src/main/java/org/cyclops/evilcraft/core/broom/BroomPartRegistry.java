@@ -11,8 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -27,11 +25,7 @@ import org.cyclops.evilcraft.api.broom.IBroomPartRegistry;
 import org.cyclops.evilcraft.item.ItemBroomConfig;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -46,15 +40,12 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     private final Multimap<IBroomPart, Supplier<ItemStack>> partItems = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifiers = Maps.newHashMap();
-    @OnlyIn(Dist.CLIENT)
     private Map<IBroomPart, ResourceLocation> partModels;
 
     public BroomPartRegistry() {
         EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, this::beforeItemsRegistered);
         NeoForge.EVENT_BUS.addListener(this::onTooltipEvent);
-        if(IModHelpers.get().getMinecraftHelpers().isClientSide()) {
-            partModels = Maps.newHashMap();
-        }
+        partModels = Maps.newHashMap();
     }
 
     @Override
@@ -146,19 +137,16 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void registerPartModel(IBroomPart part, ResourceLocation modelLocation) {
         partModels.put(part, modelLocation);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public ResourceLocation getPartModel(IBroomPart part) {
         return partModels.get(part);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public Collection<ResourceLocation> getPartModels() {
         return Collections.unmodifiableCollection(partModels.values());
     }

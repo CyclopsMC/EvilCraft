@@ -2,13 +2,12 @@ package org.cyclops.evilcraft.core.blockentity;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.tickaction.TickComponent;
@@ -62,32 +61,27 @@ public abstract class BlockEntityTickingTankInventory<T extends BlockEntityTankI
     }
 
     @Override
-    public void read(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
-        super.read(data, holderLookupProvider);
-        currentState = data.getInt("currentState");
-        ListTag tickerList = data.getList("tickers", 10);
-        for(int i = 0; i < tickers.size(); i++) {
-            TickComponent<T, ITickAction<T>> ticker = tickers.get(i);
-            if(tickerList.size() > i) {
-                CompoundTag tag = tickerList.getCompound(i);
-                ticker.setTick(tag.getInt("tick"));
-                ticker.setRequiredTicks(tag.getFloat("requiredTicks"));
-            }
+    public void read(ValueInput valueInput) {
+        super.read(valueInput);
+        currentState = valueInput.getInt("currentState").orElseThrow();
+        int i = 0;
+        for (ValueInput tickerInput : valueInput.childrenList("tickers").orElseThrow()) {
+            TickComponent<T, ITickAction<T>> ticker = tickers.get(i++);
+            ticker.setTick(tickerInput.getInt("tick").orElseThrow());
+            ticker.setRequiredTicks(tickerInput.getFloatOr("requiredTicks", 0));
         }
     }
 
     @Override
-    public void saveAdditional(CompoundTag data, HolderLookup.Provider holderLookupProvider) {
-        super.saveAdditional(data, holderLookupProvider);
-        data.putInt("currentState", currentState);
-        ListTag tickerList = new ListTag();
+    public void saveAdditional(ValueOutput valueOutput) {
+        super.saveAdditional(valueOutput);
+        valueOutput.putInt("currentState", currentState);
+        ValueOutput.ValueOutputList tickerList = valueOutput.childrenList("tickers");
         for(TickComponent<T, ITickAction<T>> ticker : tickers) {
-            CompoundTag tag = new CompoundTag();
+            ValueOutput tag = tickerList.addChild();
             tag.putInt("tick", ticker.getTick());
             tag.putFloat("requiredTicks", ticker.getRequiredTicks());
-            tickerList.add(tag);
         }
-        data.put("tickers", tickerList);
     }
 
     protected boolean hasJustWorked() {

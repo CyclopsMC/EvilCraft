@@ -3,10 +3,10 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -14,7 +14,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -50,9 +49,10 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
     }
 
     @Override
-    public void render(BlockEntityBoxOfEternalClosure tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntityBoxOfEternalClosure tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
         Direction direction = IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(
                 tile.getLevel().getBlockState(tile.getBlockPos()), org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
+
         matrixStackIn.pushPose();
         short rotation = 0;
         if (direction == Direction.SOUTH) {
@@ -73,10 +73,10 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
-        BlockState blockState = tile.getBlockState()
-                .setValue(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
-        Minecraft.getInstance().getBlockRenderer().getModelRenderer().
-                renderModel(matrixStackIn.last(), bufferIn.getBuffer(Sheets.solidBlockSheet()), blockState, ModelBoxOfEternalClosureBaked.boxModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+        VertexConsumer vertexConsumer = bufferIn.getBuffer(Sheets.solidBlockSheet());
+        for (BakedQuad bakedQuad : ModelBoxOfEternalClosureBaked.boxModel) {
+            vertexConsumer.putBulkData(matrixStackIn.last(), bakedQuad, 1.0F, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+        }
 
         // Render lid
         float angle = tile.getPreviousLidAngle()
@@ -85,8 +85,9 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         matrixStackIn.translate(0.75F, 0.375F, 0F);
         matrixStackIn.mulPose(Axis.ZP.rotationDegrees(-angle));
         matrixStackIn.translate(-0.75F, -0.375F, 0F);
-        Minecraft.getInstance().getBlockRenderer().getModelRenderer().
-                renderModel(matrixStackIn.last(), bufferIn.getBuffer(Sheets.solidBlockSheet()), blockState, ModelBoxOfEternalClosureBaked.boxLidModel, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+        for (BakedQuad bakedQuad : ModelBoxOfEternalClosureBaked.boxLidModel) {
+            vertexConsumer.putBulkData(matrixStackIn.last(), bakedQuad, 1.0F, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+        }
         matrixStackIn.popPose();
 
         // Render box inside

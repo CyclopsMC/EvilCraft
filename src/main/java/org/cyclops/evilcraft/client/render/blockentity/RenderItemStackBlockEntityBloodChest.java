@@ -4,8 +4,6 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.BlockPos;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.client.render.blockentity.ItemStackBlockEntityRendererBase;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
@@ -13,7 +11,6 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
 /**
  * @author rubensworks
  */
-@OnlyIn(Dist.CLIENT)
 public class RenderItemStackBlockEntityBloodChest extends ItemStackBlockEntityRendererBase {
 
     public RenderItemStackBlockEntityBloodChest() {

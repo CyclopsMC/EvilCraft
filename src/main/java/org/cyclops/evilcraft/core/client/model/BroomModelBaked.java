@@ -4,27 +4,28 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicLongMap;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.ItemTransform;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ResolvedModel;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.model.data.ModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.joml.Vector3f;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
@@ -64,7 +65,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
                     )
             ));
 
-    private static final Map<IBroomPart, BakedModel> broomPartModels = Maps.newHashMap();
+    private static final Map<IBroomPart, BlockStateModel> broomPartModels = Maps.newHashMap();
     private static TextureAtlasSprite particleIcon;
 
     private final List<BakedQuad> quads;
@@ -86,14 +87,27 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public BakedModel handleBlockState(@Nullable BlockState blockState, @Nullable Direction direction, @Nonnull RandomSource random, @Nonnull ModelData iModelData, @Nullable RenderType renderType) {
+    public List<BakedQuad> handleBlockState(BlockAndTintGetter level, BlockPos pos,
+                                            BlockState state, Direction side,
+                                            RandomSource rand, ModelData extraData,
+                                            ChunkSectionLayer renderType) {
         throw new UnsupportedOperationException();
     }
 
-    public static void addBroomModel(IBroomPart part, BakedModel bakedModel) {
+    @Override
+    public ModelData getModelData(BlockAndTintGetter world, BlockPos pos, BlockState state, ModelData tileData) {
+        return null;
+    }
+
+    @Override
+    public List<ChunkSectionLayer> getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
+        return List.of();
+    }
+
+    public static void addBroomModel(IBroomPart part, BlockStateModel bakedModel) {
         broomPartModels.put(part, bakedModel);
         if (part == BroomParts.ROD_WOOD) {
-            particleIcon = bakedModel.getParticleIcon();
+            particleIcon = bakedModel.particleIcon();
         }
     }
 
@@ -103,12 +117,13 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public TextureAtlasSprite getParticleIcon() {
+    public TextureAtlasSprite particleIcon() {
         return particleIcon;
     }
 
     @Override
-    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
+    public List<BakedQuad> handleItemState(@Nullable ItemStack itemStack, @Nullable Level world,
+                                           @Nullable LivingEntity entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
         IBroomPart rod = null;
@@ -121,17 +136,19 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
         AtomicLongMap<IBroomPart.BroomPartType> partTypeOccurences = AtomicLongMap.create();
         for (IBroomPart part : parts) {
-            BakedModel model = broomPartModels.get(part);
+            BlockStateModel model = broomPartModels.get(part);
             if (model != null) {
-                List<BakedQuad> originalQuads = model.getQuads(null, null, this.rand);
-                int typeIndex = (int) partTypeOccurences.getAndIncrement(part.getType());
-                float offset = part.getType().getOffsetter().getOffset(rod.getLength(), part.getLength(), typeIndex);
-                int color = part.getModelColor();
-                quads.addAll(offsetAndColor(originalQuads, offset, color));
+                for (BlockModelPart blockModelPart : model.collectParts(this.rand)) {
+                    List<BakedQuad> originalQuads = blockModelPart.getQuads(null);
+                    int typeIndex = (int) partTypeOccurences.getAndIncrement(part.getType());
+                    float offset = part.getType().getOffsetter().getOffset(rod.getLength(), part.getLength(), typeIndex);
+                    int color = part.getModelColor();
+                    quads.addAll(offsetAndColor(originalQuads, offset, color));
+                }
             }
         }
 
-        return new BroomModelBaked(quads);
+        return quads;
     }
 
     /**
@@ -145,7 +162,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     private Collection<? extends BakedQuad> offsetAndColor(List<BakedQuad> quads, float offset, int color) {
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
-            int[] vertexData = Arrays.copyOf(quad.getVertices(), quad.getVertices().length);
+            int[] vertexData = Arrays.copyOf(quad.vertices(), quad.vertices().length);
             for (int i = 0; i < vertexData.length / 8; i++) {
                 float originalZ = Float.intBitsToFloat(vertexData[i * 8 + 2]);
                 originalZ += offset;
@@ -153,14 +170,24 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
                 vertexData[i * 8 + 3] = color;
             }
 
-            offsetQuads.add(new BakedQuad(vertexData, quad.getTintIndex(), quad.getDirection(), quad.getSprite(), false, quad.getLightEmission(), quad.hasAmbientOcclusion()));
+            offsetQuads.add(new BakedQuad(vertexData, quad.tintIndex(), quad.direction(), quad.sprite(), false, quad.lightEmission(), quad.hasAmbientOcclusion()));
         }
 
         return offsetQuads;
     }
 
     @Override
-    public ItemTransforms getTransforms() {
+    public UnbakedModel wrapped() {
+        return null;
+    }
+
+    @Override
+    public @org.jetbrains.annotations.Nullable ResolvedModel parent() {
+        return null;
+    }
+
+    @Override
+    public ItemTransforms getTopTransforms() {
         return PERSPECTIVE_TRANSFORMS;
     }
 
@@ -202,5 +229,10 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
         final Object $rand = this.getRand();
         result = result * PRIME + ($rand == null ? 43 : $rand.hashCode());
         return result;
+    }
+
+    @Override
+    public String debugName() {
+        return Reference.MOD_ID + ":broom";
     }
 }

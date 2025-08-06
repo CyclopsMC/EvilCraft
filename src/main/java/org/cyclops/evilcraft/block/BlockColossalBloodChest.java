@@ -187,8 +187,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
                 .append(Component.literal("]: "))
                 .setStyle(Style.EMPTY.
                         applyFormat(ChatFormatting.GRAY).
-                        withHoverEvent(new HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT,
+                        withHoverEvent(new HoverEvent.ShowText(
                                 Component.translatable("multiblock.evilcraft.colossalbloodchest.error.prefix.info")
                         ))
                 );

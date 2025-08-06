@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.core.broom;
 
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 
 /**
@@ -17,7 +15,7 @@ public class BroomPartCapGem extends BroomPartBase {
         this.color = IModHelpers.get().getBaseHelpers().rgbToBgr(color);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
     protected void registerModelResourceLocation() {
         BroomParts.REGISTRY.registerPartModel(this,
                 ResourceLocation.fromNamespaceAndPath(getId().getNamespace(), "broom_part/cap_gem"));

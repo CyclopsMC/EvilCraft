@@ -124,12 +124,10 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
      * @param itemStack The box.
      */
     public static void setVengeanceSwarmContent(ItemStack itemStack) {
-        CompoundTag spiritTag = new CompoundTag();
-
         EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
         spiritData.setSwarm(true);
         spiritData.setRandomSwarmTier(new Random());
-        spiritData.writeNBT(spiritTag);
+        CompoundTag spiritTag = IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spiritData::writeNBT);
 
         itemStack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, spiritTag);
     }
@@ -140,12 +138,10 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
      * @param playerId The player id to set.
      */
     public static void setPlayerContent(ItemStack itemStack, UUID playerId, String name) {
-        CompoundTag spiritTag = new CompoundTag();
-
         EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
         spiritData.setPlayerId(playerId.toString());
         spiritData.setPlayerName(name);
-        spiritData.writeNBT(spiritTag);
+        CompoundTag spiritTag = IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spiritData::writeNBT);
 
         itemStack.set(RegistryEntries.COMPONENT_BOX_PLAYER_ID, spiritData.getPlayerId());
         itemStack.set(RegistryEntries.COMPONENT_BOX_PLAYER_NAME, spiritData.getPlayerName());

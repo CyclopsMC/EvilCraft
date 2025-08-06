@@ -2,14 +2,9 @@ package org.cyclops.evilcraft.blockentity;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,9 +23,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
@@ -159,7 +154,6 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         return IModHelpers.get().getBaseHelpers().intToRGB(biome.getGrassColor(getBlockPos().getX(), getBlockPos().getZ()));
     }
 
-    @OnlyIn(Dist.CLIENT)
     private Vector4f getOuterColorByState(int state) {
         Triple<Float, Float, Float> baseColor = getBaseBeamColor();
         float coolFactor = (getMaxCooldownTick() - tick) / (float) getMaxCooldownTick();
@@ -183,7 +177,6 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
      * Get the Y coordinate of the current moving item.
      * @return The Y coordinate of the inner item.
      */
-    @OnlyIn(Dist.CLIENT)
     public float getMovingItemY() {
         if (state == BlockEnvironmentalAccumulator.STATE_PROCESSING_ITEM)
             return ITEM_MIN_SPAWN_HEIGHT + (getItemMoveDuration() - tick) * getItemMoveSpeed();
@@ -224,7 +217,6 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         getBossInfo().removeAllPlayers();
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showWaterBeams() {
         RandomSource random = level.random;
         BlockPos target = getBlockPos();
@@ -249,19 +241,17 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
                 double particleMotionY = Mth.cos(rotationPitch / 180.0F * (float) Math.PI) * speed * 5;
                 double particleMotionZ = Mth.sin(rotationPitch / 180.0F * (float) Math.PI) * Mth.sin(rotationYaw / 180.0F * (float)Math.PI) * speed;
 
-                Minecraft.getInstance().levelRenderer.addParticle(
-                        new ParticleBubbleExtendedData(0.02F), false,
+                level.addParticle(
+                        new ParticleBubbleExtendedData(0.02F),
                         particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
             }
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     protected void showAccumulatingParticles() {
         showAccumulatingParticles(level, getBlockPos().getX() + 0.5F, getBlockPos().getY() + 0.5F, getBlockPos().getZ() + 0.5F, SPREAD);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void showAccumulatingParticles(Level world, float centerX, float centerY, float centerZ, float spread) {
         RandomSource rand = world.random;
         for (int j = 0; j < rand.nextInt(20); j++) {
@@ -275,8 +265,8 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
             float motionY = spread - rand.nextFloat() * 2 * spread;
             float motionZ = spread - rand.nextFloat() * 2 * spread;
 
-            Minecraft.getInstance().levelRenderer.addParticle(
-                    new ParticleBlurTargettedData(red, green, blue, scale, ageMultiplier, centerX, centerY, centerZ), false,
+            world.addParticle(
+                    new ParticleBlurTargettedData(red, green, blue, scale, ageMultiplier, centerX, centerY, centerZ),
                     centerX, centerY, centerZ, motionX, motionY, motionZ);
         }
     }
@@ -415,8 +405,8 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
-        super.onDataPacket(net, pkt, lookupProvider);
+    public void onDataPacket(Connection net, ValueInput valueInput) {
+        super.onDataPacket(net, valueInput);
         onUpdateReceived();
     }
 
@@ -447,22 +437,20 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     @Override
-    public void read(CompoundTag compound, HolderLookup.Provider holderLookupProvider) {
-        super.read(compound, holderLookupProvider);
+    public void read(ValueInput input) {
+        super.read(input);
 
-        inventory.readFromNBT(holderLookupProvider, compound, "inventory");
+        inventory.readFromNBT(input, "inventory");
 
-        degradation = compound.getInt("degradation");
-        tick = compound.getInt("tick");
-        state = compound.getInt("state");
+        degradation = input.getInt("degradation").orElseThrow();
+        tick = input.getInt("tick").orElseThrow();
+        state = input.getInt("state").orElseThrow();
 
         // Delay loading of recipe when world is set during ticking
-        this.recipeId = compound.getString("recipe");
-        if (compound.contains("recipeDisplay")) {
-            this.recipeDisplay = RecipeDisplay.CODEC.decode(holderLookupProvider.createSerializationContext(NbtOps.INSTANCE), compound.get("recipeDisplay")).getOrThrow().getFirst();
-        }
+        this.recipeId = input.getString("recipe").orElseThrow();
+        this.recipeDisplay = input.read("recipeDisplay", RecipeDisplay.CODEC).orElse(null);
 
-        degradationExecutor.read(compound);
+        degradationExecutor.read(input.child("degradation").orElseThrow());
 
         if (getLevel() != null && getLevel().isClientSide()) {
             setBeamColor(getOuterColorByState(state));
@@ -470,21 +458,21 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-        super.saveAdditional(tag, holderLookupProvider);
+    public void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
 
-        inventory.writeToNBT(holderLookupProvider, tag, "inventory");
+        inventory.writeToNBT(output, "inventory");
 
-        tag.putInt("degradation", degradation);
-        tag.putInt("tick", tick);
-        tag.putInt("state", state);
+        output.putInt("degradation", degradation);
+        output.putInt("tick", tick);
+        output.putInt("state", state);
 
         if (recipe != null) {
-            tag.putString("recipe", recipe.id().toString());
-            tag.put("recipeDisplay", RecipeDisplay.CODEC.encodeStart(holderLookupProvider.createSerializationContext(NbtOps.INSTANCE), recipeDisplay).getOrThrow());
+            output.putString("recipe", recipe.id().toString());
+            output.store("recipeDisplay", RecipeDisplay.CODEC, recipeDisplay);
         }
 
-        degradationExecutor.write(tag);
+        degradationExecutor.write(output.child("degradation"));
     }
 
     public float getMaxHealth() {

@@ -13,16 +13,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.component.DataComponentBiomeConfig;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
 
 import javax.annotation.Nullable;
-import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -80,14 +79,13 @@ public class ItemBiomeExtract extends Item {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, context, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
         Holder<Biome> biome = getBiome(itemStack);
         if (biome != null) {
             // Biome name generation based on CreateBuffetWorldScreen
             ResourceLocation key = biome.unwrapKey().get().location();
-            list.add(Component.translatable(getDescriptionId() + ".info.content",
+            tooltipAdder.accept(Component.translatable(getDescriptionId() + ".info.content",
                     Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
         }
     }

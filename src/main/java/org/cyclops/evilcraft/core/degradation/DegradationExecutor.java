@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.degradation;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.degradation.IDegradable;
 import org.cyclops.evilcraft.api.degradation.IDegradationEffect;
@@ -13,7 +14,6 @@ import org.cyclops.evilcraft.api.degradation.IDegradationRegistry;
  */
 public class DegradationExecutor {
 
-    private static final String ROOT_TAG = "degradationExecutor";
     private static final int DEFAULT_TICK_INTERVAL = 1;
 
     private int tickInterval = DEFAULT_TICK_INTERVAL;
@@ -56,22 +56,20 @@ public class DegradationExecutor {
 
     /**
      * Reads the data for this executor from NBT.
-     * @param compound The tag to read from.
+     * @param input The tag to read from.
      */
-    public void read(CompoundTag compound) {
-        this.tickInterval = compound.getCompound(ROOT_TAG).getInt("tickInterval");
-        this.currentTick = compound.getCompound(ROOT_TAG).getInt("currentTick");
+    public void read(ValueInput input) {
+        this.tickInterval = input.getInt("tickInterval").orElseThrow();
+        this.currentTick = input.getInt("currentTick").orElseThrow();
     }
 
     /**
      * Writes the data for this executor to NBT.
-     * @param compound The tag to write to.
+     * @param output The tag to write to.
      */
-    public void write(CompoundTag compound) {
-        CompoundTag content = new CompoundTag();
-        content.putInt("tickInterval", tickInterval);
-        content.putInt("currentTick", currentTick);
-        compound.put(ROOT_TAG, content);
+    public void write(ValueOutput output) {
+        output.putInt("tickInterval", tickInterval);
+        output.putInt("currentTick", currentTick);
     }
 
     /**

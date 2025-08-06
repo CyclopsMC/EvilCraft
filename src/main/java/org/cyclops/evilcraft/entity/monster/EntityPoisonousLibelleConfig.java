@@ -11,7 +11,6 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -38,7 +37,7 @@ public class EntityPoisonousLibelleConfig extends EntityConfigCommon<ModBaseNeoF
                 eConfig -> EntityType.Builder.<EntityPoisonousLibelle>of(EntityPoisonousLibelle::new, MobCategory.MONSTER)
                         .sized(0.5F, 0.45F)
                         .fireImmune(),
-                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "poisonous_libelle_spawn_egg", IModHelpers.get().getBaseHelpers().RGBToInt(57, 125, 27), IModHelpers.get().getBaseHelpers().RGBToInt(196, 213, 57))
+                getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "poisonous_libelle_spawn_egg")
         );
         EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
         EvilCraft._instance.getModEventBus().addListener(this::registerSpawnPlacements);

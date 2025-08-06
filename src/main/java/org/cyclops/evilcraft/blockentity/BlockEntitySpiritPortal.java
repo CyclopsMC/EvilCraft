@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.blockentity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -11,8 +10,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -34,7 +31,6 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
         super(RegistryEntries.BLOCK_ENTITY_SPIRIT_PORTAL.get(), blockPos, blockState);
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void showNewBlurParticle() {
         RandomSource rand = level.random;
         float scale = 0.6F - rand.nextFloat() * 0.3F;
@@ -43,8 +39,8 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
         float blue = rand.nextFloat() * 0.05F + 0.05F;
         float ageMultiplier = (float) (rand.nextDouble() * 6.5D + 10D);
 
-        Minecraft.getInstance().levelRenderer.addParticle(
-                new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
+        level.addParticle(
+                new ParticleBlurData(red, green, blue, scale, ageMultiplier),
                 getBlockPos().getX() + 0.5F, getBlockPos().getY() + 0.5F, getBlockPos().getZ() + 0.5F,
                 rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F, rand.nextFloat() * 0.2F - 0.1F);
     }

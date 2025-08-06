@@ -2,15 +2,15 @@ package org.cyclops.evilcraft.item;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
@@ -25,7 +25,7 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Specialized item for the {@link BlockEntangledChalice} blockState.
@@ -45,7 +45,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
     }
 
     @Override
-    protected void autofill(int itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
+    protected void autofill(EquipmentSlot itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
         if(entity instanceof Player && !world.isClientSide()) {
             Player player = (Player) entity;
             FluidStack tickFluid;
@@ -57,7 +57,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
                     ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, toFill, tickFluid, player);
                     if (!filled.isEmpty()) {
                         it.replace(filled);
-                        player.getInventory().setItem(itemSlot, source.getContainer());
+                        player.getInventory().setItem(itemSlot.getIndex(), source.getContainer());
                     }
                 }
             } while(tickFluid != null && tickFluid.getAmount() > 0 && it.hasNext());
@@ -75,12 +75,11 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flagIn) {
-        super.appendHoverText(itemStack, context, list, flagIn);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
         String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
-        list.add(Component.translatable("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
+        tooltipAdder.accept(Component.translatable("block.evilcraft.entangled_chalice.info.id", tankIdToNameParts(tankId)));
     }
 
     public static String tankIdToNameParts(String tankId) {
@@ -136,7 +135,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
          * Set a new unique tank id for the container.
          */
         public void setNextTankID() {
-            setTankID(Integer.toString(EvilCraft.globalCounters.getNext("EntangledChalice")));
+            setTankID(Integer.toString(EvilCraft.globalCounters.get().getNext("EntangledChalice")));
         }
     }
 }

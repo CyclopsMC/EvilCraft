@@ -2,13 +2,12 @@ package org.cyclops.evilcraft.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
@@ -89,24 +88,30 @@ public class BlockEntityDisplayStand extends CyclopsBlockEntity {
     }
 
     @Override
-    public void read(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-        super.read(tag, holderLookupProvider);
-        inventory.readFromNBT(holderLookupProvider, tag, "inventory");
+    public void read(ValueInput input) {
+        super.read(input);
+        inventory.readFromNBT(input, "inventory");
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-        inventory.writeToNBT(holderLookupProvider, tag, "inventory");
-        super.saveAdditional(tag, holderLookupProvider);
+    public void saveAdditional(ValueOutput output) {
+        inventory.writeToNBT(output, "inventory");
+        super.saveAdditional(output);
     }
 
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
-        super.onDataPacket(net, pkt, lookupProvider);
+    public void onDataPacket(Connection net, ValueInput valueInput) {
+        super.onDataPacket(net, valueInput);
         onUpdateReceived();
     }
 
     public void onUpdateReceived() {
         IModHelpers.get().getBlockHelpers().markForUpdate(level, worldPosition);
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        IModHelpers.get().getInventoryHelpers().dropItems(getLevel(), getInventory(), pos);
     }
 }

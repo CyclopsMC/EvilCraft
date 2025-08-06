@@ -44,7 +44,7 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         Mob entityliving;
 
         try {
-            entityliving = (Mob)spawnlistentry.get().type.create(world, null, spawn, EntitySpawnReason.MOB_SUMMONED, false, false);
+            entityliving = (Mob)spawnlistentry.get().type().create(world, null, spawn, EntitySpawnReason.MOB_SUMMONED, false, false);
         } catch (Exception exception) {
             exception.printStackTrace();
             return;

@@ -2,14 +2,13 @@ package org.cyclops.evilcraft.gametest;
 
 import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import org.cyclops.cyclopscore.gametest.GameTest;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockDarkBloodBrick;
@@ -19,11 +18,9 @@ import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 import java.util.Set;
 
-@GameTestHolder(Reference.MOD_ID)
-@PrefixGameTestTemplate(false)
 public class GameTestsSpiritFurnace {
 
-    public static final String TEMPLATE_EMPTY = "empty10";
+    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
     @GameTest(template = TEMPLATE_EMPTY)
@@ -63,7 +60,7 @@ public class GameTestsSpiritFurnace {
         furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.ZOMBIE));
 
         helper.succeedWhen(() -> {
-            helper.assertFalse(furnace.isSizeValidForEntity(), "Furnace size should be invalid");
+            helper.assertFalse(furnace.isSizeValidForEntity(), Component.literal("Furnace size should be invalid"));
         });
     }
 
@@ -73,7 +70,7 @@ public class GameTestsSpiritFurnace {
         furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.ZOMBIE));
 
         helper.succeedWhen(() -> {
-            helper.assertTrue(furnace.isSizeValidForEntity(), "Furnace size should be valid");
+            helper.assertTrue(furnace.isSizeValidForEntity(), Component.literal("Furnace size should be valid"));
         });
     }
 
@@ -84,7 +81,7 @@ public class GameTestsSpiritFurnace {
         furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.CHICKEN));
 
         helper.succeedWhen(() -> {
-            helper.assertFalse(furnace.getInventory().getItem(BlockEntitySpiritFurnace.SLOTS_DROP[0]).isEmpty(), "Furnace should produce drops");
+            helper.assertFalse(furnace.getInventory().getItem(BlockEntitySpiritFurnace.SLOTS_DROP[0]).isEmpty(), Component.literal("Furnace should produce drops"));
         });
     }
 
@@ -92,9 +89,7 @@ public class GameTestsSpiritFurnace {
         ItemStack stack = new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE);
         EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
         spiritDummy.setInnerEntityType(entityType);
-        CompoundTag tag = new CompoundTag();
-        spiritDummy.getData().writeNBT(tag);
-        stack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, tag);
+        stack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spiritDummy.getData()::writeNBT));
         return stack;
     }
 
@@ -117,7 +112,7 @@ public class GameTestsSpiritFurnace {
                 }
             }
         }
-        return exclude.contains(pos) ? null : helper.getBlockEntity(pos);
+        return exclude.contains(pos) ? null : helper.getBlockEntity(pos, BlockEntitySpiritFurnace.class);
     }
 
     protected void assertFurnaceValid(GameTestHelper helper, BlockPos pos, int dimension) {

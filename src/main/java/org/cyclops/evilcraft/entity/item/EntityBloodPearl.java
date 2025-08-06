@@ -14,8 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -27,7 +25,6 @@ import org.cyclops.evilcraft.item.ItemBloodPearlOfTeleportationConfig;
  * @author rubensworks
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplier {
 
     public EntityBloodPearl(EntityType<? extends EntityBloodPearl> type, Level world) {
@@ -58,7 +55,7 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
 
                         this.getOwner().teleportTo(event.getTargetX(), event.getTargetY(), event.getTargetZ());
                         this.getOwner().fallDistance = 0.0F;
-                        ((LivingEntity) this.getOwner()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,
+                        ((LivingEntity) this.getOwner()).addEffect(new MobEffectInstance(MobEffects.SLOWNESS,
                                 ItemBloodPearlOfTeleportationConfig.slownessDuration * 20, 2));
                     }
                 }

@@ -6,10 +6,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.SoundType;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.BlockClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
 import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -47,6 +49,15 @@ public class BlockDarkTankConfig extends BlockConfigCommon<ModBaseNeoForge<?>> {
     public Collection<ItemStack> getDefaultCreativeTabEntries() {
         // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
         return Collections.emptyList();
+    }
+
+    @Override
+    @Nullable
+    public BlockClientConfig<ModBaseNeoForge<?>> constructBlockClientConfig() {
+        if (getMod().getModHelpers().getMinecraftHelpers().isClientSide()) {
+            return new BlockDarkTankConfigClient(this);
+        }
+        return null;
     }
 
     protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {

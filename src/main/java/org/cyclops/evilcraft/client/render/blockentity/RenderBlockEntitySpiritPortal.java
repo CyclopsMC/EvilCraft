@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritPortal;
 import org.joml.Matrix4f;
@@ -39,7 +40,7 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
     }
 
     @Override
-    public void render(BlockEntitySpiritPortal tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntitySpiritPortal tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
         float progress = tileentity.getProgress();
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5F, 0.5f, 0.5F);

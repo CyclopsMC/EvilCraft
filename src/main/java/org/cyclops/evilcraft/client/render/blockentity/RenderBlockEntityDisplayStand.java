@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.api.broom.IBroom;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
@@ -44,7 +45,7 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
     }
 
     @Override
-    public void render(BlockEntityDisplayStand tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntityDisplayStand tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
         if(!tile.getInventory().getItem(0).isEmpty()) {
             BlockState blockState = tile.getLevel().getBlockState(tile.getBlockPos());
             renderItem(matrixStackIn, bufferIn, tile.getInventory().getItem(0),

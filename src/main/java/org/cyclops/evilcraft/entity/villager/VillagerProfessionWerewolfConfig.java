@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.entity.villager;
 
 import com.google.common.collect.ImmutableSet;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -28,7 +28,7 @@ public class VillagerProfessionWerewolfConfig extends VillagerConfigCommon<IModB
                 EvilCraft._instance,
                 "werewolf",
                 eConfig -> new VillagerProfession(
-                        ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, eConfig.getNamedId()).toString(),
+                        Component.translatable("entity." + Reference.MOD_ID + ".villager." + eConfig.getNamedId()),
                         (poiType) -> poiType.is(PoiTypes.BUTCHER),
                         (poiType) -> poiType.is(PoiTypes.BUTCHER),
                         ImmutableSet.of(),
@@ -40,7 +40,7 @@ public class VillagerProfessionWerewolfConfig extends VillagerConfigCommon<IModB
     }
 
     public void onTrades(VillagerTradesEvent event) {
-        if (event.getType() == getInstance()) {
+        if (event.getType().equals(getResourceKey())) {
             // Villager accepts these for emeralds
             event.getTrades().get(2).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_DARK_GEM.get(), 10, 50, 2));
             event.getTrades().get(2).add(new EmeraldForItemsTrade(RegistryEntries.ITEM_HARDENED_BLOOD_SHARD.get(), 20, 50, 2));

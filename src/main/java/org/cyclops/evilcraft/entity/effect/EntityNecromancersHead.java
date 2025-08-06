@@ -13,8 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -29,7 +27,6 @@ import java.util.List;
  * @author rubensworks
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class EntityNecromancersHead extends ThrowableProjectile implements ItemSupplier {
 
     private static final int DURATION = 200;
@@ -122,7 +119,7 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
 
     @Override
     protected void onHit(HitResult position) {
-        if(position.getType() == HitResult.Type.ENTITY && !observing && !getCommandSenderWorld().isClientSide()) {
+        if(position.getType() == HitResult.Type.ENTITY && !observing && !level().isClientSide()) {
             ((EntityHitResult) position).getEntity().hurt(level().damageSources().thrown(this, this.getOwner()), 0.0F);
             if(getOwner() instanceof ServerPlayer
                     && getOwner() != ((EntityHitResult) position).getEntity()

@@ -1,8 +1,6 @@
 package org.cyclops.evilcraft.entity.monster;
 
 import com.google.common.collect.Sets;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,14 +28,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -192,15 +190,15 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        data.writeNBT(tag);
+    public void addAdditionalSaveData(ValueOutput valueOutput) {
+        super.addAdditionalSaveData(valueOutput);
+        data.writeNBT(valueOutput);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        data.readNBT(tag);
+    public void readAdditionalSaveData(ValueInput valueInput) {
+        super.readAdditionalSaveData(valueInput);
+        data.readNBT(valueInput);
     }
 
     @Override
@@ -255,10 +253,11 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                         .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, null)
                         .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, null);
 
-                if (fromPlayer && this.lastHurtByPlayer != null) {
+                Player lastHurtByPlayer = getLastHurtByPlayer();
+                if (fromPlayer && lastHurtByPlayer != null) {
                     lootcontext$builder = lootcontext$builder
-                            .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, this.lastHurtByPlayer)
-                            .withLuck(this.lastHurtByPlayer.getLuck());
+                            .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, lastHurtByPlayer)
+                            .withLuck(lastHurtByPlayer.getLuck());
                 }
 
                 for (ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.ENTITY))) {
@@ -325,7 +324,6 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void spawnSmoke() {
         EntityDimensions size = getDimensions(getPose());
         int numParticles = random.nextInt(5);
@@ -345,13 +343,12 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             float particleMotionY = (-0.5F + random.nextFloat()) * 0.05F;
             float particleMotionZ = (-0.5F + random.nextFloat()) * 0.05F;
 
-            Minecraft.getInstance().levelRenderer.addParticle(
-                    new ParticleDarkSmokeData(!this.isAlive()), false,
+            level().addParticle(
+                    new ParticleDarkSmokeData(!this.isAlive()),
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void spawnSwarmParticles() {
         EntityDimensions size = getDimensions(getPose());
         int numParticles = 5 * (random.nextInt((getSwarmTier() << 1) + 1) + 1);
@@ -366,8 +363,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             float particleMotionY = (-0.5F + random.nextFloat()) * 0.05F;
             float particleMotionZ = (-0.5F + random.nextFloat()) * 0.05F;
 
-            Minecraft.getInstance().levelRenderer.addParticle(
-                    RegistryEntries.PARTICLE_DEGRADE.get(), false,
+            level().addParticle(
+                    RegistryEntries.PARTICLE_DEGRADE.get(),
                     particleX, particleY, particleZ, particleMotionX, particleMotionY, particleMotionZ);
         }
     }
@@ -389,12 +386,12 @@ public class EntityVengeanceSpirit extends EntityNoMob {
                 (isAlternativelyVisible() || isClientVisible());
     }
 
-    @OnlyIn(Dist.CLIENT)
     private boolean isClientVisible() {
-        if (isEnabledVengeance(Minecraft.getInstance().player)) {
+        Player player = IModHelpers.get().getMinecraftClientHelpers().getPlayer();
+        if (isEnabledVengeance(player)) {
             return true;
         }
-        PlayerInventoryIterator it = new PlayerInventoryIterator(Minecraft.getInstance().player);
+        PlayerInventoryIterator it = new PlayerInventoryIterator(player);
         while (it.hasNext()) {
             ItemStack itemStack = it.next();
             if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemSpectralGlasses) {
@@ -405,7 +402,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     private boolean isAlternativelyVisible() {
-        LocalPlayer player = Minecraft.getInstance().player;
+        Player player = IModHelpers.get().getMinecraftClientHelpers().getPlayer();
         return EntityVengeanceSpiritConfig.alwaysVisibleInCreative && player != null && player.isCreative();
     }
 
@@ -420,7 +417,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     }
 
     @Override
-    public boolean canBeCollidedWith() {
+    public boolean canBeCollidedWith(@Nullable Entity entity) {
         return false;
     }
 
@@ -591,7 +588,6 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     private void showBurstParticles(double hitX, double hitY, double hitZ,
                                     double impactMotionX, double impactMotionY, double impactMotionZ) {
         for (int i = 0; i < level().random.nextInt(5); i++) {
@@ -605,8 +601,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             double dy = 0.1D - random.nextDouble() * 0.2D - impactMotionY * 0.1D;
             double dz = 0.1D - random.nextDouble() * 0.2D - impactMotionZ * 0.1D;
 
-            Minecraft.getInstance().levelRenderer.addParticle(
-                    new ParticleBlurData(red, green, blue, scale, ageMultiplier), false,
+            level().addParticle(
+                    new ParticleBlurData(red, green, blue, scale, ageMultiplier),
                     hitX, hitY, hitZ, dx, dy, dz);
         }
     }
@@ -693,7 +689,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     public static EntityVengeanceSpirit fromNBT(Level level, CompoundTag spiritTag) {
         EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(level);
-        spirit.readAdditionalSaveData(spiritTag);
+        IModHelpers.get().getMinecraftHelpers().valueInputFromNbt(spiritTag, level.registryAccess(), spirit::readAdditionalSaveData);
         return spirit;
     }
 
@@ -805,12 +801,12 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         this.data.setRandomSwarmTier(random);
     }
 
-    public void readNBT(CompoundTag tag) {
-        this.data.readNBT(tag);
+    public void readNBT(ValueInput valueInput) {
+        this.data.readNBT(valueInput);
     }
 
-    public CompoundTag writeNBT(CompoundTag tag) {
-        return this.data.writeNBT(tag);
+    public void writeNBT(ValueOutput valueOutput) {
+        this.data.writeNBT(valueOutput);
     }
 
     public UUID getPlayerUUID() {

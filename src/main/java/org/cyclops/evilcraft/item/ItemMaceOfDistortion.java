@@ -19,8 +19,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.Reference;
@@ -137,7 +135,6 @@ public class ItemMaceOfDistortion extends ItemMace {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void showEntityDistored(Level world, LivingEntity initiator, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
         world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
@@ -148,8 +145,8 @@ public class ItemMaceOfDistortion extends ItemMace {
         world.addParticle(ParticleTypes.EXPLOSION, entity.getX(), entity.getY() + world.random.nextFloat(), entity.getZ(), 1.0D, 0.0D, 0.0D);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    protected void animateOutOfEnergy(Level world, Player player) {
+    @Override
+    protected void animateOutOfEnergy(Level world, LivingEntity player) {
         double xCoord = player.getX();
         double yCoord = player.getY();
         double zCoord = player.getZ();
@@ -170,7 +167,7 @@ public class ItemMaceOfDistortion extends ItemMace {
                         new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), MELEE_DAMAGE, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
-        ), true);
+        ));
     }
 
     @Override

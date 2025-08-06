@@ -17,6 +17,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
@@ -24,8 +25,8 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.entity.item.EntityWeatherContainer;
 
-import java.util.List;
 import java.util.Locale;
+import java.util.function.Consumer;
 
 /**
  * Class for the WeatherContainer item. Each weather container has a specific
@@ -94,9 +95,10 @@ public class ItemWeatherContainer extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
         WeatherContainerType type = getWeatherType(itemStack);
-        list.add(type.description.withStyle(type.damageColor));
+        tooltipAdder.accept(type.description.withStyle(type.damageColor));
     }
 
     public void fillItemCategory(NonNullList<ItemStack> items) {

@@ -2,25 +2,33 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ResolvedModel;
+import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.model.data.ModelData;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
+import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 import org.joml.Vector3f;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,9 +47,9 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
                     new Vector3f(0.625f, 0.625f, 0.625f))
     ));
 
-    public static BakedModel boxModel;
-    public static BakedModel boxLidModel;
-    public static BakedModel boxLidRotatedModel;
+    public static List<BakedQuad> boxModel;
+    public static List<BakedQuad> boxLidModel;
+    public static List<BakedQuad> boxLidRotatedModel;
 
     private final boolean isOpen;
 
@@ -63,30 +71,47 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
 
         List<BakedQuad> quads = Lists.newLinkedList();
 
-        quads.addAll(boxModel.getQuads(blockState, facing, rand));
+        quads.addAll(boxModel);
         if (isOpen) {
-            quads.addAll(boxLidRotatedModel.getQuads(blockState, facing, rand));
+            quads.addAll(boxLidRotatedModel);
         } else {
-            quads.addAll(boxLidModel.getQuads(blockState, facing, rand));
+            quads.addAll(boxLidModel);
         }
 
         return quads;
     }
 
     @Override
-    public BakedModel handleBlockState(BlockState state, Direction side, RandomSource rand, ModelData modelData, RenderType renderType) {
+    public List<BakedQuad> handleBlockState(BlockAndTintGetter level, BlockPos pos, BlockState state, Direction side, RandomSource rand, ModelData extraData, ChunkSectionLayer renderType) {
+        return getGeneralQuads();
+    }
+
+    @Override
+    public ModelData getModelData(BlockAndTintGetter world, BlockPos pos, BlockState state, ModelData tileData) {
         return null;
     }
 
     @Override
-    public BakedModel handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
-        return new ModelBoxOfEternalClosureBaked(BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack) == null,
-                itemStack, world, entity);
+    public List<ChunkSectionLayer> getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
+        return List.of();
     }
 
     @Override
-    public TextureAtlasSprite getParticleIcon() {
-        return boxModel.getParticleIcon();
+    public List<BakedQuad> handleItemState(@Nullable ItemStack itemStack, @Nullable Level world,
+                                           @Nullable LivingEntity entity) {
+        return new ModelBoxOfEternalClosureBaked(BlockBoxOfEternalClosure.getSpiritTypeWithFallbackSpirit(itemStack) == null,
+                itemStack, world, entity).getGeneralQuads();
+    }
+
+    @Override
+    public TextureAtlasSprite particleIcon() {
+        // TODO: fix breaking particle
+        TextureAtlas atlas = Minecraft.getInstance().getModelManager().getAtlas(TextureAtlas.LOCATION_BLOCKS);
+        try {
+            return atlas.getSprite(ResourceLocation.withDefaultNamespace("missingno"));
+        } catch (IllegalStateException e) {
+            return null; // Can happen during game load
+        }
     }
 
     @Override
@@ -95,7 +120,17 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
     }
 
     @Override
-    public ItemTransforms getTransforms() {
+    public UnbakedModel wrapped() {
+        return null;
+    }
+
+    @Override
+    public @org.jetbrains.annotations.Nullable ResolvedModel parent() {
+        return null;
+    }
+
+    @Override
+    public ItemTransforms getTopTransforms() {
         return TRANSFORMS;
     }
 
@@ -125,5 +160,10 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
         int result = 1;
         result = result * PRIME + (this.isOpen() ? 79 : 97);
         return result;
+    }
+
+    @Override
+    public String debugName() {
+        return Reference.MOD_ID + ":box_of_eternal_closure";
     }
 }

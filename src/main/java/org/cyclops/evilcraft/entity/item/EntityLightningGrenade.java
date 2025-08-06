@@ -15,8 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.item.ItemLightningGrenade;
@@ -26,7 +24,6 @@ import org.cyclops.evilcraft.item.ItemLightningGrenade;
  * @author rubensworks
  *
  */
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class EntityLightningGrenade extends ThrowableProjectile implements ItemSupplier {
 
     public EntityLightningGrenade(Level world, LivingEntity entity) {
@@ -48,7 +45,7 @@ public class EntityLightningGrenade extends ThrowableProjectile implements ItemS
                 BlockPos pos = BlockPos.containing(par1MovingObjectPosition.getLocation());
                 EntityHelpers.onEntityCollided(this.level(), pos, this.level().getBlockState(pos), this);
                 LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level(), EntitySpawnReason.SPAWN_ITEM_USE);
-                bolt.moveTo(this.getX(), this.getY(), this.getZ());
+                bolt.snapTo(this.getX(), this.getY(), this.getZ());
                 this.level().addFreshEntity(bolt);
             }
 

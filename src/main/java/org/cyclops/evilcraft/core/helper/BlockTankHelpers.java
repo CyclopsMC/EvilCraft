@@ -1,13 +1,11 @@
 package org.cyclops.evilcraft.core.helper;
 
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.TriState;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -44,7 +42,6 @@ public class BlockTankHelpers {
      * @param itemStack The itemStack that must be given information.
      * @return Information for that itemStack.
      */
-    @OnlyIn(Dist.CLIENT)
     public static MutableComponent getInfoTank(ItemStack itemStack) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
         int amount = fluidStack.getAmount();

@@ -5,14 +5,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Promise item singleton.
@@ -39,14 +38,13 @@ public class ItemPromise extends Item {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
-        super.appendHoverText(itemStack, context, list, flag);
+    public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
         if(IModHelpers.get().getMinecraftClientHelpers().isShifted()) {
-            list.add(Component.translatable("item.evilcraft.promise.use_in")
+            tooltipAdder.accept(Component.translatable("item.evilcraft.promise.use_in")
                     .withStyle(ChatFormatting.DARK_GREEN));
             for(BlockConfigCommon upgradable : getUpgrade(itemStack).getUpgradables()) {
-                list.add(Component.translatable(upgradable.getTranslationKey())
+                tooltipAdder.accept(Component.translatable(upgradable.getTranslationKey())
                         .withStyle(ChatFormatting.ITALIC));
             }
         }

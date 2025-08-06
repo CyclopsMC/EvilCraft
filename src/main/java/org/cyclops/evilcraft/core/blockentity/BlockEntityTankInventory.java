@@ -1,15 +1,16 @@
 package org.cyclops.evilcraft.core.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
+import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 
 import javax.annotation.Nullable;
@@ -67,17 +68,17 @@ public class BlockEntityTankInventory extends CyclopsBlockEntity {
     }
 
     @Override
-    public void read(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-        super.read(tag, holderLookupProvider);
-        inventory.readFromNBT(holderLookupProvider, tag, "inventory");
-        tank.readFromNBT(holderLookupProvider, tag, "tank");
+    public void read(ValueInput valueInput) {
+        super.read(valueInput);
+        inventory.readFromNBT(valueInput, "inventory");
+        tank.deserialize(valueInput, "tank");
     }
 
     @Override
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-        inventory.writeToNBT(holderLookupProvider, tag, "inventory");
-        tank.writeToNBT(holderLookupProvider, tag, "tank");
-        super.saveAdditional(tag, holderLookupProvider);
+    public void saveAdditional(ValueOutput valueOutput) {
+        inventory.writeToNBT(valueOutput, "inventory");
+        tank.serialize(valueOutput, "tank");
+        super.saveAdditional(valueOutput);
     }
 
     public SimpleInventory getInventory() {
@@ -91,5 +92,11 @@ public class BlockEntityTankInventory extends CyclopsBlockEntity {
     public void onTankChanged() {
         setChanged();
         getInventory().setChanged();
+    }
+
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        super.preRemoveSideEffects(pos, state);
+        IModHelpers.get().getInventoryHelpers().dropItems(level, this.getInventory(), pos);
     }
 }

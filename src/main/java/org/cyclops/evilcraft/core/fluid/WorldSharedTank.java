@@ -1,14 +1,12 @@
 package org.cyclops.evilcraft.core.fluid;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.IModHelpers;
-import org.cyclops.cyclopscore.init.ModBaseNeoForge;
-import org.cyclops.cyclopscore.persist.world.WorldStorage;
 
 /**
  * A tank that has shared contents for a given ID.
@@ -46,15 +44,15 @@ public class WorldSharedTank extends SingleUseTank {
     }
 
     @Override
-    public void writeTankToNBT(CompoundTag nbt) {
-        super.writeTankToNBT(nbt);
-        nbt.putString(NBT_TANKID, tankID);
+    public void serialize(ValueOutput output) {
+        super.serialize(output);
+        output.putString(NBT_TANKID, tankID);
     }
 
     @Override
-    public void readTankFromNBT(CompoundTag nbt) {
-        super.readTankFromNBT(nbt);
-        tankID = nbt.getString(NBT_TANKID);
+    public void deserialize(ValueInput input) {
+        super.deserialize(input);
+        tankID = input.getString(NBT_TANKID).orElseThrow();
     }
 
     protected void readWorldFluid() {
@@ -146,49 +144,6 @@ public class WorldSharedTank extends SingleUseTank {
     @Override
     protected boolean replaceInnerFluid() {
         return false;
-    }
-
-    /**
-     * Tank data stored in the world.
-     * @author rubensworks
-     */
-    public static class TankData extends WorldStorage {
-
-        /**
-         * NBT key.
-         */
-        public static final String KEY = "WorldSharedTanks";
-
-        /**
-         * Make a new instance.
-         * @param mod The mod.
-         */
-        public TankData(ModBaseNeoForge mod) {
-            super(mod);
-        }
-
-        @Override
-        public void reset() {
-            WorldSharedTankCache.getInstance().reset();
-        }
-
-        @Override
-        protected String getDataId() {
-            return KEY;
-        }
-
-        @Override
-        public void readFromNBT(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-            super.readFromNBT(tag, holderLookupProvider);
-            WorldSharedTankCache.getInstance().readFromNBT(tag, holderLookupProvider);
-        }
-
-        @Override
-        public void writeToNBT(CompoundTag tag, HolderLookup.Provider holderLookupProvider) {
-            super.writeToNBT(tag, holderLookupProvider);
-            WorldSharedTankCache.getInstance().writeToNBT(tag, holderLookupProvider);
-        }
-
     }
 
 }
