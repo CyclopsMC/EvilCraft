@@ -91,6 +91,11 @@ public class EntityPoisonousLibelle extends Mob implements Enemy {
     }
 
     @Override
+    public boolean causeFallDamage(double p_397597_, float p_147187_, DamageSource p_147189_) {
+        return false;
+    }
+
+    @Override
     public SoundEvent getAmbientSound() {
         return null;
     }
@@ -147,13 +152,7 @@ public class EntityPoisonousLibelle extends Mob implements Enemy {
         float limitDistanceY;
         double limitDifferenceYaw;
 
-        if (this.level().isClientSide()) {
-            // Correct rotation of the entity when rotating
-            if (this.interpolation.hasActiveInterpolation()) { // TODO: can this be removed?
-                this.setPos(this.interpolation.position());
-                this.setRot(this.interpolation.yRot(), this.interpolation.xRot());
-            }
-        } else {
+        if (!this.level().isClientSide()) {
             // Calc distance to target
             distanceX = this.targetX - this.getX();
             distanceY = this.targetY - this.getY();

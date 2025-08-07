@@ -165,20 +165,6 @@ public class EntityBroom extends Entity {
         }
     }
 
-    // TODO: check the new InterpolationHandler
-//    @Override
-//    public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements) {
-//        posRotationIncrements += 6;
-//
-//        //this.yOffset = 0.0F;
-//        this.newPosX = x;
-//        this.newPosY = y;
-//        this.newPosZ = z;
-//        this.newRotationYaw = (double)yaw;
-//        this.newRotationPitch = (double)pitch;
-//        this.newPosRotationIncrements = posRotationIncrements;
-//    }
-
     @Override
     @Nullable
     public LivingEntity getControllingPassenger() {
