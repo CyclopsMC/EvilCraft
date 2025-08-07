@@ -447,10 +447,10 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
         state = input.getInt("state").orElseThrow();
 
         // Delay loading of recipe when world is set during ticking
-        this.recipeId = input.getString("recipe").orElseThrow();
+        this.recipeId = input.getString("recipe").orElse(null);
         this.recipeDisplay = input.read("recipeDisplay", RecipeDisplay.CODEC).orElse(null);
 
-        degradationExecutor.read(input.child("degradation").orElseThrow());
+        degradationExecutor.read(input.child("degradation_executor").orElseThrow());
 
         if (getLevel() != null && getLevel().isClientSide()) {
             setBeamColor(getOuterColorByState(state));
@@ -472,7 +472,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
             output.store("recipeDisplay", RecipeDisplay.CODEC, recipeDisplay);
         }
 
-        degradationExecutor.write(output.child("degradation"));
+        degradationExecutor.write(output.child("degradation_executor"));
     }
 
     public float getMaxHealth() {
