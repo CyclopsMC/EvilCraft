@@ -9,7 +9,7 @@
     "description": {
       "translate": "general.evilcraft.description"
     },
-    "background": "evilcraft:textures/block/dark_blood_brick_off.png",
+    "background": "evilcraft:block/dark_blood_brick_off",
     "show_toast": false,
     "announce_to_chat": false
   },
