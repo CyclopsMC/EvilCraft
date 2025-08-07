@@ -605,7 +605,9 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
             if (!level.isClientSide()) {
                 // Update boss bars for nearby players
-                blockEntity.getBossInfo().setProgress(blockEntity.getHealth() / blockEntity.getMaxHealth());
+                if (blockEntity.getMaxHealth() > 0) {
+                    blockEntity.getBossInfo().setProgress(blockEntity.getHealth() / blockEntity.getMaxHealth());
+                }
                 Set<Integer> playerIds = Sets.newHashSet();
                 if (blockEntity.getHealth() != blockEntity.getMaxHealth()) {
                     for (Player player : level.getEntitiesOfClass(Player.class, new AABB(pos).inflate(32D))) {
