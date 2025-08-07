@@ -1,5 +1,4 @@
 {
-    "loader": "evilcraft:display_stand",
     "parent": "block/block",
     "__comment": "Model generated using Mr_crayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
