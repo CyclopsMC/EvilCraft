@@ -47,7 +47,7 @@ public class WorldStorageSharedTank extends WorldStorage<WorldStorageSharedTank>
                     ctx -> RecordCodecBuilder.create(instance -> instance.group(
                             RecordCodecBuilder.point(ctx.levelOrThrow()),
                             Codec.dispatchedMap(Codec.STRING, (key) -> FluidStack.OPTIONAL_CODEC).fieldOf("tank_cache").forGetter(data -> data.tankCache)
-                    ).apply(instance, (level, tankCache) -> new WorldStorageSharedTank(tankCache)))
+                    ).apply(instance, (level, tankCache) -> new WorldStorageSharedTank(Maps.newHashMap(tankCache))))
             ), mod);
         }
     }

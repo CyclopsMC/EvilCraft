@@ -1,4 +1,3 @@
 {
-    "loader": "evilcraft:box_of_eternal_closure",
     "parent": "block/block"
 }

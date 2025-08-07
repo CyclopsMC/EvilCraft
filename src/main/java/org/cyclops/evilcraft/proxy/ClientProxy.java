@@ -20,7 +20,6 @@ import org.cyclops.evilcraft.client.key.Keys;
 import org.cyclops.evilcraft.client.render.blockentity.*;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
 import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderEntangledChalice;
 import org.cyclops.evilcraft.event.RenderOverlayEventHook;
 
 import java.lang.reflect.Field;
@@ -101,7 +100,6 @@ public class ClientProxy extends ClientProxyComponent {
     public void onModelLoad(ModelEvent.RegisterLoaders event) {
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
         event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
-        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice"), new ModelLoaderEntangledChalice());
     }
 
 }

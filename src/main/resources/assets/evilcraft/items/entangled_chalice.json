@@ -10,8 +10,9 @@
         }
       },
       {
-        "type": "cyclopscore:dynamic_item_and_block_model",
-        "model": "evilcraft:item/entangled_chalice"
+        "type": "evilcraft:entangled_chalice",
+        "chalice": "evilcraft:block/chalice",
+        "gems": "evilcraft:block/gems"
       }
     ]
   }

@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,7 +21,7 @@ import java.util.List;
 /**
  * @author rubensworks
  */
-public record ItemModelBoxOfEternalClosure(ModelBoxOfEternalClosureBaked model, ModelRenderProperties modelRenderProperties) implements ItemModel {
+public record ItemModelEntangledChalice(ModelEntangledChaliceBaked model, ModelRenderProperties modelRenderProperties) implements ItemModel {
 
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
@@ -30,13 +29,12 @@ public record ItemModelBoxOfEternalClosure(ModelBoxOfEternalClosureBaked model, 
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
-    public static record Unbaked(ResourceLocation box, ResourceLocation boxLid, ResourceLocation boxLidRotated) implements ItemModel.Unbaked {
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure");
+    public static record Unbaked(ResourceLocation chalice, ResourceLocation gems) implements ItemModel.Unbaked {
+        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice");
         public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
-                                ResourceLocation.CODEC.fieldOf("box").forGetter(ItemModelBoxOfEternalClosure.Unbaked::box),
-                                ResourceLocation.CODEC.fieldOf("box_lid").forGetter(ItemModelBoxOfEternalClosure.Unbaked::boxLid),
-                                ResourceLocation.CODEC.fieldOf("box_lid_rotated").forGetter(ItemModelBoxOfEternalClosure.Unbaked::boxLidRotated)
+                                ResourceLocation.CODEC.fieldOf("chalice").forGetter(ItemModelEntangledChalice.Unbaked::chalice),
+                                ResourceLocation.CODEC.fieldOf("gems").forGetter(ItemModelEntangledChalice.Unbaked::gems)
                         )
                         .apply(instance, Unbaked::new)
         );
@@ -49,26 +47,20 @@ public record ItemModelBoxOfEternalClosure(ModelBoxOfEternalClosureBaked model, 
         @Override
         public ItemModel bake(BakingContext bakingContext) {
             ModelBaker baker = bakingContext.blockModelBaker();
-            ResolvedModel resolvedModel = baker.getModel(this.box);
+            ResolvedModel resolvedModel = baker.getModel(chalice);
             TextureSlots textureslots = resolvedModel.getTopTextureSlots();
             ModelRenderProperties modelRenderProperties = ModelRenderProperties.fromResolvedModel(baker, resolvedModel, textureslots);
-            return new ItemModelBoxOfEternalClosure(bakeBoxModel(baker, BlockModelRotation.X0_Y180), modelRenderProperties);
-        }
-
-        public ModelBoxOfEternalClosureBaked bakeBoxModel(ModelBaker baker, ModelState modelState) {
-            return new ModelBoxOfEternalClosureBaked(
-                    ModelHelpers.bakeSingleBlockStateModel(baker, box, modelState),
-                    ModelHelpers.bakeSingleBlockStateModel(baker, boxLid, modelState),
-                    ModelHelpers.bakeSingleBlockStateModel(baker, boxLidRotated, modelState),
-                    false
+            ModelEntangledChaliceBaked model = new ModelEntangledChaliceBaked(
+                    ModelHelpers.bakeSingleBlockStateModel(baker, chalice, BlockModelRotation.X0_Y0),
+                    ModelHelpers.bakeSingleBlockStateModel(baker, gems, BlockModelRotation.X0_Y0)
             );
+            return new ItemModelEntangledChalice(model, modelRenderProperties);
         }
 
         @Override
         public void resolveDependencies(Resolver resolver) {
-            resolver.markDependency(box);
-            resolver.markDependency(boxLid);
-            resolver.markDependency(boxLidRotated);
+            resolver.markDependency(chalice);
+            resolver.markDependency(gems);
         }
     }
 }

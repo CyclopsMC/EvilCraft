@@ -2,12 +2,13 @@ package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ResolvableModel;
 import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.model.data.ModelData;
@@ -48,29 +50,32 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     private final static Map<String, Integer> seeds = Maps.newHashMap();
 
-    public static final ResourceLocation chaliceModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/chalice");
-    public static final ResourceLocation gemsModelName = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "block/gems");
-
-    public static BlockStateModel chaliceModel;
-    public static BlockStateModel gemsModel;
+    private final BlockStateModel chaliceModel;
+    private final BlockStateModel gemsModel;
 
     private final String id;
     private final FluidStack fluidStack;
 
-    public ModelEntangledChaliceBaked() {
+    public ModelEntangledChaliceBaked(BlockStateModel chaliceModel, BlockStateModel gemsModel) {
         super();
-        id = "";
-        fluidStack = null;
+        this.chaliceModel = chaliceModel;
+        this.gemsModel = gemsModel;
+        this.id = "";
+        this.fluidStack = null;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, BlockAndTintGetter level, BlockState blockState, Direction facing, RandomSource rand, ModelData modelData, ChunkSectionLayer renderType) {
+    public ModelEntangledChaliceBaked(BlockStateModel chaliceModel, BlockStateModel gemsModel, String id, FluidStack fluidStack, BlockAndTintGetter level, BlockState blockState, Direction facing, RandomSource rand, ModelData modelData, ChunkSectionLayer renderType) {
         super(level, blockState, facing, rand, modelData, renderType);
+        this.chaliceModel = chaliceModel;
+        this.gemsModel = gemsModel;
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
     }
 
-    public ModelEntangledChaliceBaked(String id, FluidStack fluidStack, ItemStack itemStack, Level world, LivingEntity entity) {
+    public ModelEntangledChaliceBaked(BlockStateModel chaliceModel, BlockStateModel gemsModel, String id, FluidStack fluidStack, ItemStack itemStack, Level world, LivingEntity entity) {
         super(itemStack, world, entity);
+        this.chaliceModel = chaliceModel;
+        this.gemsModel = gemsModel;
         this.id = id != null ? id : "";
         this.fluidStack = fluidStack;
     }
@@ -148,7 +153,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         if (!BlockEntangledChaliceConfig.staticBlockRendering) {
             fluidStack = FluidStack.EMPTY;
         }
-        return new ModelEntangledChaliceBaked(tankId, fluidStack, level, state, side, rand, modelData, renderType).getGeneralQuads();
+        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, tankId, fluidStack, level, state, side, rand, modelData, renderType).getGeneralQuads();
     }
 
     @Override
@@ -156,7 +161,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         String id = FluidUtil.getFluidHandler(itemStack)
                 .map((h -> ((ItemEntangledChalice.FluidHandler) h).getTankID()))
                 .orElse("");
-        return new ModelEntangledChaliceBaked(id, FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY), itemStack, world, entity).getGeneralQuads();
+        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, id, FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY), itemStack, world, entity).getGeneralQuads();
     }
 
     @Override
@@ -237,5 +242,36 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
     @Override
     public String debugName() {
         return Reference.MOD_ID + ":entangled_chalice";
+    }
+
+    public record Unbaked(ResourceLocation chalice, ResourceLocation gems, Variant.SimpleModelState modelState) implements CustomUnbakedBlockStateModel {
+
+        public static final MapCodec<ModelEntangledChaliceBaked.Unbaked> CODEC = RecordCodecBuilder.mapCodec(
+                builder -> builder.group(
+                                ResourceLocation.CODEC.fieldOf("chalice").forGetter(ModelEntangledChaliceBaked.Unbaked::chalice),
+                                ResourceLocation.CODEC.fieldOf("gems").forGetter(ModelEntangledChaliceBaked.Unbaked::gems),
+                                Variant.SimpleModelState.MAP_CODEC.forGetter(ModelEntangledChaliceBaked.Unbaked::modelState)
+                        )
+                        .apply(builder, ModelEntangledChaliceBaked.Unbaked::new));
+        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice");
+
+        @Override
+        public void resolveDependencies(ResolvableModel.Resolver resolver) {
+            resolver.markDependency(this.chalice);
+            resolver.markDependency(this.gems);
+        }
+
+        @Override
+        public BlockStateModel bake(ModelBaker baker) {
+            return new ModelEntangledChaliceBaked(
+                    ModelHelpers.bakeSingleBlockStateModel(baker, chalice, modelState.asModelState()),
+                    ModelHelpers.bakeSingleBlockStateModel(baker, gems, modelState.asModelState())
+            );
+        }
+
+        @Override
+        public MapCodec<? extends CustomUnbakedBlockStateModel> codec() {
+            return CODEC;
+        }
     }
 }
