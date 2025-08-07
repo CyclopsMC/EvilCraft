@@ -32,6 +32,7 @@ public class WorldStorageSharedTank extends WorldStorage<WorldStorageSharedTank>
         } else {
             tankCache.put(key, fluidStack);
         }
+        setDirty();
     }
 
     public Set<Map.Entry<String, FluidStack>> getEntries() {
