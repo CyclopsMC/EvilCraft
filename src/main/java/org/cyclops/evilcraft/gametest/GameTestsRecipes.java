@@ -17,7 +17,7 @@ import org.cyclops.evilcraft.item.ItemBloodExtractorConfig;
 
 public class GameTestsRecipes {
 
-    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + "empty10";
+    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 1, 2);
 
     @GameTest(template = TEMPLATE_EMPTY)

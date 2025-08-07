@@ -23,6 +23,9 @@ import java.util.List;
  */
 public class EntityVengeanceSpiritConfig extends EntityConfigCommon<IModBase, EntityVengeanceSpirit> {
 
+    @ConfigurablePropertyCommon(category = "mob", comment = "If vengeance spirits should also spawn when entities are killed by non-player damage sources.")
+    public static boolean spawnOnNonPlayerKills = false;
+
     @ConfigurablePropertyCommon(category = "mob", comment = "The maximum amount of vengeance spirits naturally spawnable in the spawnLimitArea.")
     public static int spawnLimit = 5;
 

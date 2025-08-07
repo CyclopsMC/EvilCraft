@@ -21,7 +21,7 @@ import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 public class GameTestsVengeanceSpirits {
 
-    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + "empty10";
+    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
     @GameTest(template = TEMPLATE_EMPTY)
@@ -33,7 +33,7 @@ public class GameTestsVengeanceSpirits {
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS).getBottomCenter());
-        player.setXRot(15F);
+        player.setXRot(-25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
@@ -84,7 +84,7 @@ public class GameTestsVengeanceSpirits {
         // Let player use piercing vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS.above().above()).getBottomCenter());
-        player.setXRot(15F);
+        player.setXRot(1F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_PIERCING_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
@@ -104,7 +104,7 @@ public class GameTestsVengeanceSpirits {
         // Let player kill zombie
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS).getBottomCenter());
-        player.setXRot(15F);
+        player.setXRot(1F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
         player.getInventory().setItem(0, new ItemStack(RegistryEntries.ITEM_VENGEANCE_RING));
         helper.onEachTick(() -> player.attack(zombie));
@@ -133,7 +133,7 @@ public class GameTestsVengeanceSpirits {
         // Let player kill zombie
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS).getBottomCenter());
-        player.setXRot(15F);
+        player.setXRot(1F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
         helper.onEachTick(() -> player.attack(zombie));
 
