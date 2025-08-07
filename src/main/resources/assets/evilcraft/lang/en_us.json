@@ -264,7 +264,7 @@
   "item.evilcraft.spectral_glasses": "Spectral Glasses",
   "item.evilcraft.spectral_glasses.info": "Look into the spirit world",
   "item.evilcraft.werewolf_spawn_egg": "Werewolf Spawn Egg",
-  "item.evilcraft.netherfish_spawn_egg": "Nether Fish Spawn Egg",
+  "item.evilcraft.netherfish_spawn_egg": "Netherfish Spawn Egg",
   "item.evilcraft.poisonous_libelle_spawn_egg": "Poisonous Libelle Spawn Egg",
   "item.evilcraft.vengeance_spirit_spawn_egg": "Vengeance Spirit Spawn Egg",
   "item.evilcraft.controlled_zombie_spawn_egg": "Controlled Zombie Spawn Egg",
@@ -291,7 +291,7 @@
   "_comment": "Entities",
   "entity.evilcraft.werewolf": "Werewolf",
   "entity.evilcraft.poisonous_libelle": "Poisonous Libelle",
-  "entity.evilcraft.netherfish": "Nether Fish",
+  "entity.evilcraft.netherfish": "Netherfish",
   "entity.evilcraft.vengeance_spirit": "Vengeance Spirit",
   "entity.evilcraft.controlled_zombie": "Controlled Zombie",
   "entity.evilcraft.broom_entity": "Broom",
@@ -510,7 +510,7 @@
   "info_book.evilcraft.first_age.new_world.werewolf": "Werewolf",
   "info_book.evilcraft.first_age.new_world.werewolf.text": "Whilst I was exploring this world, I have taken rest in many villages. One of the towns I rested in had a strange looking fellow in it. I started talking to him and it soon struck me he was not as interested in emeralds as the other people in his town. In fact he started asking more and more questions about the dark ore I had discovered, we talked away hours and hours. He was so keen about getting his hands on them and other objects I have discovered that we ended up trading things for most of the rest of the day. When night had fallen, he took me to his house in the village and he said I was most welcome to spend the night in his spare bedroom. I said I already rented a room at the local inn but thanked him for his kindness anyway. As I crawled into bed in the inn, I took a last glance at the moon, as I usually do before going to sleep and I saw it was a nice full moon. As I closed my eyes, all of a sudden, I heard a loud distressed shout and after that a wolf-like growl. The whole village was looking through their windows and we saw a tall wolf, walking on its hindlegs. Everyone cowered in fear, but I, without fear nor doubt, took up my trusty dagger and gave it a pretty good beating. It was a very strong creature, his fur will make a nice memento to his great fight... When I woke up the next morning to conclude my trading session of the day before, my strange trading friend had taken a leave. There where claw marks all over his house and there was &4Blood&0 on the floor, I still wonder if the strange wolve ate him... Or if perhaps he was a werewolf, as the villagers gossip on... It looks like I can convert his drops to regular items when just placing them inside a &1Crafting Table&0.",
 
-  "info_book.evilcraft.first_age.new_world.nether_fish": "Nether Fish",
+  "info_book.evilcraft.first_age.new_world.nether_fish": "Netherfish",
   "info_book.evilcraft.first_age.new_world.nether_fish.text": "Once upon a time while I was visiting hell, I discovered a block of &1Netherrack&0 that was a bit harder to break than normally. But after breaking the block, I noticed a little creature popping out and it started to attack me. It lit me on fire and I took some mild damage, luckily I was able to kill it without much trouble.",
 
   "_comment": "- Relics -",

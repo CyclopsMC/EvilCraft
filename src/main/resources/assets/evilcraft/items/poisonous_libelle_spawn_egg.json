@@ -1,16 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/template_spawn_egg",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": 3767579
-      },
-      {
-        "type": "minecraft:constant",
-        "value": 12899641
-      }
-    ]
+    "model": "evilcraft:item/poisonous_libelle_spawn_egg"
   }
 }

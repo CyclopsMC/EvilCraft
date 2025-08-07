@@ -1,16 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/template_spawn_egg",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": 4198493
-      },
-      {
-        "type": "minecraft:constant",
-        "value": 8797353
-      }
-    ]
+    "model": "evilcraft:item/vengeance_spirit_spawn_egg"
   }
 }

@@ -1,16 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "minecraft:item/template_spawn_egg",
-    "tints": [
-      {
-        "type": "minecraft:constant",
-        "value": 657930
-      },
-      {
-        "type": "minecraft:constant",
-        "value": 7491713
-      }
-    ]
+    "model": "evilcraft:item/controlled_zombie_spawn_egg"
   }
 }
