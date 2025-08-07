@@ -14,11 +14,8 @@
     "id": "evilcraft:vengeance_pickaxe",
     "components": {
       "minecraft:enchantments": {
-        "levels": {
-          "minecraft:fortune": 5,
-          "evilcraft:vengeance": 3
-        },
-        "show_in_tooltip": true
+        "minecraft:fortune": 5,
+        "evilcraft:vengeance": 3
       }
     }
   }

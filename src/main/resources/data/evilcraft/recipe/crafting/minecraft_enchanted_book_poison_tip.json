@@ -8,10 +8,7 @@
     "id": "minecraft:enchanted_book",
     "components": {
       "minecraft:enchantments": {
-        "levels": {
-          "evilcraft:poison_tip": 1
-        },
-        "show_in_tooltip": true
+        "evilcraft:poison_tip": 1
       }
     }
   }

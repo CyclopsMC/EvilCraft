@@ -14,10 +14,7 @@
     "id": "evilcraft:vein_sword",
     "components": {
       "minecraft:enchantments": {
-        "levels": {
-          "minecraft:looting": 2
-        },
-        "show_in_tooltip": true
+        "minecraft:looting": 2
       }
     }
   }
