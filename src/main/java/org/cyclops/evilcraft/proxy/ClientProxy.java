@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.proxy;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Options;
 import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -11,15 +10,12 @@ import org.cyclops.cyclopscore.client.key.IKeyRegistry;
 import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.cyclopscore.proxy.ClientProxyComponent;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockEntangledChaliceConfig;
 import org.cyclops.evilcraft.client.key.ExaltedCrafterKeyHandler;
 import org.cyclops.evilcraft.client.key.FartKeyHandler;
 import org.cyclops.evilcraft.client.key.Keys;
 import org.cyclops.evilcraft.client.render.blockentity.*;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderBroom;
-import org.cyclops.evilcraft.core.client.model.ModelLoaderBroomPart;
 import org.cyclops.evilcraft.event.RenderOverlayEventHook;
 
 import java.lang.reflect.Field;
@@ -37,7 +33,6 @@ public class ClientProxy extends ClientProxyComponent {
     public ClientProxy() {
         super(new CommonProxy());
         EvilCraft._instance.getModEventBus().addListener(this::onModelBakingCompleted);
-        EvilCraft._instance.getModEventBus().addListener(this::onModelLoad);
     }
 
     @Override
@@ -95,11 +90,6 @@ public class ClientProxy extends ClientProxyComponent {
 
     public void onModelBakingCompleted(ModelEvent.BakingCompleted event) {
         this.modelBakery = event.getModelBakery();
-    }
-
-    public void onModelLoad(ModelEvent.RegisterLoaders event) {
-        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom"), new ModelLoaderBroom());
-        event.register(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom_part"), new ModelLoaderBroomPart());
     }
 
 }

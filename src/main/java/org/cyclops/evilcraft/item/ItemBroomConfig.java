@@ -4,9 +4,11 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
 import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.evilcraft.EvilCraft;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -45,6 +47,11 @@ public class ItemBroomConfig extends ItemConfigCommon<ModBaseNeoForge<?>> {
                 (eConfig, properties) -> new ItemBroom(properties.stacksTo(1))
         );
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
+    }
+
+    @Override
+    public @Nullable ItemClientConfig<ModBaseNeoForge<?>> constructItemClientConfig() {
+        return new ItemBroomConfigClient(this);
     }
 
     @Override

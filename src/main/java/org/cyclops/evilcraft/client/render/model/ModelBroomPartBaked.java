@@ -1,7 +1,6 @@
-package org.cyclops.evilcraft.core.client.model;
+package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockModelPart;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
@@ -35,17 +34,14 @@ import java.util.Map;
  * A baked broom part model.
  * @author rubensworks
  */
-public class BroomPartModelBaked extends DynamicItemAndBlockModel {
+public class ModelBroomPartBaked extends DynamicItemAndBlockModel {
 
-    private final Map<IBroomPart, BlockStateModel> broomPartModels = Maps.newHashMap();
+    private final Map<IBroomPart, BlockStateModel> broomPartModels;
     private final RandomSource rand = RandomSource.create();
 
-    public BroomPartModelBaked() {
+    public ModelBroomPartBaked(Map<IBroomPart, BlockStateModel> broomPartModels) {
         super(true, false);
-    }
-
-    public void addBroomPartModel(IBroomPart part, BlockStateModel bakedModel) {
-        broomPartModels.put(part, bakedModel);
+        this.broomPartModels = broomPartModels;
     }
 
     @Override
@@ -94,9 +90,6 @@ public class BroomPartModelBaked extends DynamicItemAndBlockModel {
      * @return The colored quads
      */
     private Collection<? extends BakedQuad> color(List<BakedQuad> quads, int color) {
-        /*if (true) {
-            return quads;
-        }*/
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
             int[] vertexData = Arrays.copyOf(quad.vertices(), quad.vertices().length);

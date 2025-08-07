@@ -1,6 +1,5 @@
 {
   "model": {
-    "type": "cyclopscore:dynamic_item_and_block_model",
-    "model": "evilcraft:item/broom"
+    "type": "evilcraft:broom"
   }
 }

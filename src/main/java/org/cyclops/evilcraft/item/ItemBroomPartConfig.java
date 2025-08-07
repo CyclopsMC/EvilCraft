@@ -2,9 +2,11 @@ package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
+import org.cyclops.cyclopscore.config.extendedconfig.ItemClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
-import org.cyclops.cyclopscore.init.IModBase;
+import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.evilcraft.EvilCraft;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 
@@ -13,7 +15,7 @@ import java.util.Collection;
  * @author rubensworks
  *
  */
-public class ItemBroomPartConfig extends ItemConfigCommon<IModBase> {
+public class ItemBroomPartConfig extends ItemConfigCommon<ModBaseNeoForge<?>> {
 
     public ItemBroomPartConfig() {
         super(
@@ -21,6 +23,11 @@ public class ItemBroomPartConfig extends ItemConfigCommon<IModBase> {
             "broom_part",
                 (eConfig, properties) -> new ItemBroomPart(properties)
         );
+    }
+
+    @Override
+    public @Nullable ItemClientConfig<ModBaseNeoForge<?>> constructItemClientConfig() {
+        return new ItemBroomPartConfigClient(this);
     }
 
     @Override

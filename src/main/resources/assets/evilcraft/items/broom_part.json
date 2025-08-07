@@ -1,7 +1,6 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "evilcraft:item/template_broom_part",
+    "type": "evilcraft:broom_part",
     "tints": [
       {
         "type": "evilcraft:broom_part"

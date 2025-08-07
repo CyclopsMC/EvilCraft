@@ -1,8 +1,7 @@
-package org.cyclops.evilcraft.core.client.model;
+package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.AtomicLongMap;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
@@ -34,7 +33,7 @@ import java.util.*;
  *
  * @author rubensworks
  */
-public class BroomModelBaked extends DynamicItemAndBlockModel {
+public class ModelBroomBaked extends DynamicItemAndBlockModel {
 
     // Default perspective transforms
     protected static final ItemTransforms PERSPECTIVE_TRANSFORMS =
@@ -65,25 +64,18 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
                     )
             ));
 
-    private static final Map<IBroomPart, BlockStateModel> broomPartModels = Maps.newHashMap();
-    private static TextureAtlasSprite particleIcon;
+    private final Map<IBroomPart, BlockStateModel> broomPartModels;
 
-    private final List<BakedQuad> quads;
     private final RandomSource rand = RandomSource.create();
 
-    public BroomModelBaked() {
+    public ModelBroomBaked(Map<IBroomPart, BlockStateModel> broomPartModels) {
         super(true, false);
-        this.quads = Collections.emptyList();
-    }
-
-    public BroomModelBaked(List<BakedQuad> quads) {
-        super(false, true);
-        this.quads = Objects.requireNonNull(quads);
+        this.broomPartModels = broomPartModels;
     }
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
-        return this.quads;
+        return Collections.emptyList();
     }
 
     @Override
@@ -104,13 +96,6 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
         return List.of();
     }
 
-    public static void addBroomModel(IBroomPart part, BlockStateModel bakedModel) {
-        broomPartModels.put(part, bakedModel);
-        if (part == BroomParts.ROD_WOOD) {
-            particleIcon = bakedModel.particleIcon();
-        }
-    }
-
     @Override
     public boolean usesBlockLight() {
         return true; // If false, RenderHelper.setupGuiFlatDiffuseLighting() is called
@@ -118,7 +103,7 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
 
     @Override
     public TextureAtlasSprite particleIcon() {
-        return particleIcon;
+        return null;
     }
 
     @Override
@@ -191,26 +176,19 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
         return PERSPECTIVE_TRANSFORMS;
     }
 
-    public List<BakedQuad> getQuads() {
-        return this.quads;
-    }
-
     public RandomSource getRand() {
         return this.rand;
     }
 
     public String toString() {
-        return "BroomModelBaked(quads=" + this.getQuads() + ", rand=" + this.getRand() + ")";
+        return "BroomModelBaked(rand=" + this.getRand() + ")";
     }
 
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof BroomModelBaked)) return false;
-        final BroomModelBaked other = (BroomModelBaked) o;
+        if (!(o instanceof ModelBroomBaked)) return false;
+        final ModelBroomBaked other = (ModelBroomBaked) o;
         if (!other.canEqual((Object) this)) return false;
-        final Object this$quads = this.getQuads();
-        final Object other$quads = other.getQuads();
-        if (this$quads == null ? other$quads != null : !this$quads.equals(other$quads)) return false;
         final Object this$rand = this.getRand();
         final Object other$rand = other.getRand();
         if (this$rand == null ? other$rand != null : !this$rand.equals(other$rand)) return false;
@@ -218,14 +196,12 @@ public class BroomModelBaked extends DynamicItemAndBlockModel {
     }
 
     protected boolean canEqual(final Object other) {
-        return other instanceof BroomModelBaked;
+        return other instanceof ModelBroomBaked;
     }
 
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
-        final Object $quads = this.getQuads();
-        result = result * PRIME + ($quads == null ? 43 : $quads.hashCode());
         final Object $rand = this.getRand();
         result = result * PRIME + ($rand == null ? 43 : $rand.hashCode());
         return result;

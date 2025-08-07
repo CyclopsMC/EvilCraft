@@ -1,6 +1,6 @@
 {
   "model": {
-    "type": "cyclopscore:dynamic_item_and_block_model",
+    "type": "minecraft:model",
     "model": "evilcraft:item/dark_tank"
   }
 }
