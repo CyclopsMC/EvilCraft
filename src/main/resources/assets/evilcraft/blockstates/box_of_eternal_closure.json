@@ -1,8 +1,31 @@
 {
   "variants": {
-    "facing=east": { "model": "evilcraft:block/box_of_eternal_closure" },
-    "facing=south": { "model": "evilcraft:block/box_of_eternal_closure", "y": 90 },
-    "facing=west": { "model": "evilcraft:block/box_of_eternal_closure", "y": 180 },
-    "facing=north": { "model": "evilcraft:block/box_of_eternal_closure", "y": 270 }
+    "facing=east": {
+      "type": "evilcraft:box_of_eternal_closure",
+      "box": "evilcraft:block/box",
+      "box_lid": "evilcraft:block/box_lid",
+      "box_lid_rotated": "evilcraft:block/box_lid_rotated"
+    },
+    "facing=south": {
+      "type": "evilcraft:box_of_eternal_closure",
+      "box": "evilcraft:block/box",
+      "box_lid": "evilcraft:block/box_lid",
+      "box_lid_rotated": "evilcraft:block/box_lid_rotated",
+      "y": 90
+    },
+    "facing=west": {
+      "type": "evilcraft:box_of_eternal_closure",
+      "box": "evilcraft:block/box",
+      "box_lid": "evilcraft:block/box_lid",
+      "box_lid_rotated": "evilcraft:block/box_lid_rotated",
+      "y": 180
+    },
+    "facing=north": {
+      "type": "evilcraft:box_of_eternal_closure",
+      "box": "evilcraft:block/box",
+      "box_lid": "evilcraft:block/box_lid",
+      "box_lid_rotated": "evilcraft:block/box_lid_rotated",
+      "y": 270
+    }
   }
 }

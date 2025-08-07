@@ -6,7 +6,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
-import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -73,21 +74,22 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
-        VertexConsumer vertexConsumer = bufferIn.getBuffer(Sheets.solidBlockSheet());
-        for (BakedQuad bakedQuad : ModelBoxOfEternalClosureBaked.boxModel) {
-            vertexConsumer.putBulkData(matrixStackIn.last(), bakedQuad, 1.0F, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
-        }
+        BlockState blockState = tile.getBlockState()
+                .setValue(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
+        ModelBoxOfEternalClosureBaked model = (ModelBoxOfEternalClosureBaked) IModHelpers.get().getRenderHelpers().getBakedModel(blockState);
+        ModelBlockRenderer.renderModel(matrixStackIn.last(), bufferIn.getBuffer(Sheets.solidBlockSheet()), model.getBoxModel(), 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
 
         // Render lid
         float angle = tile.getPreviousLidAngle()
                 + (tile.getLidAngle() - tile.getPreviousLidAngle()) * partialTicks;
         matrixStackIn.pushPose();
-        matrixStackIn.translate(0.75F, 0.375F, 0F);
-        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(-angle));
-        matrixStackIn.translate(-0.75F, -0.375F, 0F);
-        for (BakedQuad bakedQuad : ModelBoxOfEternalClosureBaked.boxLidModel) {
-            vertexConsumer.putBulkData(matrixStackIn.last(), bakedQuad, 1.0F, 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
-        }
+        matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
+        matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
+        matrixStackIn.translate(0.25F, 0.375F, 0F);
+        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(angle));
+        matrixStackIn.translate(-0.25F, -0.375F, 0F);
+        ModelBlockRenderer.renderModel(matrixStackIn.last(), bufferIn.getBuffer(Sheets.solidBlockSheet()), model.getBoxLidModel(), 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
         matrixStackIn.popPose();
 
         // Render box inside

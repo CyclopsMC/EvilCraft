@@ -26,8 +26,7 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfigCommon<ModBaseNeo
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
                         .sound(SoundType.METAL)),
-                (eConfig, block) -> new ItemBlockBoxOfEternalClosure(block, eConfig.createDefaultItemProperties()
-                        )
+                (eConfig, block) -> new ItemBlockBoxOfEternalClosure(block, eConfig.createDefaultItemProperties())
         );
     }
 
