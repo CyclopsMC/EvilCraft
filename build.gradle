@@ -250,6 +250,7 @@ shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set(''); // Replace the default JAR
     append 'META-INF/neoforge.mods.toml'
+    append 'META-INF/accesstransformer.cfg'
 }
 assemble.dependsOn shadowJar
 jar {
