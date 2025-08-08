@@ -219,6 +219,7 @@ shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set(''); // Replace the default JAR
     append 'META-INF/mods.toml'
+    append 'META-INF/accesstransformer.cfg'
 	finalizedBy 'reobfShadowJar'
 }
 
