@@ -229,6 +229,7 @@ shadowJar {
     configurations = [project.configurations.shadow]
     classifier '' // Replace the default JAR
     append 'META-INF/mods.toml'
+    append 'META-INF/accesstransformer.cfg'
 }
 
 reobf {
