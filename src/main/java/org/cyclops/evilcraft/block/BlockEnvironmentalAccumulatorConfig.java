@@ -31,7 +31,6 @@ public class BlockEnvironmentalAccumulatorConfig extends BlockConfigCommon<IModB
                         .sound(SoundType.METAL)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
-        System.out.println(defaultTickCooldown);
     }
 
     @Override
