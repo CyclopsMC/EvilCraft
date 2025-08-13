@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.world.level.block.SoundType;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -15,7 +14,7 @@ import org.cyclops.evilcraft.EvilCraft;
 public class BlockEnvironmentalAccumulatorConfig extends BlockConfigCommon<IModBase> {
 
     @ConfigurablePropertyCommon(category = "machine", isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to cool down")
-    public static int defaultTickCooldown = IModHelpers.get().getMinecraftHelpers().getDayLength() / 20;
+    public static int defaultTickCooldown = EvilCraft._instance.getModHelpers().getMinecraftHelpers().getDayLength() / 20;
 
     @ConfigurablePropertyCommon(category = "machine", isCommandable = true, comment = "Sets the default amount of ticks the environmental accumulator takes to process an item.")
     public static int defaultProcessItemTickCount = 100;
@@ -32,6 +31,7 @@ public class BlockEnvironmentalAccumulatorConfig extends BlockConfigCommon<IModB
                         .sound(SoundType.METAL)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
+        System.out.println(defaultTickCooldown);
     }
 
     @Override
