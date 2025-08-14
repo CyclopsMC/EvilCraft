@@ -1,45 +1,15 @@
 # Changelog for Minecraft 1.19.2
 All notable changes to this project will be documented in this file.
 
-<a name="1.19.2-1.2.9"></a>
-## [1.19.2-1.2.9](/compare/1.19.2-1.2.8...1.19.2-1.2.9) - 2022-10-02 07:57:03 +0200
+<a name="1.19.2-1.2.48"></a>
+## [1.19.2-1.2.48](/compare/1.19.2-1.2.47...1.19.2-1.2.48) - 2025-08-14 19:56:19
 
 
 ### Fixed
-* Optimize Vengeance Ring by creating tag once, Closes #944
-* Fix degradation in Envir Acc breaking chunks, Closes #943
-
-<a name="1.19.2-1.2.8"></a>
-## [1.19.2-1.2.8](/compare/1.19.2-1.2.7...1.19.2-1.2.8) - 2022-09-17 10:10:49 +0200
-
-
-### Changed
-* Increase default spirit spawn limit range to 32, Closes #939
-
-### Fixed
-* Fix other rare color-related crashes at startup, Closes #928
-
-<a name="1.19.2-1.2.7"></a>
-## [1.19.2-1.2.7](/compare/1.19.2-1.2.6...1.19.2-1.2.7) - 2022-08-23 18:00:56 +0200
-
-
-### Fixed
-* Fix monster attributes being registered incorrectly
-  Closes #936
-  Closes CyclopsMC/CyclopsCore#172
-
-<a name="1.19.2-1.2.6"></a>
-## [1.19.2-1.2.6](/compare/1.19.2-1.2.47...1.19.2-1.2.6) - 2022-08-11 19:48:12 +0200
-
-
-Update to MC 1.19.2
-
-### Fixed
-* Clarify blood of pool requirements, Closes #931
-* Mention Dark Ore worldgen in book, Closes #930
+* Fetch spirit furnace recipes from server, Closes CyclopsMC/EvilCraft#1130
 
 <a name="1.19.2-1.2.47"></a>
-## [1.19.2-1.2.47](/compare/1.19.2-1.2.46...1.19.2-1.2.47) - 2025-08-10 12:58:45
+## [1.19.2-1.2.47](/compare/1.19.2-1.2.46...1.19.2-1.2.47) - 2025-08-10 12:58:45 +0200
 
 
 ### Fixed
@@ -332,9 +302,46 @@ Update to MC 1.19.2
 * Fix Envir Acc crash when creating Biome Extract, Closes #952
 
 <a name="1.19.2-1.2.10"></a>
-## [1.19.2-1.2.10] - 2022-11-11 10:50:11 +0100
+## [1.19.2-1.2.10](/compare/1.19.2-1.2.9...1.19.2-1.2.10) - 2022-11-11 10:50:11 +0100
 
 
 ### Fixed
 * Use RandomSource in ParticleBloodSplash, Closes #949
 * Fix accesstransformer warning, Closes #948
+
+<a name="1.19.2-1.2.9"></a>
+## [1.19.2-1.2.9](/compare/1.19.2-1.2.8...1.19.2-1.2.9) - 2022-10-02 07:57:03 +0200
+
+
+### Fixed
+* Optimize Vengeance Ring by creating tag once, Closes #944
+* Fix degradation in Envir Acc breaking chunks, Closes #943
+
+<a name="1.19.2-1.2.8"></a>
+## [1.19.2-1.2.8](/compare/1.19.2-1.2.7...1.19.2-1.2.8) - 2022-09-17 10:10:49 +0200
+
+
+### Changed
+* Increase default spirit spawn limit range to 32, Closes #939
+
+### Fixed
+* Fix other rare color-related crashes at startup, Closes #928
+
+<a name="1.19.2-1.2.7"></a>
+## [1.19.2-1.2.7](/compare/1.19.2-1.2.6...1.19.2-1.2.7) - 2022-08-23 18:00:56 +0200
+
+
+### Fixed
+* Fix monster attributes being registered incorrectly
+  Closes #936
+  Closes CyclopsMC/CyclopsCore#172
+
+<a name="1.19.2-1.2.6"></a>
+## [1.19.2-1.2.6] - 2022-08-11 19:48:12 +0200
+
+
+Update to MC 1.19.2
+
+### Fixed
+* Clarify blood of pool requirements, Closes #931
+* Mention Dark Ore worldgen in book, Closes #930
