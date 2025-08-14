@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.78"></a>
+## [1.21.1-1.2.78](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.77...1.21.1-1.2.78) - 2025-08-14 19:57:46
+
+
+### Fixed
+* Fetch spirit furnace recipes from server, Closes CyclopsMC/EvilCraft#1130
+
 <a name="1.21.1-1.2.77"></a>
-## [1.21.1-1.2.77](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.76...1.21.1-1.2.77) - 2025-08-10 12:59:11
+## [1.21.1-1.2.77](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.76...1.21.1-1.2.77) - 2025-08-10 12:59:11 +0200
 
 
 ### Fixed
