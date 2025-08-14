@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.level.block.SoundType;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
@@ -23,7 +22,7 @@ public class BlockPurifierConfig extends BlockConfigCommon<IModBase> {
             "tetra:.*"
     );
     @ConfigurablePropertyCommon(category = "machine", comment = "The duration limit in ticks for which potion effect can be collected. Set to a negative value to allow any duration.", isCommandable = true)
-    public static int maxPotionEffectDuration = IModHelpers.get().getMinecraftHelpers().getSecondInTicks() * 60 * 5;
+    public static int maxPotionEffectDuration = EvilCraft._instance.getModHelpers().getMinecraftHelpers().getSecondInTicks() * 60 * 5;
 
     public BlockPurifierConfig() {
         super(
