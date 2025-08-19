@@ -3,13 +3,13 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -175,7 +175,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
                 if(slot == SLOT_BOX)
                     return getTileWorkingMetadata().canConsume(itemStack, getLevel());
                 if(slot == SLOT_EGG)
-                    return itemStack.getItem() == Items.EGG
+                    return itemStack.is(ItemTags.EGGS)
                             /*&& ResurgenceEgg.getInstance().isEmpty(itemStack) also enable in acceptance slot in container*/;
                 if(slot == SLOT_CONTAINER)
                     return SlotFluidContainer.checkIsItemValid(itemStack, RegistryEntries.FLUID_BLOOD.get());
