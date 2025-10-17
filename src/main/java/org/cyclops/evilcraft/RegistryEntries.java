@@ -70,6 +70,11 @@ public class RegistryEntries {
     public static final DeferredHolder<Item, Item> ITEM_DARK_SPIKE = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:dark_spike"));
     public static final DeferredHolder<Item, ItemBiomeExtract> ITEM_BIOME_EXTRACT = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:biome_extract"));
     public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_EMPTY = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bowl_of_promises_empty"));
+    public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_DUSTED = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bowl_of_promises_dusted"));
+    public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_TIER0 = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bowl_of_promises_tier0"));
+    public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_TIER1 = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bowl_of_promises_tier1"));
+    public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_TIER2 = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bowl_of_promises_tier2"));
+    public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_TIER3 = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bowl_of_promises_tier3"));
     public static final DeferredHolder<Item, Item> ITEM_BOX_OF_ETERNAL_CLOSURE = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:box_of_eternal_closure"));
     public static final DeferredHolder<Item, Item> ITEM_BLOOD_EXTRACTOR = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:blood_extractor"));
     public static final DeferredHolder<Item, Item> ITEM_BURNING_GEM_STONE = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:burning_gem_stone"));
