@@ -1,20 +1,15 @@
 {
-  "_comment": "General",
-  "itemGroup.evilcraft": "EvilCraft",
+  "_comment": "------ On the Dynamics of Integration contents ------",
   "general.evilcraft.info.empty": "Vazio",
   "general.evilcraft.description": "Um mod maligno para o Minecraft.",
-
-  "_comment": "Sound names",
   "subtitles.evilcraft.effect.vengeancebeam.base": "Raio da Vingança",
-  "subtitles.evilcraft.effect.vengeancebeam.start": "Raio da Vingança Iniciado",
-  "subtitles.evilcraft.effect.vengeancebeam.stop": "Raio da Vingança Interrompido",
+  "subtitles.evilcraft.effect.vengeancebeam.start": "Início do Raio da Vingança",
+  "subtitles.evilcraft.effect.vengeancebeam.stop": "Fim do Raio da Vingança",
   "subtitles.evilcraft.mob.vengeancespirit.ambient": "Rosnado do Espírito da Vingança",
   "subtitles.evilcraft.mob.vengeancespirit.death": "Morte do Espírito da Vingança",
   "subtitles.evilcraft.effect.box.beam": "Feixe da Caixa de Confinamento Eterno",
   "subtitles.evilcraft.effect.page.flipsingle": "Virar Página",
   "subtitles.evilcraft.effect.page.flipmultiple": "Virar Páginas",
-
-  "_comment": "Blocks",
   "block.evilcraft.inner_block.info": "Bloco: %s",
   "block.evilcraft.blood": "Sangue",
   "block.evilcraft.poison": "Veneno",
@@ -103,13 +98,8 @@
   "block.evilcraft.infested_nether_netherrack": "Netherrack Infestado",
   "block.evilcraft.infested_nether_nether_bricks": "Tijolos do Nether Infestados",
   "block.evilcraft.infested_nether_soul_sand": "Areia das Almas Infestada",
-
-  "_comment": "Multiblock",
-  "multiblock.evilcraft.colossalbloodchest.error.prefix": "EvilCraft",
   "multiblock.evilcraft.colossalbloodchest.error.prefix.info": "Erro na estrutura multiblock do Baú de Sangue Colossal",
   "multiblock.evilcraft.colossalbloodchest.error.unexpected": "Erro inesperado na estrutura do Baú de Sangue Colossal.",
-
-  "_comment": "Items",
   "item.evilcraft.werewolf_bone": "Osso de Lobisomem",
   "item.evilcraft.flesh_werewolf": "Carne de Lobisomem",
   "item.evilcraft.flesh_humanoid": "Carne Humanoide",
@@ -142,7 +132,6 @@
   "item.evilcraft.blood_container.info.autoSupply": "Suprimento automático: %s",
   "item.evilcraft.poison_sac": "Bolsa de Veneno",
   "item.evilcraft.werewolf_fur": "Pelo de Lobisomem",
-  "item.evilcraft.blook": "Blook",
   "item.evilcraft.blook.info": "Pode absorver encantamentos de itens quando colocado no Purificador.",
   "item.evilcraft.potentia_sphere": "Esfera de Potentia",
   "item.evilcraft.potentia_sphere.info": "Infunda com sangue para criar uma Pérola do Fim.",
@@ -161,7 +150,6 @@
   "item.evilcraft.kineticator_repelling.info.area": "Área de Repulsão: %s",
   "item.evilcraft.vengeance_ring": "Anel da Vingança",
   "item.evilcraft.vengeance_ring.info": "Pode atrair ou invocar Espíritos da Vingança.\\nShift + Clique com o botão direito para alternar o impulso.",
-  "item.evilcraft.vengeance_ring.info.status": "Status: %s",
   "item.evilcraft.vengeance_focus": "Foco da Vingança",
   "item.evilcraft.vengeance_focus.info": "Clique com o botão direito para ativar o feixe que congela Espíritos da Vingança.",
   "item.evilcraft.vengeance_pickaxe": "Picareta da Vingança",
@@ -251,7 +239,6 @@
   "item.evilcraft.environmental_accumulation_core": "Núcleo de Acumulação Ambiental",
   "item.evilcraft.environmental_accumulation_core.info": "Obtido ao quebrar um Acumulador Ambiental comum.",
   "item.evilcraft.mace_of_destruction": "Maça da Destruição",
-  "item.evilcraft.garmonbozia": "Garmonbozia",
   "item.evilcraft.garmonbozia.info": "\"Dor e Sofrimento\"",
   "item.evilcraft.poison_bottle": "Garrafa de Veneno",
   "item.evilcraft.vengeance_essence": "Essência da Vingança",
@@ -268,27 +255,18 @@
   "item.evilcraft.poisonous_libelle_spawn_egg": "Ovo de Invocação de Libélula Venenosa",
   "item.evilcraft.vengeance_spirit_spawn_egg": "Ovo de Invocação de Espírito da Vingança",
   "item.evilcraft.controlled_zombie_spawn_egg": "Ovo de Invocação de Zumbi Controlado",
-
   "item.evilcraft.powerable.set_power": "Definir poder para %s",
   "item.evilcraft.powerable.info.power": "Poder: %s",
   "item.evilcraft.powerable.info": "Shift + Clique com o botão direito para mudar o nível de poder.",
-
-  "_comment": "Fluids",
   "fluid_type.evilcraft.blood": "Sangue",
   "fluid_type.evilcraft.poison": "Veneno",
-
-  "_comment": "Weather container info",
   "weather_container.evilcraft.empty": "Vazio",
   "weather_container.evilcraft.clear": "Meu único raio de sol",
   "weather_container.evilcraft.rain": "Quando a chuva começa a cair",
   "weather_container.evilcraft.lightning": "Eletrizado",
-
-  "_comment": "Controls",
   "key.categories.evilcraft": "EvilCraft",
   "key.evilcraft.fart": "Alternar Peido",
   "key.evilcraft.exaltedCrafting": "Abrir Criador Exaltado",
-
-  "_comment": "Entities",
   "entity.evilcraft.werewolf": "Lobisomem",
   "entity.evilcraft.poisonous_libelle": "Libélula Venenosa",
   "entity.evilcraft.netherfish": "Peixe do Nether",
@@ -296,8 +274,6 @@
   "entity.evilcraft.controlled_zombie": "Zumbi Controlado",
   "entity.evilcraft.broom_entity": "Vassoura",
   "entity.minecraft.villager.evilcraft.werewolf": "Lobisomem-Aldeão",
-
-  "_comment": "Enchantments",
   "enchantment.evilcraft.breaking": "Maldição da Quebra",
   "enchantment.evilcraft.breaking.desc": "Suas ferramentas quebram mais rápido",
   "enchantment.evilcraft.life_stealing": "Roubo de Vida",
@@ -308,13 +284,9 @@
   "enchantment.evilcraft.poison_tip.desc": "Mobs danificados são envenenados",
   "enchantment.evilcraft.vengeance": "Maldição da Vingança",
   "enchantment.evilcraft.vengeance.desc": "Usar uma ferramenta invocará Espíritos da Vingança",
-
-  "_comment": "Chat messages",
   "chat.evilcraft.command.farting_enabled": "Peido ativado",
   "chat.evilcraft.command.farting_disabled": "Peido desativado",
   "chat.evilcraft.boss_display.charge": "Carga",
-
-  "_comment": "Death messages",
   "death.attack.evilcraft.die_without_any_reason": "%1$s morre sem motivo aparente!",
   "death.attack.evilcraft.distorted": "%1$s não conseguiu mais lidar com a quantidade de distorção.",
   "death.attack.evilcraft.spiked": "%1$s foi morto por espinhos.",
@@ -322,18 +294,9 @@
   "death.attack.evilcraft.broom": "%1$s foi atropelado por uma vassoura.",
   "death.attack.evilcraft.broom.player": "%1$s foi atropelado por %s em uma vassoura.",
   "death.attack.evilcraft.vengeance_beam": "%1$s foi evaporado por um Raio da Vingança.",
-
-  "_comment": "Biomes",
   "biome.evilcraft.degraded": "Degradado",
-
-  "_comment": "Potion Effects",
   "effect.evilcraft.paling": "Desvanecimento",
   "effect.evilcraft.paling.postfix": "Poção do Desvanecimento",
-  "potion.potency.2": "III",
-  "potion.potency.3": "IV",
-  "potion.potency.4": "V",
-
-  "_comment": "Achievements",
   "advancement.evilcraft.evil_source": "Uma Verdadeira Fonte do Mal",
   "advancement.evilcraft.evil_source.desc": "Obtenha uma cópia das Origens da Escuridão jogando um livro na anomalia resultante de alimentar um animal com uma Maçã Obscurecida.",
   "advancement.evilcraft.fart": "Aprenda a Peidar",
@@ -356,8 +319,6 @@
   "advancement.evilcraft.power_crafting.desc": "Crie um Criador Exaltado, craft-cepção!",
   "advancement.evilcraft.cannibal": "Canibal",
   "advancement.evilcraft.cannibal.desc": "Coma um pouco de Carne Humanoide.",
-
-  "_comment": "Gui",
   "gui.exalted_crafting": "Criação Exaltada",
   "gui.exalted_crafting.clear": "Limpar",
   "gui.exalted_crafting.balance": "Balancear",
@@ -368,8 +329,6 @@
   "gui.waila.block_info_config": "Informação com Shift para blocos",
   "gui.waila.broom_info_config": "Informação da vassoura",
   "gui.nei.fluids": "Fluidos",
-
-  "_comment": "Broom parts",
   "broom.evilcraft.shiftinfo": "<Shift para informações da vassoura>",
   "broom.parts.evilcraft.shiftinfo": "<Shift para informações das partes da vassoura>",
   "broom.parts.evilcraft.rod_bare": "Haste Nua",
@@ -417,15 +376,11 @@
   "broom.parts.evilcraft.cap_metal_cobalt": "Ponta de Metal de Cobalto",
   "broom.parts.evilcraft.cap_metal_manyullyn": "Ponta de Metal de Manyullyn",
   "broom.parts.evilcraft.cap_slime": "Ponta de Slime",
-
-  "_comment": "Broom part types",
   "broom.parts.evilcraft.type": "Tipo: %s",
   "broom.parts.evilcraft.types": "Partes:",
   "broom.parts.evilcraft.type.rod": "Haste",
   "broom.parts.evilcraft.type.brush": "Escova",
   "broom.parts.evilcraft.type.cap": "Ponta",
-
-  "_comment": "Broom modifiers",
   "broom.modifiers.evilcraft.shiftinfo": "<Shift para informações da vassoura>",
   "broom.modifiers.evilcraft.type": "Modificador",
   "broom.modifiers.evilcraft.types": "Modificadores:",
@@ -440,9 +395,7 @@
   "broom.modifiers.evilcraft.type.flame": "Chama",
   "broom.modifiers.evilcraft.type.smash": "Esmagar",
   "broom.modifiers.evilcraft.type.bouncy": "Saltitante",
-  "broom.modifiers.evilcraft.type.witherer": "Witherer",
   "broom.modifiers.evilcraft.type.hungerer": "Esfomeador",
-  "broom.modifiers.evilcraft.type.kamikaze": "Kamikaze",
   "broom.modifiers.evilcraft.type.withershield": "Escudo Wither",
   "broom.modifiers.evilcraft.type.sturdyness": "Robustez",
   "broom.modifiers.evilcraft.type.luck": "Sorte",
@@ -450,217 +403,144 @@
   "broom.modifiers.evilcraft.type.swimming": "Natação",
   "broom.modifiers.evilcraft.type.icy": "Gélido",
   "broom.modifiers.evilcraft.type.sticky": "Aderente",
-
-  "_comment": "Subtitles",
-  "subtitles.evilcraft.effect.vengeancebeam.base": "Raio da Vingança",
-  "subtitles.evilcraft.effect.vengeancebeam.start": "Início do Raio da Vingança",
-  "subtitles.evilcraft.effect.vengeancebeam.stop": "Fim do Raio da Vingança",
-  "subtitles.evilcraft.mob.vengeancespirit.ambient": "Rosnado do Espírito da Vingança",
-  "subtitles.evilcraft.mob.vengeancespirit.death": "Morte do Espírito da Vingança",
-  "subtitles.evilcraft.effect.box.beam": "Feixe da Caixa de Confinamento Eterno",
-  "subtitles.evilcraft.effect.page.flipsingle": "Virar Página",
-  "subtitles.evilcraft.effect.page.flipmultiple": "Virar Páginas",
-
-  "_comment": "------ Origins of Darkness contents ------",
   "info_book.evilcraft.section.main": "Origens da Escuridão",
   "info_book.evilcraft.tag_index": "&oÍndice&r",
-
   "info_book.evilcraft.preface": "Prefácio",
   "info_book.evilcraft.preface.text1": "Parece que este mundo guarda mais do que os olhos podem ver. Há coisas que concluirei neste livro, meus escritos do conhecimento adquirido sobre a obscuridade que aqui reside. Descobri um modo sombrio de viver com as criaturas deste mundo. “&oQue mal virá disto&r”, eu me pergunto? “&oO mal espreita em cada canto&r”, ouço uma voz sombria dentro de mim responder. Descobri alguns segredos dentro deste vasto mundo de aldeões tolos e zumbis, algo que suas mentes insignificantes jamais compreenderão.",
   "info_book.evilcraft.preface.text2": "Muitos tipos de magia existem neste mundo, mas o tipo que você pode alcançar com &4Sangue&0 parece diferente. Notei pessoas se cortando para obter &4Sangue&0, eu prefiro poupar minha força para outras coisas...",
-
   "info_book.evilcraft.structure": "&oEstrutura&r",
   "info_book.evilcraft.structure.text1": "Este livro está dividido em duas partes principais, para as duas eras da maldade nas quais gosto de classificar tudo. Considero tudo antes da minha chegada a este mundo como a &1Primeira Era&0, e o trabalho da minha vida como a &1Segunda Era&0.",
   "info_book.evilcraft.structure.text2": "Você pode navegar por este livro clicando nas setas na parte inferior; clicar com Shift irá folhear seções inteiras em vez de páginas únicas. No início de grandes seções, você verá um índice com hiperlinks para suas subseções para uma navegação mais rápida. Ao encontrar receitas, os itens que são explicados neste livro são clicáveis como uma referência rápida à seção em que são explicados. Você também notará um botão no canto superior esquerdo deste livro, que o levará para a seção acima da atual. O botão no canto superior direito voltará para a página visitada anteriormente cada vez que for clicado.",
-
-  "_comment": "--- First Age ---",
   "info_book.evilcraft.first_age": "Primeira Era",
-
-  "_comment": "- A Strange New World -",
   "info_book.evilcraft.first_age.new_world": "Um Estranho Mundo Novo",
   "info_book.evilcraft.first_age.new_world.introduction": "Introdução",
   "info_book.evilcraft.first_age.new_world.introduction.text": "Tenho descoberto várias coisas estranhas ultimamente. Todas elas emitem uma vibe sinistra, e quanto mais tempo fico perto delas, mais me sinto acostumado... Nem todas essas coisas podem ser muito úteis de imediato, mas posso ter algumas ideias para usá-las para outra coisa.",
-
   "info_book.evilcraft.first_age.new_world.dark_ore": "Minério Sombrio",
   "info_book.evilcraft.first_age.new_world.dark_ore.text": "Este mundo está cheio de todos os tipos de recursos, isso eu já sei há muito tempo... Mas hoje fiz uma nova descoberta, há um minério neste mundo, com um brilho um tanto sombrio, que me faz pensar em gemas preciosas, mas sinto uma presença muito obscura dentro delas. Pareço encontrá-las principalmente nos mesmos lugares que o &lMinério de Redstone&r, mas às vezes também muito mais alto. Atingi-las com uma picareta de ferro parece ser o requisito mínimo para obter algumas dessas gemas. Também parece surgir um tipo de pó bastante estranho, mas apenas quando as minero enquanto sob o efeito de Fortuna. Tenho certeza de que encontrarei um uso para este pó em breve. Parece que níveis mais altos de Fortuna aumentam a chance de obter esses pós.",
-
   "info_book.evilcraft.first_age.new_world.darkened_apple": "Maçã Obscurecida",
   "info_book.evilcraft.first_age.new_world.darkened_apple.text": "Enquanto você lê este livro, pode já ter se deparado com este item. Combinar uma &1Maçã&0 e uma &1Gema Sombria&0 resulta em uma &1Maçã&0 especial que, quando comida, inflige grandes quantidades de dano por um certo tempo. Se a entidade morrer por causa deste efeito, ela deixará para trás algum tipo de anomalia. Ainda tenho que descobrir algum uso para este fenômeno...",
-
   "info_book.evilcraft.first_age.new_world.evil_dungeon": "Masmorra Maligna",
   "info_book.evilcraft.first_age.new_world.evil_dungeon.text": "Enquanto explorava cavernas, ocasionalmente encontro estas salas sombrias com &4Sangue&0 espalhado por todo o chão. Estes traços de &4Sangue&0 são provavelmente causados pelas batalhas de exploradores anteriores com os inúmeros mobs que habitam estas masmorras.",
-
   "info_book.evilcraft.first_age.new_world.dark_temple": "Templo Sombrio",
   "info_book.evilcraft.first_age.new_world.dark_temple.text1": "Parece haver certas estruturas neste mundo que foram construídas por algum tipo de civilização antiga que era capaz de infundir certos poderes ambientais em itens. Estes processos, no entanto, parecem degradar o equilíbrio natural do ambiente quanto mais são utilizados. Esta é possivelmente a principal razão pela qual essa civilização não existe mais hoje...",
   "info_book.evilcraft.first_age.new_world.dark_temple.text2": "Usando &1Gemas Sombrias&0, consegui aprimorar &1Garrafas de Vidro&0 existentes para que pudessem conter o clima ambiental. Jogar um &1Recipiente Climático&0 dentro do núcleo de tal templo absorverá o clima atual na garrafa.",
   "info_book.evilcraft.first_age.new_world.dark_temple.text3": "Também descobri que certos itens podem ser energizados usando as propriedades especiais de tempestades de raios. Esses itens também podem ser energizados quando são diretamente atingidos por um raio, mas parece muito improvável prever onde um raio vai cair, ou será que é...?",
   "info_book.evilcraft.first_age.new_world.dark_temple.text4": "Esses templos parecem emitir algum tipo de energia, talvez eu possa encontrar uma maneira de detectar isso e descobrir novos templos no mundo?",
-
   "info_book.evilcraft.first_age.new_world.weather_container_benefits": "Benefícios do Recipiente Climático",
   "info_book.evilcraft.first_age.new_world.weather_container_benefits.text": "O clima contido nessas garrafas pode ser reativado quando as garrafas são jogadas contra algo. Mas, em vez de quebrá-las, pode ser mais interessante usá-las para criar vários outros itens legais.",
-
   "info_book.evilcraft.first_age.new_world.biome_extract": "Extrato de Bioma",
   "info_book.evilcraft.first_age.new_world.biome_extract.text1": "Nosso mundo é feito de &1Biomas&0, e muitas variações diferentes existem. Infelizmente, não podemos escolher a localização desses &1Biomas&0, ou pelo menos nem sempre.",
   "info_book.evilcraft.first_age.new_world.biome_extract.text2": "Uma das habilidades do &1Acumulador Ambiental&0 é que ele pode aceitar &1Garrafas de Extrato de Bioma&0 especiais, que ele pode preencher com o &1Bioma&0 em que a máquina está atualmente localizada. Essas garrafas podem ser jogadas em qualquer lugar no chão para transformar aquela área no bioma especificado.",
   "info_book.evilcraft.first_age.new_world.biome_extract.text3": "Uma grande desvantagem do &1Acumulador Ambiental&0 é que ele degradará seu bioma ao longo do tempo, então as garrafas que saem dele se tornarão inúteis. Se ao menos houvesse uma maneira alternativa de criar esses &1Extratos de Bioma&0 sem efeitos negativos...",
-
   "info_book.evilcraft.first_age.new_world.libelle": "Libélula Venenosa",
   "info_book.evilcraft.first_age.new_world.libelle.text": "Parece que há algumas novas criaturas neste mundo. Esta criatura parece ser um tipo bem grande de libélula. Durante o dia, é uma criatura bastante pacífica, mas não se engane, pois se você se aventurar muito perto deste inseto, ele tentará envenená-lo como se fosse algum tipo de autodefesa. À noite, no entanto, esta fera é dominada por um mal antigo e mata tudo em seu caminho. Considero-me sortudo por elas não terem outras armas além de me procurar ativamente à noite para vir me envenenar. Consegui matar algumas dessas coisas irritantes e extraí algumas bolsas de veneno interessantes de seus corpos. Joguei-as em um &1Balde de Água&0 e a água realmente absorve bem o veneno quando jogo quatro delas. Há muito tempo faço o mesmo com &lBatatas Venenosas&r também. Pode ser útil em um aperto para defender meu covil do mal... Ehm, quero dizer, minha casa... Nomeei esta criatura com a palavra holandesa para sua espécie, porque não queria que fosse confundida com libélulas comuns, por razões óbvias...",
-
   "info_book.evilcraft.first_age.new_world.werewolf": "Lobisomem",
   "info_book.evilcraft.first_age.new_world.werewolf.text": "Enquanto explorava este mundo, descansei em muitas vilas. Uma das cidades em que descansei tinha um sujeito de aparência estranha. Comecei a falar com ele e logo percebi que ele não estava tão interessado em esmeraldas quanto as outras pessoas em sua cidade. Na verdade, ele começou a fazer mais e mais perguntas sobre o minério sombrio que eu havia descoberto, conversamos por horas a fio. Ele estava tão ansioso para colocar as mãos neles e em outros objetos que descobri que acabamos trocando coisas pela maior parte do resto do dia. Quando a noite caiu, ele me levou à sua casa na vila e disse que eu era muito bem-vindo para passar a noite em seu quarto de hóspedes. Eu disse que já havia alugado um quarto na pousada local, mas agradeci sua gentileza de qualquer maneira. Enquanto me deitava na cama da pousada, dei uma última olhada na lua, como costumo fazer antes de dormir, e vi que era uma bela lua cheia. Ao fechar os olhos, de repente, ouvi um grito alto e angustiado e depois um rosnado de lobo. A vila inteira estava olhando pelas janelas e vimos um lobo alto, andando em suas patas traseiras. Todos se encolheram de medo, mas eu, sem medo nem dúvida, peguei meu punhal de confiança e dei-lhe uma boa surra. Era uma criatura muito forte, seu pelo será uma bela lembrança de sua grande luta... Quando acordei na manhã seguinte para concluir minha sessão de trocas do dia anterior, meu estranho amigo de trocas havia partido. Havia marcas de garras por toda a casa dele e havia &4Sangue&0 no chão, ainda me pergunto se o estranho lobo o comeu... Ou se talvez ele fosse um lobisomem, como os aldeões fofocam... Parece que posso converter seus drops em itens comuns apenas colocando-os dentro de uma &1Mesa de Trabalho&0.",
-
   "info_book.evilcraft.first_age.new_world.nether_fish": "Peixe do Nether",
   "info_book.evilcraft.first_age.new_world.nether_fish.text": "Era uma vez, enquanto eu visitava o inferno, descobri um bloco de &1Netherrack&0 que era um pouco mais difícil de quebrar do que o normal. Mas depois de quebrar o bloco, notei uma pequena criatura saindo e ela começou a me atacar. Ela me incendiou e eu sofri um dano leve, felizmente consegui matá-la sem muitos problemas.",
-
-  "_comment": "- Relics -",
   "info_book.evilcraft.first_age.relics": "Relíquias",
-
   "info_book.evilcraft.first_age.relics.humanoid_flesh": "Carne Humanoide",
   "info_book.evilcraft.first_age.relics.humanoid_flesh.text": "Você pode nunca ter notado antes, mas quando os jogadores morrem, eles parecem deixar cair um pedaço de sua carne. Comê-la parece ser perigoso, talvez comê-la à noite seja mais seguro. Eu não recomendaria comer sua própria carne, isso é nojento, tente comer a de um de seus amigos em vez disso!",
-
   "info_book.evilcraft.first_age.relics.enchantments": "Encantamentos",
   "info_book.evilcraft.first_age.relics.enchantments.breaking.text": "&l&nMaldição da Quebra&r&NEste encantamento existe em três estágios, parece que faz exatamente o oposto do encantamento Inquebrável. Isso não parece muito útil, não é? Talvez eu devesse encontrar uma maneira de me livrar disso.",
   "info_book.evilcraft.first_age.relics.enchantments.life_stealing.text": "&l&nRoubo de Vida&r&NOs três estágios deste encantamento em armas ofensivas permitem que você roube partes da vida que tira dos outros.",
   "info_book.evilcraft.first_age.relics.enchantments.poison_tip.text": "&l&nPonta Venenosa&r&NAo aplicar um pouco de veneno em suas armas, você tem a chance de envenenar suas vítimas. Este encantamento existe em três estágios. Parece que você pode fazer uma versão básica deste encantamento adicionando um material venenoso a um livro comum.",
   "info_book.evilcraft.first_age.relics.enchantments.unusing.text": "&l&nNão-Uso&r&NEu estava cansado de minhas ferramentas favoritas quebrarem toda vez que eu não prestava atenção nelas. É por isso que criei um novo encantamento que torna as ferramentas inutilizáveis quando estão prestes a quebrar, me dando tempo suficiente para repará-las à sua antiga glória.",
   "info_book.evilcraft.first_age.relics.enchantments.vengeance.text": "&l&nMaldição da Vingança&r&NFerramentas com este encantamento invocarão Espíritos da Vingança quando usadas.",
-
-  "_comment": "- Items -",
   "info_book.evilcraft.first_age.items": "Itens",
-
   "info_book.evilcraft.first_age.items.dark_tank": "Tanque Sombrio",
   "info_book.evilcraft.first_age.items.dark_tank.text1": "Usando um pouco de &1Ferro&0, &1Gemas Sombrias&0 e um pedaço de &1Vidro&0, é possível construir um recipiente forte capaz de conter fluidos. É possível colocar esses tanques em algum lugar ou segurá-los em seu inventário.",
   "info_book.evilcraft.first_age.items.dark_tank.text2": "Quando colocado em algum lugar, você pode clicar com o botão direito nele, o que lhe dá um brilho arroxeado, e parece abrir um buraco no fundo do tanque que é capaz de encher automaticamente tanques, recipientes de itens e jogadores carregando recipientes abaixo dele.",
   "info_book.evilcraft.first_age.items.dark_tank.text3": "Shift + clicar com o botão direito com o tanque na mão e sem mirar em um bloco (porque você sabe que apenas colocará o tanque no chão se fizesse isso) ativará um modo especial para fazê-lo tentar encher automaticamente qualquer recipiente que você esteja segurando, se ele puder aceitar aquele fluido.",
   "info_book.evilcraft.first_age.items.dark_tank.text4": "Parece que pode conter cerca de dezesseis baldes. Se isso for muito limitante para você, esses tanques parecem ser expansíveis colocando vários deles dentro de uma mesa de trabalho, e nenhum fluido parece se perder neste processo.",
-
   "info_book.evilcraft.first_age.items.dark_spike": "Espinhos",
   "info_book.evilcraft.first_age.items.dark_spike.text": "Usando uma &1Gema Sombria&0 e um pedaço de &1Ferro&0, consegui criar &1Espinhos&0 muito afiados e duráveis. Os mobs não parecem gostar muito deles...",
-
   "info_book.evilcraft.first_age.items.spiked_plate": "Placa com Espinhos",
   "info_book.evilcraft.first_age.items.spiked_plate.text1": "Alguns &1Espinhos&0 e uma &1Placa&0 resultarão em uma placa que causará dano a qualquer mob que passar por cima dela, embora eu e meus colegas não pareçamos sofrer nenhum dano. Os poderes da &1Gema Sombria&0 parecem garantir que os mobs mortos neste processo dropem as mesmas coisas que quando mortos por qualquer jogador.",
   "info_book.evilcraft.first_age.items.spiked_plate.text2": "Para sua conveniência, eles também emitem um sinal de redstone quando um mob está sofrendo dano.",
-
   "info_book.evilcraft.first_age.items.spikey_claws": "Garras Espinhentas",
   "info_book.evilcraft.first_age.items.spikey_claws.text1": "Nada é mais irritante do que trocar de ferramentas ao tentar quebrar blocos, e de repente ter que lutar contra mobs que se aproximam.",
   "info_book.evilcraft.first_age.items.spikey_claws.text2": "Combinar alguns &1Espinhos&0 permite que você quebre quase todos os materiais macios muito rapidamente. Ao mesmo tempo, qualquer mob que se aproxime também pode ser atacado com poder suficiente.",
-
   "info_book.evilcraft.first_age.items.potentia_sphere": "Esfera de Potentia",
   "info_book.evilcraft.first_age.items.potentia_sphere.text": "Combinar vários itens mundanos brilhantes resultará em uma esfera que parece possuir alguns poderes incríveis, talvez eu descubra uma maneira de aproveitar esses poderes em um futuro próximo. Parece que o poder pode ser invertido usando algumas &1Gemas Sombrias&0.",
-
   "info_book.evilcraft.first_age.items.dull_dust": "Pó Opaco",
   "info_book.evilcraft.first_age.items.dull_dust.text": "Combinar um pouco de &1Açúcar&0 e &1Pólvora&0 resultará em um pó estranho que não parece ser muito útil no momento, daí o nome. Embora isso possa mudar um dia.",
-
   "info_book.evilcraft.first_age.items.obscured_glass": "Vidro Obscurecido",
   "info_book.evilcraft.first_age.items.obscured_glass.text": "Algumas pessoas podem achar o &1Vidro&0 comum muito claro. Combinar um pouco de vidro com uma &1Gema Sombria&0 parece criar um tipo especial de vidro que reduz quase completamente a quantidade de luz que passa. Eu ainda consigo olhar através do vidro, muito estranho...",
-
   "info_book.evilcraft.first_age.items.exalted_crafter": "Criador Exaltado",
   "info_book.evilcraft.first_age.items.exalted_crafter.text1": "As mesas de trabalho podem ser inconvenientes às vezes quando em locais remotos. Parece que as &1Gemas Sombrias Esmagadas&0 dão o poder de criar coisas de dentro do seu inventário! Anexar algum tipo de baú a ele fornece um inventário interno fácil, até mesmo seu &1Baú do Fim&0 parece funcionar. Usuários avançados podem ficar felizes com este item, pois ele pode ser vinculado a uma tecla de atalho. Usar essa mesma tecla de atalho quando a GUI está aberta limpará seu inventário, e usar a tecla de atalho com Shift balanceará todos os itens atualmente na grade. Há um botão de alternância disponível que permite alternar entre os alvos de retorno ao remover itens com Shift da grade de criação, você pode escolher entre o inventário interno do item ou o seu inventário de jogador.",
   "info_book.evilcraft.first_age.items.exalted_crafter.text2": "Atingi-lo com um raio parece vinculá-lo à realidade, de modo que não pode ser destruído ou desaparecer quando derrubado.",
-
   "info_book.evilcraft.first_age.items.display_stand": "Suporte de Exibição",
   "info_book.evilcraft.first_age.items.display_stand.text1": "Este pequeno bloco pode exibir seus itens e blocos favoritos. Ele parece suportar qualquer tipo de madeira e pode ser colocado com qualquer rotação que você queira. Você pode inserir e retirar itens pela parte inferior ou superior.",
   "info_book.evilcraft.first_age.items.display_stand.text2": "A interação de todos os outros lados do bloco será delegada ao próprio item, para que você possa interagir com seu inventário, fluidos, energia, ...",
-
-  "_comment": "- Items -",
   "info_book.evilcraft.first_age.vengeance_spirits": "Espíritos da Vingança",
-
   "info_book.evilcraft.first_age.vengeance_spirits.introduction": "Depois que os Monstros Morrem",
   "info_book.evilcraft.first_age.vengeance_spirits.introduction.text1": "Outras pessoas acham estranho, mas eu sempre observo atentamente quando as feras morrem. Notei que elas geralmente emitem uma estranha aura roxo-escura que desaparece rapidamente.",
   "info_book.evilcraft.first_age.vengeance_spirits.introduction.text2": "Notei que posso usar um pouco da &1Gema Sombria Esmagada&0 para construir um anel que me permite ver completamente essas auras dos mobs que mato, embora pareça que eles também podem me ver. Eles sempre tentam me seguir e, quando me tocam, causam um dano menor, após o qual se dissolvem no ar.",
   "info_book.evilcraft.first_age.vengeance_spirits.introduction.text3": "Ativar o anel me dá alguns poderes incríveis, mas isso parece atrair e irritar alguns espíritos, embora a maioria desses espíritos seja irreconhecível por algum motivo...",
-
   "info_book.evilcraft.first_age.vengeance_spirits.catching_spirits": "Capturando Espíritos",
   "info_book.evilcraft.first_age.vengeance_spirits.catching_spirits.text1": "Em algumas de minhas aventuras, descobri algumas caixas roxas estranhas que continham alguns espíritos distorcidos. Parece que esses espíritos foram capturados há muito tempo e desde então vêm se degradando, não acho que possam ser restaurados ao seu estado original.",
   "info_book.evilcraft.first_age.vengeance_spirits.catching_spirits.text2": "Consegui fazer engenharia reversa nessas caixas para poder criá-las eu mesmo. Nesse processo, também descobri como congelar espíritos para que possam ser absorvidos por essas caixas. Aprimorei o &1Anel da Vingança&0 com essa tecnologia para criar um &1Foco da Vingança&0 que pode ser usado para mirar em espíritos e capturá-los. Talvez eu possa usar esses espíritos contidos para algo mais tarde...",
-
   "info_book.evilcraft.first_age.vengeance_spirits.spirit_protection": "Proteção Espiritual",
   "info_book.evilcraft.first_age.vengeance_spirits.spirit_protection.text1": "Esses espíritos podem causar um dano desagradável se você não for cuidadoso. Notei que eles parecem ser incomodados por &1Gemas Sombrias&0, mas ainda ignoram esse sentimento se virem você. O poder do fogo e uma maior quantidade de &1Gemas Sombrias&0 parecem mudar a forma como os espíritos o atacam. Em vez de sofrer dano, agora você ficará apenas um pouco mais com fome, o que pode ser melhor do que a alternativa.",
   "info_book.evilcraft.first_age.vengeance_spirits.spirit_protection.text2": "Uma alternativa completamente diferente para a proteção espiritual é simplesmente se tornar invisível para esses espíritos. Parece que os &1Óculos Espectrais&0 permitem que você veja qualquer espírito sem que eles possam vê-lo, a menos que já estivessem atrás de sua alma. Isso, no entanto, requer algum material de outro mundo para ser criado, talvez eu encontre isso mais tarde.",
-
-  "_comment": "--- Second Age ---",
   "info_book.evilcraft.second_age": "Segunda Era",
-
-  "_comment": "- Blood Extraction -",
   "info_book.evilcraft.second_age.blood_extraction": "Extração de Sangue",
   "info_book.evilcraft.second_age.blood_extraction.text1": "Usando alguns &1Espinhos&0, consegui fazer um utilitário simples para obter um pouco de &4Sangue&0 de vários lugares. Ao matar certas feras, este item se encherá de &4Sangue&0 quando estiver em algum lugar do seu inventário. Às vezes, você pode encontrar algumas manchas de &4Sangue&0 no chão, um simples Shift + clique com o botão direito colocará um pouco do &4Sangue&0 em seu extrator. Essas manchas de &4Sangue&0 parecem se formar quando algo morre de uma grande altura, isso pode ser útil um dia...",
   "info_book.evilcraft.second_age.blood_extraction.text2": "Um simples clique com o botão direito com este item colocará um balde de &4Sangue&0 no chão.",
   "info_book.evilcraft.second_age.blood_extraction.text3": "Isso será útil até eu encontrar maneiras menos manuais de conseguir um pouco de &4Sangue&0.",
   "info_book.evilcraft.second_age.blood_extraction.text4": "Por padrão, o tamanho desses extratores é um pouco limitado. Mas parece que posso simplesmente combinar vários &1Extratores de Sangue&0 em uma grade de criação para aumentar a capacidade, ele pode até ser combinado com &1Tanques Sombrios&0 para ainda mais capacidade de armazenamento.",
-
-  "_comment": "- Powers of Blood -",
   "info_book.evilcraft.second_age.powers_of_blood": "Os Poderes do Sangue",
   "info_book.evilcraft.second_age.powers_of_blood.text1": "Todo mundo sabe que o &4Sangue&0 é um elemento chave de todo ser vivo. Combinar as propriedades mágicas das &1Gemas Sombrias&0 com o revitalizante &4Sangue&0 me permitiu criar algumas ferramentas e máquinas realmente incríveis. Alguns dos meus colegas dizem que estou um pouco entusiasmado demais com essa descoberta, acho que eles não têm a mente aberta o suficiente.",
   "info_book.evilcraft.second_age.powers_of_blood.text2": "As &1Gemas Sombrias&0 parecem estar muito abertas a aceitar &4Sangue&0. Jogar uma em uma poça de &4Sangue&0 resulta em uma &1Gema de Poder Sombrio&0. Note que você precisará de pelo menos cinco blocos-fonte de &4Sangue&0 no mundo, você precisará fazer isso pelo menos uma vez, no próximo capítulo explicarei como criar &1Gemas de Poder Sombrio&0 de forma mais barata. Ao jogar suas gemas na poça de &4Sangue&0, certifique-se de mirar nos blocos-fonte.",
   "info_book.evilcraft.second_age.powers_of_blood.text3": "Como todos sabemos, o &4Sangue&0 secará depois de um tempo quando estiver em uma área seca. Quebrar o &1Sangue Endurecido&0 com uma picareta ou com as mãos o transformará em &4Sangue&0 comum novamente. Quebrar tal &1Sangue Endurecido&0 com &1Pederneira&0 dará alguns &1Fragmentos de Sangue Endurecido&0 que podem ser úteis mais tarde. Parece que esses fragmentos também podem ser obtidos cozinhando tal bloco de &1Sangue Endurecido&0, se você puder obtê-lo de alguma forma... talvez um toque suave possa ajudar?",
   "info_book.evilcraft.second_age.powers_of_blood.text4": "Parece que o &1Sangue Condensado&0 pode ser encontrado em alguns lugares raros. Eles podem ser inseridos em qualquer máquina que aceite &4Sangue&0 para ganhar meio balde de &4Sangue&0 extra para seu prazer.",
-
-  "_comment": "- Blood Infusion -",
   "info_book.evilcraft.second_age.blood_infusion": "Infusão de Sangue",
-
   "info_book.evilcraft.second_age.blood_infusion.blood_infusion_core": "Núcleo de Infusão de Sangue",
   "info_book.evilcraft.second_age.blood_infusion.blood_infusion_core.text": "Esta é uma das descobertas mais profundas baseadas em &4Sangue&0. Itens mundanos podem ser infundidos com &4Sangue&0 para dar-lhes propriedades muito especiais e interessantes. As possibilidades são infinitas, desde que você não tenha medo de pensar um pouco fora da caixa.",
-
   "info_book.evilcraft.second_age.blood_infusion.blood_chest": "Baú de Sangue",
   "info_book.evilcraft.second_age.blood_infusion.blood_chest.text": "Minha primeira tentativa simples de infundir itens com &4Sangue&0 resultou em um baú simples no qual as ferramentas podem se banhar. Este banho faz com que o dano das ferramentas desapareça lentamente. No entanto, há um pequeno problema que faz com que as ferramentas raramente adquiram efeitos negativos, como o encantamento &1Maldição da Quebra&0. Certamente descobrirei outra maneira de purificar essas ferramentas para me livrar desses efeitos negativos.",
-
   "info_book.evilcraft.second_age.blood_infusion.blood_infuser": "Infusor de Sangue",
   "info_book.evilcraft.second_age.blood_infusion.blood_infuser.text1": "Depois de reparar itens, eu tinha certeza de que poderia levar as coisas para o próximo nível. Itens que podem aceitar &4Sangue&0, como os &1Tanques Sombrios&0 que apresentei antes, serão preenchidos com &4Sangue&0 quando colocados nesta máquina. Outros itens específicos parecem se transformar de uma maneira especial quando preenchidos com &4Sangue&0, aqui está uma lista não exaustiva de itens que podem ser infundidos. Dar a esta máquina um sinal de redstone pausará qualquer processo em andamento.",
   "info_book.evilcraft.second_age.blood_infusion.blood_infuser.text2": "Esta máquina finalmente permite que você faça &1Gemas de Poder Sombrio&0 mais facilmente e a um custo muito menor.",
-
   "info_book.evilcraft.second_age.blood_infusion.undead_tree": "Árvore de Morto-Vivo",
   "info_book.evilcraft.second_age.blood_infusion.undead_tree.text1": "Consegui reanimar mudas mortas, as árvores que crescem desse processo são notáveis, para dizer o mínimo. Elas parecem emitir um pouco de Sangue se crescerem naturalmente, mas as mudas que caem ainda parecem estar mortas de alguma forma. Combinar a madeira com uma Gema Sombria resultará em alguns gravetos que serão úteis algum dia.",
   "info_book.evilcraft.second_age.blood_infusion.undead_tree.text2": "Matar uma muda é tão simples quanto tosquiar uma viva em uma grade de criação. &oAquela árvore está crescendo em um deserto?&r",
   "info_book.evilcraft.second_age.blood_infusion.undead_tree.text3": "Derrubar gravetos feitos desta madeira sempre parece girar seu lado mais claro em uma certa direção. Poderia estar apontando para algum lugar?",
-
   "info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion": "Infusão de Sangue Avançada",
   "info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion.text1": "Logo após a construção do meu primeiro &1Infusor de Sangue&0, comecei a pensar em algumas otimizações para tornar a máquina mais rápida e eficiente. Usando as &1Gemas Sombrias Esmagadas&0, consegui construir &1Promessas&0 materializadas às quais o &1Infusor de Sangue&0 realmente parece aderir, parece que a máquina está viva de alguma forma...",
   "info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion.text2": "Encher uma &1Tigela de Promessas Vazias&0 com este pó roxo e infundi-la com &4Sangue&0 resultará em uma &1Tigela de Promessas&0 de uma certa força. Combinar isso com um reagente e um receptor de promessa mineral que pode ser criado com uma quantidade significativa de &4Sangue&0, resultará em uma &1Promessa&0 de um certo tipo. As &1Promessas de Tenacidade&0 podem ser criadas utilizando reagentes orgânicos, isso permitirá que a máquina (e talvez outras também) aceite mais &1Promessas&0 e &4Sangue&0, além disso, aumenta as possíveis receitas de infusão. As &1Promessas de Velocidade&0 podem ser usadas para aumentar a velocidade da máquina, enquanto a &1Promessa de Produtividade&0 reduzirá a quantidade de &4Sangue&0 necessária para processar um item.",
-
   "info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion_recipes": "Mais Receitas de Infusão de Sangue",
   "info_book.evilcraft.second_age.blood_infusion.advanced_blood_infusion_recipes.text": "Por causa dessas novas &1Promessas de Tenacidade&0, parece que um mundo totalmente novo se abriu para infundir itens.",
-
-  "_comment": "- Evolved Blood Machinery -",
   "info_book.evilcraft.second_age.evolved_blood_machinery": "Maquinaria de Sangue Evoluída",
-
   "info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal": "Pedestal Sanguinário",
   "info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal.text1": "Eu estava cansado de empurrar mobs de penhascos e extrair o &4Sangue&0, por isso construí um dispositivo que é capaz de extrair &4Sangue&0 de &1Manchas de Sangue&0 próximas e colocá-lo em qualquer tanque próximo. Usando algumas &1Gemas de Poder Sombrio&0, a eficiência de &4Sangue&0 desta extração pode ser aumentada.",
   "info_book.evilcraft.second_age.evolved_blood_machinery.sanguinary_pedestal.text2": "Colocar uma &1Placa com Espinhos&0 em cima dela aumentará as capacidades desta placa para também absorver o &4Sangue&0 das feras que ela mata e redirecioná-lo para o pedestal.",
-
   "info_book.evilcraft.second_age.evolved_blood_machinery.purifier": "Purificador",
   "info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text1": "Após os infelizes efeitos colaterais do &1Baú de Sangue&0, decidi projetar uma nova máquina que é capaz de remover esses efeitos negativos de suas ferramentas. Simplesmente colocando uma ferramenta com um efeito negativo dentro deste bloco junto com pelo menos um balde de &4Sangue&0 removerá este efeito do item.",
   "info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text2": "Um benefício não intencional desta máquina é que, ao enchê-la completamente com &4Sangue&0 e colocar um item encantado junto com um &1Blook&0 (que é apenas um &1Livro&0 infundido com &1Sangue&0), moverá um encantamento aleatório do item para o livro, ao custo de três &1Baldes de Sangue&0.",
   "info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text3": "Recentemente, notei que esta máquina também permite remover &1Efeitos de Poção&0 de criaturas vivas sentadas dentro dela, enchendo o &1Purificador&0 completamente com &4Sangue&0 e dando a ele uma &1Garrafa Vazia&0. Após alguns segundos, o efeito será contido dentro da garrafa e a criatura será libertada dele.",
-
   "info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice": "Cálice Entrelaçado",
   "info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text1": "Quando você tem tanta experiência quanto eu em infundir itens com &4Sangue&0, você notará que, ao aprimorar uma lágrima do temível &1Ghast&0, resultará em um tipo muito especial de lágrima. Parece compartilhar todas as propriedades quando dividida ao meio. Isso me deu a ideia de construir &lCálices Entrelaçados&r com esta lágrima, com o objetivo de compartilhar o conteúdo fluido do cálice com todos os outros cálices que são construídos a partir da mesma lágrima.",
   "info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text2": "Normalmente, você obterá dois cálices compartilhando conteúdo da receita de criação, mas ao substituir o &4Lingote de Ouro&0 central na receita por um cálice existente, ele expandirá a rede de lágrimas para incluir outro cálice.",
   "info_book.evilcraft.second_age.evolved_blood_machinery.entangled_chalice.text3": "Esses cálices podem ser colocados no mundo ou mantidos em seu inventário. Shift + clique com o botão direito com ele em sua mão para ativar o modo de Suprimento-Global, que tentará continuamente encher todos os recipientes em seu inventário com &4Sangue&0.",
-
   "info_book.second_age.evolved_blood_machinery.colossal_blood_chest": "Baú de Sangue Colossal",
   "info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text1": "Os &1Baús de Sangue&0 são ótimos, jogue suas coisas danificadas e elas saem reparadas. Uma desvantagem de usar essa máquina é o efeito negativo ocasional que seus itens podem ter, e pode ser muito irritante limpar continuamente esse efeito com seu &1Purificador&0.",
   "info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text2": "Na verdade, as desvantagens não param por aí. O &1Baú de Sangue&0 tem um inventário muito pequeno para colocar seus itens, é lento, tem um tamanho de tanque pequeno e é realmente lento. O pior de tudo, minhas &1Promessas&0 nem podem ser usadas para impulsionar a máquina!",
   "info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text3": "É por isso que criei o &1Baú de Sangue Colossal&0! Ele resolve todos os problemas que mencionei. Como consequência lógica, esta máquina é um pouco maior que sua variante regular. Por causa deste tamanho massivo, tive que usar os estranhos poderes das &1Tábuas de Morto-Vivo&0 para conseguir manter a estrutura unida.",
   "info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text4": "Este &1Baú de Sangue Colossal&0 só deve ser usado se você tiver muitos itens para reparar de uma vez. A razão para isso é que seu uso base de &4Sangue&0 é maior que o uso dos &1Baús de Sangue&0, mas quanto mais itens estão sendo reparados simultaneamente, mais eficiente este uso de &4Sangue&0 se torna.",
   "info_book.second_age.evolved_blood_machinery.colossal_blood_chest.text5": "Para construir isso, faça uma estrutura &1oca&0 de 3x3x3 de &1Tábuas de Morto-Vivo Reforçadas&0. Para a estrutura se formar, você precisa de exatamente um bloco de &1Baú de Sangue Colossal&0 em algum lugar na parede da estrutura, certifique-se de não colocá-lo no meio da estrutura, pois ela deve permanecer oca.",
-
   "info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator": "Acumulador Ambiental Sanguinário",
   "info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator.text1": "Eu estava cansado de correr para os &1Templos Sombrios&0 toda vez que precisava acumular algum ambiente para criar novos itens. Um dia, eu estava tão cansado disso que simplesmente quebrei uma das máquinas que estavam lá, e para minha surpresa, ela dropou um novo item estranho.",
   "info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator.text2": "Após alguma pesquisa, consegui usar este novo item em um novo tipo de &1Acumulador Ambiental&0 que é capaz de funcionar com &4Sangue&0. Também consegui tornar esta máquina completamente à prova de efeitos negativos, então chega de degradação de biomas ou mortes aleatórias por andar perto daqueles templos.",
   "info_book.second_age.evolved_blood_machinery.sanguinary_environmental_accumulator.text3": "Esta máquina requer uma grande quantidade de &4Sangue&0 para funcionar, é por isso que você precisará de &18&0 tanques de &4Sangue&0 de qualquer tipo espalhados ao redor da máquina, como pode ser visto na imagem a seguir. Esta máquina não funcionará sem esses tanques, efeitos de fumaça podem ser vistos nos locais onde os tanques devem ser colocados.",
-
-  "_comment": "- Tools -",
   "info_book.evilcraft.second_age.tools": "Ferramentas",
-
   "info_book.evilcraft.second_age.tools.broom": "Vassoura",
-
   "info_book.evilcraft.second_age.tools.broom.introduction": "Fundamentos da Vassoura",
   "info_book.evilcraft.second_age.tools.broom.introduction.text1": "&1Vassouras&0 são normalmente usadas para limpar o chão. Notei, no entanto, que ao criá-las usando &1Gemas Sombrias Esmagadas&0 e &1Gravetos Sombrios&0, e infundindo-as com um fluxo constante de &4Sangue&0, elas parecem ganhar algumas qualidades muito interessantes. Ao manusear uma &1Vassoura&0 de certa maneira, ela parece flutuar. Depois de praticar com ela por um tempo, consegui controlá-la o suficiente para poder voar em qualquer direção que eu quisesse enquanto estava sentado nela.",
   "info_book.evilcraft.second_age.tools.broom.introduction.text2": "&1Vassouras&0 são feitas de três partes principais. A &1Haste&0 é a base da sua vassoura, isso influenciará suas principais propriedades. Uma &1Escova&0 é necessária para tornar a Vassoura manobrável. Finalmente, uma &1Ponta&0 é necessária para equilibrar sua &1Vassoura&0.",
   "info_book.evilcraft.second_age.tools.broom.introduction.text3": "Todas as partes possíveis de &1Vassoura&0 devem ser criadas usando a &1Haste Nua&0, &1Escova&0 e &1Ponta&0, isso pode ser feito combinando essas três partes de qualquer material em qualquer grade de criação. Partes feitas de materiais diferentes parecem ter propriedades diferentes. Todas as propriedades possíveis serão explicadas na seção seguinte, depois disso darei uma visão geral de todas as partes de &1Vassoura&0.",
   "info_book.evilcraft.second_age.tools.broom.introduction.text4": "Ao voar com a &1Vassoura&0, certifique-se de que ela tenha &4Sangue&0 suficiente o tempo todo, caso contrário, a &1Vassoura&0 diminuirá a velocidade significativamente.",
-
   "info_book.evilcraft.second_age.tools.broom.modifiers": "Modificadores da Vassoura",
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.intro": "Nesta seção, listarei todos os efeitos de modificadores que descobri durante minhas aventuras. Eles podem ser aplicados a uma &1Vassoura&0 existente, combinando-a em qualquer grade de criação. Uma vez que o modificador é aplicado, não há como removê-lo novamente da &1Vassoura&0.",
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.modifier_count": "&l&nContagem de Modificadores&r&NA quantidade máxima de modificadores que uma &1Vassoura&0 pode ter.",
@@ -683,82 +563,54 @@
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.swimming": "&l&nNatação&r&NIsso torna a &1Vassoura&0 mais manobrável em líquidos.",
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.icy": "&l&nGélido&r&NRetarda as entidades em colisão.",
   "info_book.evilcraft.second_age.tools.broom.modifiers.text.sticky": "&l&nAderente&r&NOutras entidades podem grudar em você. Quanto maior o modificador, mais entidades podem grudar. Certifique-se de ter um nível suficiente de Robustez para carregar todas essas entidades!",
-
   "info_book.evilcraft.second_age.tools.broom.parts": "Partes da Vassoura",
   "info_book.evilcraft.second_age.tools.broom.parts.text1": "Vários materiais podem ser usados para fazer partes de vassoura. A dica de ferramenta deles mostra quais modificadores base estarão presentes na &1Vassoura&0 resultante após a criação.",
-
   "info_book.evilcraft.second_age.tools.introduction": "Introdução",
   "info_book.evilcraft.second_age.tools.introduction.text": "Itens que usam &4Sangue&0 geralmente têm um recipiente interno que pode conter um pouco de &4Sangue&0, que pode ser preenchido usando o &1Infusor de Sangue&0 ou ativando o modo de suprimento automático em outras ferramentas e segurando o item para encher em sua mão. Ao usar esses itens, ele drenará um pouco de &4Sangue&0. Quando esse item ficar sem &4Sangue&0, ele tentará drenar &4Sangue&0 de outros recipientes em seu inventário, ou parará de funcionar se nenhum item desse tipo for encontrado.",
-
   "info_book.evilcraft.second_age.tools.blood_pearl_of_teleportation": "Pérola de Sangue do Teletransporte",
   "info_book.evilcraft.second_age.tools.blood_pearl_of_teleportation.text": "As &1Pérolas do Fim&0 comuns são divertidas para se teletransportar, mas isso pode ser bem caro. Usando os poderes do &4Sangue&0, consegui construir uma &1Pérola do Fim&0 especial que é completamente reutilizável ao custo de um pouco de &4Sangue&0. Ela também parece muito mais potente do que as &1Pérolas do Fim&0 comuns, o que só pode ser bom.",
-
   "info_book.evilcraft.second_age.tools.invigorating_pendant": "Pingente Rinvigorante",
   "info_book.evilcraft.second_age.tools.invigorating_pendant.text": "Livrar-se de efeitos de poção negativos pode ser um pé no saco. Este pingente é capaz de remover qualquer efeito negativo ao custo de um pouco de &4Sangue&0. Efeitos piores custam mais &4Sangue&0. Ele até parece apagar o fogo, mas eu não recomendaria nadar na lava ainda. Você precisará de um tipo especial de fio para criar isso, que pode ser criado combinando fio comum com um pequeno fragmento de ouro.",
-
   "info_book.evilcraft.second_age.tools.primed_pendant": "Pingente Preparado",
   "info_book.evilcraft.second_age.tools.primed_pendant.text": "Depois de fazer o &1Pingente Rinvigorante&0, comecei a pensar. E se fosse possível não apenas remover, mas também aplicar efeitos? Este novo pingente é capaz de conter uma &1Poção&0, e usando &4Sangue&0 ele aplicará continuamente seu efeito a você. Notei que alguns efeitos custam mais &4Sangue&0 do que outros. Você pode inserir novas &1Poções&0 simplesmente clicando com o botão direito com o item.",
-
   "info_book.evilcraft.second_age.tools.effortless_ring": "Anel Sem Esforço",
   "info_book.evilcraft.second_age.tools.effortless_ring.text": "Consegui construir um anel especial que pode aplicar as &1Promessas&0 de &Produtividade&0 e &1Velocidade&0, o que permite que você ande mais rápido, pule mais alto e suba em blocos com mais facilidade. Apenas segure este item em qualquer lugar do seu inventário para obter seus efeitos. Note que esta assistência de passo pode ser evitada segurando &oShift&r.",
-
   "info_book.evilcraft.second_age.tools.kineticator": "Cineticador",
   "info_book.evilcraft.second_age.tools.kineticator.text1": "Este item é capaz de atrair itens e orbes de experiência em uma certa área. Esta área pode ser alterada clicando com o botão direito nele, ativá-lo ou desativá-lo é feito com um simples Shift + clique com o botão direito. Itens que são atraídos de perto consomem pouco ou nenhum &4Sangue&0, mas itens de mais longe exigirão um pouco mais de &4Sangue&0. Agachar evitará a cineticação de itens.",
   "info_book.evilcraft.second_age.tools.kineticator.text2": "Inverter a receita dará a versão oposta deste item, que é capaz de repelir itens e orbes de experiência.",
-
   "info_book.evilcraft.second_age.tools.sceptre_of_thunder": "Cetro do Trovão",
   "info_book.evilcraft.second_age.tools.sceptre_of_thunder.text": "Sinto-me estranhamente em paz quando há tempestades de raios. É por isso que fiz uma ferramenta simples que pode gerar tais tempestades. Este item, no entanto, pode ser usado apenas uma vez, tornando este um processo bastante caro.",
-
   "info_book.evilcraft.second_age.tools.vengeance_pickaxe": "Picareta da Vingança",
   "info_book.evilcraft.second_age.tools.vengeance_pickaxe.text": "Descobri uma maneira de reutilizar a tecnologia do &1Anel da Vingança&0 em uma picareta. Isso parece reduzir drasticamente a durabilidade da picareta. Mas tem um efeito colateral interessante que, quando criada, terá a capacidade de acionar uma enorme &1Fortuna&0.",
-
   "info_book.evilcraft.second_age.tools.gemstone_torch": "Tocha de Pedra Preciosa",
   "info_book.evilcraft.second_age.tools.gemstone_torch.text": "Consegui combinar a &1Pedra Preciosa Ardente&0 com um &1Graveto Sombrio&0 para fazer uma tocha especial que parece absorver quaisquer &1Espíritos da Vingança&0 que apareçam em sua área de luz. Note que quaisquer espíritos que apareçam fora da área ainda poderão vagar por esta área, mas uma simples parede mundana deve ser capaz de resolver isso.",
-
   "info_book.second_age.tools.rejuvenated_flesh": "Carne Rejuvenescida",
   "info_book.second_age.tools.rejuvenated_flesh.text": "&1Carne&0 pode ser combinada com &1Garmonbozia&0 para torná-la uma fonte infinita de comida. Você precisará, no entanto, fornecê-la com &4Sangue&0 para poder comer dela.",
-
-  "_comment": "- Weapons -",
   "info_book.evilcraft.second_age.weapons": "Armas",
-
   "info_book.evilcraft.second_age.weapons.vein_sword": "Espada Venosa",
   "info_book.evilcraft.second_age.weapons.vein_sword.text": "Com pouco &4Sangue&0 e sempre nos campos atacando mobs? Por que não usar esta espada que aumentará o &4Sangue&0 que você obterá em seu &1Extrator de Sangue&0 após matar mobs? Como bônus, esta espada fornecerá um bônus padrão de &1Pilhagem&0 quando criada.",
-
   "info_book.evilcraft.second_age.weapons.mace_of_distortion": "Maça da Distorção",
   "info_book.evilcraft.second_age.weapons.mace_of_distortion.text": "Segurar o botão direito com esta maça acumulará uma esfera circular ao seu redor que, quando liberada, acionará uma força sobre todas as outras entidades dentro dessa esfera, empurrando-as para trás e causando algum dano, desde que a maça tenha &4Sangue&0 suficiente. Shift + clicar com o botão direito nela alternará entre os diferentes níveis de poder, cada nível superior causará mais dano, mas ao mesmo tempo custará mais &4Sangue&0.",
-
   "info_book.evilcraft.second_age.weapons.necromancer_staff": "Cajado do Necromante",
   "info_book.evilcraft.second_age.weapons.necromancer_staff.text": "Os &1Zumbis&0 parecem ser controláveis assim que você tem uma caveira de algum tipo. Depois de montar tal caveira em um cajado, descobri que posso invocar zumbis que atacarão qualquer entidade que eu mirar por um tempo limitado.",
-
   "info_book.evilcraft.second_age.weapons.mace_of_destruction": "Maça da Destruição",
   "info_book.evilcraft.second_age.weapons.mace_of_destruction.text": "Esta é uma variante da &1Maça da Distorção&0, a força que é liberada por esta maça é na verdade uma explosão poderosa. Quanto mais tempo você carregar a maça, maior será a explosão. Aumentar o nível de poder desta maça aumentará o poder inicial da explosão, para que você possa carregar ainda mais.",
-
-  "_comment": "- Abusing Spirits -",
   "info_book.evilcraft.second_age.abusing_spirits": "Abusando de Espíritos",
-
   "info_book.evilcraft.second_age.abusing_spirits.infusing_spirits": "Infundindo Espíritos",
   "info_book.evilcraft.second_age.abusing_spirits.infusing_spirits.text": "Ter &1Espíritos da Vingança&0 contidos em caixas não é muito útil por si só. Teorizei que poderia ser possível reviver os espíritos usando um pouco de &4Sangue&0...",
-
   "info_book.evilcraft.second_age.abusing_spirits.spirit_furnace": "Fornalha Espiritual",
   "info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text1": "Finalmente consegui reviver &1Espíritos da Vingança&0, ou pelo menos parcialmente. Os espíritos revividos parecem ser fracos demais para viver no mundo real, mas parecem ter todas as propriedades e materiais de mobs reais. No entanto, há um uso para esta descoberta, ao construir uma grande máquina que pode conter o mob resultante, ela, ao custo de uma grande quantidade de &4Sangue&0, reviverá o espírito e o cozinhará vivo imediatamente. Isso resultará nos drops desses mobs sendo coletados no inventário da máquina. Parece que a &1Caixa de Confinamento Eterno&0 pode ser reutilizada indefinidamente sem que o espírito saia dela.",
   "info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text2": "Você precisará de um monte de blocos resistentes, como &1Tijolos Sombrios&0 infundidos com um pouco de &4Sangue&0 para garantir que os espíritos não possam sair. Você precisará construir uma estrutura cúbica desses blocos para que o mob que deseja reanimar tenha espaço suficiente para caber dentro da estrutura. Um zumbi, por exemplo, tem um bloco de largura e dois blocos de altura, então você precisará de uma estrutura de três blocos de largura e quatro blocos de altura com um espaço oco dentro. Se o mob que você tenta conter for muito grande, talvez precise construir uma estrutura tão grande quanto um nove por nove, nada mal!",
   "info_book.evilcraft.second_age.abusing_spirits.spirit_furnace.text3": "Você também precisará de um único bloco de &1Fornalha Espiritual&0 em algum lugar da estrutura. Este bloco pode ser facilmente conectado a outros inventários ou tanques usando os meios conhecidos. Você verá um brilho vermelho distinto quando a estrutura for montada com sucesso.",
-
   "info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator": "Reanimador de Espíritos",
   "info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text1": "Após a descoberta da &1Fornalha Espiritual&0, eu ainda estava determinado a reviver aqueles espíritos. Para resolver o problema de mobs instáveis, eu os coloquei dentro de &1Ovos&0, como uma tentativa de estabilizá-los. Este processo ainda requer uma quantidade substancial de &4Sangue&0 e, claro, um &1Ovo&0 vazio.",
   "info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text2": "Devido a este processo mais avançado, os espíritos serão completamente consumidos, então apenas um &1Ovo&0 pode ser criado por &1espírito&0.",
   "info_book.evilcraft.second_age.abusing_spirits.spirit_reanimator.text3": "Alguns mobs, no entanto, parecem se recusar a entrar no &1Ovo&0, então seus espíritos serão perdidos para sempre.",
-
-  "_comment": "- Killing Spirits -",
   "info_book.evilcraft.second_age.after_death": "Após a Morte",
-
   "info_book.evilcraft.second_age.after_death.spirit_killing101": "Matança de Espíritos 101",
   "info_book.evilcraft.second_age.after_death.spirit_killing101.text1": "Depois de lidar com espíritos um após o outro, fiquei bastante confortável em estar entre eles. Por causa disso, consegui notar alguns de seus traços específicos, e até mesmo medos! Eles parecem não gostar de nada que tenha a ver com 'fins' de qualquer forma.",
   "info_book.evilcraft.second_age.after_death.spirit_killing101.text2": "Eu sempre fiquei irritado com o fato de que aqueles espíritos desagradáveis podiam me atacar, e não havia nada que eu pudesse fazer contra eles. É por isso que investiguei uma maneira de danificá-los. Parece que o medo deles de finais era fundamentado, porque essas coisas os danificam. Usando algumas relíquias do 'fim', consegui transformar meu &1Foco da Vingança&0 em uma versão melhorada que é capaz de danificá-los.",
   "info_book.evilcraft.second_age.after_death.spirit_killing101.text3": "Este novo foco parecia ser forte o suficiente para 'matar' completamente qualquer espírito. Mas para minha surpresa, eles dropam algumas coisas. Isso inclui algumas coisas que sua antiga forma física carregava e também um pó fantasmagórico, que parece carregar as partes mais sombrias dos espíritos e pode se provar útil no futuro...",
-
-  "info_book.evilcraft.second_age.after_death.garmonbozia": "Garmonbozia",
   "info_book.evilcraft.second_age.after_death.garmonbozia.text1": "E se fosse possível imbuir os pensamentos e emoções mais sombrios neste mundo? Isso poderia provar ser uma fonte imensa de poder inimaginável. Com a descoberta da vingança, escuridão e sangue, acho que posso ter os elementos essenciais.",
-  "info_book.evilcraft.second_age.after_death.garmonbozia.text2": "A combinação desses elementos resultou em uma estranha energia espiritual. É tão de outro mundo, que não tem seu próprio material, e é por isso que é observada como uma espécie de creme de milho.",
-  "info_o_book.evilcraft.second_age.after_death.garmonbozia.text3": "Meus súditos dizem que fui longe demais com isso, os tolos."
+  "info_book.evilcraft.second_age.after_death.garmonbozia.text2": "A combinação desses elementos resultou em uma estranha energia espiritual. É tão de outro mundo, que não tem seu próprio material, e é por isso que é observada como uma espécie de creme de milho."
 }

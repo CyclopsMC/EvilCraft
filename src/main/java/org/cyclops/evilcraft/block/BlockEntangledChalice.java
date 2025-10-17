@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -96,18 +97,18 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
-        if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), world, blockPos, Direction.UP)) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, Direction.UP)) {
             return InteractionResult.SUCCESS;
         }
-        if (world.isClientSide()) {
-            String tankId = IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityEntangledChalice.class)
+        if (pLevel.isClientSide()) {
+            String tankId = IModHelpers.get().getBlockEntityHelpers().get(pLevel, pPos, BlockEntityEntangledChalice.class)
                     .map(BlockEntityEntangledChalice::getWorldTankId)
                     .orElse("null");
-            player.displayClientMessage(Component.translatable(IModHelpers.get().getL10NHelpers().localize(
+            pPlayer.displayClientMessage(Component.translatable(IModHelpers.get().getL10NHelpers().localize(
                     "block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
         }
-        return super.useWithoutItem(state, world, blockPos, player, rayTraceResult);
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override

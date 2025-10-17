@@ -1,5 +1,6 @@
 package org.cyclops.evilcraft.core.broom;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -60,11 +61,11 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     public <P extends IBroomPart> void registerPartItem(@Nullable P part, Supplier<ItemStack> item) {
         if (part != null) {
             Objects.requireNonNull(item);
-            partItems.put(part, () -> {
+            partItems.put(part, Suppliers.memoize(() -> {
                 ItemStack itemStack = item.get();
                 itemStack.set(DataComponents.RARITY, part.getRarity());
                 return itemStack;
-            });
+            }));
         }
     }
 

@@ -94,15 +94,15 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHitResult) {
         if(IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             if (!BlockEntityColossalBloodChest.canWork(world, blockPos)) {
                 return InteractionResult.FAIL;
             } else {
-                return super.useWithoutItem(blockState, world, blockPos, player, rayTraceResult);
+                return super.useItemOn(pStack, blockState, world, blockPos, player, pHand, pHitResult);
             }
         } else {
-            addPlayerChatError(world, blockPos, player);
+            addPlayerChatError(world, blockPos, player, pHand);
             return InteractionResult.FAIL;
         }
     }
@@ -169,8 +169,8 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
      * @param blockPos The start position.
      * @param player The player.
      */
-    public static void addPlayerChatError(Level world, BlockPos blockPos, Player player) {
-        if(player.getUsedItemHand() == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(player.getUsedItemHand()).isEmpty()) {
+    public static void addPlayerChatError(Level world, BlockPos blockPos, Player player, InteractionHand hand) {
+        if(hand == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(hand).isEmpty()) {
             DetectionResult result = BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, false);
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());

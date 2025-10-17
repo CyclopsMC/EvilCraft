@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TriState;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -209,8 +210,8 @@ public class BlockDisplayStand extends BlockWithEntity {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult p_225533_6_) {
-        ItemStack itemStack = player.getItemInHand(player.getUsedItemHand());
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult pHitResult) {
+        ItemStack itemStack = player.getItemInHand(hand);
         if (world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
@@ -234,7 +235,7 @@ public class BlockDisplayStand extends BlockWithEntity {
                 }
             }
         }
-        return InteractionResult.PASS;
+        return super.useItemOn(pStack, pState, world, pos, player, hand, pHitResult);
     }
 
     @Override

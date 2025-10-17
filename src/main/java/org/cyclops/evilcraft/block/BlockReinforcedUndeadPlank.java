@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -107,7 +108,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState blockState, Level world, BlockPos blockPos, Player player, BlockHitResult rayTraceResult) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState blockState, Level world, BlockPos blockPos, Player player, InteractionHand pHand, BlockHitResult pHitResult) {
         if(IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(blockState, ACTIVE, false)) {
             final Wrapper<BlockPos> tileLocationWrapper = new Wrapper<BlockPos>();
             BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, new CubeDetector.IValidationAction() {
@@ -123,11 +124,11 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
             }, false);
             BlockPos tileLocation = tileLocationWrapper.get();
             if(tileLocation != null) {
-                return world.getBlockState(tileLocation).useWithoutItem(world, player, rayTraceResult.withPosition(tileLocation));
+                return world.getBlockState(tileLocation).useItemOn(pStack, world, player, pHand, pHitResult.withPosition(tileLocation));
             }
-            return super.useWithoutItem(blockState, world, blockPos, player, rayTraceResult);
+            return super.useItemOn(pStack, blockState, world, blockPos, player, pHand, pHitResult);
         } else {
-            BlockColossalBloodChest.addPlayerChatError(world, blockPos, player);
+            BlockColossalBloodChest.addPlayerChatError(world, blockPos, player, pHand);
             return InteractionResult.FAIL;
         }
     }

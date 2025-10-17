@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -65,7 +66,7 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult pHitResult) {
         if(world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
@@ -80,7 +81,7 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
                     player.getInventory().setSelectedItem(tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
                     return InteractionResult.SUCCESS;
-                } else if (FluidUtil.interactWithFluidHandler(player, player.getUsedItemHand(), world, blockPos, Direction.UP)) {
+                } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
                     return InteractionResult.SUCCESS;
                 }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();
@@ -97,7 +98,7 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
                 }
             }
         }
-        return InteractionResult.FAIL;
+        return super.useItemOn(pStack, pState, world, blockPos, player, hand, pHitResult);
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

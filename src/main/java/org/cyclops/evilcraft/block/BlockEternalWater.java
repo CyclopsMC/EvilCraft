@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -65,26 +66,27 @@ public class BlockEternalWater extends BlockWithEntity {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
-        ItemStack itemStack = player.getInventory().getSelectedItem();
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
+        ItemStack itemStack = pPlayer.getInventory().getSelectedItem();
         if (!itemStack.isEmpty()) {
             if (itemStack.getItem() == Items.BUCKET) {
-                if (!world.isClientSide()) {
+                if (!pLevel.isClientSide()) {
                     itemStack.shrink(1);
                     if (itemStack.isEmpty()) {
-                        player.setItemInHand(player.getUsedItemHand(), new ItemStack(Items.WATER_BUCKET));
-                    } else if (!player.getInventory().add(new ItemStack(Items.WATER_BUCKET))) {
-                        player.drop(new ItemStack(Items.WATER_BUCKET), false);
+                        pPlayer.setItemInHand(pHand, new ItemStack(Items.WATER_BUCKET));
+                    } else if (!pPlayer.getInventory().add(new ItemStack(Items.WATER_BUCKET))) {
+                        pPlayer.drop(new ItemStack(Items.WATER_BUCKET), false);
                     }
-                    world.playSound(null, blockPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    pLevel.playSound(null, pPos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
+                return InteractionResult.SUCCESS;
             } else {
                 FluidUtil.getFluidHandler(itemStack)
                         .ifPresent(fluidHandler -> fluidHandler.fill(BlockEntityEternalWater.WATER, IFluidHandler.FluidAction.EXECUTE));
             }
             return InteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }
 
     @Override

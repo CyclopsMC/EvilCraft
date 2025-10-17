@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Explosion;
@@ -110,8 +111,7 @@ public class BlockLightningBomb extends Block {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos blockPos, Player player, BlockHitResult p_225533_6_) {
-        InteractionHand hand = player.getUsedItemHand();
+    protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level world, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult pHitResult) {
         if (!player.getItemInHand(hand).isEmpty() &&
                 (player.getItemInHand(hand).getItem() == Items.FLINT_AND_STEEL || player.getItemInHand(hand).getItem() == Items.FIRE_CHARGE)) {
             this.primeBomb(world, blockPos, defaultBlockState().setValue(PRIMED, true), player);
@@ -120,9 +120,8 @@ public class BlockLightningBomb extends Block {
                 player.getItemInHand(hand).hurtAndBreak(1, serverLevel, player, (e) -> {});
             }
             return InteractionResult.SUCCESS;
-        } else {
-            return super.useWithoutItem(state, world, blockPos, player, p_225533_6_);
         }
+        return super.useItemOn(pStack, pState, world, blockPos, player, hand, pHitResult);
     }
 
     @Override
