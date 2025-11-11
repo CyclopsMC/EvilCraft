@@ -89,7 +89,7 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         return super.use(world, player, hand);
     }
 
-    protected void autofill(EquipmentSlot itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
+    protected void autofill(@Nullable EquipmentSlot itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
         ItemHelpers.updateAutoFill(source, world, entity, BlockDarkTankConfig.autoFillBuckets);
     }
 

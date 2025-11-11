@@ -25,6 +25,7 @@ import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.core.helper.ItemHelpers;
 import org.cyclops.evilcraft.core.item.ItemBlockFluidContainer;
 
+import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 /**
@@ -45,7 +46,7 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
     }
 
     @Override
-    protected void autofill(EquipmentSlot itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
+    protected void autofill(@Nullable EquipmentSlot itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
         if(entity instanceof Player && !world.isClientSide()) {
             Player player = (Player) entity;
             FluidStack tickFluid;
@@ -57,7 +58,6 @@ public class ItemEntangledChalice extends ItemBlockFluidContainer {
                     ItemStack filled = ItemHelpers.tryFillContainerForPlayer(source, toFill, tickFluid, player);
                     if (!filled.isEmpty()) {
                         it.replace(filled);
-                        player.getInventory().setItem(itemSlot.getIndex(), source.getContainer());
                     }
                 }
             } while(tickFluid != null && tickFluid.getAmount() > 0 && it.hasNext());
