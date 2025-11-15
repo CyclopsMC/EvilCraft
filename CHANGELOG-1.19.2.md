@@ -1,8 +1,19 @@
 # Changelog for Minecraft 1.19.2
 All notable changes to this project will be documented in this file.
 
+<a name="1.19.2-1.2.49"></a>
+## [1.19.2-1.2.49](/compare/1.19.2-1.2.48...1.19.2-1.2.49) - 2025-11-15 06:32:22
+
+
+### Changed
+* Accept more damageable items in Blood Chest, Closes #1133
+* Restore Jade compatibility, Closes CyclopsMC/EvilCraft#1134
+
+### Fixed
+* Fix Box Of Eternal Closure breaking when placing neighbour
+
 <a name="1.19.2-1.2.48"></a>
-## [1.19.2-1.2.48](/compare/1.19.2-1.2.47...1.19.2-1.2.48) - 2025-08-14 19:56:19
+## [1.19.2-1.2.48](/compare/1.19.2-1.2.47...1.19.2-1.2.48) - 2025-08-14 19:56:19 +0200
 
 
 ### Fixed
