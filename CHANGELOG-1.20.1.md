@@ -1,8 +1,20 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.2.59"></a>
+## [1.20.1-1.2.59](/compare/1.20.1-1.2.58...1.20.1-1.2.59) - 2025-11-15 06:34:08
+
+
+### Changed
+* Accept more damageable items in Blood Chest, Closes #1133
+* Restore Jade compatibility, Closes CyclopsMC/EvilCraft#1134
+
+### Fixed
+* Fix Box Of Eternal Closure breaking when placing neighbour
+* Fix JEI Spirit Furnace and Reanimator icons, Closes CyclopsMC/EvilCraft#1128
+
 <a name="1.20.1-1.2.58"></a>
-## [1.20.1-1.2.58](/compare/1.20.1-1.2.57...1.20.1-1.2.58) - 2025-08-14 19:57:35
+## [1.20.1-1.2.58](/compare/1.20.1-1.2.57...1.20.1-1.2.58) - 2025-08-14 19:57:35 +0200
 
 
 ### Fixed
