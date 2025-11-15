@@ -169,14 +169,14 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
         if (!worldIn.isAreaLoaded(pos, 1))
             return;
-        if (!state.isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
+        if (!worldIn.getBlockState(pos.below()).isFaceSturdy(worldIn, pos.below(), Direction.UP)) {
             worldIn.destroyBlock(pos, true);
         }
     }
 
     @Override
     protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
-        if (level instanceof ServerLevel serverLevel && !state.isFaceSturdy(level, pos.below(), Direction.UP)) {
+        if (level instanceof ServerLevel serverLevel && !level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)) {
             serverLevel.scheduleTick(pos, this, 1);
         }
         return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);

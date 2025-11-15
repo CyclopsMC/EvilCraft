@@ -22,12 +22,12 @@ public class DamageableItemRepairAction implements IBloodChestRepairAction {
 
     @Override
     public boolean isItemValidForSlot(ItemStack itemStack) {
-        return itemStack.isCombineRepairable();
+        return itemStack.isDamageableItem();
     }
 
     @Override
     public boolean canRepair(ItemStack itemStack, int tick) {
-        return itemStack.isDamaged() && itemStack.isCombineRepairable();
+        return itemStack.isDamaged();
     }
 
     @Override
