@@ -1,8 +1,24 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.79"></a>
+## [1.21.1-1.2.79](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.78...1.21.1-1.2.79) - 2025-11-15 06:36:47
+
+
+### Added
+* Add translations through Crowdin (#1126)
+
+### Changed
+* Restore Jade compatibility, Closes CyclopsMC/EvilCraft#1134
+* Accept more damageable items in Blood Chest, Closes #1133
+
+### Fixed
+* Fix Box Of Eternal Closure breaking when placing neighbour
+* Fetch spirit furnace recipes from server, Closes CyclopsMC/EvilCraft#1130
+* Fix JEI Spirit Furnace and Reanimator icons, Closes CyclopsMC/EvilCraft#1128
+
 <a name="1.21.1-1.2.78"></a>
-## [1.21.1-1.2.78](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.77...1.21.1-1.2.78) - 2025-08-14 19:57:46
+## [1.21.1-1.2.78](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.77...1.21.1-1.2.78) - 2025-08-14 19:57:46 +0200
 
 
 ### Fixed
