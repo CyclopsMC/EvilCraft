@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.20.0 or higher.
+
+Changes:
+* Accept more damageable items in Blood Chest, Closes #1133
+* Restore Jade compatibility, Closes CyclopsMC/EvilCraft#1134
+
+Fixes:
+* Fix Box Of Eternal Closure breaking when placing neighbour
