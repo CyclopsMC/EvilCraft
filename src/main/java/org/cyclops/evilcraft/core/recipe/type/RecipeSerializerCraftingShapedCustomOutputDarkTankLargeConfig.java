@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfigCommon;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -18,10 +19,10 @@ public class RecipeSerializerCraftingShapedCustomOutputDarkTankLargeConfig exten
         super(EvilCraft._instance,
                 "crafting_shaped_custom_output_dark_tank_large",
                 eConfig -> new RecipeCraftingShapedCustomOutput.Serializer(() -> {
-                    ItemStack darkTankx9 = new ItemStack(RegistryEntries.ITEM_DARK_TANK);
+                    ItemAccess darkTankx9 = ItemAccess.forStack(new ItemStack(RegistryEntries.ITEM_DARK_TANK));
                     IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(darkTankx9)
-                            .ifPresent(fluidHandler -> fluidHandler.setCapacity(fluidHandler.getCapacity() * 9));
-                    return darkTankx9;
+                            .ifPresent(fluidHandler -> fluidHandler.setTankCapacity(0, fluidHandler.getTankCapacity(0) * 9));
+                    return darkTankx9.getResource().toStack(1);
                 }));
     }
 

@@ -30,7 +30,7 @@ public class BlockBloodStainConfig extends BlockConfigCommon<IModBase> {
                 EvilCraft._instance,
                 "blood_stain",
                 (eConfig, properties) -> new BlockBloodStain(properties
-                        .noCollission()
+                        .noCollision()
                         .strength(0.5F)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );

@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -96,7 +97,7 @@ public class BlockBloodStain extends BlockWithEntity {
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
         super.neighborChanged(state, level, pos, neighborBlock, orientation, movedByPiston);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             if (!state.canSurvive(level, pos)) {
                 level.removeBlock(pos, false);
             }
@@ -110,11 +111,11 @@ public class BlockBloodStain extends BlockWithEntity {
     }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects) {
         if (entity.getDeltaMovement().length() > 0.1D) {
             splash(level, pos);
         }
-        super.entityInside(state, level, pos, entity, effectApplier);
+        super.entityInside(state, level, pos, entity, effectApplier, intersects);
     }
 
     /**
@@ -142,7 +143,7 @@ public class BlockBloodStain extends BlockWithEntity {
             int z = Mth.floor(event.getEntity().getZ());
 
             if (!event.getEntity().level().isClientSide()) {
-                event.getEntity().getServer().execute(() -> {
+                ((ServerLevel) event.getEntity().level()).getServer().execute(() -> {
                     // Only in the next tick, to resolve #601.
                     // The problem is that Vanilla's logic for handling fall events caches the Block.
                     // But Forge throws the living death event _after_ this block is determined,
@@ -163,7 +164,7 @@ public class BlockBloodStain extends BlockWithEntity {
                     }
                     // Add blood to existing block
                     IModHelpers.get().getBlockEntityHelpers().get(event.getEntity().level(), pos, BlockEntityBloodStain.class)
-                            .ifPresent(tile -> tile.addAmount(amount));
+                            .ifPresent(tile -> tile.addAmount(amount, true));
                 });
             } else {
                 // Init particles

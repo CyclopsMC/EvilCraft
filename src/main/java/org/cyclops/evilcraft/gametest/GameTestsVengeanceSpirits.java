@@ -19,6 +19,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
+
 public class GameTestsVengeanceSpirits {
 
     public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
@@ -44,6 +45,34 @@ public class GameTestsVengeanceSpirits {
 
         helper.succeedWhen(() -> {
             helper.assertTrue(box.hasSpirit(), Component.literal("Box is empty"));
+            helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Box contains invalid entity type"));
+        });
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testVengeanceSpiritPlayerCatch(GameTestHelper helper) {
+        // Spawn spirit
+        EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
+        spirit.setPlayerId("068d4de0-3a75-4c6a-9f01-8c37e16a394c");
+        spirit.setPlayerName("kroeserr");
+        spirit.setInnerEntityType(EntityType.ZOMBIE);
+
+        // Let player use vengeance focus
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setXRot(-25F);
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
+        player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
+        helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
+
+        // Add box
+        helper.setBlock(POS.north(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
+        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.north(), BlockEntityBoxOfEternalClosure.class);
+
+        helper.succeedWhen(() -> {
+            helper.assertTrue(box.hasSpirit(), Component.literal("Box is empty"));
+            helper.assertValueEqual("068d4de0-3a75-4c6a-9f01-8c37e16a394c", box.getPlayerId(), Component.literal("Box player id"));
+            helper.assertValueEqual("kroeserr", box.getPlayerName(), Component.literal("Box player name"));
             helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Box contains invalid entity type"));
         });
     }

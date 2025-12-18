@@ -21,16 +21,17 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.inventory.InventorySlotMasked;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -176,7 +177,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
         @Override
         public void registerTankInventoryCapabilitiesItem() {
             add(
-                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK,
                     (blockEntity, direction) -> {
                         int slot = SLOT_CONTAINER;
                         if (direction == Direction.UP) {
@@ -185,7 +186,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
                         if (direction == Direction.DOWN) {
                             slot = SLOT_INFUSE_RESULT;
                         }
-                        return new ItemHandlerSlotMasked(blockEntity.getInventory(), slot);
+                        return VanillaContainerWrapper.of(new InventorySlotMasked(blockEntity.getInventory(), slot));
                     }
             );
         }
@@ -288,8 +289,7 @@ public class BlockEntityBloodInfuser extends BlockEntityWorking<BlockEntityBlood
         public boolean canConsume(ItemStack itemStack, Level world) {
             // Valid fluid handler
             if (!itemStack.isEmpty()) {
-                Optional<IFluidHandlerItem> fluidHandler = FluidUtil.getFluidHandler(itemStack.copy().split(1));
-                if (fluidHandler.isPresent()) {
+                if (ItemAccess.forStack(itemStack).getCapability(Capabilities.Fluid.ITEM) != null) {
                     return true;
                 }
             }

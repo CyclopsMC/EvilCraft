@@ -24,11 +24,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.model.data.ModelProperty;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
-import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -67,7 +69,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DARK_TANK.get(), new BlockEntityDarkTank.TickerServer());
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DARK_TANK.get(), new BlockEntityDarkTank.TickerServer());
     }
 
     @Override
@@ -81,7 +83,7 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
+    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos, Direction direction) {
         BlockEntityTankInventory tile = (BlockEntityTankInventory) world.getBlockEntity(blockPos);
         float output = (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity();
         return (int)Math.ceil(IModHelpers.get().getMinecraftHelpers().getComparatorMultiplier() * output);
@@ -149,17 +151,19 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
     }
 
     public void fillItemCategory(NonNullList<ItemStack> list) {
-        ItemStack itemStack = new ItemStack(this);
-
         int capacityOriginal = BlockEntityDarkTank.BASE_CAPACITY;
         int capacity = capacityOriginal;
         int lastCapacity;
-        do{
-            IFluidHandlerItemCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemStack.copy()).orElse(null);
-            fluidHandler.setCapacity(capacity);
-            list.add(fluidHandler.getContainer().copy());
-            fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, capacity), IFluidHandler.FluidAction.EXECUTE);
-            list.add(fluidHandler.getContainer().copy());
+        do {
+            ItemAccess itemAccess = ItemAccess.forStack(new ItemStack(this));
+            IFluidHandlerCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemAccess).orElse(null);
+            fluidHandler.setTankCapacity(0, capacity);
+            list.add(itemAccess.getResource().toStack());
+            try (var tx = Transaction.openRoot()) {
+                fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), capacity, tx);
+                tx.commit();
+            }
+            list.add(itemAccess.getResource().toStack());
             lastCapacity = capacity;
             capacity = capacity << 2;
         } while(capacity < BlockDarkTankConfig.maxTankCreativeSize && capacity > lastCapacity);
@@ -169,11 +173,14 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
             for (Fluid fluid : BuiltInRegistries.FLUID) {
                 if (fluid != RegistryEntries.FLUID_BLOOD.get() && fluid.isSource(fluid.defaultFluidState())) {
                     try {
-                        ItemStack itemStackFilled = itemStack.copy();
-                        IFluidHandlerItemCapacity fluidHandlerFilled = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemStackFilled).orElse(null);
-                        fluidHandlerFilled.setCapacity(capacityOriginal);
-                        fluidHandlerFilled.fill(new FluidStack(fluid, capacityOriginal), IFluidHandler.FluidAction.EXECUTE);
-                        list.add(fluidHandlerFilled.getContainer());
+                        ItemAccess itemAccess = ItemAccess.forStack(new ItemStack(this));
+                        IFluidHandlerCapacity fluidHandlerFilled = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemAccess).orElse(null);
+                        try (var tx = Transaction.openRoot()) {
+                            fluidHandlerFilled.setTankCapacity(0, capacityOriginal, tx);
+                            fluidHandlerFilled.insert(FluidResource.of(fluid), capacityOriginal, tx);
+                            tx.commit();
+                        }
+                        list.add(itemAccess.getResource().toStack());
                     } catch (NullPointerException e) {
                         // Skip registering tanks for invalid fluids.
                     }

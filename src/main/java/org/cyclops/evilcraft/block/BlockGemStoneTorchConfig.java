@@ -26,7 +26,7 @@ public class BlockGemStoneTorchConfig extends BlockConfigCommon<IModBase> {
                 EvilCraft._instance,
             "gem_stone_torch",
                 (eConfig, properties) -> new TorchBlock(ParticleTypes.FLAME, properties
-                        .noCollission()
+                        .noCollision()
                         .strength(0)
                         .lightLevel((state) -> 14)
                         .sound(SoundType.WOOD)),

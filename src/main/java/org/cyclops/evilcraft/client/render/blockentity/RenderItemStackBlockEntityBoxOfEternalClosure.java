@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.core.BlockPos;
 import org.cyclops.cyclopscore.client.render.blockentity.ItemStackBlockEntityRendererBase;
@@ -26,7 +25,7 @@ public class RenderItemStackBlockEntityBoxOfEternalClosure extends ItemStackBloc
         }
 
         @Override
-        public SpecialModelRenderer<?> bake(EntityModelSet entityModelSet) {
+        public SpecialModelRenderer<?> bake(BakingContext bakingContext) {
             return new RenderItemStackBlockEntityBoxOfEternalClosure();
         }
     }

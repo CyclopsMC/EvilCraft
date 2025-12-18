@@ -17,11 +17,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
-import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerMutable;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.item.ItemBlockNBT;
@@ -55,8 +56,8 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
     }
 
     private void registerCapability(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new FluidHandlerItemCapacity(stack, block.getDefaultCapacity()), this);
-        event.registerItem(org.cyclops.cyclopscore.Capabilities.Item.FLUID_HANDLER_CAPACITY, (stack, ctx) -> new FluidHandlerItemCapacity(stack, block.getDefaultCapacity()), this);
+        event.registerItem(Capabilities.Fluid.ITEM, (stack, ctx) -> new FluidHandlerItemCapacity(ctx, block.getDefaultCapacity()), this);
+        event.registerItem(org.cyclops.cyclopscore.Capabilities.Item.FLUID_HANDLER_CAPACITY, (stack, ctx) -> new FluidHandlerItemCapacity(ctx, block.getDefaultCapacity()), this);
     }
 
     @Override
@@ -66,15 +67,18 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
 
     @Override
     protected boolean itemStackDataToTile(ItemStack itemStack, BlockEntity tile) {
-        IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(tile.getLevel(), tile.getBlockPos(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
+        IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(tile.getLevel(), tile.getBlockPos(), net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK)
                 .ifPresent(fluidHandlerTile -> {
-                    Optional.ofNullable(itemStack.getCapability(Capabilities.FluidHandler.ITEM))
+                    Optional.ofNullable(itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)))
                             .ifPresent(fluidHandlerItem -> {
-                                if (fluidHandlerTile instanceof IFluidHandlerMutable) {
-                                    ((IFluidHandlerMutable) fluidHandlerTile).setFluidInTank(0, fluidHandlerItem.getFluidInTank(0));
+                                if (!fluidHandlerItem.getResource(0).isEmpty()) {
+                                    try (var tx = Transaction.openRoot()) {
+                                        fluidHandlerTile.insert(fluidHandlerItem.getResource(0), fluidHandlerItem.getAmountAsInt(0), tx);
+                                        tx.commit();
+                                    }
                                 }
                                 if (fluidHandlerTile instanceof IFluidHandlerCapacity) {
-                                    ((IFluidHandlerCapacity) fluidHandlerTile).setTankCapacity(0, fluidHandlerItem.getTankCapacity(0));
+                                    ((IFluidHandlerCapacity) fluidHandlerTile).setTankCapacity(0, fluidHandlerItem.getCapacityAsInt(0, FluidResource.EMPTY));
                                 }
                             });
                 });
@@ -89,15 +93,14 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
         return super.use(world, player, hand);
     }
 
-    protected void autofill(@Nullable EquipmentSlot itemSlot, IFluidHandlerItem source, Level world, Entity entity) {
-        ItemHelpers.updateAutoFill(source, world, entity, BlockDarkTankConfig.autoFillBuckets);
+    protected void autofill(@Nullable EquipmentSlot itemSlot, ResourceHandler<FluidResource> source, ItemStack sourceItem, Level world, Entity entity) {
+        ItemHelpers.updateAutoFill(source, sourceItem, world, entity, BlockDarkTankConfig.autoFillBuckets);
     }
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
         if(block.isActivatable() && block.isActivated(stack, Item.TooltipContext.of(level))) {
-            FluidUtil.getFluidHandler(stack)
-                    .ifPresent(fluidHandler -> autofill(slot, fluidHandler, level, entity));
+            autofill(slot, stack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(stack)), stack, level, entity);
         }
         super.inventoryTick(stack, level, entity, slot);
     }

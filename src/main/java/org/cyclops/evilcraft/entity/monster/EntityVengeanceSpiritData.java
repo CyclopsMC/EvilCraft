@@ -135,7 +135,7 @@ public class EntityVengeanceSpiritData {
 
     public static EntityVengeanceSpiritData fromNBT(CompoundTag tag, HolderLookup.Provider lookupProvider) {
         EntityVengeanceSpiritData data = new EntityVengeanceSpiritData();
-        IModHelpers.get().getMinecraftHelpers().valueInputFromNbt(tag, lookupProvider, data::readNBT);
+        IModHelpers.get().getMinecraftHelpers().valueInputFromNbtVoid(tag, lookupProvider, data::readNBT);
         return data;
     }
 

@@ -1,7 +1,9 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.config.extendedconfig.RecipeConfigCommon;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -20,14 +22,15 @@ public class RecipeSerializerCraftingShapedCustomOutputEntangledChaliceNewConfig
         super(EvilCraft._instance,
                 "crafting_shaped_custom_output_entangled_chalice_new",
                 eConfig -> new RecipeCraftingShapedCustomOutput.Serializer(() -> new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE, 2), (inventory, staticOutput) -> {
-                    ItemStack newStack = new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE);
-                    ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(newStack).orElse(null);
+                    ItemAccess newStack = ItemAccess.forStack(new ItemStack(RegistryEntries.ITEM_ENTANGLED_CHALICE));
+                    ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) newStack.getCapability(Capabilities.Fluid.ITEM);
                     if (!IModHelpers.get().getMinecraftHelpers().isClientSideThread()) {
-                        fluidHandler.setNextTankID();
+                        try (var tx = Transaction.openRoot()) {
+                            fluidHandler.setNextTankID(tx);
+                            tx.commit();
+                        }
                     }
-                    ItemStack output = fluidHandler.getContainer();
-                    output.setCount(2);
-                    return output;
+                    return newStack.getResource().toStack(2);
                 }));
     }
 

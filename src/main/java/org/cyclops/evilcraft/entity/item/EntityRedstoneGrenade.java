@@ -39,8 +39,8 @@ public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSu
                 level().setBlockAndUpdate(blockPos.offset(((BlockHitResult) pos).getDirection().getUnitVec3i()), RegistryEntries.BLOCK_INVISIBLE_REDSTONE.get().defaultBlockState());
 
                 if (level().isClientSide()) {
-                    Minecraft.getInstance().levelRenderer.addParticle(
-                            DustParticleOptions.REDSTONE, false,
+                    Minecraft.getInstance().level.addParticle(
+                            DustParticleOptions.REDSTONE,
                             blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5, 1, 0, 0);
                 }
             }

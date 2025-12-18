@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 
 /**
@@ -10,18 +10,18 @@ import net.minecraft.util.Mth;
  * @author rubensworks
  *
  */
-public class ParticleMagicFinish extends TextureSheetParticle {
+public class ParticleMagicFinish extends SingleQuadParticle {
 
-    public ParticleMagicFinish(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public ParticleMagicFinish(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, TextureAtlasSprite sprite) {
+        super(world, x, y, z, motionX, motionY, motionZ, sprite);
         rCol = 0.78F + random.nextFloat() * 0.5F;
         gCol = 0.09F + random.nextFloat() * 0.5F;
         bCol = 0.65F + random.nextFloat() * 0.5F;
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected Layer getLayer() {
+        return Layer.OPAQUE;
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
@@ -98,7 +99,7 @@ public class EnvironmentalAccumulatorRecipeAppendixClient extends RecipeAppendix
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
             MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
-                    .renderLeftAlignedNoShadow(guiGraphics, x + middle - 5, y + SLOT_SIZE, 9, 0);
+                    .render(guiGraphics, MultiLineLabel.Align.LEFT, x + middle - 5, y + SLOT_SIZE, 9, false, ARGB.opaque(0));
         }
     }
 

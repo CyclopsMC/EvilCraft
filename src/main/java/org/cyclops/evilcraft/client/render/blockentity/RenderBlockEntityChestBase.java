@@ -1,96 +1,83 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.model.ChestModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.blockentity.state.ChestRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.Calendar;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A modified copy of {@link ChestRenderer}.
  * @author rubensworks
  */
-public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBlockEntity> implements BlockEntityRenderer<T> {
+public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBlockEntity, S extends RenderBlockEntityChestBase.RenderState> implements BlockEntityRenderer<T, S> {
 
-    private final ModelPart lid;
-    private final ModelPart bottom;
-    private final ModelPart lock;
-    private final ModelPart doubleLeftLid;
-    private final ModelPart doubleLeftBottom;
-    private final ModelPart doubleLeftLock;
-    private final ModelPart doubleRightLid;
-    private final ModelPart doubleRightBottom;
-    private final ModelPart doubleRightLock;
-    private boolean isChristmas;
+    private final ChestModel singleModel;
+    private final boolean xmasTextures = ChestRenderer.xmasTextures();
+    protected final MaterialSet materials;
 
     public RenderBlockEntityChestBase(BlockEntityRendererProvider.Context context) {
-        Calendar calendar = Calendar.getInstance();
-        if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
-            this.isChristmas = true;
-        }
-
-        ModelPart modelpart = context.bakeLayer(ModelLayers.CHEST);
-        this.bottom = modelpart.getChild("bottom");
-        this.lid = modelpart.getChild("lid");
-        this.lock = modelpart.getChild("lock");
-        ModelPart modelpart1 = context.bakeLayer(ModelLayers.DOUBLE_CHEST_LEFT);
-        this.doubleLeftBottom = modelpart1.getChild("bottom");
-        this.doubleLeftLid = modelpart1.getChild("lid");
-        this.doubleLeftLock = modelpart1.getChild("lock");
-        ModelPart modelpart2 = context.bakeLayer(ModelLayers.DOUBLE_CHEST_RIGHT);
-        this.doubleRightBottom = modelpart2.getChild("bottom");
-        this.doubleRightLid = modelpart2.getChild("lid");
-        this.doubleRightLock = modelpart2.getChild("lock");
+        this.singleModel = new ChestModel(context.bakeLayer(ModelLayers.CHEST));
+        this.materials = context.materials();
     }
 
-    protected abstract Direction getDirection(T tileEntityIn);
+    protected abstract Direction getDirection(S renderState);
 
-    protected Material getMaterial(T tileEntity) {
-        return Sheets.chooseMaterial(tileEntity, ChestType.SINGLE, this.isChristmas);
+    protected Material getMaterial(S renderState) {
+        return Sheets.chooseMaterial(renderState.chestMaterialType, ChestType.SINGLE);
     }
 
-    protected void handleRotation(T tile, PoseStack matrixStack) {
-        float f = getDirection(tile).toYRot();
+    protected void handleRotation(S renderState, PoseStack matrixStack) {
+        float f = getDirection(renderState).toYRot();
         matrixStack.mulPose(Axis.YP.rotationDegrees(-f));
     }
 
     @Override
-    public void render(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
-        matrixStackIn.pushPose();
-        matrixStackIn.translate(0.5D, 0.5D, 0.5D);
-        handleRotation(tileEntityIn, matrixStackIn);
-        matrixStackIn.translate(-0.5D, -0.5D, -0.5D);
-
-        float f1 = tileEntityIn.getOpenNess(partialTicks);
-        f1 = 1.0F - f1;
-        f1 = 1.0F - f1 * f1 * f1;
-        Material material = this.getMaterial(tileEntityIn);
-        VertexConsumer ivertexbuilder = material.buffer(bufferIn, RenderType::entityCutout);
-        this.render(matrixStackIn, ivertexbuilder, this.lid, this.lock, this.bottom, f1, combinedLightIn, combinedOverlayIn);
-
-        matrixStackIn.popPose();
+    public void extractRenderState(T blockEntity, S renderState, float partialTick, Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.chestMaterialType = this.xmasTextures ? ChestRenderState.ChestMaterialType.CHRISTMAS : ChestRenderState.ChestMaterialType.REGULAR;
+        renderState.openNess = blockEntity.getOpenNess(partialTick);
+        renderState.openNessRaw = blockEntity.getOpenNess(0);
     }
 
-    private void render(PoseStack p_228871_1_, VertexConsumer p_228871_2_, ModelPart p_228871_3_, ModelPart p_228871_4_, ModelPart p_228871_5_, float p_228871_6_, int p_228871_7_, int p_228871_8_) {
-        p_228871_3_.xRot = -(p_228871_6_ * ((float)Math.PI / 2F));
-        p_228871_4_.xRot = p_228871_3_.xRot;
-        p_228871_3_.render(p_228871_1_, p_228871_2_, p_228871_7_, p_228871_8_);
-        p_228871_4_.render(p_228871_1_, p_228871_2_, p_228871_7_, p_228871_8_);
-        p_228871_5_.render(p_228871_1_, p_228871_2_, p_228871_7_, p_228871_8_);
+    @Override
+    public void submit(S renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+        poseStack.pushPose();
+        poseStack.translate(0.5D, 0.5D, 0.5D);
+        handleRotation(renderState, poseStack);
+        poseStack.translate(-0.5D, -0.5D, -0.5D);
+
+        float f1 = renderState.openNess;
+        Material material = this.getMaterial(renderState);
+        TextureAtlasSprite textureAtlasSprite = this.materials.get(material);
+        submitNodeCollector.submitModel(this.singleModel, f1, poseStack, material.renderType(RenderType::entityCutout), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, textureAtlasSprite, 0, renderState.breakProgress);
+
+        poseStack.popPose();
+    }
+
+    public static class RenderState extends BlockEntityRenderState {
+        public ChestRenderState.ChestMaterialType chestMaterialType;
+        public float openNess;
+        public float openNessRaw;
     }
 
 }

@@ -1,15 +1,19 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityBeacon;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Vector4f;
 
 /**
@@ -19,7 +23,7 @@ import org.joml.Vector4f;
  * @author immortaleeb
  *
  */
-public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon> implements BlockEntityRenderer<T> {
+public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon, S extends RenderBlockEntityBeacon.RenderState> implements BlockEntityRenderer<T, S> {
 
     private static final ResourceLocation BEACON_TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/beacon_beam.png");
 
@@ -33,16 +37,25 @@ public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon> imple
     }
 
     @Override
-    public void render(T tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
-        renderBeacon(tileentity, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
+    public void extractRenderState(T blockEntity, S renderState, float partialTick, Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.isBeamActive = blockEntity.isBeamActive();
+        renderState.beamColor = blockEntity.getBeamColor();
+        renderState.isInnerBeam = isInnerBeam(blockEntity);
+        renderState.animationTime = blockEntity.getLevel() != null ? (float)Math.floorMod(blockEntity.getLevel().getGameTime(), 40) + partialTick : 0.0F;
     }
 
-    protected void renderBeacon(T tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
-        if (tile.isBeamActive()) {
-            Vector4f beamColor = tile.getBeamColor();
-            BeaconRenderer.renderBeaconBeam(matrixStackIn, bufferIn, BEACON_TEXTURE, partialTicks, 1.0F,
-                    tile.getLevel().getGameTime(), 0, 256,
-                    IModHelpers.get().getBaseHelpers().RGBToInt((int) (beamColor.x() * 256), (int) (beamColor.y() * 256), (int) (beamColor.z() * 256)), isInnerBeam(tile) ? 0 : 0.2F, 0.25F);
+    @Override
+    public void submit(S renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+        submitBeacon(renderState, 1.0F, poseStack, submitNodeCollector);
+    }
+
+    protected void submitBeacon(S renderState, float partialTicks, PoseStack matrixStackIn, SubmitNodeCollector submitNodeCollector) {
+        if (renderState.isBeamActive) {
+            Vector4f beamColor = renderState.beamColor;
+            BeaconRenderer.submitBeaconBeam(matrixStackIn, submitNodeCollector, BEACON_TEXTURE, partialTicks, renderState.animationTime,
+                    0, 256,
+                    IModHelpers.get().getBaseHelpers().RGBToInt((int) (beamColor.x() * 256), (int) (beamColor.y() * 256), (int) (beamColor.z() * 256)), renderState.isInnerBeam ? 0 : 0.2F, 0.25F);
         }
     }
 
@@ -56,5 +69,12 @@ public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon> imple
     @Override
     public int getViewDistance() {
         return 256;
+    }
+
+    public static class RenderState extends BlockEntityRenderState {
+        public boolean isBeamActive;
+        public Vector4f beamColor;
+        public boolean isInnerBeam;
+        public float animationTime;
     }
 }

@@ -23,7 +23,7 @@ public class BlockFluidPoisonConfig extends BlockConfigCommon<IModBase> {
             "poison",
                 (eConfig, properties) -> new BlockFluidPoison(properties
                         .liquid()
-                        .noCollission()
+                        .noCollision()
                         .strength(100.0F)
                         .randomTicks()),
                 (eConfig, block) -> new BlockItem(block, eConfig.createDefaultItemProperties())

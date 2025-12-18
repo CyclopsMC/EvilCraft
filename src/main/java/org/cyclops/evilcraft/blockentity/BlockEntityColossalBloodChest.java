@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -22,13 +23,14 @@ import net.minecraft.world.level.block.entity.ChestLidController;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.LidBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.cyclops.cyclopscore.block.multi.*;
-import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.DirectionHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.inventory.InventorySlotMasked;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -96,19 +98,23 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     private final Map<Integer, Boolean> slotTickHistory;
 
     private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        @Override
         protected void onOpen(Level level, BlockPos pos, BlockState blockState) {
             BlockEntityColossalBloodChest.playSound(level, pos, blockState, SoundEvents.CHEST_OPEN);
         }
 
+        @Override
         protected void onClose(Level level, BlockPos pos, BlockState blockState) {
             BlockEntityColossalBloodChest.playSound(level, pos, blockState, SoundEvents.CHEST_CLOSE);
         }
 
+        @Override
         protected void openerCountChanged(Level level, BlockPos pos, BlockState blockState, int p_155364_, int p_155365_) {
             BlockEntityColossalBloodChest.this.signalOpenCount(level, pos, blockState, p_155364_, p_155365_);
         }
 
-        protected boolean isOwnContainer(Player player) {
+        @Override
+        public boolean isOwnContainer(Player player) {
             if (!(player.containerMenu instanceof ContainerColossalBloodChest)) {
                 return false;
             } else {
@@ -214,11 +220,11 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
         @Override
         public void registerTankInventoryCapabilitiesItem() {
             add(
-                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
-                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
+                    net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK,
+                    (blockEntity, direction) -> VanillaContainerWrapper.of(new InventorySlotMasked(
                             blockEntity.getInventory(),
                             direction == Direction.DOWN ? new int[]{SLOTS_CHEST} : IntStream.range(0, SLOTS_CHEST + 1).toArray()
-                    )
+                    ))
             );
         }
     }
@@ -302,13 +308,13 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     protected SimpleInventory createInventory(int inventorySize, int stackSize) {
         return new Inventory<BlockEntityColossalBloodChest>(inventorySize, stackSize, this) {
             @Override
-            public void startOpen(Player entityPlayer) {
+            public void startOpen(ContainerUser entityPlayer) {
                 super.startOpen(entityPlayer);
                 BlockEntityColossalBloodChest.this.startOpen(entityPlayer);
             }
 
             @Override
-            public void stopOpen(Player entityPlayer) {
+            public void stopOpen(ContainerUser entityPlayer) {
                 super.stopOpen(entityPlayer);
                 BlockEntityColossalBloodChest.this.stopOpen(entityPlayer);
             }
@@ -344,16 +350,16 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
         }
     }
 
-    public void startOpen(Player player) {
-        if (!this.remove && !player.isSpectator()) {
-            this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+    public void startOpen(ContainerUser player) {
+        if (!this.remove) {
+            this.openersCounter.incrementOpeners(player.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState(), player.getContainerInteractionRange());
         }
 
     }
 
-    public void stopOpen(Player player) {
-        if (!this.remove && !player.isSpectator()) {
-            this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+    public void stopOpen(ContainerUser player) {
+        if (!this.remove) {
+            this.openersCounter.decrementOpeners(player.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState());
         }
     }
 

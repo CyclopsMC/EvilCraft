@@ -135,7 +135,7 @@ public class EntityWerewolf extends Monster {
         initializeWerewolfVillagerData(villager);
         replaceEntity(this, villager, this.level());
         try {
-            IModHelpers.get().getMinecraftHelpers().valueInputFromNbt(villagerNBTTagCompound, level().registryAccess(), villager::readAdditionalSaveData);
+            IModHelpers.get().getMinecraftHelpers().valueInputFromNbtVoid(villagerNBTTagCompound, level().registryAccess(), villager::readAdditionalSaveData);
         } catch (RuntimeException e) {
             e.printStackTrace();
         }

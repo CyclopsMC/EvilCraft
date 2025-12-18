@@ -23,14 +23,17 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEternalWater;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Block for {@link BlockEternalWaterConfig}.
@@ -52,7 +55,7 @@ public class BlockEternalWater extends BlockWithEntity {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ETERNAL_WATER.get(), new BlockEntityEternalWater.TickerServer());
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ETERNAL_WATER.get(), new BlockEntityEternalWater.TickerServer());
     }
 
     @Override
@@ -81,8 +84,13 @@ public class BlockEternalWater extends BlockWithEntity {
                 }
                 return InteractionResult.SUCCESS;
             } else {
-                FluidUtil.getFluidHandler(itemStack)
-                        .ifPresent(fluidHandler -> fluidHandler.fill(BlockEntityEternalWater.WATER, IFluidHandler.FluidAction.EXECUTE));
+                Optional.ofNullable(itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)))
+                        .ifPresent(fluidHandler -> {
+                            try (var tx = Transaction.openRoot()) {
+                                fluidHandler.insert(FluidResource.of(BlockEntityEternalWater.WATER), BlockEntityEternalWater.WATER.getAmount(), tx);
+                                tx.commit();
+                            }
+                        });
             }
             return InteractionResult.SUCCESS;
         }

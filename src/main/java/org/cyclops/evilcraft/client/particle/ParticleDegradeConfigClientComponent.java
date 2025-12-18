@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.core.particles.SimpleParticleType;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -20,11 +20,7 @@ public class ParticleDegradeConfigClientComponent extends ParticleConfigComponen
 
     @Nullable
     @Override
-    public ParticleEngine.SpriteParticleRegistration<SimpleParticleType> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<SimpleParticleType>) (typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleDegrade particle = new ParticleDegrade(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.pickSprite(sprite);
-            return particle;
-        };
+    public ParticleResources.SpriteParticleRegistration<SimpleParticleType> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<SimpleParticleType>) (typeIn, worldIn, x, y, z, xSpeed, ySpeed, zSpeed, random) -> new ParticleDegrade(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, sprite.get(random));
     }
 }

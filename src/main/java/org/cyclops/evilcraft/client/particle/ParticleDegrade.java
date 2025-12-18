@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 
 /**
@@ -10,10 +10,10 @@ import net.minecraft.util.Mth;
  * @author rubensworks
  *
  */
-public class ParticleDegrade extends TextureSheetParticle {
+public class ParticleDegrade extends SingleQuadParticle {
 
-    public ParticleDegrade(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public ParticleDegrade(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, TextureAtlasSprite sprite) {
+        super(world, x, y, z, motionX, motionY, motionZ, sprite);
         this.lifetime = 40;
         this.alpha = 0.4F;
         rCol = 0.3F + random.nextFloat() * 0.2F;
@@ -22,8 +22,8 @@ public class ParticleDegrade extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Override

@@ -3,14 +3,15 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.RegistryEntries;
 
-import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 /**
@@ -36,7 +37,7 @@ public class BlockEntityBloodStain extends CyclopsBlockEntity {
 
         @Override
         public void populate() {
-            add(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, (blockEntity, direction) -> new FluidHandler(blockEntity));
+            add(net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK, (blockEntity, direction) -> new FluidHandler(blockEntity));
         }
     }
 
@@ -47,68 +48,83 @@ public class BlockEntityBloodStain extends CyclopsBlockEntity {
         return amount;
     }
 
-    /**
-     * @param amount the amount to add
-     */
-    public void addAmount(int amount) {
-        this.amount = Math.min(CAPACITY, Math.max(0, this.amount + amount));
-        if (this.amount == 0) {
+    public void setAmount(Integer amount, boolean committedChange) {
+        this.amount = amount;
+        if (this.amount == 0 && committedChange) {
             getLevel().removeBlock(getBlockPos(), false);
         }
-        setChanged();
+        if (committedChange) {
+            setChanged();
+        }
     }
 
-    public static class FluidHandler implements IFluidHandler {
+    public void addAmount(int amount, boolean committedChange) {
+        setAmount(Math.min(CAPACITY, Math.max(0, this.amount + amount)), committedChange);
+    }
+
+    public static class FluidHandler implements ResourceHandler<FluidResource> {
         private final BlockEntityBloodStain tile;
+        private final Journal journal;
 
         public FluidHandler(BlockEntityBloodStain tile) {
             this.tile = tile;
+            this.journal = new Journal();
         }
 
         @Override
-        public int getTanks() {
+        public int size() {
             return 1;
         }
 
-        @Nonnull
         @Override
-        public FluidStack getFluidInTank(int tank) {
-            return new FluidStack(RegistryEntries.FLUID_BLOOD, tile.getAmount());
+        public FluidResource getResource(int tank) {
+            return FluidResource.of(RegistryEntries.FLUID_BLOOD);
         }
 
         @Override
-        public int getTankCapacity(int tank) {
+        public long getAmountAsLong(int tank) {
+            return tile.getAmount();
+        }
+
+        @Override
+        public long getCapacityAsLong(int tank, FluidResource resource) {
             return CAPACITY;
         }
 
         @Override
-        public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-            return tank == 0 && stack.getFluid() == RegistryEntries.FLUID_BLOOD.get();
+        public boolean isValid(int tank, FluidResource resource) {
+            return tank == 0 && resource.getFluid() == RegistryEntries.FLUID_BLOOD.get();
         }
 
         @Override
-        public int fill(FluidStack resource, FluidAction action) {
+        public int insert(int tank, FluidResource resource, int amount, TransactionContext transaction) {
             return 0;
         }
 
-        @Nonnull
         @Override
-        public FluidStack drain(FluidStack resource, FluidAction action) {
-            if (resource.getFluid() == RegistryEntries.FLUID_BLOOD.get()) {
-                return drain(resource.getAmount(), action);
-            }
-            return FluidStack.EMPTY;
+        public int extract(int tank, FluidResource resource, int amount, TransactionContext transaction) {
+            this.journal.updateSnapshots(transaction);
+            amount = Math.min(tile.getAmount(), amount);
+            tile.addAmount(-amount, false);
+            return amount;
         }
 
-        @Nonnull
-        @Override
-        public FluidStack drain(int maxDrain, FluidAction action) {
-            maxDrain = Math.min(tile.getAmount(), maxDrain);
-            FluidStack drained = new FluidStack(RegistryEntries.FLUID_BLOOD, maxDrain);
-            if (action.execute()) {
-                tile.addAmount(-maxDrain);
+        public class Journal extends SnapshotJournal<Integer> {
+            @Override
+            protected Integer createSnapshot() {
+                return tile.getAmount();
             }
-            return drained;
+
+            @Override
+            protected void revertToSnapshot(Integer integer) {
+                tile.setAmount(integer, false);
+            }
+
+            @Override
+            protected void onRootCommit(Integer originalState) {
+                super.onRootCommit(originalState);
+                tile.setAmount(originalState, true);
+            }
         }
     }
 

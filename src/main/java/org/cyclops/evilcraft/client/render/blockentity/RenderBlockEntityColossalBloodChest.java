@@ -1,9 +1,11 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -13,18 +15,24 @@ import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
 import org.cyclops.evilcraft.blockentity.BlockEntityColossalBloodChest;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Renderer for the {@link BlockColossalBloodChest}.
  * @author rubensworks
  *
  */
-public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestBase<BlockEntityColossalBloodChest> {
+public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestBase<BlockEntityColossalBloodChest, RenderBlockEntityColossalBloodChest.RenderState> {
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "model/colossal_blood_chest");
 
     public RenderBlockEntityColossalBloodChest(BlockEntityRendererProvider.Context p_i226008_1_) {
         super(p_i226008_1_);
+    }
+
+    @Override
+    protected Direction getDirection(RenderState renderState) {
+        return renderState.rotation;
     }
 
     @Override
@@ -36,8 +44,17 @@ public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestB
     }
 
     @Override
-    protected Material getMaterial(BlockEntityColossalBloodChest tile) {
-        return new Material(Sheets.CHEST_SHEET, TEXTURE);
+    public RenderState createRenderState() {
+        return new RenderState();
+    }
+
+    @Override
+    public void extractRenderState(BlockEntityColossalBloodChest blockEntity, RenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.rotation = blockEntity.getRotation().getOpposite();
+        renderState.isStructureComplete = blockEntity.isStructureComplete();
+        renderState.renderOffset = blockEntity.getRenderOffset();
+        renderState.sizeSingular = blockEntity.getSizeSingular();
     }
 
     @Override
@@ -46,33 +63,40 @@ public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestB
     }
 
     @Override
-    protected void handleRotation(BlockEntityColossalBloodChest tile, PoseStack matrixStack) {
+    protected void handleRotation(RenderState renderState, PoseStack matrixStack) {
         // Move origin to center of chest
-        if(tile.isStructureComplete()) {
-            Vec3i renderOffset = tile.getRenderOffset();
+        if(renderState.isStructureComplete) {
+            Vec3i renderOffset = renderState.renderOffset;
             matrixStack.translate(-renderOffset.getX(), -renderOffset.getY(), -renderOffset.getZ());
         }
 
         // Rotate
-        super.handleRotation(tile, matrixStack);
+        super.handleRotation(renderState, matrixStack);
 
         // Move chest slightly higher
-        matrixStack.translate(0F, tile.getSizeSingular() * 0.0625F, 0F);
+        matrixStack.translate(0F, renderState.sizeSingular * 0.0625F, 0F);
 
         // Scale
-        float size = tile.getSizeSingular() * 1.125F;
+        float size = renderState.sizeSingular * 1.125F;
         matrixStack.scale(size, size, size);
     }
 
     @Override
-    public void render(BlockEntityColossalBloodChest tile, float partialTicks, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
-        if (tile.isStructureComplete()) {
-            super.render(tile, partialTicks, matrixStack, renderTypeBuffer, combinedLightIn, combinedOverlayIn, cameraPos);
+    public void submit(RenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+        if (renderState.isStructureComplete) {
+            super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
         }
     }
 
     @Override
-    protected Direction getDirection(BlockEntityColossalBloodChest tileEntityIn) {
-        return tileEntityIn.getRotation().getOpposite();
+    protected Material getMaterial(RenderState renderState) {
+        return new Material(Sheets.CHEST_SHEET, TEXTURE);
+    }
+
+    public static class RenderState extends RenderBlockEntityChestBase.RenderState {
+        public Direction rotation;
+        public boolean isStructureComplete;
+        public Vec3i renderOffset;
+        public int sizeSingular;
     }
 }

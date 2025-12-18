@@ -258,7 +258,7 @@ public class BroomModifiers {
                                                 if (!breakEvent.isCanceled()) {
                                                     // Block breaking sequence
                                                     block.playerWillDestroy(world, pos, blockState, player);
-                                                    if(block.onDestroyedByPlayer(blockState, world, pos, player, true, fluidState)) {
+                                                    if(block.onDestroyedByPlayer(blockState, world, pos, player, broom.getBroomStack(), true, fluidState)) {
                                                         block.destroy(world, pos, blockState);
                                                         block.playerDestroy(world, player, pos, blockState, world.getBlockEntity(pos), ItemStack.EMPTY);
                                                     }
@@ -269,7 +269,7 @@ public class BroomModifiers {
                                             } else if (Minecraft.getInstance().hitResult.getType() == HitResult.Type.BLOCK) {
                                                 // Play sound and client-side block breaking sequence
                                                 world.globalLevelEvent(2001, pos, Block.getId(blockState));
-                                                if(block.onDestroyedByPlayer(blockState, world, pos, player, true, fluidState)) {
+                                                if(block.onDestroyedByPlayer(blockState, world, pos, player, broom.getBroomStack(), true, fluidState)) {
                                                     block.destroy(world, pos, blockState);
                                                 }
 

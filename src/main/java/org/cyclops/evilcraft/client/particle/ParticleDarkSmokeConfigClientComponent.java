@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.client.particle.ParticleResources;
 import net.minecraft.client.particle.ParticleProvider;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -19,11 +19,7 @@ public class ParticleDarkSmokeConfigClientComponent extends ParticleConfigCompon
 
     @Nullable
     @Override
-    public ParticleEngine.SpriteParticleRegistration<ParticleDarkSmokeData> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<ParticleDarkSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleDarkSmoke particle = new ParticleDarkSmoke(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.isEntityDead());
-            particle.pickSprite(sprite);
-            return particle;
-        };
+    public ParticleResources.SpriteParticleRegistration<ParticleDarkSmokeData> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<ParticleDarkSmokeData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed, random) -> new ParticleDarkSmoke(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.isEntityDead(), sprite.get(random));
     }
 }

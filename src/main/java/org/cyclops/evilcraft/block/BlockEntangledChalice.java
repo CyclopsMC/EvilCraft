@@ -28,9 +28,12 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.model.data.ModelProperty;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.item.IInformationProvider;
@@ -78,7 +81,7 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE.get(), new BlockEntityEntangledChalice.TickerServer());
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_ENTANGLED_CHALICE.get(), new BlockEntityEntangledChalice.TickerServer());
     }
 
     @Override
@@ -163,10 +166,13 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
     }
 
     public void fillItemCategory(NonNullList<ItemStack> list) {
-        ItemStack itemStack = new ItemStack(this);
-        ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) FluidUtil.getFluidHandler(itemStack).orElse(null);
-        fluidHandler.setTankID("creative");
-        list.add(itemStack);
+        ItemAccess itemAccess = ItemAccess.forStack(new ItemStack(this));
+        ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) itemAccess.getCapability(Capabilities.Fluid.ITEM);
+        try (var tx = Transaction.openRoot()) {
+            fluidHandler.setTankID("creative", tx);
+            tx.commit();
+        }
+        list.add(itemAccess.getResource().toStack());
     }
 
     @Override

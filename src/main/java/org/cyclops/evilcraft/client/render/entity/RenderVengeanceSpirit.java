@@ -6,11 +6,18 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidArmorModel;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.MovingBlockRenderState;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -18,15 +25,29 @@ import net.minecraft.client.renderer.entity.layers.ArrowLayer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.client.renderer.entity.state.PlayerRenderState;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.PlayerSkin;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritConfig;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,24 +67,18 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
     }
 
     @Override
-    public void render(RenderStateVengeanceSpirit renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        super.render(renderState, poseStack, bufferSource, packedLight);
+    public void submit(RenderStateVengeanceSpirit renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
 
         Mob innerEntity = renderState.spirit.getInnerEntity();
         if(innerEntity != null && renderState.spirit.isVisible()) {
             LivingEntityRenderer render = (LivingEntityRenderer) entityRenderDispatcher.renderers.get(innerEntity.getType());
             if(render != null && !renderState.spirit.isSwarm()) {
-                LivingEntityRenderState innerRenderState = renderState.spirit.isPlayer() ? getPlayerRenderState(renderState) : (LivingEntityRenderState) render.createRenderState();
+                LivingEntityRenderState innerRenderState = renderState.spirit.isPlayer() ? getAvatarRenderState(renderState) : (LivingEntityRenderState) render.createRenderState();
                 if (!renderState.spirit.isPlayer()) {
-                    render.extractRenderState(innerEntity, innerRenderState, renderState.partialTick);
+                    render.extractRenderState(innerEntity, innerRenderState, 0);
                 }
-                // Override the render type buffer so that it always returns buffers with alpha blend
-                MultiBufferSource bufferSub = renderType -> {
-                    float uv = renderState.spirit.isFrozen() ? ((float)renderState.spirit.tickCount + renderState.partialTick) * 0.01F : 1;
-                    renderType = RenderType.energySwirl(renderState.spirit.isPlayer() ? playerRenderer.getTextureLocation((PlayerRenderState) innerRenderState) : render.getTextureLocation(innerRenderState), uv, uv);
-                    return bufferSource.getBuffer(renderType);
-                };
-
+                float uv = renderState.spirit.isFrozen() ? ((float)renderState.spirit.tickCount + renderState.partialTick) * 0.01F : 1;
                 try {
                     // Make new PoseStack, to fix stack invalidity when a crash occurs.
                     PoseStack poseStackInner = new PoseStack();
@@ -71,29 +86,31 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
                     poseStackInner.last().normal().set(poseStack.last().normal());
 
                     if(renderState.spirit.isPlayer()) {
-                        PlayerRenderState playerRenderState = (PlayerRenderState) innerRenderState;
+                        AvatarRenderState avatarRenderState = (AvatarRenderState) innerRenderState;
                         GameProfile gameProfile = new GameProfile(renderState.spirit.getPlayerUUID(), renderState.spirit.getPlayerName());
                         ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultTexture();
                         Minecraft minecraft = Minecraft.getInstance();
                         // Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
                         if(!checkedProfiles.containsKey(gameProfile)) {
-                            Property property = (Property) Iterables.getFirst(gameProfile.getProperties().get("textures"), (Object) null);
+                            Property property = (Property) Iterables.getFirst(gameProfile.properties().get("textures"), (Object) null);
                             if (property == null) {
                                 // The game profile enhanced with texture information.
-                                GameProfile newGameProfile = Minecraft.getInstance().getMinecraftSessionService().fetchProfile(gameProfile.getId(), true).profile();
-                                checkedProfiles.put(gameProfile, newGameProfile);
+                                Minecraft.getInstance().services().profileResolver().fetchById(gameProfile.id()).ifPresent(newGameProfile -> checkedProfiles.put(gameProfile, newGameProfile));
                             }
                         } else {
-                            PlayerSkin skin = minecraft.getSkinManager().getInsecureSkin(checkedProfiles.get(gameProfile));
-                            resourcelocation = skin.texture();
-                            playerRenderState.skin = skin;
+                            PlayerSkin skin = minecraft.getSkinManager().createLookup(checkedProfiles.get(gameProfile), false).get();
+                            resourcelocation = skin.body().texturePath();
+                            avatarRenderState.skin = skin;
+
                         }
                         playerRenderer.setPlayerTexture(resourcelocation);
                         Minecraft.getInstance().options.hideGui = true; // Disables player name tag rendering, which causes a crash due to our posestack hack.
-                        playerRenderer.render(playerRenderState, poseStackInner, bufferSub, packedLight);
+                        RenderType renderTypeOverride = RenderType.energySwirl(playerRenderer.getTextureLocation((AvatarRenderState) innerRenderState), uv, uv);
+                        playerRenderer.submit(avatarRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
                         Minecraft.getInstance().options.hideGui = false;
                     } else {
-                        render.render(innerRenderState, poseStackInner, bufferSub, packedLight);
+                        RenderType renderTypeOverride = RenderType.energySwirl(render.getTextureLocation(innerRenderState), uv, uv);
+                        render.submit(innerRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
                     }
                 } catch (Exception e) {
                     // Invalid entity, so set as swarm.
@@ -104,27 +121,30 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
     }
 
-    private PlayerRenderState getPlayerRenderState(RenderStateVengeanceSpirit renderState) {
-        PlayerRenderState playerRenderState = new PlayerRenderState();
+    private AvatarRenderState getAvatarRenderState(RenderStateVengeanceSpirit renderState) {
+        AvatarRenderState avatarRenderState = new AvatarRenderState();
 
-        playerRenderState.x = renderState.x;
-        playerRenderState.y = renderState.y;
-        playerRenderState.z = renderState.z;
-        playerRenderState.ageInTicks = renderState.ageInTicks;
-        playerRenderState.boundingBoxWidth = renderState.boundingBoxWidth;
-        playerRenderState.boundingBoxHeight = renderState.boundingBoxHeight;
-        playerRenderState.eyeHeight = renderState.eyeHeight;
-        playerRenderState.distanceToCameraSq = renderState.distanceToCameraSq;
-        playerRenderState.isInvisible = renderState.isInvisible;
-        playerRenderState.isDiscrete = renderState.isDiscrete;
-        playerRenderState.displayFireAnimation = renderState.displayFireAnimation;
-        playerRenderState.passengerOffset = renderState.passengerOffset;
-        playerRenderState.nameTag = renderState.nameTag;
-        playerRenderState.nameTagAttachment = renderState.nameTagAttachment;
-        playerRenderState.leashStates = renderState.leashStates;
-        playerRenderState.partialTick = renderState.partialTick;
+        avatarRenderState.x = renderState.x;
+        avatarRenderState.y = renderState.y;
+        avatarRenderState.z = renderState.z;
+        avatarRenderState.ageInTicks = renderState.ageInTicks;
+        avatarRenderState.boundingBoxWidth = renderState.boundingBoxWidth;
+        avatarRenderState.boundingBoxHeight = renderState.boundingBoxHeight;
+        avatarRenderState.eyeHeight = renderState.eyeHeight;
+        avatarRenderState.distanceToCameraSq = renderState.distanceToCameraSq;
+        avatarRenderState.isInvisible = renderState.isInvisible;
+        avatarRenderState.isDiscrete = renderState.isDiscrete;
+        avatarRenderState.displayFireAnimation = renderState.displayFireAnimation;
+        avatarRenderState.passengerOffset = renderState.passengerOffset;
+        avatarRenderState.nameTag = renderState.nameTag;
+        avatarRenderState.nameTagAttachment = renderState.nameTagAttachment;
+        avatarRenderState.leashStates = renderState.leashStates;
+        avatarRenderState.partialTick = renderState.partialTick;
+        avatarRenderState.bodyRot = renderState.bodyRot;
+        avatarRenderState.yRot = renderState.yRot;
+        avatarRenderState.xRot = renderState.xRot;
 
-        return playerRenderState;
+        return avatarRenderState;
     }
 
     @Override
@@ -137,9 +157,12 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         super.extractRenderState(entity, renderState, partialTick);
 
         renderState.spirit = entity;
+        renderState.bodyRot = entity.yBodyRot;
+        renderState.yRot = entity.yRotO;
+        renderState.xRot = entity.xRotO;
     }
 
-    public static class RenderPlayerSpirit extends LivingEntityRenderer<Mob, PlayerRenderState, PlayerModel> {
+    public static class RenderPlayerSpirit extends LivingEntityRenderer<Mob, AvatarRenderState, PlayerModel> {
 
         private ResourceLocation playerTexture;
 
@@ -148,14 +171,17 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
             this.addLayer(
                     new HumanoidArmorLayer<>(
                             this,
-                            new HumanoidArmorModel<>(context.bakeLayer(ModelLayers.PLAYER_INNER_ARMOR)),
-                            new HumanoidArmorModel<>(context.bakeLayer(ModelLayers.PLAYER_OUTER_ARMOR)),
+                            ArmorModelSet.bake(
+                                    ModelLayers.PLAYER_ARMOR,
+                                    context.getModelSet(),
+                                    p_446041_ -> new PlayerModel(p_446041_, false)
+                            ),
                             context.getEquipmentRenderer()
                     )
             );
             this.addLayer(new ItemInHandLayer<>(this));
             this.addLayer(new ArrowLayer<>(this, context));
-            this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
+            this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getPlayerSkinRenderCache()));
         }
 
         public void setPlayerTexture(ResourceLocation playerTexture) {
@@ -163,13 +189,99 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public PlayerRenderState createRenderState() {
-            return new PlayerRenderState();
+        public AvatarRenderState createRenderState() {
+            return new AvatarRenderState();
         }
 
         @Override
-        public ResourceLocation getTextureLocation(PlayerRenderState renderState) {
+        public ResourceLocation getTextureLocation(AvatarRenderState renderState) {
             return playerTexture;
+        }
+    }
+
+    // Override the render type buffer so that it always returns buffers with alpha blend
+    public static class SubmitNodeCollectorRenderTypeOverride implements SubmitNodeCollector {
+        private final SubmitNodeCollector submitNodeCollector;
+        private final RenderType renderTypeOverride;
+
+        public SubmitNodeCollectorRenderTypeOverride(SubmitNodeCollector submitNodeCollector, RenderType renderTypeOverride) {
+            this.submitNodeCollector = submitNodeCollector;
+            this.renderTypeOverride = renderTypeOverride;
+        }
+
+        @Override
+        public void submitHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState) {
+            this.submitNodeCollector.submitHitbox(poseStack, entityRenderState, hitboxesRenderState);
+        }
+
+        @Override
+        public void submitShadow(PoseStack poseStack, float v, List<EntityRenderState.ShadowPiece> list) {
+            this.submitNodeCollector.submitShadow(poseStack, v, list);
+        }
+
+        @Override
+        public void submitNameTag(PoseStack poseStack, @Nullable Vec3 vec3, int i, Component component, boolean b, int i1, double v, CameraRenderState cameraRenderState) {
+            this.submitNodeCollector.submitNameTag(poseStack, vec3, i, component, b, i1, v, cameraRenderState);
+        }
+
+        @Override
+        public void submitText(PoseStack poseStack, float v, float v1, FormattedCharSequence formattedCharSequence, boolean b, Font.DisplayMode displayMode, int i, int i1, int i2, int i3) {
+            this.submitNodeCollector.submitText(poseStack, v, v1, formattedCharSequence, b, displayMode, i, i1, i2, i3);
+        }
+
+        @Override
+        public void submitFlame(PoseStack poseStack, EntityRenderState entityRenderState, Quaternionf quaternionf) {
+            this.submitNodeCollector.submitFlame(poseStack, entityRenderState, quaternionf);
+        }
+
+        @Override
+        public void submitLeash(PoseStack poseStack, EntityRenderState.LeashState leashState) {
+            this.submitNodeCollector.submitLeash(poseStack, leashState);
+        }
+
+        @Override
+        public <S> void submitModel(Model<? super S> model, S s, PoseStack poseStack, RenderType renderType, int i, int i1, int i2, @Nullable TextureAtlasSprite textureAtlasSprite, int i3, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
+            this.submitNodeCollector.submitModel(model, s, poseStack, this.renderTypeOverride, i, i1, i2, textureAtlasSprite, i3, crumblingOverlay);
+        }
+
+        @Override
+        public void submitModelPart(ModelPart modelPart, PoseStack poseStack, RenderType renderType, int i, int i1, @Nullable TextureAtlasSprite textureAtlasSprite, boolean b, boolean b1, int i2, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, int i3) {
+            this.submitNodeCollector.submitModelPart(modelPart, poseStack, this.renderTypeOverride, i, i1, textureAtlasSprite, b, b1, i2, crumblingOverlay, i3);
+        }
+
+        @Override
+        public void submitBlock(PoseStack poseStack, BlockState blockState, int i, int i1, int i2) {
+            this.submitNodeCollector.submitBlock(poseStack, blockState, i, i1, i2);
+        }
+
+        @Override
+        public void submitMovingBlock(PoseStack poseStack, MovingBlockRenderState movingBlockRenderState) {
+            this.submitNodeCollector.submitMovingBlock(poseStack, movingBlockRenderState);
+        }
+
+        @Override
+        public void submitBlockModel(PoseStack poseStack, RenderType renderType, BlockStateModel blockStateModel, float v, float v1, float v2, int i, int i1, int i2) {
+            this.submitNodeCollector.submitBlockModel(poseStack, this.renderTypeOverride, blockStateModel, v, v1, v2, i, i1, i2);
+        }
+
+        @Override
+        public void submitItem(PoseStack poseStack, ItemDisplayContext itemDisplayContext, int i, int i1, int i2, int[] ints, List<BakedQuad> list, RenderType renderType, ItemStackRenderState.FoilType foilType) {
+            this.submitNodeCollector.submitItem(poseStack, itemDisplayContext, i, i1, i2, ints, list, this.renderTypeOverride, foilType);
+        }
+
+        @Override
+        public void submitCustomGeometry(PoseStack poseStack, RenderType renderType, SubmitNodeCollector.CustomGeometryRenderer customGeometryRenderer) {
+            this.submitNodeCollector.submitCustomGeometry(poseStack, this.renderTypeOverride, customGeometryRenderer);
+        }
+
+        @Override
+        public void submitParticleGroup(SubmitNodeCollector.ParticleGroupRenderer particleGroupRenderer) {
+            this.submitNodeCollector.submitParticleGroup(particleGroupRenderer);
+        }
+
+        @Override
+        public OrderedSubmitNodeCollector order(int i) {
+            return this.submitNodeCollector.order(i);
         }
     }
 

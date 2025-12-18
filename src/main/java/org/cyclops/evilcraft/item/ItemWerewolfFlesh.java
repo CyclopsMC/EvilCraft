@@ -100,8 +100,7 @@ public class ItemWerewolfFlesh extends Item {
     private boolean isOwnCanibal(ItemStack itemStack, Player player) {
         ResolvableProfile resolvableProfile = itemStack.get(DataComponents.PROFILE);
         if(resolvableProfile != null) {
-            GameProfile profile = resolvableProfile.gameProfile();
-            return player.getGameProfile().equals(profile);
+            return resolvableProfile.partialProfile().id().equals(player.getGameProfile().id());
         }
         return false;
     }
@@ -160,9 +159,9 @@ public class ItemWerewolfFlesh extends Item {
             String player = ChatFormatting.ITALIC + "None";
             ResolvableProfile resolvableProfile = itemStack.get(DataComponents.PROFILE);
             if(resolvableProfile != null) {
-                GameProfile profile = resolvableProfile.gameProfile();
-                if (profile != null && !profile.getProperties().isEmpty()) {
-                    player = profile.getName();
+                GameProfile profile = resolvableProfile.partialProfile();
+                if (profile != null && !profile.properties().isEmpty()) {
+                    player = profile.name();
                 }
             }
             tooltipAdder.accept(Component.literal("Player: ")
@@ -177,7 +176,7 @@ public class ItemWerewolfFlesh extends Item {
                 && event.getEntity().level().random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
             ServerPlayer player = (ServerPlayer) event.getEntity();
             ItemStack itemStack = new ItemStack(this);
-            itemStack.set(DataComponents.PROFILE, new ResolvableProfile(player.getGameProfile()));
+            itemStack.set(DataComponents.PROFILE, ResolvableProfile.createResolved(player.getGameProfile()));
             double x = player.getX();
             double y = player.getY();
             double z = player.getZ();

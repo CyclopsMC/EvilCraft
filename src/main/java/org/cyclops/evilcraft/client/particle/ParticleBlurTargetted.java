@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import org.cyclops.cyclopscore.client.particle.ParticleBlur;
 
 /**
@@ -14,8 +15,8 @@ public class ParticleBlurTargetted extends ParticleBlur {
     private final double targetY;
     private final double targetZ;
 
-    public ParticleBlurTargetted(ParticleBlurTargettedData data, ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
-        super(data, world, x, y, z, motionX, motionY, motionZ);
+    public ParticleBlurTargetted(ParticleBlurTargettedData data, ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, TextureAtlasSprite sprite) {
+        super(data, world, x, y, z, motionX, motionY, motionZ, sprite);
         this.targetX = data.getTargetX();
         this.targetY = data.getTargetY();
         this.targetZ = data.getTargetZ();

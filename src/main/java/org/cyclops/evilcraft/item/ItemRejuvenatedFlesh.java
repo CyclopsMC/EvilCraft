@@ -10,9 +10,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.evilcraft.core.item.ItemBloodContainer;
 
 /**
@@ -37,7 +40,7 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
     }
 
     protected boolean canEat(ItemStack itemStack) {
-        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY);
+        FluidStack fluidStack = FluidUtil.getFirstStackContained(itemStack);
         return !fluidStack.isEmpty() && fluidStack.getAmount() >= ItemRejuvenatedFleshConfig.biteUsage;
     }
 
@@ -53,8 +56,11 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
 
     @Override
     public ItemStack finishUsingItem(ItemStack itemStack, Level world, LivingEntity entity) {
-        FluidUtil.getFluidHandler(itemStack).orElseGet(null)
-                .drain(ItemRejuvenatedFleshConfig.biteUsage, IFluidHandler.FluidAction.EXECUTE);
+        try (var tx = Transaction.openRoot()) {
+            itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack))
+                    .extract(FluidResource.of(getFluid()), ItemRejuvenatedFleshConfig.biteUsage, tx);
+            tx.commit();
+        }
         if(entity instanceof Player) {
             ((Player) entity).getFoodData().eat(3, 0.5F);
         }

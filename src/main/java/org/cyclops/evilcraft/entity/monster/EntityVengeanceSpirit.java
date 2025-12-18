@@ -518,8 +518,8 @@ public class EntityVengeanceSpirit extends EntityNoMob {
      */
     public void setInnerEntity(LivingEntity innerEntity) {
         if (innerEntity instanceof Player) {
-            setPlayerId(((Player) innerEntity).getGameProfile().getId().toString());
-            setPlayerName(((Player) innerEntity).getGameProfile().getName());
+            setPlayerId(((Player) innerEntity).getGameProfile().id().toString());
+            setPlayerName(((Player) innerEntity).getGameProfile().name());
             this.data.setInnerEntityType(EntityType.ZOMBIE);
         } else {
             this.data.setInnerEntityType(innerEntity.getType());
@@ -690,7 +690,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     public static EntityVengeanceSpirit fromNBT(Level level, CompoundTag spiritTag) {
         EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(level);
-        IModHelpers.get().getMinecraftHelpers().valueInputFromNbt(spiritTag, level.registryAccess(), spirit::readAdditionalSaveData);
+        IModHelpers.get().getMinecraftHelpers().valueInputFromNbtVoid(spiritTag, level.registryAccess(), spirit::readAdditionalSaveData);
         return spirit;
     }
 

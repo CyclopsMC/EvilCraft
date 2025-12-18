@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.cyclops.cyclopscore.client.particle.ParticleBlur;
@@ -18,8 +19,8 @@ public class ParticleBlurTargettedEntity extends ParticleBlur {
     @Nullable
     private final LivingEntity entity;
 
-    public ParticleBlurTargettedEntity(ParticleBlurTargettedEntityData data, ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
-        super(data, world, x, y, z, motionX, motionY, motionZ);
+    public ParticleBlurTargettedEntity(ParticleBlurTargettedEntityData data, ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, TextureAtlasSprite sprite) {
+        super(data, world, x, y, z, motionX, motionY, motionZ, sprite);
         Entity entityUnknown = world.getEntity(data.getEntityId());
         this.entity = entityUnknown != null ? (LivingEntity) entityUnknown : null;
     }

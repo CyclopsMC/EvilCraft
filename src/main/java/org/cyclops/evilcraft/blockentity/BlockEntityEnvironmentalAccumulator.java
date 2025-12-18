@@ -26,7 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
@@ -130,7 +130,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
         @Override
         public void populate() {
-            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> new InvWrapper(blockEntity.getInventory()));
+            add(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, (blockEntity, direction) -> VanillaContainerWrapper.of(blockEntity.getInventory()));
         }
     }
 

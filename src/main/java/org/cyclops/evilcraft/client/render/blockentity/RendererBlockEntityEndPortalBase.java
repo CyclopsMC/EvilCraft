@@ -2,46 +2,47 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.joml.Matrix4f;
 
 /**
- * Copy of EndPortalTileEntityRenderer without strict type param
+ * Copy of AbstractEndPortalRenderer without strict type param
  * @author rubensworks
  */
-public abstract class RendererBlockEntityEndPortalBase<T extends BlockEntity> implements BlockEntityRenderer<T> {
+public abstract class RendererBlockEntityEndPortalBase<T extends BlockEntity, S extends BlockEntityRenderState> implements BlockEntityRenderer<T, S> {
 
     public RendererBlockEntityEndPortalBase(BlockEntityRendererProvider.Context context) {
 
     }
 
-    public void render(T p_112650_, float p_112651_, PoseStack p_112652_, MultiBufferSource p_112653_, int p_112654_, int p_112655_) {
-        Matrix4f matrix4f = p_112652_.last().pose();
-        this.renderCube(p_112650_, matrix4f, p_112653_.getBuffer(this.renderType()));
+    public void submit(S p_446622_, PoseStack p_446303_, SubmitNodeCollector p_447279_, CameraRenderState p_451548_) {
+        p_447279_.submitCustomGeometry(p_446303_, this.renderType(), (p_446067_, p_445990_) -> this.renderCube(p_446067_.pose(), p_445990_));
     }
 
-    public void renderCube(T p_173691_, Matrix4f p_173692_, VertexConsumer p_173693_) {
+    protected void renderCube(Matrix4f pose, VertexConsumer consumer) {
         float f = this.getOffsetDown();
         float f1 = this.getOffsetUp();
-        this.renderFace(p_173691_, p_173692_, p_173693_, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, Direction.SOUTH);
-        this.renderFace(p_173691_, p_173692_, p_173693_, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, Direction.NORTH);
-        this.renderFace(p_173691_, p_173692_, p_173693_, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.EAST);
-        this.renderFace(p_173691_, p_173692_, p_173693_, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.WEST);
-        this.renderFace(p_173691_, p_173692_, p_173693_, 0.0F, 1.0F, f, f, 0.0F, 0.0F, 1.0F, 1.0F, Direction.DOWN);
-        this.renderFace(p_173691_, p_173692_, p_173693_, 0.0F, 1.0F, f1, f1, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
+        this.renderFace(pose, consumer, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, Direction.SOUTH);
+        this.renderFace(pose, consumer, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, Direction.NORTH);
+        this.renderFace(pose, consumer, 1.0F, 1.0F, 1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.EAST);
+        this.renderFace(pose, consumer, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 0.0F, Direction.WEST);
+        this.renderFace(pose, consumer, 0.0F, 1.0F, f, f, 0.0F, 0.0F, 1.0F, 1.0F, Direction.DOWN);
+        this.renderFace(pose, consumer, 0.0F, 1.0F, f1, f1, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
     }
 
-    public void renderFace(T p_173695_, Matrix4f p_173696_, VertexConsumer p_173697_, float p_173698_, float p_173699_, float p_173700_, float p_173701_, float p_173702_, float p_173703_, float p_173704_, float p_173705_, Direction p_173706_) {
-        if (shouldRenderFace(p_173706_)) {
-            p_173697_.addVertex(p_173696_, p_173698_, p_173700_, p_173702_);
-            p_173697_.addVertex(p_173696_, p_173699_, p_173700_, p_173703_);
-            p_173697_.addVertex(p_173696_, p_173699_, p_173701_, p_173704_);
-            p_173697_.addVertex(p_173696_, p_173698_, p_173701_, p_173705_);
+    protected void renderFace(Matrix4f pose, VertexConsumer consumer, float x1, float x2, float y1, float y2, float z1, float z2, float z3, float z4, Direction direction) {
+        if (shouldRenderFace(direction)) {
+            consumer.addVertex(pose, x1, y1, z1);
+            consumer.addVertex(pose, x2, y1, z2);
+            consumer.addVertex(pose, x2, y2, z3);
+            consumer.addVertex(pose, x1, y2, z4);
         }
 
     }

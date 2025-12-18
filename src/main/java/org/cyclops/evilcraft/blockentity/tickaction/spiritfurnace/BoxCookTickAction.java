@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.blockentity.tickaction.spiritfurnace;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -23,7 +22,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -31,7 +29,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.common.util.FakePlayerFactory;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.item.WeightedItemStack;
@@ -44,10 +43,10 @@ import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
 import org.cyclops.evilcraft.core.helper.MathHelpers;
 
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * {@link ITickAction} that is able to cook boxes with spirits.
@@ -149,12 +148,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
 
     protected ItemStack getPlayerSkull(UUID playerId) {
         ItemStack itemStack = new ItemStack(Items.PLAYER_HEAD);
-        try {
-            Optional<GameProfile> optionalGameProfile = SkullBlockEntity.fetchGameProfile(playerId).get(1, TimeUnit.SECONDS);
-            optionalGameProfile.ifPresent(gameProfile -> itemStack.set(DataComponents.PROFILE, new ResolvableProfile(gameProfile)));
-        } catch (InterruptedException | ExecutionException | NullPointerException | TimeoutException e) {
-            e.printStackTrace();
-        }
+        itemStack.set(DataComponents.PROFILE, ResolvableProfile.createUnresolved(playerId));
         return itemStack;
     }
 
@@ -310,7 +304,10 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
     public void onTick(BlockEntitySpiritFurnace tile, ItemStack itemStack, int slot,
                        int tick) {
         // Drain the tank a bit.
-        tile.getTank().drain(getRequiredMb(tile, tick), IFluidHandler.FluidAction.EXECUTE);
+        try (var tx = Transaction.openRoot()) {
+            tile.getTank().extract(FluidResource.of(tile.getTank().getAcceptedFluid()), getRequiredMb(tile, tick), tx);
+            tx.commit();
+        }
         if(tick >= getRequiredTicks(tile, slot, tick)) {
             doNextDrop(tile);
         }

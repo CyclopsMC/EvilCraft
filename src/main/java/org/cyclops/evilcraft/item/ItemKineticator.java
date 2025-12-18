@@ -21,8 +21,12 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
@@ -118,10 +122,10 @@ public class ItemKineticator extends ItemBloodContainer {
 
     @SuppressWarnings("unchecked")
     private void kineticate(ItemStack itemStack, Level world, Entity entity) {
-        if(ItemHelpers.isActivated(itemStack) &&(FluidUtil.getFluidContained(itemStack) != null ||
+        if(ItemHelpers.isActivated(itemStack) &&(!FluidUtil.getFirstStackContained(itemStack).isEmpty() ||
                 (entity instanceof Player && canConsume(1, itemStack, (Player) entity))) &&
                 (entity != null && !entity.isCrouching())) {
-            IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
+            ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
             boolean repelling = isRepelling(itemStack);
             boolean isPlayer = entity instanceof Player;
 
@@ -167,7 +171,7 @@ public class ItemKineticator extends ItemBloodContainer {
 
                         double d = (double) Mth.sqrt((float) (dx * dx + dy * dy + dz * dz));
                         int usage = (int) Math.round(d * USAGE_PER_D);
-                        if((repelling || d > 0.5D) && (usage == 0 || (fluidHandler.drain(usage, IFluidHandler.FluidAction.SIMULATE) != null) ||
+                        if((repelling || d > 0.5D) && (usage == 0 || (canDrain(fluidHandler, usage)) ||
                                 (isPlayer && this.canConsume(usage, itemStack, (Player) entity)))) {
                             double m = 1 / (2 * (Math.max(1, d)));
                             dx *= m;
@@ -190,13 +194,22 @@ public class ItemKineticator extends ItemBloodContainer {
                                 if(isPlayer) {
                                     this.consume(usage, itemStack, (Player) entity);
                                 } else {
-                                    fluidHandler.drain(usage, IFluidHandler.FluidAction.EXECUTE);
+                                    try (var tx = Transaction.openRoot()) {
+                                        fluidHandler.extract(fluidHandler.getResource(0), usage, tx);
+                                        tx.commit();
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    protected boolean canDrain(ResourceHandler<FluidResource> fluidHandler, int usage) {
+        try (var tx = Transaction.openRoot()) {
+            return fluidHandler.extract(fluidHandler.getResource(0), usage, tx) > 0;
         }
     }
 

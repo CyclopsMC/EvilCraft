@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.blockentity.tickaction.sanguinaryenvironmentalaccumulator;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulatorConfig;
@@ -39,7 +40,7 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
                             if(production.getCount() + willProduce.getCount() <= production.getMaxStackSize())
                                 precondition = true;
                         }
-                        return precondition && tile.canWork() && tile.getVirtualTank().getFluidAmount() >= getRequiredFluidAmount(tile, recipe);
+                        return precondition && tile.canWork() && tile.getVirtualTank().getAmountAsInt(0) >= getRequiredFluidAmount(tile, recipe);
                     })
                     .orElse(false);
         }
@@ -54,7 +55,10 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
             ItemStack result = recipe.assemble(tile.getInventory(), tile.getLevel().registryAccess());
             if(addToProduceSlot(tile, result)) {
                 tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
-                tile.getVirtualTank().drain(getRequiredFluidAmount(tile, recipe), IFluidHandler.FluidAction.EXECUTE);
+                try (var tx = Transaction.openRoot()) {
+                    tile.getVirtualTank().extract(FluidResource.of(tile.getVirtualTank().getFluid()), getRequiredFluidAmount(tile, recipe), tx);
+                    tx.commit();
+                }
             }
         }
     }

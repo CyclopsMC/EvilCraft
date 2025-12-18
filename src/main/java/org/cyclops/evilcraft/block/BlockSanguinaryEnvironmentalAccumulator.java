@@ -48,7 +48,7 @@ public class BlockSanguinaryEnvironmentalAccumulator extends BlockWithEntityGui 
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get(), level.isClientSide ? new BlockEntitySanguinaryEnvironmentalAccumulator.TickerClient() : new BlockEntitySanguinaryEnvironmentalAccumulator.TickerServer<BlockEntitySanguinaryEnvironmentalAccumulator, MutableInt>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SANGUINARY_ENVIRONMENTAL_ACCUMULATOR.get(), level.isClientSide() ? new BlockEntitySanguinaryEnvironmentalAccumulator.TickerClient() : new BlockEntitySanguinaryEnvironmentalAccumulator.TickerServer<BlockEntitySanguinaryEnvironmentalAccumulator, MutableInt>());
     }
 
     @Override

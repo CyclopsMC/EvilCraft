@@ -86,8 +86,8 @@ public class EntityLightningBombPrimed extends PrimedTnt {
         } else {
             Random rand = new Random();
             for (int i = 0; i < 32; ++i) {
-                Minecraft.getInstance().levelRenderer.addParticle(
-                        ParticleTypes.CRIT, false,
+                Minecraft.getInstance().level.addParticle(
+                        ParticleTypes.CRIT,
                         x, y + rand.nextDouble() * 2.0D, z,
                         rand.nextGaussian(), 0.0D, rand.nextGaussian());
             }

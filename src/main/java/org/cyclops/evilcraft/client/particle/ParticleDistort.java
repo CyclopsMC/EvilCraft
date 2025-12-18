@@ -1,9 +1,8 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
 
@@ -12,10 +11,10 @@ import org.cyclops.evilcraft.item.ItemMaceOfDistortion;
  * @author rubensworks
  *
  */
-public class ParticleDistort extends TextureSheetParticle {
+public class ParticleDistort extends SingleQuadParticle {
 
-    public ParticleDistort(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale, SpriteSet sprite) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public ParticleDistort(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, float scale, TextureAtlasSprite sprite) {
+        super(world, x, y, z, motionX, motionY, motionZ, sprite);
 
         quadSize = scale;
         alpha = 0.3F;
@@ -27,8 +26,8 @@ public class ParticleDistort extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Override

@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
@@ -132,7 +132,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     }
 
     @Override
-    public List<BakedQuad> handleItemState(@Nullable ItemStack stack, @Nullable Level level, @Nullable LivingEntity entity) {
+    public List<BakedQuad> handleItemState(@Nullable ItemStack stack, @Nullable Level level, @Nullable ItemOwner entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
         BlockModelPart blockModelPart = handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.get().getDisplayStandType(stack));
         if (blockModelPart != null) {

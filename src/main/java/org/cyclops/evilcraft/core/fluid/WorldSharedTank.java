@@ -5,6 +5,8 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 
@@ -56,12 +58,12 @@ public class WorldSharedTank extends SingleUseTank {
     }
 
     protected void readWorldFluid() {
-        this.fluid = WorldSharedTankCache.getInstance().getTankContent(tankID);
+        this.stacks.set(0, WorldSharedTankCache.getInstance().getTankContent(tankID));
     }
 
     protected void writeWorldFluid() {
         if (!IModHelpers.get().getMinecraftHelpers().isClientSideThread()) {
-            WorldSharedTankCache.getInstance().setTankContent(tankID, this.fluid);
+            WorldSharedTankCache.getInstance().setTankContent(tankID, this.stacks.get(0));
         }
     }
 
@@ -84,39 +86,20 @@ public class WorldSharedTank extends SingleUseTank {
     }
 
     @Override
-    public int getSpace() {
-        readWorldFluid();
-        return super.getSpace();
+    protected void onContentsChanged(int index, FluidStack previousContents) {
+        writeWorldFluid();
     }
 
     @Override
-    public int fill(FluidStack resource, FluidAction action) {
+    public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
         readWorldFluid();
-        int ret = super.fill(resource, action);
-        if (ret > 0 && action.execute()) {
-            writeWorldFluid();
-        }
-        return ret;
+        return super.insert(index, resource, amount, transaction);
     }
 
     @Override
-    public FluidStack drain(int maxDrain, FluidAction action) {
+    public int extract(int index, FluidResource resource, int amount, TransactionContext transaction) {
         readWorldFluid();
-        FluidStack ret = super.drain(maxDrain, action);
-        if (!ret.isEmpty() && action.execute()) {
-            writeWorldFluid();
-        }
-        return ret;
-    }
-
-    @Override
-    public FluidStack drain(FluidStack resource, FluidAction action) {
-        readWorldFluid();
-        FluidStack ret = super.drain(resource, action);
-        if ( !ret.isEmpty() && action.execute()) {
-            writeWorldFluid();
-        }
-        return ret;
+        return super.extract(index, resource, amount, transaction);
     }
 
     /**

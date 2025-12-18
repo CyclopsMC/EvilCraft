@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.core.entity.item;
 
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
@@ -23,15 +22,5 @@ public abstract class EntityItemExtended extends ItemEntity {
         this.setDeltaMovement(original.getDeltaMovement());
         this.setPos(original.getX(), original.getY(), original.getZ());
         this.setItem(original.getItem());
-    }
-
-    @Override
-    public ItemEntity copy() {
-        EntityItemExtended entity = (EntityItemExtended) getType().create(level(), EntitySpawnReason.LOAD);
-        entity.setItem(this.getItem().copy());
-        entity.copyPosition(this);
-        //entity.age = this.getAge();
-        //entity.hoverStart = this.hoverStart;
-        return entity;
     }
 }

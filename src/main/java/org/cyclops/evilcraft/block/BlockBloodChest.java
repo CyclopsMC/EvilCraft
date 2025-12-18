@@ -51,7 +51,7 @@ public class BlockBloodChest extends BlockWithEntityGuiTank {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_CHEST.get(), level.isClientSide ? new BlockEntityBloodChest.TickerClient() : new BlockEntityTickingTankInventory.TickerServer<>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_CHEST.get(), level.isClientSide() ? new BlockEntityBloodChest.TickerClient() : new BlockEntityTickingTankInventory.TickerServer<>());
     }
 
     @Override

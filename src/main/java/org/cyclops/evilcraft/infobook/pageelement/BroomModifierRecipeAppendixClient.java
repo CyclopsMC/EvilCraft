@@ -45,6 +45,6 @@ public class BroomModifierRecipeAppendixClient extends RecipeAppendixClient<Broo
     protected void drawString(ScreenInfoBook gui, GuiGraphics guiGraphics, String string, int x, int y) {
         Font fontRenderer = gui.getFont();
         MultiLineLabel.create(fontRenderer, Component.literal(string), 200)
-                .renderLeftAlignedNoShadow(guiGraphics, x, y, 9, ARGB.opaque(0));
+                .render(guiGraphics, MultiLineLabel.Align.LEFT, x, y, 9, false, ARGB.opaque(0));
     }
 }

@@ -6,13 +6,15 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import org.cyclops.cyclopscore.RegistryEntries;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -27,7 +29,8 @@ public class ItemCreativeBloodDropConfig extends ItemConfigCommon<IModBase> {
         super(
                 EvilCraft._instance,
             "creative_blood_drop",
-                (eConfig, properties) -> new ItemCreativeBloodDrop(properties)
+                (eConfig, properties) -> new ItemCreativeBloodDrop(properties
+                        .component(RegistryEntries.COMPONENT_FLUID_CONTENT, SimpleFluidContent.copyOf(new FluidStack(org.cyclops.evilcraft.RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE))))
         );
         EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
@@ -41,9 +44,7 @@ public class ItemCreativeBloodDropConfig extends ItemConfigCommon<IModBase> {
 
     protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
         if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab()) {
-            for (ItemStack itemStack : dynamicCreativeTabEntries()) {
-                event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            }
+            event.accept(dynamicCreativeTabEntries().stream().findFirst().get(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }
 
@@ -52,21 +53,20 @@ public class ItemCreativeBloodDropConfig extends ItemConfigCommon<IModBase> {
     }
 
     protected void registerCapability(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> new FluidHandlerItemCapacity(stack, ItemCreativeBloodDrop.MB_FILL_PERTICK) {
+        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> new FluidHandlerItemCapacity(context, Integer.MAX_VALUE) {
             @Override
-            public FluidStack getFluid() {
-                return new FluidStack(((ItemCreativeBloodDrop) stack.getItem()).getFluid(), ItemCreativeBloodDrop.MB_FILL_PERTICK / 2);
-            }
-
-            @Nonnull
-            @Override
-            public FluidStack drain(int maxDrain, IFluidHandler.FluidAction action) {
-                return new FluidStack(getFluid().getFluid(), maxDrain);
+            public long getAmountAsLong(int index) {
+                return ItemCreativeBloodDrop.MB_FILL_PERTICK / 2;
             }
 
             @Override
-            public int fill(FluidStack resource, IFluidHandler.FluidAction doFill) {
-                return resource.getAmount();
+            public int extract(int index, FluidResource resource, int amount, TransactionContext transaction) {
+                return amount;
+            }
+
+            @Override
+            public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
+                return amount;
             }
         }, getInstance());
     }

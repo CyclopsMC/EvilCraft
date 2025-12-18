@@ -28,8 +28,8 @@ public class BlockFluidPoison extends LiquidBlock {
     }
 
     @Override
-    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
-        super.entityInside(state, level, pos, entity, effectApplier);
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean intersects) {
+        super.entityInside(state, level, pos, entity, effectApplier, intersects);
         if(entity instanceof LivingEntity && IModHelpers.get().getWorldHelpers().efficientTick(level, (POISON_DURATION / 2) * 20)) {
             ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.POISON, POISON_DURATION * 20, 1));
         }

@@ -7,10 +7,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -47,8 +48,10 @@ public class GameTestsItemStacking {
         // Add items to hopper
         HopperBlockEntity hopper = helper.getBlockEntity(POS.above(), HopperBlockEntity.class);
         ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-        fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000), IFluidHandler.FluidAction.EXECUTE);
+        ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
+        try (var tx = Transaction.openRoot()) {
+            fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+        }
         hopper.setItem(0, itemStack.copy());
         hopper.setItem(1, itemStack.copy());
         hopper.setItem(2, itemStack.copy());
@@ -71,9 +74,11 @@ public class GameTestsItemStacking {
         ItemStack itemStack1 = new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
         ItemStack itemStack2 = new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
         ItemStack itemStack3 = new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack2).orElse(null);
-        fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000), IFluidHandler.FluidAction.EXECUTE);
-        fluidHandler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
+        ResourceHandler<FluidResource> fluidHandler = itemStack2.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack2));
+        try (var tx = Transaction.openRoot()) {
+            fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+            fluidHandler.extract(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+        }
         hopper.setItem(0, itemStack1);
         hopper.setItem(1, itemStack2);
         hopper.setItem(2, itemStack3);
@@ -94,8 +99,10 @@ public class GameTestsItemStacking {
         // Add items to hopper
         HopperBlockEntity hopper = helper.getBlockEntity(POS.above(), HopperBlockEntity.class);
         ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-        fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000), IFluidHandler.FluidAction.EXECUTE);
+        ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
+        try (var tx = Transaction.openRoot()) {
+            fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+        }
         ItemHelpers.toggleActivation(itemStack);
         hopper.setItem(0, itemStack.copy());
         hopper.setItem(1, itemStack.copy());
@@ -158,8 +165,10 @@ public class GameTestsItemStacking {
         // Add items to hopper
         HopperBlockEntity hopper = helper.getBlockEntity(POS.above(), HopperBlockEntity.class);
         ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_DARK_TANK);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-        fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000), IFluidHandler.FluidAction.EXECUTE);
+        ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
+        try (var tx = Transaction.openRoot()) {
+            fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+        }
         hopper.setItem(0, itemStack.copy());
         hopper.setItem(1, itemStack.copy());
         hopper.setItem(2, itemStack.copy());
@@ -182,9 +191,11 @@ public class GameTestsItemStacking {
         ItemStack itemStack1 = new ItemStack(RegistryEntries.ITEM_DARK_TANK);
         ItemStack itemStack2 = new ItemStack(RegistryEntries.ITEM_DARK_TANK);
         ItemStack itemStack3 = new ItemStack(RegistryEntries.ITEM_DARK_TANK);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack2).orElse(null);
-        fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000), IFluidHandler.FluidAction.EXECUTE);
-        fluidHandler.drain(1000, IFluidHandler.FluidAction.EXECUTE);
+        ResourceHandler<FluidResource> fluidHandler = itemStack2.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack2));
+        try (var tx = Transaction.openRoot()) {
+            fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+            fluidHandler.extract(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+        }
         hopper.setItem(0, itemStack1);
         hopper.setItem(1, itemStack2);
         hopper.setItem(2, itemStack3);
@@ -205,8 +216,10 @@ public class GameTestsItemStacking {
         // Add items to hopper
         HopperBlockEntity hopper = helper.getBlockEntity(POS.above(), HopperBlockEntity.class);
         ItemStack itemStack = new ItemStack(RegistryEntries.ITEM_DARK_TANK);
-        IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-        fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000), IFluidHandler.FluidAction.EXECUTE);
+        ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
+        try (var tx = Transaction.openRoot()) {
+            fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), 1000, tx);
+        }
         ItemHelpers.toggleActivation(itemStack);
         hopper.setItem(0, itemStack.copy());
         hopper.setItem(1, itemStack.copy());

@@ -24,7 +24,7 @@ public class BlockGemStoneTorchWallConfig extends BlockConfigCommon<IModBase> {
                 EvilCraft._instance,
             "gem_stone_torch_wall",
                 (eConfig, properties) -> new WallTorchBlock(ParticleTypes.FLAME, properties
-                        .noCollission()
+                        .noCollision()
                         .strength(0)
                         .lightLevel((state) -> 14)
                         .sound(SoundType.WOOD)),

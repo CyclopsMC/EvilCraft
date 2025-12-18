@@ -58,7 +58,7 @@ public class BlockSpiritFurnace extends BlockWithEntityGuiTank implements CubeDe
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SPIRIT_FURNACE.get(), level.isClientSide ? new BlockEntitySpiritFurnace.TickerClient<>() : new BlockEntitySpiritFurnace.TickerServer<BlockEntitySpiritFurnace, MutableDouble>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_SPIRIT_FURNACE.get(), level.isClientSide() ? new BlockEntitySpiritFurnace.TickerClient<>() : new BlockEntitySpiritFurnace.TickerServer<BlockEntitySpiritFurnace, MutableDouble>());
     }
 
     @Override

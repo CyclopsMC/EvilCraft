@@ -33,7 +33,7 @@ public class DegradationExecutor {
      * Execute a random {@link IDegradationEffect} if the tick is at the correct value that
      * as defined in {@link DegradationExecutor#getTickInterval()}. Each time this method
      * is called, the tick is increased.
-     * @param isClientSide True for clients, false for servers.
+     * @param isClientSide() True for clients, false for servers.
      * @return If a random effect was executed, can be false if the tick is too small or the
      * randomly chosen effect can not be run.
      */

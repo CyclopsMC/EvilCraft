@@ -108,6 +108,7 @@ public class RegistryEntries {
     public static final DeferredHolder<Item, Item> ITEM_VENGEANCE_RING = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:vengeance_ring"));
     public static final DeferredHolder<Item, Item> ITEM_WEATHER_CONTAINER = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:weather_container"));
     public static final DeferredHolder<Item, Item> ITEM_ETERNAL_WATER = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:bucket_eternal_water"));
+    public static final DeferredHolder<Item, Item> ITEM_CREATIVE_BLOOD_DROP = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:creative_blood_drop"));
 
     public static final DeferredHolder<Item, Item> ITEM_WEREWOLF_BONE = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:werewolf_bone"));
     public static final DeferredHolder<Item, Item> ITEM_WEREWOLF_FUR = DeferredHolder.create(Registries.ITEM, ResourceLocation.parse("evilcraft:werewolf_fur"));

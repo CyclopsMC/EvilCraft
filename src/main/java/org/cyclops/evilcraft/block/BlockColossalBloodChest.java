@@ -65,7 +65,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST.get(), level.isClientSide ? new BlockEntityColossalBloodChest.TickerClient() : new BlockEntityColossalBloodChest.TickerServer());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_COLOSSAL_BLOOD_CHEST.get(), level.isClientSide() ? new BlockEntityColossalBloodChest.TickerClient() : new BlockEntityColossalBloodChest.TickerServer());
     }
 
     @Override
@@ -170,7 +170,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
      * @param player The player.
      */
     public static void addPlayerChatError(Level world, BlockPos blockPos, Player player, InteractionHand hand) {
-        if(hand == InteractionHand.MAIN_HAND && !world.isClientSide && player.getItemInHand(hand).isEmpty()) {
+        if(hand == InteractionHand.MAIN_HAND && !world.isClientSide() && player.getItemInHand(hand).isEmpty()) {
             DetectionResult result = BlockEntityColossalBloodChest.getCubeDetector().detect(world, blockPos, null, false);
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());

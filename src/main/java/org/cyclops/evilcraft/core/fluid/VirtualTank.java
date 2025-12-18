@@ -1,18 +1,17 @@
 package org.cyclops.evilcraft.core.fluid;
 
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.IFluidTank;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.helper.IModHelpers;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /**
  * A tank that acts as a proxy to a collection of other tanks.
  * @author Ruben Taelman
  */
-public class VirtualTank implements IFluidTank {
+public class VirtualTank implements ResourceHandler<FluidResource> {
 
     private final ITankProvider tankProvider;
     private final boolean spreadEvenly;
@@ -27,23 +26,22 @@ public class VirtualTank implements IFluidTank {
         this.spreadEvenly = spreadEvenly;
     }
 
-    protected IFluidHandler[] getTanks() {
-        IFluidHandler[] tanks = tankProvider.getVirtualTankChildren();
+    protected ResourceHandler<FluidResource>[] getTanks() {
+        ResourceHandler<FluidResource>[] tanks = tankProvider.getVirtualTankChildren();
         if(tanks == null) {
-            tanks = new IFluidHandler[0];
+            tanks = new ResourceHandler[0];
         }
         return tanks;
     }
 
-    @Override
     public FluidStack getFluid() {
         if(isSpreadEvenly()) {
             FluidStack minFluid = FluidStack.EMPTY;
             int min = Integer.MAX_VALUE;
-            for (IFluidHandler tank : getTanks()) {
-                int tanks = tank.getTanks();
+            for (ResourceHandler<FluidResource> tank : getTanks()) {
+                int tanks = tank.size();
                 for (int i = 0; i < tanks; i++) {
-                    FluidStack tankFluid = tank.getFluidInTank(i);
+                    FluidStack tankFluid = tank.getResource(i).toStack(tank.getAmountAsInt(i));
                     if (!tankFluid.isEmpty()) {
                         if(tankFluid.getAmount() < min) {
                             min = tankFluid.getAmount();
@@ -55,10 +53,10 @@ public class VirtualTank implements IFluidTank {
             return minFluid.isEmpty() ? FluidStack.EMPTY : new FluidStack(minFluid.getFluid(), min * getTanks().length);
         } else {
             FluidStack total = FluidStack.EMPTY;
-            for (IFluidHandler tank : getTanks()) {
-                int tanks = tank.getTanks();
+            for (ResourceHandler<FluidResource> tank : getTanks()) {
+                int tanks = tank.size();
                 for (int i = 0; i < tanks; i++) {
-                    FluidStack tankFluid = tank.getFluidInTank(i);
+                    FluidStack tankFluid = tank.getResource(i).toStack(tank.getAmountAsInt(i));
                     if (!tankFluid.isEmpty()) {
                         if (total.isEmpty()) {
                             total = tankFluid.copy();
@@ -73,44 +71,52 @@ public class VirtualTank implements IFluidTank {
     }
 
     @Override
-    public int getFluidAmount() {
+    public int size() {
+        return 1;
+    }
+
+    @Override
+    public FluidResource getResource(int index) {
+        return FluidResource.of(getFluid());
+    }
+
+    @Override
+    public long getAmountAsLong(int i) {
         return getFluid().getAmount();
     }
 
     @Override
-    public int getCapacity() {
-        int total = 0;
-        for (IFluidHandler tank : getTanks()) {
-            int tanks = tank.getTanks();
+    public long getCapacityAsLong(int index, FluidResource resource) {
+        long total = 0;
+        for (ResourceHandler<FluidResource> tank : getTanks()) {
+            int tanks = tank.size();
             for (int i = 0; i < tanks; i++) {
-                total = IModHelpers.get().getBaseHelpers().addSafe(total, tank.getTankCapacity(i));
+                total += tank.getCapacityAsLong(i, FluidResource.EMPTY);
             }
         }
         return total;
     }
 
     @Override
-    public boolean isFluidValid(FluidStack stack) {
+    public boolean isValid(int index, FluidResource resource) {
         return true;
     }
 
     @Override
-    public int fill(FluidStack resource, IFluidHandler.FluidAction action) {
-        FluidStack toFill = resource.copy();
+    public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
+        int toFill = amount;
         int totalFilled = 0;
         int tanks = getTanks().length;
-        IFluidHandler[] tanksArray = getTanks();
+        ResourceHandler<FluidResource>[] tanksArray = getTanks();
         for (int i = 0; i < tanks; i++) {
-            IFluidHandler tank = tanksArray[i];
+            ResourceHandler<FluidResource> tank = tanksArray[i];
             if (isSpreadEvenly()) {
-                toFill = resource.copy();
-                resource.setAmount(resource.getAmount() / tanks + ((i <= resource.getAmount() % tanks) ? 1 : 0));
+                toFill = amount / tanks + ((i <= amount % tanks) ? 1 : 0);
             }
-            int filled = tank.fill(toFill, action);
-            toFill = toFill.copy();
-            toFill.setAmount(toFill.getAmount() - filled);
+            int filled = tank.insert(resource, toFill, transaction);
+            toFill -= filled;
             totalFilled += filled;
-            if (totalFilled == resource.getAmount()) {
+            if (totalFilled == amount) {
                 return totalFilled;
             }
         }
@@ -122,25 +128,21 @@ public class VirtualTank implements IFluidTank {
     }
 
     @Override
-    public FluidStack drain(int maxDrain, IFluidHandler.FluidAction action) {
-        int toDrain = maxDrain;
-        FluidStack totalDrained = FluidStack.EMPTY;
+    public int extract(int index, FluidResource resource, int amount, TransactionContext transaction) {
+        int toDrain = amount;
+        int totalDrained = 0;
         int tanks = getTanks().length;
-        IFluidHandler[] tanksArray = getTanks();
+        ResourceHandler<FluidResource>[] tanksArray = getTanks();
         for (int i = 0; i < tanks; i++) {
             if (isSpreadEvenly()) {
-                toDrain = maxDrain / tanks + ((i <= maxDrain % tanks) ? 1 : 0);
+                toDrain = amount / tanks + ((i <= amount % tanks) ? 1 : 0);
             }
-            IFluidHandler tank = tanksArray[i];
-            FluidStack drained = tank.drain(toDrain, action);
-            if (!drained.isEmpty()) {
-                toDrain -= drained.getAmount();
-                if (totalDrained.isEmpty()) {
-                    totalDrained = drained;
-                } else {
-                    totalDrained.setAmount(totalDrained.getAmount() + drained.getAmount());;
-                }
-                if (totalDrained.getAmount() == maxDrain) {
+            ResourceHandler<FluidResource> tank = tanksArray[i];
+            int drained = tank.extract(resource, toDrain, transaction);
+            if (drained > 0) {
+                toDrain -= drained;
+                totalDrained += drained;
+                if (totalDrained == amount) {
                     return totalDrained;
                 }
             }
@@ -148,15 +150,9 @@ public class VirtualTank implements IFluidTank {
         return totalDrained;
     }
 
-    @Nonnull
-    @Override
-    public FluidStack drain(FluidStack resource, IFluidHandler.FluidAction action) {
-        return drain(resource.getAmount(), action);
-    }
-
     public interface ITankProvider {
 
-        public @Nullable IFluidHandler[] getVirtualTankChildren();
+        public @Nullable ResourceHandler<FluidResource>[] getVirtualTankChildren();
 
     }
 

@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.ExtendedDamageSources;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -67,8 +67,11 @@ public class BlockSpikedPlate extends BlockPressurePlate {
             BlockEntity tile = world.getBlockEntity(blockPos.offset(0, -1, 0));
             if(tile != null && tile instanceof BlockEntitySanguinaryPedestal) {
                 int amount = Mth.floor(damage * (float) BlockSpikedPlateConfig.mobMultiplier);
-                ((BlockEntitySanguinaryPedestal) tile).getBonusFluidHandler()
-                        .fill(new FluidStack(RegistryEntries.FLUID_BLOOD, amount), IFluidHandler.FluidAction.EXECUTE);
+                try (var tx = Transaction.openRoot()) {
+                    ((BlockEntitySanguinaryPedestal) tile).getBonusFluidHandler()
+                            .insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), amount, tx);
+                    tx.commit();
+                }
             }
             return true;
         }

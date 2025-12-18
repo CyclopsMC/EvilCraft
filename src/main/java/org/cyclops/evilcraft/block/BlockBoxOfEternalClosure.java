@@ -75,7 +75,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE.get(), level.isClientSide ? new BlockEntityBoxOfEternalClosure.TickerClient() : new BlockEntityBoxOfEternalClosure.TickerServer());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BOX_OF_ETERNAL_CLOSURE.get(), level.isClientSide() ? new BlockEntityBoxOfEternalClosure.TickerClient() : new BlockEntityBoxOfEternalClosure.TickerServer());
     }
 
     @Override
@@ -218,13 +218,13 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
+    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos, Direction direction) {
         if(world.getBlockEntity(blockPos) != null) {
             BlockEntityBoxOfEternalClosure tile = (BlockEntityBoxOfEternalClosure) world.getBlockEntity(blockPos);
             if(tile.hasSpirit()) {
                 return 15;
             }
         }
-        return super.getAnalogOutputSignal(blockState, world, blockPos);
+        return super.getAnalogOutputSignal(blockState, world, blockPos, direction);
     }
 }

@@ -115,7 +115,7 @@ public class FartPacket extends PlayerPositionPacket<FartPacket> {
      */
     public boolean hasRainbowFart(Player player) {
         return player.getGameProfile() != null
-                && ALLOW_RAINBOW_FARTS.contains(player.getGameProfile().getId());
+                && ALLOW_RAINBOW_FARTS.contains(player.getGameProfile().id());
     }
 
     @Override

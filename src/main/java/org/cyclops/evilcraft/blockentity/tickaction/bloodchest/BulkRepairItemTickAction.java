@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodchest;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.apache.commons.lang3.mutable.MutableFloat;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.EvilCraft;
@@ -26,7 +27,10 @@ public class BulkRepairItemTickAction implements ITickAction<BlockEntityColossal
     }
 
     private void drainTank(BlockEntityColossalBloodChest tile, float usageMultiplier, int tick) {
-        tile.getTank().drain(getRequiredFluid(tile, usageMultiplier, tick), IFluidHandler.FluidAction.EXECUTE);
+        try (var tx = Transaction.openRoot()) {
+            tile.getTank().extract(FluidResource.of(tile.getTank().getFluidType()), getRequiredFluid(tile, usageMultiplier, tick), tx);
+            tx.commit();
+        }
     }
 
     protected int getRequiredFluid(BlockEntityColossalBloodChest tile, float usageMultiplier, int tick) {

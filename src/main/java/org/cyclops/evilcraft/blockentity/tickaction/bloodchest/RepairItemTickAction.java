@@ -1,7 +1,8 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodchest;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.api.tileentity.bloodchest.IBloodChestRepairActionRegistry;
@@ -29,7 +30,10 @@ public class RepairItemTickAction implements ITickAction<BlockEntityBloodChest> 
     }
 
     private void drainTank(BlockEntityBloodChest tile, float usageMultiplier) {
-        tile.getTank().drain((int) Math.ceil((float) BlockBloodChestConfig.mBPerDamage * usageMultiplier), IFluidHandler.FluidAction.EXECUTE);
+        try (var tx = Transaction.openRoot()) {
+            tile.getTank().extract(FluidResource.of(tile.getTank().getFluidType()), (int) Math.ceil((float) BlockBloodChestConfig.mBPerDamage * usageMultiplier), tx);
+            tx.commit();
+        }
     }
 
     @Override

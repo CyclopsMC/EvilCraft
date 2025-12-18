@@ -8,4 +8,7 @@ import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
  */
 public class RenderStateVengeanceSpirit extends EntityRenderState {
     public EntityVengeanceSpirit spirit;
+    public float bodyRot;
+    public float yRot;
+    public float xRot;
 }

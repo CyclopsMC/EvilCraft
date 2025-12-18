@@ -27,3 +27,6 @@ keystore.jks
 secrets.properties
 build_number.properties
 changelog.txt
+
+.cache
+config

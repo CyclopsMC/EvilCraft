@@ -20,8 +20,10 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 
 /**
@@ -61,10 +63,13 @@ public class ItemBucketEternalWater extends BucketItem {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-        IFluidHandler handler = IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), context.getClickedPos(),
-                context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
+        ResourceHandler<FluidResource> handler = IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), context.getClickedPos(),
+                context.getClickedFace(), Capabilities.Fluid.BLOCK).orElse(null);
         if(handler != null && !context.getLevel().isClientSide()) {
-            handler.fill(new FluidStack(Fluids.WATER, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()), IFluidHandler.FluidAction.EXECUTE);
+            try (var tx = Transaction.openRoot()) {
+                handler.insert(FluidResource.of(Fluids.WATER), IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume(), tx);
+                tx.commit();
+            }
             return InteractionResult.SUCCESS;
         }
         return super.onItemUseFirst(stack, context);

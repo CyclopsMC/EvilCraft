@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleResources;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
 import org.cyclops.cyclopscore.init.IModBase;
 
@@ -19,11 +19,7 @@ public class ParticleBubbleExtendedConfigClientComponent extends ParticleConfigC
 
     @Nullable
     @Override
-    public ParticleEngine.SpriteParticleRegistration<ParticleBubbleExtendedData> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<ParticleBubbleExtendedData>) (particleData, world, x, y, z, motionX, motionY, motionZ) -> {
-            ParticleBubbleExtended particle = new ParticleBubbleExtended(world, x, y, z, motionX, motionY, motionZ, particleData.getGravity());
-            particle.pickSprite(sprite);
-            return particle;
-        };
+    public ParticleResources.SpriteParticleRegistration<ParticleBubbleExtendedData> getParticleMetaFactory() {
+        return sprites -> (particleData, world, x, y, z, motionX, motionY, motionZ, random) -> new ParticleBubbleExtended(world, x, y, z, motionX, motionY, motionZ, particleData.getGravity(), sprites);
     }
 }

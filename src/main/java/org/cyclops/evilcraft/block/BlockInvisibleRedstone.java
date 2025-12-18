@@ -43,7 +43,7 @@ public class BlockInvisibleRedstone extends BlockWithEntity {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_INVISIBLE_REDSTONE.get(), new BlockEntityInvisibleRedstone.TickerServer());
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_INVISIBLE_REDSTONE.get(), new BlockEntityInvisibleRedstone.TickerServer());
     }
 
     @Override

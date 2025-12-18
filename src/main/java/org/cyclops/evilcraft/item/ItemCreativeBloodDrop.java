@@ -17,9 +17,12 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -70,19 +73,16 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
      * @param entity The entity that holds this item.
      */
     public static void updateAutoFill(ItemStack itemStack, Level world, Entity entity) {
-        IFluidHandler source = FluidUtil.getFluidHandler(itemStack).orElse(null);
+        ResourceHandler<FluidResource> source = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
         if(source != null && entity instanceof Player && !world.isClientSide() && ItemHelpers.isActivated(itemStack)) {
-            FluidStack tickFluid = source.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
+            FluidStack tickFluid = FluidUtil.getStack(source, 0);
             if(tickFluid != null && tickFluid.getAmount() > 0) {
                 Player player = (Player) entity;
                 for(InteractionHand hand : InteractionHand.values()) {
                     ItemStack held = player.getItemInHand(hand);
-                    IFluidHandler fluidHandler = FluidUtil.getFluidHandler(held).orElse(null);
+                    ResourceHandler<FluidResource> fluidHandler = held.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forPlayerInteraction(player, hand));
                     if (!held.isEmpty() && held != itemStack && fluidHandler != null && player.getUseItemRemainingTicks() == 0) {
-                        if (fluidHandler.fill(tickFluid, IFluidHandler.FluidAction.SIMULATE) > 0) {
-                            int filled = fluidHandler.fill(new FluidStack(tickFluid.getFluid(), MB_FILL_PERTICK), IFluidHandler.FluidAction.EXECUTE);
-                            source.drain(filled, IFluidHandler.FluidAction.EXECUTE);
-                        }
+                        IModHelpersNeoForge.get().getFluidHelpers().move(source, fluidHandler, MB_FILL_PERTICK, null, false, false);
                     }
                 }
             }
@@ -109,7 +109,7 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
                     if (context.getLevel().getBlockState(pos).getBlock() == RegistryEntries.BLOCK_BLOOD_STAIN.get()) {
                         // Add blood to existing block
                         IModHelpers.get().getBlockEntityHelpers().get(context.getLevel(), pos, BlockEntityBloodStain.class)
-                                .ifPresent(tile -> tile.addAmount(IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()));
+                                .ifPresent(tile -> tile.addAmount(IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume(), true));
                     }
                 }
                 return InteractionResult.PASS;

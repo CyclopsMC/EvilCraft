@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SpellParticleOption;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -65,7 +66,7 @@ public class EntityWeatherContainer extends EntityThrowable {
             // Play sound and show particles of splash potion of harming
             level().playLocalSound(getX(), getY(), getZ(), SoundEvents.SPLASH_POTION_BREAK, SoundSource.AMBIENT, 0.5F, 0.4F, false);
             for (int i = 0; i < 3; i++) {
-                level().addParticle(ParticleTypes.EFFECT, getX(), getY(), getZ(), 0, 0, 0);
+                level().addParticle(SpellParticleOption.create(ParticleTypes.EFFECT, -1, 1), getX(), getY(), getZ(), 0, 0, 0);
             }
 
             remove(RemovalReason.DISCARDED);

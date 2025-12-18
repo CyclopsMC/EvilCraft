@@ -23,7 +23,7 @@ public class BlockFluidBloodConfig extends BlockConfigCommon<IModBase> {
             "blood",
                 (eConfig, properties) -> new BlockFluidBlood(properties
                         .liquid()
-                        .noCollission()
+                        .noCollision()
                         .strength(100.0F)
                         .randomTicks()),
                 (eConfig, block) -> new BlockItem(block, eConfig.createDefaultItemProperties())

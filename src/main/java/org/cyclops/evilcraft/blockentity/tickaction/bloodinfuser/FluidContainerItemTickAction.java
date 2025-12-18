@@ -1,18 +1,20 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodinfuser;
 
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.apache.commons.lang3.mutable.MutableInt;
+import org.cyclops.cyclopscore.helper.IFluidHelpersNeoForge;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
 import org.cyclops.evilcraft.blockentity.tickaction.EmptyFluidContainerInTankTickAction;
 import org.cyclops.evilcraft.core.blockentity.tickaction.ITickAction;
 import org.cyclops.evilcraft.core.blockentity.upgrade.UpgradeSensitiveEvent;
 import org.cyclops.evilcraft.core.blockentity.upgrade.Upgrades;
-import org.cyclops.evilcraft.core.fluid.FluidContainerItemWrapperWithSimulation;
 
 /**
  * {@link ITickAction} that can fill fluid containers with blood.
@@ -23,16 +25,14 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 
     @Override
     public boolean canTick(BlockEntityBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
-        return super.canTick(tile, itemStack, slot, tick) && FluidUtil.getFluidHandler(itemStack).isPresent();
+        return super.canTick(tile, itemStack, slot, tick) && itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)) != null;
     }
 
     @Override
     public void onTick(BlockEntityBloodInfuser tile, ItemStack itemStack, int slot, int tick) {
         ItemStack infuseStack = getInfuseStack(tile);
-        if (!infuseStack.isEmpty()) {
-            infuseStack = infuseStack.copy();
-        }
-        IFluidHandler container = FluidUtil.getFluidHandler(infuseStack).orElse(null);
+        ItemAccess itemAccessInfuse = getInfuseItemAccess(tile).oneByOne();
+        ResourceHandler<FluidResource> container = itemStack.getCapability(Capabilities.Fluid.ITEM, itemAccessInfuse);
         FluidStack fluidStack = tile.getTank().getFluid().copy();
 
         MutableInt duration = new MutableInt(MB_PER_TICK);
@@ -40,10 +40,17 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
         int minAmount = duration.getValue();
 
         fluidStack.setAmount(Math.min(minAmount, fluidStack.getAmount()));
-        int filled = container.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+        int filled;
+        try (var tx = Transaction.openRoot()) {
+            filled = container.insert(FluidResource.of(fluidStack), fluidStack.getAmount(), tx);
+            tx.commit();
+        }
         if (filled > 0) {
             // Everything ok, filling the container bit by bit
-            tile.getTank().drain(filled, IFluidHandler.FluidAction.EXECUTE);
+            try (var tx = Transaction.openRoot()) {
+                tile.getTank().extract(FluidResource.of(fluidStack), filled, tx);
+                tx.commit();
+            }
             tile.getInventory().setItem(tile.getTileWorkingMetadata().getConsumeSlot(), infuseStack);
             if (!IModHelpersNeoForge.get().getFluidHelpers().getFluid(container).isEmpty() && IModHelpersNeoForge.get().getFluidHelpers().getAmount(IModHelpersNeoForge.get().getFluidHelpers().getFluid(container)) == IModHelpersNeoForge.get().getFluidHelpers().getCapacity(container)) {
                 if (addToProduceSlot(tile, infuseStack)) {
@@ -52,9 +59,9 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
             }
         } else {
             // We might be dealing with a bucket
-            FluidActionResult filledContainer = FluidUtil.tryFillContainer(infuseStack, tile.getTank(), Integer.MAX_VALUE, null, true);
-            if (filledContainer.isSuccess()) {
-                ItemStack result = filledContainer.getResult();
+            FluidStack moved = IModHelpersNeoForge.get().getFluidHelpers().move(tile.getTank(), container, Integer.MAX_VALUE, null, false, false);
+            if (!moved.isEmpty()) {
+                ItemStack result = itemAccessInfuse.getResource().toStack(itemAccessInfuse.getAmount());
                 if (addToProduceSlot(tile, result)) {
                     tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                 }
@@ -69,18 +76,21 @@ public class FluidContainerItemTickAction extends BloodInfuserTickAction{
 
     @Override
     public ItemStack willProduceItem(BlockEntityBloodInfuser tile) {
-        ItemStack itemStack = tile.getInventory().getItem(tile.getTileWorkingMetadata().getConsumeSlot());
+        ItemStack itemStack = tile.getInventory().getItem(tile.getTileWorkingMetadata().getConsumeSlot()).copy(); // Copy, so we don't modify the stack
         if (itemStack.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        if (FluidUtil.getFluidHandler(itemStack).orElse(null) instanceof FluidContainerItemWrapperWithSimulation) {
+        ItemAccess itemAccess = ItemAccess.forStack(itemStack);
+        ResourceHandler<FluidResource> itemStackHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, itemAccess);
+        if (itemStackHandler == null) {
             return ItemStack.EMPTY;
         }
-        ItemStack smallContainer = FluidUtil.tryFillContainer(itemStack, tile.getTank(), MB_PER_TICK, null, false).getResult();
-        if (!smallContainer.isEmpty()) {
-            return smallContainer;
+        IFluidHelpersNeoForge fh = IModHelpersNeoForge.get().getFluidHelpers();
+        FluidStack moved = fh.move(tile.getTank(), itemStackHandler, MB_PER_TICK, null, false, true);
+        if (moved.isEmpty()) {
+            fh.move(tile.getTank(), itemStackHandler, MB_PER_TICK, null, false, true);
         }
-        return FluidUtil.tryFillContainer(itemStack, tile.getTank(), IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume(), null, false).getResult();
+        return itemAccess.getResource().toStack(itemAccess.getAmount());
     }
 
 }

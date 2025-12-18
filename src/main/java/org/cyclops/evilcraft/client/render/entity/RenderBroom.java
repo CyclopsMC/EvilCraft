@@ -3,9 +3,11 @@ package org.cyclops.evilcraft.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -44,8 +46,8 @@ public class RenderBroom extends EntityRenderer<EntityBroom, RenderStateBroom> {
     }
 
     @Override
-    public void render(RenderStateBroom renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        super.render(renderState, poseStack, bufferSource, packedLight);
+    public void submit(RenderStateBroom renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
 
         poseStack.translate(0, 0.2F, 0);
 
@@ -57,8 +59,8 @@ public class RenderBroom extends EntityRenderer<EntityBroom, RenderStateBroom> {
         poseStack.mulPose(Axis.XP.rotationDegrees(rotationPitch));
 
         poseStack.scale(2, 2, 2);
-        Minecraft.getInstance().getItemRenderer().renderStatic(getItemStack(renderState),
-                ItemDisplayContext.FIXED, packedLight,
-                OverlayTexture.NO_OVERLAY, poseStack, bufferSource, Minecraft.getInstance().level, 0);
+        ItemStackRenderState renderStateItemStack = new ItemStackRenderState();
+        Minecraft.getInstance().getItemModelResolver().updateForTopItem(renderStateItemStack, getItemStack(renderState), ItemDisplayContext.FIXED, Minecraft.getInstance().level, null, 0);
+        renderStateItemStack.submit(poseStack, nodeCollector, 15728880, OverlayTexture.NO_OVERLAY, 0);
     }
 }

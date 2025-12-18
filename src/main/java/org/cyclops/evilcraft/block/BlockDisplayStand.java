@@ -37,6 +37,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.model.data.ModelProperty;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -88,7 +89,7 @@ public class BlockDisplayStand extends BlockWithEntity {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DISPLAY_STAND.get(), new BlockEntityTickerDelayed<>());
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_DISPLAY_STAND.get(), new BlockEntityTickerDelayed<>());
     }
 
     @Override
@@ -107,7 +108,7 @@ public class BlockDisplayStand extends BlockWithEntity {
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos) {
+    public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos blockPos, Direction direction) {
         return IModHelpers.get().getBlockEntityHelpers().get(world, blockPos, BlockEntityDisplayStand.class)
                 .map(tile -> !tile.getInventory().getItem(0).isEmpty() ? 15 : 0)
                 .orElse(0);
@@ -203,7 +204,7 @@ public class BlockDisplayStand extends BlockWithEntity {
     public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         // Force allow right clicking with a fluid container passing through to this block
         if (!event.getItemStack().isEmpty()
-                && event.getItemStack().getCapability(Capabilities.FluidHandler.ITEM) != null
+                && event.getItemStack().getCapability(Capabilities.Fluid.ITEM, ItemAccess.forPlayerInteraction(event.getEntity(), event.getHand())) != null
                 && event.getLevel().getBlockState(event.getPos()).getBlock() == this) {
             event.setUseBlock(TriState.TRUE);
         }

@@ -85,7 +85,7 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         if (!context.getLevel().isClientSide() && context.getPlayer().isCrouching()) {
             BlockPos blockPos = context.getClickedPos();
-            if (!IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), blockPos, context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).isPresent()
+            if (!IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), blockPos, context.getClickedFace(), net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK).isPresent()
                     && context.getLevel().isEmptyBlock(blockPos.offset(0, (int) Y_SPAWN_OFFSET, 0))) {
                 EntityBroom entityBroom = new EntityBroom(context.getLevel(), blockPos.getX() + 0.5, blockPos.getY() + Y_SPAWN_OFFSET, blockPos.getZ() + 0.5);
                 entityBroom.setBroomStack(stack);

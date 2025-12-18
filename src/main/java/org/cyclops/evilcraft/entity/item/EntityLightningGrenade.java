@@ -52,8 +52,8 @@ public class EntityLightningGrenade extends ThrowableProjectile implements ItemS
             this.remove(RemovalReason.DISCARDED);
         } else {
             for (int i = 0; i < 32; ++i) {
-                Minecraft.getInstance().levelRenderer.addParticle(
-                        ParticleTypes.CRIT, false,
+                Minecraft.getInstance().level.addParticle(
+                        ParticleTypes.CRIT,
                         this.getX(), this.getY() + this.random.nextDouble() * 2.0D, this.getZ(),
                         this.random.nextGaussian(), 0.0D, this.random.nextGaussian());
             }

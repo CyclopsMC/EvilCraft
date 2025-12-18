@@ -3,17 +3,21 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.display.SlotDisplayContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.block.BlockEnvironmentalAccumulator;
 import org.cyclops.evilcraft.blockentity.BlockEntityEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayEnvironmentalAccumulator;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -21,7 +25,7 @@ import org.cyclops.evilcraft.core.recipe.display.RecipeDisplayEnvironmentalAccum
  * @author rubensworks
  *
  */
-public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntityBeacon<BlockEntityEnvironmentalAccumulator> {
+public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntityBeacon<BlockEntityEnvironmentalAccumulator, RenderBlockEntityEnvironmentalAccumulator.RenderState> {
 
     // Speed at which the item should spin in the animation
     private static final int ITEM_SPIN_SPEED = 3;
@@ -31,16 +35,29 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
     }
 
     @Override
-    public void renderBeacon(BlockEntityEnvironmentalAccumulator tile, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public RenderState createRenderState() {
+        return new RenderState();
+    }
+
+    @Override
+    public void extractRenderState(BlockEntityEnvironmentalAccumulator blockEntity, RenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.movingItemY = blockEntity.getMovingItemY();
+        renderState.level = blockEntity.getLevel();
+        renderState.recipeDisplay = blockEntity.getRecipeDisplay();
+    }
+
+    @Override
+    protected void submitBeacon(RenderState renderState, float partialTicks, PoseStack matrixStackIn, SubmitNodeCollector submitNodeCollector) {
         // Render the an item moving up if we're currently processing one
-        if (tile.getMovingItemY() != -1.0f) {
-            matrixStack.pushPose();
-            matrixStack.translate(-0.5f, -0.5f + tile.getMovingItemY(), -0.5f);
-            renderProcessingItem(matrixStack, bufferIn, tile.getRecipeDisplay(), tile.getDegradationWorld(), partialTicks);
-            matrixStack.popPose();
+        if (renderState.movingItemY != -1.0f) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(-0.5f, -0.5f + renderState.movingItemY, -0.5f);
+            submitProcessingItem(matrixStackIn, submitNodeCollector, renderState.recipeDisplay, renderState.level, partialTicks);
+            matrixStackIn.popPose();
         }
 
-        super.renderBeacon(tile, partialTicks, matrixStack, bufferIn, combinedLightIn, combinedOverlayIn);
+        super.submitBeacon(renderState, partialTicks, matrixStackIn, submitNodeCollector);
     }
 
     @Override
@@ -48,11 +65,13 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         return tile.getMovingItemY() >= 0;
     }
 
-    private void renderProcessingItem(PoseStack matrixStackIn, MultiBufferSource bufferIn, RecipeDisplayEnvironmentalAccumulator recipe, Level world, float partialTickTime) {
+    private void submitProcessingItem(PoseStack matrixStackIn, SubmitNodeCollector submitNodeCollector, RecipeDisplayEnvironmentalAccumulator recipe, Level world, float partialTickTime) {
         if (recipe == null)
             return;
 
         ItemStack stack = recipe.inputIngredient().resolveForFirstStack(SlotDisplayContext.fromLevel(world));
+        ItemStackRenderState renderState = new ItemStackRenderState();
+        Minecraft.getInstance().getItemModelResolver().updateForTopItem(renderState, stack, ItemDisplayContext.FIXED, world, null, 0);
 
         // Calculate angle for the spinning item
         double totalTickTime = world.getGameTime() + partialTickTime;
@@ -69,6 +88,12 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         }
         matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED, 15728880, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, world, 0);
+        renderState.submit(matrixStackIn, submitNodeCollector, 15728880, OverlayTexture.NO_OVERLAY, 0);
+    }
+
+    public static class RenderState extends RenderBlockEntityBeacon.RenderState {
+        public float movingItemY;
+        public RecipeDisplayEnvironmentalAccumulator recipeDisplay;
+        public Level level;
     }
 }

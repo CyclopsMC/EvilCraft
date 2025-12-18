@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SmokeParticle;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 
 /**
@@ -11,10 +11,10 @@ import net.minecraft.util.Mth;
  * @author rubensworks
  * @see SmokeParticle
  */
-public class ParticleDarkSmoke extends TextureSheetParticle {
+public class ParticleDarkSmoke extends SingleQuadParticle {
 
-    public ParticleDarkSmoke(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public ParticleDarkSmoke(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean entityDead, TextureAtlasSprite sprite) {
+        super(world, x, y, z, motionX, motionY, motionZ, sprite);
         this.xd = motionX;
         this.yd = motionY;
         this.zd = motionZ;
@@ -36,8 +36,8 @@ public class ParticleDarkSmoke extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Override

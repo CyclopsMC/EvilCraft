@@ -8,10 +8,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.PlayerExtendedInventoryIterator;
@@ -68,18 +70,20 @@ public class RenderOverlayEventHook {
         if (GeneralConfig.bloodGuiOverlay) {
             if (filledHeight < 0 || IModHelpers.get().getWorldHelpers().efficientTick(player.level(), 50)) {
                 Wrapper<Integer> amount = new Wrapper<Integer>(0);
-                Wrapper<Integer> capacity = new Wrapper<Integer>(1);
+                Wrapper<Long> capacity = new Wrapper<Long>(1L);
                 PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
                 while (it.hasNext()) {
                     ItemStack itemStack = it.next();
-                    IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-                    if (!itemStack.isEmpty() && fluidHandler != null) {
-                        FluidStack fluidStack = IModHelpersNeoForge.get().getFluidHelpers().getFluid(fluidHandler);
-                        if (!fluidStack.isEmpty() && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
-                            amount.set(amount.get() + fluidStack.getAmount());
-                        }
-                        if (fluidStack.isEmpty() || BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
-                            capacity.set(capacity.get() + IModHelpersNeoForge.get().getFluidHelpers().getCapacity(fluidHandler));
+                    if (!itemStack.isEmpty()) {
+                        ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
+                        if (fluidHandler != null) {
+                            FluidStack fluidStack = IModHelpersNeoForge.get().getFluidHelpers().getFluid(fluidHandler);
+                            if (!fluidStack.isEmpty() && BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
+                                amount.set(amount.get() + fluidStack.getAmount());
+                            }
+                            if (fluidStack.isEmpty() || BloodFluidConverter.getInstance().canConvert(fluidStack.getFluid())) {
+                                capacity.set(capacity.get() + IModHelpersNeoForge.get().getFluidHelpers().getCapacity(fluidHandler));
+                            }
                         }
                     }
                 }

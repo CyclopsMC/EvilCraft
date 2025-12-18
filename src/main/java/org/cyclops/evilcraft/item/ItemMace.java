@@ -22,10 +22,12 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerItemCapacity;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.particle.ParticleBlurTargettedEntityData;
@@ -63,7 +65,10 @@ public abstract class ItemMace extends ItemBloodContainer {
     @Override
     public void hurtEnemy(ItemStack itemStack, LivingEntity attacked, LivingEntity attacker) {
         if(attacker instanceof Player && isUsable(itemStack, (Player) attacker)) {
-            FluidUtil.getFluidHandler(itemStack).orElseGet(null).drain(hitUsage, IFluidHandler.FluidAction.EXECUTE);
+            try (var tx = Transaction.openRoot()) {
+                itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)).extract(FluidResource.of(getFluid()), hitUsage, tx);
+                tx.commit();
+            }
         }
     }
 
@@ -198,19 +203,19 @@ public abstract class ItemMace extends ItemBloodContainer {
     @Override
     public boolean releaseUsing(ItemStack itemStack, Level world, LivingEntity entity, int itemInUseCount) {
         if(entity instanceof Player) {
-            IFluidHandlerItemCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemStack).orElse(null);
+            IFluidHandlerCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(ItemAccess.forStack(itemStack)).orElse(null);
             Player player = (Player) entity;
             // Actual usage length
             int itemUsedCount = getUseDuration(itemStack, entity) - itemInUseCount;
 
             // Calculate how much blood to drain
-            int toDrain = itemUsedCount * fluidHandler.getCapacity() * (getPower(itemStack) + 1)
+            int toDrain = itemUsedCount * fluidHandler.getTankCapacity(0) * (getPower(itemStack) + 1)
                     / (getUseDuration(itemStack, entity) * this.powerLevels);
             FluidStack consumed = consume(toDrain, itemStack, player);
             int consumedAmount = consumed == null ? 0 : consumed.getAmount();
 
             // Recalculate the itemUsedCount depending on how much blood is available
-            itemUsedCount = consumedAmount * getUseDuration(itemStack, entity) / fluidHandler.getCapacity();
+            itemUsedCount = consumedAmount * getUseDuration(itemStack, entity) / fluidHandler.getTankCapacity(0);
 
             // Only do something if there is some blood left
             if (consumedAmount > 0) {

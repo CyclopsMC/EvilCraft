@@ -3,9 +3,11 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
+import org.cyclops.cyclopscore.inventory.NBTSimpleInventoryItemStack;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -30,7 +32,7 @@ public class ItemExaltedCrafterConfig extends ItemConfigCommon<IModBase> {
     }
 
     protected void registerCapability(RegisterCapabilitiesEvent event) {
-        event.registerItem(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.ITEM, (stack, context) -> new ItemExaltedCrafter.ItemHandler(stack), getInstance());
+        event.registerItem(net.neoforged.neoforge.capabilities.Capabilities.Item.ITEM, (stack, context) -> VanillaContainerWrapper.of(new NBTSimpleInventoryItemStack(context, 27, 64, "inv")), getInstance());
     }
 
 }

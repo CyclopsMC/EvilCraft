@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -124,7 +123,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
         else {
             ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
             if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
-                    && ((SpawnEggItem) outputStack.getItem()).getType(Minecraft.getInstance().level.registryAccess(), outputStack) != BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(entityName))) {
+                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack) != BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(entityName))) {
                 lines.add(Component.translatable(prefix + ".different_egg"));
             }
         }

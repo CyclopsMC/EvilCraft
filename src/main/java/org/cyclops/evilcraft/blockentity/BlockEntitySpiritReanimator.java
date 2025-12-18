@@ -15,11 +15,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import org.apache.commons.lang3.mutable.MutableDouble;
-import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.inventory.InventorySlotMasked;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -151,7 +152,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
         @Override
         public void registerTankInventoryCapabilitiesItem() {
             add(
-                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                    net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK,
                     (blockEntity, direction) -> {
                         int slots[];
                         if (direction == Direction.UP) {
@@ -161,7 +162,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
                         } else {
                             slots = new int[]{SLOT_CONTAINER, SLOT_BOX};
                         }
-                        return new ItemHandlerSlotMasked(blockEntity.getInventory(), slots);
+                        return VanillaContainerWrapper.of(new InventorySlotMasked(blockEntity.getInventory(), slots));
                     }
             );
         }

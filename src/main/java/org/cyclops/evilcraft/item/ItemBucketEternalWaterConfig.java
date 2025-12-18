@@ -1,10 +1,13 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.cyclops.cyclopscore.capability.fluid.ResourceHandlerFluidSwapEmpty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -25,12 +28,12 @@ public class ItemBucketEternalWaterConfig extends ItemConfigCommon<IModBase> {
     }
 
     protected void registerCapability(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> new FluidBucketWrapper(stack) {
-            @Override
-            protected void setFluid(FluidStack fluid) {
-                // Do nothing: we want to keep the item in-place
-            }
-        }, getInstance());
+        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> new ResourceHandlerFluidSwapEmpty(
+                context,
+                new FluidStack(Fluids.WATER, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()),
+                ItemResource.of(getInstance()),
+                ItemResource.of(getInstance())
+        ), getInstance());
     }
 
 }

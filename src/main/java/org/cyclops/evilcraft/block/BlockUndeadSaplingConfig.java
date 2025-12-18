@@ -35,7 +35,7 @@ public class BlockUndeadSaplingConfig extends BlockConfigCommon<IModBase> {
                 EvilCraft._instance,
             "undead_sapling",
                 (eConfig, properties) -> new SaplingBlock(UNDEAD_TREE_GROWER, properties
-                        .noCollission()
+                        .noCollision()
                         .randomTicks()
                         .strength(0)
                         .sound(SoundType.GRASS)),

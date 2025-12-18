@@ -19,14 +19,20 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.HitResult;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.inventory.InventoryLocationPlayer;
+import org.cyclops.cyclopscore.inventory.ItemAccessItemLocation;
+import org.cyclops.cyclopscore.inventory.ItemLocation;
 import org.cyclops.cyclopscore.inventory.PlayerInventoryIterator;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockBloodStain;
@@ -58,14 +64,15 @@ public class ItemBloodExtractor extends ItemBloodContainer {
                 RandomSource random = context.getLevel().random;
 
                 // Fill the extractor a bit
-                IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), context.getClickedPos(), net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK)
-                        .ifPresent((source) -> {
-                            FluidStack moved = FluidUtil.tryFluidTransfer(FluidUtil.getFluidHandler(itemStack).orElse(null), source, Integer.MAX_VALUE, true);
+                return IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(context.getLevel(), context.getClickedPos(), net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK)
+                        .<InteractionResult>map((source) -> {
+                            ItemAccess itemAccess = ItemAccess.forStack(itemStack);
+                            FluidStack moved = IModHelpersNeoForge.get().getFluidHelpers().move(source, itemStack.getCapability(Capabilities.Fluid.ITEM, itemAccess), Integer.MAX_VALUE, context.getPlayer(), false, false);
                             if (!moved.isEmpty() && context.getLevel().isClientSide()) {
                                 ParticleHelpers.spawnBloodSplashParticles(context.getLevel(), context.getClickedPos(), 5, 1 + random.nextInt(2));
                             }
-                        });
-                return InteractionResult.PASS;
+                            return InteractionResult.SUCCESS.heldItemTransformedTo(itemAccess.getResource().toStack(itemAccess.getAmount()));
+                        }).orElse(InteractionResult.PASS);
             }
         }
         return InteractionResult.PASS;
@@ -111,11 +118,14 @@ public class ItemBloodExtractor extends ItemBloodContainer {
         int toFill = minimumMB + player.getRandom().nextInt(Math.max(1, maximumMB - minimumMB));
         PlayerInventoryIterator it = new PlayerInventoryIterator(player);
         while(it.hasNext() && toFill > 0) {
-            ItemStack itemStack = it.next();
+            Pair<Integer, ItemStack> itemStackLocation = it.nextIndexed();
+            ItemStack itemStack = itemStackLocation.getRight();
             if(!itemStack.isEmpty() && itemStack.getItem() instanceof ItemBloodExtractor) {
-                IFluidHandlerItem fluidHandler = FluidUtil.getFluidHandler(itemStack).orElse(null);
-                toFill -= fluidHandler.fill(new FluidStack(RegistryEntries.FLUID_BLOOD, toFill), IFluidHandler.FluidAction.EXECUTE);
-                it.replace(fluidHandler.getContainer());
+                ResourceHandler<FluidResource> fluidHandler = new ItemAccessItemLocation(player, new ItemLocation(InventoryLocationPlayer.getInstance(), itemStackLocation.getLeft())).getCapability(Capabilities.Fluid.ITEM);
+                try (var tx = Transaction.openRoot()) {
+                    toFill -= fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), toFill, tx);
+                    tx.commit();
+                }
             }
         }
     }
@@ -123,7 +133,7 @@ public class ItemBloodExtractor extends ItemBloodContainer {
     @Override
     public void inventoryTick(ItemStack itemStack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
         if(ItemHelpers.isActivated(itemStack)) {
-            ItemHelpers.updateAutoFill(FluidUtil.getFluidHandler(itemStack).orElse(null), level, entity, ItemBloodExtractorConfig.autoFillBuckets);
+            ItemHelpers.updateAutoFill(itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)), itemStack, level, entity, ItemBloodExtractorConfig.autoFillBuckets);
         }
         super.inventoryTick(itemStack, level, entity, slot);
     }

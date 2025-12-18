@@ -3,12 +3,15 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,6 +25,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.client.render.model.ModelBoxOfEternalClosureBaked;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 /**
@@ -29,7 +33,7 @@ import org.joml.Matrix4f;
  * @author rubensworks
  *
  */
-public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEndPortalBase<BlockEntityBoxOfEternalClosure> {
+public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEndPortalBase<BlockEntityBoxOfEternalClosure, RenderBlockEntityBoxOfEternalClosure.RenderState> {
 
     private static final ResourceLocation beamTexture =
             ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
@@ -50,11 +54,31 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
     }
 
     @Override
-    public void render(BlockEntityBoxOfEternalClosure tile, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn, Vec3 cameraPos) {
-        Direction direction = IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(
-                tile.getLevel().getBlockState(tile.getBlockPos()), org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
+    public RenderState createRenderState() {
+        return new RenderState();
+    }
 
-        matrixStackIn.pushPose();
+    @Override
+    public void extractRenderState(BlockEntityBoxOfEternalClosure blockEntity, RenderState renderState, float partialTick, Vec3 cameraPosition, @Nullable ModelFeatureRenderer.CrumblingOverlay breakProgress) {
+        super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+        renderState.previousLidAngle = blockEntity.getPreviousLidAngle();
+        renderState.lidAngle = blockEntity.getLidAngle();
+        renderState.partialTicks = partialTick;
+        renderState.crystalBeamOffsetY = getY(blockEntity, renderState.partialTicks);
+        EntityVengeanceSpirit targetSpirit = blockEntity.getTargetSpirit();
+        renderState.hasTarget = targetSpirit != null;
+        if (renderState.hasTarget) {
+            renderState.target = targetSpirit.position();
+            renderState.eyeHeight = targetSpirit.getEyeHeight();
+        }
+    }
+
+    @Override
+    public void submit(RenderState renderState, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+        Direction direction = IModHelpers.get().getBlockHelpers().getSafeBlockStateProperty(
+                renderState.blockState, org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
+
+        poseStack.pushPose();
         short rotation = 0;
         if (direction == Direction.SOUTH) {
             rotation = -90;
@@ -69,50 +93,49 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
             rotation = 0;
         }
 
-        matrixStackIn.translate(0.5F, 0.5F, 0.5F);
-        matrixStackIn.mulPose(Axis.YP.rotationDegrees(rotation));
-        matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
+        poseStack.translate(0.5F, 0.5F, 0.5F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+        poseStack.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
-        BlockState blockState = tile.getBlockState()
+        BlockState blockState = renderState.blockState
                 .setValue(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
         ModelBoxOfEternalClosureBaked model = (ModelBoxOfEternalClosureBaked) IModHelpers.get().getRenderHelpers().getBakedModel(blockState);
-        ModelBlockRenderer.renderModel(matrixStackIn.last(), bufferIn.getBuffer(Sheets.solidBlockSheet()), model.getBoxModel(), 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
+        submitNodeCollector.submitCustomGeometry(poseStack, Sheets.solidBlockSheet(), (pose, vertexConsumer) -> ModelBlockRenderer.renderModel(pose, vertexConsumer, model.getBoxModel(), 1.0F, 1.0F, 1.0F, renderState.lightCoords, OverlayTexture.NO_OVERLAY));
 
         // Render lid
-        float angle = tile.getPreviousLidAngle()
-                + (tile.getLidAngle() - tile.getPreviousLidAngle()) * partialTicks;
-        matrixStackIn.pushPose();
-        matrixStackIn.translate(0.5F, 0.5F, 0.5F);
-        matrixStackIn.mulPose(Axis.YP.rotationDegrees(180));
-        matrixStackIn.translate(-0.5F, -0.5F, -0.5F);
-        matrixStackIn.translate(0.25F, 0.375F, 0F);
-        matrixStackIn.mulPose(Axis.ZP.rotationDegrees(angle));
-        matrixStackIn.translate(-0.25F, -0.375F, 0F);
-        ModelBlockRenderer.renderModel(matrixStackIn.last(), bufferIn.getBuffer(Sheets.solidBlockSheet()), model.getBoxLidModel(), 1.0F, 1.0F, 1.0F, combinedLightIn, OverlayTexture.NO_OVERLAY);
-        matrixStackIn.popPose();
+        float angle = renderState.previousLidAngle
+                + (renderState.lidAngle - renderState.previousLidAngle) * renderState.partialTicks;
+        poseStack.pushPose();
+        poseStack.translate(0.5F, 0.5F, 0.5F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(180));
+        poseStack.translate(-0.5F, -0.5F, -0.5F);
+        poseStack.translate(0.25F, 0.375F, 0F);
+        poseStack.mulPose(Axis.ZP.rotationDegrees(angle));
+        poseStack.translate(-0.25F, -0.375F, 0F);
+        submitNodeCollector.submitCustomGeometry(poseStack, Sheets.solidBlockSheet(), (pose, vertexConsumer) -> ModelBlockRenderer.renderModel(pose, vertexConsumer, model.getBoxLidModel(), 1.0F, 1.0F, 1.0F, renderState.lightCoords, OverlayTexture.NO_OVERLAY));
+        poseStack.popPose();
 
         // Render box inside
         if(angle > 0) {
-            matrixStackIn.pushPose();
-            matrixStackIn.translate(0F, 0.75F, 0F);
-            super.render(tile, partialTicks, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn);
-            matrixStackIn.popPose();
+            poseStack.pushPose();
+            poseStack.translate(0F, 0.75F, 0F);
+            super.submit(renderState, poseStack, submitNodeCollector, cameraRenderState);
+            poseStack.popPose();
         }
-        matrixStackIn.popPose();
+        poseStack.popPose();
 
         // Optionally render beam
         // Copied from EndCrystalRenderer
-        EntityVengeanceSpirit target = tile.getTargetSpirit();
-        if(target != null) {
-            BlockPos blockpos = tile.getBlockPos();
+        if (renderState.hasTarget) {
+            BlockPos blockpos = renderState.blockPos;
 
-            float f = getY(tile, partialTicks);
-            float f1 = (float)target.getX() + 0.5F - blockpos.getX();
-            float f2 = (float)target.getY() + 0.5F - (target.getEyeHeight() / 2) - blockpos.getY();
-            float f3 = (float)target.getZ()  + 0.5F - blockpos.getZ();
-            matrixStackIn.translate(f1, f2, f3);
-            EnderDragonRenderer.renderCrystalBeams(-f1, -f2 + f, -f3, partialTicks, matrixStackIn, bufferIn, combinedLightIn);
+            float f = renderState.crystalBeamOffsetY;
+            float f1 = (float)renderState.target.x + 0.5F - blockpos.getX();
+            float f2 = (float)renderState.target.y + 0.5F - (renderState.eyeHeight / 2) - blockpos.getY();
+            float f3 = (float)renderState.target.z  + 0.5F - blockpos.getZ();
+            poseStack.translate(f1, f2, f3);
+            EnderDragonRenderer.submitCrystalBeams(-f1, -f2 + f, -f3, renderState.partialTicks, poseStack, submitNodeCollector, renderState.lightCoords);
         }
     }
 
@@ -129,8 +152,18 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
     }
 
     @Override
-    public void renderCube(BlockEntityBoxOfEternalClosure tile, Matrix4f p_228883_4_, VertexConsumer vb) {
-        this.renderFace(tile, p_228883_4_, vb, 0.3125F, 1.0F - 0.3125F, -0.5F, -0.5F, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
+    public void renderCube(Matrix4f pose, VertexConsumer consumer) {
+        this.renderFace(pose, consumer, 0.3125F, 1.0F - 0.3125F, -0.5F, -0.5F, 1.0F, 1.0F, 0.0F, 0.0F, Direction.UP);
+    }
+
+    public static class RenderState extends BlockEntityRenderState {
+        public float previousLidAngle;
+        public float lidAngle;
+        public float partialTicks;
+        public float crystalBeamOffsetY;
+        public boolean hasTarget;
+        public Vec3 target;
+        public float eyeHeight;
     }
 
 }

@@ -64,8 +64,8 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
             this.remove(RemovalReason.DISCARDED);
         } else {
             for (int i = 0; i < 32; ++i) {
-                Minecraft.getInstance().levelRenderer.addParticle(
-                        ParticleTypes.PORTAL, false,
+                Minecraft.getInstance().level.addParticle(
+                        ParticleTypes.PORTAL,
                         this.getX(), this.getY() + this.random.nextDouble() * 2.0D, this.getZ(),
                         this.random.nextGaussian(), 0.0D, this.random.nextGaussian());
             }

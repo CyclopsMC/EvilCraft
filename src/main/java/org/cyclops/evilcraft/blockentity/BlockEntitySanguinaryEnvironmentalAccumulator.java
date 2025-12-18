@@ -20,14 +20,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.datastructure.SingleCache;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.inventory.InventorySlotMasked;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSanguinaryEnvironmentalAccumulator;
@@ -171,11 +173,11 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         @Override
         public void registerTankInventoryCapabilitiesItem() {
             add(
-                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
-                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
+                    net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK,
+                    (blockEntity, direction) -> VanillaContainerWrapper.of(new InventorySlotMasked(
                             blockEntity.getInventory(),
                             direction == Direction.DOWN ? SLOT_ACCUMULATE_RESULT : SLOT_ACCUMULATE
-                    )
+                    ))
             );
         }
 
@@ -311,18 +313,18 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
     @Nullable
     @Override
-    public IFluidHandler[] getVirtualTankChildren() {
-        IFluidHandler[] tanks = new IFluidHandler[tankOffsets.length];
+    public ResourceHandler<FluidResource>[] getVirtualTankChildren() {
+        ResourceHandler<FluidResource>[] tanks = new ResourceHandler[tankOffsets.length];
         invalidLocations.clear();
         for (int i = 0; i < tankOffsets.length; i++) {
             BlockPos offset = tankOffsets[i];
             BlockPos location = getBlockPos().offset(offset);
-            IFluidHandler handler = IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(getLevel(), location, Direction.UP, net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK).orElse(null);
+            ResourceHandler<FluidResource> handler = IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(getLevel(), location, Direction.UP, net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK).orElse(null);
             boolean oneValid = false;
             if (handler != null) {
-                int tankAmount = handler.getTanks();
+                int tankAmount = handler.size();
                 for (int tank = 0; tank < tankAmount; tank++) {
-                    if (!handler.getFluidInTank(tank).isEmpty() && handler.getFluidInTank(tank).getFluid() == RegistryEntries.FLUID_BLOOD.get()) {
+                    if (!handler.getResource(tank).isEmpty() && handler.getResource(tank).getFluid() == RegistryEntries.FLUID_BLOOD.get()) {
                         oneValid = true;
                         break;
                     }

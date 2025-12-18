@@ -85,11 +85,34 @@ public class GameTestsSpiritFurnace {
         });
     }
 
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 250)
+    public void testSpiritFurnace4x4Player(GameTestHelper helper) {
+        BlockEntitySpiritFurnace furnace = createFurnace(helper, POS, 4);
+        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_CONTAINER, new ItemStack(RegistryEntries.ITEM_CONDENSED_BLOOD, 64));
+        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBoxPlayer(helper));
+
+        helper.succeedWhen(() -> {
+            helper.assertFalse(furnace.getInventory().getItem(BlockEntitySpiritFurnace.SLOTS_DROP[0]).isEmpty(), Component.literal("Furnace should produce drops"));
+        });
+    }
+
     public static ItemStack createBox(GameTestHelper helper, EntityType<?> entityType) {
         ItemStack stack = new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE);
         EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
         spiritDummy.setInnerEntityType(entityType);
         stack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spiritDummy.getData()::writeNBT));
+        return stack;
+    }
+
+    public static ItemStack createBoxPlayer(GameTestHelper helper) {
+        ItemStack stack = new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE);
+        EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
+        spiritDummy.setPlayerId("068d4de0-3a75-4c6a-9f01-8c37e16a394c");
+        spiritDummy.setPlayerName("kroeserr");
+        spiritDummy.setInnerEntityType(EntityType.ZOMBIE);
+        stack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spiritDummy.getData()::writeNBT));
+        stack.set(RegistryEntries.COMPONENT_BOX_PLAYER_ID, "068d4de0-3a75-4c6a-9f01-8c37e16a394c");
+        stack.set(RegistryEntries.COMPONENT_BOX_PLAYER_NAME, "kroeserr");
         return stack;
     }
 

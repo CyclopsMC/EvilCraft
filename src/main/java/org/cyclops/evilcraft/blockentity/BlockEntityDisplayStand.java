@@ -3,13 +3,19 @@ package org.cyclops.evilcraft.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.Connection;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
+import net.neoforged.neoforge.transfer.transaction.RootCommitJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -46,8 +52,8 @@ public class BlockEntityDisplayStand extends CyclopsBlockEntity {
 
         @Override
         public void populate() {
-            add(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK, (blockEntity, direction) -> new InvWrapper(blockEntity.getInventory()));
-            add(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, (blockEntity, direction) -> blockEntity.getContents().getCapability(Capabilities.FluidHandler.ITEM));
+            add(net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK, (blockEntity, direction) -> VanillaContainerWrapper.of(blockEntity.getInventory()));
+            add(net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK, (blockEntity, direction) -> blockEntity.getContents().getCapability(Capabilities.Fluid.ITEM, new ItemAccessDisplayStand(blockEntity, blockEntity.getContents())));
         }
     }
 
@@ -113,5 +119,47 @@ public class BlockEntityDisplayStand extends CyclopsBlockEntity {
     public void preRemoveSideEffects(BlockPos pos, BlockState state) {
         super.preRemoveSideEffects(pos, state);
         IModHelpers.get().getInventoryHelpers().dropItems(getLevel(), getInventory(), pos);
+    }
+
+    // Inspired by StackItemAccess
+    public static class ItemAccessDisplayStand implements ItemAccess {
+
+        private final BlockEntityDisplayStand blockEntity;
+        private final ResourceHandler<ItemResource> wrapper;
+        private final RootCommitJournal journal;
+
+        public ItemAccessDisplayStand(BlockEntityDisplayStand blockEntity, ItemStack stack) {
+            this.blockEntity = blockEntity;
+            this.wrapper = VanillaContainerWrapper.of(new SimpleContainer(stack) {
+                public void setItem(int slot, ItemStack stack, boolean performSideEffects) {
+                    this.getItems().set(slot, stack);
+                }
+            });
+            this.journal = new RootCommitJournal(() -> {
+                this.blockEntity.getInventory().setItem(0, getResource().toStack(getAmount()));
+            });
+        }
+
+        @Override
+        public ItemResource getResource() {
+            return this.wrapper.getResource(0);
+        }
+
+        @Override
+        public int getAmount() {
+            return this.wrapper.getAmountAsInt(0);
+        }
+
+        @Override
+        public int insert(ItemResource resource, int amount, TransactionContext transaction) {
+            this.journal.updateSnapshots(transaction);
+            return this.wrapper.insert(resource, amount, transaction);
+        }
+
+        @Override
+        public int extract(ItemResource resource, int amount, TransactionContext transaction) {
+            this.journal.updateSnapshots(transaction);
+            return this.wrapper.extract(resource, amount, transaction);
+        }
     }
 }

@@ -1,12 +1,11 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStackSimple;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.cyclops.cyclopscore.capability.fluid.ResourceHandlerFluidSwapEmpty;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -31,10 +30,11 @@ public class ItemPoisonBottleConfig extends ItemConfigCommon<IModBase> {
     }
 
     protected void registerCapability(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> {
-            FluidHandlerItemStackSimple.SwapEmpty capabilityProvider = new FluidHandlerItemStackSimple.SwapEmpty(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT, stack, new ItemStack(Items.GLASS_BOTTLE), IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume());
-            capabilityProvider.fill(new FluidStack(RegistryEntries.FLUID_POISON, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()), IFluidHandler.FluidAction.EXECUTE);
-            return capabilityProvider;
-        }, getInstance());
+        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> new ResourceHandlerFluidSwapEmpty(
+                context,
+                new FluidStack(RegistryEntries.FLUID_POISON, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()),
+                ItemResource.of(getInstance()),
+                ItemResource.of(Items.GLASS_BOTTLE)
+        ), getInstance());
     }
 }

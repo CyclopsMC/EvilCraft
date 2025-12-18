@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.blockentity.tickaction.bloodinfuser;
 
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuser;
@@ -41,6 +43,15 @@ public abstract class BloodInfuserTickAction implements ITickAction<BlockEntityB
      */
     public ItemStack getInfuseStack(BlockEntityBloodInfuser tile) {
         return tile.getInventory().getItem(tile.getTileWorkingMetadata().getConsumeSlot());
+    }
+
+    /**
+     * Get the item access for the infusion slot.
+     * @param tile The tile to check the slot for.
+     * @return The item in that slot.
+     */
+    public ItemAccess getInfuseItemAccess(BlockEntityBloodInfuser tile) {
+        return ItemAccess.forHandlerIndex(VanillaContainerWrapper.of(tile.getInventory()), tile.getTileWorkingMetadata().getConsumeSlot()).oneByOne();
     }
 
     /**

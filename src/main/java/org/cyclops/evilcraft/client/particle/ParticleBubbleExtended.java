@@ -2,20 +2,21 @@ package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.BubbleParticle;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
 
 /**
  * {@link BubbleParticle} that has a modifiable gravity factor.
  * The higher this factor, the more quickly it will drop.
  * @author Ruben Taelman
  */
-public class ParticleBubbleExtended extends TextureSheetParticle {
+public class ParticleBubbleExtended extends SingleQuadParticle {
 
     private final float gravity;
+    private final SpriteSet sprites;
 
-    public ParticleBubbleExtended(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, float gravity) {
-        super(world, x, y, z);
+    public ParticleBubbleExtended(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, float gravity, SpriteSet sprites) {
+        super(world, x, y, z, sprites.first());
         this.setSize(0.02F, 0.02F);
         this.quadSize *= this.random.nextFloat() * 0.6F + 0.2F;
         this.xd = motionX * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
@@ -23,6 +24,7 @@ public class ParticleBubbleExtended extends TextureSheetParticle {
         this.zd = motionZ * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
         this.lifetime = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
         this.gravity = gravity;
+        this.sprites = sprites;
     }
 
     @Override
@@ -39,10 +41,11 @@ public class ParticleBubbleExtended extends TextureSheetParticle {
         if (this.lifetime-- <= 0) {
             this.remove();
         }
+        setSpriteFromAge(this.sprites);
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    protected Layer getLayer() {
+        return Layer.OPAQUE;
     }
 }

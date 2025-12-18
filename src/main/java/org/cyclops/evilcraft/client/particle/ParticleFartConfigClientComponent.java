@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.particle;
 
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleResources;
 import org.cyclops.cyclopscore.config.extendedconfig.ParticleConfigComponentClient;
 import org.cyclops.cyclopscore.init.IModBase;
 
@@ -20,12 +20,8 @@ public class ParticleFartConfigClientComponent extends ParticleConfigComponentCl
 
     @Nullable
     @Override
-    public ParticleEngine.SpriteParticleRegistration<ParticleFartData> getParticleMetaFactory() {
-        return sprite -> (ParticleProvider<ParticleFartData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed) -> {
-            ParticleFart particle = new ParticleFart(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getRainbow());
-            particle.pickSprite(sprite);
-            return particle;
-        };
+    public ParticleResources.SpriteParticleRegistration<ParticleFartData> getParticleMetaFactory() {
+        return sprite -> (ParticleProvider<ParticleFartData>) (particleData, worldIn, x, y, z, xSpeed, ySpeed, zSpeed, random) -> new ParticleFart(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, particleData.getRainbow(), sprite.get(random));
     }
 
 }

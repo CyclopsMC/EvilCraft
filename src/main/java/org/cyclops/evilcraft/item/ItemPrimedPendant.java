@@ -27,6 +27,7 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.FakePlayer;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.inventory.InventoryLocationPlayer;
 import org.cyclops.cyclopscore.inventory.ItemLocation;
@@ -111,7 +112,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     }
 
     public ItemStack getPotionStack(ItemStack itemStack) {
-        Container inventory = getSupplementaryInventory(itemStack);
+        Container inventory = getSupplementaryInventory(ItemAccess.forStack(itemStack));
         return inventory.getItem(0);
     }
 
@@ -132,11 +133,11 @@ public class ItemPrimedPendant extends ItemBloodContainer {
 
     /**
      * Get the supplementary inventory of the item.
-     * @param itemStack The item stack.
+     * @param itemAccess The item access.
      * @return The inventory.
      */
-    public Container getSupplementaryInventory(ItemStack itemStack) {
-        return new NBTSimpleInventoryItemStack(itemStack, 1, 64, "inventoryItem");
+    public Container getSupplementaryInventory(ItemAccess itemAccess) {
+        return new NBTSimpleInventoryItemStack(itemAccess, 1, 64, "inventoryItem");
     }
 
     // --- TODO: copy of ItemGui methods, clean this up future

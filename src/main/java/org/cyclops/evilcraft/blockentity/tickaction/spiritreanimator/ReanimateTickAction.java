@@ -3,7 +3,8 @@ package org.cyclops.evilcraft.blockentity.tickaction.spiritreanimator;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -29,7 +30,10 @@ public class ReanimateTickAction implements ITickAction<BlockEntitySpiritReanima
     @Override
     public void onTick(BlockEntitySpiritReanimator tile, ItemStack itemStack, int slot, int tick) {
         // Drain the tank a bit.
-        tile.getTank().drain(getRequiredMb(tile, tick), IFluidHandler.FluidAction.EXECUTE);
+        try (var tx = Transaction.openRoot()) {
+            tile.getTank().extract(FluidResource.of(tile.getTank().getFluidType()), getRequiredMb(tile, tick), tx);
+            tx.commit();
+        }
         if(tick >= getRequiredTicks(tile, slot, tick)) {
             ItemStack spawnEgg = ItemStack.EMPTY;
             EntityType<?> entityType = tile.getEntityType();

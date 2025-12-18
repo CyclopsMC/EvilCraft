@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -57,7 +58,7 @@ public class BlockBloodInfuser extends BlockWithEntityGuiTank {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_INFUSER.get(), level.isClientSide ? new BlockEntityBloodInfuser.TickerClient<>() : new BlockEntityBloodInfuser.TickerServer<BlockEntityBloodInfuser, MutableInt>());
+        return createTickerHelper(blockEntityType, RegistryEntries.BLOCK_ENTITY_BLOOD_INFUSER.get(), level.isClientSide() ? new BlockEntityBloodInfuser.TickerClient<>() : new BlockEntityBloodInfuser.TickerServer<BlockEntityBloodInfuser, MutableInt>());
     }
 
     @Override
@@ -92,12 +93,12 @@ public class BlockBloodInfuser extends BlockWithEntityGuiTank {
     }
 
     @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+    public boolean onDestroyedByPlayer(BlockState state, Level world, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid) {
         IModHelpers.get().getBlockEntityHelpers().get(world, pos, BlockEntityBloodInfuser.class)
                 .ifPresent(tile -> {
                     EntityHelpers.spawnXpAtPlayer(player.level(), player, (int) Math.floor(tile.getXp()));
                     tile.resetXp();
                 });
-        return super.onDestroyedByPlayer(state, world, pos, player, willHarvest, fluid);
+        return super.onDestroyedByPlayer(state, world, pos, player, toolStack, willHarvest, fluid);
     }
 }

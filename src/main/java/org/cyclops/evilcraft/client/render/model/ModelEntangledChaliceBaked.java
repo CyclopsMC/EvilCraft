@@ -15,15 +15,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.model.data.ModelData;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.cyclops.cyclopscore.client.model.DelegatingDynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
@@ -36,10 +39,7 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * A baked entangled chalice model.
@@ -148,20 +148,20 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Override
     public List<BakedQuad> handleBlockState(BlockAndTintGetter level, BlockPos pos, BlockState state, Direction side, RandomSource rand, ModelData extraData, ChunkSectionLayer renderType) {
-        String tankId = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_ID, "");
-        FluidStack fluidStack = ModelHelpers.getSafeProperty(modelData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
+        String tankId = ModelHelpers.getSafeProperty(extraData, BlockEntangledChalice.TANK_ID, "");
+        FluidStack fluidStack = ModelHelpers.getSafeProperty(extraData, BlockEntangledChalice.TANK_FLUID, FluidStack.EMPTY);
         if (!BlockEntangledChaliceConfig.staticBlockRendering) {
             fluidStack = FluidStack.EMPTY;
         }
-        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, tankId, fluidStack, level, state, side, rand, modelData, renderType).getGeneralQuads();
+        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, tankId, fluidStack, level, state, side, rand, extraData, renderType).getGeneralQuads();
     }
 
     @Override
-    public List<BakedQuad> handleItemState(ItemStack itemStack, Level world, LivingEntity entity) {
-        String id = FluidUtil.getFluidHandler(itemStack)
+    public List<BakedQuad> handleItemState(ItemStack itemStack, Level world, ItemOwner entity) {
+        String id = Optional.ofNullable(itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)))
                 .map((h -> ((ItemEntangledChalice.FluidHandler) h).getTankID()))
                 .orElse("");
-        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, id, FluidUtil.getFluidContained(itemStack).orElse(FluidStack.EMPTY), itemStack, world, entity).getGeneralQuads();
+        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, id, FluidUtil.getFirstStackContained(itemStack), itemStack, world, entity != null ? entity.asLivingEntity() : null).getGeneralQuads();
     }
 
     @Override

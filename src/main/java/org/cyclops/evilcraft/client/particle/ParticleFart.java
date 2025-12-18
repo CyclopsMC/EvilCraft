@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.client.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.Mth;
 
 /**
@@ -10,10 +10,10 @@ import net.minecraft.util.Mth;
  * @author immortaleeb
  *
  */
-public class ParticleFart extends TextureSheetParticle {
+public class ParticleFart extends SingleQuadParticle {
 
-    public ParticleFart(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow) {
-        super(world, x, y, z, motionX, motionY, motionZ);
+    public ParticleFart(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ, boolean rainbow, TextureAtlasSprite sprite) {
+        super(world, x, y, z, motionX, motionY, motionZ, sprite);
 
         quadSize = 0.25F;
         alpha = 0.7F;
@@ -58,8 +58,8 @@ public class ParticleFart extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected Layer getLayer() {
+        return Layer.TRANSLUCENT;
     }
 
     @Override

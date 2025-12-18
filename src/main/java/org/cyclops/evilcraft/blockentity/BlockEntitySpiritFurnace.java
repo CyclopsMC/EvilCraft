@@ -19,13 +19,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.cyclops.cyclopscore.block.multi.*;
-import org.cyclops.cyclopscore.capability.item.ItemHandlerSlotMasked;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.cyclopscore.helper.EntityHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.inventory.InventorySlotMasked;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -171,20 +174,36 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
         @Override
         public void registerTankInventoryCapabilitiesItem() {
             add(
-                    net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
-                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
+                    net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK,
+                    (blockEntity, direction) -> VanillaContainerWrapper.of(new InventorySlotMasked(
                             blockEntity.getInventory(),
                             (direction == Direction.UP || direction == Direction.DOWN) ? SLOTS_DROP : new int[]{SLOT_BOX, SLOT_CONTAINER}
                     ) {
                         @Override
-                        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                            ItemStack extracted = super.extractItem(slot, amount, simulate);
-                            if (slot > SLOT_BOX && !extracted.isEmpty() && !simulate) {
-                                blockEntity.resetWork(false);
+                        public void onTransfer(int slot, int amountChange, TransactionContext transaction) {
+                            super.onTransfer(slot, amountChange, transaction);
+                            if (slot > SLOT_BOX && amountChange > 0) {
+                                new SnapshotJournal<Void>() {
+
+                                    @Override
+                                    protected Void createSnapshot() {
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void revertToSnapshot(Void o) {
+
+                                    }
+
+                                    @Override
+                                    protected void onRootCommit(Void originalState) {
+                                        super.onRootCommit(originalState);
+                                        blockEntity.resetWork(false);
+                                    }
+                                }.updateSnapshots(transaction);
                             }
-                            return extracted;
                         }
-                    }
+                    })
             );
         }
     }

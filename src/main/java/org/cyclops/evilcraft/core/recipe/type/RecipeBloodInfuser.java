@@ -73,8 +73,8 @@ public class RecipeBloodInfuser implements Recipe<IInventoryFluidTier> {
     public boolean matches(IInventoryFluidTier inv, Level worldIn) {
         return this.getInputTier().map(t -> t <= inv.getTier()).orElse(true)
                 && inputIngredient.map(p -> p.test(inv.getItem(0))).orElse(inv.getItem(0).isEmpty())
-                && inputFluid.map(f -> f.getFluid() == inv.getFluidHandler().getFluidInTank(0).getFluid()).orElse(inv.getFluidHandler().getFluidInTank(0).isEmpty())
-                && inputFluid.map(f -> f.getAmount() <= inv.getFluidHandler().getFluidInTank(0).getAmount()).orElse(inv.getFluidHandler().getFluidInTank(0).isEmpty());
+                && inputFluid.map(f -> f.getFluid() == inv.getFluidHandler().getResource(0).getFluid()).orElse(inv.getFluidHandler().getResource(0).isEmpty())
+                && inputFluid.map(f -> f.getAmount() <= inv.getFluidHandler().getAmountAsLong(0)).orElse(inv.getFluidHandler().getAmountAsLong(0) == 0);
     }
 
     @Override

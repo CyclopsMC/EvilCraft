@@ -12,7 +12,7 @@ import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
@@ -69,7 +69,7 @@ public class ModelBroomPartBaked extends DynamicItemAndBlockModel {
 
     @Override
     public List<BakedQuad> handleItemState(@Nullable ItemStack itemStack, @Nullable Level world,
-                                           @Nullable LivingEntity entity) {
+                                           @Nullable ItemOwner entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
 
         IBroomPart part = BroomParts.REGISTRY.getPartFromItem(itemStack);

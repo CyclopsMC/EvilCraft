@@ -12,7 +12,6 @@ import org.cyclops.cyclopscore.config.extendedconfig.BlockClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
 import org.cyclops.cyclopscore.init.ModBaseNeoForge;
 import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 
 import java.util.Collection;
@@ -43,7 +42,7 @@ public class BlockEntangledChaliceConfig extends BlockConfigCommon<ModBaseNeoFor
     }
 
     protected void registerCapability(RegisterCapabilitiesEvent event) {
-        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, context) -> new ItemEntangledChalice.FluidHandler(stack, BlockEntityEntangledChalice.BASE_CAPACITY), getInstance());
+        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> new ItemEntangledChalice.FluidHandler(context), getInstance());
     }
 
     @Override

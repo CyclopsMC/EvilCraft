@@ -3,10 +3,11 @@ package org.cyclops.evilcraft.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.world.entity.EntityType;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStick;
 
@@ -44,8 +45,8 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick, RenderS
     }
 
     @Override
-    public void render(RenderStateDarkStick renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        super.render(renderState, poseStack, bufferSource, packedLight);
+    public void submit(RenderStateDarkStick renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
 
         float rotation;
         if (renderState.valid) {
@@ -59,8 +60,8 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick, RenderS
         poseStack.mulPose(Axis.XP.rotationDegrees(25));
 
         // , renderState.isValid() ? -renderState.bobOffset * 20/* to undo hoverstart in ItemRenderer */ : renderState.partialTick
-        ((EntityRenderer) Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityType.ITEM))
-                .render(renderState, poseStack, bufferSource, packedLight);
+        EntityRenderer entityRenderer = Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityType.ITEM);
+        entityRenderer.submit(renderState, poseStack, nodeCollector, cameraRenderState);
     }
 
 }
