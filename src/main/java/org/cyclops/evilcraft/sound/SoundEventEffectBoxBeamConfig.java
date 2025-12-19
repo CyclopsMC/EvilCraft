@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.sound;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.SoundEventConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -14,7 +14,7 @@ public class SoundEventEffectBoxBeamConfig extends SoundEventConfigCommon<IModBa
         super(
                 EvilCraft._instance,
                 "effect_box_beam",
-                (eConfig) -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(eConfig.getMod().getModId(), eConfig.getNamedId()))
+                (eConfig) -> SoundEvent.createVariableRangeEvent(Identifier.fromNamespaceAndPath(eConfig.getMod().getModId(), eConfig.getNamedId()))
         );
     }
 }

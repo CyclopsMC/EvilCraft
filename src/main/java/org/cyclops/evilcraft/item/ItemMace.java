@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -261,7 +261,7 @@ public abstract class ItemMace extends ItemBloodContainer {
         return new ItemAttributeModifiers(Lists.newArrayList(
                 new ItemAttributeModifiers.Entry(
                         Attributes.ATTACK_DAMAGE,
-                        new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), this.meleeDamage, AttributeModifier.Operation.ADD_VALUE),
+                        new AttributeModifier(Identifier.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), this.meleeDamage, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
         ));

@@ -1,15 +1,17 @@
 package org.cyclops.evilcraft.client.render.model;
 
+import com.mojang.math.Quadrant;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.ResolvedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -26,17 +28,18 @@ public record ItemModelBoxOfEternalClosure(ModelBoxOfEternalClosureBaked model, 
 
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner entity, int seed) {
-        new BlockModelWrapper(List.of(), model.handleItemState(stack, level, entity), modelRenderProperties)
+        List<BakedQuad> quads = model.handleItemState(stack, level, entity);
+        new BlockModelWrapper(List.of(), quads, modelRenderProperties, BlockModelWrapper.detectRenderType(quads))
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
-    public static record Unbaked(ResourceLocation box, ResourceLocation boxLid, ResourceLocation boxLidRotated) implements ItemModel.Unbaked {
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure");
+    public static record Unbaked(Identifier box, Identifier boxLid, Identifier boxLidRotated) implements ItemModel.Unbaked {
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure");
         public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
-                                ResourceLocation.CODEC.fieldOf("box").forGetter(ItemModelBoxOfEternalClosure.Unbaked::box),
-                                ResourceLocation.CODEC.fieldOf("box_lid").forGetter(ItemModelBoxOfEternalClosure.Unbaked::boxLid),
-                                ResourceLocation.CODEC.fieldOf("box_lid_rotated").forGetter(ItemModelBoxOfEternalClosure.Unbaked::boxLidRotated)
+                                Identifier.CODEC.fieldOf("box").forGetter(ItemModelBoxOfEternalClosure.Unbaked::box),
+                                Identifier.CODEC.fieldOf("box_lid").forGetter(ItemModelBoxOfEternalClosure.Unbaked::boxLid),
+                                Identifier.CODEC.fieldOf("box_lid_rotated").forGetter(ItemModelBoxOfEternalClosure.Unbaked::boxLidRotated)
                         )
                         .apply(instance, Unbaked::new)
         );
@@ -52,7 +55,7 @@ public record ItemModelBoxOfEternalClosure(ModelBoxOfEternalClosureBaked model, 
             ResolvedModel resolvedModel = baker.getModel(this.box);
             TextureSlots textureslots = resolvedModel.getTopTextureSlots();
             ModelRenderProperties modelRenderProperties = ModelRenderProperties.fromResolvedModel(baker, resolvedModel, textureslots);
-            return new ItemModelBoxOfEternalClosure(bakeBoxModel(baker, BlockModelRotation.X0_Y180), modelRenderProperties);
+            return new ItemModelBoxOfEternalClosure(bakeBoxModel(baker, BlockModelRotation.get(Quadrant.fromXYAngles(Quadrant.R0, Quadrant.R180))), modelRenderProperties);
         }
 
         public ModelBoxOfEternalClosureBaked bakeBoxModel(ModelBaker baker, ModelState modelState) {

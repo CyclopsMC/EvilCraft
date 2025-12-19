@@ -3,9 +3,9 @@ package org.cyclops.evilcraft.infobook.pageelement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
@@ -79,7 +79,7 @@ public class BloodInfuserRecipeAppendixClient extends RecipeAppendixClient<Blood
         if (!fluidStack.isEmpty()) {
             String line = fluidStack.getAmount() + " mB";
             MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
-                    .render(guiGraphics, MultiLineLabel.Align.LEFT, x + middle + SLOT_SIZE + 1, y + 6, 9, false, ARGB.opaque(0));
+                    .visitLines(TextAlignment.LEFT, x + middle + SLOT_SIZE + 1, y + 6, 9, guiGraphics.textRenderer());
         }
     }
 

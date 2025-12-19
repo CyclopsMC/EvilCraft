@@ -8,11 +8,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.Model;
-import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -27,15 +26,16 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
-import net.minecraft.client.renderer.entity.state.HitboxesRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.PlayerSkin;
@@ -88,7 +88,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
                     if(renderState.spirit.isPlayer()) {
                         AvatarRenderState avatarRenderState = (AvatarRenderState) innerRenderState;
                         GameProfile gameProfile = new GameProfile(renderState.spirit.getPlayerUUID(), renderState.spirit.getPlayerName());
-                        ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultTexture();
+                        Identifier resourcelocation = DefaultPlayerSkin.getDefaultTexture();
                         Minecraft minecraft = Minecraft.getInstance();
                         // Check if we have loaded the (texturized) profile before, otherwise we load it and cache it.
                         if(!checkedProfiles.containsKey(gameProfile)) {
@@ -105,11 +105,11 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
                         }
                         playerRenderer.setPlayerTexture(resourcelocation);
                         Minecraft.getInstance().options.hideGui = true; // Disables player name tag rendering, which causes a crash due to our posestack hack.
-                        RenderType renderTypeOverride = RenderType.energySwirl(playerRenderer.getTextureLocation((AvatarRenderState) innerRenderState), uv, uv);
+                        RenderType renderTypeOverride = RenderTypes.energySwirl(playerRenderer.getTextureLocation((AvatarRenderState) innerRenderState), uv, uv);
                         playerRenderer.submit(avatarRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
                         Minecraft.getInstance().options.hideGui = false;
                     } else {
-                        RenderType renderTypeOverride = RenderType.energySwirl(render.getTextureLocation(innerRenderState), uv, uv);
+                        RenderType renderTypeOverride = RenderTypes.energySwirl(render.getTextureLocation(innerRenderState), uv, uv);
                         render.submit(innerRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
                     }
                 } catch (Exception e) {
@@ -164,7 +164,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
 
     public static class RenderPlayerSpirit extends LivingEntityRenderer<Mob, AvatarRenderState, PlayerModel> {
 
-        private ResourceLocation playerTexture;
+        private Identifier playerTexture;
 
         public RenderPlayerSpirit(EntityRendererProvider.Context context) {
             super(context, new PlayerModel(context.bakeLayer(ModelLayers.PLAYER), false), 0.5F);
@@ -184,7 +184,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
             this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getPlayerSkinRenderCache()));
         }
 
-        public void setPlayerTexture(ResourceLocation playerTexture) {
+        public void setPlayerTexture(Identifier playerTexture) {
             this.playerTexture = playerTexture;
         }
 
@@ -194,7 +194,7 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public ResourceLocation getTextureLocation(AvatarRenderState renderState) {
+        public Identifier getTextureLocation(AvatarRenderState renderState) {
             return playerTexture;
         }
     }
@@ -207,11 +207,6 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         public SubmitNodeCollectorRenderTypeOverride(SubmitNodeCollector submitNodeCollector, RenderType renderTypeOverride) {
             this.submitNodeCollector = submitNodeCollector;
             this.renderTypeOverride = renderTypeOverride;
-        }
-
-        @Override
-        public void submitHitbox(PoseStack poseStack, EntityRenderState entityRenderState, HitboxesRenderState hitboxesRenderState) {
-            this.submitNodeCollector.submitHitbox(poseStack, entityRenderState, hitboxesRenderState);
         }
 
         @Override

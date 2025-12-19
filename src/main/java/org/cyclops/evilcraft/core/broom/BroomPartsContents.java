@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 
 import java.util.List;
@@ -16,14 +16,14 @@ import java.util.Objects;
 public class BroomPartsContents {
 
     public static final Codec<BroomPartsContents> CODEC = Codec.list(
-                    ResourceLocation.CODEC.xmap(
+                    Identifier.CODEC.xmap(
                             BroomParts.REGISTRY::getPart,
                             IBroomPart::getId
                     )
             )
             .xmap(BroomPartsContents::new, BroomPartsContents::getParts);
     public static final StreamCodec<ByteBuf, BroomPartsContents> STREAM_CODEC =
-            ResourceLocation.STREAM_CODEC.map(
+            Identifier.STREAM_CODEC.map(
                             BroomParts.REGISTRY::getPart,
                             IBroomPart::getId
                     ).apply(ByteBufCodecs.list())

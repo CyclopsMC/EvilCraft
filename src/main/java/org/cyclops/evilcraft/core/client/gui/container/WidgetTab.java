@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.core.client.gui.container;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * Simple tab gui element.
@@ -29,7 +29,7 @@ public abstract class WidgetTab {
         this.gui = gui;
     }
 
-    protected abstract ResourceLocation getResourceLocation();
+    protected abstract Identifier getIdentifier();
 
     /**
      * Draw the tab.
@@ -38,7 +38,7 @@ public abstract class WidgetTab {
      * @param y Origin Y.
      */
     public void drawBackground(GuiGraphics guiGraphics, int x, int y) {
-        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getResourceLocation(), x + posX, y + posY, u, v, width, height, 256, 256);
+        guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getIdentifier(), x + posX, y + posY, u, v, width, height, 256, 256);
     }
 
 }

@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.core.broom;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 
 /**
@@ -10,15 +10,15 @@ import org.cyclops.cyclopscore.helper.IModHelpers;
 public class BroomPartCapMetal extends BroomPartBase {
     private final int color;
 
-    public BroomPartCapMetal(ResourceLocation id, int color) {
+    public BroomPartCapMetal(Identifier id, int color) {
         super(id, BroomPartType.CAP, 0.25F);
         this.color = IModHelpers.get().getBaseHelpers().rgbToBgr(color);
     }
 
     @Override
-    protected void registerModelResourceLocation() {
+    protected void registerModelIdentifier() {
         BroomParts.REGISTRY.registerPartModel(this,
-                ResourceLocation.fromNamespaceAndPath(getId().getNamespace(), "broom_part/cap_metal"));
+                Identifier.fromNamespaceAndPath(getId().getNamespace(), "broom_part/cap_metal"));
     }
 
     @Override

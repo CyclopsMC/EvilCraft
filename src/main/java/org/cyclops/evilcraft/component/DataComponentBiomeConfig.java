@@ -8,7 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.biome.Biome;
 import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -24,10 +24,10 @@ public class DataComponentBiomeConfig extends DataComponentConfigCommon<DataComp
                 .networkSynchronized(ByteBufCodecs.fromCodecWithRegistries(BiomeHolder.CODEC)));
     }
 
-    public static record BiomeHolder(ResourceLocation id, HolderGetter<Biome> getter) {
+    public static record BiomeHolder(Identifier id, HolderGetter<Biome> getter) {
         public static Codec<BiomeHolder> CODEC = RecordCodecBuilder.create(
                 builder -> builder.group(
-                                ResourceLocation.CODEC.fieldOf("name").forGetter(BiomeHolder::id),
+                                Identifier.CODEC.fieldOf("name").forGetter(BiomeHolder::id),
                                 RegistryOps.retrieveGetter(Registries.BIOME)
                         )
                         .apply(builder, BiomeHolder::new)

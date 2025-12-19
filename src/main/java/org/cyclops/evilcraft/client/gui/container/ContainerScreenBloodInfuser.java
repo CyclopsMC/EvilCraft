@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockBloodInfuser;
@@ -87,7 +87,7 @@ public class ContainerScreenBloodInfuser extends ContainerScreenTileWorking<Cont
     }
 
     @Override
-    public ResourceLocation constructGuiTexture() {
-        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_infuser_gui.png");
+    public Identifier constructGuiTexture() {
+        return Identifier.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "blood_infuser_gui.png");
     }
 }

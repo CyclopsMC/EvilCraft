@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.common.NeoForge;
@@ -35,7 +35,7 @@ import java.util.function.Supplier;
  */
 public class BroomModifierRegistry implements IBroomModifierRegistry {
 
-    private final Map<ResourceLocation, BroomModifier> broomModifiers = Maps.newLinkedHashMap();
+    private final Map<Identifier, BroomModifier> broomModifiers = Maps.newLinkedHashMap();
     private final Map<BroomModifier, IBroomPart> broomModifierParts = Maps.newHashMap();
     private final List<Pair<Supplier<ItemStack>, Map<BroomModifier, Float>>> broomItems = Lists.newArrayList();
 
@@ -54,7 +54,7 @@ public class BroomModifierRegistry implements IBroomModifierRegistry {
 
     @Nullable
     @Override
-    public BroomModifier getModifier(ResourceLocation id) {
+    public BroomModifier getModifier(Identifier id) {
         return broomModifiers.get(id);
     }
 

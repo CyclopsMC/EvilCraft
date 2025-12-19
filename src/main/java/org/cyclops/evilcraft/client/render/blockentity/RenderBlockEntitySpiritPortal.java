@@ -3,14 +3,14 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.Reference;
@@ -28,7 +28,7 @@ import java.util.Random;
  */
 public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockEntitySpiritPortal, RenderBlockEntitySpiritPortal.RenderState> {
 
-    private static final ResourceLocation PORTALBASE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portal_bases.png");
+    private static final Identifier PORTALBASE = Identifier.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_MODELS + "portal_bases.png");
 
     public RenderBlockEntitySpiritPortal(BlockEntityRendererProvider.Context context) {
 
@@ -91,7 +91,7 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
             poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F + progress * 90.0F));
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
-            submitNodeCollector.submitCustomGeometry(poseStack, RenderType.lightning(), (pose, vb) -> {
+            submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lightning(), (pose, vb) -> {
                 vb.addVertex(pose, 0, 0, 0).setColor(171, 97, 210, (int)(MAX_OPACITY * (1.0F - f2)));
                 vb.addVertex(pose, -0.866F * f4, f3, (-0.5F * f4)).setColor(175, 100, 215, 0);
                 vb.addVertex(pose, 0.866F * f4, f3, (-0.5F * f4)).setColor(175, 100, 215, 0);
@@ -127,7 +127,7 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
 
         int j = 150;
         int k = 150;
-        submitNodeCollector.submitCustomGeometry(poseStack, RenderType.text(PORTALBASE), (pose, vb) -> {
+        submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.text(PORTALBASE), (pose, vb) -> {
             vb.addVertex(pose, 0, 1, 0).setColor(0.72F, 0.5f, 0.23F, 0.9F).setUv(u1, v2).setUv2(j, k);
             vb.addVertex(pose, 0, 0, 0).setColor(0.72F, 0.5f, 0.83F, 0.9F).setUv(u1, v1).setUv2(j, k);
             vb.addVertex(pose, 1, 0, 0).setColor(0.72F, 0.5f, 0.83F, 0.9F).setUv(u2, v1).setUv2(j, k);

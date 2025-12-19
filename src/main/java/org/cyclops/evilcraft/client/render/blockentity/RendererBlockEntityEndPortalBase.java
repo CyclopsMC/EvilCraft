@@ -2,11 +2,12 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -56,7 +57,7 @@ public abstract class RendererBlockEntityEndPortalBase<T extends BlockEntity, S 
     }
 
     protected RenderType renderType() {
-        return RenderType.endPortal();
+        return RenderTypes.endPortal();
     }
 
     public abstract boolean shouldRenderFace(Direction direction);

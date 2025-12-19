@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -30,7 +30,7 @@ public class ItemEffortlessRing extends Item {
     private static final int TICK_MODULUS = 1;
 
     private static final float SPEED_BONUS = 0.05F;
-    private static final AttributeModifier STEP_SIZE_MODIFIER = new AttributeModifier(ResourceLocation.parse(Reference.MOD_ID + ":step_height_modifier"), 1, AttributeModifier.Operation.ADD_VALUE);
+    private static final AttributeModifier STEP_SIZE_MODIFIER = new AttributeModifier(Identifier.parse(Reference.MOD_ID + ":step_height_modifier"), 1, AttributeModifier.Operation.ADD_VALUE);
     private static final float JUMP_DISTANCE_FACTOR = 0.05F;
     private static final float JUMP_HEIGHT_FACTOR = 0.3F;
     private static final float FALLDISTANCE_REDUCTION = 2F;

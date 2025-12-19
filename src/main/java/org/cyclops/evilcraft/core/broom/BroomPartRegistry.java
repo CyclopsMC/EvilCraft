@@ -9,7 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.EventPriority;
@@ -37,11 +37,11 @@ public class BroomPartRegistry implements IBroomPartRegistry {
 
     private static final String NBT_TAG_NAME = "broom_parts_tag";
 
-    private final Map<ResourceLocation, IBroomPart> parts = Maps.newLinkedHashMap();
+    private final Map<Identifier, IBroomPart> parts = Maps.newLinkedHashMap();
     private final Multimap<IBroomPart, Supplier<ItemStack>> partItems = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Multimap<IBroomPart.BroomPartType, IBroomPart> partsByType = MultimapBuilder.SetMultimapBuilder.hashKeys().hashSetValues().build();
     private final Map<IBroomPart, Map<BroomModifier, Float>> baseModifiers = Maps.newHashMap();
-    private Map<IBroomPart, ResourceLocation> partModels;
+    private Map<IBroomPart, Identifier> partModels;
 
     public BroomPartRegistry() {
         EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGHEST, this::beforeItemsRegistered);
@@ -128,7 +128,7 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    public IBroomPart getPart(ResourceLocation partId) {
+    public IBroomPart getPart(Identifier partId) {
         return parts.get(partId);
     }
 
@@ -138,17 +138,17 @@ public class BroomPartRegistry implements IBroomPartRegistry {
     }
 
     @Override
-    public void registerPartModel(IBroomPart part, ResourceLocation modelLocation) {
+    public void registerPartModel(IBroomPart part, Identifier modelLocation) {
         partModels.put(part, modelLocation);
     }
 
     @Override
-    public ResourceLocation getPartModel(IBroomPart part) {
+    public Identifier getPartModel(IBroomPart part) {
         return partModels.get(part);
     }
 
     @Override
-    public Collection<ResourceLocation> getPartModels() {
+    public Collection<Identifier> getPartModels() {
         return Collections.unmodifiableCollection(partModels.values());
     }
 

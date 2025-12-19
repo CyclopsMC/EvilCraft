@@ -13,7 +13,7 @@ import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
+import net.neoforged.neoforge.client.model.quad.BakedColors;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
@@ -39,7 +40,10 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 
 /**
  * A baked entangled chalice model.
@@ -112,11 +116,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         int color = getColorSeed(this.id);
         for (BlockModelPart blockModelPart : gemsModel.collectParts(level, BlockPos.ZERO, blockState, rand)) {
             for (BakedQuad quad : blockModelPart.getQuads(null)) {
-                int[] data = Arrays.copyOf(quad.vertices(), quad.vertices().length);
-                for (int i = 0; i < data.length / 8; i++) {
-                    data[i * 8 + 3] = color;
-                }
-                quads.add(new BakedQuad(data, quad.tintIndex(), quad.direction(), quad.sprite(), false, 0, true));
+                quads.add(new BakedQuad(quad.position0(), quad.position1(), quad.position2(), quad.position3(), quad.packedUV0(), quad.packedUV1(), quad.packedUV2(), quad.packedUV3(), quad.tintIndex(), quad.direction(), quad.sprite(), false, 30, quad.bakedNormals(), BakedColors.of(color), quad.hasAmbientOcclusion()));
             }
         }
 
@@ -244,16 +244,16 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         return Reference.MOD_ID + ":entangled_chalice";
     }
 
-    public record Unbaked(ResourceLocation chalice, ResourceLocation gems, Variant.SimpleModelState modelState) implements CustomUnbakedBlockStateModel {
+    public record Unbaked(Identifier chalice, Identifier gems, Variant.SimpleModelState modelState) implements CustomUnbakedBlockStateModel {
 
         public static final MapCodec<ModelEntangledChaliceBaked.Unbaked> CODEC = RecordCodecBuilder.mapCodec(
                 builder -> builder.group(
-                                ResourceLocation.CODEC.fieldOf("chalice").forGetter(ModelEntangledChaliceBaked.Unbaked::chalice),
-                                ResourceLocation.CODEC.fieldOf("gems").forGetter(ModelEntangledChaliceBaked.Unbaked::gems),
+                                Identifier.CODEC.fieldOf("chalice").forGetter(ModelEntangledChaliceBaked.Unbaked::chalice),
+                                Identifier.CODEC.fieldOf("gems").forGetter(ModelEntangledChaliceBaked.Unbaked::gems),
                                 Variant.SimpleModelState.MAP_CODEC.forGetter(ModelEntangledChaliceBaked.Unbaked::modelState)
                         )
                         .apply(builder, ModelEntangledChaliceBaked.Unbaked::new));
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice");
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice");
 
         @Override
         public void resolveDependencies(ResolvableModel.Resolver resolver) {

@@ -1,14 +1,16 @@
 package org.cyclops.evilcraft.client.render.model;
 
+import com.mojang.math.OctahedralGroup;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ResolvedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -24,15 +26,16 @@ public record ItemModelDisplayStand(ModelDisplayStandBaked model, ModelRenderPro
 
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner entity, int seed) {
-        new BlockModelWrapper(List.of(), model.handleItemState(stack, level, entity), modelRenderProperties)
+        List<BakedQuad> quads = model.handleItemState(stack, level, entity);
+        new BlockModelWrapper(List.of(), quads, modelRenderProperties, BlockModelWrapper.detectRenderType(quads))
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
-    public static record Unbaked(ResourceLocation base) implements ItemModel.Unbaked {
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "display_stand");
+    public static record Unbaked(Identifier base) implements ItemModel.Unbaked {
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "display_stand");
         public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
-                                ResourceLocation.CODEC.fieldOf("base").forGetter(ItemModelDisplayStand.Unbaked::base)
+                                Identifier.CODEC.fieldOf("base").forGetter(ItemModelDisplayStand.Unbaked::base)
                         )
                         .apply(instance, Unbaked::new)
         );
@@ -51,7 +54,7 @@ public record ItemModelDisplayStand(ModelDisplayStandBaked model, ModelRenderPro
             ModelDisplayStandBaked model = new ModelDisplayStandBaked(
                     baker,
                     resolvedModel,
-                    BlockModelRotation.X0_Y0,
+                    BlockModelRotation.get(OctahedralGroup.IDENTITY),
                     textureslots,
                     null
             );

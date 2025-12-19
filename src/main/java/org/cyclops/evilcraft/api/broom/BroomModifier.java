@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class BroomModifier {
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final Type type;
     private final float defaultValue;
     private final float tierValue;
@@ -36,7 +36,7 @@ public class BroomModifier {
     private final List<ITickListener> tickListeners = Lists.newLinkedList();
     private final List<ICollisionListener> collisionListeners = Lists.newLinkedList();
 
-    public BroomModifier(ResourceLocation id, Type type, float defaultValue,
+    public BroomModifier(Identifier id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
                          List<ChatFormatting> tooltipFormats, int modelColor) {
         this.id = id;
@@ -54,7 +54,7 @@ public class BroomModifier {
         }
     }
 
-    public BroomModifier(ResourceLocation id, Type type, float defaultValue,
+    public BroomModifier(Identifier id, Type type, float defaultValue,
                          float tierValue, int maxTiers, boolean baseModifier,
                          ChatFormatting singleFormat, int modelColor) {
         this(id, type, defaultValue, tierValue, maxTiers, baseModifier, Lists.newArrayList(singleFormat), modelColor);
@@ -64,7 +64,7 @@ public class BroomModifier {
         return IModHelpers.get().getBaseHelpers().rgbToBgra(modelColor, baseModifier ? 255 : 200);
     }
 
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return id;
     }
 

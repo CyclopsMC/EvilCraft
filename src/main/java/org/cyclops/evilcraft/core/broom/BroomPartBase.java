@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.broom;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Rarity;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
@@ -16,32 +16,32 @@ import java.util.Locale;
  */
 public class BroomPartBase implements IBroomPart {
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final BroomPartType type;
     private final float length;
     private final Rarity rarity;
     private final boolean effect;
 
-    public BroomPartBase(ResourceLocation id, BroomPartType type, float length) {
+    public BroomPartBase(Identifier id, BroomPartType type, float length) {
         this(id, type, length, Rarity.COMMON, false);
     }
 
-    public BroomPartBase(ResourceLocation id, BroomPartType type, float length, Rarity rarity, boolean effect) {
+    public BroomPartBase(Identifier id, BroomPartType type, float length, Rarity rarity, boolean effect) {
         this.id = id;
         this.type = type;
         this.length = length;
         this.rarity = rarity;
         this.effect = effect;
-        registerModelResourceLocation();
+        registerModelIdentifier();
     }
 
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return this.id;
     }
 
-    protected void registerModelResourceLocation() {
+    protected void registerModelIdentifier() {
         BroomParts.REGISTRY.registerPartModel(this,
-                ResourceLocation.fromNamespaceAndPath(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase(Locale.ROOT)));
+                Identifier.fromNamespaceAndPath(getId().getNamespace(), "broom_part/" + getId().getPath().toLowerCase(Locale.ROOT)));
     }
 
     @Override

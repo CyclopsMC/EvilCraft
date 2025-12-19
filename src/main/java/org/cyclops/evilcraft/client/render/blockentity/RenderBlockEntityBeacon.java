@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -25,7 +25,7 @@ import org.joml.Vector4f;
  */
 public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon, S extends RenderBlockEntityBeacon.RenderState> implements BlockEntityRenderer<T, S> {
 
-    private static final ResourceLocation BEACON_TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/beacon_beam.png");
+    private static final Identifier BEACON_TEXTURE = Identifier.withDefaultNamespace("textures/entity/beacon_beam.png");
 
     public RenderBlockEntityBeacon(BlockEntityRendererProvider.Context context) {
 

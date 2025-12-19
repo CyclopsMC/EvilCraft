@@ -4,7 +4,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
@@ -22,7 +22,7 @@ public class EntityWerewolfConfigClient extends EntityClientConfig<ModBaseNeoFor
 
     public EntityWerewolfConfigClient(EntityConfigCommon<ModBaseNeoForge<?>, EntityWerewolf> entityConfig) {
         super(entityConfig);
-        this.model = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "werewolf"), "main");
+        this.model = new ModelLayerLocation(Identifier.fromNamespaceAndPath(Reference.MOD_ID, "werewolf"), "main");
         entityConfig.getMod().getModEventBus().addListener(this::loadLayerDefinitions);
     }
 

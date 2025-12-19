@@ -1,16 +1,18 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Maps;
+import com.mojang.math.OctahedralGroup;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -30,12 +32,13 @@ public record ItemModelBroomPart(List<ItemTintSource> tints, ModelBroomPartBaked
 
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner entity, int seed) {
-        new BlockModelWrapper(tints, model.handleItemState(stack, level, entity), modelRenderProperties)
+        List<BakedQuad> quads = model.handleItemState(stack, level, entity);
+        new BlockModelWrapper(tints, quads, modelRenderProperties, BlockModelWrapper.detectRenderType(quads))
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
     public static record Unbaked(List<ItemTintSource> tints) implements ItemModel.Unbaked {
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom_part");
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "broom_part");
         public static final MapCodec<ItemModelBroomPart.Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(
                 builder -> builder.group(
                                 ItemTintSources.CODEC.listOf().optionalFieldOf("tints", List.of()).forGetter(ItemModelBroomPart.Unbaked::tints)
@@ -53,14 +56,14 @@ public record ItemModelBroomPart(List<ItemTintSource> tints, ModelBroomPartBaked
             ModelBaker baker = bakingContext.blockModelBaker();
             Map<IBroomPart, BlockStateModel> broomPartModels = Maps.newIdentityHashMap();
             for(IBroomPart part : BroomParts.REGISTRY.getParts()) {
-                broomPartModels.put(part, ModelHelpers.bakeSingleBlockStateModel(baker, BroomParts.REGISTRY.getPartModel(part), BlockModelRotation.X0_Y0));
+                broomPartModels.put(part, ModelHelpers.bakeSingleBlockStateModel(baker, BroomParts.REGISTRY.getPartModel(part), BlockModelRotation.get(OctahedralGroup.IDENTITY)));
             }
             return new ItemModelBroomPart(this.tints, new ModelBroomPartBaked(broomPartModels), new ModelRenderProperties(false, null, ModelHelpers.DEFAULT_CAMERA_TRANSFORMS));
         }
 
         @Override
         public void resolveDependencies(Resolver resolver) {
-            for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
+            for (Identifier partModel : BroomParts.REGISTRY.getPartModels()) {
                 resolver.markDependency(partModel);
             }
         }

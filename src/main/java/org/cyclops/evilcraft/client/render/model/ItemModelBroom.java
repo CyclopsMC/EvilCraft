@@ -1,13 +1,15 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Maps;
+import com.mojang.math.OctahedralGroup;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -27,12 +29,13 @@ public record ItemModelBroom(ModelBroomBaked model, ModelRenderProperties modelR
 
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner entity, int seed) {
-        new BlockModelWrapper(List.of(), model.handleItemState(stack, level, entity), modelRenderProperties)
+        List<BakedQuad> quads = model.handleItemState(stack, level, entity);
+        new BlockModelWrapper(List.of(), quads, modelRenderProperties, BlockModelWrapper.detectRenderType(quads))
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
     public static record Unbaked() implements ItemModel.Unbaked {
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "broom");
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "broom");
         public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(new Unbaked());
 
         @Override
@@ -45,14 +48,14 @@ public record ItemModelBroom(ModelBroomBaked model, ModelRenderProperties modelR
             ModelBaker baker = bakingContext.blockModelBaker();
             Map<IBroomPart, BlockStateModel> broomPartModels = Maps.newIdentityHashMap();
             for(IBroomPart part : BroomParts.REGISTRY.getParts()) {
-                broomPartModels.put(part, ModelHelpers.bakeSingleBlockStateModel(baker, BroomParts.REGISTRY.getPartModel(part), BlockModelRotation.X0_Y0));
+                broomPartModels.put(part, ModelHelpers.bakeSingleBlockStateModel(baker, BroomParts.REGISTRY.getPartModel(part), BlockModelRotation.get(OctahedralGroup.IDENTITY)));
             }
             return new ItemModelBroom(new ModelBroomBaked(broomPartModels), new ModelRenderProperties(false, null, ModelHelpers.DEFAULT_CAMERA_TRANSFORMS));
         }
 
         @Override
         public void resolveDependencies(Resolver resolver) {
-            for (ResourceLocation partModel : BroomParts.REGISTRY.getPartModels()) {
+            for (Identifier partModel : BroomParts.REGISTRY.getPartModels()) {
                 resolver.markDependency(partModel);
             }
         }

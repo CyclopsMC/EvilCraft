@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.Reference;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestBase<BlockEntityColossalBloodChest, RenderBlockEntityColossalBloodChest.RenderState> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "model/colossal_blood_chest");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "model/colossal_blood_chest");
 
     public RenderBlockEntityColossalBloodChest(BlockEntityRendererProvider.Context p_i226008_1_) {
         super(p_i226008_1_);

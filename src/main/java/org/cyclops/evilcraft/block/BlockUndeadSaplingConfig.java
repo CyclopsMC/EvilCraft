@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.grower.TreeGrower;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class BlockUndeadSaplingConfig extends BlockConfigCommon<IModBase> {
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> UNDEAD_TREE = ResourceKey
-            .create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "tree_undead"));
+            .create(Registries.CONFIGURED_FEATURE, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "tree_undead"));
     public static final TreeGrower UNDEAD_TREE_GROWER = new TreeGrower(
             Reference.MOD_ID + ":menril_sapling",
             Optional.empty(), // Mega tree

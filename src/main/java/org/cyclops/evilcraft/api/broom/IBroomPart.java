@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.api.broom;
 
 import com.google.common.collect.Lists;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Rarity;
 import org.cyclops.evilcraft.Reference;
 
@@ -24,7 +24,7 @@ public interface IBroomPart {
     /**
      * @return The unique part identifier.
      */
-    public ResourceLocation getId();
+    public Identifier getId();
 
     /**
      * @return The unlocalized name.

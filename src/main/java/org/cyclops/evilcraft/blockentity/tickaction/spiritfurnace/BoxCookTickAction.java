@@ -9,14 +9,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.boss.wither.WitherBoss;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ResolvableProfile;
@@ -199,7 +199,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                     }
                 } else {
                     ResourceKey<LootTable> deathLootTable;
-                    Map<EntityType<?>, ResourceLocation> mobDropTablesOverrides = getMobDropTablesOverrides();
+                    Map<EntityType<?>, Identifier> mobDropTablesOverrides = getMobDropTablesOverrides();
                     if (mobDropTablesOverrides.containsKey(entity.getType())) {
                         deathLootTable = ResourceKey.create(Registries.LOOT_TABLE, mobDropTablesOverrides.get(entity.getType()));
                     } else {
@@ -266,21 +266,21 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         return map;
     }
 
-    private Map<EntityType<?>, ResourceLocation> getMobDropTablesOverrides() {
-        Map<EntityType<?>, ResourceLocation> map = Maps.newIdentityHashMap();
+    private Map<EntityType<?>, Identifier> getMobDropTablesOverrides() {
+        Map<EntityType<?>, Identifier> map = Maps.newIdentityHashMap();
         for(String line : BlockSpiritFurnaceConfig.mobDrops) {
             String[] split = line.split(BlockSpiritFurnaceConfig.DELIMITER);
             if(split.length != 2) {
                 throw new IllegalArgumentException("Invalid line '" + line + "' found for "
                         + "a Spirit Furnace mob drop config.");
             }
-            ResourceLocation entityName = ResourceLocation.parse(split[0]);
+            Identifier entityName = Identifier.parse(split[0]);
             if (!BuiltInRegistries.ENTITY_TYPE.containsKey(entityName)) {
                 EvilCraft.clog("Invalid line '" + line + "' found for "
                         + "a Spirit Furnace mob drop config: " + split[0] + " does not refer to a valid entity name; skipping.");
                 continue;
             }
-            ResourceLocation resourceLocation = ResourceLocation.parse(split[1]);
+            Identifier resourceLocation = Identifier.parse(split[1]);
             map.put(BuiltInRegistries.ENTITY_TYPE.getValue(entityName), resourceLocation);
         }
         return map;

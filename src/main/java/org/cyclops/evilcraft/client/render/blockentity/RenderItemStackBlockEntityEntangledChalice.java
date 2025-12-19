@@ -19,9 +19,9 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
-import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * @author rubensworks
@@ -47,7 +47,7 @@ public class RenderItemStackBlockEntityEntangledChalice implements SpecialModelR
     }
 
     @Override
-    public void getExtents(Set<Vector3f> p_428206_) {
+    public void getExtents(Consumer<Vector3fc> consumer) {
 
     }
 

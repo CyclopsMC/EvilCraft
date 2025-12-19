@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.api.broom;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.init.IRegistry;
 
@@ -27,7 +27,7 @@ public interface IBroomModifierRegistry extends IRegistry {
      * @param id The modifier id.
      */
     @Nullable
-    public BroomModifier getModifier(ResourceLocation id);
+    public BroomModifier getModifier(Identifier id);
 
     /**
      * Override the default modifier broom part.

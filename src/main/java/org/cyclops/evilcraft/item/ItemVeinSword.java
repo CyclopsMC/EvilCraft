@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
@@ -34,7 +34,7 @@ public class ItemVeinSword extends Item {
     public ItemStack getEnchantedItemStack(HolderLookup.Provider holders) {
         ItemStack sword = new ItemStack(this);
         ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
-        enchantments.set(holders.holderOrThrow(ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.parse("minecraft:looting"))), LOOTING_LEVEL);
+        enchantments.set(holders.holderOrThrow(ResourceKey.create(Registries.ENCHANTMENT, Identifier.parse("minecraft:looting"))), LOOTING_LEVEL);
         EnchantmentHelper.setEnchantments(sword, enchantments.toImmutable());
         return sword;
     }

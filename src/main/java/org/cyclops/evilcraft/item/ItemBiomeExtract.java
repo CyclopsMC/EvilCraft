@@ -6,7 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -84,7 +84,7 @@ public class ItemBiomeExtract extends Item {
         Holder<Biome> biome = getBiome(itemStack);
         if (biome != null) {
             // Biome name generation based on CreateBuffetWorldScreen
-            ResourceLocation key = biome.unwrapKey().get().location();
+            Identifier key = biome.unwrapKey().get().identifier();
             tooltipAdder.accept(Component.translatable(getDescriptionId() + ".info.content",
                     Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
         }
@@ -119,7 +119,7 @@ public class ItemBiomeExtract extends Item {
     public ItemStack createItemStack(Holder<Biome> biome, int amount, HolderGetter<Biome> holderGetter) {
         ItemStack itemStack = new ItemStack(this, amount);
         if(biome != null) {
-            itemStack.set(RegistryEntries.COMPONENT_BIOME, new DataComponentBiomeConfig.BiomeHolder(biome.unwrapKey().get().location(), holderGetter));
+            itemStack.set(RegistryEntries.COMPONENT_BIOME, new DataComponentBiomeConfig.BiomeHolder(biome.unwrapKey().get().identifier(), holderGetter));
             itemStack.set(DataComponents.RARITY, getRarity(biome));
         }
         return itemStack;

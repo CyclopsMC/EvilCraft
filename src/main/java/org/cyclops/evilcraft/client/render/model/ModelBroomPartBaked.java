@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.quad.BakedColors;
 import net.neoforged.neoforge.model.data.ModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
@@ -25,7 +26,6 @@ import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -92,11 +92,7 @@ public class ModelBroomPartBaked extends DynamicItemAndBlockModel {
     private Collection<? extends BakedQuad> color(List<BakedQuad> quads, int color) {
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
-            int[] vertexData = Arrays.copyOf(quad.vertices(), quad.vertices().length);
-            for(int i = 0; i < vertexData.length / 8; i++) {
-                vertexData[i * 8 + 3] = color;
-            }
-            offsetQuads.add(new BakedQuad(vertexData, quad.tintIndex(), quad.direction(), quad.sprite(), false, quad.lightEmission(), quad.hasAmbientOcclusion()));
+            offsetQuads.add(new BakedQuad(quad.position0(), quad.position1(), quad.position2(), quad.position3(), quad.packedUV0(), quad.packedUV1(), quad.packedUV2(), quad.packedUV3(), quad.tintIndex(), quad.direction(), quad.sprite(), false, 3, quad.bakedNormals(), BakedColors.of(color), quad.hasAmbientOcclusion()));
         }
         return offsetQuads;
     }

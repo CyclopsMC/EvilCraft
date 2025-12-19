@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.quad.BakedColors;
 import net.neoforged.neoforge.model.data.ModelData;
 import org.cyclops.cyclopscore.client.model.DynamicItemAndBlockModel;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
@@ -24,9 +25,13 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A baked broom model.
@@ -147,18 +152,14 @@ public class ModelBroomBaked extends DynamicItemAndBlockModel {
     private Collection<? extends BakedQuad> offsetAndColor(List<BakedQuad> quads, float offset, int color) {
         List<BakedQuad> offsetQuads = Lists.newArrayListWithExpectedSize(quads.size());
         for (BakedQuad quad : quads) {
-            int[] vertexData = Arrays.copyOf(quad.vertices(), quad.vertices().length);
-            for (int i = 0; i < vertexData.length / 8; i++) {
-                float originalZ = Float.intBitsToFloat(vertexData[i * 8 + 2]);
-                originalZ += offset;
-                vertexData[i * 8 + 2] = Float.floatToIntBits(originalZ);
-                vertexData[i * 8 + 3] = color;
-            }
-
-            offsetQuads.add(new BakedQuad(vertexData, quad.tintIndex(), quad.direction(), quad.sprite(), false, quad.lightEmission(), quad.hasAmbientOcclusion()));
+            offsetQuads.add(new BakedQuad(offsetVec(quad.position0(), offset), offsetVec(quad.position1(), offset), offsetVec(quad.position2(), offset), offsetVec(quad.position3(), offset), quad.packedUV0(), quad.packedUV1(), quad.packedUV2(), quad.packedUV3(), quad.tintIndex(), quad.direction(), quad.sprite(), false, 3, quad.bakedNormals(), BakedColors.of(color), quad.hasAmbientOcclusion()));
         }
 
         return offsetQuads;
+    }
+
+    private Vector3fc offsetVec(Vector3fc vector3fc, float offset) {
+        return new Vector3f(vector3fc.x(), vector3fc.y(), vector3fc.z()).add(0, 0, offset);
     }
 
     @Override

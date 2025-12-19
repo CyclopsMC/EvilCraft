@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodChest;
@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class RenderBlockEntityBloodChest extends RenderBlockEntityChestBase<BlockEntityBloodChest, RenderBlockEntityBloodChest.RenderState> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "model/blood_chest");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "model/blood_chest");
 
     public RenderBlockEntityBloodChest(BlockEntityRendererProvider.Context p_i226008_1_) {
         super(p_i226008_1_);

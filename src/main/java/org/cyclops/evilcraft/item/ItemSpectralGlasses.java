@@ -1,9 +1,9 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
@@ -33,8 +33,8 @@ public class ItemSpectralGlasses extends Item {
         p_371202_.put(ArmorType.HELMET, 1);
         p_371202_.put(ArmorType.BODY, 3);
     }), 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F,
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "repairs_spectral_glasses")),
-            ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "spectral")));
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "repairs_spectral_glasses")),
+            ResourceKey.create(EquipmentAssets.ROOT_ID, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "spectral")));
 
     public ItemSpectralGlasses(Properties properties) {
         super(properties.humanoidArmor(MATERIAL, ArmorType.HELMET));

@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.event;
 import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,8 +31,8 @@ public class RenderOverlayEventHook {
 
     private static final int WIDTH = 5;
     private static final int HEIGHT = 51;
-    protected static final ResourceLocation BROOM_OVERLAY = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/overlay.png");
-    protected static final ResourceLocation BLOOD_OVERLAY = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/overlay.png");
+    protected static final Identifier BROOM_OVERLAY = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/overlay.png");
+    protected static final Identifier BLOOD_OVERLAY = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "textures/gui/overlay.png");
 
     private int filledHeight = -1;
 

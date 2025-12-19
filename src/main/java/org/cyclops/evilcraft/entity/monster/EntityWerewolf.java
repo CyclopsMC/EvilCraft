@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.entity.monster;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ExtraCodecs;
@@ -19,8 +20,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.wolf.WolfSoundVariants;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.entity.npc.villager.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -80,7 +81,7 @@ public class EntityWerewolf extends Monster {
     public static void transformWerewolfVillager(EntityTickEvent.Post event) {
         if(event.getEntity() instanceof Villager && !event.getEntity().level().isClientSide()) {
             Villager villager = (Villager) event.getEntity();
-            if(EntityWerewolf.isWerewolfTime(event.getEntity().level())
+            if(EntityWerewolf.isWerewolfTime((ServerLevel) event.getEntity().level(), event.getEntity().getOnPos())
                     && villager.getVillagerData().profession().value() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()
                     && villager.level().getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
                 EntityWerewolf.replaceVillager(villager);
@@ -112,8 +113,8 @@ public class EntityWerewolf extends Monster {
      * @param world The world.
      * @return If it is werewolf party time.
      */
-    public static boolean isWerewolfTime(Level world) {
-        return world.getMoonBrightness() == 1.0
+    public static boolean isWerewolfTime(ServerLevel world, BlockPos pos) {
+        return world.getMoonBrightness(pos) == 1.0
                 && world.isDarkOutside()
                 && world.getDifficulty() != Difficulty.PEACEFUL;
     }
@@ -165,7 +166,7 @@ public class EntityWerewolf extends Monster {
 
     @Override
     public void aiStep() {
-        if(!level().isClientSide() && (!isWerewolfTime(level()) || level().getDifficulty() == Difficulty.PEACEFUL)) {
+        if(!level().isClientSide() && (!isWerewolfTime((ServerLevel) level(), getOnPos()) || level().getDifficulty() == Difficulty.PEACEFUL)) {
             replaceWithVillager();
         } else {
             super.aiStep();

@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.item;
 
 import com.google.common.collect.Lists;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -164,7 +164,7 @@ public class ItemMaceOfDistortion extends ItemMace {
         return new ItemAttributeModifiers(Lists.newArrayList(
                 new ItemAttributeModifiers.Entry(
                         Attributes.ATTACK_DAMAGE,
-                        new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), MELEE_DAMAGE, AttributeModifier.Operation.ADD_VALUE),
+                        new AttributeModifier(Identifier.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), MELEE_DAMAGE, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
         ));

@@ -1,8 +1,9 @@
 package org.cyclops.evilcraft.entity.villager;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,7 +31,7 @@ public class EmeraldForItemsTrade implements VillagerTrades.ItemListing {
     }
 
     @Override
-    public MerchantOffer getOffer(Entity trader, RandomSource rand) {
+    public MerchantOffer getOffer(ServerLevel serverLevel, Entity trader, RandomSource rand) {
         return new MerchantOffer(new ItemCost(this.tradeItem, this.count), new ItemStack(Items.EMERALD), this.maxUses, this.xpValue, this.priceMultiplier);
     }
 }

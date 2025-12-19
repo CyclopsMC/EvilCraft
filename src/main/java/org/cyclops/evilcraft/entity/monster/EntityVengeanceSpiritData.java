@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.entity.monster;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -80,7 +80,7 @@ public class EntityVengeanceSpiritData {
     }
 
     public void readNBT(ValueInput valueInput) {
-        valueInput.getString(NBTKEY_INNER_ENTITY).ifPresent(innerEntityType -> setInnerEntityType(BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(innerEntityType))));
+        valueInput.getString(NBTKEY_INNER_ENTITY).ifPresent(innerEntityType -> setInnerEntityType(BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(innerEntityType))));
         setRemainingLife(valueInput.getInt(NBTKEY_REMAINING_LIFE).orElseThrow());
         setFrozenDuration(valueInput.getInt(NBTKEY_FROZEN_DURATION).orElseThrow());
         setSwarm(valueInput.getBooleanOr(NBTKEY_IS_SWARM, false));
@@ -127,7 +127,7 @@ public class EntityVengeanceSpiritData {
         if (tag != null && !tag.isEmpty()) {
             String innerEntity = tag.getString(NBTKEY_INNER_SPIRIT).orElse(null);
             if (!Strings.isEmpty(innerEntity)) {
-                return BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(innerEntity));
+                return BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(innerEntity));
             }
         }
         return null;

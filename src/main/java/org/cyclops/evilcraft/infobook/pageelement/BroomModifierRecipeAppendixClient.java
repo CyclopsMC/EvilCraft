@@ -2,9 +2,9 @@ package org.cyclops.evilcraft.infobook.pageelement;
 
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -45,6 +45,6 @@ public class BroomModifierRecipeAppendixClient extends RecipeAppendixClient<Broo
     protected void drawString(ScreenInfoBook gui, GuiGraphics guiGraphics, String string, int x, int y) {
         Font fontRenderer = gui.getFont();
         MultiLineLabel.create(fontRenderer, Component.literal(string), 200)
-                .render(guiGraphics, MultiLineLabel.Align.LEFT, x, y, 9, false, ARGB.opaque(0));
+                .visitLines(TextAlignment.LEFT, x, y, 9, guiGraphics.textRenderer());
     }
 }

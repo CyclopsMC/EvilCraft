@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
@@ -105,8 +105,8 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
     }
 
     @Override
-    public ResourceLocation constructGuiTexture() {
-        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_reanimator_gui.png");
+    public Identifier constructGuiTexture() {
+        return Identifier.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "spirit_reanimator_gui.png");
     }
 
     @Override
@@ -123,7 +123,7 @@ public class ContainerScreenSpiritReanimator extends ContainerScreenTileWorking<
         else {
             ItemStack outputStack = getMenu().getContainerInventory().getItem(BlockEntitySpiritReanimator.SLOTS_OUTPUT);
             if (!outputStack.isEmpty() && outputStack.getItem() instanceof SpawnEggItem
-                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack) != BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(entityName))) {
+                    && ((SpawnEggItem) outputStack.getItem()).getType(outputStack) != BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(entityName))) {
                 lines.add(Component.translatable(prefix + ".different_egg"));
             }
         }

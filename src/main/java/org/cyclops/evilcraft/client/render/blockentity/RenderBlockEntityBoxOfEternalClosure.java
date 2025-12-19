@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
@@ -11,11 +10,13 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.entity.EnderDragonRenderer;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -35,9 +36,9 @@ import org.joml.Matrix4f;
  */
 public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEndPortalBase<BlockEntityBoxOfEternalClosure, RenderBlockEntityBoxOfEternalClosure.RenderState> {
 
-    private static final ResourceLocation beamTexture =
-            ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
-    private static final RenderType renderTypeBeam = RenderType.entitySmoothCutout(beamTexture);
+    private static final Identifier beamTexture =
+            Identifier.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_ENTITIES + "beam.png");
+    private static final RenderType renderTypeBeam = RenderTypes.entitySmoothCutout(beamTexture);
 
     public RenderBlockEntityBoxOfEternalClosure(BlockEntityRendererProvider.Context rendererDispatcherIn) {
         super(rendererDispatcherIn);

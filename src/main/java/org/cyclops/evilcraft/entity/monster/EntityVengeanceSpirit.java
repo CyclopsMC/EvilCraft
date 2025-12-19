@@ -10,7 +10,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -87,7 +87,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
     public static final EntityDataAccessor<String> WATCHERID_PLAYERID = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
     public static final EntityDataAccessor<String> WATCHERID_PLAYERNAME = SynchedEntityData.<String>defineId(EntityVengeanceSpirit.class, EntityDataSerializers.STRING);
 
-    public static final TagKey<Block> TAG_SPIRIT_BLOCKER = TagKey.create(Registries.BLOCK, ResourceLocation.parse("evilcraft:vengeance_spirit_blocker"));
+    public static final TagKey<Block> TAG_SPIRIT_BLOCKER = TagKey.create(Registries.BLOCK, Identifier.parse("evilcraft:vengeance_spirit_blocker"));
 
     private EntityVengeanceSpiritSyncedData data;
 
@@ -204,7 +204,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
     @Override
     public Optional<ResourceKey<LootTable>> getLootTable() {
-        return Optional.of(ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entities/" + BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath())));
+        return Optional.of(ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "entities/" + BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath())));
     }
 
     @Override

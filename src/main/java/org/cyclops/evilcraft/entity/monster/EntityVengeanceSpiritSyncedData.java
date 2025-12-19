@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.entity.monster;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import org.apache.commons.lang3.StringUtils;
 
@@ -43,7 +43,7 @@ public class EntityVengeanceSpiritSyncedData extends EntityVengeanceSpiritData {
     @Override
     public EntityType<?> getInnerEntityType() {
         String entityName = dataManager.get().get(EntityVengeanceSpirit.WATCHERID_INNER);
-        return entityName.isEmpty() ? null : BuiltInRegistries.ENTITY_TYPE.getValue(ResourceLocation.parse(entityName));
+        return entityName.isEmpty() ? null : BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse(entityName));
     }
 
     @Override

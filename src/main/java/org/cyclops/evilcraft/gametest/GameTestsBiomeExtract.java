@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +26,7 @@ public class GameTestsBiomeExtract {
         player.setPos(helper.absolutePos(POS).getBottomCenter());
         player.setXRot(90F);
         ItemStack biomeExtract = new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT);
-        biomeExtract.set(RegistryEntries.COMPONENT_BIOME, new DataComponentBiomeConfig.BiomeHolder(ResourceLocation.fromNamespaceAndPath("minecraft", "beach"), helper.getLevel().holderLookup(Registries.BIOME)));
+        biomeExtract.set(RegistryEntries.COMPONENT_BIOME, new DataComponentBiomeConfig.BiomeHolder(Identifier.fromNamespaceAndPath("minecraft", "beach"), helper.getLevel().holderLookup(Registries.BIOME)));
         player.setItemInHand(InteractionHand.MAIN_HAND, biomeExtract);
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
 

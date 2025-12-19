@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.client.gui.container;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.core.client.gui.container.WidgetTab;
 
@@ -13,17 +13,17 @@ import org.cyclops.evilcraft.core.client.gui.container.WidgetTab;
  */
 public class WidgetUpgradeTab extends WidgetTab {
 
-    private ResourceLocation texture;
+    private Identifier texture;
     private SlotEnabledCallback slotEnabledCallback;
 
     public WidgetUpgradeTab(AbstractContainerScreen gui, SlotEnabledCallback slotEnabledCallback) {
         super(28, 82, 0, 0, 0, 0, gui);
-        this.texture = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "gui_upgrades.png");
+        this.texture = Identifier.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "gui_upgrades.png");
         this.slotEnabledCallback = slotEnabledCallback;
     }
 
     @Override
-    protected ResourceLocation getResourceLocation() {
+    protected Identifier getIdentifier() {
         return texture;
     }
 
@@ -37,7 +37,7 @@ public class WidgetUpgradeTab extends WidgetTab {
         super.drawBackground(guiGraphics, x, y);
         for(int i = 0; i < 4; i++) {
             if(slotEnabledCallback != null && !slotEnabledCallback.isSlotEnabled(i)) {
-                guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getResourceLocation(), x + posX + 5, y + posY + 5 + 18 * i, 28, 0, 18, 18, 256, 256);
+                guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getIdentifier(), x + posX + 5, y + posY + 5 + 18 * i, 28, 0, 18, 18, 256, 256);
             }
         }
     }

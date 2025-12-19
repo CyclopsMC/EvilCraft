@@ -12,6 +12,6 @@ import org.cyclops.evilcraft.client.render.blockentity.RenderItemStackBlockEntit
 public class BlockBloodChestConfigClient extends BlockClientConfig<ModBaseNeoForge<?>>  {
     public BlockBloodChestConfigClient(BlockConfigCommon<ModBaseNeoForge<?>> blockConfig) {
         super(blockConfig);
-        blockConfig.getMod().getModEventBus().addListener((RegisterSpecialModelRendererEvent event) -> event.register(blockConfig.getResourceKey().location(), RenderItemStackBlockEntityBloodChest.Unbaked.MAP_CODEC));
+        blockConfig.getMod().getModEventBus().addListener((RegisterSpecialModelRendererEvent event) -> event.register(blockConfig.getResourceKey().identifier(), RenderItemStackBlockEntityBloodChest.Unbaked.MAP_CODEC));
     }
 }

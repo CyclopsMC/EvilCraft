@@ -3,11 +3,11 @@ package org.cyclops.evilcraft.infobook.pageelement;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public class EnvironmentalAccumulatorRecipeAppendixClient extends RecipeAppendixClient<EnvironmentalAccumulatorRecipeAppendix> {
 
-    private static final ResourceLocation WEATHERS = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "weathers.png");
+    private static final Identifier WEATHERS = Identifier.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "weathers.png");
     private static final Map<WeatherType, Integer> X_ICON_OFFSETS = new HashMap<WeatherType, Integer>();
     static {
         X_ICON_OFFSETS.put(WeatherType.CLEAR, 0);
@@ -99,7 +99,7 @@ public class EnvironmentalAccumulatorRecipeAppendixClient extends RecipeAppendix
             FluidStack fluidStack = new FluidStack(RegistryEntries.FLUID_BLOOD, amount);
             String line = fluidStack.getAmount() + " mB";
             MultiLineLabel.create(fontRenderer, Component.literal(line), 200)
-                    .render(guiGraphics, MultiLineLabel.Align.LEFT, x + middle - 5, y + SLOT_SIZE, 9, false, ARGB.opaque(0));
+                    .visitLines(TextAlignment.LEFT, x + middle - 5, y + SLOT_SIZE, 9, guiGraphics.textRenderer());
         }
     }
 

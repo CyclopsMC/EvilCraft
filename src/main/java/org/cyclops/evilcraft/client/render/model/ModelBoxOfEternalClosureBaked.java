@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -165,17 +165,17 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
         return Reference.MOD_ID + ":box_of_eternal_closure";
     }
 
-    public record Unbaked(ResourceLocation box, ResourceLocation boxLid, ResourceLocation boxLidRotated, Variant.SimpleModelState modelState) implements CustomUnbakedBlockStateModel {
+    public record Unbaked(Identifier box, Identifier boxLid, Identifier boxLidRotated, Variant.SimpleModelState modelState) implements CustomUnbakedBlockStateModel {
 
         public static final MapCodec<ModelBoxOfEternalClosureBaked.Unbaked> CODEC = RecordCodecBuilder.mapCodec(
                 builder -> builder.group(
-                                ResourceLocation.CODEC.fieldOf("box").forGetter(ModelBoxOfEternalClosureBaked.Unbaked::box),
-                                ResourceLocation.CODEC.fieldOf("box_lid").forGetter(ModelBoxOfEternalClosureBaked.Unbaked::boxLid),
-                                ResourceLocation.CODEC.fieldOf("box_lid_rotated").forGetter(ModelBoxOfEternalClosureBaked.Unbaked::boxLidRotated),
+                                Identifier.CODEC.fieldOf("box").forGetter(ModelBoxOfEternalClosureBaked.Unbaked::box),
+                                Identifier.CODEC.fieldOf("box_lid").forGetter(ModelBoxOfEternalClosureBaked.Unbaked::boxLid),
+                                Identifier.CODEC.fieldOf("box_lid_rotated").forGetter(ModelBoxOfEternalClosureBaked.Unbaked::boxLidRotated),
                                 Variant.SimpleModelState.MAP_CODEC.forGetter(Unbaked::modelState)
                         )
                         .apply(builder, ModelBoxOfEternalClosureBaked.Unbaked::new));
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure");
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "box_of_eternal_closure");
 
         @Override
         public void resolveDependencies(ResolvableModel.Resolver resolver) {

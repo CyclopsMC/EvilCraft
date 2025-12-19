@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemStack;
@@ -191,15 +191,15 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         return Reference.MOD_ID + ":display_stand";
     }
 
-    public record Unbaked(ResourceLocation base, Variant.SimpleModelState modelState) implements CustomUnbakedBlockStateModel {
+    public record Unbaked(Identifier base, Variant.SimpleModelState modelState) implements CustomUnbakedBlockStateModel {
 
         public static final MapCodec<ModelDisplayStandBaked.Unbaked> CODEC = RecordCodecBuilder.mapCodec(
                 builder -> builder.group(
-                                ResourceLocation.CODEC.fieldOf("base").forGetter(ModelDisplayStandBaked.Unbaked::base),
+                                Identifier.CODEC.fieldOf("base").forGetter(ModelDisplayStandBaked.Unbaked::base),
                                 Variant.SimpleModelState.MAP_CODEC.forGetter(ModelDisplayStandBaked.Unbaked::modelState)
                         )
                         .apply(builder, ModelDisplayStandBaked.Unbaked::new));
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "display_stand");
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "display_stand");
 
         @Override
         public void resolveDependencies(ResolvableModel.Resolver resolver) {

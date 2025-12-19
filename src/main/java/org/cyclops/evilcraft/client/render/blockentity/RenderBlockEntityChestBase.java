@@ -2,9 +2,8 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.ChestModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.model.object.chest.ChestModel;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -13,6 +12,7 @@ import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.blockentity.state.ChestRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -69,7 +69,7 @@ public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBloc
         float f1 = renderState.openNess;
         Material material = this.getMaterial(renderState);
         TextureAtlasSprite textureAtlasSprite = this.materials.get(material);
-        submitNodeCollector.submitModel(this.singleModel, f1, poseStack, material.renderType(RenderType::entityCutout), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, textureAtlasSprite, 0, renderState.breakProgress);
+        submitNodeCollector.submitModel(this.singleModel, f1, poseStack, material.renderType(RenderTypes::entityCutout), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, textureAtlasSprite, 0, renderState.breakProgress);
 
         poseStack.popPose();
     }

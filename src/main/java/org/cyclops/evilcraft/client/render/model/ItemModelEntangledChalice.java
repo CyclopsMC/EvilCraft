@@ -1,14 +1,16 @@
 package org.cyclops.evilcraft.client.render.model;
 
+import com.mojang.math.OctahedralGroup;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.TextureSlots;
 import net.minecraft.client.renderer.item.*;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ResolvedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -25,16 +27,17 @@ public record ItemModelEntangledChalice(ModelEntangledChaliceBaked model, ModelR
 
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner entity, int seed) {
-        new BlockModelWrapper(List.of(), model.handleItemState(stack, level, entity), modelRenderProperties)
+        List<BakedQuad> quads = model.handleItemState(stack, level, entity);
+        new BlockModelWrapper(List.of(), quads, modelRenderProperties, BlockModelWrapper.detectRenderType(quads))
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
-    public static record Unbaked(ResourceLocation chalice, ResourceLocation gems) implements ItemModel.Unbaked {
-        public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice");
+    public static record Unbaked(Identifier chalice, Identifier gems) implements ItemModel.Unbaked {
+        public static final Identifier ID = Identifier.fromNamespaceAndPath(Reference.MOD_ID, "entangled_chalice");
         public static final MapCodec<Unbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(
                 instance -> instance.group(
-                                ResourceLocation.CODEC.fieldOf("chalice").forGetter(ItemModelEntangledChalice.Unbaked::chalice),
-                                ResourceLocation.CODEC.fieldOf("gems").forGetter(ItemModelEntangledChalice.Unbaked::gems)
+                                Identifier.CODEC.fieldOf("chalice").forGetter(ItemModelEntangledChalice.Unbaked::chalice),
+                                Identifier.CODEC.fieldOf("gems").forGetter(ItemModelEntangledChalice.Unbaked::gems)
                         )
                         .apply(instance, Unbaked::new)
         );
@@ -51,8 +54,8 @@ public record ItemModelEntangledChalice(ModelEntangledChaliceBaked model, ModelR
             TextureSlots textureslots = resolvedModel.getTopTextureSlots();
             ModelRenderProperties modelRenderProperties = ModelRenderProperties.fromResolvedModel(baker, resolvedModel, textureslots);
             ModelEntangledChaliceBaked model = new ModelEntangledChaliceBaked(
-                    ModelHelpers.bakeSingleBlockStateModel(baker, chalice, BlockModelRotation.X0_Y0),
-                    ModelHelpers.bakeSingleBlockStateModel(baker, gems, BlockModelRotation.X0_Y0)
+                    ModelHelpers.bakeSingleBlockStateModel(baker, chalice, BlockModelRotation.get(OctahedralGroup.IDENTITY)),
+                    ModelHelpers.bakeSingleBlockStateModel(baker, gems, BlockModelRotation.get(OctahedralGroup.IDENTITY))
             );
             return new ItemModelEntangledChalice(model, modelRenderProperties);
         }

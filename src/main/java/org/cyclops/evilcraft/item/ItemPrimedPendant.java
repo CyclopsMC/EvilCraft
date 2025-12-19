@@ -6,7 +6,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stat;
@@ -167,7 +167,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
                 player.openMenu(containerProvider, (packetBuffer) -> {
                     this.writeExtraGuiData(packetBuffer, world, player, itemLocation);
                 });
-                Stat<ResourceLocation> openStat = this.getOpenStat();
+                Stat<Identifier> openStat = this.getOpenStat();
                 if (openStat != null) {
                     player.awardStat(openStat);
                 }
@@ -182,7 +182,7 @@ public class ItemPrimedPendant extends ItemBloodContainer {
     }
 
     @Nullable
-    protected Stat<ResourceLocation> getOpenStat() {
+    protected Stat<Identifier> getOpenStat() {
         return null;
     }
 

@@ -1,12 +1,12 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
@@ -107,7 +107,7 @@ public class RenderBlockEntityDarkTank implements BlockEntityRenderer<BlockEntit
         float a = 1.0F;
         for (Direction side : DirectionHelpers.DIRECTIONS) {
             TextureAtlasSprite icon = ModelDarkTankBaked.getFluidIcon(fluid, flowing, side);
-            submitNodeCollector.submitCustomGeometry(matrixStackIn, RenderType.text(icon.atlasLocation()), (pose, vb) -> {
+            submitNodeCollector.submitCustomGeometry(matrixStackIn, RenderTypes.text(icon.atlasLocation()), (pose, vb) -> {
                 float[][] c = coordinates[side.ordinal()];
                 float minV = icon.getV0();
                 float maxV = (icon.getV1() - icon.getV0()) * height + icon.getV0();

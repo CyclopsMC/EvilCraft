@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.block;
 import net.minecraft.client.renderer.block.model.BlockStateModel;
 import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.state.BlockState;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cyclops.cyclopscore.client.model.IDynamicModelElementCommon;
@@ -45,9 +45,9 @@ public class BlockDarkTankConfigClient extends BlockClientConfig<ModBaseNeoForge
         }
 
         @Override
-        public ItemModel createDynamicItemModel(Consumer<Pair<ResourceLocation, ItemModel>> modelConsumer, Function<ResourceLocation, ItemModel> modelRetriever) {
+        public ItemModel createDynamicItemModel(Consumer<Pair<Identifier, ItemModel>> modelConsumer, Function<Identifier, ItemModel> modelRetriever) {
             ItemDynamicItemAndBlockModel itemModel = new ItemDynamicItemAndBlockModel(model, model.getModelRenderProperties());
-            ResourceLocation registryName = BuiltInRegistries.BLOCK.getKey(RegistryEntries.BLOCK_DARK_TANK.get());
+            Identifier registryName = BuiltInRegistries.BLOCK.getKey(RegistryEntries.BLOCK_DARK_TANK.get());
             modelConsumer.accept(Pair.of(registryName, itemModel));
             return itemModel;
         }

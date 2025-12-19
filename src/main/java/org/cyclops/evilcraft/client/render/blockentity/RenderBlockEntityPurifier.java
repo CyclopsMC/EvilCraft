@@ -3,9 +3,8 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.BookModel;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.model.object.book.BookModel;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -14,12 +13,13 @@ import net.minecraft.client.renderer.blockentity.EnchantTableRenderer;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -45,7 +45,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntityPurifier, RenderBlockEntityPurifier.RenderState> {
 
-    public static final Material TEXTURE_BLOOK = new Material(Sheets.CHEST_SHEET, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "entity/blook"));
+    public static final Material TEXTURE_BLOOK = new Material(Sheets.CHEST_SHEET, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "entity/blook"));
     private final BookModel enchantmentBook;
 
     public RenderBlockEntityPurifier(BlockEntityRendererProvider.Context context) {
@@ -108,7 +108,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid.getFluid());
             Triple<Float, Float, Float> color = IModHelpers.get().getBaseHelpers().intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), renderState.level, renderState.blockPos));
 
-            submitNodeCollector.submitCustomGeometry(poseStack, RenderType.text(icon.atlasLocation()), (pose, vb1) -> {
+            submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.text(icon.atlasLocation()), (pose, vb1) -> {
                 vb1.addVertex(pose, 0.0625F, height, 0.0625F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV1()).setUv2(l2, i3);
                 vb1.addVertex(pose, 0.0625F, height, 0.9375F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV0()).setUv2(l2, i3);
                 vb1.addVertex(pose, 0.9375F, height, 0.9375F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU1(), icon.getV0()).setUv2(l2, i3);
@@ -190,8 +190,8 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         float f5 = Mth.frac(f3 + 0.75F) * 1.6F - 0.3F;
         float f6 = Mth.lerp(partialTickTime, renderState.oOpen, renderState.open);
         this.enchantmentBook.setupAnim(new BookModel.State(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6));
-        Material material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_LOCATION;
-        submitNodeCollector.submitCustomGeometry(poseStack, material.renderType(RenderType::entitySolid), (pose, vertexConsumer) -> enchantmentBook.renderToBuffer(poseStack, vertexConsumer, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1));
+        Material material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_TEXTURE;
+        submitNodeCollector.submitCustomGeometry(poseStack, material.renderType(RenderTypes::entitySolid), (pose, vertexConsumer) -> enchantmentBook.renderToBuffer(poseStack, vertexConsumer, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1));
 
         poseStack.popPose();
     }

@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ExtraCodecs;
 import org.cyclops.evilcraft.api.broom.BroomModifier;
 import org.cyclops.evilcraft.api.broom.BroomModifiers;
@@ -20,7 +20,7 @@ public class BroomModifiersContents {
 
     public static final Codec<BroomModifiersContents> CODEC = ExtraCodecs
             .strictUnboundedMap(
-                    ResourceLocation.CODEC.xmap(
+                    Identifier.CODEC.xmap(
                             BroomModifiers.REGISTRY::getModifier,
                             BroomModifier::getId
                     ),
@@ -30,7 +30,7 @@ public class BroomModifiersContents {
     public static final StreamCodec<RegistryFriendlyByteBuf, BroomModifiersContents> STREAM_CODEC =
             ByteBufCodecs.<RegistryFriendlyByteBuf, BroomModifier, Float, Map<BroomModifier, Float>>map(
                             HashMap::new,
-                            ResourceLocation.STREAM_CODEC.map(
+                            Identifier.STREAM_CODEC.map(
                                     BroomModifiers.REGISTRY::getModifier,
                                     BroomModifier::getId
                             ),

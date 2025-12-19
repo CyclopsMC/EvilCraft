@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.client.gui.container;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.block.BlockColossalBloodChest;
@@ -93,8 +93,8 @@ public class ContainerScreenColossalBloodChest extends ContainerScreenTileWorkin
     }
 
     @Override
-    public ResourceLocation constructGuiTexture() {
-        return ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "colossal_blood_chest_gui.png");
+    public Identifier constructGuiTexture() {
+        return Identifier.fromNamespaceAndPath(Reference.MOD_ID, Reference.TEXTURE_PATH_GUI + "colossal_blood_chest_gui.png");
     }
 
     @Override
