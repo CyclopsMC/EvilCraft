@@ -3,7 +3,6 @@ package org.cyclops.evilcraft.entity.villager;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
@@ -28,8 +27,8 @@ public class VillagerProfessionWerewolfConfig extends VillagerConfig {
                 "werewolf",
                 eConfig -> new VillagerProfession(
                         ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, eConfig.getNamedId()).toString(),
-                        (poiType) -> poiType.is(PoiTypes.BUTCHER),
-                        (poiType) -> poiType.is(PoiTypes.BUTCHER),
+                        (poiType) -> poiType.is(RegistryEntries.POI_WEREWOLVIAN),
+                        (poiType) -> poiType.is(RegistryEntries.POI_WEREWOLVIAN),
                         ImmutableSet.of(),
                         ImmutableSet.of(),
                         SoundEvents.VILLAGER_WORK_BUTCHER
