@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Additions:
+* Add Werewolvian villager house to villages, Closes #1146
