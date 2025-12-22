@@ -52,6 +52,7 @@ import org.cyclops.evilcraft.entity.effect.EntityAttackVengeanceBeamConfig;
 import org.cyclops.evilcraft.entity.effect.EntityNecromancersHeadConfig;
 import org.cyclops.evilcraft.entity.item.*;
 import org.cyclops.evilcraft.entity.monster.*;
+import org.cyclops.evilcraft.entity.villager.PoiWerewolvianConfig;
 import org.cyclops.evilcraft.entity.villager.VillagerProfessionWerewolfConfig;
 import org.cyclops.evilcraft.fluid.BloodConfig;
 import org.cyclops.evilcraft.fluid.PoisonConfig;
@@ -446,6 +447,9 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
         configHandler.addConfigurable(new ItemTintSourceBowlOfPromisesTypeConfig());
         configHandler.addConfigurable(new ItemTintSourceBroomPartConfig());
         configHandler.addConfigurable(new ItemTintSourceWeatherContainerTypeConfig());
+
+        // POIs
+        configHandler.addConfigurable(new PoiWerewolvianConfig());
     }
 
     @Override

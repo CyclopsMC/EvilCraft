@@ -6,11 +6,12 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
@@ -269,5 +270,7 @@ public class RegistryEntries {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> COMPONENT_POWER = DeferredHolder.create(Registries.DATA_COMPONENT_TYPE, Identifier.parse("evilcraft:power"));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ItemWeatherContainer.WeatherContainerType>> COMPONENT_WEATHER_CONTAINER_TYPE = DeferredHolder.create(Registries.DATA_COMPONENT_TYPE, Identifier.parse("evilcraft:weather_container_type"));
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> COMPONENT_WORLD_SHARED_TANK_ID = DeferredHolder.create(Registries.DATA_COMPONENT_TYPE, Identifier.parse("evilcraft:world_shared_tank_id"));
+
+    public static final DeferredHolder<PoiType, PoiType> POI_WEREWOLVIAN = DeferredHolder.create(Registries.POINT_OF_INTEREST_TYPE, Identifier.parse("evilcraft:werewolvian"));
 
 }

@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.80"></a>
+## [1.21.1-1.2.80](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.79...1.21.1-1.2.80) - 2025-12-22 14:17:57
+
+
+### Added
+* Add Werewolvian villager house to villages, Closes #1146
+
 <a name="1.21.1-1.2.79"></a>
-## [1.21.1-1.2.79](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.78...1.21.1-1.2.79) - 2025-11-15 06:36:47
+## [1.21.1-1.2.79](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.78...1.21.1-1.2.79) - 2025-11-15 06:36:47 +0100
 
 
 ### Added
