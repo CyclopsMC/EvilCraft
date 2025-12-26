@@ -123,7 +123,7 @@ public class BlockEntityBloodStain extends CyclopsBlockEntity {
             @Override
             protected void onRootCommit(Integer originalState) {
                 super.onRootCommit(originalState);
-                tile.setAmount(originalState, true);
+                tile.setAmount(tile.getAmount(), true);
             }
         }
     }
