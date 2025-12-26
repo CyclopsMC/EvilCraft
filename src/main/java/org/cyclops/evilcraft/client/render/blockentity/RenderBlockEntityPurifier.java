@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -46,9 +47,11 @@ import org.jetbrains.annotations.Nullable;
 public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntityPurifier, RenderBlockEntityPurifier.RenderState> {
 
     public static final Material TEXTURE_BLOOK = new Material(Sheets.CHEST_SHEET, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "entity/blook"));
+    private final MaterialSet materials;
     private final BookModel enchantmentBook;
 
     public RenderBlockEntityPurifier(BlockEntityRendererProvider.Context context) {
+        this.materials = context.materials();
         this.enchantmentBook = new BookModel(context.bakeLayer(ModelLayers.BOOK));
     }
 
@@ -191,7 +194,8 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         float f6 = Mth.lerp(partialTickTime, renderState.oOpen, renderState.open);
         this.enchantmentBook.setupAnim(new BookModel.State(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6));
         Material material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_TEXTURE;
-        submitNodeCollector.submitCustomGeometry(poseStack, material.renderType(RenderTypes::entitySolid), (pose, vertexConsumer) -> enchantmentBook.renderToBuffer(poseStack, vertexConsumer, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1));
+        BookModel.State bookmodel$state = new BookModel.State(tick, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), renderState.open);
+        submitNodeCollector.submitModel(this.enchantmentBook, bookmodel$state, poseStack, material.renderType(RenderTypes::entitySolid), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, this.materials.get(material), 0, renderState.breakProgress);
 
         poseStack.popPose();
     }
