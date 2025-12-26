@@ -25,7 +25,8 @@ public class BlockFluidPoisonConfig extends BlockConfigCommon<IModBase> {
                         .liquid()
                         .noCollision()
                         .strength(100.0F)
-                        .randomTicks()),
+                        .randomTicks()
+                        .replaceable()),
                 (eConfig, block) -> new BlockItem(block, eConfig.createDefaultItemProperties())
         );
     }
