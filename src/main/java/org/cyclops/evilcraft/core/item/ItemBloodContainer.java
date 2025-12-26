@@ -53,7 +53,11 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
         FluidStack fluidStack = FluidUtil.getFirstStackContained(itemStack);
         int drained;
         try (var tx = Transaction.openRoot()) {
-            drained = fluidHandler.extract(FluidResource.of(fluidStack), IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume(), tx);
+            if (fluidStack.isEmpty()) {
+                drained = 0;
+            } else {
+                drained = fluidHandler.extract(FluidResource.of(fluidStack), IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume(), tx);
+            }
         }
 
         boolean hasBucket = drained == IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume();
