@@ -10,7 +10,6 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.apache.logging.log4j.Level;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
-import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -29,7 +28,7 @@ public class ItemPrimedPendantConfig extends ItemConfigCommon<IModBase> {
     private static final String DELIMITER = ";";
 
     @ConfigurablePropertyCommon(category = "item", comment = "The capacity of the pendant.", requiresMcRestart = true)
-    public static int capacity = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 5;
+    public static int capacity = 1000 * 5;
 
     @ConfigurablePropertyCommon(category = "item", comment = "The amount of Blood to drain after one effect application.", isCommandable = true)
     public static int usage = 10;

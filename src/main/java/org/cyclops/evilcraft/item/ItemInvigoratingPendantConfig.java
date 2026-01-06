@@ -5,7 +5,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
-import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
@@ -20,7 +19,7 @@ import java.util.Collections;
 public class ItemInvigoratingPendantConfig extends ItemConfigCommon<IModBase> {
 
     @ConfigurablePropertyCommon(category = "item", comment = "The capacity of the pendant.", requiresMcRestart = true)
-    public static int capacity = IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * 5;
+    public static int capacity = 1000 * 5;
 
     @ConfigurablePropertyCommon(category = "item", comment = "The amount of blood to drain after each clearing of one bad effect.", isCommandable = true)
     public static int usage = 100;
