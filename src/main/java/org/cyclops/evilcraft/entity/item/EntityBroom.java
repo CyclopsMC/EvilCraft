@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.portal.DimensionTransition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -102,6 +103,7 @@ public class EntityBroom extends Entity {
     private double oldHoverOffset;
 
     private Map<BroomModifier, Float> cachedModifiers = null;
+    private boolean isChangingDimensions;
 
     public EntityBroom(EntityType<? extends EntityBroom> type, Level world) {
         this(type, world, 0.0, 0.0, 0.0);
@@ -301,13 +303,21 @@ public class EntityBroom extends Entity {
         }
     }
 
+    @Override
+    public @org.jetbrains.annotations.Nullable Entity changeDimension(DimensionTransition pTransition) {
+        this.isChangingDimensions = true;
+        Entity ret = super.changeDimension(pTransition);
+        this.isChangingDimensions = false;
+        return ret;
+    }
+
     private void onDismount() {
         // The player dismounted, give him his broom back if he's not in creative mode
         if (lastMounted instanceof Player) {
             stopAllowFlying(lastMounted);
             Player player = (Player) lastMounted;
             // Return to inventory if we have space and the player is not dead, otherwise drop it on the ground
-            if (player.isAlive() && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.isCreative())) {
+            if (!this.isChangingDimensions && player.isAlive() && (!MinecraftHelpers.isPlayerInventoryFull(player) || player.isCreative())) {
                 // Return to inventory if he's not in creative mode
                 if (!player.isCreative()) {
                     player.getInventory().add(getBroomStack());
