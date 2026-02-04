@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.81"></a>
+## [1.21.1-1.2.81](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.80...1.21.1-1.2.81) - 2026-02-04 15:31:52
+
+
+### Fixed
+* Fix Broom duping when changing dimensions, Closes #1154
+
 <a name="1.21.1-1.2.80"></a>
-## [1.21.1-1.2.80](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.79...1.21.1-1.2.80) - 2025-12-22 14:17:57
+## [1.21.1-1.2.80](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.79...1.21.1-1.2.80) - 2025-12-22 14:17:57 +0100
 
 
 ### Added
