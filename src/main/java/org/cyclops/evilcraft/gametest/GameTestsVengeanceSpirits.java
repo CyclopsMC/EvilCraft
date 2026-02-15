@@ -122,6 +122,7 @@ public class GameTestsVengeanceSpirits {
             helper.assertEntityNotPresent(EntityType.ZOMBIE);
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
+            helper.assertTrue(spirit.getTarget() != null, "Spirit target is null");
             helper.assertValueEqual(spirit.getTarget(), player, "Spirit targets player");
             helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, "Spirit contains invalid entity type");
         });
