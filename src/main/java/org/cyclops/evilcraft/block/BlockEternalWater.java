@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -25,6 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.cyclops.cyclopscore.block.BlockWithEntity;
+import org.cyclops.cyclopscore.helper.BlockEntityHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEternalWater;
 
@@ -82,6 +84,16 @@ public class BlockEternalWater extends BlockWithEntity {
                 FluidUtil.getFluidHandler(itemStack)
                         .ifPresent(fluidHandler -> fluidHandler.fill(BlockEntityEternalWater.WATER, IFluidHandler.FluidAction.EXECUTE));
             }
+            return ItemInteractionResult.SUCCESS;
+        } else if (!pPlayer.isCrouching()) {
+            // Toggle auto-output on right-click without item
+            BlockEntityHelpers.get(pLevel, pPos, BlockEntityEternalWater.class)
+                    .ifPresent(tile -> {
+                        tile.setEnabled(!tile.isEnabled());
+                        pPlayer.displayClientMessage(Component.translatable(
+                                tile.isEnabled() ? "block.evilcraft.eternal_water.auto_output.enabled" : "block.evilcraft.eternal_water.auto_output.disabled"
+                        ), true);
+                    });
             return ItemInteractionResult.SUCCESS;
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
