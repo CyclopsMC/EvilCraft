@@ -15,7 +15,9 @@ import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.blockentity.CyclopsBlockEntity;
 import org.cyclops.cyclopscore.capability.registrar.BlockEntityCapabilityRegistrar;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockEternalWaterConfig;
 
 import java.util.function.Supplier;
 
@@ -28,8 +30,20 @@ public class BlockEntityEternalWater extends CyclopsBlockEntity {
 
     public static final FluidStack WATER = new FluidStack(Fluids.WATER, Integer.MAX_VALUE);
 
+    @NBTPersist
+    private boolean enabled = BlockEternalWaterConfig.autoOutputDefault;
+
     public BlockEntityEternalWater(BlockPos blockPos, BlockState blockState) {
         super(RegistryEntries.BLOCK_ENTITY_ETERNAL_WATER.get(), blockPos, blockState);
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+        sendUpdate();
+    }
+
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public static class CapabilityRegistrar extends BlockEntityCapabilityRegistrar<BlockEntityEternalWater> {
@@ -85,15 +99,17 @@ public class BlockEntityEternalWater extends CyclopsBlockEntity {
         protected void update(Level level, BlockPos pos, BlockState blockState, BlockEntityEternalWater blockEntity) {
             super.update(level, pos, blockState, blockEntity);
 
-            for(Direction direction : Direction.values()) {
-                IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(level, pos.relative(direction),
-                                direction.getOpposite(), net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK)
-                        .ifPresent(handler -> {
-                            try (var tx = Transaction.openRoot()) {
-                                handler.insert(FluidResource.of(WATER), WATER.getAmount(), tx);
-                                tx.commit();
-                            }
-                        });
+            if (blockEntity.isEnabled()) {
+                for(Direction direction : Direction.values()) {
+                    IModHelpersNeoForge.get().getCapabilityHelpers().getCapability(level, pos.relative(direction),
+                                    direction.getOpposite(), net.neoforged.neoforge.capabilities.Capabilities.Fluid.BLOCK)
+                            .ifPresent(handler -> {
+                                try (var tx = Transaction.openRoot()) {
+                                    handler.insert(FluidResource.of(WATER), WATER.getAmount(), tx);
+                                    tx.commit();
+                                }
+                            });
+                }
             }
         }
     }

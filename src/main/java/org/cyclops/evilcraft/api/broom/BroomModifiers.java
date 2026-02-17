@@ -37,6 +37,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.ExtendedDamageSources;
+import org.cyclops.evilcraft.GeneralConfig;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.broom.BroomParts;
@@ -211,6 +212,11 @@ public class BroomModifiers {
         SMASH.addTickListener(new BroomModifier.ITickListener() {
             @Override
             public void onTick(EntityBroom broom, float modifierValue) {
+                // Check if smash modifier is enabled via config
+                if (!GeneralConfig.broomSmashEnabled) {
+                    return;
+                }
+
                 double pitch = ((broom.getXRot() + 90) * Math.PI) / 180;
                 double yaw = ((broom.getYRot() + 90) * Math.PI) / 180;
                 double x = Math.sin(pitch) * Math.cos(yaw);

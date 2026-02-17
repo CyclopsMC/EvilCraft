@@ -47,6 +47,9 @@ public class GeneralConfig extends DummyConfigCommon<IModBase> {
     @ConfigurablePropertyCommon(category = "worldgeneration", comment = "The spawn chance for loot chests in dark temples, set to zero to completely disable.", isCommandable = true, requiresMcRestart = true, configLocation = ModConfigLocation.SERVER)
     public static double darkTempleChestChance = 0.15D;
 
+    @ConfigurablePropertyCommon(category = "general", comment = "If the broom smash modifier should be enabled to allow breaking blocks.", isCommandable = true, configLocation = ModConfigLocation.SERVER)
+    public static boolean broomSmashEnabled = true;
+
     public GeneralConfig() {
         super(EvilCraft._instance, "general");
     }

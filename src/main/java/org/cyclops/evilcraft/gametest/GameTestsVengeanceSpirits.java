@@ -148,8 +148,9 @@ public class GameTestsVengeanceSpirits {
             helper.assertEntityNotPresent(EntityType.ZOMBIE);
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
-            helper.assertValueEqual(spirit.getTarget(), player, Component.literal("Spirit targets player"));
-            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
+            helper.assertTrue(spirit.getTarget() != null, "Spirit target is null");
+            helper.assertValueEqual(spirit.getTarget(), player, "Spirit targets player");
+            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, "Spirit contains invalid entity type");
         });
     }
 

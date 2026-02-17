@@ -1,8 +1,19 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.82"></a>
+## [1.21.1-1.2.82](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.81...1.21.1-1.2.82) - 2026-02-17 11:32:37
+
+
+### Added
+* Add auto-output toggle for Eternal Water Block, Closes #630 (#1157)
+* Add config option to disable broom smash modifier, Closes #737 (#1155)
+
+### Fixed
+* Fix race condition in testVengeanceSpiritSpawn causing NPE (#1156)
+
 <a name="1.21.1-1.2.81"></a>
-## [1.21.1-1.2.81](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.80...1.21.1-1.2.81) - 2026-02-04 15:31:52
+## [1.21.1-1.2.81](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.80...1.21.1-1.2.81) - 2026-02-04 15:31:52 +0100
 
 
 ### Fixed

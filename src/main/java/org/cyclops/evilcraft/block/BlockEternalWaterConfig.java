@@ -1,5 +1,7 @@
 package org.cyclops.evilcraft.block;
 
+import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
+import org.cyclops.cyclopscore.config.ModConfigLocation;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
@@ -10,6 +12,9 @@ import org.cyclops.evilcraft.EvilCraft;
  *
  */
 public class BlockEternalWaterConfig extends BlockConfigCommon<IModBase> {
+
+    @ConfigurablePropertyCommon(category = "block", comment = "If the Eternal Water Block should auto-output water to adjacent blocks by default.", isCommandable = true, configLocation = ModConfigLocation.SERVER)
+    public static boolean autoOutputDefault = true;
 
     public BlockEternalWaterConfig() {
         super(

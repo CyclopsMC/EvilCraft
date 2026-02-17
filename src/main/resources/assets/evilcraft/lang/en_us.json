@@ -86,6 +86,8 @@
   "block.evilcraft.gem_stone_torch.info": "Blocks Vengeance Spirit spawning in a radius of 15 blocks.",
   "block.evilcraft.eternal_water": "Eternal Water Block",
   "block.evilcraft.eternal_water.info": "An infinite source of water.",
+  "block.evilcraft.eternal_water.auto_output.enabled": "Auto-output enabled",
+  "block.evilcraft.eternal_water.auto_output.disabled": "Auto-output disabled",
   "block.evilcraft.blood_waxed_coal_block": "Block of Blood-Waxed Coal",
   "block.evilcraft.spirit_portal": "Spirit Portal",
   "block.evilcraft.reinforced_undead_planks": "Reinforced Undead Planks",

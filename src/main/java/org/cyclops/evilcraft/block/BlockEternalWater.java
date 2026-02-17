@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -92,6 +93,16 @@ public class BlockEternalWater extends BlockWithEntity {
                             }
                         });
             }
+            return InteractionResult.SUCCESS;
+        } else if (!pPlayer.isCrouching()) {
+            // Toggle auto-output on right-click without item
+            IModHelpers.get().getBlockEntityHelpers().get(pLevel, pPos, BlockEntityEternalWater.class)
+                    .ifPresent(tile -> {
+                        tile.setEnabled(!tile.isEnabled());
+                        pPlayer.displayClientMessage(Component.translatable(
+                                tile.isEnabled() ? "block.evilcraft.eternal_water.auto_output.enabled" : "block.evilcraft.eternal_water.auto_output.disabled"
+                        ), true);
+                    });
             return InteractionResult.SUCCESS;
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);

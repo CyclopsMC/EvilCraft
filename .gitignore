@@ -19,6 +19,7 @@ repo/*
 out/*
 keystore.jks
 .idea
+logs/
 
 # Ignore mac-specific file(s)
 .DS_Store
