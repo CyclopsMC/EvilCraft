@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Additions:
+* Add auto-output toggle for Eternal Water Block, Closes #630 (#1157)
+* Add config option to disable broom smash modifier, Closes #737 (#1155)
+
+Fixes:
+* Fix race condition in testVengeanceSpiritSpawn causing NPE (#1156)
