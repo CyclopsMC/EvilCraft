@@ -29,9 +29,10 @@ public class GameTestsVengeanceSpirits {
 
     @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_0")
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
-        // Spawn spirit
+        // Spawn spirit, and pre-freeze it so the box can reliably find and capture it (the box only targets frozen spirits)
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
         spirit.setInnerEntityType(EntityType.ZOMBIE);
+        spirit.setFrozenDuration(200);
 
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
