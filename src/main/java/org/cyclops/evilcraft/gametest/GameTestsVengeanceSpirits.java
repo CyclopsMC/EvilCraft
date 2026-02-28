@@ -27,7 +27,7 @@ public class GameTestsVengeanceSpirits {
     public static final String TEMPLATE_EMPTY = "empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_0")
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
         // Spawn spirit
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
@@ -51,7 +51,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_1")
     public void testVengeanceSpiritRelease(GameTestHelper helper) {
         // Add filled box
         helper.setBlock(POS.above(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
@@ -72,7 +72,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200, batch = "vengeance_spirits_2")
     public void testVengeanceSpiritAttack(GameTestHelper helper) {
         // Spawn spirit
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.above().south().south());
@@ -98,7 +98,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_3")
     public void testVengeanceSpiritSpawn(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
@@ -128,7 +128,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_4")
     public void testVengeanceSpiritSpawnWithoutRing(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
@@ -156,14 +156,14 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_5")
     public void testVengeanceSpiritSpawnNotWhenKilledByNonPlayer(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
         zombie.setHealth(1);
 
-        // Kill zombie
-        zombie.die(helper.getLevel().damageSources().cactus());
+        // Kill zombie (use hurt so health drops to 0 immediately, preventing isAlive() returning true for ~20 ticks)
+        zombie.hurt(helper.getLevel().damageSources().cactus(), 100f);
 
         // TODO: in nextmajor, spawnOnNonPlayerKills defaults to false, so assertEntityPresent should be changed to assertEntityNotPresent
         helper.succeedWhen(() -> {
