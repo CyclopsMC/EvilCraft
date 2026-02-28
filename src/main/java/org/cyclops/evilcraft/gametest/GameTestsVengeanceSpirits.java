@@ -165,9 +165,10 @@ public class GameTestsVengeanceSpirits {
         // Kill zombie
         zombie.die(helper.getLevel().damageSources().cactus());
 
+        // TODO: in nextmajor, spawnOnNonPlayerKills defaults to false, so assertEntityPresent should be changed to assertEntityNotPresent
         helper.succeedWhen(() -> {
             helper.assertEntityNotPresent(EntityType.ZOMBIE);
-            helper.assertEntityNotPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
+            helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
         });
     }
 

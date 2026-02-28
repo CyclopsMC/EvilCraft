@@ -172,7 +172,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
             if (!level.isClientSide()
                     && level.getDifficulty() != Difficulty.PEACEFUL
                     && EntityVengeanceSpirit.canSustain(event.getEntity())
-                    && killedByPlayer
+                    && (killedByPlayer || EntityVengeanceSpiritConfig.spawnOnNonPlayerKills)
                     && (directToPlayer || EntityVengeanceSpirit.canSpawnNew(level, event.getEntity().blockPosition()))) {
                 EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(level);
                 spirit.setInnerEntity(event.getEntity());
