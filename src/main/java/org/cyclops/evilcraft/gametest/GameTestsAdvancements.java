@@ -5,12 +5,15 @@ import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.gametest.framework.GameTest;
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import java.util.List;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -43,6 +46,13 @@ public class GameTestsAdvancements {
     private static void assertAdvancementDone(GameTestHelper helper, ServerPlayer player, AdvancementHolder advancement) {
         AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
         helper.assertTrue(progress.isDone(), "Advancement " + advancement.id() + " should be done");
+    }
+
+    private static void assertAdvancementNotDone(GameTestHelper helper, ServerPlayer player, AdvancementHolder advancement) {
+        AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
+        if (progress.isDone()) {
+            throw new GameTestAssertException("Advancement " + advancement.id() + " should NOT be done");
+        }
     }
 
     @GameTest(template = TEMPLATE_EMPTY)
@@ -241,6 +251,191 @@ public class GameTestsAdvancements {
                 new ItemStack(RegistryEntries.BLOCK_SPIRIT_FURNACE.get().asItem()), player.getInventory()));
 
         assertAdvancementDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementRootNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "root");
+        helper.assertTrue(advancement != null, "Advancement root should exist");
+
+        // Simulate picking up a non-EvilCraft item (minecraft:dirt), which should NOT trigger the root advancement
+        ItemStack dirtStack = new ItemStack(Items.DIRT);
+        net.minecraft.world.entity.item.ItemEntity itemEntity =
+                new net.minecraft.world.entity.item.ItemEntity(helper.getLevel(),
+                        helper.absolutePos(POS).getX(),
+                        helper.absolutePos(POS).getY(),
+                        helper.absolutePos(POS).getZ(),
+                        dirtStack);
+        NeoForge.EVENT_BUS.post(new ItemEntityPickupEvent.Post(player, itemEntity, dirtStack.copy()));
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementFirstAgeNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "first_age");
+        helper.assertTrue(advancement != null, "Advancement first_age should exist");
+
+        // Add dirt to player inventory instead of dark_gem, which should NOT trigger the first_age advancement
+        player.getInventory().add(new ItemStack(Items.DIRT));
+        player.inventoryMenu.broadcastChanges();
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementSecondAgeNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "second_age");
+        helper.assertTrue(advancement != null, "Advancement second_age should exist");
+
+        // Simulate crafting dark_gem (not blood_extractor), which should NOT trigger the second_age advancement
+        NeoForge.EVENT_BUS.post(new PlayerEvent.ItemCraftedEvent(player,
+                new ItemStack(RegistryEntries.ITEM_DARK_GEM.get()), player.getInventory()));
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementCannibalNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "cannibal");
+        helper.assertTrue(advancement != null, "Advancement cannibal should exist");
+
+        // Consume flesh_werewolf instead of flesh_humanoid, which should NOT trigger the cannibal advancement
+        ItemStack fleshWerewolf = new ItemStack(RegistryEntries.ITEM_FLESH_WEREWOLF.get());
+        fleshWerewolf.finishUsingItem(helper.getLevel(), player);
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementClosureNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "closure");
+        helper.assertTrue(advancement != null, "Advancement closure should exist");
+
+        // Set up box of eternal closure
+        helper.setBlock(POS, RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
+        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS);
+
+        // Capture a spirit that has NO entangling player, so the trigger is never fired
+        EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
+        spirit.setInnerEntityType(EntityType.ZOMBIE);
+        box.captureSpirit(spirit);
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementEvilSourceNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "evil_source");
+        helper.assertTrue(advancement != null, "Advancement evil_source should exist");
+
+        // Add dark_gem to player inventory instead of origins_of_darkness, which should NOT trigger the evil_source advancement
+        player.getInventory().add(new ItemStack(RegistryEntries.ITEM_DARK_GEM.get()));
+        player.inventoryMenu.broadcastChanges();
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementFartNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "fart");
+        helper.assertTrue(advancement != null, "Advancement fart should exist");
+
+        // Fire inventory_changed (not the fart trigger), which should NOT trigger the fart advancement
+        player.getInventory().add(new ItemStack(RegistryEntries.ITEM_DARK_GEM.get()));
+        player.inventoryMenu.broadcastChanges();
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementMasterDistorterNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "master_distorter");
+        helper.assertTrue(advancement != null, "Advancement master_distorter should exist");
+
+        // Spawn only 9 zombies and fire the distort trigger directly with that list (one fewer than the required 10)
+        List<Zombie> zombies = new java.util.ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            zombies.add(helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().offset(i % 4, 0, i / 4)));
+        }
+        RegistryEntries.TRIGGER_DISTORT.get().test(player, List.copyOf(zombies));
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementPlayerDistorterNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "player_distorter");
+        helper.assertTrue(advancement != null, "Advancement player_distorter should exist");
+
+        // Spawn 10 zombies and fire the distort trigger directly with only those zombies (no player entity)
+        List<Zombie> zombies = new java.util.ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            zombies.add(helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().offset(i % 4, 0, i / 4)));
+        }
+        RegistryEntries.TRIGGER_DISTORT.get().test(player, List.copyOf(zombies));
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementPlayerDevastatorNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "player_devastator");
+        helper.assertTrue(advancement != null, "Advancement player_devastator should exist");
+
+        // Necromance a zombie (not a player), which should NOT trigger the player_devastator advancement
+        Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above());
+        RegistryEntries.TRIGGER_NECROMANCE_TRIGGER.get().test(player, zombie);
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementPowerCraftingNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "power_crafting");
+        helper.assertTrue(advancement != null, "Advancement power_crafting should exist");
+
+        // Simulate crafting dark_gem (not exalted_crafter), which should NOT trigger the power_crafting advancement
+        NeoForge.EVENT_BUS.post(new PlayerEvent.ItemCraftedEvent(player,
+                new ItemStack(RegistryEntries.ITEM_DARK_GEM.get()), player.getInventory()));
+
+        assertAdvancementNotDone(helper, player, advancement);
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testAdvancementSpiritCookerNegative(GameTestHelper helper) {
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        AdvancementHolder advancement = getAdvancement(helper, "spirit_cooker");
+        helper.assertTrue(advancement != null, "Advancement spirit_cooker should exist");
+
+        // Simulate crafting blood_extractor (not spirit_furnace), which should NOT trigger the spirit_cooker advancement
+        NeoForge.EVENT_BUS.post(new PlayerEvent.ItemCraftedEvent(player,
+                new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR.get()), player.getInventory()));
+
+        assertAdvancementNotDone(helper, player, advancement);
         helper.succeed();
     }
 
