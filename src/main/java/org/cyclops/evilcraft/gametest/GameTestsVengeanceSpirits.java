@@ -105,13 +105,15 @@ public class GameTestsVengeanceSpirits {
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
         zombie.setHealth(1);
 
-        // Let player kill zombie
+        // Kill zombie with a player-attack damage source while holding the vengeance ring,
+        // so shouldDirectSpiritToPlayer returns true and the spawned spirit targets the player.
+        // The ring is removed immediately after the kill to prevent inventoryTick from calling
+        // toggleVengeanceArea(enableVengeance=false) which would otherwise clear the spirit's target.
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS).getBottomCenter());
-        player.setXRot(15F);
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-        player.getInventory().setItem(1, new ItemStack(RegistryEntries.ITEM_VENGEANCE_RING));
-        helper.onEachTick(() -> player.attack(zombie));
+        player.getInventory().setItem(0, new ItemStack(RegistryEntries.ITEM_VENGEANCE_RING));
+        zombie.hurt(helper.getLevel().damageSources().playerAttack(player), 100f);
+        player.getInventory().setItem(0, ItemStack.EMPTY);
 
         // Make wall before spirit so it can't move
         helper.setBlock(POS.above().south().south().south(), Blocks.STONE);
