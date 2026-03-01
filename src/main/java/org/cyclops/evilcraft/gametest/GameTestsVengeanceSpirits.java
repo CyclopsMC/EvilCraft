@@ -110,7 +110,7 @@ public class GameTestsVengeanceSpirits {
         player.setPos(helper.absolutePos(POS).getBottomCenter());
         player.setXRot(15F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-        player.getInventory().setItem(0, new ItemStack(RegistryEntries.ITEM_VENGEANCE_RING));
+        player.getInventory().setItem(1, new ItemStack(RegistryEntries.ITEM_VENGEANCE_RING));
         helper.onEachTick(() -> player.attack(zombie));
 
         // Make wall before spirit so it can't move
