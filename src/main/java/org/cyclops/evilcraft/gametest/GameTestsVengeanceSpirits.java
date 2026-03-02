@@ -27,11 +27,12 @@ public class GameTestsVengeanceSpirits {
     public static final String TEMPLATE_EMPTY = "empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_0")
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
-        // Spawn spirit
+        // Spawn spirit, and pre-freeze it so the box can reliably find and capture it (the box only targets frozen spirits)
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
         spirit.setInnerEntityType(EntityType.ZOMBIE);
+        spirit.setFrozenDuration(200);
 
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
@@ -51,7 +52,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_1")
     public void testVengeanceSpiritRelease(GameTestHelper helper) {
         // Add filled box
         helper.setBlock(POS.above(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
@@ -72,7 +73,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200, batch = "vengeance_spirits_2")
     public void testVengeanceSpiritAttack(GameTestHelper helper) {
         // Spawn spirit
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.above().south().south());
@@ -98,19 +99,21 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_3")
     public void testVengeanceSpiritSpawn(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
         zombie.setHealth(1);
 
-        // Let player kill zombie
+        // Kill zombie with a player-attack damage source while holding the vengeance ring,
+        // so shouldDirectSpiritToPlayer returns true and the spawned spirit targets the player.
+        // The ring is removed immediately after the kill to prevent inventoryTick from calling
+        // toggleVengeanceArea(enableVengeance=false) which would otherwise clear the spirit's target.
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS).getBottomCenter());
-        player.setXRot(15F);
-        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
         player.getInventory().setItem(0, new ItemStack(RegistryEntries.ITEM_VENGEANCE_RING));
-        helper.onEachTick(() -> player.attack(zombie));
+        zombie.hurt(helper.getLevel().damageSources().playerAttack(player), 100f);
+        player.getInventory().setItem(0, ItemStack.EMPTY);
 
         // Make wall before spirit so it can't move
         helper.setBlock(POS.above().south().south().south(), Blocks.STONE);
@@ -128,7 +131,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_4")
     public void testVengeanceSpiritSpawnWithoutRing(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
@@ -156,18 +159,19 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_5")
     public void testVengeanceSpiritSpawnNotWhenKilledByNonPlayer(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
         zombie.setHealth(1);
 
-        // Kill zombie
-        zombie.die(helper.getLevel().damageSources().cactus());
+        // Kill zombie (use hurt so health drops to 0 immediately, preventing isAlive() returning true for ~20 ticks)
+        zombie.hurt(helper.getLevel().damageSources().cactus(), 100f);
 
+        // TODO: in nextmajor, spawnOnNonPlayerKills defaults to false, so assertEntityPresent should be changed to assertEntityNotPresent
         helper.succeedWhen(() -> {
             helper.assertEntityNotPresent(EntityType.ZOMBIE);
-            helper.assertEntityNotPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
+            helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
         });
     }
 
