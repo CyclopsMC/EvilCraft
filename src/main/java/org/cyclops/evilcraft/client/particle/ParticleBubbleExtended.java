@@ -32,16 +32,16 @@ public class ParticleBubbleExtended extends SingleQuadParticle {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-        this.yd -= gravity;
-        this.move(this.xd, this.yd, this.zd);
-        this.xd *= 0.85D;
-        this.yd *= 0.85D;
-        this.zd *= 0.85D;
-
         if (this.lifetime-- <= 0) {
             this.remove();
+        } else {
+            this.yd -= gravity;
+            this.move(this.xd, this.yd, this.zd);
+            this.xd *= 0.85D;
+            this.yd *= 0.85D;
+            this.zd *= 0.85D;
+            setSpriteFromAge(this.sprites);
         }
-        setSpriteFromAge(this.sprites);
     }
 
     @Override
