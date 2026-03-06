@@ -38,6 +38,9 @@ public class LootFunctionCopyEntangledChaliceData extends LootItemConditionalFun
             String tankId = ((BlockEntityEntangledChalice) tile).getWorldTankId();
             ItemAccess itemAccess = ItemAccess.forStack(itemStack);
             ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) itemStack.getCapability(Capabilities.Fluid.ITEM, itemAccess);
+            if (fluidHandler == null) {
+                return itemStack;
+            }
             try (var tx = Transaction.openRoot()) {
                 fluidHandler.setTankID(tankId, tx);
                 tx.commit();

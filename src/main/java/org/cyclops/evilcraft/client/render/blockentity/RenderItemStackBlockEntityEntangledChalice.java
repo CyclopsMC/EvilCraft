@@ -2,21 +2,20 @@ package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.core.BlockPos;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
-import org.cyclops.evilcraft.RegistryEntries;
+import org.apache.commons.lang3.tuple.Triple;
+import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
+import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3fc;
@@ -28,22 +27,30 @@ import java.util.function.Consumer;
  */
 public class RenderItemStackBlockEntityEntangledChalice implements SpecialModelRenderer<ItemStack> {
 
-    private final BlockEntityRenderDispatcher blockEntityRenderDispatcher;
-
-    public RenderItemStackBlockEntityEntangledChalice() {
-        this.blockEntityRenderDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
-    }
-
     @Override
-    public void submit(@Nullable ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, int i1, boolean b, int i2) {
+    public void submit(@Nullable ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int packedLight, int packedOverlay, boolean isFoil, int seed) {
+        if (itemStack == null || itemStack.isEmpty()) return;
         ItemEntangledChalice.FluidHandler fluidHandler = (ItemEntangledChalice.FluidHandler) itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
-        String tankId = fluidHandler == null ? "null" : fluidHandler.getTankID();
-        BlockEntityEntangledChalice tile = new BlockEntityEntangledChalice(BlockPos.ZERO, RegistryEntries.BLOCK_ENTANGLED_CHALICE.get().defaultBlockState());
-        tile.setWorldTankId(tankId);
-        BlockEntityRenderer<BlockEntityEntangledChalice, BlockEntityRenderState> renderer = this.blockEntityRenderDispatcher.getRenderer(tile);
-        BlockEntityRenderState renderState = renderer.createRenderState();
-        renderer.extractRenderState(tile, renderState, 0, Vec3.ZERO, null);
-        this.blockEntityRenderDispatcher.submit(renderState, poseStack, submitNodeCollector, new CameraRenderState());
+        String tankId = fluidHandler == null ? "" : fluidHandler.getTankID();
+        FluidStack fluid = WorldSharedTankCache.getInstance().getTankContent(tankId);
+        if (!fluid.isEmpty()) {
+            IModHelpersNeoForge.get().getRenderHelpers().renderFluidContext(fluid, poseStack, () -> {
+                float height = Math.min(0.95F, ((float) fluid.getAmount() / (float) BlockEntityEntangledChalice.BASE_CAPACITY)) * 0.1875F + 0.8125F;
+                int brightness = fluid.getFluid().getFluidType().getLightLevel(fluid);
+                int l2 = brightness >> 0x10 & 0xFFFF;
+                int i3 = brightness & 0xFFFF;
+
+                TextureAtlasSprite icon = IModHelpersNeoForge.get().getRenderHelpers().getFluidIcon(fluid, Direction.UP);
+                Triple<Float, Float, Float> color = IModHelpersNeoForge.get().getRenderHelpers().getFluidVertexBufferColor(fluid);
+
+                submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.text(icon.atlasLocation()), (pose, vb) -> {
+                    vb.addVertex(pose, 0.1875F, height, 0.1875F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV1()).setUv2(l2, i3);
+                    vb.addVertex(pose, 0.1875F, height, 0.8125F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV0()).setUv2(l2, i3);
+                    vb.addVertex(pose, 0.8125F, height, 0.8125F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU1(), icon.getV0()).setUv2(l2, i3);
+                    vb.addVertex(pose, 0.8125F, height, 0.1875F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU1(), icon.getV1()).setUv2(l2, i3);
+                });
+            });
+        }
     }
 
     @Override
