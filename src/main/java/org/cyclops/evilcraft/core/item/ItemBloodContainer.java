@@ -164,6 +164,14 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
         return true;
     }
 
+    @Override
+    public boolean canDrain(int amount, ItemStack itemStack) {
+        // Avoid IllegalArgumentException when the fluid handler has no fluid (empty resource is not allowed in NeoForge extract calls)
+        FluidStack fluidStack = FluidUtil.getFirstStackContained(itemStack);
+        if (fluidStack.isEmpty()) return false;
+        return super.canDrain(amount, itemStack);
+    }
+
     protected FluidStack drainFromOthers(int amount, ItemStack itemStack, Fluid fluid, Player player, TransactionContext transaction) {
         PlayerExtendedInventoryIterator it = new PlayerExtendedInventoryIterator(player);
         int drained = 0;
@@ -210,7 +218,8 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
         try (var tx = Transaction.openRoot()) {
             ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
             FluidResource resource = fluidHandler.getResource(0);
-            int drained = fluidHandler.extract(resource, amount, tx);
+            // Avoid IllegalArgumentException when the fluid handler has no fluid (empty resource is not allowed in NeoForge extract calls)
+            int drained = resource.isEmpty() ? 0 : fluidHandler.extract(resource, amount, tx);
             if (drained == amount) return resource.toStack(drained);
             int toDrain = amount - drained;
             FluidStack otherDrained = player == null ? FluidStack.EMPTY : drainFromOthers(toDrain, itemStack, getFluid(), player, tx);

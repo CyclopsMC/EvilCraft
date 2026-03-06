@@ -78,6 +78,8 @@ public class RegistryEntries {
     public static final DeferredHolder<Item, Item> ITEM_BOWL_OF_PROMISES_TIER3 = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:bowl_of_promises_tier3"));
     public static final DeferredHolder<Item, Item> ITEM_BOX_OF_ETERNAL_CLOSURE = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:box_of_eternal_closure"));
     public static final DeferredHolder<Item, Item> ITEM_BLOOD_EXTRACTOR = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:blood_extractor"));
+    public static final DeferredHolder<Item, ItemInvigoratingPendant> ITEM_INVIGORATING_PENDANT = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:invigorating_pendant"));
+    public static final DeferredHolder<Item, ItemPrimedPendant> ITEM_PRIMED_PENDANT = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:primed_pendant"));
     public static final DeferredHolder<Item, Item> ITEM_BURNING_GEM_STONE = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:burning_gem_stone"));
     public static final DeferredHolder<Item, Item> ITEM_ENTANGLED_CHALICE = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:entangled_chalice"));
     public static final DeferredHolder<Item, Item> ITEM_EXALTED_CRAFTER = DeferredHolder.create(Registries.ITEM, Identifier.parse("evilcraft:exalted_crafter"));
