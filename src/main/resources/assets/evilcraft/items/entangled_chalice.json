@@ -1,19 +1,7 @@
 {
   "model": {
-    "type": "minecraft:composite",
-    "models": [
-      {
-        "type": "minecraft:special",
-        "base": "evilcraft:item/entangled_chalice",
-        "model": {
-          "type": "evilcraft:entangled_chalice_fluid_overlay"
-        }
-      },
-      {
-        "type": "evilcraft:entangled_chalice",
-        "chalice": "evilcraft:block/chalice",
-        "gems": "evilcraft:block/gems"
-      }
-    ]
+    "type": "evilcraft:entangled_chalice",
+    "chalice": "evilcraft:block/chalice",
+    "gems": "evilcraft:block/gems"
   }
 }
