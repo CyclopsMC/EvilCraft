@@ -1,8 +1,8 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.util.ARGB;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 
 /**
  * Blood reactant.
@@ -29,9 +29,9 @@ public class ItemPromiseAcceptor extends Item {
     }
 
     public static enum Type {
-        IRON("iron", IModHelpers.get().getBaseHelpers().RGBAToInt(255, 255, 255, 255)),
-        GOLD("gold", IModHelpers.get().getBaseHelpers().RGBAToInt(230, 230, 160, 255)),
-        DIAMOND("diamond", IModHelpers.get().getBaseHelpers().RGBAToInt(150, 250, 200, 255));
+        IRON("iron", ARGB.color(255, 255, 255, 255)),
+        GOLD("gold", ARGB.color(255, 230, 230, 160)),
+        DIAMOND("diamond", ARGB.color(255, 150, 250, 200));
 
         private final String name;
         private final int color;
