@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -33,6 +34,7 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -94,6 +96,10 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Override
     public List<BakedQuad> getGeneralQuads() {
+        if (chaliceModel == null || gemsModel == null) {
+            return Collections.emptyList();
+        }
+
         List<BakedQuad> quads = Lists.newLinkedList();
 
         // Base chalice model
@@ -110,7 +116,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         }
 
         // Fluid
-        if(!fluidStack.isEmpty()) {
+        if(fluidStack != null && !fluidStack.isEmpty()) {
             quads.addAll(getFluidQuads(fluidStack, BlockEntityEntangledChalice.BASE_CAPACITY));
         }
 
@@ -150,6 +156,9 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
+        if (chaliceModel == null) {
+            return Minecraft.getInstance().getModelManager().getMissingModel().getParticleIcon();
+        }
         return chaliceModel.getParticleIcon();
     }
 

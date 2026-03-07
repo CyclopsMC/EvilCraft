@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransform;
@@ -64,6 +65,10 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
             return Collections.emptyList();
         }
 
+        if (boxModel == null || boxLidModel == null || boxLidRotatedModel == null) {
+            return Collections.emptyList();
+        }
+
         List<BakedQuad> quads = Lists.newLinkedList();
 
         quads.addAll(boxModel.getQuads(blockState, facing, rand));
@@ -89,6 +94,9 @@ public class ModelBoxOfEternalClosureBaked extends DelegatingDynamicItemAndBlock
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
+        if (boxModel == null) {
+            return Minecraft.getInstance().getModelManager().getMissingModel().getParticleIcon();
+        }
         return boxModel.getParticleIcon();
     }
 
