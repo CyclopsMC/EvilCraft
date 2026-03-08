@@ -30,6 +30,7 @@ public class ItemNecromancerStaff extends ItemBloodContainer {
     protected void throwNecromancersHead(LivingEntity entityLiving, Class<? extends Mob> mobType) {
         EntityNecromancersHead head = new EntityNecromancersHead(entityLiving.level(), entityLiving.getX(), entityLiving.getY(), entityLiving.getZ());
         if(!entityLiving.level().isClientSide()) {
+            head.setOwner(entityLiving);
             head.setMobType(mobType);
             // Last three params: pitch offset, velocity, inaccuracy
             // MCP: shoot

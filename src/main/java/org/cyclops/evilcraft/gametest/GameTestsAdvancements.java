@@ -214,7 +214,8 @@ public class GameTestsAdvancements {
         target.setPos(helper.absolutePos(POS.above().north()).getCenter());
 
         // Throw the necromancer's head at the target player
-        EntityNecromancersHead head = new EntityNecromancersHead(helper.getLevel(), player.getX(), player.getY() + player.getEyeHeight(), player.getZ());
+        EntityNecromancersHead head = new EntityNecromancersHead(helper.getLevel(), player.getX(), player.getY(), player.getZ());
+        head.setOwner(player);
         head.setMobType(Zombie.class);
         // Aim north (yRot=180), level pitch; shootFromRotation params: pitch, yaw, roll, velocity, inaccuracy
         player.setYRot(180F);
