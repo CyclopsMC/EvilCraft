@@ -465,6 +465,7 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
     @Override
     public Class<?>[] getGameTestClasses() {
         return new Class<?>[]{
+                GameTestsAdvancements.class,
                 GameTestsBiomeExtract.class,
                 GameTestsBlockEternalWater.class,
                 GameTestsBloodChest.class,

@@ -115,7 +115,12 @@ public class WorldSharedTankCache {
         if(getTickOffset() > INTERPOLATION_TICK_OFFSET) {
             Iterator<Map.Entry<String, UpdateWorldSharedTankClientCachePacket>> it = packetBuffer.entrySet().iterator();
             while(it.hasNext()) {
-                EvilCraft._instance.getPacketHandler().sendToAll(it.next().getValue());
+                try {
+                    EvilCraft._instance.getPacketHandler().sendToAll(it.next().getValue());
+                } catch (UnsupportedOperationException e) {
+                    // Can occur during game testing
+                    e.printStackTrace();
+                }
                 it.remove();
             }
             tick = 0;
