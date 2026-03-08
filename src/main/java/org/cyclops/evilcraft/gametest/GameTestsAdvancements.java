@@ -24,6 +24,7 @@ import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
+import org.cyclops.evilcraft.entity.effect.EntityNecromancersHead;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
 import java.util.List;
@@ -201,18 +202,28 @@ public class GameTestsAdvancements {
         helper.succeed();
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
     public void testAdvancementPlayerDevastator(GameTestHelper helper) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        player.setPos(helper.absolutePos(POS.above()).getCenter());
         AdvancementHolder advancement = getAdvancement(helper, "player_devastator");
         helper.assertTrue(advancement != null, "Advancement player_devastator should exist");
 
-        // Necromance a player, which should trigger the player_devastator advancement
+        // Place a target player directly in front (north)
         ServerPlayer target = helper.makeMockServerPlayerInLevel();
-        RegistryEntries.TRIGGER_NECROMANCE_TRIGGER.get().test(player, target);
+        target.setPos(helper.absolutePos(POS.above().north()).getCenter());
 
-        assertAdvancementDone(helper, player, advancement);
-        helper.succeed();
+        // Throw the necromancer's head at the target player
+        EntityNecromancersHead head = new EntityNecromancersHead(helper.getLevel(), player.getX(), player.getY(), player.getZ());
+        head.setOwner(player);
+        head.setMobType(Zombie.class);
+        // Aim north (yRot=180), level pitch; shootFromRotation params: pitch, yaw, roll, velocity, inaccuracy
+        player.setYRot(180F);
+        player.setXRot(0F);
+        head.shootFromRotation(player, player.getXRot(), player.getYRot(), -20F, 5F, 0F);
+        helper.getLevel().addFreshEntity(head);
+
+        helper.succeedWhen(() -> assertAdvancementDone(helper, player, advancement));
     }
 
     @GameTest(template = TEMPLATE_EMPTY)
