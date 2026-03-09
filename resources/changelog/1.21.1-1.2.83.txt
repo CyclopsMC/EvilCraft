@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Additions:
+* Add config option to only spawn spirits on player kills
+  By default, the old behaviour (also spawning on non-player kills) is kept,
+  but can be changed by setting `spawnOnNonPlayerKills` to `false`.

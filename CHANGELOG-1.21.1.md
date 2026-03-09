@@ -1,8 +1,17 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.83"></a>
+## [1.21.1-1.2.83](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.82...1.21.1-1.2.83) - 2026-03-09 16:18:50
+
+
+### Added
+* Add config option to only spawn spirits on player kills
+  By default, the old behaviour (also spawning on non-player kills) is kept,
+  but can be changed by setting `spawnOnNonPlayerKills` to `false`.
+
 <a name="1.21.1-1.2.82"></a>
-## [1.21.1-1.2.82](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.81...1.21.1-1.2.82) - 2026-02-17 11:32:37
+## [1.21.1-1.2.82](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.81...1.21.1-1.2.82) - 2026-02-17 11:32:37 +0100
 
 
 ### Added
