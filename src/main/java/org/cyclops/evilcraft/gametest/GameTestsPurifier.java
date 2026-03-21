@@ -60,31 +60,6 @@ public class GameTestsPurifier {
     }
 
     @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
-    public void testPurifierDisenchantEnchantmentBlacklist(GameTestHelper helper) {
-        HolderLookup.Provider holders = helper.getLevel().registryAccess();
-        List<String> originalBlacklist = BlockPurifierConfig.enchantmentIdBlacklist;
-        BlockPurifierConfig.enchantmentIdBlacklist = Lists.newArrayList("minecraft:sharpness");
-
-        helper.setBlock(POS, RegistryEntries.BLOCK_PURIFIER.get());
-        BlockEntityPurifier purifier = helper.getBlockEntity(POS);
-
-        // Add enchanted sword and blook
-        purifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, createEnchantedSword(holders, "minecraft:sharpness", 1));
-        purifier.getInventory().setItem(BlockEntityPurifier.SLOT_ADDITIONAL, new ItemStack(RegistryEntries.ITEM_BLOOK.get()));
-
-        // Fill tank with max blood
-        purifier.getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, FluidHelpers.BUCKET_VOLUME * BlockEntityPurifier.MAX_BUCKETS));
-
-        // After many ticks, the sharpness should still be on the sword (blacklisted from disenchanting)
-        helper.runAfterDelay(199, () -> {
-            BlockPurifierConfig.enchantmentIdBlacklist = originalBlacklist;
-            ItemEnchantments enchantments = purifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY).get(DataComponents.ENCHANTMENTS);
-            helper.assertTrue(enchantments != null && !enchantments.isEmpty(), "Sword sharpness was incorrectly removed despite enchantment blacklist");
-            helper.succeed();
-        });
-    }
-
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
     public void testPurifierCurseRemoval(GameTestHelper helper) {
         HolderLookup.Provider holders = helper.getLevel().registryAccess();
         helper.setBlock(POS, RegistryEntries.BLOCK_PURIFIER.get());
@@ -102,26 +77,38 @@ public class GameTestsPurifier {
         });
     }
 
+    /**
+     * Tests that blacklisted enchantments are not disenchanted and blacklisted curses are not purified.
+     * Both scenarios are tested in one method to avoid concurrent modification of the shared config field.
+     */
     @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
-    public void testPurifierCurseRemovalEnchantmentBlacklist(GameTestHelper helper) {
+    public void testPurifierEnchantmentBlacklist(GameTestHelper helper) {
         HolderLookup.Provider holders = helper.getLevel().registryAccess();
         List<String> originalBlacklist = BlockPurifierConfig.enchantmentIdBlacklist;
-        BlockPurifierConfig.enchantmentIdBlacklist = Lists.newArrayList("minecraft:vanishing_curse");
+        BlockPurifierConfig.enchantmentIdBlacklist =
+                Lists.newArrayList("minecraft:sharpness", "minecraft:vanishing_curse");
 
+        // Disenchant scenario: sword with sharpness at POS
         helper.setBlock(POS, RegistryEntries.BLOCK_PURIFIER.get());
-        BlockEntityPurifier purifier = helper.getBlockEntity(POS);
+        BlockEntityPurifier disenchantPurifier = helper.getBlockEntity(POS);
+        disenchantPurifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, createEnchantedSword(holders, "minecraft:sharpness", 1));
+        disenchantPurifier.getInventory().setItem(BlockEntityPurifier.SLOT_ADDITIONAL, new ItemStack(RegistryEntries.ITEM_BLOOK.get()));
+        disenchantPurifier.getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, FluidHelpers.BUCKET_VOLUME * BlockEntityPurifier.MAX_BUCKETS));
 
-        // Add item with vanishing curse
-        purifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, createEnchantedSword(holders, "minecraft:vanishing_curse", 1));
+        // Curse removal scenario: sword with vanishing curse at an adjacent position
+        BlockPos pos2 = POS.offset(3, 0, 0);
+        helper.setBlock(pos2, RegistryEntries.BLOCK_PURIFIER.get());
+        BlockEntityPurifier cursePurifier = helper.getBlockEntity(pos2);
+        cursePurifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, createEnchantedSword(holders, "minecraft:vanishing_curse", 1));
+        cursePurifier.getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, FluidHelpers.BUCKET_VOLUME));
 
-        // Fill tank with 1 bucket of blood
-        purifier.getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, FluidHelpers.BUCKET_VOLUME));
-
-        // After many ticks, the curse should still be present (blacklisted from purification)
-        helper.runAfterDelay(199, () -> {
+        // After enough ticks for the purifiers to have acted (if not blacklisted), verify nothing was removed
+        helper.runAfterDelay(150, () -> {
             BlockPurifierConfig.enchantmentIdBlacklist = originalBlacklist;
-            ItemEnchantments enchantments = purifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY).get(DataComponents.ENCHANTMENTS);
-            helper.assertTrue(enchantments != null && !enchantments.isEmpty(), "Vanishing curse was incorrectly removed despite enchantment blacklist");
+            ItemEnchantments disenchantEnchants = disenchantPurifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY).get(DataComponents.ENCHANTMENTS);
+            helper.assertTrue(disenchantEnchants != null && !disenchantEnchants.isEmpty(), "Sword sharpness was incorrectly removed despite enchantment blacklist");
+            ItemEnchantments curseEnchants = cursePurifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY).get(DataComponents.ENCHANTMENTS);
+            helper.assertTrue(curseEnchants != null && !curseEnchants.isEmpty(), "Vanishing curse was incorrectly removed despite enchantment blacklist");
             helper.succeed();
         });
     }
