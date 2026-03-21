@@ -79,9 +79,9 @@ public class GameTestsPurifier {
 
     /**
      * Tests that blacklisted enchantments are not disenchanted and blacklisted curses are not purified.
-     * Both scenarios are tested in one method to avoid concurrent modification of the shared config field.
+     * Runs in its own batch to avoid concurrent modification of the shared config field.
      */
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200, batch = "purifier_blacklist_0")
     public void testPurifierEnchantmentBlacklist(GameTestHelper helper) {
         HolderLookup.Provider holders = helper.getLevel().registryAccess();
         List<String> originalBlacklist = BlockPurifierConfig.enchantmentIdBlacklist;
