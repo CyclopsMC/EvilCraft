@@ -18,6 +18,9 @@ import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Purifier action to remove enchantments from tools.
  * @author Ruben Taelman
@@ -55,7 +58,9 @@ public class DisenchantPurifyAction implements IPurifierAction {
     public boolean canWork(BlockEntityPurifier tile) {
         if(tile.getBucketsFloored() == tile.getMaxBuckets() && !tile.getPurifyItem().isEmpty() &&
                 !tile.getAdditionalItem().isEmpty() && tile.getAdditionalItem().getItem() == ALLOWED_BOOK.get()) {
-            return isAllowed(tile.getPurifyItem()) && tile.getPurifyItem().get(DataComponents.ENCHANTMENTS) != null;
+            if (!isAllowed(tile.getPurifyItem())) return false;
+            ItemEnchantments enchantments = tile.getPurifyItem().get(DataComponents.ENCHANTMENTS);
+            return enchantments != null && !getAvailableEnchantments(enchantments).isEmpty();
         }
         return false;
     }
@@ -70,7 +75,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
         // Try disenchanting.
         ItemEnchantments enchantments = purifyItem.get(DataComponents.ENCHANTMENTS);
-        if (enchantments != null && !enchantments.isEmpty()) {
+        if (enchantments != null && !getAvailableEnchantments(enchantments).isEmpty()) {
             if (tick >= PURIFY_DURATION) {
                 if (!world.isClientSide()) {
                     Holder<Enchantment> enchantment = getRandomEnchantment(world, enchantments);
@@ -90,9 +95,15 @@ public class DisenchantPurifyAction implements IPurifierAction {
         return done;
     }
 
+    private List<Holder<Enchantment>> getAvailableEnchantments(ItemEnchantments enchantments) {
+        return Lists.newArrayList(enchantments.keySet()).stream()
+                .filter(e -> !BlockPurifierConfig.isEnchantmentBlacklisted(e))
+                .collect(Collectors.toList());
+    }
+
     private Holder<Enchantment> getRandomEnchantment(Level world, ItemEnchantments enchantments) {
-        int enchantmentIndex = world.random.nextInt(enchantments.size());
-        return Lists.newArrayList(enchantments.keySet()).get(enchantmentIndex);
+        List<Holder<Enchantment>> available = getAvailableEnchantments(enchantments);
+        return available.get(world.random.nextInt(available.size()));
     }
 
     private void setResultingEnchantmentBook(BlockEntityPurifier tile, ItemEnchantments enchantments, Holder<Enchantment> enchantment) {

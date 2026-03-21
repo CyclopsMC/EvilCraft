@@ -1,7 +1,9 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.Lists;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import org.cyclops.cyclopscore.config.ConfigurableProperty;
@@ -23,8 +25,25 @@ public class BlockPurifierConfig extends BlockConfig {
     public static List<String> disenchantBlacklist = Lists.newArrayList(
             "tetra:.*"
     );
+    @ConfigurableProperty(category = "machine", comment = "Enchantments to be disqualified from disenchantment, or curses disallowed from purification. Regular expressions are allowed.", isCommandable = true)
+    public static List<String> enchantmentIdBlacklist = Lists.newArrayList();
     @ConfigurableProperty(category = "machine", comment = "The duration limit in ticks for which potion effect can be collected. Set to a negative value to allow any duration.", isCommandable = true)
     public static int maxPotionEffectDuration = MinecraftHelpers.SECOND_IN_TICKS * 60 * 5;
+
+    /**
+     * Check if the given enchantment is blacklisted.
+     * @param enchantment The enchantment to check.
+     * @return True if blacklisted.
+     */
+    public static boolean isEnchantmentBlacklisted(Holder<Enchantment> enchantment) {
+        String enchantmentId = enchantment.getRegisteredName();
+        for (String pattern : enchantmentIdBlacklist) {
+            if (enchantmentId.matches(pattern)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public BlockPurifierConfig() {
         super(
