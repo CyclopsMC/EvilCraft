@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Additions:
+* Add enchantmentIdBlacklist config for the Purifier (#1175), Closes #855

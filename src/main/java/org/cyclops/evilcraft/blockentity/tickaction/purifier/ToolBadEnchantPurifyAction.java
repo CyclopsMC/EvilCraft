@@ -7,6 +7,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.api.tileentity.purifier.IPurifierAction;
+import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
 import org.cyclops.evilcraft.item.ItemVengeancePickaxe;
@@ -36,7 +37,8 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
             // Check curses
             ItemStack purifyItem = tile.getPurifyItem();
             EnchantmentHelpers.runIterationOnItem(purifyItem, (enchantment, level) -> {
-                if (enchantment.is(EnchantmentTags.CURSE) && !(purifyItem.getItem() instanceof ItemVengeancePickaxe)) {
+                if (enchantment.is(EnchantmentTags.CURSE) && !(purifyItem.getItem() instanceof ItemVengeancePickaxe)
+                        && !BlockPurifierConfig.isEnchantmentBlacklisted(enchantment)) {
                     done.set(true);
                 }
             });
@@ -68,7 +70,8 @@ public class ToolBadEnchantPurifyAction implements IPurifierAction {
 
         // Try removing curses
         EnchantmentHelpers.runIterationOnItem(purifyItem, (enchantment, level) -> {
-            if (enchantment.is(EnchantmentTags.CURSE) && !(purifyItem.getItem() instanceof ItemVengeancePickaxe)) {
+            if (enchantment.is(EnchantmentTags.CURSE) && !(purifyItem.getItem() instanceof ItemVengeancePickaxe)
+                    && !BlockPurifierConfig.isEnchantmentBlacklisted(enchantment)) {
                 if (removeEnchant(world, tile, purifyItem, tick, enchantment, level)) {
                     done.set(true);
                 }
