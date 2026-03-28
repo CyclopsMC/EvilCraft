@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.84"></a>
+## [1.21.1-1.2.84](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.83...1.21.1-1.2.84) - 2026-03-28 10:00:53
+
+
+### Added
+* Add enchantmentIdBlacklist config for the Purifier (#1175), Closes #855
+
 <a name="1.21.1-1.2.83"></a>
-## [1.21.1-1.2.83](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.82...1.21.1-1.2.83) - 2026-03-09 16:18:50
+## [1.21.1-1.2.83](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.82...1.21.1-1.2.83) - 2026-03-09 16:18:50 +0100
 
 
 ### Added
