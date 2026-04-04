@@ -56,7 +56,7 @@ public class ItemBiomeExtract extends Item {
 
     @Override
     public String getDescriptionId(ItemStack itemStack) {
-        return super.getDescriptionId(itemStack) + (getBiome(itemStack) == null ? ".empty" : "");
+        return super.getDescriptionId(itemStack) + (itemStack.get(RegistryEntries.COMPONENT_BIOME) == null ? ".empty" : "");
     }
 
     @Override
@@ -86,12 +86,17 @@ public class ItemBiomeExtract extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, list, flag);
-        Holder<Biome> biome = getBiome(itemStack);
-        if (biome != null) {
-            // Biome name generation based on CreateBuffetWorldScreen
-            ResourceLocation key = biome.unwrapKey().get().location();
-            list.add(Component.translatable(getDescriptionId() + ".info.content",
-                    Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
+        DataComponentBiomeConfig.BiomeHolder biomeHolder = itemStack.get(RegistryEntries.COMPONENT_BIOME);
+        if (biomeHolder != null) {
+            Holder<Biome> biome = biomeHolder.getBiome();
+            if (biome != null) {
+                // Biome name generation based on CreateBuffetWorldScreen
+                ResourceLocation key = biome.unwrapKey().get().location();
+                list.add(Component.translatable(getDescriptionId() + ".info.content",
+                        Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
+            } else {
+                list.add(Component.translatable(getDescriptionId() + ".info.content", biomeHolder.id().toString()));
+            }
         }
     }
 
@@ -100,7 +105,7 @@ public class ItemBiomeExtract extends Item {
     }
 
     public boolean isEmpty(ItemStack itemStack) {
-        return getBiome(itemStack) == null;
+        return itemStack.get(RegistryEntries.COMPONENT_BIOME) == null;
     }
 
     /**
