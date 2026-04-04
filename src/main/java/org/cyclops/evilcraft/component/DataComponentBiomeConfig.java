@@ -13,6 +13,8 @@ import net.minecraft.world.level.biome.Biome;
 import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfig;
 import org.cyclops.evilcraft.EvilCraft;
 
+import javax.annotation.Nullable;
+
 /**
  * @author rubensworks
  */
@@ -32,8 +34,9 @@ public class DataComponentBiomeConfig extends DataComponentConfig<DataComponentB
                         .apply(builder, BiomeHolder::new)
         );
 
+        @Nullable
         public Holder<Biome> getBiome() {
-            return getter.getOrThrow(ResourceKey.create(Registries.BIOME, id));
+            return getter.get(ResourceKey.create(Registries.BIOME, id)).orElse(null);
         }
     }
 }
