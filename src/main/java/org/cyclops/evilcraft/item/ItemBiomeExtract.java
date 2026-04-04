@@ -56,7 +56,7 @@ public class ItemBiomeExtract extends Item {
 
     @Override
     public String getDescriptionId(ItemStack itemStack) {
-        return super.getDescriptionId(itemStack) + (itemStack.get(RegistryEntries.COMPONENT_BIOME) == null ? ".empty" : "");
+        return super.getDescriptionId(itemStack) + (getBiome(itemStack) == null ? ".empty" : "");
     }
 
     @Override
@@ -105,7 +105,7 @@ public class ItemBiomeExtract extends Item {
     }
 
     public boolean isEmpty(ItemStack itemStack) {
-        return itemStack.get(RegistryEntries.COMPONENT_BIOME) == null;
+        return getBiome(itemStack) == null;
     }
 
     /**
