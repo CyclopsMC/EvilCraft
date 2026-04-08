@@ -64,7 +64,7 @@ public class ItemRejuvenatedFlesh extends ItemBloodContainer {
         if(entity instanceof Player) {
             ((Player) entity).getFoodData().eat(3, 0.5F);
         }
-        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, world.getRandom().nextFloat() * 0.1F + 0.9F);
         return itemStack;
     }
 

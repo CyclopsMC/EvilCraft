@@ -12,6 +12,7 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.Capabilities;
 import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
@@ -63,7 +64,10 @@ public class BlockTankHelpers {
             IFluidHandlerCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.Item.FLUID_HANDLER_CAPACITY, itemStackItemAccess);
             if (fluidHandlerItemCapacity != null) {
                 if (fluidHandlerTile instanceof IFluidHandlerCapacity fluidHandlerCapacity) {
-                    fluidHandlerCapacity.setTankCapacity(0, fluidHandlerItemCapacity.getTankCapacity(0));
+                    try (var tx = Transaction.openRoot()) {
+                        fluidHandlerCapacity.setTankCapacity(0, fluidHandlerItemCapacity.getTankCapacity(0), tx);
+                        tx.commit();
+                    }
                 }
             }
             ResourceHandler<FluidResource> fluidHandlerItem = itemStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Fluid.ITEM, itemStackItemAccess);
@@ -86,7 +90,10 @@ public class BlockTankHelpers {
             IFluidHandlerCapacity fluidHandlerItemCapacity = itemStack.getCapability(Capabilities.Item.FLUID_HANDLER_CAPACITY, ItemAccess.forStack(itemStack));
             if (fluidHandlerItemCapacity != null) {
                 if (fluidHandlerTile instanceof IFluidHandlerCapacity fluidHandlerCapacity) {
-                    fluidHandlerCapacity.setTankCapacity(0, fluidHandlerItemCapacity.getTankCapacity(0));
+                    try (var tx = Transaction.openRoot()) {
+                        fluidHandlerCapacity.setTankCapacity(0, fluidHandlerItemCapacity.getTankCapacity(0), tx);
+                        tx.commit();
+                    }
                 }
             }
 

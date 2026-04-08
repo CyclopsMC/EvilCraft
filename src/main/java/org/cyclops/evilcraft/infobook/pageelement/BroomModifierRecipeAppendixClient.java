@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.infobook.pageelement;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.TextAlignment;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.network.chat.Component;
@@ -28,7 +28,7 @@ public class BroomModifierRecipeAppendixClient extends RecipeAppendixClient<Broo
     }
 
     @Override
-    public void drawElementInner(ScreenInfoBook gui, GuiGraphics guiGraphics, int x, int y, int width, int height, int page, int mx, int my) {
+    public void drawElementInner(ScreenInfoBook gui, GuiGraphicsExtractor guiGraphics, int x, int y, int width, int height, int page, int mx, int my) {
         int tick = getTick(gui);
         Pair<ItemStack, Float> value = getSectionAppendix().modifierValues.get(tick % getSectionAppendix().modifierValues.size());
 
@@ -42,7 +42,7 @@ public class BroomModifierRecipeAppendixClient extends RecipeAppendixClient<Broo
         drawString(gui, guiGraphics, line, x + SLOT_SIZE + 4, y + 3);
     }
 
-    protected void drawString(ScreenInfoBook gui, GuiGraphics guiGraphics, String string, int x, int y) {
+    protected void drawString(ScreenInfoBook gui, GuiGraphicsExtractor guiGraphics, String string, int x, int y) {
         Font fontRenderer = gui.getFont();
         MultiLineLabel.create(fontRenderer, Component.literal(string), 200)
                 .visitLines(TextAlignment.LEFT, x, y, 9, guiGraphics.textRenderer());

@@ -125,7 +125,7 @@ public class ItemVengeanceRing extends Item {
                         spirit.setTarget(player);
                     }
                     int chance = EntityVengeanceSpiritConfig.nonDegradedSpawnChance;
-                    spirit.setSwarm(chance <= 0 || world.random.nextInt(chance) > 0);
+                    spirit.setSwarm(chance <= 0 || world.getRandom().nextInt(chance) > 0);
                 }
             }
         }

@@ -9,6 +9,6 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class LootFunctionCopyEntangledChaliceDataConfig extends LootFunctionConfigCommon<IModBase> {
     public LootFunctionCopyEntangledChaliceDataConfig() {
-        super(EvilCraft._instance, "copy_entangled_chalice_data", LootFunctionCopyEntangledChaliceData.TYPE);
+        super(EvilCraft._instance, "copy_entangled_chalice_data", LootFunctionCopyEntangledChaliceData.CODEC);
     }
 }

@@ -5,8 +5,8 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.Identifier;
@@ -89,8 +89,8 @@ public class RenderBlockEntityColossalBloodChest extends RenderBlockEntityChestB
     }
 
     @Override
-    protected Material getMaterial(RenderState renderState) {
-        return new Material(Sheets.CHEST_SHEET, TEXTURE);
+    protected SpriteId getSpriteId(RenderState renderState) {
+        return new SpriteId(Sheets.CHEST_SHEET, TEXTURE);
     }
 
     public static class RenderState extends RenderBlockEntityChestBase.RenderState {

@@ -55,12 +55,12 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
 
     protected void spawnSwarm(LivingEntity necromancer, LivingEntity target) {
         Level world = target.level();
-        int amount = world.random.nextInt(2) + 3;
+        int amount = world.getRandom().nextInt(2) + 3;
         for(int i = 0; i < amount; i++) {
             EntityControlledZombie mob = new EntityControlledZombie(world);
             if(mob.canAttackType(target.getType())) {
                 mob.copyPosition(necromancer);
-                mob.move(MoverType.SELF, new Vec3(world.random.nextInt(20) - 10, 0, world.random.nextInt(20) - 10));
+                mob.move(MoverType.SELF, new Vec3(world.getRandom().nextInt(20) - 10, 0, world.getRandom().nextInt(20) - 10));
                 if(EntityHelpers.spawnEntity((ServerLevel) world, mob, EntitySpawnReason.MOB_SUMMONED)) {
                     observables.add(mob);
                 }

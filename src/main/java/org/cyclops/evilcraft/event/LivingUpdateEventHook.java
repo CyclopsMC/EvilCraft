@@ -27,7 +27,7 @@ public class LivingUpdateEventHook {
 
     private void dieWithoutAnyReason(EntityTickEvent.Post event) {
         if(event.getEntity() instanceof Player && GeneralConfig.dieWithoutAnyReason
-                && event.getEntity().level().random.nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0
+                && event.getEntity().level().getRandom().nextInt(CHANCE_DIE_WITHOUT_ANY_REASON) == 0
                 && !event.getEntity().level().isClientSide()) {
             Player entity = (Player) event.getEntity();
             entity.hurt(ExtendedDamageSources.dieWithoutAnyReason(entity.level()), Float.MAX_VALUE);

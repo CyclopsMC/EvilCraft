@@ -102,10 +102,10 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
             IModHelpers.get().getBlockEntityHelpers().get(worldIn, pos, BlockEntityDarkTank.class)
                     .ifPresent(tile -> {
                         tile.setEnabled(!tile.isEnabled());
-                        player.displayClientMessage(Component.literal(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
+                        player.sendOverlayMessage(Component.literal(String.format(Locale.ROOT, "%,d", tile.getTank().getFluidAmount()))
                                 .append(" / ")
                                 .append(String.format(Locale.ROOT, "%,d", tile.getTank().getCapacity()))
-                                .append(" mB"), true);
+                                .append(" mB"));
                     });
             return InteractionResult.SUCCESS;
         }
@@ -157,7 +157,10 @@ public class BlockDarkTank extends BlockWithEntity implements IBlockTank {
         do {
             ItemAccess itemAccess = ItemAccess.forStack(new ItemStack(this));
             IFluidHandlerCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(itemAccess).orElse(null);
-            fluidHandler.setTankCapacity(0, capacity);
+            try (var tx0 = Transaction.openRoot()) {
+                fluidHandler.setTankCapacity(0, capacity, tx0);
+                tx0.commit();
+            }
             list.add(itemAccess.getResource().toStack());
             try (var tx = Transaction.openRoot()) {
                 fluidHandler.insert(FluidResource.of(RegistryEntries.FLUID_BLOOD), capacity, tx);

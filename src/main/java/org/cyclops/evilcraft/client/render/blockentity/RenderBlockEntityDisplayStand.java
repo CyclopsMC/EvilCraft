@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.BlockItem;
@@ -59,6 +59,9 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
         renderState.item = blockEntity.getInventory().getItem(0);
         renderState.level = blockEntity.getLevel();
         renderState.positiveDirection = blockEntity.getDirection() == Direction.AxisDirection.POSITIVE;
+        if (blockEntity.getLevel() != null) {
+            renderState.blockState = blockEntity.getLevel().getBlockState(blockEntity.getBlockPos());
+        }
     }
 
     @Override
@@ -112,6 +115,7 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
         public ItemStack item;
         public Level level;
         public boolean positiveDirection;
+        public net.minecraft.world.level.block.state.BlockState blockState;
     }
 
 }

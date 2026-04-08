@@ -15,7 +15,7 @@ public class RecipeSerializerBloodInfuserConfig extends RecipeConfigCommon<Recip
         super(
                 EvilCraft._instance,
                 "blood_infuser",
-                eConfig -> new RecipeSerializerBloodInfuser()
+                eConfig -> RecipeSerializerBloodInfuser.INSTANCE
         );
     }
 

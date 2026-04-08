@@ -65,7 +65,7 @@ public class ItemBiomeExtract extends Item {
         ItemStack itemStack = player.getItemInHand(hand);
         if(!world.isClientSide() && getBiome(itemStack) != null &&
                 !ItemBiomeExtractConfig.isUsageBlacklisted(getBiome(itemStack))) {
-            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
             EntityBiomeExtract entity = new EntityBiomeExtract(world, player, itemStack.copy());
             // MCP: shoot
             entity.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);

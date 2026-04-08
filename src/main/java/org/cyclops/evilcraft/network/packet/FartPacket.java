@@ -81,7 +81,7 @@ public class FartPacket extends PlayerPositionPacket<FartPacket> {
         if (player == null)
             return;
 
-        RandomSource rand = world.random;
+        RandomSource rand = world.getRandom();
         int numParticles = rand.nextInt(MAX_PARTICLES - MIN_PARTICLES) + MIN_PARTICLES;
         boolean rainbow = hasRainbowFart(player);
 

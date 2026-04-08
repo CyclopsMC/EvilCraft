@@ -29,17 +29,17 @@ public class ParticleDegradation implements IDegradationEffect {
         Level world = degradable.getDegradationWorld();
         int radius = degradable.getRadius();
 
-        double xCoord = center.getX() - radius + 2 * radius * world.random.nextFloat();
-        double yCoord = center.getY() - radius + 2 * radius * world.random.nextFloat();
-        double zCoord = center.getZ() - radius + 2 * radius * world.random.nextFloat();
+        double xCoord = center.getX() - radius + 2 * radius * world.getRandom().nextFloat();
+        double yCoord = center.getY() - radius + 2 * radius * world.getRandom().nextFloat();
+        double zCoord = center.getZ() - radius + 2 * radius * world.getRandom().nextFloat();
 
         double particleX = xCoord;
         double particleY = yCoord;
         double particleZ = zCoord;
 
-        float particleMotionX = world.random.nextFloat() * 1.4F - 0.7F;
+        float particleMotionX = world.getRandom().nextFloat() * 1.4F - 0.7F;
         float particleMotionY = -0.2F;
-        float particleMotionZ = world.random.nextFloat() * 1.4F - 0.7F;
+        float particleMotionZ = world.getRandom().nextFloat() * 1.4F - 0.7F;
         world.addParticle(
                 RegistryEntries.PARTICLE_DEGRADE.get(),
                 particleX, particleY, particleZ,

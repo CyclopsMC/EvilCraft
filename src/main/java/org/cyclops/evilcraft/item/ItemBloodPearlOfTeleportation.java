@@ -27,7 +27,7 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
         ItemStack itemStack = player.getItemInHand(hand);
         if(canConsume(100, itemStack, player)) {
             this.consume(100, itemStack, player);
-            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
 
             if (!world.isClientSide()) {
                 EntityBloodPearl pearl = new EntityBloodPearl(world, player);

@@ -3,11 +3,10 @@ package org.cyclops.evilcraft.core.recipe.type;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.*;import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 import org.cyclops.cyclopscore.recipe.ItemStackFromIngredient;
@@ -27,7 +26,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
 
     private final Ingredient inputIngredient;
     private final WeatherType inputWeather;
-    private final Either<ItemStack, ItemStackFromIngredient> outputItem;
+    private final Either<ItemStackTemplate, ItemStackFromIngredient> outputItem;
     private final WeatherType outputWeather;
     private final Optional<Integer> duration;
     private final Optional<Integer> cooldownTime;
@@ -36,7 +35,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     private PlacementInfo placementInfo;
 
     public RecipeEnvironmentalAccumulator(Ingredient inputIngredient, WeatherType inputWeather,
-                                          Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
+                                          Either<ItemStackTemplate, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
                                           Optional<Integer> duration, Optional<Integer> cooldownTime, Optional<Float> processingSpeed) {
         this.inputIngredient = inputIngredient;
         this.inputWeather = inputWeather;
@@ -55,12 +54,12 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         return inputWeather;
     }
 
-    public Either<ItemStack, ItemStackFromIngredient> getOutputItem() {
+    public Either<ItemStackTemplate, ItemStackFromIngredient> getOutputItem() {
         return outputItem;
     }
 
     public ItemStack getOutputItemFirst() {
-        return getOutputItem().map(l -> l, ItemStackFromIngredient::getFirstItemStack);
+        return getOutputItem().map(ItemStackTemplate::create, ItemStackFromIngredient::getFirstItemStack);
     }
 
     public WeatherType getOutputWeather() {
@@ -107,15 +106,25 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
     }
 
     @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public String group() {
+        return "";
+    }
+
+    @Override
     public boolean matches(RecipeEnvironmentalAccumulator.Inventory inv, Level worldIn) {
         return inputIngredient.test(inv.getItem(0))
                 && inputWeather.isActive(worldIn);
     }
 
     @Override
-    public ItemStack assemble(RecipeEnvironmentalAccumulator.Inventory inv, HolderLookup.Provider registryAccess) {
+    public ItemStack assemble(RecipeEnvironmentalAccumulator.Inventory inv) {
         ItemStack inputStack = inv.getItem(0);
-        ItemStack itemStack = getResultItem(registryAccess).copy();
+        ItemStack itemStack = getOutputItemFirst().copy();
         if (!inputStack.isEmpty()) {
             for (DataComponentType<?> dataComponentType : inputStack.getComponents().keySet()) {
                 if (dataComponentType != RegistryEntries.COMPONENT_WEATHER_CONTAINER_TYPE.value()) {
@@ -126,7 +135,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         return itemStack;
     }
 
-    public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
+    public ItemStack getResultItem(net.minecraft.core.HolderLookup.Provider registryAccess) {
         return this.getOutputItemFirst().copy();
     }
 
@@ -158,7 +167,7 @@ public class RecipeEnvironmentalAccumulator implements Recipe<RecipeEnvironmenta
         return List.of(new RecipeDisplayEnvironmentalAccumulator(
                 this.getInputIngredient().display(),
                 this.getInputWeather(),
-                new SlotDisplay.ItemStackSlotDisplay(this.getOutputItemFirst()),
+                new SlotDisplay.ItemStackSlotDisplay(this.getOutputItem().map(l -> l, i -> ItemStackTemplate.fromNonEmptyStack(i.getFirstItemStack()))),
                 this.getOutputWeather(),
                 new SlotDisplay.ItemSlotDisplay(RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get().asItem()),
                 this.getDuration(),

@@ -105,7 +105,7 @@ public class ItemExaltedCrafter extends ItemGui implements IItemEmpowerable {
         if (world.isClientSide()) {
             world.playSound(player, player.getX(), player.getY(), player.getZ(),
                     this.wooden ? SoundEvents.CHEST_OPEN : SoundEvents.ENDER_CHEST_OPEN,
-                    SoundSource.BLOCKS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+                    SoundSource.BLOCKS, 0.5F, world.getRandom().nextFloat() * 0.1F + 0.9F);
         }
         return super.use(world, player, hand);
     }

@@ -9,6 +9,6 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class LootFunctionCopyDisplayStandDataConfig extends LootFunctionConfigCommon<IModBase> {
     public LootFunctionCopyDisplayStandDataConfig() {
-        super(EvilCraft._instance, "copy_display_stand_data", LootFunctionCopyDisplayStandData.TYPE);
+        super(EvilCraft._instance, "copy_display_stand_data", LootFunctionCopyDisplayStandData.CODEC);
     }
 }

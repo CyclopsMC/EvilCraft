@@ -46,7 +46,7 @@ public class BlockEntangledChaliceConfig extends BlockConfigCommon<ModBaseNeoFor
     }
 
     @Override
-    public Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<java.util.function.Supplier<ItemStack>> getDefaultCreativeTabEntries() {
         // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
         return Collections.emptyList();
     }

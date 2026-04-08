@@ -19,8 +19,7 @@ public class PoisonConfig extends FluidConfigNeoForge {
         super(
                 EvilCraft._instance,
                 "poison",
-                fluidConfig -> getDefaultFluidProperties(EvilCraft._instance,
-                        "block/poison",
+                fluidConfig -> getDefaultFluidProperties(fluidConfig,
                         builder -> builder
                                 .density(1000)
                                 .viscosity(1000)

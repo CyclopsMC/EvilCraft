@@ -173,11 +173,11 @@ public class EntityWerewolf extends Monster {
         }
 
         // Random barking
-        RandomSource random = level().random;
+        RandomSource random = level().getRandom();
         if(random.nextInt(BARKCHANCE) == 0 && barkprogress == -1) {
             barkprogress++;
         } else if(barkprogress > -1) {
-            playSound(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).ambientSound().value(), 0.15F, 1.0F);
+            playSound(SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).adultSounds().ambientSound().value(), 0.15F, 1.0F);
             barkprogress++;
             if(barkprogress > BARKLENGTH) {
                 barkprogress = -1;
@@ -199,17 +199,17 @@ public class EntityWerewolf extends Monster {
 
     @Override
     public SoundEvent getAmbientSound() {
-        return SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.GRUMPY).ambientSound().value();
+        return SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.GRUMPY).adultSounds().ambientSound().value();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).hurtSound().value();
+        return SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).adultSounds().hurtSound().value();
     }
 
     @Override
     public SoundEvent getDeathSound() {
-        return SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.GRUMPY).deathSound().value();
+        return SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.GRUMPY).adultSounds().deathSound().value();
     }
 
     @Override

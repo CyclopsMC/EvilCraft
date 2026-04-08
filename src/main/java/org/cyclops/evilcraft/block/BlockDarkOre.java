@@ -111,7 +111,7 @@ public class BlockDarkOre extends Block implements IInformationProvider {
     }
 
     private void sparkle(Level world, BlockPos blockPos) {
-        RandomSource random = world.random;
+        RandomSource random = world.getRandom();
         double offset = 0.0625D;
 
         for (int l = 0; l < 6; ++l) {

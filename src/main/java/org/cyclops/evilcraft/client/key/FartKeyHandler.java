@@ -29,11 +29,11 @@ public class FartKeyHandler implements IKeyHandler {
             fartingEnabled = !fartingEnabled;
 
             if (fartingEnabled)
-                player.displayClientMessage(Component.translatable("chat.evilcraft.command.farting_enabled")
-                        .withStyle(ChatFormatting.DARK_RED), true);
+                player.sendOverlayMessage(Component.translatable("chat.evilcraft.command.farting_enabled")
+                        .withStyle(ChatFormatting.DARK_RED));
             else
-                player.displayClientMessage(Component.translatable("chat.evilcraft.command.farting_disabled")
-                        .withStyle(ChatFormatting.DARK_RED), true);
+                player.sendOverlayMessage(Component.translatable("chat.evilcraft.command.farting_disabled")
+                        .withStyle(ChatFormatting.DARK_RED));
         }
 
         if (fartingEnabled && kb == settings.keyShift) {

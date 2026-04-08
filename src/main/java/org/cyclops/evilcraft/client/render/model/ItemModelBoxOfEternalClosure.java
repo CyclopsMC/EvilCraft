@@ -4,13 +4,14 @@ import com.mojang.math.Quadrant;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.TextureSlots;
+import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
+import net.minecraft.client.renderer.block.dispatch.ModelState;
 import net.minecraft.client.renderer.item.*;
-import net.minecraft.client.resources.model.BlockModelRotation;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.geometry.QuadCollection;
 import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.client.resources.model.ResolvedModel;
+import net.minecraft.client.resources.model.sprite.TextureSlots;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -18,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.helper.ModelHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 
 import java.util.List;
 
@@ -29,7 +31,11 @@ public record ItemModelBoxOfEternalClosure(ModelBoxOfEternalClosureBaked model, 
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner entity, int seed) {
         List<BakedQuad> quads = model.handleItemState(stack, level, entity);
-        new BlockModelWrapper(List.of(), quads, modelRenderProperties, BlockModelWrapper.detectRenderType(quads))
+        QuadCollection.Builder quadBuilder = new QuadCollection.Builder();
+        for (BakedQuad quad : quads) {
+            quadBuilder.addUnculledFace(quad);
+        }
+        new CuboidItemModelWrapper(List.of(), quadBuilder.build(), modelRenderProperties, new Matrix4f())
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
@@ -50,7 +56,7 @@ public record ItemModelBoxOfEternalClosure(ModelBoxOfEternalClosureBaked model, 
         }
 
         @Override
-        public ItemModel bake(BakingContext bakingContext) {
+        public ItemModel bake(BakingContext bakingContext, org.joml.Matrix4fc matrix4fc) {
             ModelBaker baker = bakingContext.blockModelBaker();
             ResolvedModel resolvedModel = baker.getModel(this.box);
             TextureSlots textureslots = resolvedModel.getTopTextureSlots();

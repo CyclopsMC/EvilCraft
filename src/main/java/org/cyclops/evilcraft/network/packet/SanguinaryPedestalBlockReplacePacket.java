@@ -54,9 +54,9 @@ public class SanguinaryPedestalBlockReplacePacket extends PacketCodec<Sanguinary
 
     @Override
     public void actionClient(Level world, Player player) {
-        world.playLocalSound(x, y, z, RegistryEntries.BLOCK_BLOOD_STAIN.get().defaultBlockState().getSoundType().getBreakSound(), SoundSource.BLOCKS, 0.1F + world.random.nextFloat() * 0.5F,
-                0.9F + world.random.nextFloat() * 0.1F, false);
-        ParticleHelpers.spawnBloodSplashParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.random.nextInt(2), 1 + world.random.nextInt(2));
+        world.playLocalSound(x, y, z, RegistryEntries.BLOCK_BLOOD_STAIN.get().defaultBlockState().getSoundType().getBreakSound(), SoundSource.BLOCKS, 0.1F + world.getRandom().nextFloat() * 0.5F,
+                0.9F + world.getRandom().nextFloat() * 0.1F, false);
+        ParticleHelpers.spawnBloodSplashParticles(world, new BlockPos((int) x, (int) y + 1, (int) z), 3 + world.getRandom().nextInt(2), 1 + world.getRandom().nextInt(2));
     }
 
     @Override

@@ -102,7 +102,7 @@ public class DisenchantPurifyAction implements IPurifierAction {
 
     private Holder<Enchantment> getRandomEnchantment(Level world, ItemEnchantments enchantments) {
         List<Holder<Enchantment>> available = getAvailableEnchantments(enchantments);
-        return available.get(world.random.nextInt(available.size()));
+        return available.get(world.getRandom().nextInt(available.size()));
     }
 
     private void setResultingEnchantmentBook(BlockEntityPurifier tile, ItemEnchantments enchantments, Holder<Enchantment> enchantment) {

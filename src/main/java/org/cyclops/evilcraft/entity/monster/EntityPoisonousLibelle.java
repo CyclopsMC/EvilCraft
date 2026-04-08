@@ -268,7 +268,7 @@ public class EntityPoisonousLibelle extends Mob implements Enemy {
     private void attackEntitiesInList(List<Entity> entities) {
         int chance = EntityPoisonousLibelleConfig.poisonChance;
         for (Entity entity : entities) {
-            if(chance > 0 && level().random.nextInt(chance) == 0) {
+            if(chance > 0 && level().getRandom().nextInt(chance) == 0) {
                 if (entity instanceof LivingEntity) {
                     boolean shouldAttack = true;
                     if (entity instanceof Player) {

@@ -1,14 +1,18 @@
 package org.cyclops.evilcraft.client.render.model;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockModelPart;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.client.resources.model.cuboid.ItemTransforms;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -16,10 +20,8 @@ import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.Level;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
@@ -34,6 +36,7 @@ import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +62,7 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     public ModelDarkTankBaked(BlockStateModel baseModel, int capacity, FluidStack fluidStack,
-                              ItemStack itemStack, Level world, LivingEntity entity) {
+                              ItemStack itemStack, ClientLevel world, LivingEntity entity) {
         super(baseModel, itemStack, world, entity);
         this.capacity = capacity;
         this.fluidStack = fluidStack;
@@ -73,7 +76,9 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
             boolean flowing = isItemStack() && RegistryEntries.BLOCK_DARK_TANK.get().isActivated(itemStack, Item.TooltipContext.EMPTY);
             combinedList.addAll(getFluidQuads(fluidStack, capacity, flowing));
         }
-        for (BlockModelPart blockModelPart : baseModel.collectParts(level, BlockPos.ZERO, blockState, rand)) {
+        List<BlockStateModelPart> baseParts = new ArrayList<>();
+        baseModel.collectParts(level, BlockPos.ZERO, blockState, rand, baseParts);
+        for (BlockStateModelPart blockModelPart : baseParts) {
             combinedList.addAll(blockModelPart.getQuads(null));
         }
         return combinedList;
@@ -105,21 +110,22 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     @Override
-    public List<BakedQuad> handleItemState(ItemStack itemStack, Level world, ItemOwner entity) {
+    public List<BakedQuad> handleItemState(ItemStack itemStack, net.minecraft.world.level.Level world, ItemOwner entity) {
         IFluidHandlerCapacity fluidHandler = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(ItemAccess.forStack(itemStack)).orElse(null);
         if(!itemStack.isEmpty() && fluidHandler != null) {
             int capacity = fluidHandler.getTankCapacity(0);
             FluidStack fluidStack = IModHelpersNeoForge.get().getFluidHelpers().getFluid(fluidHandler);
-            return new ModelDarkTankBaked(baseModel, capacity, fluidStack, itemStack, world, entity != null ? entity.asLivingEntity() : null).getGeneralQuads();
+            return new ModelDarkTankBaked(baseModel, capacity, fluidStack, itemStack, (ClientLevel) world, entity != null ? entity.asLivingEntity() : null).getGeneralQuads();
         }
-        return new ModelDarkTankBaked(baseModel, 0, null, itemStack, world, entity.asLivingEntity()).getGeneralQuads();
+        return new ModelDarkTankBaked(baseModel, 0, null, itemStack, (ClientLevel) world, entity.asLivingEntity()).getGeneralQuads();
     }
 
     public static TextureAtlasSprite getFluidIcon(FluidStack fluid, boolean flowing, Direction side) {
-        IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid.getFluid());
-        return IModHelpers.get().getRenderHelpers().getBlockTextureGetter().apply(flowing && side != Direction.UP && side != Direction.DOWN
-                ? renderProperties.getFlowingTexture(fluid)
-                : renderProperties.getStillTexture(fluid));
+        FluidModel model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(fluid.getFluid().defaultFluidState());
+        if (!flowing || side == Direction.UP || side == Direction.DOWN) {
+            return model.stillMaterial().sprite();
+        }
+        return model.flowingMaterial().sprite();
     }
 
     protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity, boolean flowing) {
@@ -183,8 +189,13 @@ public class ModelDarkTankBaked extends DelegatingChildDynamicItemAndBlockModel 
     }
 
     @Override
-    public TextureAtlasSprite particleIcon() {
-        return baseModel.particleIcon();
+    public Material.Baked particleMaterial() {
+        return baseModel.particleMaterial();
+    }
+
+    @Override
+    public int materialFlags() {
+        return 0;
     }
 
     @Override

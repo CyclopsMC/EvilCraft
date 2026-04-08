@@ -30,7 +30,7 @@ public record EnchantmentEntityEffectSummonVengeanceSpirit(
     public void apply(ServerLevel level, int enchantmentLevel, EnchantedItemInUse enchantedItemInUse, Entity entity, Vec3 vec) {
         if (enchantmentLevel > 0) {
             int chance = Math.max(1, chance() / enchantmentLevel);
-            if (chance > 0 && level.random.nextInt(chance) == 0) {
+            if (chance > 0 && level.getRandom().nextInt(chance) == 0) {
                 if (entity instanceof Projectile projectile) {
                     entity = projectile.getEffectSource();
                 }

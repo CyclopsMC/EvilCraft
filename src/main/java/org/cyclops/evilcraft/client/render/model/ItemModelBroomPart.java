@@ -7,10 +7,11 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockModelRotation;
 import net.minecraft.client.renderer.item.*;
-import net.minecraft.client.resources.model.BlockModelRotation;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.geometry.QuadCollection;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ItemOwner;
@@ -21,6 +22,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.api.broom.IBroomPart;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +35,11 @@ public record ItemModelBroomPart(List<ItemTintSource> tints, ModelBroomPartBaked
     @Override
     public void update(ItemStackRenderState renderState, ItemStack stack, ItemModelResolver itemModelResolver, ItemDisplayContext displayContext, @Nullable ClientLevel level, @Nullable ItemOwner entity, int seed) {
         List<BakedQuad> quads = model.handleItemState(stack, level, entity);
-        new BlockModelWrapper(tints, quads, modelRenderProperties, BlockModelWrapper.detectRenderType(quads))
+        QuadCollection.Builder quadBuilder = new QuadCollection.Builder();
+        for (BakedQuad quad : quads) {
+            quadBuilder.addUnculledFace(quad);
+        }
+        new CuboidItemModelWrapper(tints, quadBuilder.build(), modelRenderProperties, new Matrix4f())
                 .update(renderState, stack, itemModelResolver, displayContext, level, entity, seed);
     }
 
@@ -52,7 +58,7 @@ public record ItemModelBroomPart(List<ItemTintSource> tints, ModelBroomPartBaked
         }
 
         @Override
-        public ItemModel bake(BakingContext bakingContext) {
+        public ItemModel bake(BakingContext bakingContext, org.joml.Matrix4fc matrix4fc) {
             ModelBaker baker = bakingContext.blockModelBaker();
             Map<IBroomPart, BlockStateModel> broomPartModels = Maps.newIdentityHashMap();
             for(IBroomPart part : BroomParts.REGISTRY.getParts()) {

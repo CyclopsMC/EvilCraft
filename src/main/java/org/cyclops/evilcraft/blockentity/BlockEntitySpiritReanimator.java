@@ -242,7 +242,7 @@ public class BlockEntitySpiritReanimator extends BlockEntityWorking<BlockEntityS
         boolean validNameStack = entityType != null
                 && (outputStack.isEmpty() ||
                     (outputStack.getMaxStackSize() > outputStack.getCount()
-                        && SpawnEggItem.byId(entityType) == outputStack.getItem()));
+                        && SpawnEggItem.spawnsEntity(outputStack, entityType)));
         return !eggStack.isEmpty() && validNameStack;
     }
 

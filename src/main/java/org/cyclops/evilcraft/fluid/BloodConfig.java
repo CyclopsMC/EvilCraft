@@ -18,8 +18,7 @@ public class BloodConfig extends FluidConfigNeoForge {
         super(
                 EvilCraft._instance,
                 "blood",
-                fluidConfig -> getDefaultFluidProperties(EvilCraft._instance,
-                        "block/blood",
+                fluidConfig -> getDefaultFluidProperties(fluidConfig,
                         builder -> builder
                                 .density(1500)
                                 .viscosity(3000)

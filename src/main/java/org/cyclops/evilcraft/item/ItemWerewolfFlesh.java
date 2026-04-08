@@ -69,7 +69,7 @@ public class ItemWerewolfFlesh extends Item {
      * @return If it is day in the world, checked with the world time.
      */
     public static boolean isDay(Level world) {
-        return world.getDayTime() % MINECRAFT_DAY < MINECRAFT_DAY / 2;
+        return world.getOverworldClockTime() % MINECRAFT_DAY < MINECRAFT_DAY / 2;
     }
 
     private boolean isPower(Level world) {
@@ -119,8 +119,8 @@ public class ItemWerewolfFlesh extends Item {
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,
                             getPowerDuration(itemStack) * 20, 1));
                 }
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).hurtSound(), SoundSource.HOSTILE, 0.5F,
-                        world.random.nextFloat() * 0.1F + 0.9F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).adultSounds().hurtSound(), SoundSource.HOSTILE, 0.5F,
+                        world.getRandom().nextFloat() * 0.1F + 0.9F);
             } else if (isPower(world)) {
                 FoodProperties foodProperties = itemStack.get(DataComponents.FOOD);
                 int foodLevel = foodProperties.nutrition();
@@ -137,15 +137,15 @@ public class ItemWerewolfFlesh extends Item {
                     player.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,
                             getPowerDuration(itemStack) * 20, 2));
                 }
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).whineSound(), SoundSource.HOSTILE, 0.5F,
-                        world.random.nextFloat() * 0.1F + 0.9F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.ANGRY).adultSounds().whineSound(), SoundSource.HOSTILE, 0.5F,
+                        world.getRandom().nextFloat() * 0.1F + 0.9F);
             } else {
                 if (!world.isClientSide()) {
                     player.addEffect(new MobEffectInstance(MobEffects.POISON,
                             POISON_DURATION * 20, 1));
                 }
-                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.SAD).hurtSound(), SoundSource.HOSTILE, 0.5F,
-                        world.random.nextFloat() * 0.1F + 0.9F);
+                world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.WOLF_SOUNDS.get(WolfSoundVariants.SoundSet.SAD).adultSounds().hurtSound(), SoundSource.HOSTILE, 0.5F,
+                        world.getRandom().nextFloat() * 0.1F + 0.9F);
             }
             itemStack.get(DataComponents.CONSUMABLE).onConsume(world, entity, itemStack);
         }
@@ -173,7 +173,7 @@ public class ItemWerewolfFlesh extends Item {
     public void dropHumanoidFleshEvent(LivingDeathEvent event) {
         if(event.getEntity() instanceof ServerPlayer
                 && !event.getEntity().level().isClientSide()
-                && event.getEntity().level().random.nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
+                && event.getEntity().level().getRandom().nextInt(ItemWerewolfFleshConfig.humanoidFleshDropChance) == 0) {
             ServerPlayer player = (ServerPlayer) event.getEntity();
             ItemStack itemStack = new ItemStack(this);
             itemStack.set(DataComponents.PROFILE, ResolvableProfile.createResolved(player.getGameProfile()));

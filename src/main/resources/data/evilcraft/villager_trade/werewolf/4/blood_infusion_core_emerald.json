@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "evilcraft:blood_infusion_core",
+    "count": 3
+  },
+  "gives": {
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 20,
+  "xp": 10,
+  "reputation_discount": 0.05
+}

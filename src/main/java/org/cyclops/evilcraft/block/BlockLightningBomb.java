@@ -79,7 +79,7 @@ public class BlockLightningBomb extends Block {
             EntityLightningBombPrimed entityprimed = new EntityLightningBombPrimed(level,
                     (double)((float)pos.getX() + 0.5F), (double)((float)pos.getY() + 0.5F),
                     (double)((float)pos.getZ() + 0.5F), explosion.getIndirectSourceEntity());
-            entityprimed.setFuse(level.random.nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
+            entityprimed.setFuse(level.getRandom().nextInt(entityprimed.getFuse() / 4) + entityprimed.getFuse() / 8);
             level.addFreshEntity(entityprimed);
             level.removeBlock(pos, false);
         }

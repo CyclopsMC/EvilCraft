@@ -61,7 +61,7 @@ public class EntityStruckByLightningEventHook {
                 event.setCanceled(true);
                 return;
             }
-            if(entity.level().random.nextBoolean()) {
+            if(entity.level().getRandom().nextBoolean()) {
                 event.setCanceled(false);
                 return; // 50% chance that they become a witch like vanilla does
             }

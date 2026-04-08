@@ -59,8 +59,8 @@ public class RenderOverlayEventHook {
             event.getGuiGraphics().blit(RenderPipelines.GUI_TEXTURED, BROOM_OVERLAY, x, y, 11, 0, 24, 24, 256, 256);
 
             // Render item
-            event.getGuiGraphics().renderItem(broomStack, x + 3, y + 3);
-            event.getGuiGraphics().renderItemDecorations(
+            event.getGuiGraphics().item(broomStack, x + 3, y + 3);
+            event.getGuiGraphics().itemDecorations(
                     Minecraft.getInstance().gui.getFont(), broomStack, x + 3, y + 3, "");
         }
     }

@@ -125,7 +125,7 @@ public class BlockBloodStain extends BlockWithEntity {
      */
     public static void splash(Level world, BlockPos blockPos) {
         if(world.isClientSide()) {
-            ParticleHelpers.spawnBloodSplashParticles(world, blockPos, 1, 1 + world.random.nextInt(1));
+            ParticleHelpers.spawnBloodSplashParticles(world, blockPos, 1, 1 + world.getRandom().nextInt(1));
         }
     }
 

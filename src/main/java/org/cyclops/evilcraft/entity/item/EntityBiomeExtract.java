@@ -82,7 +82,7 @@ public class EntityBiomeExtract extends EntityThrowable {
                     @Override
                     public void spreadTo(Level world, BlockPos location) {
                         setBiome((ServerLevel) world, location, biome);
-                        updatedChunks.add(new ChunkPos(location));
+                        updatedChunks.add(ChunkPos.containing(location));
                         int color = biome.value().getFoliageColor();
                         showChangedBiome((ServerLevel) world, new BlockPos(location.getX(), ((BlockHitResult) movingobjectposition).getBlockPos().getY(),
                                 location.getZ()), color);
@@ -181,16 +181,16 @@ public class EntityBiomeExtract extends EntityThrowable {
      * @param chunkPos The chunk position in which one or more biome positions were changed.
      */
     public static void updateChunkAfterBiomeChange(Level world, ChunkPos chunkPos) {
-        LevelChunk chunkSafe = world.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
+        LevelChunk chunkSafe = world.getChunkSource().getChunk(chunkPos.x(), chunkPos.z(), false);
         ((ServerChunkCache) world.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
             player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) world.getChunkSource()).chunkMap.getLightEngine(), null, null));
-            EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
+            EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x(), chunkPos.z()), player);
         });
     }
 
     private void showChangedBiome(ServerLevel world, BlockPos pos, int color) {
         Triple<Float, Float, Float> c = IModHelpers.get().getBaseHelpers().intToRGB(color);
-        RandomSource rand = world.random;
+        RandomSource rand = world.getRandom();
         for (int j = 0; j < 2 + rand.nextInt(5); j++) {
             float x = pos.getX() + -0.5F + rand.nextFloat();
             float y = pos.getY() + -0.5F + rand.nextFloat();

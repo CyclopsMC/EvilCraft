@@ -9,6 +9,6 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class LootFunctionCopyTankDataConfig extends LootFunctionConfigCommon<IModBase> {
     public LootFunctionCopyTankDataConfig() {
-        super(EvilCraft._instance, "copy_tank_data", LootFunctionCopyTankData.TYPE);
+        super(EvilCraft._instance, "copy_tank_data", LootFunctionCopyTankData.CODEC);
     }
 }

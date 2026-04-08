@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.entity.monster;
 
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -17,7 +16,7 @@ public class EntityNetherfishConfigClient extends EntityClientConfig<IModBase, E
     }
 
     @Override
-    public EntityRenderer<? super EntityNetherfish, ?> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+    public EntityRenderer<? super EntityNetherfish, ?> getRender(EntityRendererProvider.Context renderContext) {
         return new RenderNetherfish(renderContext, (EntityNetherfishConfig) getEntityConfig());
     }
 }

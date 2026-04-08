@@ -32,7 +32,7 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
     }
 
     private void showNewBlurParticle() {
-        RandomSource rand = level.random;
+        RandomSource rand = level.getRandom();
         float scale = 0.6F - rand.nextFloat() * 0.3F;
         float red = rand.nextFloat() * 0.03F + 0.01F;
         float green = rand.nextFloat() * 0.03F;
@@ -60,12 +60,12 @@ public class BlockEntitySpiritPortal extends CyclopsBlockEntity {
             }
             if(level.isClientSide()) {
                 int progressModifier = (int) (blockEntity.getProgress() * 40f) + 1;
-                if(level.random.nextInt(5) == 0) {
+                if(level.getRandom().nextInt(5) == 0) {
                     level.playLocalSound(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F,
                             RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_BASE.get(), SoundSource.AMBIENT,
-                            0.5F + level.random.nextFloat() * 0.2F, 1.0F, false);
+                            0.5F + level.getRandom().nextFloat() * 0.2F, 1.0F, false);
                 }
-                for(int i = 0; i < level.random.nextInt(progressModifier); i++) {
+                for(int i = 0; i < level.getRandom().nextInt(progressModifier); i++) {
                     blockEntity.showNewBlurParticle();
                 }
             }

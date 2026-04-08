@@ -9,6 +9,6 @@ import org.cyclops.evilcraft.EvilCraft;
  */
 public class LootFunctionCopyBoxOfEternalClosureDataConfig extends LootFunctionConfigCommon<IModBase> {
     public LootFunctionCopyBoxOfEternalClosureDataConfig() {
-        super(EvilCraft._instance, "copy_box_of_eternal_closure_data", LootFunctionCopyBoxOfEternalClosureData.TYPE);
+        super(EvilCraft._instance, "copy_box_of_eternal_closure_data", LootFunctionCopyBoxOfEternalClosureData.CODEC);
     }
 }

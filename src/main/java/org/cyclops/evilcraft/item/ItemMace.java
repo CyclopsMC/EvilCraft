@@ -122,7 +122,7 @@ public abstract class ItemMace extends ItemBloodContainer {
         int particleChance = 5 * (this.powerLevels - getPower(itemStack));
         for(double point = -points; point <= points; point++) {
             for(double pointHeight = -points; pointHeight <= points; pointHeight+=0.5F) {
-                if(world.random.nextInt(particleChance) == 0) {
+                if(world.getRandom().nextInt(particleChance) == 0) {
                     double u = Math.PI * (point / points);
                     double v = -2 * Math.PI * (pointHeight / points);
 
@@ -135,9 +135,9 @@ public abstract class ItemMace extends ItemBloodContainer {
                             - (Minecraft.getInstance().player == entity ? 0.5D : 1.5D);
                     double zCoord = entity.getZ();
 
-                    double particleX = xCoord + xOffset - world.random.nextFloat() * area / 4 - 0.5F;
-                    double particleY = yCoord + yOffset - world.random.nextFloat() * area / 4 - 0.5F;
-                    double particleZ = zCoord + zOffset - world.random.nextFloat() * area / 4 - 0.5F;
+                    double particleX = xCoord + xOffset - world.getRandom().nextFloat() * area / 4 - 0.5F;
+                    double particleY = yCoord + yOffset - world.getRandom().nextFloat() * area / 4 - 0.5F;
+                    double particleZ = zCoord + zOffset - world.getRandom().nextFloat() * area / 4 - 0.5F;
 
                     float particleMotionX = (float) (xOffset * 10);
                     float particleMotionY = (float) (yOffset * 10);
@@ -148,17 +148,17 @@ public abstract class ItemMace extends ItemBloodContainer {
                             particleX, particleY, particleZ,
                             particleMotionX, particleMotionY, particleMotionZ);
 
-                    if(world.random.nextInt(10) == 0) {
+                    if(world.getRandom().nextInt(10) == 0) {
                         int spread = 10;
-                        float scale2 = 0.3F - world.random.nextFloat() * 0.2F;
-                        float r = 1.0F * world.random.nextFloat();
-                        float g = 0.2F + 0.01F * world.random.nextFloat();
-                        float b = 0.1F + 0.5F * world.random.nextFloat();
+                        float scale2 = 0.3F - world.getRandom().nextFloat() * 0.2F;
+                        float r = 1.0F * world.getRandom().nextFloat();
+                        float g = 0.2F + 0.01F * world.getRandom().nextFloat();
+                        float b = 0.1F + 0.5F * world.getRandom().nextFloat();
                         float ageMultiplier2 = 20;
 
-                        double motionX = spread - world.random.nextDouble() * 2 * spread;
-                        double motionY = spread - world.random.nextDouble() * 2 * spread;
-                        double motionZ = spread - world.random.nextDouble() * 2 * spread;
+                        double motionX = spread - world.getRandom().nextDouble() * 2 * spread;
+                        double motionY = spread - world.getRandom().nextDouble() * 2 * spread;
+                        double motionZ = spread - world.getRandom().nextDouble() * 2 * spread;
 
                         world.addParticle(
                                 new ParticleBlurTargettedEntityData(r, g, b, scale2, ageMultiplier2, entity.getId()),
@@ -173,17 +173,17 @@ public abstract class ItemMace extends ItemBloodContainer {
     protected void showUsedItemTick(Level world, LivingEntity player, int power) {
         int particles = (power + 1) * (power + 1) * (power + 1) * 10;
         for(int i = 0; i < particles; i++) {
-            double x = player.getX() - 0.5F + world.random.nextDouble();
-            double y = player.getY() + player.getEyeHeight() - 1F + world.random.nextDouble();
-            double z = player.getZ() - 0.5F + world.random.nextDouble();
+            double x = player.getX() - 0.5F + world.getRandom().nextDouble();
+            double y = player.getY() + player.getEyeHeight() - 1F + world.getRandom().nextDouble();
+            double z = player.getZ() - 0.5F + world.getRandom().nextDouble();
 
-            double particleMotionX = (-1 + world.random.nextDouble() * 2) * (power + 1) / 2;
-            double particleMotionY = (-1 + world.random.nextDouble() * 2) * (power + 1) / 2;
-            double particleMotionZ = (-1 + world.random.nextDouble() * 2) * (power + 1) / 2;
+            double particleMotionX = (-1 + world.getRandom().nextDouble() * 2) * (power + 1) / 2;
+            double particleMotionY = (-1 + world.getRandom().nextDouble() * 2) * (power + 1) / 2;
+            double particleMotionZ = (-1 + world.getRandom().nextDouble() * 2) * (power + 1) / 2;
 
-            float r = 1.0F * world.random.nextFloat();
-            float g = 0.2F + 0.01F * world.random.nextFloat();
-            float b = 0.1F + 0.5F * world.random.nextFloat();
+            float r = 1.0F * world.getRandom().nextFloat();
+            float g = 0.2F + 0.01F * world.getRandom().nextFloat();
+            float b = 0.1F + 0.5F * world.getRandom().nextFloat();
 
             world.addParticle(
                     new ParticleExplosionExtendedData(r, g, b, 0.3F),
@@ -247,13 +247,13 @@ public abstract class ItemMace extends ItemBloodContainer {
         double yCoord = entity.getY();
         double zCoord = entity.getZ();
 
-        float particleMotionX = world.random.nextFloat() * 0.2F - 0.1F;
+        float particleMotionX = world.getRandom().nextFloat() * 0.2F - 0.1F;
         float particleMotionY = 0.2F;
-        float particleMotionZ = world.random.nextFloat() * 0.2F - 0.1F;
+        float particleMotionZ = world.getRandom().nextFloat() * 0.2F - 0.1F;
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
 
         world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.NOTE_BLOCK_BASEDRUM.value(),
-                SoundSource.NEUTRAL, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+                SoundSource.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
     }
 
     @Override
@@ -269,7 +269,7 @@ public abstract class ItemMace extends ItemBloodContainer {
 
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
-        ItemPowerableHelpers.addPreInformation(itemStack, tooltipAdder);
+        ItemPowerableHelpers.addPreInformation(itemStack, tooltipAdder, flag);
         super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
         ItemPowerableHelpers.addPostInformation(itemStack, tooltipAdder);
     }

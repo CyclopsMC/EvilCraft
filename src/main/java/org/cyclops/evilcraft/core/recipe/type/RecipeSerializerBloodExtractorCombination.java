@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
  * Recipe serializer for energy container combinations.
  * @author rubensworks
  */
-public class RecipeSerializerBloodExtractorCombination implements RecipeSerializer<RecipeBloodExtractorCombination> {
+public class RecipeSerializerBloodExtractorCombination {
 
     public static final MapCodec<RecipeBloodExtractorCombination> CODEC = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
@@ -25,14 +25,5 @@ public class RecipeSerializerBloodExtractorCombination implements RecipeSerializ
             ByteBufCodecs.INT, RecipeBloodExtractorCombination::getMaxCapacity,
             (maxCapacity) -> new RecipeBloodExtractorCombination(CraftingBookCategory.MISC, maxCapacity)
     );
-
-    @Override
-    public MapCodec<RecipeBloodExtractorCombination> codec() {
-        return CODEC;
-    }
-
-    @Override
-    public StreamCodec<RegistryFriendlyByteBuf, RecipeBloodExtractorCombination> streamCodec() {
-        return STREAM_CODEC;
-    }
+    public static final RecipeSerializer<RecipeBloodExtractorCombination> INSTANCE = new RecipeSerializer<>(CODEC, STREAM_CODEC);
 }

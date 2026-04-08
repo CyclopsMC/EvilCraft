@@ -108,8 +108,8 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
             String tankId = IModHelpers.get().getBlockEntityHelpers().get(pLevel, pPos, BlockEntityEntangledChalice.class)
                     .map(BlockEntityEntangledChalice::getWorldTankId)
                     .orElse("null");
-            pPlayer.displayClientMessage(Component.translatable(IModHelpers.get().getL10NHelpers().localize(
-                    "block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))), true);
+            pPlayer.sendOverlayMessage(Component.translatable(IModHelpers.get().getL10NHelpers().localize(
+                    "block.evilcraft.entangled_chalice.info.id", ItemEntangledChalice.tankIdToNameParts(tankId))));
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);
     }

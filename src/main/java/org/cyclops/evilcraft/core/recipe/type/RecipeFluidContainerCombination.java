@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.core.recipe.type;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -25,7 +24,7 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
     private final int maxCapacity;
 
     public RecipeFluidContainerCombination(CraftingBookCategory category, Ingredient fluidContainer, int maxCapacity) {
-        super(category);
+        super();
         this.fluidContainer = fluidContainer;
         this.maxCapacity = maxCapacity;
     }
@@ -40,7 +39,7 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
 
     @Override
     public boolean matches(CraftingInput grid, Level world) {
-        return !assemble(grid, world.registryAccess()).isEmpty();
+        return !assemble(grid).isEmpty();
     }
 
     @Override
@@ -49,7 +48,8 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
 
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            aitemstack.set(i, itemstack.getCraftingRemainder());
+            net.minecraft.world.item.ItemStackTemplate remainder = itemstack.getCraftingRemainder();
+            aitemstack.set(i, remainder != null ? remainder.create() : ItemStack.EMPTY);
         }
 
         return aitemstack;
@@ -61,7 +61,7 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput grid, HolderLookup.Provider registryAccess) {
+    public ItemStack assemble(CraftingInput grid) {
         ItemStack output = new ItemStack(fluidContainer.items().findFirst().get());
         ItemAccess outputItemAccess = ItemAccess.forStack(output);
         IFluidHandlerCapacity fluidHandlerOutput = IModHelpersNeoForge.get().getFluidHelpers().getFluidHandlerItemCapacity(outputItemAccess).orElse(null);
@@ -99,12 +99,12 @@ public class RecipeFluidContainerCombination extends CustomRecipe {
         }
 
         // Set capacity and fill fluid into output.
-        fluidHandlerOutput.setTankCapacity(0, totalCapacity);
-        if(commonFluid != null) {
-            try (var tx = Transaction.openRoot()) {
-                fluidHandlerOutput.insert(FluidResource.of(commonFluid.getFluidHolder()), totalContent, tx);
-                tx.commit();
+        try (var tx = Transaction.openRoot()) {
+            fluidHandlerOutput.setTankCapacity(0, totalCapacity, tx);
+            if(commonFluid != null) {
+                fluidHandlerOutput.insert(FluidResource.of(commonFluid), totalContent, tx);
             }
+            tx.commit();
         }
         output = outputItemAccess.getResource().toStack(outputItemAccess.getAmount());
 

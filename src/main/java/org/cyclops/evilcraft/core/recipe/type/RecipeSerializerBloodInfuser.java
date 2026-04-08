@@ -9,7 +9,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStackTemplate;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
 import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuserConfig;
 
@@ -17,14 +17,14 @@ import org.cyclops.evilcraft.blockentity.BlockEntityBloodInfuserConfig;
  * Recipe serializer for blood infuser recipes
  * @author rubensworks
  */
-public class RecipeSerializerBloodInfuser implements RecipeSerializer<RecipeBloodInfuser> {
+public class RecipeSerializerBloodInfuser {
 
     public static final MapCodec<RecipeBloodInfuser> CODEC = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
                             Ingredient.CODEC.optionalFieldOf("input_item").forGetter(RecipeBloodInfuser::getInputIngredient),
-                            FluidStack.CODEC.optionalFieldOf("input_fluid").forGetter(RecipeBloodInfuser::getInputFluid),
+                            FluidStackTemplate.CODEC.optionalFieldOf("input_fluid").forGetter(RecipeBloodInfuser::getInputFluid),
                             Codec.INT.optionalFieldOf("tier").forGetter(RecipeBloodInfuser::getInputTier),
-                            RecipeSerializerHelpers.getCodecItemStackOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeBloodInfuser::getOutputItem),
+                            RecipeSerializerHelpers.getCodecItemStackTemplateOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeBloodInfuser::getOutputItem),
                             Codec.INT.fieldOf("duration").forGetter(RecipeBloodInfuser::getDuration),
                             Codec.FLOAT.optionalFieldOf("xp").forGetter(RecipeBloodInfuser::getXp)
                     )
@@ -48,21 +48,12 @@ public class RecipeSerializerBloodInfuser implements RecipeSerializer<RecipeBloo
     );
     public static final StreamCodec<RegistryFriendlyByteBuf, RecipeBloodInfuser> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.optional(Ingredient.CONTENTS_STREAM_CODEC), RecipeBloodInfuser::getInputIngredient,
-            ByteBufCodecs.optional(FluidStack.STREAM_CODEC), RecipeBloodInfuser::getInputFluid,
+            ByteBufCodecs.optional(FluidStackTemplate.STREAM_CODEC), RecipeBloodInfuser::getInputFluid,
             ByteBufCodecs.optional(ByteBufCodecs.INT), RecipeBloodInfuser::getInputTier,
-            RecipeSerializerHelpers.STREAM_CODEC_ITEMSTACK_OR_TAG, RecipeBloodInfuser::getOutputItem,
+            RecipeSerializerHelpers.STREAM_CODEC_ITEMSTACKTEMPLATE_OR_TAG, RecipeBloodInfuser::getOutputItem,
             ByteBufCodecs.INT, RecipeBloodInfuser::getDuration,
             ByteBufCodecs.optional(ByteBufCodecs.FLOAT), RecipeBloodInfuser::getXp,
             RecipeBloodInfuser::new
     );
-
-    @Override
-    public MapCodec<RecipeBloodInfuser> codec() {
-        return CODEC;
-    }
-
-    @Override
-    public StreamCodec<RegistryFriendlyByteBuf, RecipeBloodInfuser> streamCodec() {
-        return STREAM_CODEC;
-    }
+    public static final RecipeSerializer<RecipeBloodInfuser> INSTANCE = new RecipeSerializer<>(CODEC, STREAM_CODEC);
 }

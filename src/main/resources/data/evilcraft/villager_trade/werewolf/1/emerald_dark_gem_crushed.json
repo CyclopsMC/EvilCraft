@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "minecraft:emerald"
+  },
+  "gives": {
+    "id": "evilcraft:dark_gem_crushed",
+    "count": 5
+  },
+  "max_uses": 12,
+  "xp": 10,
+  "reputation_discount": 0.05
+}

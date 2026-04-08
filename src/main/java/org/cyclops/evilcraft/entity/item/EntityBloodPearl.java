@@ -47,7 +47,7 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
                 ServerPlayer entityplayermp = (ServerPlayer)this.getOwner();
 
                 if (entityplayermp.connection.getConnection().isConnected() && entityplayermp.level() == this.level()) {
-                    EntityTeleportEvent event = new EntityTeleportEvent(entityplayermp, this.getX(), this.getY(), this.getZ());
+                    EntityTeleportEvent event = new EntityTeleportEvent(entityplayermp, (net.minecraft.server.level.ServerLevel) entityplayermp.level(), this.getX(), this.getY(), this.getZ());
                     if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
                         if (this.getOwner().isPassenger()) {
                             this.getOwner().stopRiding();

@@ -38,7 +38,7 @@ public class BlockUndeadLeaves extends TintedParticleLeavesBlock {
     }
 
     @Override
-    public int getLightBlock(BlockState state) {
+    public int getLightDampening(BlockState state) {
         return 1;
     }
 
@@ -84,7 +84,7 @@ public class BlockUndeadLeaves extends TintedParticleLeavesBlock {
                     // Add blood to existing stain
                     if (blockState.getBlock() instanceof org.cyclops.evilcraft.block.BlockBloodStain) {
                         IModHelpers.get().getBlockEntityHelpers().get(worldIn, itPos, BlockEntityBloodStain.class)
-                                .ifPresent(tile -> tile.addAmount(1 + worldIn.random.nextInt(BlockUndeadLeavesConfig.maxBloodStainAmount), true));
+                                .ifPresent(tile -> tile.addAmount(1 + worldIn.getRandom().nextInt(BlockUndeadLeavesConfig.maxBloodStainAmount), true));
                     }
 
                     break;

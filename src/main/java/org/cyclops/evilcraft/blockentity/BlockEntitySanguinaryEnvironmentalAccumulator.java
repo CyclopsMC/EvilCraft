@@ -230,7 +230,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
     }
 
     protected void showTankBeams() {
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         BlockPos target = getBlockPos();
         for (int j = 0; j < tankOffsets.length; j++) {
             BlockPos offset = tankOffsets[j];
@@ -262,7 +262,7 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
 
     protected void showMissingTanks() {
         if(level.getGameTime() % 10 == 0) {
-            RandomSource random = level.random;
+            RandomSource random = level.getRandom();
             for (BlockPos location : invalidLocations) {
                 double x = location.getX() + 0.5;
                 double y = location.getY() + 0.5;

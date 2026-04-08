@@ -14,8 +14,8 @@ import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -31,7 +31,7 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.network.chat.Component;
@@ -40,7 +40,6 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.PlayerSkin;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritConfig;
@@ -245,23 +244,23 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public void submitBlock(PoseStack poseStack, BlockState blockState, int i, int i1, int i2) {
-            this.submitNodeCollector.submitBlock(poseStack, blockState, i, i1, i2);
-        }
-
-        @Override
         public void submitMovingBlock(PoseStack poseStack, MovingBlockRenderState movingBlockRenderState) {
             this.submitNodeCollector.submitMovingBlock(poseStack, movingBlockRenderState);
         }
 
         @Override
-        public void submitBlockModel(PoseStack poseStack, RenderType renderType, BlockStateModel blockStateModel, float v, float v1, float v2, int i, int i1, int i2) {
-            this.submitNodeCollector.submitBlockModel(poseStack, this.renderTypeOverride, blockStateModel, v, v1, v2, i, i1, i2);
+        public void submitBlockModel(PoseStack poseStack, RenderType renderType, java.util.List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> parts, int[] tints, int light, int overlay, int seed) {
+            this.submitNodeCollector.submitBlockModel(poseStack, this.renderTypeOverride, parts, tints, light, overlay, seed);
         }
 
         @Override
-        public void submitItem(PoseStack poseStack, ItemDisplayContext itemDisplayContext, int i, int i1, int i2, int[] ints, List<BakedQuad> list, RenderType renderType, ItemStackRenderState.FoilType foilType) {
-            this.submitNodeCollector.submitItem(poseStack, itemDisplayContext, i, i1, i2, ints, list, this.renderTypeOverride, foilType);
+        public void submitBreakingBlockModel(PoseStack poseStack, BlockStateModel blockStateModel, long seed, int light) {
+            this.submitNodeCollector.submitBreakingBlockModel(poseStack, blockStateModel, seed, light);
+        }
+
+        @Override
+        public void submitItem(PoseStack poseStack, ItemDisplayContext itemDisplayContext, int i, int i1, int i2, int[] ints, List<BakedQuad> list, ItemStackRenderState.FoilType foilType) {
+            this.submitNodeCollector.submitItem(poseStack, itemDisplayContext, i, i1, i2, ints, list, foilType);
         }
 
         @Override

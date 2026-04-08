@@ -137,12 +137,12 @@ public class ItemMaceOfDistortion extends ItemMace {
 
     public static void showEntityDistored(Level world, LivingEntity initiator, Entity entity, int power) {
         // Play a nice sound with the volume depending on the power.
-        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
         if(initiator != null) {
-            world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+            world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, (float) (power + 1) / (float) POWER_LEVELS, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
         }
         // Fake explosion effect.
-        world.addParticle(ParticleTypes.EXPLOSION, entity.getX(), entity.getY() + world.random.nextFloat(), entity.getZ(), 1.0D, 0.0D, 0.0D);
+        world.addParticle(ParticleTypes.EXPLOSION, entity.getX(), entity.getY() + world.getRandom().nextFloat(), entity.getZ(), 1.0D, 0.0D, 0.0D);
     }
 
     @Override
@@ -151,12 +151,12 @@ public class ItemMaceOfDistortion extends ItemMace {
         double yCoord = player.getY();
         double zCoord = player.getZ();
 
-        float particleMotionX = world.random.nextFloat() * 0.2F - 0.1F;
+        float particleMotionX = world.getRandom().nextFloat() * 0.2F - 0.1F;
         float particleMotionY = 0.2F;
-        float particleMotionZ = world.random.nextFloat() * 0.2F - 0.1F;
+        float particleMotionZ = world.getRandom().nextFloat() * 0.2F - 0.1F;
         world.addParticle(ParticleTypes.SMOKE, xCoord, yCoord, zCoord, particleMotionX, particleMotionY, particleMotionZ);
 
-        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.RECORDS, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+        world.playSound(player, xCoord, yCoord, zCoord, SoundEvents.NOTE_BLOCK_BASEDRUM.value(), SoundSource.RECORDS, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
     }
 
     @Override

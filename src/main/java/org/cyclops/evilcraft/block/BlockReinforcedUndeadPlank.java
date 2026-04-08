@@ -61,7 +61,7 @@ public class BlockReinforcedUndeadPlank extends Block implements CubeDetector.ID
     }
 
     @Override
-    public boolean shouldDisplayFluidOverlay(BlockState blockState, BlockAndTintGetter world, BlockPos pos, FluidState fluidState) {
+    public boolean shouldDisplayFluidOverlay(BlockState blockState, BlockAndLightGetter world, BlockPos pos, FluidState fluidState) {
         return true;
     }
 

@@ -52,7 +52,7 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
         Optional<RecipeEnvironmentalAccumulator> optionalRecipe = getRecipe(tile);
         if(optionalRecipe.isPresent() && tick >= getRequiredTicks(tile, optionalRecipe.get())) {
             RecipeEnvironmentalAccumulator recipe = optionalRecipe.get();
-            ItemStack result = recipe.assemble(tile.getInventory(), tile.getLevel().registryAccess());
+            ItemStack result = recipe.assemble(tile.getInventory());
             if(addToProduceSlot(tile, result)) {
                 tile.getInventory().removeItem(tile.getTileWorkingMetadata().getConsumeSlot(), 1);
                 try (var tx = Transaction.openRoot()) {
@@ -96,7 +96,7 @@ public class AccumulateItemTickAction implements ITickAction<BlockEntitySanguina
     }
 
     protected ItemStack willProduceItem(BlockEntitySanguinaryEnvironmentalAccumulator tile, RecipeEnvironmentalAccumulator recipe) {
-        return recipe.assemble(tile.getInventory(), tile.getLevel().registryAccess());
+        return recipe.assemble(tile.getInventory());
     }
 
     /**

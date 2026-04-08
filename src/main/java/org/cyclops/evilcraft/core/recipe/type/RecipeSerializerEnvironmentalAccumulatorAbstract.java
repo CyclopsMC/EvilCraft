@@ -8,7 +8,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.cyclops.cyclopscore.helper.RecipeSerializerHelpers;
@@ -22,14 +22,13 @@ import java.util.Optional;
  * Recipe serializer for abstract environmental accumulator recipes
  * @author rubensworks
  */
-public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends RecipeEnvironmentalAccumulator>
-        implements RecipeSerializer<T> {
+public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends RecipeEnvironmentalAccumulator> {
 
     protected final MapCodec<T> codec = RecordCodecBuilder.mapCodec(
             builder -> builder.group(
                             Ingredient.CODEC.fieldOf("input_item").forGetter(RecipeEnvironmentalAccumulator::getInputIngredient),
                             WeatherType.CODEC.fieldOf("input_weather").forGetter(RecipeEnvironmentalAccumulator::getInputWeather),
-                            RecipeSerializerHelpers.getCodecItemStackOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeEnvironmentalAccumulator::getOutputItem),
+                            RecipeSerializerHelpers.getCodecItemStackTemplateOrTag(() -> BlockEntityBloodInfuserConfig.recipeTagOutputModPriorities).fieldOf("output_item").forGetter(RecipeEnvironmentalAccumulator::getOutputItem),
                             WeatherType.CODEC.fieldOf("output_weather").forGetter(RecipeEnvironmentalAccumulator::getOutputWeather),
                             Codec.INT.optionalFieldOf("duration").forGetter(RecipeEnvironmentalAccumulator::getDurationRaw),
                             Codec.INT.optionalFieldOf("cooldown_time").forGetter(RecipeEnvironmentalAccumulator::getCooldownTimeRaw),
@@ -40,7 +39,7 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
     protected final StreamCodec<RegistryFriendlyByteBuf, T> STREAM_CODEC = StreamCodec.composite(
             Ingredient.CONTENTS_STREAM_CODEC, RecipeEnvironmentalAccumulator::getInputIngredient,
             WeatherType.STREAM_CODEC, RecipeEnvironmentalAccumulator::getInputWeather,
-            RecipeSerializerHelpers.STREAM_CODEC_ITEMSTACK_OR_TAG, RecipeEnvironmentalAccumulator::getOutputItem,
+            RecipeSerializerHelpers.STREAM_CODEC_ITEMSTACKTEMPLATE_OR_TAG, RecipeEnvironmentalAccumulator::getOutputItem,
             WeatherType.STREAM_CODEC, RecipeEnvironmentalAccumulator::getOutputWeather,
             ByteBufCodecs.optional(ByteBufCodecs.INT), RecipeEnvironmentalAccumulator::getDurationRaw,
             ByteBufCodecs.optional(ByteBufCodecs.INT), RecipeEnvironmentalAccumulator::getCooldownTimeRaw,
@@ -48,14 +47,8 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
             this::createRecipe
     );
 
-    @Override
-    public MapCodec<T> codec() {
-        return this.codec;
-    }
-
-    @Override
-    public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
-        return STREAM_CODEC;
+    public RecipeSerializer<T> createSerializer() {
+        return new RecipeSerializer<>(this.codec, this.STREAM_CODEC);
     }
 
     protected WeatherType getWeatherType(String type) throws JsonSyntaxException {
@@ -67,6 +60,6 @@ public abstract class RecipeSerializerEnvironmentalAccumulatorAbstract<T extends
     }
 
     protected abstract T createRecipe(Ingredient inputIngredient, WeatherType inputWeather,
-                                      Either<ItemStack, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
+                                      Either<ItemStackTemplate, ItemStackFromIngredient> outputItem, WeatherType outputWeather,
                                       Optional<Integer> duration, Optional<Integer> cooldownTime, Optional<Float> processingSpeed);
 }

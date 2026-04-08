@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.core.weather;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.storage.ServerLevelData;
+import net.minecraft.world.level.saveddata.WeatherData;
 
 /**
  * Lightning weather type.
@@ -27,16 +27,16 @@ public class WeatherTypeLightning extends WeatherType {
 
     @Override
     public void deactivate(ServerLevel world) {
-        ((ServerLevelData) world.getLevelData()).setThundering(false);
+        world.getWeatherData().setThundering(false);
     }
 
     public static void activateThunder(ServerLevel world) {
-        ServerLevelData worldInfo = (ServerLevelData) world.getLevelData();
-        int i = (300 + world.random.nextInt(600)) * 20;
-        worldInfo.setRainTime(i);
-        worldInfo.setThunderTime(i);
-        worldInfo.setRaining(true);
-        worldInfo.setThundering(true);
+        WeatherData weatherData = world.getWeatherData();
+        int i = (300 + world.getRandom().nextInt(600)) * 20;
+        weatherData.setRainTime(i);
+        weatherData.setThunderTime(i);
+        weatherData.setRaining(true);
+        weatherData.setThundering(true);
     }
 
 }

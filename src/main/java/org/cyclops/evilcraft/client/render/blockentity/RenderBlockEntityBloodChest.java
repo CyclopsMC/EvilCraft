@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.client.render.blockentity;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
@@ -47,8 +47,8 @@ public class RenderBlockEntityBloodChest extends RenderBlockEntityChestBase<Bloc
     }
 
     @Override
-    protected Material getMaterial(RenderState renderState) {
-        return new Material(Sheets.CHEST_SHEET, TEXTURE);
+    protected SpriteId getSpriteId(RenderState renderState) {
+        return new SpriteId(Sheets.CHEST_SHEET, TEXTURE);
     }
 
     public static class RenderState extends RenderBlockEntityChestBase.RenderState {

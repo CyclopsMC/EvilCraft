@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.core.client.gui.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
@@ -81,8 +81,8 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float f, int x, int y) {
-        super.renderBg(guiGraphics, f, x, y);
+    public void extractBackground(GuiGraphicsExtractor guiGraphics, int x, int y, float f) {
+        super.extractBackground(guiGraphics, x, y, f);
         if(isShowProgress()) {
             guiGraphics.blit(RenderPipelines.GUI_TEXTURED, getGuiTexture(), leftPos + progressTargetX, topPos + progressTargetY, progressX, progressY,
                     getProgressXScaled(progressWidth), getProgressYScaled(progressHeight), 256, 256);
@@ -91,13 +91,13 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
 
     protected abstract Component getName();
 
-    protected void drawForgegroundString(GuiGraphics guiGraphics) {
+    protected void drawForgegroundString(GuiGraphicsExtractor guiGraphics) {
         // MCP: drawString
-        guiGraphics.drawString(font, getName(), 8 + offsetX, 4 + offsetY, ARGB.opaque(4210752), false);
+        guiGraphics.text(font, getName(), 8 + offsetX, 4 + offsetY, ARGB.opaque(4210752), false);
     }
 
     @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void extractLabels(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         drawForgegroundString(guiGraphics);
         FluidStack fluidStack = getMenu().getFluidStack();
         if(shouldRenderTank(fluidStack) && getMenu().getFluidCapacity() > 0) {
@@ -107,12 +107,12 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         drawAdditionalForeground(guiGraphics, mouseX, mouseY);
     }
 
-    protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void drawAdditionalForeground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
 
     }
 
     @Override
-    public void drawCurrentScreen(GuiGraphics guiGraphics, int mouseX, int mouseY, float gameTicks) {
+    public void drawCurrentScreen(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float gameTicks) {
         super.drawCurrentScreen(guiGraphics, mouseX, mouseY, gameTicks);
         drawTooltips(guiGraphics, mouseX, mouseY);
     }
@@ -123,7 +123,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         return fluidStack.getAmount() > 0;
     }
 
-    protected void drawTank(GuiGraphics guiGraphics, int xOffset, int yOffset, Fluid fluid, int level) {
+    protected void drawTank(GuiGraphicsExtractor guiGraphics, int xOffset, int yOffset, Fluid fluid, int level) {
         if(fluid != null) {
             FluidStack stack = new FluidStack(fluid, 1);
             TextureAtlasSprite icon = IModHelpersNeoForge.get().getRenderHelpers().getFluidIcon(stack, Direction.UP);
@@ -149,7 +149,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         }
     }
 
-    protected void drawTooltips(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void drawTooltips(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         FluidStack fluidStack = getMenu().getFluidStack();
         if(isHovering(tankTargetX, tankTargetY - tankHeight, tankWidth, tankHeight, mouseX, mouseY) && shouldRenderTank(fluidStack)) {
             Component fluidName = fluidStack.getHoverName();
@@ -157,7 +157,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         }
     }
 
-    protected void drawBarTooltipTank(GuiGraphics guiGraphics, Component name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
+    protected void drawBarTooltipTank(GuiGraphicsExtractor guiGraphics, Component name, FluidStack fluidStack, int amount, int capacity, int x, int y) {
         List<Component> lines = Lists.newArrayList();
         lines.add(name);
         lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));

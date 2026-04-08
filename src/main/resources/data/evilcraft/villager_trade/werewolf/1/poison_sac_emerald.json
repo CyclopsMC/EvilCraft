@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "evilcraft:poison_sac",
+    "count": 3
+  },
+  "gives": {
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 50,
+  "xp": 2,
+  "reputation_discount": 0.05
+}

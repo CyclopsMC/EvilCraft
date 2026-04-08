@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.core.fluid;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.saveddata.SavedDataType;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.init.ModBaseNeoForge;
@@ -43,12 +44,11 @@ public class WorldStorageSharedTank extends WorldStorage<WorldStorageSharedTank>
 
         public Access(ModBaseNeoForge<?> mod) {
             super(new SavedDataType<>(
-                    mod.getModId() + "_shared_tank",
-                    (ctx) -> new WorldStorageSharedTank(Maps.newHashMap()),
-                    ctx -> RecordCodecBuilder.create(instance -> instance.group(
-                            RecordCodecBuilder.point(ctx.getLevel()),
+                    Identifier.parse(mod.getModId() + "_shared_tank"),
+                    () -> new WorldStorageSharedTank(Maps.newHashMap()),
+                    RecordCodecBuilder.<WorldStorageSharedTank>create(instance -> instance.group(
                             Codec.dispatchedMap(Codec.STRING, (key) -> FluidStack.OPTIONAL_CODEC).fieldOf("tank_cache").forGetter(data -> data.tankCache)
-                    ).apply(instance, (level, tankCache) -> new WorldStorageSharedTank(Maps.newHashMap(tankCache))))
+                    ).apply(instance, tankCache -> new WorldStorageSharedTank(Maps.newHashMap(tankCache))))
             ), mod);
         }
     }

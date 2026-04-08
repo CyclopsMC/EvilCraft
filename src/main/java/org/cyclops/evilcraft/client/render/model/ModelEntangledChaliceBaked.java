@@ -4,26 +4,33 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.client.renderer.block.model.*;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
+import net.minecraft.client.renderer.block.dispatch.Variant;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ResolvableModel;
 import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.client.resources.model.UnbakedModel;
+import net.minecraft.client.resources.model.cuboid.ItemTransforms;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ItemOwner;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.client.model.block.CustomUnbakedBlockStateModel;
 import net.neoforged.neoforge.client.model.quad.BakedColors;
+import net.neoforged.neoforge.client.model.quad.BakedNormals;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
@@ -40,6 +47,7 @@ import org.cyclops.evilcraft.item.ItemEntangledChalice;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -76,7 +84,7 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         this.fluidStack = fluidStack;
     }
 
-    public ModelEntangledChaliceBaked(BlockStateModel chaliceModel, BlockStateModel gemsModel, String id, FluidStack fluidStack, ItemStack itemStack, Level world, LivingEntity entity) {
+    public ModelEntangledChaliceBaked(BlockStateModel chaliceModel, BlockStateModel gemsModel, String id, FluidStack fluidStack, ItemStack itemStack, ClientLevel world, LivingEntity entity) {
         super(itemStack, world, entity);
         this.chaliceModel = chaliceModel;
         this.gemsModel = gemsModel;
@@ -108,15 +116,19 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         List<BakedQuad> quads = Lists.newLinkedList();
 
         // Base chalice model
-        for (BlockModelPart blockModelPart : chaliceModel.collectParts(level, BlockPos.ZERO, blockState, rand)) {
+        List<BlockStateModelPart> chalceParts = new ArrayList<>();
+        chaliceModel.collectParts(level, BlockPos.ZERO, blockState, rand, chalceParts);
+        for (BlockStateModelPart blockModelPart : chalceParts) {
             quads.addAll(blockModelPart.getQuads(null));
         }
 
         // Colored gems
         int color = getColorSeed(this.id);
-        for (BlockModelPart blockModelPart : gemsModel.collectParts(level, BlockPos.ZERO, blockState, rand)) {
+        List<BlockStateModelPart> gemParts = new ArrayList<>();
+        gemsModel.collectParts(level, BlockPos.ZERO, blockState, rand, gemParts);
+        for (BlockStateModelPart blockModelPart : gemParts) {
             for (BakedQuad quad : blockModelPart.getQuads(null)) {
-                quads.add(new BakedQuad(quad.position0(), quad.position1(), quad.position2(), quad.position3(), quad.packedUV0(), quad.packedUV1(), quad.packedUV2(), quad.packedUV3(), quad.tintIndex(), quad.direction(), quad.sprite(), false, 30, quad.bakedNormals(), BakedColors.of(color), quad.hasAmbientOcclusion()));
+                quads.add(new BakedQuad(quad.position0(), quad.position1(), quad.position2(), quad.position3(), quad.packedUV0(), quad.packedUV1(), quad.packedUV2(), quad.packedUV3(), quad.direction(), quad.materialInfo(), BakedNormals.UNSPECIFIED, BakedColors.of(color)));
             }
         }
 
@@ -161,12 +173,17 @@ public class ModelEntangledChaliceBaked extends DelegatingDynamicItemAndBlockMod
         String id = Optional.ofNullable(itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)))
                 .map((h -> ((ItemEntangledChalice.FluidHandler) h).getTankID()))
                 .orElse("");
-        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, id, FluidUtil.getFirstStackContained(itemStack), itemStack, world, entity != null ? entity.asLivingEntity() : null).getGeneralQuads();
+        return new ModelEntangledChaliceBaked(chaliceModel, gemsModel, id, FluidUtil.getFirstStackContained(itemStack), itemStack, (net.minecraft.client.multiplayer.ClientLevel) world, entity != null ? entity.asLivingEntity() : null).getGeneralQuads();
     }
 
     @Override
-    public TextureAtlasSprite particleIcon() {
-        return chaliceModel.particleIcon();
+    public Material.Baked particleMaterial() {
+        return chaliceModel.particleMaterial();
+    }
+
+    @Override
+    public int materialFlags() {
+        return 0;
     }
 
     protected List<BakedQuad> getFluidQuads(FluidStack fluidStack, int capacity) {

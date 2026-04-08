@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
@@ -33,7 +33,7 @@ public class WidgetUpgradeTab extends WidgetTab {
      * @param x Origin X.
      * @param y Origin Y.
      */
-    public void drawBackground(GuiGraphics guiGraphics, int x, int y) {
+    public void drawBackground(GuiGraphicsExtractor guiGraphics, int x, int y) {
         super.drawBackground(guiGraphics, x, y);
         for(int i = 0; i < 4; i++) {
             if(slotEnabledCallback != null && !slotEnabledCallback.isSlotEnabled(i)) {

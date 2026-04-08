@@ -2,7 +2,6 @@ package org.cyclops.evilcraft.entity.item;
 
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
@@ -17,7 +16,7 @@ public class EntityRedstoneGrenadeConfigClient extends EntityClientConfig<IModBa
     }
 
     @Override
-    public EntityRenderer<? super EntityRedstoneGrenade, ?> getRender(EntityRendererProvider.Context renderContext, ItemRenderer renderItem) {
+    public EntityRenderer<? super EntityRedstoneGrenade, ?> getRender(EntityRendererProvider.Context renderContext) {
         return new ThrownItemRenderer<>(renderContext);
     }
 }

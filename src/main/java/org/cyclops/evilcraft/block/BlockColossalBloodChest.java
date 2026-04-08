@@ -89,7 +89,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
     }
 
     @Override
-    public boolean shouldDisplayFluidOverlay(BlockState blockState, BlockAndTintGetter world, BlockPos pos, FluidState fluidState) {
+    public boolean shouldDisplayFluidOverlay(BlockState blockState, BlockAndLightGetter world, BlockPos pos, FluidState fluidState) {
         return true;
     }
 
@@ -175,7 +175,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
             if (result != null && result.getError() != null) {
                 addPlayerChatError(player, result.getError());
             } else {
-                player.displayClientMessage(Component.translatable("multiblock.evilcraft.colossalbloodchest.error.unexpected"), true);
+                player.sendOverlayMessage(Component.translatable("multiblock.evilcraft.colossalbloodchest.error.unexpected"));
             }
         }
     }
@@ -193,7 +193,7 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
                 );
         chat.append(prefix);
         chat.append(error);
-        player.displayClientMessage(chat, true);
+        player.sendOverlayMessage(chat);
     }
 
 }

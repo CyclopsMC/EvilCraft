@@ -1,6 +1,7 @@
 package org.cyclops.evilcraft.item;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -9,6 +10,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ClipContext;
@@ -25,18 +27,14 @@ import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
+import org.cyclops.evilcraft.RegistryEntries;
 
 /**
  * @author rubensworks
  */
 public class ItemBucketEternalWater extends BucketItem {
     public ItemBucketEternalWater(Properties properties) {
-        super(Fluids.WATER, properties);
-    }
-
-    @Override
-    public ItemStack getCraftingRemainder(ItemStack itemStack) {
-        return new ItemStack(this);
+        super(Fluids.WATER, properties.craftRemainder(new ItemStackTemplate(RegistryEntries.ITEM_ETERNAL_WATER, 1, DataComponentPatch.EMPTY)));
     }
 
     @Override

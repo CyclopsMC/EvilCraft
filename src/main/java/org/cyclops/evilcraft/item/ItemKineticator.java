@@ -220,7 +220,7 @@ public class ItemKineticator extends ItemBloodContainer {
     }
 
     protected void showEntityMoved(Level world, Entity player, Entity entity, double dx, double dy, double dz) {
-        RandomSource rand = world.random;
+        RandomSource rand = world.getRandom();
         float scale = 0.05F;
         float red = rand.nextFloat() * 0.03F + 0.5F;
         float green = rand.nextFloat() * 0.03F + (rand.nextBoolean() ? 0.5F : 0.3F);

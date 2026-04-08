@@ -99,9 +99,9 @@ public class BlockEternalWater extends BlockWithEntity {
             IModHelpers.get().getBlockEntityHelpers().get(pLevel, pPos, BlockEntityEternalWater.class)
                     .ifPresent(tile -> {
                         tile.setEnabled(!tile.isEnabled());
-                        pPlayer.displayClientMessage(Component.translatable(
+                        pPlayer.sendOverlayMessage(Component.translatable(
                                 tile.isEnabled() ? "block.evilcraft.eternal_water.auto_output.enabled" : "block.evilcraft.eternal_water.auto_output.disabled"
-                        ), true);
+                        ));
                     });
             return InteractionResult.SUCCESS;
         }

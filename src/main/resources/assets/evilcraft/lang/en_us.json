@@ -297,7 +297,7 @@
   "entity.evilcraft.vengeance_spirit": "Vengeance Spirit",
   "entity.evilcraft.controlled_zombie": "Controlled Zombie",
   "entity.evilcraft.broom_entity": "Broom",
-  "entity.minecraft.villager.evilcraft.werewolf": "Werewolvian",
+  "entity.evilcraft.villager.werewolf": "Werewolvian",
 
   "_comment": "Enchantments",
   "enchantment.evilcraft.breaking": "Curse of Breaking",

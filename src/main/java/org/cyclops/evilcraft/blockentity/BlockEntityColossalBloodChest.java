@@ -337,7 +337,7 @@ public class BlockEntityColossalBloodChest extends BlockEntityWorking<BlockEntit
     }
 
     static void playSound(Level level, BlockPos pos, BlockState blockState, SoundEvent soundEvent) {
-        level.playSound((Player)null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, soundEvent, SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.1F + 0.9F);
+        level.playSound((Player)null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, soundEvent, SoundSource.BLOCKS, 0.5F, level.getRandom().nextFloat() * 0.1F + 0.9F);
     }
 
     @Override

@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "evilcraft:inverted_potentia_empowered",
+    "count": 1
+  },
+  "gives": {
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 25,
+  "xp": 10,
+  "reputation_discount": 0.05
+}

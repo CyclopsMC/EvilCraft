@@ -405,7 +405,7 @@ public class BroomModifiers {
                 && event.getContainer().getSource().getDirectEntity() instanceof Projectile) {
             EntityBroom broom = (EntityBroom) event.getEntity().getVehicle();
             float modifierValue = broom.getModifier(BroomModifiers.WITHERSHIELD);
-            if (modifierValue > 0 && modifierValue > broom.level().random.nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
+            if (modifierValue > 0 && modifierValue > broom.level().getRandom().nextInt((int) BroomModifiers.WITHERSHIELD.getMaxTierValue())) {
                 event.getContainer().setNewDamage(0);
             }
         }

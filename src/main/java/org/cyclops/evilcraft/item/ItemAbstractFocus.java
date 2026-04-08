@@ -55,7 +55,7 @@ public abstract class ItemAbstractFocus extends Item {
         if(getItemInUseDuration(player) > 6) {
             // Play stop sound
             if (player.level().isClientSide()) {
-                player.playSound(RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_STOP.get(), 0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
+                player.playSound(RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_STOP.get(), 0.6F + player.level().getRandom().nextFloat() * 0.2F, 1.0F);
             }
             return true;
         }
@@ -80,7 +80,7 @@ public abstract class ItemAbstractFocus extends Item {
         } else {
             if(duration == 3 && player.level().isClientSide()) {
                 // Play start sound
-                player.playSound(RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_START.get(),  0.6F + player.level().random.nextFloat() * 0.2F, 1.0F);
+                player.playSound(RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_START.get(),  0.6F + player.level().getRandom().nextFloat() * 0.2F, 1.0F);
             }
         }
     }

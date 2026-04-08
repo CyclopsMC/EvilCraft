@@ -15,7 +15,7 @@ public class RecipeSerializerEnvironmentalAccumulatorBiomeExtractConfig extends 
         super(
                 EvilCraft._instance,
                 "environmental_accumulator_biome_extract",
-                eConfig -> new RecipeSerializerEnvironmentalAccumulatorBiomeExtract()
+                eConfig -> new RecipeSerializerEnvironmentalAccumulatorBiomeExtract().createSerializer()
         );
     }
 

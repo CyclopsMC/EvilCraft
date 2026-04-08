@@ -5,11 +5,8 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
-import org.cyclops.cyclopscore.RegistryEntries;
 import org.cyclops.cyclopscore.capability.fluid.FluidHandlerItemCapacity;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -30,14 +27,16 @@ public class ItemCreativeBloodDropConfig extends ItemConfigCommon<IModBase> {
                 EvilCraft._instance,
             "creative_blood_drop",
                 (eConfig, properties) -> new ItemCreativeBloodDrop(properties
-                        .component(RegistryEntries.COMPONENT_FLUID_CONTENT, SimpleFluidContent.copyOf(new FluidStack(org.cyclops.evilcraft.RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE))))
+                        // TODO: not needed?
+                        // .component(RegistryEntries.COMPONENT_FLUID_CONTENT, SimpleFluidContent.copyOf(new FluidStack(org.cyclops.evilcraft.RegistryEntries.FLUID_BLOOD, Integer.MAX_VALUE)))
+                )
         );
         EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     @Override
-    public Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<java.util.function.Supplier<ItemStack>> getDefaultCreativeTabEntries() {
         // Register items dynamically into tab, because when this is called, capabilities are not initialized yet.
         return Collections.emptyList();
     }
@@ -54,6 +53,11 @@ public class ItemCreativeBloodDropConfig extends ItemConfigCommon<IModBase> {
 
     protected void registerCapability(RegisterCapabilitiesEvent event) {
         event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> new FluidHandlerItemCapacity(context, Integer.MAX_VALUE) {
+            @Override
+            public FluidResource getResource(int index) {
+                return FluidResource.of(org.cyclops.evilcraft.RegistryEntries.FLUID_BLOOD.get());
+            }
+
             @Override
             public long getAmountAsLong(int index) {
                 return ItemCreativeBloodDrop.MB_FILL_PERTICK / 2;

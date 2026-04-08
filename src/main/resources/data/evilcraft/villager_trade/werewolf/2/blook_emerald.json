@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "evilcraft:blook",
+    "count": 2
+  },
+  "gives": {
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 30,
+  "xp": 5,
+  "reputation_discount": 0.05
+}

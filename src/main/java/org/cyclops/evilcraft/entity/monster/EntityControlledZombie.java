@@ -82,7 +82,6 @@ public class EntityControlledZombie extends Monster {
         this.entityData.set(WATCHERID_TTL, ttl);
     }
 
-    @Override
     public boolean canAttackType(EntityType<?> type) {
         return true;
     }

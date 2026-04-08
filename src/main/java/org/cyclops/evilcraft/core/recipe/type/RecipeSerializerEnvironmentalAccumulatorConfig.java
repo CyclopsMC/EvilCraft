@@ -15,7 +15,7 @@ public class RecipeSerializerEnvironmentalAccumulatorConfig extends RecipeConfig
         super(
                 EvilCraft._instance,
                 "environmental_accumulator",
-                eConfig -> new RecipeSerializerEnvironmentalAccumulator()
+                eConfig -> new RecipeSerializerEnvironmentalAccumulator().createSerializer()
         );
     }
 

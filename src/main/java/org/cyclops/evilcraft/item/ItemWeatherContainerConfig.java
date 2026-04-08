@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.item;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
@@ -8,6 +7,7 @@ import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Config for the {@link ItemWeatherContainer}.
@@ -28,9 +28,7 @@ public class ItemWeatherContainerConfig extends ItemConfigCommon<IModBase> {
     }
 
     @Override
-    public Collection<ItemStack> getDefaultCreativeTabEntries() {
-        NonNullList<ItemStack> list = NonNullList.create();
-        ((ItemWeatherContainer) getInstance()).fillItemCategory(list);
-        return list;
+    public Collection<java.util.function.Supplier<ItemStack>> getDefaultCreativeTabEntries() {
+        return Collections.emptyList();
     }
 }

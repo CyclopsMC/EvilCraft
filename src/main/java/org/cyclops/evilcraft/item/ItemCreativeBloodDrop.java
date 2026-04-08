@@ -100,7 +100,7 @@ public class ItemCreativeBloodDrop extends ItemBloodContainer {
             BlockPos pos = context.getClickedPos().offset(0, 1, 0);
             if (RegistryEntries.BLOCK_BLOOD_STAIN.get().defaultBlockState().canSurvive(context.getLevel(), pos)) {
                 if (context.getLevel().isClientSide()) {
-                    ParticleHelpers.spawnBloodSplashParticles(context.getLevel(), pos, 5, 1 + context.getLevel().random.nextInt(2));
+                    ParticleHelpers.spawnBloodSplashParticles(context.getLevel(), pos, 5, 1 + context.getLevel().getRandom().nextInt(2));
                 } else {
                     if (context.getLevel().isEmptyBlock(pos)) {
                         // Add new stain

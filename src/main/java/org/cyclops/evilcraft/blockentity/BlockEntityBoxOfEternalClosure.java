@@ -200,14 +200,14 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     private EntityVengeanceSpirit createNewVengeanceSpirit() {
-        RandomSource rand = level.random;
+        RandomSource rand = level.getRandom();
 
         EntityVengeanceSpirit spirit = EntityVengeanceSpirit.fromNBT(getLevel(), getSpiritTag());
         spirit.setPos(getBlockPos().getX() + rand.nextDouble(), getBlockPos().getY() + rand.nextDouble(),
                 getBlockPos().getZ() + rand.nextDouble());
         spirit.setFrozenDuration(0);
         spirit.setGlobalVengeance(true);
-        spirit.setRemainingLife(Mth.nextInt(level.random,
+        spirit.setRemainingLife(Mth.nextInt(level.getRandom(),
                 EntityVengeanceSpirit.REMAININGLIFE_MIN, EntityVengeanceSpirit.REMAININGLIFE_MAX));
 
         return spirit;
@@ -219,7 +219,7 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     }
 
     private float randomFloat(float min, float max) {
-        return min + level.random.nextFloat() * max;
+        return min + level.getRandom().nextFloat() * max;
     }
 
     private void playSound(SoundEvent sound, SoundSource category, float volume, float pitch) {

@@ -106,14 +106,14 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
                 entityRayTraceResult = new EntityHitResult(entity);
             }
         } else {
-            for(int i = 0; i < level().random.nextInt(5) + 5; i++) {
+            for(int i = 0; i < level().getRandom().nextInt(5) + 5; i++) {
                 showNewBlurParticle();
             }
             if(soundTick == 1) {
                 // Play beam sound
                 level().playLocalSound(getX(), getY(), getZ(),
                         RegistryEntries.SOUNDEVENT_EFFECT_VENGEANCEBEAM_BASE.get(), SoundSource.NEUTRAL,
-                        0.5F + level().random.nextFloat() * 0.2F, 1.0F, false);
+                        0.5F + level().getRandom().nextFloat() * 0.2F, 1.0F, false);
             }
         }
 

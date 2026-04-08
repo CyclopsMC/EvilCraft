@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "evilcraft:werewolf_bone",
+    "count": 2
+  },
+  "gives": {
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 20,
+  "xp": 20,
+  "reputation_discount": 0.05
+}

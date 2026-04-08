@@ -1,0 +1,12 @@
+{
+  "wants": {
+    "id": "evilcraft:hardened_blood_shard",
+    "count": 20
+  },
+  "gives": {
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 50,
+  "xp": 2,
+  "reputation_discount": 0.05
+}

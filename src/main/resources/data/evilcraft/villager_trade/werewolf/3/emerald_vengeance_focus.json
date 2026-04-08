@@ -1,0 +1,13 @@
+{
+  "wants": {
+    "id": "minecraft:emerald",
+    "count": 3
+  },
+  "gives": {
+    "id": "evilcraft:vengeance_focus",
+    "count": 2
+  },
+  "max_uses": 12,
+  "xp": 10,
+  "reputation_discount": 0.05
+}

@@ -45,9 +45,9 @@ public class EntityWeatherContainer extends EntityThrowable {
             // Play evil sounds at the players in that world
             for(Object o : world.players()) {
                 Player entityPlayer = (Player) o;
-                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.PORTAL_TRAVEL, SoundSource.WEATHER, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
-                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.GHAST_AMBIENT, SoundSource.WEATHER, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
-                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.WITHER_DEATH, SoundSource.WEATHER, 0.5F, 0.4F / (world.random.nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.PORTAL_TRAVEL, SoundSource.WEATHER, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.GHAST_AMBIENT, SoundSource.WEATHER, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
+                world.playSound(entityPlayer, entityPlayer.getX(), entityPlayer.getY(), entityPlayer.getZ(), SoundEvents.WITHER_DEATH, SoundSource.WEATHER, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
             }
         }
     }

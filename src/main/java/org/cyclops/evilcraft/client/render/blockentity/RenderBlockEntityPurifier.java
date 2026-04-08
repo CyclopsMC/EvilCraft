@@ -7,18 +7,18 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.object.book.BookModel;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.EnchantTableRenderer;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -28,7 +28,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -46,12 +45,12 @@ import org.jetbrains.annotations.Nullable;
  */
 public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntityPurifier, RenderBlockEntityPurifier.RenderState> {
 
-    public static final Material TEXTURE_BLOOK = new Material(Sheets.CHEST_SHEET, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "entity/blook"));
-    private final MaterialSet materials;
+    public static final SpriteId TEXTURE_BLOOK = new SpriteId(Sheets.CHEST_SHEET, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "entity/blook"));
+    private final SpriteGetter sprites;
     private final BookModel enchantmentBook;
 
     public RenderBlockEntityPurifier(BlockEntityRendererProvider.Context context) {
-        this.materials = context.materials();
+        this.sprites = context.sprites();
         this.enchantmentBook = new BookModel(context.bakeLayer(ModelLayers.BOOK));
     }
 
@@ -108,8 +107,7 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             int i3 = brightness & 0xFFFF;
 
             TextureAtlasSprite icon = IModHelpersNeoForge.get().getRenderHelpers().getFluidIcon(fluid, Direction.UP);
-            IClientFluidTypeExtensions renderProperties = IClientFluidTypeExtensions.of(fluid.getFluid());
-            Triple<Float, Float, Float> color = IModHelpers.get().getBaseHelpers().intToRGB(renderProperties.getTintColor(fluid.getFluid().defaultFluidState(), renderState.level, renderState.blockPos));
+            Triple<Float, Float, Float> color = IModHelpers.get().getBaseHelpers().intToRGB(IModHelpersNeoForge.get().getRenderHelpers().getFluidBakedQuadColor(fluid));
 
             submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.text(icon.atlasLocation()), (pose, vb1) -> {
                 vb1.addVertex(pose, 0.0625F, height, 0.0625F).setColor(color.getLeft(), color.getMiddle(), color.getRight(), 1).setUv(icon.getU0(), icon.getV1()).setUv2(l2, i3);
@@ -192,10 +190,10 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         float f4 = Mth.frac(f3 + 0.25F) * 1.6F - 0.3F;
         float f5 = Mth.frac(f3 + 0.75F) * 1.6F - 0.3F;
         float f6 = Mth.lerp(partialTickTime, renderState.oOpen, renderState.open);
-        this.enchantmentBook.setupAnim(new BookModel.State(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6));
-        Material material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_TEXTURE;
-        BookModel.State bookmodel$state = new BookModel.State(tick, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), renderState.open);
-        submitNodeCollector.submitModel(this.enchantmentBook, bookmodel$state, poseStack, material.renderType(RenderTypes::entitySolid), renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, this.materials.get(material), 0, renderState.breakProgress);
+        this.enchantmentBook.setupAnim(BookModel.State.forAnimation(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6));
+        SpriteId material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_TEXTURE;
+        BookModel.State bookmodel$state = BookModel.State.forAnimation(tick, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), renderState.open);
+        submitNodeCollector.submitModel(this.enchantmentBook, bookmodel$state, poseStack, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, material, this.sprites, 0, renderState.breakProgress);
 
         poseStack.popPose();
     }

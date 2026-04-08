@@ -13,7 +13,7 @@ public class RecipeSerializerFluidContainerCombinationConfig extends RecipeConfi
     public RecipeSerializerFluidContainerCombinationConfig() {
         super(EvilCraft._instance,
                 "crafting_special_fluidcontainer_combination",
-                eConfig -> new RecipeSerializerFluidContainerCombination());
+                eConfig -> RecipeSerializerFluidContainerCombination.INSTANCE);
     }
 
 }

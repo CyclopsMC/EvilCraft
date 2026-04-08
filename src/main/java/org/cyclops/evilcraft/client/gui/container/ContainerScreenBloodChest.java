@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.client.gui.container;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
@@ -47,8 +47,8 @@ public class ContainerScreenBloodChest extends ContainerScreenContainerTankInven
     }
 
     @Override
-    protected void drawForgegroundString(GuiGraphics guiGraphics) {
-        guiGraphics.drawString(font, getName(), 28 + offsetX, 4 + offsetY, 4210752, false);
+    protected void drawForgegroundString(GuiGraphicsExtractor guiGraphics) {
+        guiGraphics.text(font, getName(), 28 + offsetX, 4 + offsetY, 4210752, false);
     }
 
 }

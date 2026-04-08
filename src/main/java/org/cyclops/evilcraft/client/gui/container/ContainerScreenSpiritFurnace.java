@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.gui.container;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
@@ -116,7 +116,7 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
     }
 
     @Override
-    protected void drawAdditionalForeground(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+    protected void drawAdditionalForeground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY) {
         String prefix = RegistryEntries.BLOCK_SPIRIT_FURNACE.get().getDescriptionId() + ".help.invalid";
         List<Component> lines = Lists.newArrayList();
         lines.add(Component.translatable(prefix));

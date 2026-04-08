@@ -34,7 +34,7 @@ public class ItemVeinSwordConfig extends ItemConfigCommon<IModBase> {
     }
 
     @Override
-    public Collection<ItemStack> getDefaultCreativeTabEntries() {
+    public Collection<java.util.function.Supplier<ItemStack>> getDefaultCreativeTabEntries() {
         return Collections.emptyList();
     }
 

@@ -31,7 +31,7 @@ public class SoundDegradation extends StochasticDegradationEffect {
 
     @Override
     public void runServerSide(IDegradable degradable) {
-        RandomSource random = degradable.getDegradationWorld().random;
+        RandomSource random = degradable.getDegradationWorld().getRandom();
         Level world = degradable.getDegradationWorld();
         for(Entity entity : degradable.getAreaEntities()) {
             if(entity instanceof Player) {

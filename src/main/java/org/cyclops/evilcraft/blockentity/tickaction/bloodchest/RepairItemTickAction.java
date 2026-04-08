@@ -46,9 +46,9 @@ public class RepairItemTickAction implements ITickAction<BlockEntityBloodChest> 
                         getRegistry(IBloodChestRepairActionRegistry.class);
                 int actionID = actions.canRepair(itemStack, tick);
                 if(actionID > -1) {
-                    float simulateMultiplier = actions.repair(itemStack, tile.getLevel().random, actionID, false, false, tile.getLevel().registryAccess()).getLeft();
+                    float simulateMultiplier = actions.repair(itemStack, tile.getLevel().getRandom(), actionID, false, false, tile.getLevel().registryAccess()).getLeft();
                     if(tile.getTank().getFluidAmount() >= BlockBloodChestConfig.mBPerDamage * simulateMultiplier) {
-                        Pair<Float, ItemStack> repairResult = actions.repair(itemStack, tile.getLevel().random, actionID, true, false, tile.getLevel().registryAccess());
+                        Pair<Float, ItemStack> repairResult = actions.repair(itemStack, tile.getLevel().getRandom(), actionID, true, false, tile.getLevel().registryAccess());
                         itemStack = repairResult.getRight();
                         drainTank(tile, repairResult.getLeft());
                     }

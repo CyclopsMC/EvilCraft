@@ -21,12 +21,12 @@ public class WeatherTypeRain extends WeatherType {
 
     @Override
     public void activate(ServerLevel world) {
-        world.getLevelData().setRaining(true);
+        world.getWeatherData().setRaining(true);
     }
 
     @Override
     public void deactivate(ServerLevel world) {
-        world.getLevelData().setRaining(false);
+        world.getWeatherData().setRaining(false);
     }
 
 }

@@ -4,7 +4,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -35,12 +34,12 @@ import java.util.Set;
 public class RecipeBroomPartCombination extends CustomRecipe {
 
     public RecipeBroomPartCombination(CraftingBookCategory category) {
-        super(category);
+        super();
     }
 
     @Override
     public boolean matches(CraftingInput grid, Level world) {
-        return !assemble(grid, world.registryAccess()).isEmpty();
+        return !assemble(grid).isEmpty();
     }
 
     public ItemStack getResultItem() {
@@ -52,7 +51,8 @@ public class RecipeBroomPartCombination extends CustomRecipe {
         NonNullList<ItemStack> aitemstack = NonNullList.withSize(inventory.size(), ItemStack.EMPTY);
         for (int i = 0; i < aitemstack.size(); ++i) {
             ItemStack itemstack = inventory.getItem(i);
-            aitemstack.set(i, itemstack.getCraftingRemainder());
+            net.minecraft.world.item.ItemStackTemplate remainder = itemstack.getCraftingRemainder();
+            aitemstack.set(i, remainder != null ? remainder.create() : ItemStack.EMPTY);
         }
 
         Pair<ItemStack, List<ItemStack>> result = getResult(inventory);
@@ -171,7 +171,7 @@ public class RecipeBroomPartCombination extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingInput grid, HolderLookup.Provider registryAccess) {
+    public ItemStack assemble(CraftingInput grid) {
         Pair<ItemStack, List<ItemStack>> result = getResult(grid);
         if(result == null) {
             return ItemStack.EMPTY;

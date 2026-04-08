@@ -78,7 +78,10 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
                                     }
                                 }
                                 if (fluidHandlerTile instanceof IFluidHandlerCapacity) {
-                                    ((IFluidHandlerCapacity) fluidHandlerTile).setTankCapacity(0, fluidHandlerItem.getCapacityAsInt(0, FluidResource.EMPTY));
+                                    try (var tx = Transaction.openRoot()) {
+                                        ((IFluidHandlerCapacity) fluidHandlerTile).setTankCapacity(0, fluidHandlerItem.getCapacityAsInt(0, FluidResource.EMPTY), tx);
+                                        tx.commit();
+                                    }
                                 }
                             });
                 });

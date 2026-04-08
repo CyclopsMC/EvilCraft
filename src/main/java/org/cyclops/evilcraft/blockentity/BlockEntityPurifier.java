@@ -239,7 +239,7 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
      * @param itemStack The purify item.
      */
     public void setPurifyItem(ItemStack itemStack) {
-        this.randomRotation = level.random.nextFloat() * 360;
+        this.randomRotation = level.getRandom().nextFloat() * 360;
         getInventory().setItem(SLOT_PURIFY, itemStack);
     }
 
@@ -261,13 +261,13 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
 
     public void showEffect() {
         for (int i=0; i < 1; i++) {
-            double particleX = getBlockPos().getX() + 0.2 + level.random.nextDouble() * 0.6;
-            double particleY = getBlockPos().getY() + 0.2 + level.random.nextDouble() * 0.6;
-            double particleZ = getBlockPos().getZ() + 0.2 + level.random.nextDouble() * 0.6;
+            double particleX = getBlockPos().getX() + 0.2 + level.getRandom().nextDouble() * 0.6;
+            double particleY = getBlockPos().getY() + 0.2 + level.getRandom().nextDouble() * 0.6;
+            double particleZ = getBlockPos().getZ() + 0.2 + level.getRandom().nextDouble() * 0.6;
 
-            float particleMotionX = -0.01F + level.random.nextFloat() * 0.02F;
+            float particleMotionX = -0.01F + level.getRandom().nextFloat() * 0.02F;
             float particleMotionY = 0.01F;
-            float particleMotionZ = -0.01F + level.random.nextFloat() * 0.02F;
+            float particleMotionZ = -0.01F + level.getRandom().nextFloat() * 0.02F;
 
             level.addParticle(
                     RegistryEntries.PARTICLE_BLOOD_BUBBLE.get(),
@@ -276,15 +276,15 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     }
 
     public void showEnchantingEffect() {
-        if(level.random.nextInt(10) == 0) {
+        if(level.getRandom().nextInt(10) == 0) {
             for (int i=0; i < 1; i++) {
-                double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
-                double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
-                double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
+                double particleX = getBlockPos().getX() + 0.45 + level.getRandom().nextDouble() * 0.1;
+                double particleY = getBlockPos().getY() + 1.45 + level.getRandom().nextDouble() * 0.1;
+                double particleZ = getBlockPos().getZ() + 0.45 + level.getRandom().nextDouble() * 0.1;
 
-                float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
-                float particleMotionY = -level.random.nextFloat();
-                float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
+                float particleMotionX = -0.4F + level.getRandom().nextFloat() * 0.8F;
+                float particleMotionY = -level.getRandom().nextFloat();
+                float particleMotionZ = -0.4F + level.getRandom().nextFloat() * 0.8F;
 
                 level.addParticle(
                         ParticleTypes.ENCHANT,
@@ -295,13 +295,13 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
 
     private void showEnchantedEffect() {
         for (int i=0; i < 100; i++) {
-            double particleX = getBlockPos().getX() + 0.45 + level.random.nextDouble() * 0.1;
-            double particleY = getBlockPos().getY() + 1.45 + level.random.nextDouble() * 0.1;
-            double particleZ = getBlockPos().getZ() + 0.45 + level.random.nextDouble() * 0.1;
+            double particleX = getBlockPos().getX() + 0.45 + level.getRandom().nextDouble() * 0.1;
+            double particleY = getBlockPos().getY() + 1.45 + level.getRandom().nextDouble() * 0.1;
+            double particleZ = getBlockPos().getZ() + 0.45 + level.getRandom().nextDouble() * 0.1;
 
-            float particleMotionX = -0.4F + level.random.nextFloat() * 0.8F;
-            float particleMotionY = -0.4F + level.random.nextFloat() * 0.8F;
-            float particleMotionZ = -0.4F + level.random.nextFloat() * 0.8F;
+            float particleMotionX = -0.4F + level.getRandom().nextFloat() * 0.8F;
+            float particleMotionY = -0.4F + level.getRandom().nextFloat() * 0.8F;
+            float particleMotionZ = -0.4F + level.getRandom().nextFloat() * 0.8F;
 
             level.addParticle(
                     RegistryEntries.PARTICLE_MAGIC_FINISH.get(),
