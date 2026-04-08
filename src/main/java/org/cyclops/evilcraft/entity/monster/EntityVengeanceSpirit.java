@@ -582,7 +582,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         return WorldHelpers.foldArea(level, BlockGemStoneTorchConfig.area, blockPos,
                 (input, level1, blockPos1) -> input
-                        && !level1.getBlockState(blockPos1).is(TAG_SPIRIT_BLOCKER), true);
+                        && (!level1.isLoaded(blockPos1) || !level1.getBlockState(blockPos1).is(TAG_SPIRIT_BLOCKER)), true);
     }
 
     /**
