@@ -1,23 +1,13 @@
-# Changelog for Minecraft 26.1.1
-All notable changes to this project will be documented in this file.
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.25.5 or higher.
 
-<a name="26.1.1-1.2.85"></a>
-## [26.1.1-1.2.85](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.84...26.1.1-1.2.85) - 2026-04-11 19:59:28
-
-
-### Changed
+Changes:
 * Restore JEI mod compat
 * Optimize images (#1184)
 
-### Fixed
+Fixes:
 * Fix singleton recipe instances
 * Fix crash when equipping spectral glasses
 * Fix broken spectral glasses texture when equipped
 * Fix CME in EntityVengeanceSpirit.canSpawnNew during dimension unload (#1182), Closes #1180
 * Fix IllegalStateException when BiomeExtract contains a biome from a removed/updated mod (#1179), Closes #1178
-
-<a name="26.1.1-1.2.84"></a>
-## [26.1.1-1.2.84] - 2026-04-10 14:38:35 +0200
-
-
-Initial 26.1.1 release
