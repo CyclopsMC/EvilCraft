@@ -8,6 +8,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,6 +39,11 @@ public class ItemSpectralGlasses extends Item {
 
     public ItemSpectralGlasses(Properties properties) {
         super(properties.humanoidArmor(MATERIAL, ArmorType.HELMET));
+    }
+
+    @Override
+    public EquipmentSlot getEquipmentSlot(ItemStack stack) {
+        return EquipmentSlot.HEAD;
     }
 
     @Override
