@@ -6,7 +6,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -33,7 +32,7 @@ import java.util.Set;
  */
 public class RecipeBroomPartCombination extends CustomRecipe {
 
-    public RecipeBroomPartCombination(CraftingBookCategory category) {
+    public RecipeBroomPartCombination() {
         super();
     }
 

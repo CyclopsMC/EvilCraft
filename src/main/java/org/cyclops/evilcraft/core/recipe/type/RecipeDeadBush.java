@@ -29,7 +29,7 @@ public class RecipeDeadBush extends CustomRecipe {
 
     private PlacementInfo placementInfo;
 
-    public RecipeDeadBush(CraftingBookCategory category) {
+    public RecipeDeadBush() {
         super();
     }
 
