@@ -1,0 +1,6 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Fixes:
+* Fix CME in EntityVengeanceSpirit.canSpawnNew during dimension unload (#1182), Closes #1180
+* Fix IllegalStateException when BiomeExtract contains a biome from a removed/updated mod (#1179), Closes #1178

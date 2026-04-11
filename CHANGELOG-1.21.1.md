@@ -1,8 +1,16 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.85"></a>
+## [1.21.1-1.2.85](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.84...1.21.1-1.2.85) - 2026-04-11 19:55:28
+
+
+### Fixed
+* Fix CME in EntityVengeanceSpirit.canSpawnNew during dimension unload (#1182), Closes #1180
+* Fix IllegalStateException when BiomeExtract contains a biome from a removed/updated mod (#1179), Closes #1178
+
 <a name="1.21.1-1.2.84"></a>
-## [1.21.1-1.2.84](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.83...1.21.1-1.2.84) - 2026-03-28 10:00:53
+## [1.21.1-1.2.84](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.83...1.21.1-1.2.84) - 2026-03-28 10:00:53 +0100
 
 
 ### Added
