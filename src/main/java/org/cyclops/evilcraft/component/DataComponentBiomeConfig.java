@@ -14,6 +14,8 @@ import org.cyclops.cyclopscore.config.extendedconfig.DataComponentConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
+import javax.annotation.Nullable;
+
 /**
  * @author rubensworks
  */
@@ -33,8 +35,9 @@ public class DataComponentBiomeConfig extends DataComponentConfigCommon<DataComp
                         .apply(builder, BiomeHolder::new)
         );
 
+        @Nullable
         public Holder<Biome> getBiome() {
-            return getter.getOrThrow(ResourceKey.create(Registries.BIOME, id));
+            return getter.get(ResourceKey.create(Registries.BIOME, id)).orElse(null);
         }
     }
 }

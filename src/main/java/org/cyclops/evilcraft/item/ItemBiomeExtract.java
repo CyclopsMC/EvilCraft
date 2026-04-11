@@ -81,12 +81,17 @@ public class ItemBiomeExtract extends Item {
     @Override
     public void appendHoverText(ItemStack itemStack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
         super.appendHoverText(itemStack, context, tooltipDisplay, tooltipAdder, flag);
-        Holder<Biome> biome = getBiome(itemStack);
-        if (biome != null) {
-            // Biome name generation based on CreateBuffetWorldScreen
-            Identifier key = biome.unwrapKey().get().identifier();
-            tooltipAdder.accept(Component.translatable(getDescriptionId() + ".info.content",
-                    Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
+        DataComponentBiomeConfig.BiomeHolder biomeHolder = itemStack.get(RegistryEntries.COMPONENT_BIOME);
+        if (biomeHolder != null) {
+            Holder<Biome> biome = biomeHolder.getBiome();
+            if (biome != null) {
+                // Biome name generation based on CreateBuffetWorldScreen
+                Identifier key = biome.unwrapKey().get().identifier();
+                tooltipAdder.accept(Component.translatable(getDescriptionId() + ".info.content",
+                        Component.translatable("biome." + key.getNamespace() + "." + key.getPath())));
+            } else {
+                tooltipAdder.accept(Component.translatable(getDescriptionId() + ".info.content", biomeHolder.id().toString()));
+            }
         }
     }
 
