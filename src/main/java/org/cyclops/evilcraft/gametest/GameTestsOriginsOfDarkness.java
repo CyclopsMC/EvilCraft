@@ -29,7 +29,7 @@ public class GameTestsOriginsOfDarkness {
     public static final String TEMPLATE_EMPTY = "empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 100)
     public void testOriginsOfDarknessPig(GameTestHelper helper) {
         // Enclose the pig in oak fences
         helper.setBlock(POS.offset(-1, 0, -1), Blocks.OAK_FENCE);
@@ -41,18 +41,37 @@ public class GameTestsOriginsOfDarkness {
         helper.setBlock(POS.offset( 0, 0,  1), Blocks.OAK_FENCE);
         helper.setBlock(POS.offset( 1, 0,  1), Blocks.OAK_FENCE);
 
-        // Spawn a pig inside the enclosure
+        // Spawn a pig inside the enclosure and reduce its health to minimum so it dies on the very
+        // first paling tick (before invulnerability frames would otherwise delay the kill).
         net.minecraft.world.entity.animal.Pig pig = helper.spawnWithNoFreeWill(EntityType.PIG, POS.above());
+        pig.setHealth(1.0f);
 
-        // Simulate feeding the pig a darkened apple by firing the player interact event
+        // Simulate feeding the pig a darkened apple by firing the player interact event.
+        // The paling effect ticks immediately and kills the pig (1 HP) on tick 1.
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         player.setItemInHand(InteractionHand.MAIN_HAND,
                 new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("evilcraft:darkened_apple"))));
         NeoForge.EVENT_BUS.post(new PlayerInteractEvent.EntityInteract(player, InteractionHand.MAIN_HAND, pig));
 
-        // Drop a book near the pig shortly before it dies (tick 8), so it is still elevated when the spirit
-        // portal spawns at tick ~10 and falls within the portal's book-detection range.
-        helper.runAfterDelay(8, () -> helper.spawnItem(Items.BOOK, POS.above().above()));
+        // The spirit portal is placed at a shuffled random position within 1 block of the pig's
+        // death position (pig.blockPosition() + (0,1,0) = POS.above().above()).
+        // To guarantee the book is within the portal's asymmetric detection AABB [pos-0.5, pos+1.5],
+        // we first find the portal (present by tick 3 since the pig dies at tick 1),
+        // then spawn the book directly at the portal's block position.
+        helper.runAfterDelay(3, () -> {
+            BlockPos center = POS.above().above();
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        BlockPos portalPos = center.offset(dx, dy, dz);
+                        if (helper.getBlockState(portalPos).is(RegistryEntries.BLOCK_SPIRIT_PORTAL.get())) {
+                            helper.spawnItem(Items.BOOK, portalPos);
+                            return;
+                        }
+                    }
+                }
+            }
+        });
 
         // Verify the pig has died and the book was converted into an Origins of Darkness
         helper.succeedWhen(() -> {
