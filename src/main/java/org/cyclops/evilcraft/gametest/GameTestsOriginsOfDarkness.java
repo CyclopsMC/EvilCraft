@@ -29,7 +29,7 @@ public class GameTestsOriginsOfDarkness {
     public static final String TEMPLATE_EMPTY = "empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 100)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
     public void testOriginsOfDarknessPig(GameTestHelper helper) {
         // Enclose the pig in oak fences
         helper.setBlock(POS.offset(-1, 0, -1), Blocks.OAK_FENCE);
@@ -41,13 +41,11 @@ public class GameTestsOriginsOfDarkness {
         helper.setBlock(POS.offset( 0, 0,  1), Blocks.OAK_FENCE);
         helper.setBlock(POS.offset( 1, 0,  1), Blocks.OAK_FENCE);
 
-        // Spawn a pig inside the enclosure and reduce its health to minimum so it dies on the very
-        // first paling tick (before invulnerability frames would otherwise delay the kill).
+        // Spawn a pig inside the enclosure
         net.minecraft.world.entity.animal.Pig pig = helper.spawnWithNoFreeWill(EntityType.PIG, POS.above());
-        pig.setHealth(1.0f);
 
         // Simulate feeding the pig a darkened apple by firing the player interact event.
-        // The paling effect ticks immediately and kills the pig (1 HP) on tick 1.
+        // With paling (amplifier 4 = 5 dmg/hit) and 10-tick invulnerability, the pig (10 HP) dies at ~tick 11.
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
         player.setItemInHand(InteractionHand.MAIN_HAND,
                 new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.parse("evilcraft:darkened_apple"))));
@@ -55,10 +53,11 @@ public class GameTestsOriginsOfDarkness {
 
         // The spirit portal is placed at a shuffled random position within 1 block of the pig's
         // death position (pig.blockPosition() + (0,1,0) = POS.above().above()).
+        // With paling amplifier 4 = 1 dmg/hit and 10-tick invulnerability, the pig (10 HP) dies at ~tick 100.
         // To guarantee the book is within the portal's asymmetric detection AABB [pos-0.5, pos+1.5],
-        // we first find the portal (present by tick 3 since the pig dies at tick 1),
-        // then spawn the book directly at the portal's block position.
-        helper.runAfterDelay(3, () -> {
+        // we wait until the portal has spawned (tick 150), then scan for it and spawn the book
+        // directly at the portal's block position.
+        helper.runAfterDelay(150, () -> {
             BlockPos center = POS.above().above();
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
