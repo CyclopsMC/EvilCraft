@@ -5,7 +5,6 @@ import net.minecraft.world.level.block.SoundType;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
-import org.cyclops.cyclopscore.init.IModBase;
 import org.cyclops.evilcraft.EvilCraft;
 
 /**
@@ -13,7 +12,7 @@ import org.cyclops.evilcraft.EvilCraft;
  * @author rubensworks
  *
  */
-public class BlockUndeadLeavesConfig extends BlockConfigCommon<IModBase> {
+public class BlockUndeadLeavesConfig extends BlockConfigCommon<EvilCraft> {
 
     @ConfigurablePropertyCommon(category = "block", comment = "How much Blood (mB) can be produced at most as a Blood Stain on each random tick.")
     public static int maxBloodStainAmount = 25;
@@ -38,7 +37,7 @@ public class BlockUndeadLeavesConfig extends BlockConfigCommon<IModBase> {
     }
 
     @Override
-    public BlockClientConfig<IModBase> constructBlockClientConfig() {
+    public BlockClientConfig<EvilCraft> constructBlockClientConfig() {
         return new BlockUndeadLeavesConfigClient(this);
     }
 
