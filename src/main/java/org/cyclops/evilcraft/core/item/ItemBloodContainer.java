@@ -210,7 +210,7 @@ public class ItemBloodContainer extends DamageIndicatedItemFluidContainer {
         try (var tx = Transaction.openRoot()) {
             ResourceHandler<FluidResource> fluidHandler = itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack));
             FluidResource resource = fluidHandler.getResource(0);
-            int drained = fluidHandler.extract(resource, amount, tx);
+            int drained = resource.isEmpty() ? 0 : fluidHandler.extract(resource, amount, tx);
             if (drained == amount) return resource.toStack(drained);
             int toDrain = amount - drained;
             FluidStack otherDrained = player == null ? FluidStack.EMPTY : drainFromOthers(toDrain, itemStack, getFluid(), player, tx);
