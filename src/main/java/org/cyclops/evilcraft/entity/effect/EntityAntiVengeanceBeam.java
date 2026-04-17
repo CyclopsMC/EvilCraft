@@ -45,7 +45,7 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     }
 
     public EntityAntiVengeanceBeam(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), entity.getX(), entity.getY(), entity.getZ(), world);
+        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), entity.getX(), entity.getEyeY(), entity.getZ(), world);
         setOwner(entity);
     }
 

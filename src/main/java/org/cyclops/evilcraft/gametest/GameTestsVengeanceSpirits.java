@@ -28,14 +28,14 @@ public class GameTestsVengeanceSpirits {
     @GameTest(template = TEMPLATE_EMPTY)
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
         // Spawn spirit, and pre-freeze it so the box can reliably find and capture it (the box only targets frozen spirits)
-        EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
+        EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south().above());
         spirit.setInnerEntityType(EntityType.ZOMBIE);
         spirit.setFrozenDuration(200);
 
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS).getBottomCenter());
-        player.setXRot(-25F);
+        player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
@@ -61,7 +61,7 @@ public class GameTestsVengeanceSpirits {
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(helper.absolutePos(POS).getBottomCenter());
-        player.setXRot(-25F);
+        player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
