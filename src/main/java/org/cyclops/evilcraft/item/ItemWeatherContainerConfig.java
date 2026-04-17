@@ -1,6 +1,9 @@
 package org.cyclops.evilcraft.item;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.ItemConfigCommon;
 import org.cyclops.cyclopscore.init.IModBase;
@@ -25,10 +28,25 @@ public class ItemWeatherContainerConfig extends ItemConfigCommon<IModBase> {
             "weather_container",
                 (eConfig, properties) -> new ItemWeatherContainer(properties)
         );
+        EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
     @Override
     public Collection<java.util.function.Supplier<ItemStack>> getDefaultCreativeTabEntries() {
         return Collections.emptyList();
+    }
+
+    protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab()) {
+            for (ItemStack itemStack : dynamicCreativeTabEntries()) {
+                event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            }
+        }
+    }
+
+    protected Collection<ItemStack> dynamicCreativeTabEntries() {
+        NonNullList<ItemStack> list = NonNullList.create();
+        ((ItemWeatherContainer) getInstance()).fillItemCategory(list);
+        return list;
     }
 }
