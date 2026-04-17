@@ -32,7 +32,7 @@ public class ParticleBubbleExtended extends SingleQuadParticle {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-        if (this.lifetime-- <= 0) {
+        if (--this.lifetime <= 0) {
             this.remove();
         } else {
             this.yd -= gravity;
