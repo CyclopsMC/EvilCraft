@@ -33,7 +33,7 @@ public class ParticleBloodBubble extends WaterDropParticle {
         this.xd *= 0.85D;
         this.yd *= 0.85D;
         this.zd *= 0.85D;
-        if (this.lifetime-- <= 0) {
+        if (--this.lifetime <= 0) {
             this.remove();
         }
     }
