@@ -1,0 +1,16 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.25.5 or higher.
+
+Changes:
+* Add leaf particle colors for Undead Leaves (#1189)
+
+Fixes:
+* Fix incorrect Box of Eternal Closure beam rendering direction
+* Fix Vengeance Focus beam starting from wrong location
+* Fix missing texture on Envir Acc beam rendering
+* Fix blood bubble particle sometimes causing crashes
+* Fix color of lightning weather container
+* Fix weather containers not showing up in creative tab
+* Fix division by zero in ParticleBubbleExtended.tick() with pre-decrement
+* Fix crash when breaking Box of Eternal Closure (#1191)
+* Fix crash when breaking box of eternal closure by checking block type before setValue
