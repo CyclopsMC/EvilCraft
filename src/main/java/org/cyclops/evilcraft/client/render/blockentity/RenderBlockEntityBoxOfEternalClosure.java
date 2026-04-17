@@ -142,8 +142,8 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
             float f1 = (float)renderState.target.x + 0.5F - blockpos.getX();
             float f2 = (float)renderState.target.y + 0.5F - (renderState.eyeHeight / 2) - blockpos.getY();
             float f3 = (float)renderState.target.z  + 0.5F - blockpos.getZ();
-            poseStack.translate(f1, f2, f3);
-            EnderDragonRenderer.submitCrystalBeams(-f1, -f2 + f, -f3, renderState.partialTicks, poseStack, submitNodeCollector, renderState.lightCoords);
+            poseStack.translate(0.5, -1.5, 0.5);
+            EnderDragonRenderer.submitCrystalBeams(f1 - 0.5F, f2 - 0.5F - f, f3 - 0.5F, renderState.partialTicks, poseStack, submitNodeCollector, renderState.lightCoords);
         }
     }
 
