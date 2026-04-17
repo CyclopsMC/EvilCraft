@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -24,8 +23,6 @@ import org.joml.Vector4f;
  *
  */
 public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon, S extends RenderBlockEntityBeacon.RenderState> implements BlockEntityRenderer<T, S> {
-
-    private static final Identifier BEACON_TEXTURE = Identifier.withDefaultNamespace("textures/entity/beacon_beam.png");
 
     public RenderBlockEntityBeacon(BlockEntityRendererProvider.Context context) {
 
@@ -53,7 +50,7 @@ public abstract class RenderBlockEntityBeacon<T extends BlockEntityBeacon, S ext
     protected void submitBeacon(S renderState, float partialTicks, PoseStack matrixStackIn, SubmitNodeCollector submitNodeCollector) {
         if (renderState.isBeamActive) {
             Vector4f beamColor = renderState.beamColor;
-            BeaconRenderer.submitBeaconBeam(matrixStackIn, submitNodeCollector, BEACON_TEXTURE, partialTicks, renderState.animationTime,
+            BeaconRenderer.submitBeaconBeam(matrixStackIn, submitNodeCollector, BeaconRenderer.BEAM_LOCATION, partialTicks, renderState.animationTime,
                     0, 256,
                     IModHelpers.get().getBaseHelpers().RGBToInt((int) (beamColor.x() * 256), (int) (beamColor.y() * 256), (int) (beamColor.z() * 256)), renderState.isInnerBeam ? 0 : 0.2F, 0.25F);
         }
