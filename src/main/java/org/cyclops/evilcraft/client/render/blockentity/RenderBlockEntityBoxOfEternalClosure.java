@@ -101,7 +101,7 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         poseStack.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
-        BlockState blockState = renderState.blockState != null
+        BlockState blockState = (renderState.blockState != null && renderState.blockState.getBlock() instanceof org.cyclops.evilcraft.block.BlockBoxOfEternalClosure)
                 ? renderState.blockState.setValue(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH)
                 : org.cyclops.evilcraft.RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.get().defaultBlockState().setValue(org.cyclops.evilcraft.block.BlockBoxOfEternalClosure.FACING, Direction.NORTH);
         ModelBoxOfEternalClosureBaked model = (ModelBoxOfEternalClosureBaked) IModHelpers.get().getRenderHelpers().getBakedModel(blockState);
