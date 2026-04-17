@@ -132,7 +132,7 @@ public class ItemWeatherContainer extends Item {
         /**
          * Lightning weather container.
          */
-        LIGHTNING(WeatherType.LIGHTNING, "lightning", ChatFormatting.GOLD, IModHelpers.get().getBaseHelpers().RGBToInt(255, 215, 0), Rarity.RARE);
+        LIGHTNING(WeatherType.LIGHTNING, "lightning", ChatFormatting.GOLD, IModHelpers.get().getBaseHelpers().RGBAToInt(255, 215, 0, 255), Rarity.RARE);
 
         public static final Codec<WeatherContainerType> CODEC = Codec.STRING.xmap(
                 name -> {
