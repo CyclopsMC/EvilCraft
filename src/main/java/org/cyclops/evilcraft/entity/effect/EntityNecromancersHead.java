@@ -19,6 +19,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.monster.EntityControlledZombie;
 import org.cyclops.evilcraft.item.ItemNecromancerStaff;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,7 +31,8 @@ import java.util.List;
 public class EntityNecromancersHead extends ThrowableProjectile implements ItemSupplier {
 
     private static final int DURATION = 200;
-    private static final ItemStack RENDER_ITEM = new ItemStack(Items.SKELETON_SKULL);
+    @Nullable
+    private static ItemStack RENDER_ITEM;
 
     protected boolean observing = false;
     protected LivingEntity target = null;
@@ -133,6 +135,9 @@ public class EntityNecromancersHead extends ThrowableProjectile implements ItemS
 
     @Override
     public ItemStack getItem() {
+        if (RENDER_ITEM == null) {
+            RENDER_ITEM = new ItemStack(Items.SKELETON_SKULL);
+        }
         return RENDER_ITEM;
     }
 }
