@@ -7,6 +7,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.EvilCraft;
 import org.cyclops.evilcraft.network.packet.UpdateWorldSharedTankClientCachePacket;
@@ -29,6 +30,8 @@ public class WorldSharedTankCache {
 
     private Map<String, UpdateWorldSharedTankClientCachePacket> packetBuffer = Maps.newHashMap();
     private int tick = 0;
+    // Local in-memory cache used on a dedicated client (where no local MinecraftServer exists)
+    private final Map<String, FluidStack> dedicatedClientCache = Maps.newHashMap();
 
     private WorldSharedTankCache() {
 
@@ -40,6 +43,7 @@ public class WorldSharedTankCache {
     public void reset() {
         packetBuffer = Maps.newHashMap();
         tick = 0;
+        dedicatedClientCache.clear();
     }
 
     /**
@@ -67,7 +71,14 @@ public class WorldSharedTankCache {
      * @return The contents.
      */
     public synchronized FluidStack getTankContent(String tankID) {
-        return EvilCraft.sharedTanks.get().getFluid(getMapID(tankID)).copy();
+        String key = getMapID(tankID);
+        if (ServerLifecycleHooks.getCurrentServer() == null) {
+            // On a dedicated client there is no local server; use the local in-memory cache
+            // populated via UpdateWorldSharedTankClientCachePacket
+            FluidStack cached = dedicatedClientCache.get(key);
+            return cached != null ? cached.copy() : FluidStack.EMPTY;
+        }
+        return EvilCraft.sharedTanks.get().getFluid(key).copy();
     }
 
     protected static boolean shouldRefreshFluid(FluidStack old, FluidStack newF) {
@@ -81,6 +92,11 @@ public class WorldSharedTankCache {
      */
     public synchronized void setTankContent(String tankID, FluidStack fluidStack) {
         String key = getMapID(tankID);
+        if (ServerLifecycleHooks.getCurrentServer() == null) {
+            // On a dedicated client there is no local server; store in the local in-memory cache
+            dedicatedClientCache.put(key, fluidStack.copy());
+            return;
+        }
         WorldStorageSharedTank sharedTanks = EvilCraft.sharedTanks.get();
         boolean shouldRefresh = shouldRefreshFluid(sharedTanks.getFluid(key), fluidStack);
         sharedTanks.setFluid(key, fluidStack.copy());
