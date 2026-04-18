@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.25.5 or higher.
+
+Additions:
+* Add translations through Crowdin (#1192)
+
+Fixes:
+* Fix world join crash on some worlds, Closes #1195
+* Fix NPE in WorldSharedTankCache on dedicated client (#1196), Closes #1194

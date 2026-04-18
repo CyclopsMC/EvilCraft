@@ -1,8 +1,19 @@
 # Changelog for Minecraft 26.1.1
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.1-1.2.87"></a>
+## [26.1.1-1.2.87](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.86...26.1.1-1.2.87) - 2026-04-18 14:54:52
+
+
+### Added
+* Add translations through Crowdin (#1192)
+
+### Fixed
+* Fix world join crash on some worlds, Closes #1195
+* Fix NPE in WorldSharedTankCache on dedicated client (#1196), Closes #1194
+
 <a name="26.1.1-1.2.86"></a>
-## [26.1.1-1.2.86](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.85...26.1.1-1.2.86) - 2026-04-17 17:38:31
+## [26.1.1-1.2.86](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.85...26.1.1-1.2.86) - 2026-04-17 17:38:31 +0200
 
 
 ### Changed
