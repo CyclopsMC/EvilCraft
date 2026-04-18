@@ -25,7 +25,7 @@ public class GameTestsVengeanceSpirits {
     public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
         // Spawn spirit, and pre-freeze it so the box can reliably find and capture it (the box only targets frozen spirits)
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south().above());
@@ -50,7 +50,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
     public void testVengeanceSpiritPlayerCatch(GameTestHelper helper) {
         // Spawn spirit
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
