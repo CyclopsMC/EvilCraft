@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.1
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.1-1.2.88"></a>
+## [26.1.1-1.2.88](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.87...26.1.1-1.2.88) - 2026-04-19 15:31:12
+
+
+### Fixed
+* Fix too many empty Spirit Furnace result stacks being shown in JEI
+
 <a name="26.1.1-1.2.87"></a>
-## [26.1.1-1.2.87](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.86...26.1.1-1.2.87) - 2026-04-18 14:54:52
+## [26.1.1-1.2.87](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.86...26.1.1-1.2.87) - 2026-04-18 14:54:52 +0200
 
 
 ### Added
