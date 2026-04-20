@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.1
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.1-1.2.89"></a>
+## [26.1.1-1.2.89](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.88...26.1.1-1.2.89) - 2026-04-20 18:50:54
+
+
+### Fixed
+* Fix large Dark Tank drop capped at base 16,000mB instead of actual capacity (#1198)
+
 <a name="26.1.1-1.2.88"></a>
-## [26.1.1-1.2.88](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.87...26.1.1-1.2.88) - 2026-04-19 15:31:12
+## [26.1.1-1.2.88](https://github.com/CyclopsMC/EvilCraft/compare/26.1.1-1.2.87...26.1.1-1.2.88) - 2026-04-19 15:31:12 +0200
 
 
 ### Fixed
