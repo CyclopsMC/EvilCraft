@@ -39,14 +39,14 @@ public class LootFunctionCopyTankData extends LootItemConditionalFunction {
             return Optional.ofNullable(itemAccess.getCapability(Capabilities.Fluid.ITEM))
                     .map(fluidHandlerItem -> {
                         try (var tx = Transaction.openRoot()) {
+                            if (fluidHandlerItem instanceof IFluidHandlerCapacity) {
+                                ((IFluidHandlerCapacity) fluidHandlerItem).setTankCapacity(0, fluidHandlerTile.getTankCapacity(0), tx);
+                            }
                             FluidResource resource = fluidHandlerTile.getResource(0);
                             if (!resource.isEmpty()) {
                                 fluidHandlerItem.insert(resource, fluidHandlerTile.getFluidAmount(), tx);
-                                if (fluidHandlerItem instanceof IFluidHandlerCapacity) {
-                                    ((IFluidHandlerCapacity) fluidHandlerItem).setTankCapacity(0, fluidHandlerTile.getTankCapacity(0), tx);
-                                }
-                                tx.commit();
                             }
+                            tx.commit();
                         }
                         return itemAccess.getResource().toStack(itemAccess.getAmount());
                     }).orElse(itemStack);

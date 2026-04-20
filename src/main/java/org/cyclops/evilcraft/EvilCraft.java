@@ -470,6 +470,7 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
                 GameTestsBlockEternalWater.class,
                 GameTestsBloodChest.class,
                 GameTestsBloodInfuser.class,
+                GameTestsDarkTank.class,
                 GameTestsEntangledChalice.class,
                 GameTestsItemEternalWater.class,
                 GameTestsItemStacking.class,
