@@ -142,7 +142,7 @@ dependencies {
             transitive = false
         }
     } else {
-        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.minecraft_version}-neoforge:${project.evilcraftcompat_version}") {
+        shadow("org.cyclops.evilcraftcompat:evilcraftcompat-${project.evilcraftcompat_version}") {
             transitive = false
         }
     }

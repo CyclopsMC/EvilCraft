@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import org.cyclops.cyclopscore.helper.EnchantmentHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.core.algorithm.Wrapper;
@@ -33,7 +33,7 @@ public class EnchantmentEffectComponentAmplifyDamage {
     }
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
-    public void breakingEvent(BlockEvent.BreakEvent event) {
+    public void breakingEvent(BreakBlockEvent event) {
         if (!event.getPlayer().level().isClientSide()) {
             InteractionHand hand = event.getPlayer().getUsedItemHand();
             if (hand != null) {

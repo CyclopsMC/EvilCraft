@@ -44,8 +44,8 @@ public class LootModifierInjectBoxOfEternalClosure extends LootModifier {
 
     private final List<String> lootTables;
 
-    public LootModifierInjectBoxOfEternalClosure(LootItemCondition[] conditionsIn, List<String> lootTables) {
-        super(conditionsIn);
+    public LootModifierInjectBoxOfEternalClosure(LootItemCondition[] conditionsIn, int priority, List<String> lootTables) {
+        super(conditionsIn, priority);
         this.lootTables = lootTables;
     }
 

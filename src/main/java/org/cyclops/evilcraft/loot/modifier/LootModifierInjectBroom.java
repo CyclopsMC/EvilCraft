@@ -40,8 +40,8 @@ public class LootModifierInjectBroom extends LootModifier {
 
     private final List<String> lootTables;
 
-    public LootModifierInjectBroom(LootItemCondition[] conditionsIn, List<String> lootTables) {
-        super(conditionsIn);
+    public LootModifierInjectBroom(LootItemCondition[] conditionsIn, int priority, List<String> lootTables) {
+        super(conditionsIn, priority);
         this.lootTables = lootTables;
     }
 

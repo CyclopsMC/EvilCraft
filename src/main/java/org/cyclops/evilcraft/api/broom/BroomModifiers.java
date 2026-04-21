@@ -32,14 +32,10 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
-import net.neoforged.neoforge.event.level.BlockEvent;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.cyclops.cyclopscore.helper.IModHelpers;
-import org.cyclops.evilcraft.EvilCraft;
-import org.cyclops.evilcraft.ExtendedDamageSources;
-import org.cyclops.evilcraft.GeneralConfig;
-import org.cyclops.evilcraft.Reference;
-import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.*;
 import org.cyclops.evilcraft.core.broom.BroomParts;
 import org.cyclops.evilcraft.core.broom.PotionEffectBroomCollision;
 import org.cyclops.evilcraft.entity.item.EntityBroom;
@@ -260,7 +256,7 @@ public class BroomModifiers {
                                             // Destroy the block
                                             if (!broom.level().isClientSide()) {
                                                 ServerPlayer playerMp = (ServerPlayer) player;
-                                                BlockEvent.BreakEvent breakEvent = CommonHooks.fireBlockBreak(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos, blockState);
+                                                BreakBlockEvent breakEvent = CommonHooks.fireBlockBreak(world, playerMp.gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos, blockState);
                                                 if (!breakEvent.isCanceled()) {
                                                     // Block breaking sequence
                                                     block.playerWillDestroy(world, pos, blockState, player);
