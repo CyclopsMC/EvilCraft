@@ -3,7 +3,7 @@
   "conditions": [
     {
       "condition": "random_chance",
-      "chance": 0.2
+      "chance": 0.1
     }
   ],
   "item": { "id": "evilcraft:origins_of_darkness", "Count": 1 },
