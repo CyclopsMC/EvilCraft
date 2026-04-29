@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Input;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -316,7 +317,7 @@ public class EntityBroom extends Entity {
 
     public void showParticles(EntityBroom broom) {
         Level world = broom.level();
-        if (world.isClientSide() && broom.lastMounted.zza != 0) {
+        if (world.isClientSide() && broom.getForwardInput(broom.lastMounted) != 0) {
             // Emit particles
             int particles = (int) (broom.getModifier(BroomModifiers.PARTICLES) * (float) broom.getLastPlayerSpeed());
             Triple<Float, Float, Float> color = BroomModifier.getAverageColor(broom.getModifiers());
@@ -362,6 +363,20 @@ public class EntityBroom extends Entity {
         }
 
         move(MoverType.SELF, new Vec3(0, getHoverOffset(), 0));
+    }
+
+    /**
+     * Get the forward movement input for a living entity.
+     * For server players, reads from the last client input (since zza is no longer set from packets
+     * when riding a vehicle in newer Minecraft versions). For other entities, falls back to zza.
+     */
+    public float getForwardInput(LivingEntity entity) {
+        if (entity instanceof ServerPlayer serverPlayer) {
+            Input input = serverPlayer.getLastClientInput();
+            if (input.forward() == input.backward()) return 0.0F;
+            return input.forward() ? 1.0F : -1.0F;
+        }
+        return entity.zza;
     }
 
     public boolean canConsume(int amount, LivingEntity entityLiving) {
@@ -441,7 +456,8 @@ public class EntityBroom extends Entity {
         playerSpeed += getModifier(BroomModifiers.SPEED) / 100;
         int amount = ItemBroomConfig.bloodUsage;
         LivingEntity currentRidingEntity = getControllingPassenger();
-        float moveForward = canConsume(amount, currentRidingEntity) ? lastMounted.zza : lastMounted.zza / 10F;
+        float forwardInput = getForwardInput(lastMounted);
+        float moveForward = canConsume(amount, currentRidingEntity) ? forwardInput : forwardInput / 10F;
         playerSpeed *= moveForward;
         if(moveForward != 0) {
             consume(amount, currentRidingEntity);
