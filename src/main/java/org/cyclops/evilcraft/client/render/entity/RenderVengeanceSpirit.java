@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
 import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
-import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -34,6 +33,7 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
@@ -71,9 +71,9 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
 
         Mob innerEntity = renderState.spirit.getInnerEntity();
         if(innerEntity != null && renderState.spirit.isVisible()) {
-            LivingEntityRenderer render = (LivingEntityRenderer) entityRenderDispatcher.renderers.get(innerEntity.getType());
+            EntityRenderer render = entityRenderDispatcher.renderers.get(innerEntity.getType());
             if(render != null && !renderState.spirit.isSwarm()) {
-                LivingEntityRenderState innerRenderState = renderState.spirit.isPlayer() ? getAvatarRenderState(renderState) : (LivingEntityRenderState) render.createRenderState();
+                EntityRenderState innerRenderState = renderState.spirit.isPlayer() ? getAvatarRenderState(renderState) : render.createRenderState();
                 if (!renderState.spirit.isPlayer()) {
                     render.extractRenderState(innerEntity, innerRenderState, 0);
                 }
@@ -108,8 +108,12 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
                         playerRenderer.submit(avatarRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
                         Minecraft.getInstance().options.hideGui = false;
                     } else {
-                        RenderType renderTypeOverride = RenderTypes.energySwirl(render.getTextureLocation(innerRenderState), uv, uv);
-                        render.submit(innerRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
+                        if (render instanceof LivingEntityRenderer livingEntityRenderer) {
+                            RenderType renderTypeOverride = RenderTypes.energySwirl(livingEntityRenderer.getTextureLocation((LivingEntityRenderState) innerRenderState), uv, uv);
+                            render.submit(innerRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
+                        } else {
+                            render.submit(renderState, poseStackInner, nodeCollector, cameraRenderState);
+                        }
                     }
                 } catch (Exception e) {
                     // Invalid entity, so set as swarm.
