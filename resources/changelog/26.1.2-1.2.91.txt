@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.29.5 or higher.
+
+Additions:
+* Add translations through Crowdin (#1199)
+
+Changes:
+* Lower loot chance of brooms and books
+
+Fixes:
+* Fix spirits of Ars Magica causing crashes
