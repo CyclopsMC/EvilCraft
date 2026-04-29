@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.92"></a>
+## [26.1.2-1.2.92](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.91...26.1.2-1.2.92) - 2026-04-29 20:21:49
+
+
+### Fixed
+* Fix Brooms not consuming Blood when ridden
+
 <a name="26.1.2-1.2.91"></a>
-## [26.1.2-1.2.91](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.90...26.1.2-1.2.91) - 2026-04-29 17:08:58
+## [26.1.2-1.2.91](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.90...26.1.2-1.2.91) - 2026-04-29 17:08:58 +0200
 
 
 ### Added
