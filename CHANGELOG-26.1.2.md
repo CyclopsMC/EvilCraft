@@ -1,8 +1,19 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.93"></a>
+## [26.1.2-1.2.93](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.92...26.1.2-1.2.93) - 2026-05-02 13:41:57
+
+
+### Added
+* Add translations through Crowdin
+
+### Fixed
+* Fix Spirit Furnace halting when mob loot table contains empty stacks, Closes #1204
+* Fix crash on JEI spirit furnace recipe generation for certain mobs, Closes CyclopsMC/EvilCraft#1205
+
 <a name="26.1.2-1.2.92"></a>
-## [26.1.2-1.2.92](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.91...26.1.2-1.2.92) - 2026-04-29 20:21:49
+## [26.1.2-1.2.92](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.91...26.1.2-1.2.92) - 2026-04-29 20:21:49 +0200
 
 
 ### Fixed

@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.29.5 or higher.
+
+Additions:
+* Add translations through Crowdin
+
+Fixes:
+* Fix Spirit Furnace halting when mob loot table contains empty stacks, Closes #1204
+* Fix crash on JEI spirit furnace recipe generation for certain mobs, Closes CyclopsMC/EvilCraft#1205
