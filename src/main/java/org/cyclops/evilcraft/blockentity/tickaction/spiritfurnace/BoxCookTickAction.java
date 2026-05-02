@@ -222,7 +222,9 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
                         }*/
 
                         for (ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(LootContextParamSets.ENTITY))) {
-                            tile.onItemDrop(itemstack);
+                            if (!itemstack.isEmpty()) {
+                                tile.onItemDrop(itemstack);
+                            }
                         }
                     }
                 }
