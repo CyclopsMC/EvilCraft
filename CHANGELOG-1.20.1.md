@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.2.60"></a>
+## [1.20.1-1.2.60](/compare/1.20.1-1.2.59...1.20.1-1.2.60) - 2026-05-16 07:30:30
+
+
+### Fixed
+* Fix Dead Bush recipe not handling third-party shears, Closes #1210
+
 <a name="1.20.1-1.2.59"></a>
-## [1.20.1-1.2.59](/compare/1.20.1-1.2.58...1.20.1-1.2.59) - 2025-11-15 06:34:08
+## [1.20.1-1.2.59](/compare/1.20.1-1.2.58...1.20.1-1.2.59) - 2025-11-15 06:34:08 +0100
 
 
 ### Changed

@@ -73,7 +73,7 @@ public class RecipeDeadBush extends CustomRecipe {
         NonNullList<ItemStack> stacks = NonNullList.create();
         for (int i = 0; i < inv.size(); i++) {
             ItemStack itemStack = inv.getItem(i);
-            if (itemStack.getItem() == Items.SHEARS) {
+            if (itemStack.is(Tags.Items.TOOLS_SHEAR)) {
                 itemStack = itemStack.copy();
 
                 Player craftingPlayer = CommonHooks.getCraftingPlayer();
