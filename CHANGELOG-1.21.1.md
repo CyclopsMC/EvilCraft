@@ -1,8 +1,22 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.87"></a>
+## [1.21.1-1.2.87](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.86...1.21.1-1.2.87) - 2026-05-16 07:31:39
+
+
+### Fixed
+* Fix Dead Bush recipe not handling third-party shears, Closes #1210
+
+<a name="1.21.1-1.2.86"></a>
+## [1.21.1-1.2.86](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.85...1.21.1-1.2.86) - 2026-04-25 17:06:20 +0200
+
+
+### Fixed
+* Fix broken Curios integration, Closes CyclopsMC/EvilCraft#1203
+
 <a name="1.21.1-1.2.85"></a>
-## [1.21.1-1.2.85](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.84...1.21.1-1.2.85) - 2026-04-11 19:55:28
+## [1.21.1-1.2.85](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.84...1.21.1-1.2.85) - 2026-04-11 19:55:28 +0200
 
 
 ### Fixed
