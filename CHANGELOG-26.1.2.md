@@ -1,8 +1,18 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.94"></a>
+## [26.1.2-1.2.94](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.93...26.1.2-1.2.94) - 2026-05-16 07:32:34
+
+
+### Added
+* Add translations through Crowdin
+
+### Fixed
+* Fix Dead Bush recipe not handling third-party shears, Closes #1210
+
 <a name="26.1.2-1.2.93"></a>
-## [26.1.2-1.2.93](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.92...26.1.2-1.2.93) - 2026-05-02 13:41:57
+## [26.1.2-1.2.93](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.92...26.1.2-1.2.93) - 2026-05-02 13:41:57 +0200
 
 
 ### Added
