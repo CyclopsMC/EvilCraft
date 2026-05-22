@@ -352,12 +352,6 @@ public class BlockEntitySanguinaryEnvironmentalAccumulator extends BlockEntityWo
         return Component.translatable("block.evilcraft.sanguinary_environmental_accumulator");
     }
 
-    @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        super.preRemoveSideEffects(pos, state);
-        IModHelpers.get().getInventoryHelpers().dropItems(level, getInventory(), pos);
-    }
-
     public static class Inventory extends BlockEntityWorking.Inventory<BlockEntitySanguinaryEnvironmentalAccumulator> implements RecipeEnvironmentalAccumulator.Inventory {
 
         public Inventory(int size, int stackLimit, BlockEntitySanguinaryEnvironmentalAccumulator tile) {
