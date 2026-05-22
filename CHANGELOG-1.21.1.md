@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.88"></a>
+## [1.21.1-1.2.88](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.87...1.21.1-1.2.88) - 2026-05-22 09:20:03
+
+
+### Fixed
+* Fix Spirit Furnace not restarting after draining output inv after drain, Closes #1212
+
 <a name="1.21.1-1.2.87"></a>
-## [1.21.1-1.2.87](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.86...1.21.1-1.2.87) - 2026-05-16 07:31:39
+## [1.21.1-1.2.87](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.86...1.21.1-1.2.87) - 2026-05-16 07:31:39 +0200
 
 
 ### Fixed
