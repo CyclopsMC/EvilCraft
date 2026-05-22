@@ -1,8 +1,19 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.95"></a>
+## [26.1.2-1.2.95](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.94...26.1.2-1.2.95) - 2026-05-22 09:32:54
+
+
+### Added
+* Add translations through Crowdin (#1209)
+
+### Fixed
+* Fix Spirit Furnace not restarting after draining output inv after drain, Closes #1212
+* Prevent Sanguinary Environmental Accumulator inventory double-drops (#1214), Closes #1213
+
 <a name="26.1.2-1.2.94"></a>
-## [26.1.2-1.2.94](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.93...26.1.2-1.2.94) - 2026-05-16 07:32:34
+## [26.1.2-1.2.94](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.93...26.1.2-1.2.94) - 2026-05-16 07:32:35 +0200
 
 
 ### Added
