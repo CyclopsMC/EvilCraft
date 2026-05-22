@@ -175,18 +175,22 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
         public void registerTankInventoryCapabilitiesItem() {
             add(
                     net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
-                    (blockEntity, direction) -> new ItemHandlerSlotMasked(
-                            blockEntity.getInventory(),
-                            (direction == Direction.UP || direction == Direction.DOWN) ? SLOTS_DROP : new int[]{SLOT_BOX, SLOT_CONTAINER}
-                    ) {
-                        @Override
-                        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                            ItemStack extracted = super.extractItem(slot, amount, simulate);
-                            if (slot > SLOT_BOX && !extracted.isEmpty() && !simulate) {
-                                blockEntity.resetWork(false);
-                            }
-                            return extracted;
+                    (blockEntity, direction) -> {
+                        if (direction == Direction.UP || direction == Direction.DOWN) {
+                            // Expose drop slots; any extraction should un-halt the furnace
+                            return new ItemHandlerSlotMasked(blockEntity.getInventory(), SLOTS_DROP) {
+                                @Override
+                                public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                                    ItemStack extracted = super.extractItem(slot, amount, simulate);
+                                    if (!extracted.isEmpty() && !simulate) {
+                                        blockEntity.resetWork(false);
+                                    }
+                                    return extracted;
+                                }
+                            };
                         }
+                        // Expose input slots (box + container); extraction does not affect work state
+                        return new ItemHandlerSlotMasked(blockEntity.getInventory(), new int[]{SLOT_BOX, SLOT_CONTAINER});
                     }
             );
         }
