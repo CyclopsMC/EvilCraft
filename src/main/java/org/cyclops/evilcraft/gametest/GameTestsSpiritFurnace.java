@@ -6,7 +6,10 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
@@ -71,6 +74,47 @@ public class GameTestsSpiritFurnace {
 
         helper.succeedWhen(() -> {
             helper.assertTrue(furnace.isSizeValidForEntity(), Component.literal("Furnace size should be valid"));
+        });
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 150)
+    public void testSpiritFurnace3x3ChickenHaltAndResumeWithHopper(GameTestHelper helper) {
+        // Place the furnace one block higher so there is room for a hopper below it
+        BlockPos furnacePos = POS.above();
+        BlockEntitySpiritFurnace furnace = createFurnace(helper, furnacePos, 3);
+
+        // Fill the blood tank directly so cooking can start immediately
+        try (var tx = Transaction.openRoot()) {
+            furnace.getTank().insert(0, FluidResource.of(RegistryEntries.FLUID_BLOOD.get()), furnace.getTank().getCapacity(), tx);
+            tx.commit();
+        }
+        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.CHICKEN));
+
+        // Pre-fill all drop slots with cobblestone (not a chicken drop) using 63 items so
+        // canTick() still returns true (count < maxStackSize), but any chicken drop will fail
+        // to be placed (different item type) → forceHalt will be set after the first cycle.
+        for (int slotId : BlockEntitySpiritFurnace.SLOTS_DROP) {
+            furnace.getInventory().setItem(slotId, new ItemStack(Items.COBBLESTONE, 63));
+        }
+
+        // After a full chicken cook cycle (chicken has 4 HP → 40 ticks), it should have halted
+        helper.runAfterDelay(80, () -> {
+            helper.assertTrue(furnace.isForceHalt(), "Furnace should be force-halted because all drop slots are occupied by non-chicken items");
+
+            // Place a hopper directly below the spirit furnace block.
+            // A hopper below the furnace accesses the furnace's item capability with Direction.DOWN,
+            // which exposes SLOTS_DROP. It always extracts from the first available slot (masked index 0,
+            // which is SLOTS_DROP[0]). The resetWork call must fire for ALL masked slots, not just > 1.
+            helper.setBlock(POS, Blocks.HOPPER);
+        });
+
+        // After the hopper has had time to extract one cobblestone from the first drop slot
+        // (hoppers tick every 8 game ticks), forceHalt should have been cleared.
+        // With the bug: extractions from masked slots 0 and 1 do NOT call resetWork, so the
+        // furnace remains halted. With the fix: any extraction clears forceHalt.
+        helper.runAfterDelay(100, () -> {
+            helper.assertFalse(furnace.isForceHalt(), "Furnace should no longer be force-halted after hopper extracted items from the first drop slot");
+            helper.succeed();
         });
     }
 

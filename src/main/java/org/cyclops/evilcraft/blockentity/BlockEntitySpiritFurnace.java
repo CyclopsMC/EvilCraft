@@ -175,35 +175,40 @@ public class BlockEntitySpiritFurnace extends BlockEntityWorking<BlockEntitySpir
         public void registerTankInventoryCapabilitiesItem() {
             add(
                     net.neoforged.neoforge.capabilities.Capabilities.Item.BLOCK,
-                    (blockEntity, direction) -> VanillaContainerWrapper.of(new InventorySlotMasked(
-                            blockEntity.getInventory(),
-                            (direction == Direction.UP || direction == Direction.DOWN) ? SLOTS_DROP : new int[]{SLOT_BOX, SLOT_CONTAINER}
-                    ) {
-                        @Override
-                        public void onTransfer(int slot, int amountChange, TransactionContext transaction) {
-                            super.onTransfer(slot, amountChange, transaction);
-                            if (slot > SLOT_BOX && amountChange > 0) {
-                                new SnapshotJournal<Void>() {
+                    (blockEntity, direction) -> {
+                        if (direction == Direction.UP || direction == Direction.DOWN) {
+                            return VanillaContainerWrapper.of(new InventorySlotMasked(
+                                    blockEntity.getInventory(),
+                                    SLOTS_DROP
+                            ) {
+                                @Override
+                                public void onTransfer(int slot, int amountChange, TransactionContext transaction) {
+                                    super.onTransfer(slot, amountChange, transaction);
+                                    if (amountChange != 0) {
+                                        new SnapshotJournal<Void>() {
 
-                                    @Override
-                                    protected Void createSnapshot() {
-                                        return null;
+                                            @Override
+                                            protected Void createSnapshot() {
+                                                return null;
+                                            }
+
+                                            @Override
+                                            protected void revertToSnapshot(Void o) {
+
+                                            }
+
+                                            @Override
+                                            protected void onRootCommit(Void originalState) {
+                                                super.onRootCommit(originalState);
+                                                blockEntity.resetWork(false);
+                                            }
+                                        }.updateSnapshots(transaction);
                                     }
-
-                                    @Override
-                                    protected void revertToSnapshot(Void o) {
-
-                                    }
-
-                                    @Override
-                                    protected void onRootCommit(Void originalState) {
-                                        super.onRootCommit(originalState);
-                                        blockEntity.resetWork(false);
-                                    }
-                                }.updateSnapshots(transaction);
-                            }
+                                }
+                            });
                         }
-                    })
+                        return VanillaContainerWrapper.of(new InventorySlotMasked(blockEntity.getInventory(), SLOT_BOX, SLOT_CONTAINER));
+                    }
             );
         }
     }
