@@ -71,15 +71,15 @@ public class ItemBlockFluidContainer extends ItemBlockNBT {
                 .ifPresent(fluidHandlerTile -> {
                     Optional.ofNullable(itemStack.getCapability(Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)))
                             .ifPresent(fluidHandlerItem -> {
-                                if (!fluidHandlerItem.getResource(0).isEmpty()) {
-                                    try (var tx = Transaction.openRoot()) {
-                                        fluidHandlerTile.insert(fluidHandlerItem.getResource(0), fluidHandlerItem.getAmountAsInt(0), tx);
-                                        tx.commit();
-                                    }
-                                }
                                 if (fluidHandlerTile instanceof IFluidHandlerCapacity) {
                                     try (var tx = Transaction.openRoot()) {
                                         ((IFluidHandlerCapacity) fluidHandlerTile).setTankCapacity(0, fluidHandlerItem.getCapacityAsInt(0, FluidResource.EMPTY), tx);
+                                        tx.commit();
+                                    }
+                                }
+                                if (!fluidHandlerItem.getResource(0).isEmpty()) {
+                                    try (var tx = Transaction.openRoot()) {
+                                        fluidHandlerTile.insert(fluidHandlerItem.getResource(0), fluidHandlerItem.getAmountAsInt(0), tx);
                                         tx.commit();
                                     }
                                 }
