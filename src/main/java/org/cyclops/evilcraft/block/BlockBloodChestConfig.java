@@ -39,7 +39,8 @@ public class BlockBloodChestConfig extends BlockConfigCommon<ModBaseNeoForge<?>>
                 (eConfig, properties) -> new BlockBloodChest(properties
                         .requiresCorrectToolForDrops()
                         .strength(2.5F)
-                        .sound(SoundType.WOOD)),
+                        .sound(SoundType.WOOD)
+                        .isValidSpawn((_, _, _, _) -> false)),
                 (eConfig, block) -> new ItemBlockFluidContainer(block, eConfig.createDefaultItemProperties())
         );
     }

@@ -19,7 +19,8 @@ public class BlockDarkBloodBrickConfig extends BlockConfigCommon<IModBase> {
                 (eConfig, properties) -> new BlockDarkBloodBrick(properties
                         .requiresCorrectToolForDrops()
                         .strength(5.0F)
-                        .sound(SoundType.STONE)),
+                        .sound(SoundType.STONE)
+                        .isValidSpawn((_, _, _, _) -> false)),
                 getDefaultItemConstructor(EvilCraft._instance)
         );
     }
