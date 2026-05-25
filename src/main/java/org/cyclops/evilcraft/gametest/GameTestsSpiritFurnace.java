@@ -77,6 +77,16 @@ public class GameTestsSpiritFurnace {
         });
     }
 
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testDarkBloodBrickDisallowsMobSpawning(GameTestHelper helper) {
+        helper.setBlock(POS, RegistryEntries.BLOCK_DARK_BLOOD_BRICK.get());
+
+        helper.succeedWhen(() -> {
+            helper.assertFalse(helper.getBlockState(POS).isValidSpawn(helper.getLevel(), POS, EntityType.ZOMBIE),
+                    Component.literal("Dark blood brick should disallow mob spawning"));
+        });
+    }
+
     @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 150)
     public void testSpiritFurnace3x3ChickenHaltAndResumeWithHopper(GameTestHelper helper) {
         // Place the furnace one block higher so there is room for a hopper below it
