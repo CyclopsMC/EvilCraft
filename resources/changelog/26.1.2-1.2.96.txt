@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.29.5 or higher.
+
+Fixes:
+* Fix placement of tanks not considering non-default capacity, Closes #1217
+* Fix mobs spawning in multiblocks, Closes #1211
+* Remove unneeded global_loot_modifiers.json, Closes #1216

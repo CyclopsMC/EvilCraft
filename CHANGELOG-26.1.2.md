@@ -1,8 +1,17 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.96"></a>
+## [26.1.2-1.2.96](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.95...26.1.2-1.2.96) - 2026-05-25 14:06:32
+
+
+### Fixed
+* Fix placement of tanks not considering non-default capacity, Closes #1217
+* Fix mobs spawning in multiblocks, Closes #1211
+* Remove unneeded global_loot_modifiers.json, Closes #1216
+
 <a name="26.1.2-1.2.95"></a>
-## [26.1.2-1.2.95](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.94...26.1.2-1.2.95) - 2026-05-22 09:32:54
+## [26.1.2-1.2.95](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.94...26.1.2-1.2.95) - 2026-05-22 09:32:54 +0200
 
 
 ### Added
