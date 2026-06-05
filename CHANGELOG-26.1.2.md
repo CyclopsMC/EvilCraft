@@ -1,8 +1,18 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.97"></a>
+## [26.1.2-1.2.97](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.96...26.1.2-1.2.97) - 2026-06-05 08:58:26
+
+
+### Changed
+* Update to NeoForge 26.1.2.73
+
+### Fixed
+* Fix Spirit Furnace JEI race condition sometimes breaking its recipes
+
 <a name="26.1.2-1.2.96"></a>
-## [26.1.2-1.2.96](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.95...26.1.2-1.2.96) - 2026-05-25 14:06:32
+## [26.1.2-1.2.96](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.95...26.1.2-1.2.96) - 2026-05-25 14:06:32 +0200
 
 
 ### Fixed

@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.29.5 or higher.
+
+Changes:
+* Update to NeoForge 26.1.2.73
+
+Fixes:
+* Fix Spirit Furnace JEI race condition sometimes breaking its recipes
