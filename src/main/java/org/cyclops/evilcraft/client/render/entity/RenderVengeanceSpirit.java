@@ -73,12 +73,12 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         if(innerEntity != null && renderState.spirit.isVisible()) {
             EntityRenderer render = entityRenderDispatcher.renderers.get(innerEntity.getType());
             if(render != null && !renderState.spirit.isSwarm()) {
-                EntityRenderState innerRenderState = renderState.spirit.isPlayer() ? getAvatarRenderState(renderState) : render.createRenderState();
-                if (!renderState.spirit.isPlayer()) {
-                    render.extractRenderState(innerEntity, innerRenderState, 0);
-                }
-                float uv = renderState.spirit.isFrozen() ? ((float)renderState.spirit.tickCount + renderState.partialTick) * 0.01F : 1;
                 try {
+                    EntityRenderState innerRenderState = renderState.spirit.isPlayer() ? getAvatarRenderState(renderState) : render.createRenderState();
+                    if (!renderState.spirit.isPlayer()) {
+                        render.extractRenderState(innerEntity, innerRenderState, 0);
+                    }
+                    float uv = renderState.spirit.isFrozen() ? ((float)renderState.spirit.tickCount + renderState.partialTick) * 0.01F : 1;
                     // Make new PoseStack, to fix stack invalidity when a crash occurs.
                     PoseStack poseStackInner = new PoseStack();
                     poseStackInner.last().pose().set(poseStack.last().pose());
