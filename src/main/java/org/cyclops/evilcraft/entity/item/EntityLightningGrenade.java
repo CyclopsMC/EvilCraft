@@ -27,7 +27,7 @@ import org.cyclops.evilcraft.item.ItemLightningGrenade;
 public class EntityLightningGrenade extends ThrowableProjectile implements ItemSupplier {
 
     public EntityLightningGrenade(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_LIGHTNING_GRENADE.get(), entity.getX(), entity.getY(), entity.getZ(), world);
+        super(RegistryEntries.ENTITY_LIGHTNING_GRENADE.get(), entity.getX(), entity.getEyeY(), entity.getZ(), world);
     }
 
     public EntityLightningGrenade(EntityType<? extends EntityLightningGrenade> type, Level world) {

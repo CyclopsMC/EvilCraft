@@ -32,7 +32,8 @@ public class EntityBloodPearl extends ThrowableProjectile implements ItemSupplie
     }
 
     public EntityBloodPearl(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_BLOOD_PEARL.get(), entity.getX(), entity.getY(), entity.getZ(), world);
+        super(RegistryEntries.ENTITY_BLOOD_PEARL.get(), entity.getX(), entity.getEyeY(), entity.getZ(), world);
+        setOwner(entity);
     }
 
     @Override

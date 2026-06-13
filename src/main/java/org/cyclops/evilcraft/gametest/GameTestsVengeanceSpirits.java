@@ -113,8 +113,8 @@ public class GameTestsVengeanceSpirits {
 
         // Let player use piercing vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS.above().above()).getBottomCenter());
-        player.setXRot(1F);
+        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_PIERCING_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));

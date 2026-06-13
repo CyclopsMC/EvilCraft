@@ -23,7 +23,7 @@ import org.cyclops.evilcraft.item.ItemRedstoneGrenade;
 public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSupplier {
 
     public EntityRedstoneGrenade(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_REDSTONE_GRENADE.get(), entity.getX(), entity.getY(), entity.getZ(), world);
+        super(RegistryEntries.ENTITY_REDSTONE_GRENADE.get(), entity.getX(), entity.getEyeY(), entity.getZ(), world);
     }
 
     public EntityRedstoneGrenade(EntityType<? extends EntityRedstoneGrenade> type, Level world) {
