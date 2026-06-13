@@ -31,8 +31,7 @@ public class ItemBloodPearlOfTeleportation extends ItemBloodContainer {
 
             if (!world.isClientSide()) {
                 EntityBloodPearl pearl = new EntityBloodPearl(world, player);
-                // MCP: shoot
-                pearl.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 0.0F);
+                pearl.shootFromRotation(player, player.getXRot(), player.getYRot(), 0F, 1.0F, 0.0F);
                 pearl.setDeltaMovement(pearl.getDeltaMovement().multiply(3, 3, 3));
                 world.addFreshEntity(pearl);
             }

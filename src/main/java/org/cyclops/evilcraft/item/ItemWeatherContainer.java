@@ -66,7 +66,6 @@ public class ItemWeatherContainer extends Item {
         if(!world.isClientSide() && getWeatherType(itemStack) != WeatherContainerType.EMPTY) {
             world.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
             EntityWeatherContainer entity = new EntityWeatherContainer(world, player, itemStack.copy());
-            // MCP: shoot
             entity.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
             world.addFreshEntity(entity);
 

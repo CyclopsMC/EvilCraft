@@ -24,6 +24,7 @@ public class EntityRedstoneGrenade extends ThrowableProjectile implements ItemSu
 
     public EntityRedstoneGrenade(Level world, LivingEntity entity) {
         super(RegistryEntries.ENTITY_REDSTONE_GRENADE.get(), entity.getX(), entity.getY(), entity.getZ(), world);
+        setOwner(entity);
     }
 
     public EntityRedstoneGrenade(EntityType<? extends EntityRedstoneGrenade> type, Level world) {

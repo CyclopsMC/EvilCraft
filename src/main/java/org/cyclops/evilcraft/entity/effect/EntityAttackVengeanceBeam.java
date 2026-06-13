@@ -3,6 +3,8 @@ package org.cyclops.evilcraft.entity.effect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.client.particle.ParticleBlurData;
@@ -21,9 +23,17 @@ public class EntityAttackVengeanceBeam extends EntityAntiVengeanceBeam {
         super(type, world);
     }
 
-    public EntityAttackVengeanceBeam(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM.get(), world, entity);
-        setOwner(entity);
+    public EntityAttackVengeanceBeam(Level world, LivingEntity entity, ItemStack itemStack) {
+        super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM.get(), world, entity, itemStack);
+    }
+
+    public EntityAttackVengeanceBeam(Level level, double x, double y, double z, ItemStack itemStack) {
+        super(RegistryEntries.ENTITY_ATTACK_VENGEANCE_BEAM.get(), level, x, y, z, itemStack);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return RegistryEntries.ITEM_PIERCING_VENGEANCE_FOCUS.get();
     }
 
     @Override

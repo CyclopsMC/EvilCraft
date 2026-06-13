@@ -9,6 +9,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.AbstractThrownPotion;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
@@ -26,7 +30,7 @@ import java.util.List;
  * @author rubensworks
  *
  */
-public class EntityAntiVengeanceBeam extends ThrowableProjectile {
+public class EntityAntiVengeanceBeam extends ThrowableItemProjectile {
 
     private static final int MAX_AGE = 10 * 20;
 
@@ -38,15 +42,22 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
         setDeltaMovement(getDeltaMovement().multiply(0.25, 0.25, 0.25));
     }
 
-    public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, Level world, LivingEntity entity) {
-        super(type, entity.getX(), entity.getY(), entity.getZ(), world);
+    public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, Level world, LivingEntity entity, ItemStack itemStack) {
+        super(type, entity.getX(), entity.getEyeY(), entity.getZ(), world, itemStack);
         setDeltaMovement(getDeltaMovement().multiply(0.25, 0.25, 0.25));
         setOwner(entity);
     }
 
-    public EntityAntiVengeanceBeam(Level world, LivingEntity entity) {
-        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), entity.getX(), entity.getEyeY(), entity.getZ(), world);
-        setOwner(entity);
+    public EntityAntiVengeanceBeam(EntityType<? extends EntityAntiVengeanceBeam> type, Level level, double x, double y, double z, ItemStack itemStack) {
+        super(type, x, y, z, level, itemStack);
+    }
+
+    public EntityAntiVengeanceBeam(Level level, double x, double y, double z, ItemStack itemStack) {
+        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), x, y, z, level, itemStack);
+    }
+
+    public EntityAntiVengeanceBeam(Level world, LivingEntity entity, ItemStack itemStack) {
+        super(RegistryEntries.ENTITY_ANTI_VENGEANCE_BEAM.get(), entity.getX(), entity.getEyeY(), entity.getZ(), world, itemStack);
     }
 
     @Override
@@ -61,8 +72,8 @@ public class EntityAntiVengeanceBeam extends ThrowableProjectile {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
+    protected Item getDefaultItem() {
+        return RegistryEntries.ITEM_VENGEANCE_FOCUS.get();
     }
 
     @Override

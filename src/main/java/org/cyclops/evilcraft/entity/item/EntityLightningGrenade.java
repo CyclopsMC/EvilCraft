@@ -28,6 +28,7 @@ public class EntityLightningGrenade extends ThrowableProjectile implements ItemS
 
     public EntityLightningGrenade(Level world, LivingEntity entity) {
         super(RegistryEntries.ENTITY_LIGHTNING_GRENADE.get(), entity.getX(), entity.getY(), entity.getZ(), world);
+        setOwner(entity);
     }
 
     public EntityLightningGrenade(EntityType<? extends EntityLightningGrenade> type, Level world) {

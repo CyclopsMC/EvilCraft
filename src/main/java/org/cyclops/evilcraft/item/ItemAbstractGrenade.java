@@ -31,7 +31,6 @@ public abstract class ItemAbstractGrenade extends Item {
             world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.MASTER, 0.5F, 0.4F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
 
             ThrowableProjectile entity = getThrowableEntity(itemStack, world, player);
-            // MCP: shoot
             entity.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 0.5F, 1.0F);
             world.addFreshEntity(entity);
         }

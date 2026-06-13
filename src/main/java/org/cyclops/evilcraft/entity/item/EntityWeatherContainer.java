@@ -38,6 +38,7 @@ public class EntityWeatherContainer extends EntityThrowable {
     public EntityWeatherContainer(Level world, LivingEntity entity, ItemStack stack) {
         this(world, entity);
         setItem(stack);
+        setOwner(entity);
     }
 
     public static void playImpactSounds(Level world) {
