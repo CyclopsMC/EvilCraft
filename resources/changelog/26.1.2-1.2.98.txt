@@ -1,0 +1,10 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Additions:
+* Add ores/dark_gem item and block tags, Closes #1223
+
+Fixes:
+* Fix egg variants not being acceptable in reanimator, Closes #1229
+* Fix some projectiles spawning at wrong origin, Closes #1228
+* Make spirit rendering safer to avoid crashes, Closes #1227

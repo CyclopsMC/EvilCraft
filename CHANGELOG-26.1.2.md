@@ -1,8 +1,20 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.98"></a>
+## [26.1.2-1.2.98](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.97...26.1.2-1.2.98) - 2026-06-14 13:42:16
+
+
+### Added
+* Add ores/dark_gem item and block tags, Closes #1223
+
+### Fixed
+* Fix egg variants not being acceptable in reanimator, Closes #1229
+* Fix some projectiles spawning at wrong origin, Closes #1228
+* Make spirit rendering safer to avoid crashes, Closes #1227
+
 <a name="26.1.2-1.2.97"></a>
-## [26.1.2-1.2.97](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.96...26.1.2-1.2.97) - 2026-06-05 08:58:26
+## [26.1.2-1.2.97](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.96...26.1.2-1.2.97) - 2026-06-05 08:58:26 +0200
 
 
 ### Changed
