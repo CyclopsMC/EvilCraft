@@ -1,13 +1,14 @@
 package org.cyclops.evilcraft.inventory.container;
 
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.Items;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.crafting.Ingredient;
 import org.cyclops.cyclopscore.inventory.slot.SlotFluidContainer;
 import org.cyclops.cyclopscore.inventory.slot.SlotRemoveOnly;
-import org.cyclops.cyclopscore.inventory.slot.SlotSingleItem;
+import org.cyclops.cyclopscore.inventory.slot.SlotSingleIngredient;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.block.BlockSpiritReanimator;
 import org.cyclops.evilcraft.blockentity.BlockEntitySpiritReanimator;
@@ -86,7 +87,7 @@ public class ContainerSpiritReanimator extends ContainerTileWorking<BlockEntityS
                 SLOT_CONTAINER_X, SLOT_CONTAINER_Y,
                 RegistryEntries.FLUID_BLOOD.get())); // Container emptier
         addSlot(new SlotWorking<BlockEntitySpiritReanimator>(BlockEntitySpiritReanimator.SLOT_BOX, SLOT_BOX_X, SLOT_BOX_Y, this, playerInventory.player.level())); // Box slot
-        addSlot(new SlotSingleItem(inventory, BlockEntitySpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Items.EGG));
+        addSlot(new SlotSingleIngredient(inventory, BlockEntitySpiritReanimator.SLOT_EGG, SLOT_EGG_X, SLOT_EGG_Y, Ingredient.of(BuiltInRegistries.ITEM.getOrThrow(ItemTags.EGGS))));
         addSlot(new SlotRemoveOnly(inventory, BlockEntitySpiritReanimator.SLOTS_OUTPUT, SLOT_OUTPUT_X, SLOT_OUTPUT_Y));
 
         this.addUpgradeInventory(UPGRADE_INVENTORY_OFFSET_X, UPGRADE_INVENTORY_OFFSET_Y, BlockEntitySpiritReanimator.SLOTS);
