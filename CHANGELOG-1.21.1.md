@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.89"></a>
+## [1.21.1-1.2.89](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.88...1.21.1-1.2.89) - 2026-06-14 13:39:48
+
+
+### Added
+* Add ores/dark_gem item and block tags, Closes #1223
+
 <a name="1.21.1-1.2.88"></a>
-## [1.21.1-1.2.88](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.87...1.21.1-1.2.88) - 2026-05-22 09:20:03
+## [1.21.1-1.2.88](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.87...1.21.1-1.2.88) - 2026-05-22 09:20:03 +0200
 
 
 ### Fixed
