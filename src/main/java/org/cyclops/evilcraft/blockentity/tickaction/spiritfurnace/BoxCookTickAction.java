@@ -8,8 +8,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -69,7 +69,7 @@ public class BoxCookTickAction implements ITickAction<BlockEntitySpiritFurnace> 
         ));
         overridePlayerDropInner("068d4de0-3a75-4c6a-9f01-8c37e16a394c", new ItemStack(Items.EMERALD)); // kroeserr
         overridePlayerDropInner("e1dc75c6-dcf9-4e0c-8fbf-9c6e5e44527c", new ItemStack(Items.WOODEN_SWORD)); // _EeB_
-        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", withName(new ItemStack(Items.BROWN_DYE), Component.literal("Lekkere Stront"))); // Davivs69
+        overridePlayerDropInner("777e7aa3-9373-4511-8d75-f99d23ebe252", withName(new ItemStack(Items.DYE.brown()), Component.literal("Lekkere Stront"))); // Davivs69
         overridePlayerDropInner("3e13f558-fb72-4949-a842-07879924bc49", new ItemStack(Items.QUARTZ)); // Jona
         overridePlayerDropInner("b5c31e33-8224-4f96-a4bf-73721be9d2ec", new ItemStack(Blocks.COBBLESTONE)); // dodo3231
         overridePlayerDropInner("b2faeaab-fc87-4f91-98d3-836024f268ae", withName(new ItemStack(Blocks.FURNACE), Component.literal("Fuurnas"))); // _KillaH229_

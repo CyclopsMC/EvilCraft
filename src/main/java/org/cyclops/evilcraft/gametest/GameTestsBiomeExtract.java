@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -23,7 +24,7 @@ public class GameTestsBiomeExtract {
     public void testBiomeExtractThrow(GameTestHelper helper) {
         // Let player throw biome extract
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
         player.setXRot(90F);
         ItemStack biomeExtract = new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT);
         biomeExtract.set(RegistryEntries.COMPONENT_BIOME, new DataComponentBiomeConfig.BiomeHolder(Identifier.fromNamespaceAndPath("minecraft", "beach"), helper.getLevel().holderLookup(Registries.BIOME)));

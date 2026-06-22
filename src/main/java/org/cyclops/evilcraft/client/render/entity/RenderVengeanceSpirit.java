@@ -9,12 +9,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.player.PlayerModel;
 import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.MovingBlockRenderState;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -27,10 +26,12 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.gizmos.DrawableGizmoPrimitives;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
@@ -41,6 +42,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.PlayerSkin;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpiritConfig;
 import org.jetbrains.annotations.Nullable;
@@ -103,10 +105,16 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
 
                         }
                         playerRenderer.setPlayerTexture(resourcelocation);
-                        Minecraft.getInstance().options.hideGui = true; // Disables player name tag rendering, which causes a crash due to our posestack hack.
+                        boolean untoggleHud = false;
+                        if (!Minecraft.getInstance().gui.hud.isHidden()) {
+                            Minecraft.getInstance().gui.hud.toggle();
+                            untoggleHud = true;
+                        }
                         RenderType renderTypeOverride = RenderTypes.energySwirl(playerRenderer.getTextureLocation((AvatarRenderState) innerRenderState), uv, uv);
                         playerRenderer.submit(avatarRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
-                        Minecraft.getInstance().options.hideGui = false;
+                        if (untoggleHud) {
+                            Minecraft.getInstance().gui.hud.toggle();
+                        }
                     } else {
                         if (render instanceof LivingEntityRenderer livingEntityRenderer) {
                             RenderType renderTypeOverride = RenderTypes.energySwirl(livingEntityRenderer.getTextureLocation((LivingEntityRenderState) innerRenderState), uv, uv);
@@ -218,8 +226,8 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public void submitNameTag(PoseStack poseStack, @Nullable Vec3 vec3, int i, Component component, boolean b, int i1, double v, CameraRenderState cameraRenderState) {
-            this.submitNodeCollector.submitNameTag(poseStack, vec3, i, component, b, i1, v, cameraRenderState);
+        public void submitNameTag(PoseStack poseStack, @org.jspecify.annotations.Nullable Vec3 vec3, int i, Component component, boolean b, int i1, CameraRenderState cameraRenderState) {
+            this.submitNodeCollector.submitNameTag(poseStack, vec3, i, component, b, i1, cameraRenderState);
         }
 
         @Override
@@ -243,13 +251,8 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public void submitModelPart(ModelPart modelPart, PoseStack poseStack, RenderType renderType, int i, int i1, @Nullable TextureAtlasSprite textureAtlasSprite, boolean b, boolean b1, int i2, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, int i3) {
-            this.submitNodeCollector.submitModelPart(modelPart, poseStack, this.renderTypeOverride, i, i1, textureAtlasSprite, b, b1, i2, crumblingOverlay, i3);
-        }
-
-        @Override
-        public void submitMovingBlock(PoseStack poseStack, MovingBlockRenderState movingBlockRenderState) {
-            this.submitNodeCollector.submitMovingBlock(poseStack, movingBlockRenderState);
+        public void submitMovingBlock(PoseStack poseStack, MovingBlockRenderState movingBlockRenderState, int i) {
+            this.submitNodeCollector.submitMovingBlock(poseStack, movingBlockRenderState, i);
         }
 
         @Override
@@ -258,8 +261,13 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public void submitBreakingBlockModel(PoseStack poseStack, BlockStateModel blockStateModel, long seed, int light) {
-            this.submitNodeCollector.submitBreakingBlockModel(poseStack, blockStateModel, seed, light);
+        public void submitBreakingBlockModel(PoseStack poseStack, List<BlockStateModelPart> list, int i) {
+            this.submitNodeCollector.submitBreakingBlockModel(poseStack, list, i);
+        }
+
+        @Override
+        public void submitShapeOutline(PoseStack poseStack, VoxelShape voxelShape, RenderType renderType, int i, float v, boolean b) {
+            this.submitNodeCollector.submitShapeOutline(poseStack, voxelShape, this.renderTypeOverride, i, v, b);
         }
 
         @Override
@@ -273,8 +281,13 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public void submitParticleGroup(SubmitNodeCollector.ParticleGroupRenderer particleGroupRenderer) {
-            this.submitNodeCollector.submitParticleGroup(particleGroupRenderer);
+        public void submitQuadParticleGroup(QuadParticleRenderState quadParticleRenderState) {
+            this.submitNodeCollector.submitQuadParticleGroup(quadParticleRenderState);
+        }
+
+        @Override
+        public void submitGizmoPrimitives(DrawableGizmoPrimitives.Group group, CameraRenderState cameraRenderState, boolean b) {
+            this.submitNodeCollector.submitGizmoPrimitives(group, cameraRenderState, b);
         }
 
         @Override

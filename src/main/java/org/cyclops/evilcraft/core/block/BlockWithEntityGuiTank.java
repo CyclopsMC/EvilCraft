@@ -49,7 +49,7 @@ public abstract class BlockWithEntityGuiTank extends BlockWithEntityGui implemen
 
     @Override
     protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
-        if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, Direction.UP)) {
+        if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, Direction.UP, null)) {
             return InteractionResult.SUCCESS;
         }
         return super.useItemOn(pStack, pState, pLevel, pPos, pPlayer, pHand, pHitResult);

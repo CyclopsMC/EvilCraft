@@ -2,7 +2,7 @@ package org.cyclops.evilcraft.block;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.block.SoundType;
@@ -44,7 +44,7 @@ public class BlockBoxOfEternalClosureConfig extends BlockConfigCommon<ModBaseNeo
         if (event.shouldUpdateStaticData()) {
             // Initialize the filled box template with a zombie spirit inside
             EntityVengeanceSpiritData spiritData = new EntityVengeanceSpiritData();
-            spiritData.setInnerEntityType(EntityType.ZOMBIE);
+            spiritData.setInnerEntityType(EntityTypes.ZOMBIE);
             CompoundTag spiritTag = IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spiritData::writeNBT);
             ItemStack filledStack = new ItemStack(RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.get().asItem());
             filledStack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, spiritTag);

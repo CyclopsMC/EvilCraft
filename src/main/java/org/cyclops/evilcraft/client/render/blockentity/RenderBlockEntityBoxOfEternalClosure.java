@@ -107,7 +107,7 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         ModelBoxOfEternalClosureBaked model = (ModelBoxOfEternalClosureBaked) IModHelpers.get().getRenderHelpers().getBakedModel(blockState);
         java.util.List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> boxParts = new java.util.ArrayList<>();
         model.getBoxModel().collectParts(net.minecraft.util.RandomSource.create(), boxParts);
-        submitNodeCollector.submitBlockModel(poseStack, Sheets.cutoutBlockSheet(), boxParts, net.minecraft.client.renderer.block.BlockModelRenderState.EMPTY_TINTS, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        submitNodeCollector.submitBlockModel(poseStack, Sheets.cutoutBlockItemSheet(), boxParts, net.minecraft.client.renderer.block.BlockModelRenderState.EMPTY_TINTS, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
 
         // Render lid
         float angle = renderState.previousLidAngle
@@ -121,7 +121,7 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         poseStack.translate(-0.25F, -0.375F, 0F);
         java.util.List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> lidParts = new java.util.ArrayList<>();
         model.getBoxLidModel().collectParts(net.minecraft.util.RandomSource.create(), lidParts);
-        submitNodeCollector.submitBlockModel(poseStack, Sheets.cutoutBlockSheet(), lidParts, net.minecraft.client.renderer.block.BlockModelRenderState.EMPTY_TINTS, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        submitNodeCollector.submitBlockModel(poseStack, Sheets.cutoutBlockItemSheet(), lidParts, net.minecraft.client.renderer.block.BlockModelRenderState.EMPTY_TINTS, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
         poseStack.popPose();
 
         // Render box inside

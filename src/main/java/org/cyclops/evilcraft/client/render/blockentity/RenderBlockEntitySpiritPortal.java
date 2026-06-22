@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.client.render.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -60,11 +59,11 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
         Random random = new Random();
         long seed = renderState.blockPos.asLong();
         random.setSeed(seed);
-        renderStar(poseStack, submitNodeCollector, seed, progress, Tesselator.getInstance(), renderState.partialTicks, random);
+        renderStar(poseStack, submitNodeCollector, seed, progress, random);
         poseStack.popPose();
     }
 
-    private void renderStar(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, float rotation, float progress, Tesselator tessellator, float partialTicks, Random random) {
+    private void renderStar(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, float rotation, float progress, Random random) {
         /* Rotate opposite direction at 20% speed */
         poseStack.mulPose(Axis.XP.rotationDegrees(rotation * -0.2f % 360 / 2));
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation * -0.2f % 360));

@@ -16,7 +16,7 @@
       "trigger": "evilcraft:necromance",
       "conditions": {
         "entity": {
-          "type": "minecraft:player"
+          "entity_type": "minecraft:player"
         }
       }
     }

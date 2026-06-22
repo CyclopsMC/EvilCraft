@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.gametest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -23,7 +23,7 @@ public class GameTestsSpiritReanimator {
         // Add infuser
         helper.setBlock(POS, RegistryEntries.BLOCK_SPIRIT_REANIMATOR.get());
         BlockEntitySpiritReanimator reanimator = helper.getBlockEntity(POS, BlockEntitySpiritReanimator.class);
-        reanimator.getInventory().setItem(BlockEntitySpiritReanimator.SLOT_BOX, GameTestsSpiritFurnace.createBox(helper, EntityType.CHICKEN));
+        reanimator.getInventory().setItem(BlockEntitySpiritReanimator.SLOT_BOX, GameTestsSpiritFurnace.createBox(helper, EntityTypes.CHICKEN));
         reanimator.getInventory().setItem(BlockEntitySpiritReanimator.SLOT_EGG, new ItemStack(Items.EGG));
         reanimator.getInventory().setItem(BlockEntitySpiritReanimator.SLOTS, new ItemStack(RegistryEntries.ITEM_PROMISE_SPEED, 4));
 

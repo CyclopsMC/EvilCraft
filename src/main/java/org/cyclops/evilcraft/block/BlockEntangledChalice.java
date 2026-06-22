@@ -101,7 +101,7 @@ public class BlockEntangledChalice extends BlockWithEntity implements IInformati
 
     @Override
     protected InteractionResult useItemOn(ItemStack pStack, BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHitResult) {
-        if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, Direction.UP)) {
+        if (FluidUtil.interactWithFluidHandler(pPlayer, pHand, pLevel, pPos, Direction.UP, null)) {
             return InteractionResult.SUCCESS;
         }
         if (pLevel.isClientSide()) {

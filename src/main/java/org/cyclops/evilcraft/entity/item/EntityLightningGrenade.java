@@ -5,10 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
@@ -44,7 +41,7 @@ public class EntityLightningGrenade extends ThrowableProjectile implements ItemS
             if (this.getOwner() != null && this.getOwner() instanceof ServerPlayer) {
                 BlockPos pos = BlockPos.containing(par1MovingObjectPosition.getLocation());
                 EntityHelpers.onEntityCollided(this.level(), pos, this.level().getBlockState(pos), this);
-                LightningBolt bolt = EntityType.LIGHTNING_BOLT.create(level(), EntitySpawnReason.SPAWN_ITEM_USE);
+                LightningBolt bolt = EntityTypes.LIGHTNING_BOLT.create(level(), EntitySpawnReason.SPAWN_ITEM_USE);
                 bolt.snapTo(this.getX(), this.getY(), this.getZ());
                 this.level().addFreshEntity(bolt);
             }

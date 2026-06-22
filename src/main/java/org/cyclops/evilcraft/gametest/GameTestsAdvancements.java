@@ -9,10 +9,11 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -128,7 +129,7 @@ public class GameTestsAdvancements {
 
         // Create a vengeance spirit with the player as an entangling player, then capture it
         EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
-        spirit.setInnerEntityType(EntityType.ZOMBIE);
+        spirit.setInnerEntityType(EntityTypes.ZOMBIE);
         spirit.addEntanglingPlayer(player);
         box.captureSpirit(spirit);
 
@@ -168,13 +169,13 @@ public class GameTestsAdvancements {
     @GameTest(template = TEMPLATE_EMPTY)
     public void testAdvancementMasterDistorter(GameTestHelper helper) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
-        player.setPos(helper.absolutePos(POS.above()).getCenter());
+        player.setPos(Vec3.atCenterOf(helper.absolutePos(POS.above())));
         AdvancementHolder advancement = getAdvancement(helper, "master_distorter");
         helper.assertTrue(advancement != null, "Advancement master_distorter should exist");
 
         // Spawn 10 zombies nearby
         for (int i = 0; i < 10; i++) {
-            helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().offset(i % 4, 0, i / 4));
+            helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, POS.above().offset(i % 4, 0, i / 4));
         }
 
         // Use the mace of distortion with full charge, which calls distortEntities on all nearby entities
@@ -187,13 +188,13 @@ public class GameTestsAdvancements {
     @GameTest(template = TEMPLATE_EMPTY)
     public void testAdvancementPlayerDistorter(GameTestHelper helper) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
-        player.setPos(helper.absolutePos(POS.above()).getCenter());
+        player.setPos(Vec3.atCenterOf(helper.absolutePos(POS.above())));
         AdvancementHolder advancement = getAdvancement(helper, "player_distorter");
         helper.assertTrue(advancement != null, "Advancement player_distorter should exist");
 
         // Place a target player nearby
         ServerPlayer target = helper.makeMockServerPlayerInLevel();
-        target.setPos(helper.absolutePos(POS.above().north()).getCenter());
+        target.setPos(Vec3.atCenterOf(helper.absolutePos(POS.above().north())));
 
         // Use the mace of distortion with full charge, which calls distortEntities on all nearby entities
         useMaceOfDistortionFullCharge(helper, player);
@@ -205,13 +206,13 @@ public class GameTestsAdvancements {
     @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
     public void testAdvancementPlayerDevastator(GameTestHelper helper) {
         ServerPlayer player = helper.makeMockServerPlayerInLevel();
-        player.setPos(helper.absolutePos(POS.above()).getCenter());
+        player.setPos(Vec3.atCenterOf(helper.absolutePos(POS.above())));
         AdvancementHolder advancement = getAdvancement(helper, "player_devastator");
         helper.assertTrue(advancement != null, "Advancement player_devastator should exist");
 
         // Place a target player directly in front (north)
         ServerPlayer target = helper.makeMockServerPlayerInLevel();
-        target.setPos(helper.absolutePos(POS.above().north()).getCenter());
+        target.setPos(Vec3.atCenterOf(helper.absolutePos(POS.above().north())));
 
         // Throw the necromancer's head at the target player
         EntityNecromancersHead head = new EntityNecromancersHead(helper.getLevel(), player.getX(), player.getY(), player.getZ());
@@ -328,7 +329,7 @@ public class GameTestsAdvancements {
 
         // Capture a spirit that has NO entangling player, so the trigger is never fired
         EntityVengeanceSpirit spirit = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
-        spirit.setInnerEntityType(EntityType.ZOMBIE);
+        spirit.setInnerEntityType(EntityTypes.ZOMBIE);
         box.captureSpirit(spirit);
 
         assertAdvancementNotDone(helper, player, advancement);
@@ -372,7 +373,7 @@ public class GameTestsAdvancements {
         // Spawn only 9 zombies and fire the distort trigger directly with that list (one fewer than the required 10)
         List<Zombie> zombies = new java.util.ArrayList<>();
         for (int i = 0; i < 9; i++) {
-            zombies.add(helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().offset(i % 4, 0, i / 4)));
+            zombies.add(helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, POS.above().offset(i % 4, 0, i / 4)));
         }
         RegistryEntries.TRIGGER_DISTORT.get().test(player, List.copyOf(zombies));
 
@@ -389,7 +390,7 @@ public class GameTestsAdvancements {
         // Spawn 10 zombies and fire the distort trigger directly with only those zombies (no player entity)
         List<Zombie> zombies = new java.util.ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            zombies.add(helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().offset(i % 4, 0, i / 4)));
+            zombies.add(helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, POS.above().offset(i % 4, 0, i / 4)));
         }
         RegistryEntries.TRIGGER_DISTORT.get().test(player, List.copyOf(zombies));
 
@@ -404,7 +405,7 @@ public class GameTestsAdvancements {
         helper.assertTrue(advancement != null, "Advancement player_devastator should exist");
 
         // Necromance a zombie (not a player), which should NOT trigger the player_devastator advancement
-        Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above());
+        Zombie zombie = helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, POS.above());
         RegistryEntries.TRIGGER_NECROMANCE_TRIGGER.get().test(player, zombie);
 
         assertAdvancementNotDone(helper, player, advancement);

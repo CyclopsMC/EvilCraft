@@ -7,7 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -90,7 +90,7 @@ public class BlockBloodStain extends BlockWithEntity {
         }
 
         return (blockstate.isFaceSturdy(worldIn, blockpos, Direction.UP)
-                && blockstate.isValidSpawn(worldIn, blockpos, EntityType.CHICKEN))
+                && blockstate.isValidSpawn(worldIn, blockpos, EntityTypes.CHICKEN))
                 || blockstate.getBlock() == Blocks.HOPPER;
     }
 

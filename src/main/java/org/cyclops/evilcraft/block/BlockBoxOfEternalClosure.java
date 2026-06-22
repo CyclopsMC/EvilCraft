@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
@@ -105,7 +106,7 @@ public class BlockBoxOfEternalClosure extends BlockWithEntity implements IBlockR
     public static EntityType<?> getSpiritTypeWithFallbackSpirit(ItemStack itemStack) {
         if(itemStack.has(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA)) {
             if (hasPlayer(itemStack)) {
-                return EntityType.ZOMBIE;
+                return EntityTypes.ZOMBIE;
             }
             EntityType<?> spiritType = getSpiritTypeRaw(itemStack);
             if (spiritType == null && itemStack.has(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA)) {

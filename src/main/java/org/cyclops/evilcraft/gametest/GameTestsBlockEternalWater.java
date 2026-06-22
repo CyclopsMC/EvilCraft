@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
@@ -49,11 +50,11 @@ public class GameTestsBlockEternalWater {
 
         // Create a player to interact with the block
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getCenter());
+        player.setPos(Vec3.atCenterOf(helper.absolutePos(POS)));
 
         // Right-click without an item to toggle
         BlockHitResult hitResult = new BlockHitResult(
-                helper.absolutePos(POS).getCenter(),
+                Vec3.atCenterOf(helper.absolutePos(POS)),
                 Direction.UP,
                 helper.absolutePos(POS),
                 false
@@ -76,11 +77,11 @@ public class GameTestsBlockEternalWater {
 
         // Create a player to interact with the block
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getCenter());
+        player.setPos(Vec3.atCenterOf(helper.absolutePos(POS)));
 
         // Right-click without an item to toggle
         BlockHitResult hitResult = new BlockHitResult(
-                helper.absolutePos(POS).getCenter(),
+                Vec3.atCenterOf(helper.absolutePos(POS)),
                 Direction.UP,
                 helper.absolutePos(POS),
                 false
@@ -160,13 +161,13 @@ public class GameTestsBlockEternalWater {
 
         // Create a player with a bucket
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getCenter());
+        player.setPos(Vec3.atCenterOf(helper.absolutePos(POS)));
         ItemStack bucket = new ItemStack(net.minecraft.world.item.Items.BUCKET);
         player.setItemInHand(InteractionHand.MAIN_HAND, bucket);
 
         // Right-click with bucket
         BlockHitResult hitResult = new BlockHitResult(
-                helper.absolutePos(POS).getCenter(),
+                Vec3.atCenterOf(helper.absolutePos(POS)),
                 Direction.UP,
                 helper.absolutePos(POS),
                 false
@@ -196,13 +197,13 @@ public class GameTestsBlockEternalWater {
 
         // Create a player with a bucket
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getCenter());
+        player.setPos(Vec3.atCenterOf(helper.absolutePos(POS)));
         ItemStack bucket = new ItemStack(net.minecraft.world.item.Items.BUCKET);
         player.setItemInHand(InteractionHand.MAIN_HAND, bucket);
 
         // Right-click with bucket
         BlockHitResult hitResult = new BlockHitResult(
-                helper.absolutePos(POS).getCenter(),
+                Vec3.atCenterOf(helper.absolutePos(POS)),
                 Direction.UP,
                 helper.absolutePos(POS),
                 false

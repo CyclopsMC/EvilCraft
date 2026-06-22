@@ -11,6 +11,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -21,7 +22,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.wolf.WolfSoundVariants;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.villager.Villager;
-import net.minecraft.world.entity.npc.villager.VillagerType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -131,8 +131,7 @@ public class EntityWerewolf extends Monster {
      * Replace this entity with the stored villager.
      */
     public void replaceWithVillager() {
-        // MCP: byBiome
-        Villager villager = new Villager(EntityType.VILLAGER, this.level(), VillagerType.byBiome(level().getBiome(this.blockPosition())));
+        Villager villager = new Villager(EntityTypes.VILLAGER, this.level());
         initializeWerewolfVillagerData(villager);
         replaceEntity(this, villager, this.level());
         try {

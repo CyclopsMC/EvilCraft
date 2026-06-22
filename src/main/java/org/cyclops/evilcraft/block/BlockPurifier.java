@@ -81,7 +81,7 @@ public class BlockPurifier extends BlockWithEntity implements IBlockTank {
                     player.getInventory().setSelectedItem(tile.getAdditionalItem());
                     tile.setAdditionalItem(ItemStack.EMPTY);
                     return InteractionResult.SUCCESS;
-                } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP)) {
+                } else if (FluidUtil.interactWithFluidHandler(player, hand, world, blockPos, Direction.UP, null)) {
                     return InteractionResult.SUCCESS;
                 }  else if(!itemStack.isEmpty() && tile.getActions().isItemValidForAdditionalSlot(itemStack) && tile.getAdditionalItem().isEmpty()) {
                     ItemStack copy = itemStack.copy();

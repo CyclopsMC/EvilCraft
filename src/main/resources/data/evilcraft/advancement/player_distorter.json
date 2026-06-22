@@ -18,7 +18,7 @@
       "conditions": {
         "min_entities": 1,
         "entity": {
-          "type": "minecraft:player"
+          "entity_type": "minecraft:player"
         }
       }
     }

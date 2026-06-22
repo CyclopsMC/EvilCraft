@@ -5,7 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -29,12 +30,12 @@ public class GameTestsVengeanceSpirits {
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
         // Spawn spirit, and pre-freeze it so the box can reliably find and capture it (the box only targets frozen spirits)
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south().above());
-        spirit.setInnerEntityType(EntityType.ZOMBIE);
+        spirit.setInnerEntityType(EntityTypes.ZOMBIE);
         spirit.setFrozenDuration(200);
 
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
         player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
@@ -46,7 +47,7 @@ public class GameTestsVengeanceSpirits {
 
         helper.succeedWhen(() -> {
             helper.assertTrue(box.hasSpirit(), Component.literal("Box is empty"));
-            helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Box contains invalid entity type"));
+            helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityTypes.ZOMBIE, Component.literal("Box contains invalid entity type"));
         });
     }
 
@@ -56,11 +57,11 @@ public class GameTestsVengeanceSpirits {
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
         spirit.setPlayerId("068d4de0-3a75-4c6a-9f01-8c37e16a394c");
         spirit.setPlayerName("kroeserr");
-        spirit.setInnerEntityType(EntityType.ZOMBIE);
+        spirit.setInnerEntityType(EntityTypes.ZOMBIE);
 
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
         player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
@@ -74,7 +75,7 @@ public class GameTestsVengeanceSpirits {
             helper.assertTrue(box.hasSpirit(), Component.literal("Box is empty"));
             helper.assertValueEqual("068d4de0-3a75-4c6a-9f01-8c37e16a394c", box.getPlayerId(), Component.literal("Box player id"));
             helper.assertValueEqual("kroeserr", box.getPlayerName(), Component.literal("Box player name"));
-            helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Box contains invalid entity type"));
+            helper.assertValueEqual(box.getSpiritData().getInnerEntityType(), EntityTypes.ZOMBIE, Component.literal("Box contains invalid entity type"));
         });
     }
 
@@ -84,18 +85,18 @@ public class GameTestsVengeanceSpirits {
         helper.setBlock(POS.above(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
         BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.above(), BlockEntityBoxOfEternalClosure.class);
         EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
-        spiritDummy.setInnerEntityType(EntityType.ZOMBIE);
+        spiritDummy.setInnerEntityType(EntityTypes.ZOMBIE);
         box.captureSpirit(spiritDummy);
         box.closeImmediately();
 
         // Open box
-        helper.getBlockState(POS.above()).useWithoutItem(helper.getLevel(), helper.makeMockPlayer(GameType.SURVIVAL), new BlockHitResult(helper.absolutePos(POS.above()).getCenter(), Direction.DOWN, helper.absolutePos(POS.above()), false));
+        helper.getBlockState(POS.above()).useWithoutItem(helper.getLevel(), helper.makeMockPlayer(GameType.SURVIVAL), new BlockHitResult(Vec3.atCenterOf(helper.absolutePos(POS.above())), Direction.DOWN, helper.absolutePos(POS.above()), false));
 
         helper.succeedWhen(() -> {
             helper.assertFalse(box.hasSpirit(), Component.literal("Box is not empty"));
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
-            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
+            helper.assertValueEqual(spirit.getInnerEntityType(), EntityTypes.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
         });
     }
 
@@ -103,7 +104,7 @@ public class GameTestsVengeanceSpirits {
     public void testVengeanceSpiritAttack(GameTestHelper helper) {
         // Spawn spirit
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.above().south().south());
-        spirit.setInnerEntityType(EntityType.ZOMBIE);
+        spirit.setInnerEntityType(EntityTypes.ZOMBIE);
 
         // Make wall before spirit so it can't move
         helper.setBlock(POS.above().south().south().south(), Blocks.STONE);
@@ -113,7 +114,7 @@ public class GameTestsVengeanceSpirits {
 
         // Let player use piercing vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
         player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_PIERCING_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
@@ -128,7 +129,7 @@ public class GameTestsVengeanceSpirits {
     @GameTest(template = TEMPLATE_EMPTY)
     public void testVengeanceSpiritSpawn(GameTestHelper helper) {
         // Spawn zombie
-        Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
+        Zombie zombie = helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, POS.above().south());
         zombie.setHealth(1);
 
         // Kill zombie with a player-attack damage source while holding the vengeance ring,
@@ -136,7 +137,7 @@ public class GameTestsVengeanceSpirits {
         // The ring is removed immediately after the kill to prevent inventoryTick from calling
         // toggleVengeanceArea(enableVengeance=false) which would otherwise clear the spirit's target.
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
         player.getInventory().setItem(0, new ItemStack(RegistryEntries.ITEM_VENGEANCE_RING));
         zombie.hurt(helper.getLevel().damageSources().playerAttack(player), 100f);
         player.getInventory().setItem(0, ItemStack.EMPTY);
@@ -148,24 +149,24 @@ public class GameTestsVengeanceSpirits {
         helper.setBlock(POS.south().south(), Blocks.STONE);
 
         helper.succeedWhen(() -> {
-            helper.assertEntityNotPresent(EntityType.ZOMBIE);
+            helper.assertEntityNotPresent(EntityTypes.ZOMBIE);
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
             helper.assertTrue(spirit.getTarget() != null, "Spirit target is null");
             helper.assertValueEqual(spirit.getTarget(), player, "Spirit targets player");
-            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, "Spirit contains invalid entity type");
+            helper.assertValueEqual(spirit.getInnerEntityType(), EntityTypes.ZOMBIE, "Spirit contains invalid entity type");
         });
     }
 
     @GameTest(template = TEMPLATE_EMPTY)
     public void testVengeanceSpiritSpawnWithoutRing(GameTestHelper helper) {
         // Spawn zombie
-        Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
+        Zombie zombie = helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, POS.above().south());
         zombie.setHealth(1);
 
         // Let player kill zombie
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
         player.setXRot(1F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
         helper.onEachTick(() -> player.attack(zombie));
@@ -177,25 +178,25 @@ public class GameTestsVengeanceSpirits {
         helper.setBlock(POS.south().south(), Blocks.STONE);
 
         helper.succeedWhen(() -> {
-            helper.assertEntityNotPresent(EntityType.ZOMBIE);
+            helper.assertEntityNotPresent(EntityTypes.ZOMBIE);
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
             EntityVengeanceSpirit spirit = helper.getEntities(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get()).get(0);
             helper.assertTrue(spirit.getTarget() == null, Component.literal("Spirit targets nothing"));
-            helper.assertValueEqual(spirit.getInnerEntityType(), EntityType.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
+            helper.assertValueEqual(spirit.getInnerEntityType(), EntityTypes.ZOMBIE, Component.literal("Spirit contains invalid entity type"));
         });
     }
 
     @GameTest(template = TEMPLATE_EMPTY)
     public void testVengeanceSpiritSpawnNotWhenKilledByNonPlayer(GameTestHelper helper) {
         // Spawn zombie
-        Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
+        Zombie zombie = helper.spawnWithNoFreeWill(EntityTypes.ZOMBIE, POS.above().south());
         zombie.setHealth(1);
 
         // Kill zombie (use hurt so health drops to 0 immediately, preventing isAlive() returning true for ~20 ticks)
         zombie.hurt(helper.getLevel().damageSources().cactus(), 100f);
 
         helper.succeedWhen(() -> {
-            helper.assertEntityNotPresent(EntityType.ZOMBIE);
+            helper.assertEntityNotPresent(EntityTypes.ZOMBIE);
             helper.assertEntityNotPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
         });
     }

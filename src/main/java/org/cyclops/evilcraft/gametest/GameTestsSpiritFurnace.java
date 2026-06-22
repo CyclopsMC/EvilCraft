@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -60,7 +61,7 @@ public class GameTestsSpiritFurnace {
     @GameTest(template = TEMPLATE_EMPTY)
     public void testSpiritFurnace3x3ZombieDisallowed(GameTestHelper helper) {
         BlockEntitySpiritFurnace furnace = createFurnace(helper, POS, 3);
-        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.ZOMBIE));
+        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityTypes.ZOMBIE));
 
         helper.succeedWhen(() -> {
             helper.assertFalse(furnace.isSizeValidForEntity(), Component.literal("Furnace size should be invalid"));
@@ -70,7 +71,7 @@ public class GameTestsSpiritFurnace {
     @GameTest(template = TEMPLATE_EMPTY)
     public void testSpiritFurnace3x3ZombieAllowed(GameTestHelper helper) {
         BlockEntitySpiritFurnace furnace = createFurnace(helper, POS, 4);
-        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.ZOMBIE));
+        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityTypes.ZOMBIE));
 
         helper.succeedWhen(() -> {
             helper.assertTrue(furnace.isSizeValidForEntity(), Component.literal("Furnace size should be valid"));
@@ -88,7 +89,7 @@ public class GameTestsSpiritFurnace {
             furnace.getTank().insert(0, FluidResource.of(RegistryEntries.FLUID_BLOOD.get()), furnace.getTank().getCapacity(), tx);
             tx.commit();
         }
-        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.CHICKEN));
+        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityTypes.CHICKEN));
 
         // Pre-fill all drop slots with cobblestone (not a chicken drop) using 63 items so
         // canTick() still returns true (count < maxStackSize), but any chicken drop will fail
@@ -122,7 +123,7 @@ public class GameTestsSpiritFurnace {
     public void testSpiritFurnace3x3ChickenRun(GameTestHelper helper) {
         BlockEntitySpiritFurnace furnace = createFurnace(helper, POS, 3);
         furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_CONTAINER, new ItemStack(RegistryEntries.ITEM_CONDENSED_BLOOD, 64));
-        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityType.CHICKEN));
+        furnace.getInventory().setItem(BlockEntitySpiritFurnace.SLOT_BOX, createBox(helper, EntityTypes.CHICKEN));
 
         helper.succeedWhen(() -> {
             helper.assertFalse(furnace.getInventory().getItem(BlockEntitySpiritFurnace.SLOTS_DROP[0]).isEmpty(), Component.literal("Furnace should produce drops"));
@@ -153,7 +154,7 @@ public class GameTestsSpiritFurnace {
         EntityVengeanceSpirit spiritDummy = new EntityVengeanceSpirit(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), helper.getLevel());
         spiritDummy.setPlayerId("068d4de0-3a75-4c6a-9f01-8c37e16a394c");
         spiritDummy.setPlayerName("kroeserr");
-        spiritDummy.setInnerEntityType(EntityType.ZOMBIE);
+        spiritDummy.setInnerEntityType(EntityTypes.ZOMBIE);
         stack.set(RegistryEntries.COMPONENT_BOX_SPIRIT_DATA, IModHelpers.get().getMinecraftHelpers().valueOutputToNbt(spiritDummy.getData()::writeNBT));
         stack.set(RegistryEntries.COMPONENT_BOX_PLAYER_ID, "068d4de0-3a75-4c6a-9f01-8c37e16a394c");
         stack.set(RegistryEntries.COMPONENT_BOX_PLAYER_NAME, "kroeserr");

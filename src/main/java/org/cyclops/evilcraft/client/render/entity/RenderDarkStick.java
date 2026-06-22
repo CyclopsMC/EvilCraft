@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import org.cyclops.evilcraft.entity.item.EntityItemDarkStick;
 
 /**
@@ -60,7 +60,7 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick, RenderS
         poseStack.mulPose(Axis.XP.rotationDegrees(25));
 
         // , renderState.isValid() ? -renderState.bobOffset * 20/* to undo hoverstart in ItemRenderer */ : renderState.partialTick
-        EntityRenderer entityRenderer = Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityType.ITEM);
+        EntityRenderer entityRenderer = Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityTypes.ITEM);
         entityRenderer.submit(renderState, poseStack, nodeCollector, cameraRenderState);
     }
 

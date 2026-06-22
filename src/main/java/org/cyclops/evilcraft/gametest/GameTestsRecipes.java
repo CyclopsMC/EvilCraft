@@ -3,7 +3,7 @@ package org.cyclops.evilcraft.gametest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.CrafterBlockEntity;
@@ -32,7 +32,7 @@ public class GameTestsRecipes {
         crafter.setItem(1, new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityType.ITEM).getItem();
+            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_BLOOD_EXTRACTOR.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), ItemBloodExtractorConfig.containerSize * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertTrue(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT) == null, Component.literal("Result item fluid content is incorrect"));
@@ -55,7 +55,7 @@ public class GameTestsRecipes {
         crafter.getItem(1).set(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT, SimpleFluidContent.copyOf(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000)));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityType.ITEM).getItem();
+            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_BLOOD_EXTRACTOR.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), ItemBloodExtractorConfig.containerSize * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT).getAmount(), 2000, Component.literal("Result item fluid content is incorrect"));
@@ -74,7 +74,7 @@ public class GameTestsRecipes {
         crafter.setItem(1, new ItemStack(RegistryEntries.ITEM_DARK_TANK));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityType.ITEM).getItem();
+            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_DARK_TANK.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), BlockEntityDarkTank.BASE_CAPACITY * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertTrue(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT) == null, Component.literal("Result item fluid content is incorrect"));
@@ -97,7 +97,7 @@ public class GameTestsRecipes {
         crafter.getItem(1).set(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT, SimpleFluidContent.copyOf(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000)));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityType.ITEM).getItem();
+            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_DARK_TANK.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), BlockEntityDarkTank.BASE_CAPACITY * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT).getAmount(), 2000, Component.literal("Result item fluid content is incorrect"));
