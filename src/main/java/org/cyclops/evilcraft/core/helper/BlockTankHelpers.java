@@ -42,7 +42,7 @@ public class BlockTankHelpers {
      * @return Information for that itemStack.
      */
     public static MutableComponent getInfoTank(ItemStack itemStack) {
-        FluidStack fluidStack = FluidUtil.getFirstStackContained(itemStack);
+        FluidStack fluidStack = FluidUtil.getStack(itemStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)), 0);
         int amount = fluidStack.getAmount();
         int capacity = Optional.ofNullable(itemStack.getCapability(net.neoforged.neoforge.capabilities.Capabilities.Fluid.ITEM, ItemAccess.forStack(itemStack)))
                 .map(handler -> handler.getCapacityAsInt(0, FluidResource.EMPTY))

@@ -62,17 +62,25 @@ public class ItemHelpers {
                 Player player = (Player) entity;
                 for (InteractionHand hand : InteractionHand.values()) {
                     ItemStack held = player.getItemInHand(hand);
-                    if (!held.isEmpty() && (fillBuckets || held.getItem() != Items.BUCKET)) {
-                        ItemStack toFill = held.split(1);
-                        ItemStack filled = tryFillContainerForPlayer(toDrain, toDrainItem, ItemAccess.forPlayerInteraction(player, hand), toFill, tickFluid, player);
-                        if (!filled.isEmpty()) {
-                            if (player.getItemInHand(hand).isEmpty()) {
-                                player.setItemInHand(hand, filled);
+                    if (held.getItem() == Items.BUCKET) {
+                        if (fillBuckets) {
+                            ItemStack toFill = held.split(1);
+                            ItemStack filled = tryFillContainerForPlayer(toDrain, toDrainItem, ItemAccess.forStack(toFill), toFill, tickFluid, player);
+                            if (!filled.isEmpty()) {
+                                if (player.getItemInHand(hand).isEmpty()) {
+                                    player.setItemInHand(hand, filled);
+                                } else {
+                                    player.addItem(filled);
+                                }
                             } else {
-                                player.addItem(filled);
+                                held.grow(1);
                             }
-                        } else {
-                            held.grow(1);
+                        }
+                    } else if (!held.isEmpty()) {
+                        ItemStack toFill = held;
+                        ItemStack filled = tryFillContainerForPlayer(toDrain, toDrainItem, ItemAccess.forStack(toFill), toFill, tickFluid, player);
+                        if (!filled.isEmpty()) {
+                            player.setItemInHand(hand, filled);
                         }
                     }
                 }
