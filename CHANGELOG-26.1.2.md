@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.99"></a>
+## [26.1.2-1.2.99](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.98...26.1.2-1.2.99) - 2026-06-28 14:08:28
+
+
+### Fixed
+* Fix Auto-Supply mode duplicating tanks, Closes #1234
+
 <a name="26.1.2-1.2.98"></a>
-## [26.1.2-1.2.98](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.97...26.1.2-1.2.98) - 2026-06-14 13:42:16
+## [26.1.2-1.2.98](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.97...26.1.2-1.2.98) - 2026-06-14 13:42:16 +0200
 
 
 ### Added
