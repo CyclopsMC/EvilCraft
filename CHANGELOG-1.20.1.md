@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.2.61"></a>
+## [1.20.1-1.2.61](/compare/1.20.1-1.2.60...1.20.1-1.2.61) - 2026-07-20 06:48:16
+
+
+### Changed
+* Add stripped undead logs to vanilla log tags (#1238)
+
 <a name="1.20.1-1.2.60"></a>
-## [1.20.1-1.2.60](/compare/1.20.1-1.2.59...1.20.1-1.2.60) - 2026-05-16 07:30:30
+## [1.20.1-1.2.60](/compare/1.20.1-1.2.59...1.20.1-1.2.60) - 2026-05-16 07:30:30 +0200
 
 
 ### Fixed
