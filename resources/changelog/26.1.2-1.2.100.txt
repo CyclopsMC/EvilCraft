@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Additions:
+* Add translations through Crowdin
+
+Changes:
+* Add stripped undead logs to vanilla log tags (#1238)

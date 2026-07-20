@@ -1,8 +1,18 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.100"></a>
+## [26.1.2-1.2.100](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.99...26.1.2-1.2.100) - 2026-07-20 06:48:48
+
+
+### Added
+* Add translations through Crowdin
+
+### Changed
+* Add stripped undead logs to vanilla log tags (#1238)
+
 <a name="26.1.2-1.2.99"></a>
-## [26.1.2-1.2.99](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.98...26.1.2-1.2.99) - 2026-06-28 14:08:28
+## [26.1.2-1.2.99](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.98...26.1.2-1.2.99) - 2026-06-28 14:08:28 +0200
 
 
 ### Fixed
