@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.101"></a>
+## [26.1.2-1.2.101](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.100...26.1.2-1.2.101) - 2026-07-20 08:59:59
+
+
+### Fixed
+* Fix merge conflict in tags
+
 <a name="26.1.2-1.2.100"></a>
-## [26.1.2-1.2.100](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.99...26.1.2-1.2.100) - 2026-07-20 06:48:48
+## [26.1.2-1.2.100](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.99...26.1.2-1.2.100) - 2026-07-20 06:48:48 +0200
 
 
 ### Added
