@@ -1,11 +1,6 @@
 {
   "replace": false,
   "values": [
-<<<<<<< HEAD:src/main/resources/data/c/tags/block/ores_in_ground/stone.json
     "evilcraft:dark_ore"
-=======
-    "evilcraft:undead_log",
-    "evilcraft:undead_log_stripped"
->>>>>>> origin/master-1.20-lts:src/main/resources/data/minecraft/tags/items/logs_that_burn.json
   ]
 }
