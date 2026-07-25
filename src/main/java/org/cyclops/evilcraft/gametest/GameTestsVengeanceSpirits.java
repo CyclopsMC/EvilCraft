@@ -34,7 +34,7 @@ public class GameTestsVengeanceSpirits {
 
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(helper.absolutePos(POS.north()).getBottomCenter());
         player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
@@ -60,7 +60,7 @@ public class GameTestsVengeanceSpirits {
 
         // Let player use vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
-        player.setPos(helper.absolutePos(POS).getBottomCenter());
+        player.setPos(helper.absolutePos(POS.north()).getBottomCenter());
         player.setXRot(25F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
