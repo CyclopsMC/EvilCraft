@@ -27,7 +27,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 public class GameTestsOriginsOfDarkness {
 
     public static final String TEMPLATE_EMPTY = "empty10";
-    public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
+    public static final BlockPos POS = BlockPos.ZERO.offset(4, 0, 4);
 
     @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
     public void testOriginsOfDarknessPig(GameTestHelper helper) {
