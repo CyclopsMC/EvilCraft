@@ -1,12 +1,15 @@
 package org.cyclops.evilcraft.gametest;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.CrafterBlockEntity;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import org.cyclops.cyclopscore.gametest.GameTest;
@@ -20,6 +23,18 @@ public class GameTestsRecipes {
     public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 1, 2);
 
+    protected static ItemStack findItem(GameTestHelper helper, Item item) {
+        ItemStack itemStack = helper.findEntities(EntityTypes.ITEM, Vec3.atBottomCenterOf(POS), 10).stream()
+                .filter(i -> i.getItem().getItem() == item)
+                .findFirst()
+                .map(i -> i.getItem())
+                .orElse(null);
+        if (itemStack == null) {
+            throw new GameTestAssertException(Component.literal("Could not find a blood extractor item in the world"), (int) helper.getTick());
+        }
+        return itemStack;
+    }
+
     @GameTest(template = TEMPLATE_EMPTY)
     public void testRecipesCombineBloodExtractorsEmpty(GameTestHelper helper) {
         // Set crafter
@@ -32,7 +47,7 @@ public class GameTestsRecipes {
         crafter.setItem(1, new ItemStack(RegistryEntries.ITEM_BLOOD_EXTRACTOR));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
+            ItemStack result = findItem(helper, RegistryEntries.ITEM_BLOOD_EXTRACTOR.get());
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_BLOOD_EXTRACTOR.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), ItemBloodExtractorConfig.containerSize * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertTrue(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT) == null, Component.literal("Result item fluid content is incorrect"));
@@ -55,7 +70,7 @@ public class GameTestsRecipes {
         crafter.getItem(1).set(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT, SimpleFluidContent.copyOf(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000)));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
+            ItemStack result = findItem(helper, RegistryEntries.ITEM_BLOOD_EXTRACTOR.get());
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_BLOOD_EXTRACTOR.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), ItemBloodExtractorConfig.containerSize * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT).getAmount(), 2000, Component.literal("Result item fluid content is incorrect"));
@@ -74,7 +89,7 @@ public class GameTestsRecipes {
         crafter.setItem(1, new ItemStack(RegistryEntries.ITEM_DARK_TANK));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
+            ItemStack result = findItem(helper, RegistryEntries.ITEM_DARK_TANK.get());
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_DARK_TANK.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), BlockEntityDarkTank.BASE_CAPACITY * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertTrue(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT) == null, Component.literal("Result item fluid content is incorrect"));
@@ -97,7 +112,7 @@ public class GameTestsRecipes {
         crafter.getItem(1).set(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT, SimpleFluidContent.copyOf(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000)));
 
         helper.succeedWhen(() -> {
-            ItemStack result = helper.findOneEntity(EntityTypes.ITEM).getItem();
+            ItemStack result = findItem(helper, RegistryEntries.ITEM_DARK_TANK.get());
             helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_DARK_TANK.get(), Component.literal("Result item is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_CAPACITY), BlockEntityDarkTank.BASE_CAPACITY * 2, Component.literal("Result item capacity is incorrect"));
             helper.assertValueEqual(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT).getAmount(), 2000, Component.literal("Result item fluid content is incorrect"));

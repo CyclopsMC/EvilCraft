@@ -176,6 +176,7 @@ public class GameTestsVengeanceSpirits {
         helper.setBlock(POS.above().south().south().south().above(), Blocks.STONE);
         helper.setBlock(POS.above().south().south().above().above(), Blocks.STONE);
         helper.setBlock(POS.south().south(), Blocks.STONE);
+        helper.setBlock(POS.south(), Blocks.STONE);
 
         helper.succeedWhen(() -> {
             helper.assertEntityNotPresent(EntityTypes.ZOMBIE);
