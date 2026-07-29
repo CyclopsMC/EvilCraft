@@ -2,7 +2,9 @@ package org.cyclops.evilcraft.gametest;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.gametest.framework.GameTestAssertException;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityTypes;
@@ -40,7 +42,7 @@ public class GameTestsOriginsOfDarkness {
         helper.setBlock(POS.offset( 1, 0,  1), Blocks.OAK_FENCE);
 
         // Spawn a pig inside the enclosure
-        Pig pig = helper.spawnWithNoFreeWill(EntityTypes.PIG, POS.above());
+        Pig pig = helper.spawnWithNoFreeWill(EntityTypes.PIG, POS);
 
         // Simulate feeding the pig a darkened apple by firing the player interact event.
         // With paling (amplifier 4 = 5 dmg/hit) and 10-tick invulnerability, the pig (10 HP) dies at ~tick 11.
@@ -53,20 +55,24 @@ public class GameTestsOriginsOfDarkness {
         // death position (pig.blockPosition() + (0,1,0) = POS.above().above()).
         // With paling amplifier 4 = 1 dmg/hit and 10-tick invulnerability, the pig (10 HP) dies at ~tick 100.
         // To guarantee the book is within the portal's asymmetric detection AABB [pos-0.5, pos+1.5],
-        // we wait until the portal has spawned (tick 150), then scan for it and spawn the book
+        // we wait until the portal has spawned (tick 200), then scan for it and spawn the book
         // directly at the portal's block position.
-        helper.runAfterDelay(150, () -> {
+        helper.runAfterDelay(200, () -> {
+            boolean found = false;
             BlockPos center = POS.above().above();
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    for (int dz = -1; dz <= 1; dz++) {
+            for (int dx = -2; dx <= 2; dx++) {
+                for (int dy = -2; dy <= 2; dy++) {
+                    for (int dz = -2; dz <= 2; dz++) {
                         BlockPos portalPos = center.offset(dx, dy, dz);
                         if (helper.getBlockState(portalPos).is(RegistryEntries.BLOCK_SPIRIT_PORTAL.get())) {
+                            found = true;
                             helper.spawnItem(Items.BOOK, portalPos);
-                            return;
                         }
                     }
                 }
+            }
+            if (!found) {
+                throw new GameTestAssertException(Component.literal("Spirit portal not found within 2 blocks of pig's death position."), (int) helper.getTick());
             }
         });
 
