@@ -121,4 +121,24 @@ public class GameTestsRecipes {
         });
     }
 
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testRecipeClearDarkTank(GameTestHelper helper) {
+        // Set crafter
+        helper.setBlock(POS, Blocks.CRAFTER);
+        CrafterBlockEntity crafter = helper.getBlockEntity(POS);
+        helper.setBlock(POS.north(), Blocks.REDSTONE_TORCH);
+
+        // Set recipe
+        crafter.setItem(0, new ItemStack(RegistryEntries.ITEM_DARK_TANK));
+        crafter.getItem(0).set(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT,
+                SimpleFluidContent.copyOf(new FluidStack(RegistryEntries.FLUID_BLOOD, 1000)));
+
+        helper.succeedWhen(() -> {
+            ItemStack result = findItem(helper, RegistryEntries.ITEM_DARK_TANK.get());
+            helper.assertValueEqual(result.getItem(), RegistryEntries.ITEM_DARK_TANK.get(), "Result item is incorrect");
+            helper.assertTrue(result.get(org.cyclops.cyclopscore.RegistryEntries.COMPONENT_FLUID_CONTENT) == null,
+                    "Result item fluid content is incorrect");
+        });
+    }
+
 }
