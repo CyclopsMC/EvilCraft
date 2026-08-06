@@ -199,6 +199,7 @@ public class RegistryEntries {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeFluidContainerCombination>> RECIPESERIALIZER_FLUIDCONTAINER_COMBINATION = DeferredHolder.create(Registries.RECIPE_SERIALIZER, Identifier.parse("evilcraft:crafting_special_fluidcontainer_combination"));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeDeadBush>> RECIPESERIALIZER_DEAD_BUSH = DeferredHolder.create(Registries.RECIPE_SERIALIZER, Identifier.parse("evilcraft:crafting_special_dead_bush"));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeBroomPartCombination>> RECIPESERIALIZER_BROOM_PART_COMBINATION = DeferredHolder.create(Registries.RECIPE_SERIALIZER, Identifier.parse("evilcraft:crafting_special_broom_part_combination"));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeFluidContainerClear>> RECIPESERIALIZER_FLUIDCONTAINER_CLEAR = DeferredHolder.create(Registries.RECIPE_SERIALIZER, Identifier.parse("evilcraft:crafting_special_fluidcontainer_clear"));
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<RecipeEnvironmentalAccumulatorBiomeExtract>> RECIPESERIALIZER_BIOME_EXTRACT = DeferredHolder.create(Registries.RECIPE_SERIALIZER, Identifier.parse("evilcraft:environmental_accumulator_biome_extract"));
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<ParticleBlurData>> PARTICLE_BLUR = DeferredHolder.create(Registries.PARTICLE_TYPE, Identifier.parse("evilcraft:blur"));

@@ -388,6 +388,7 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
         configHandler.addConfigurable(new RecipeSerializerEnvironmentalAccumulatorConfig());
         configHandler.addConfigurable(new RecipeSerializerBloodExtractorCombinationConfig());
         configHandler.addConfigurable(new RecipeSerializerFluidContainerCombinationConfig());
+        configHandler.addConfigurable(new RecipeSerializerFluidContainerClearConfig());
         configHandler.addConfigurable(new RecipeSerializerCraftingShapedCustomOutputDisplayStandConfig());
         configHandler.addConfigurable(new RecipeSerializerDeadBushConfig());
         configHandler.addConfigurable(new RecipeSerializerBroomPartCombinationConfig());

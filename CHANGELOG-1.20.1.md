@@ -1,8 +1,23 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.3.0"></a>
+## [1.20.1-1.3.0](/compare/1.20.1-1.2.61...1.20.1-1.3.0) - 2026-08-04 13:10:08
+
+
+### Added
+* Restore Blood Magic compat with Bound Blood Drop and more
+  Closes CyclopsMC/EvilCraft#884
+
+<a name="1.20.1-1.2.61"></a>
+## [1.20.1-1.2.61](/compare/1.20.1-1.2.60...1.20.1-1.2.61) - 2026-07-20 06:48:16 +0200
+
+
+### Changed
+* Add stripped undead logs to vanilla log tags (#1238)
+
 <a name="1.20.1-1.2.60"></a>
-## [1.20.1-1.2.60](/compare/1.20.1-1.2.59...1.20.1-1.2.60) - 2026-05-16 07:30:30
+## [1.20.1-1.2.60](/compare/1.20.1-1.2.59...1.20.1-1.2.60) - 2026-05-16 07:30:30 +0200
 
 
 ### Fixed
