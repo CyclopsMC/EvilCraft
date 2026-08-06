@@ -28,7 +28,7 @@ import org.cyclops.evilcraft.RegistryEntries;
 public class GameTestsOriginsOfDarkness {
 
     public static final String TEMPLATE_EMPTY = "empty10";
-    public static final BlockPos POS = BlockPos.ZERO.offset(4, 0, 4);
+    public static final BlockPos POS = BlockPos.ZERO.offset(4, 1, 4);
 
     @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
     public void testOriginsOfDarknessPig(GameTestHelper helper) {
@@ -41,6 +41,15 @@ public class GameTestsOriginsOfDarkness {
         helper.setBlock(POS.offset(-1, 0,  1), Blocks.OAK_FENCE);
         helper.setBlock(POS.offset( 0, 0,  1), Blocks.OAK_FENCE);
         helper.setBlock(POS.offset( 1, 0,  1), Blocks.OAK_FENCE);
+        helper.setBlock(POS.below(), Blocks.STONE);
+        helper.setBlock(POS.below().offset(-1, 0, -1), Blocks.STONE);
+        helper.setBlock(POS.below().offset( 0, 0, -1), Blocks.STONE);
+        helper.setBlock(POS.below().offset( 1, 0, -1), Blocks.STONE);
+        helper.setBlock(POS.below().offset(-1, 0,  0), Blocks.STONE);
+        helper.setBlock(POS.below().offset( 1, 0,  0), Blocks.STONE);
+        helper.setBlock(POS.below().offset(-1, 0,  1), Blocks.STONE);
+        helper.setBlock(POS.below().offset( 0, 0,  1), Blocks.STONE);
+        helper.setBlock(POS.below().offset( 1, 0,  1), Blocks.STONE);
 
         // Spawn a pig inside the enclosure
         net.minecraft.world.entity.animal.Pig pig = helper.spawnWithNoFreeWill(EntityType.PIG, POS);
