@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.92"></a>
+## [1.21.1-1.2.92](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.91...1.21.1-1.2.92) - 2026-08-06 15:40:53
+
+
+### Added
+* Allow clearing Dark Tanks in the crafting grid (#1242)
+
 <a name="1.21.1-1.2.91"></a>
-## [1.21.1-1.2.91](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.90...1.21.1-1.2.91) - 2026-07-20 08:59:35
+## [1.21.1-1.2.91](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.90...1.21.1-1.2.91) - 2026-07-20 08:59:35 +0200
 
 
 ### Fixed
