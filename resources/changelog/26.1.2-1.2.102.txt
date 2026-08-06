@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Additions:
+* Allow clearing Dark Tanks in the crafting grid (#1242), Closes #1241
