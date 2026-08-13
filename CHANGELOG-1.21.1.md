@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.93"></a>
+## [1.21.1-1.2.93](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.92...1.21.1-1.2.93) - 2026-08-13 19:08:31
+
+
+### Fixed
+* Fix Eternal Water Block dupe with Carry On, Closes #1243
+
 <a name="1.21.1-1.2.92"></a>
-## [1.21.1-1.2.92](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.91...1.21.1-1.2.92) - 2026-08-06 15:40:53
+## [1.21.1-1.2.92](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.91...1.21.1-1.2.92) - 2026-08-06 15:40:53 +0200
 
 
 ### Added
