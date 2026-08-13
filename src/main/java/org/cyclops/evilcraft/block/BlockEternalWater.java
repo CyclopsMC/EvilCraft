@@ -100,13 +100,14 @@ public class BlockEternalWater extends BlockWithEntity {
     }
 
     @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        super.onRemove(state, worldIn, pos, newState, isMoving);
-        // When removing this block, it will drop water, so forcefully set to air instead.
-        if (!worldIn.isClientSide() && newState.getBlock() == Blocks.WATER) {
-            worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-            Block.dropResources(state, worldIn, pos);
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        if (super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid)) {
+            if (!level.isClientSide()) {
+                level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+            }
+            return true;
         }
+        return false;
     }
 
     @Override
