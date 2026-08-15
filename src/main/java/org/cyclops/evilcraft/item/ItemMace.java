@@ -260,13 +260,22 @@ public abstract class ItemMace extends ItemBloodContainer {
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack itemStack) {
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
         if (slot == EquipmentSlot.MAINHAND) {
-            return ImmutableMultimap.of(Attributes.ATTACK_DAMAGE,
-                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.meleeDamage, AttributeModifier.Operation.ADDITION));
+            return ImmutableMultimap.of(
+                    Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.meleeDamage, AttributeModifier.Operation.ADDITION),
+                    Attributes.ATTACK_SPEED,
+                    new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", getAttackSpeed(), AttributeModifier.Operation.ADDITION));
         }
-        return super.getAttributeModifiers(slot, itemStack);
+        return super.getDefaultAttributeModifiers(slot);
     }
+
+    /**
+     * @return The attack speed modifier of this mace,
+     *         which is added to the default player attack speed of 4.
+     */
+    protected abstract float getAttackSpeed();
 
     @OnlyIn(Dist.CLIENT)
     @Override

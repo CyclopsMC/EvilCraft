@@ -29,6 +29,11 @@ public class ItemMaceOfDestruction extends ItemMace {
     }
 
     @Override
+    protected float getAttackSpeed() {
+        return (float) ItemMaceOfDestructionConfig.attackSpeed;
+    }
+
+    @Override
     protected void use(Level world, LivingEntity entity, int itemUsedCount, int power) {
         if(!world.isClientSide()) {
             Vec3 v = entity.getLookAngle();
