@@ -16,7 +16,7 @@ import java.util.Collection;
 public class ItemMaceOfDestructionConfig extends ItemConfig {
 
     @ConfigurableProperty(category = "item", comment = "The attack speed modifier of this mace, which is added to the default player attack speed of 4.", isCommandable = true)
-    public static double attackSpeed = -3.2;
+    public static double attackSpeed = -3.0;
 
     public ItemMaceOfDestructionConfig() {
         super(
