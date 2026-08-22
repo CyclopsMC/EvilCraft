@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.102"></a>
+## [26.1.2-1.2.102](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.101...26.1.2-1.2.102) - 2026-08-06 15:41:12
+
+
+### Added
+* Allow clearing Dark Tanks in the crafting grid (#1242), Closes #1241
+
 <a name="26.1.2-1.2.101"></a>
-## [26.1.2-1.2.101](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.100...26.1.2-1.2.101) - 2026-07-20 08:59:59
+## [26.1.2-1.2.101](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.100...26.1.2-1.2.101) - 2026-07-20 08:59:59 +0200
 
 
 ### Fixed
