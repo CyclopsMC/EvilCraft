@@ -21,7 +21,6 @@ org.cyclops.evilcraft.client.render.block
 org.cyclops.evilcraft.client.render.blockentity
 org.cyclops.evilcraft.client.render.entity
 org.cyclops.evilcraft.client.render.model
-org.cyclops.evilcraft.component
 org.cyclops.evilcraft.core.algorithm
 org.cyclops.evilcraft.core.block
 org.cyclops.evilcraft.core.blockentity
@@ -29,6 +28,7 @@ org.cyclops.evilcraft.core.blockentity.tickaction
 org.cyclops.evilcraft.core.blockentity.upgrade
 org.cyclops.evilcraft.core.broom
 org.cyclops.evilcraft.core.client.gui.container
+org.cyclops.evilcraft.core.client.model
 org.cyclops.evilcraft.core.client.render
 org.cyclops.evilcraft.core.client.render.entity
 org.cyclops.evilcraft.core.config
@@ -45,12 +45,9 @@ org.cyclops.evilcraft.core.inventory.container
 org.cyclops.evilcraft.core.inventory.slot
 org.cyclops.evilcraft.core.item
 org.cyclops.evilcraft.core.monster
-org.cyclops.evilcraft.core.recipe.category
-org.cyclops.evilcraft.core.recipe.display
 org.cyclops.evilcraft.core.recipe.type
 org.cyclops.evilcraft.core.weather
-org.cyclops.evilcraft.enchantment.component
-org.cyclops.evilcraft.enchantment.entityeffect
+org.cyclops.evilcraft.enchantment
 org.cyclops.evilcraft.entity.block
 org.cyclops.evilcraft.entity.effect
 org.cyclops.evilcraft.entity.item
@@ -58,13 +55,11 @@ org.cyclops.evilcraft.entity.monster
 org.cyclops.evilcraft.entity.villager
 org.cyclops.evilcraft.event
 org.cyclops.evilcraft.fluid
-org.cyclops.evilcraft.gametest
 org.cyclops.evilcraft.infobook
 org.cyclops.evilcraft.infobook.pageelement
 org.cyclops.evilcraft.inventory.container
 org.cyclops.evilcraft.inventory.slot
 org.cyclops.evilcraft.item
-org.cyclops.evilcraft.itemtintsource
 org.cyclops.evilcraft.loot.functions
 org.cyclops.evilcraft.loot.modifier
 org.cyclops.evilcraft.metadata
@@ -72,6 +67,6 @@ org.cyclops.evilcraft.modcompat.baubles
 org.cyclops.evilcraft.network.packet
 org.cyclops.evilcraft.potion
 org.cyclops.evilcraft.proxy
-org.cyclops.evilcraft.sound
+org.cyclops.evilcraft.world.gen
 org.cyclops.evilcraft.world.gen.feature
 org.cyclops.evilcraft.world.gen.structure
