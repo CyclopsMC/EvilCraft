@@ -1,8 +1,17 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.3.1"></a>
+## [1.20.1-1.3.1](/compare/1.20.1-1.3.0...1.20.1-1.3.1) - 2026-08-24 18:46:41
+
+
+### Added
+* Add stonecutter recipes for dark brick stairs (#1250), Closes #1248
+* Add blood fluid to the common blood tag (#1247), Closes #1246
+* Give maces a configurable attack speed (#1245), Closes #1244
+
 <a name="1.20.1-1.3.0"></a>
-## [1.20.1-1.3.0](/compare/1.20.1-1.2.61...1.20.1-1.3.0) - 2026-08-04 13:10:08
+## [1.20.1-1.3.0](/compare/1.20.1-1.2.61...1.20.1-1.3.0) - 2026-08-04 13:10:08 +0200
 
 
 ### Added

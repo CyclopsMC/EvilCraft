@@ -268,9 +268,20 @@ public abstract class ItemMace extends ItemBloodContainer {
                         Attributes.ATTACK_DAMAGE,
                         new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_damage"), this.meleeDamage, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
+                ),
+                new ItemAttributeModifiers.Entry(
+                        Attributes.ATTACK_SPEED,
+                        new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "add_mace_attack_speed"), getAttackSpeed(), AttributeModifier.Operation.ADD_VALUE),
+                        EquipmentSlotGroup.MAINHAND
                 )
         ), true);
     }
+
+    /**
+     * @return The attack speed modifier of this mace,
+     *         which is added to the default player attack speed of 4.
+     */
+    protected abstract float getAttackSpeed();
 
     @OnlyIn(Dist.CLIENT)
     @Override
