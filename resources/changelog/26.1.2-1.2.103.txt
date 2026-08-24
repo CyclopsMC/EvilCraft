@@ -1,0 +1,11 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Additions:
+* Add stonecutter recipes for dark brick stairs (#1250), Closes #1248
+* Add blood fluid to the common blood tag (#1247), Closes #1246
+* Give maces a configurable attack speed (#1245), Closes #1244
+
+Fixes:
+* Fix dark tank creative tab crash, Closes #1251
+* Fix Eternal Water Block dupe with Carry On, Closes #1243

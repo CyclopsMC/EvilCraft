@@ -1,8 +1,21 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.103"></a>
+## [26.1.2-1.2.103](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.102...26.1.2-1.2.103) - 2026-08-24 19:00:58
+
+
+### Added
+* Add stonecutter recipes for dark brick stairs (#1250), Closes #1248
+* Add blood fluid to the common blood tag (#1247), Closes #1246
+* Give maces a configurable attack speed (#1245), Closes #1244
+
+### Fixed
+* Fix dark tank creative tab crash, Closes #1251
+* Fix Eternal Water Block dupe with Carry On, Closes #1243
+
 <a name="26.1.2-1.2.102"></a>
-## [26.1.2-1.2.102](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.101...26.1.2-1.2.102) - 2026-08-06 15:41:12
+## [26.1.2-1.2.102](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.101...26.1.2-1.2.102) - 2026-08-06 15:41:12 +0200
 
 
 ### Added

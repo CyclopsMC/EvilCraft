@@ -63,7 +63,11 @@ public class BlockDarkTankConfig extends BlockConfigCommon<ModBaseNeoForge<?>> {
     protected void fillCreativeTab(BuildCreativeModeTabContentsEvent event) {
         if (event.getTab() == EvilCraft._instance.getDefaultCreativeTab()) {
             for (ItemStack itemStack : dynamicCreativeTabEntries()) {
-                event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                try {
+                    event.accept(itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                } catch (IllegalArgumentException e) {
+                    // Ignore duplicate entries, which can happen in some packs due to an unknown reason.
+                }
             }
         }
     }
