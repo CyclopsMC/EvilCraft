@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "evilcraft:dark_brick",
+  "result": {
+    "count": 1,
+    "id": "evilcraft:dark_brick_stairs"
+  }
+}

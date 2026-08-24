@@ -1,8 +1,20 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.94"></a>
+## [1.21.1-1.2.94](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.93...1.21.1-1.2.94) - 2026-08-24 18:54:34
+
+
+### Added
+* Add stonecutter recipes for dark brick stairs (#1250), Closes #1248
+* Add blood fluid to the common blood tag (#1247), Closes #1246
+* Give maces a configurable attack speed (#1245), Closes #1244
+
+### Fixed
+* Fix dark tank creative tab crash, Closes #1251
+
 <a name="1.21.1-1.2.93"></a>
-## [1.21.1-1.2.93](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.92...1.21.1-1.2.93) - 2026-08-13 19:08:31
+## [1.21.1-1.2.93](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.92...1.21.1-1.2.93) - 2026-08-13 19:08:31 +0200
 
 
 ### Fixed
