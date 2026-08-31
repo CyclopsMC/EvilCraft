@@ -67,6 +67,7 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     private final ModelState modelState;
     private final TextureSlots textureSlots;
     private final Material.Baked particleMaterialBaked;
+    private final BlockStateModelPart untexturedModel;
 
     public ModelDisplayStandBaked(ModelBaker baker, ResolvedModel resolvedModel, ModelState modelState, TextureSlots textureSlots, Material.Baked particleMaterialBaked) {
         super(true, false);
@@ -75,6 +76,11 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         this.modelState = modelState;
         this.textureSlots = textureSlots;
         this.particleMaterialBaked = particleMaterialBaked;
+        // Bake the model with its own default textures, for when no display stand type is set
+        this.untexturedModel = new SimpleModelWrapper(
+                resolvedModel.bakeTopGeometry(textureSlots, baker, modelState),
+                resolvedModel.getTopAmbientOcclusion(),
+                resolvedModel.resolveParticleMaterial(textureSlots, baker));
     }
 
     @Override
@@ -87,7 +93,6 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
         return 0;
     }
 
-    @Nullable
     protected BlockStateModelPart handleDisplayStandType(ItemStack displayStandType) {
         if (displayStandType != null && !displayStandType.isEmpty()) {
             // Get reference texture
@@ -98,7 +103,9 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
                 return modelCache.get(new Material(blockParticleMaterial.sprite().contents().name()));
             }
         }
-        return null;
+        // Fall back to the default (untextured) model, e.g. for display stands without a type,
+        // such as the ones shown in recipe viewers like JEI.
+        return untexturedModel;
     }
 
     public BlockStateModelPart bakeModel(Material material) {
@@ -143,20 +150,14 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
     @Override
     public List<BakedQuad> handleBlockState(BlockAndTintGetter level, BlockPos pos, BlockState state, Direction side, RandomSource rand, ModelData extraData, ChunkSectionLayer renderType) {
         List<BakedQuad> quads = Lists.newLinkedList();
-        BlockStateModelPart blockModelPart = handleDisplayStandType(ModelHelpers.getSafeProperty(getModelData(level, pos), BlockDisplayStand.TYPE, ItemStack.EMPTY));
-        if (blockModelPart != null) {
-            quads.addAll(blockModelPart.getQuads(null));
-        }
+        quads.addAll(handleDisplayStandType(ModelHelpers.getSafeProperty(getModelData(level, pos), BlockDisplayStand.TYPE, ItemStack.EMPTY)).getQuads(null));
         return quads;
     }
 
     @Override
     public List<BakedQuad> handleItemState(@Nullable ItemStack stack, @Nullable Level level, @Nullable ItemOwner entity) {
         List<BakedQuad> quads = Lists.newLinkedList();
-        BlockStateModelPart blockModelPart = handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.get().getDisplayStandType(stack));
-        if (blockModelPart != null) {
-            quads.addAll(blockModelPart.getQuads(null));
-        }
+        quads.addAll(handleDisplayStandType(RegistryEntries.BLOCK_DISPLAY_STAND.get().getDisplayStandType(stack)).getQuads(null));
         return quads;
     }
 
@@ -198,11 +199,8 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
 
     @Override
     public Material.Baked particleMaterial(BlockAndTintGetter level, BlockPos pos, BlockState state) {
-        BlockStateModelPart part = handleDisplayStandType(ModelHelpers.getSafeProperty(getModelData(level, pos), BlockDisplayStand.TYPE, ItemStack.EMPTY));
-        if (part != null) {
-            return part.particleMaterial();
-        }
-        return particleMaterial();
+        return handleDisplayStandType(ModelHelpers.getSafeProperty(getModelData(level, pos), BlockDisplayStand.TYPE, ItemStack.EMPTY))
+                .particleMaterial();
     }
 
     @Override
