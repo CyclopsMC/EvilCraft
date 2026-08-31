@@ -121,10 +121,15 @@ public class ModelDisplayStandBaked extends DynamicItemAndBlockModel {
                 .addLast(originalData)
                 .resolve(resolvedModel);
 
-        // Based on SimpleModelWrapper
+        // Based on SimpleModelWrapper.
+        // The geometry and particle material are baked directly instead of through
+        // ResolvedModel#bakeTopGeometry and ResolvedModel#resolveParticleMaterial,
+        // because those cache their result without taking the texture slots into account,
+        // which would make this texture override be silently ignored.
         boolean useAmbientOcclusion = resolvedModel.getTopAmbientOcclusion();
-        Material.Baked particleMatBaked = resolvedModel.resolveParticleMaterial(textureSlotsOverride, baker);
-        QuadCollection quadcollection = resolvedModel.bakeTopGeometry(textureSlotsOverride, baker, modelState);
+        Material.Baked particleMatBaked = baker.materials().resolveSlot(textureSlotsOverride, "particle", resolvedModel);
+        QuadCollection quadcollection = resolvedModel.getTopGeometry()
+                .bake(textureSlotsOverride, baker, modelState, resolvedModel, resolvedModel.getTopAdditionalProperties());
 
         return new SimpleModelWrapper(quadcollection, useAmbientOcclusion, particleMatBaked);
     }
