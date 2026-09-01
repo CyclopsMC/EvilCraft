@@ -1,25 +1,23 @@
 package org.cyclops.evilcraft.gametest;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.gametest.GameTestHolder;
-import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
+import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.entity.item.EntityItemEmpowerable;
 
-@GameTestHolder(Reference.MOD_ID)
-@PrefixGameTestTemplate(false)
 public class GameTestsItemEmpowering {
 
-    public static final String TEMPLATE_EMPTY = "empty10";
+    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 1, 2);
 
     protected EntityItemEmpowerable dropInvertedPotentia(GameTestHelper helper, int count) {
@@ -36,8 +34,8 @@ public class GameTestsItemEmpowering {
     }
 
     protected void strikeLightning(GameTestHelper helper) {
-        LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(helper.getLevel());
-        lightning.moveTo(helper.absolutePos(POS).getBottomCenter());
+        LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(helper.getLevel(), EntitySpawnReason.TRIGGERED);
+        lightning.snapTo(helper.absolutePos(POS).getBottomCenter());
         helper.getLevel().addFreshEntity(lightning);
     }
 
@@ -48,8 +46,8 @@ public class GameTestsItemEmpowering {
 
         helper.succeedWhen(() -> {
             helper.assertValueEqual(entity.getItem().getItem(), RegistryEntries.ITEM_INVERTED_POTENTIA_EMPOWERED.get(),
-                    "Empowered item");
-            helper.assertValueEqual(entity.getItem().getCount(), 1, "Empowered stack size");
+                    Component.literal("Empowered item"));
+            helper.assertValueEqual(entity.getItem().getCount(), 1, Component.literal("Empowered stack size"));
         });
     }
 
@@ -60,8 +58,8 @@ public class GameTestsItemEmpowering {
 
         helper.succeedWhen(() -> {
             helper.assertValueEqual(entity.getItem().getItem(), RegistryEntries.ITEM_INVERTED_POTENTIA_EMPOWERED.get(),
-                    "Empowered item");
-            helper.assertValueEqual(entity.getItem().getCount(), 16, "Empowered stack size");
+                    Component.literal("Empowered item"));
+            helper.assertValueEqual(entity.getItem().getCount(), 16, Component.literal("Empowered stack size"));
         });
     }
 
