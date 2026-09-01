@@ -136,8 +136,6 @@ public class ContainerScreenSpiritFurnace extends ContainerScreenTileWorking<Con
                     PROGRESS_INVALIDY, PROGRESSWIDTH, PROGRESSHEIGHT, 256, 256);
             if(isHovering(PROGRESSTARGETX + offsetX, PROGRESSTARGETY + offsetY, PROGRESSWIDTH, PROGRESSHEIGHT,
                     mouseX, mouseY)) {
-                mouseX -= leftPos;
-                mouseY -= topPos;
                 drawTooltip(lines, guiGraphics, mouseX, mouseY);
             }
         }

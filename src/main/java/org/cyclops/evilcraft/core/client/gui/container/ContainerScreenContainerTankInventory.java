@@ -161,10 +161,7 @@ public abstract class ContainerScreenContainerTankInventory<C extends ContainerI
         List<Component> lines = Lists.newArrayList();
         lines.add(name);
         lines.add(DamageIndicatedItemComponent.getInfo(fluidStack, amount, capacity));
-        guiGraphics.pose().pushMatrix();
-        guiGraphics.pose().translate(this.leftPos, this.topPos);
         drawTooltip(lines, guiGraphics, x, y);
-        guiGraphics.pose().popMatrix();
     }
 
 }
