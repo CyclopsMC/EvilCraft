@@ -29,7 +29,7 @@ public class ItemInvertedPotentia extends Item implements IItemEmpowerable {
 
     @Override
     public ItemStack empower(ItemStack itemStack) {
-        return new ItemStack(RegistryEntries.ITEM_INVERTED_POTENTIA_EMPOWERED);
+        return new ItemStack(RegistryEntries.ITEM_INVERTED_POTENTIA_EMPOWERED, itemStack.getCount());
     }
 
     @Override
