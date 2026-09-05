@@ -1,8 +1,17 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.104"></a>
+## [26.1.2-1.2.104](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.103...26.1.2-1.2.104) - 2026-09-05 12:58:26
+
+
+### Fixed
+* Fix Display Stand not being rendered when it has no wood type (#1257), Closes #1255
+* Fix lightning striking inverted potentia losing stack size, Closes #1256
+* Fix Spirit Furnace tooltip being rendered at the wrong position, Closes #1252 (#1254)
+
 <a name="26.1.2-1.2.103"></a>
-## [26.1.2-1.2.103](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.102...26.1.2-1.2.103) - 2026-08-24 19:00:58
+## [26.1.2-1.2.103](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.102...26.1.2-1.2.103) - 2026-08-24 19:00:58 +0200
 
 
 ### Added
