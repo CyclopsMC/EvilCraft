@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Fixes:
+* Fix Display Stand not being rendered when it has no wood type (#1257), Closes #1255
+* Fix lightning striking inverted potentia losing stack size, Closes #1256
+* Fix Spirit Furnace tooltip being rendered at the wrong position, Closes #1252 (#1254)
