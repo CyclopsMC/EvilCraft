@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.95"></a>
+## [1.21.1-1.2.95](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.94...1.21.1-1.2.95) - 2026-09-05 12:53:14
+
+
+### Fixed
+* Fix lightning striking inverted potentia losing stack size, Closes #1256
+
 <a name="1.21.1-1.2.94"></a>
-## [1.21.1-1.2.94](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.93...1.21.1-1.2.94) - 2026-08-24 18:54:34
+## [1.21.1-1.2.94](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.93...1.21.1-1.2.94) - 2026-08-24 18:54:34 +0200
 
 
 ### Added

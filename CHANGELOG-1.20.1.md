@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.3.2"></a>
+## [1.20.1-1.3.2](/compare/1.20.1-1.3.1...1.20.1-1.3.2) - 2026-09-05 12:49:35
+
+
+### Fixed
+* Fix lightning striking inverted potentia losing stack size, Closes #1256
+
 <a name="1.20.1-1.3.1"></a>
-## [1.20.1-1.3.1](/compare/1.20.1-1.3.0...1.20.1-1.3.1) - 2026-08-24 18:46:41
+## [1.20.1-1.3.1](/compare/1.20.1-1.3.0...1.20.1-1.3.1) - 2026-08-24 18:46:41 +0200
 
 
 ### Added
