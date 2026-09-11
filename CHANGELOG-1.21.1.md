@@ -1,8 +1,18 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.96"></a>
+## [1.21.1-1.2.96](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.95...1.21.1-1.2.96) - 2026-09-11 17:45:24
+
+
+### Added
+* Allow reverting mob head progression in the Purifier (#1260), Closes #1258
+
+### Fixed
+* Hide blood and broom GUI overlays when the GUI is hidden (#1262), Closes #1261
+
 <a name="1.21.1-1.2.95"></a>
-## [1.21.1-1.2.95](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.94...1.21.1-1.2.95) - 2026-09-05 12:53:14
+## [1.21.1-1.2.95](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.94...1.21.1-1.2.95) - 2026-09-05 12:53:14 +0200
 
 
 ### Fixed

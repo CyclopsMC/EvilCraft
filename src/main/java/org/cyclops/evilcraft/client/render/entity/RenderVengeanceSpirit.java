@@ -103,10 +103,16 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
 
                         }
                         playerRenderer.setPlayerTexture(resourcelocation);
-                        Minecraft.getInstance().options.hideGui = true; // Disables player name tag rendering, which causes a crash due to our posestack hack.
-                        RenderType renderTypeOverride = RenderTypes.energySwirl(playerRenderer.getTextureLocation((AvatarRenderState) innerRenderState), uv, uv);
-                        playerRenderer.submit(avatarRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
-                        Minecraft.getInstance().options.hideGui = false;
+                        // Disables player name tag rendering, which causes a crash due to our posestack hack.
+                        // The original value is restored, as the player may have hidden the GUI themselves.
+                        boolean hideGuiBefore = minecraft.options.hideGui;
+                        minecraft.options.hideGui = true;
+                        try {
+                            RenderType renderTypeOverride = RenderTypes.energySwirl(playerRenderer.getTextureLocation((AvatarRenderState) innerRenderState), uv, uv);
+                            playerRenderer.submit(avatarRenderState, poseStackInner, new SubmitNodeCollectorRenderTypeOverride(nodeCollector, renderTypeOverride), cameraRenderState);
+                        } finally {
+                            minecraft.options.hideGui = hideGuiBefore;
+                        }
                     } else {
                         if (render instanceof LivingEntityRenderer livingEntityRenderer) {
                             RenderType renderTypeOverride = RenderTypes.energySwirl(livingEntityRenderer.getTextureLocation((LivingEntityRenderState) innerRenderState), uv, uv);
