@@ -1,8 +1,18 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.105"></a>
+## [26.1.2-1.2.105](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.104...26.1.2-1.2.105) - 2026-09-11 17:55:29
+
+
+### Added
+* Allow reverting mob head progression in the Purifier (#1260), Closes #1258
+
+### Fixed
+* Hide blood and broom GUI overlays when the GUI is hidden (#1262), Closes #1261
+
 <a name="26.1.2-1.2.104"></a>
-## [26.1.2-1.2.104](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.103...26.1.2-1.2.104) - 2026-09-05 12:58:26
+## [26.1.2-1.2.104](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.103...26.1.2-1.2.104) - 2026-09-05 12:58:26 +0200
 
 
 ### Fixed
