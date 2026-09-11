@@ -208,6 +208,9 @@ public class ItemBroom extends ItemBloodContainer implements IBroom {
 
     @OnlyIn(Dist.CLIENT)
     public void onRenderOverlayEvent(RenderGuiEvent.Post event) {
+        if (!RenderOverlayEventHook.shouldRenderOverlays()) {
+            return;
+        }
         Player player = Minecraft.getInstance().player;
         if (player.getVehicle() instanceof EntityBroom) {
             EntityBroom broom = (EntityBroom) player.getVehicle();
