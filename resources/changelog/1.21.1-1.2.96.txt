@@ -1,0 +1,8 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Additions:
+* Allow reverting mob head progression in the Purifier (#1260), Closes #1258
+
+Fixes:
+* Hide blood and broom GUI overlays when the GUI is hidden (#1262), Closes #1261
