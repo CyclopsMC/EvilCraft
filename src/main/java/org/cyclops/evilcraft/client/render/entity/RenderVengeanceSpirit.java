@@ -81,9 +81,15 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit>
                             resourcelocation = skin.texture();
                         }
                         playerRenderer.setPlayerTexture(resourcelocation);
-                        Minecraft.getInstance().options.hideGui = true; // Disables player name tag rendering, which causes a crash due to our posestack hack.
-                        playerRenderer.render(innerEntity, entityYaw, partialTicks, poseStackInner, bufferSub, packedLightIn);
-                        Minecraft.getInstance().options.hideGui = false;
+                        // Disables player name tag rendering, which causes a crash due to our posestack hack.
+                        // The original value is restored, as the player may have hidden the GUI themselves.
+                        boolean hideGuiBefore = minecraft.options.hideGui;
+                        minecraft.options.hideGui = true;
+                        try {
+                            playerRenderer.render(innerEntity, entityYaw, partialTicks, poseStackInner, bufferSub, packedLightIn);
+                        } finally {
+                            minecraft.options.hideGui = hideGuiBefore;
+                        }
                     } else {
                         render.render(innerEntity, entityYaw, 0, poseStackInner, bufferSub, packedLightIn);
                     }

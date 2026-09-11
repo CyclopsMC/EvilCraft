@@ -38,6 +38,9 @@ public class RenderOverlayEventHook {
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public void onRenderOverlayEvent(RenderGuiEvent.Post event) {
+        if (!shouldRenderOverlays()) {
+            return;
+        }
         Player player = Minecraft.getInstance().player;
         if (GeneralConfig.bloodGuiOverlay) {
             if (filledHeight < 0 || WorldHelpers.efficientTick(player.level(), 50)) {
@@ -79,6 +82,16 @@ public class RenderOverlayEventHook {
                 event.getGuiGraphics().pose().popPose();
             }
         }
+    }
+
+    /**
+     * @return If custom GUI overlays may be rendered in the current client state.
+     */
+    @OnlyIn(Dist.CLIENT)
+    public static boolean shouldRenderOverlays() {
+        Minecraft minecraft = Minecraft.getInstance();
+        // Respect the F1 GUI toggle and hide overlays in spectator mode.
+        return minecraft.player != null && !minecraft.options.hideGui && !minecraft.player.isSpectator();
     }
 
     public static enum OverlayPosition {
