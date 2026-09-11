@@ -298,6 +298,7 @@
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text1</paragraph>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text2</paragraph>
                 <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text3</paragraph>
+                <paragraph>info_book.evilcraft.second_age.evolved_blood_machinery.purifier.text4</paragraph>
 
                 <appendix type="minecraft:crafting">evilcraft:crafting/purifier</appendix>
                 <appendix type="evilcraft:blood_infuser">evilcraft:blood_infuser/base/blook</appendix>

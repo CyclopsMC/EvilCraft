@@ -1,6 +1,8 @@
 package org.cyclops.evilcraft.gametest;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
@@ -8,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -21,6 +24,7 @@ import org.cyclops.evilcraft.block.BlockPurifierConfig;
 import org.cyclops.evilcraft.blockentity.BlockEntityPurifier;
 
 import java.util.List;
+import java.util.Map;
 
 public class GameTestsPurifier {
 
@@ -77,7 +81,7 @@ public class GameTestsPurifier {
      * Tests that blacklisted enchantments are not disenchanted and blacklisted curses are not purified.
      * Runs in its own batch to avoid concurrent modification of the shared config field.
      */
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200, environment = "evilcraft:purifier_blacklist")
     public void testPurifierEnchantmentBlacklist(GameTestHelper helper) {
         HolderLookup.Provider holders = helper.getLevel().registryAccess();
         List<String> originalBlacklist = BlockPurifierConfig.enchantmentIdBlacklist;
@@ -105,6 +109,73 @@ public class GameTestsPurifier {
             helper.assertTrue(disenchantEnchants != null && !disenchantEnchants.isEmpty(), "Sword sharpness was incorrectly removed despite enchantment blacklist");
             ItemEnchantments curseEnchants = cursePurifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY).get(DataComponents.ENCHANTMENTS);
             helper.assertTrue(curseEnchants != null && !curseEnchants.isEmpty(), "Vanishing curse was incorrectly removed despite enchantment blacklist");
+            helper.succeed();
+        });
+    }
+
+    /**
+     * Tests that mob heads are reverted to the previous step of the Blood Infuser head progression,
+     * at the cost of a full tank of blood.
+     */
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    public void testPurifierMobHeadDowngrade(GameTestHelper helper) {
+        Map<Item, Item> expectedDowngrades = ImmutableMap.of(
+                Items.WITHER_SKELETON_SKULL, Items.CREEPER_HEAD,
+                Items.CREEPER_HEAD, Items.ZOMBIE_HEAD,
+                Items.ZOMBIE_HEAD, Items.SKELETON_SKULL
+        );
+
+        // One purifier per progression step, so that all steps are covered within a single test
+        Map<BlockPos, Item> purifierPositions = Maps.newLinkedHashMap();
+        int offset = 0;
+        for (Map.Entry<Item, Item> entry : expectedDowngrades.entrySet()) {
+            BlockPos pos = POS.offset(offset, 0, 0);
+            helper.setBlock(pos, RegistryEntries.BLOCK_PURIFIER.get());
+            BlockEntityPurifier purifier = helper.getBlockEntity(pos, BlockEntityPurifier.class);
+            purifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, new ItemStack(entry.getKey()));
+            purifier.getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * BlockEntityPurifier.MAX_BUCKETS));
+            purifierPositions.put(pos, entry.getKey());
+            offset += 2;
+        }
+
+        helper.succeedWhen(() -> {
+            for (Map.Entry<BlockPos, Item> entry : purifierPositions.entrySet()) {
+                BlockEntityPurifier purifier = helper.getBlockEntity(entry.getKey(), BlockEntityPurifier.class);
+                Item expected = expectedDowngrades.get(entry.getValue());
+                ItemStack result = purifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY);
+                helper.assertTrue(result.is(expected), "Expected " + entry.getValue() + " to be purified into " + expected + ", but got " + result.getItem());
+                helper.assertTrue(purifier.getTank().isEmpty(), "Purifying " + entry.getValue() + " did not consume the blood");
+            }
+        });
+    }
+
+    /**
+     * Tests that heads without a previous progression step are left alone.
+     */
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    public void testPurifierMobHeadDowngradeEndOfProgression(GameTestHelper helper) {
+        List<Item> unchangedHeads = Lists.newArrayList(Items.SKELETON_SKULL, Items.PLAYER_HEAD, Items.DRAGON_HEAD);
+
+        Map<BlockPos, Item> purifierPositions = Maps.newLinkedHashMap();
+        int offset = 0;
+        for (Item head : unchangedHeads) {
+            BlockPos pos = POS.offset(offset, 0, 0);
+            helper.setBlock(pos, RegistryEntries.BLOCK_PURIFIER.get());
+            BlockEntityPurifier purifier = helper.getBlockEntity(pos, BlockEntityPurifier.class);
+            purifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, new ItemStack(head));
+            purifier.getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume() * BlockEntityPurifier.MAX_BUCKETS));
+            purifierPositions.put(pos, head);
+            offset += 2;
+        }
+
+        // After enough ticks for a purification to have happened, verify that nothing changed
+        helper.runAfterDelay(150, () -> {
+            for (Map.Entry<BlockPos, Item> entry : purifierPositions.entrySet()) {
+                BlockEntityPurifier purifier = helper.getBlockEntity(entry.getKey(), BlockEntityPurifier.class);
+                ItemStack result = purifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY);
+                helper.assertTrue(result.is(entry.getValue()), "Expected " + entry.getValue() + " to be left alone, but got " + result.getItem());
+                helper.assertFalse(purifier.getTank().isEmpty(), "Blood was incorrectly consumed for " + entry.getValue());
+            }
             helper.succeed();
         });
     }

@@ -25,7 +25,7 @@ More gameplay information can be found on [CurseForge](https://www.curseforge.co
 
 ### Branching Strategy
 
-For every major Minecraft version, a `master-{mc_version} branch exists.
+For every major Minecraft version, a `master-{mc_version}` branch exists.
 
 ### License
 All code and images are licenced under [Creative Commons 4](http://creativecommons.org/licenses/by/4.0/)
