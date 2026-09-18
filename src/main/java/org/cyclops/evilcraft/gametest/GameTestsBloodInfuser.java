@@ -228,12 +228,8 @@ public class GameTestsBloodInfuser {
     }
 
     /**
-     * Get the blood infuser at {@link #POS}.
-     * This must be called again on every check inside {@link GameTestHelper#succeedWhen(Runnable)},
-     * because the block entity instance is replaced when its chunk is reloaded while the test is running,
+     * Refetch the infuser on every check: a chunk reload during the test replaces the block entity instance,
      * which leaves any earlier reference detached from the world and frozen in its last state.
-     * @param helper The game test helper.
-     * @return The blood infuser block entity.
      */
     protected static BlockEntityBloodInfuser getInfuser(GameTestHelper helper) {
         return helper.getBlockEntity(POS, BlockEntityBloodInfuser.class);
