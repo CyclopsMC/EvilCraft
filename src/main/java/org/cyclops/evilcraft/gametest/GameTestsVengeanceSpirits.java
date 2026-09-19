@@ -27,7 +27,9 @@ public class GameTestsVengeanceSpirits {
     public static final String TEMPLATE_EMPTY = "empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_0")
+    // Give the box plenty of time: it only looks for spirits every 10 ticks,
+    // and then has to pull the spirit towards itself, which takes 50 ticks and up.
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300, batch = "vengeance_spirits_0")
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
         // Spawn spirit, and pre-freeze it so the box can reliably find and capture it (the box only targets frozen spirits)
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
