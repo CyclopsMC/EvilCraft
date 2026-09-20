@@ -185,7 +185,12 @@ public class EntityBiomeExtract extends EntityThrowable {
         LevelChunk chunkSafe = world.getChunkSource().getChunk(chunkPos.x, chunkPos.z, false);
         ((ServerChunkCache) world.getChunkSource()).chunkMap.getPlayers(chunkPos, false).forEach((player) -> {
             player.connection.send(new ClientboundLevelChunkWithLightPacket(chunkSafe, ((ServerChunkCache) world.getChunkSource()).chunkMap.getLightEngine(), null, null));
-            EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
+            try {
+                EvilCraft._instance.getPacketHandler().sendToPlayer(new ResetChunkColorsPacket(chunkPos.x, chunkPos.z), player);
+            } catch (UnsupportedOperationException e) {
+                // Can occur for players without a channel for this packet, such as during game testing
+                e.printStackTrace();
+            }
         });
     }
 
