@@ -1,12 +1,10 @@
 package org.cyclops.evilcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -32,7 +30,6 @@ import javax.annotation.Nullable;
  */
 public class BlockSpiritReanimator extends BlockWithEntityGuiTank {
 
-    public static final MapCodec<BlockSpiritReanimator> CODEC = simpleCodec(BlockSpiritReanimator::new);
     public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class, Direction.Plane.HORIZONTAL);
     public static final BooleanProperty ON = BooleanProperty.create("on");
 
@@ -44,10 +41,6 @@ public class BlockSpiritReanimator extends BlockWithEntityGuiTank {
                 .setValue(ON, false));
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     @Nullable

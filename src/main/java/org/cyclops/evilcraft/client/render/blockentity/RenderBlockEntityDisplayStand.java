@@ -83,27 +83,27 @@ public class RenderBlockEntityDisplayStand implements BlockEntityRenderer<BlockE
         poseStack.translate(0.5F, 0.5F, 0.5F);
         if (itemStack.getItem() instanceof BlockItem) {
             poseStack.scale(0.6F, 0.6F, 0.6F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+            poseStack.rotateDegrees(Axis.YP, 90F);
         } else if (itemStack.getItem() instanceof IBroom) {
             poseStack.scale(2F, 2F, 2F);
         } else if (!(itemStack.getItem() instanceof IBroom)) {
             poseStack.scale(0.5F, 0.5F, 0.5F);
             poseStack.translate(0F, 0.25F, 0F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+            poseStack.rotateDegrees(Axis.YP, 90F);
         }
 
         Vector3f vec = ROTATIONS.get(facing);
-        poseStack.mulPose(Axis.XP.rotationDegrees(vec.x()));
-        poseStack.mulPose(Axis.YP.rotationDegrees(vec.y()));
+        poseStack.rotateDegrees(Axis.XP, vec.x());
+        poseStack.rotateDegrees(Axis.YP, vec.y());
 
         if (!axisX) {
-            poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+            poseStack.rotateDegrees(Axis.YP, 90F);
             if (!positiveDirection) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.rotateDegrees(Axis.YP, 180F);
             }
         } else {
             if (positiveDirection) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.rotateDegrees(Axis.YP, 180F);
             }
         }
 

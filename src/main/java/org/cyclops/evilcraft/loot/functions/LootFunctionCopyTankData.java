@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.loot.functions;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
@@ -15,7 +16,7 @@ import org.cyclops.cyclopscore.capability.fluid.IFluidHandlerCapacity;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
 import org.cyclops.evilcraft.core.blockentity.BlockEntityTankInventory;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Optional;
 
 /**
@@ -27,13 +28,13 @@ public class LootFunctionCopyTankData extends LootItemConditionalFunction {
             builder -> commonFields(builder).apply(builder, LootFunctionCopyTankData::new)
     );
 
-    protected LootFunctionCopyTankData(List<LootItemCondition> conditionsIn) {
-        super(conditionsIn);
+    protected LootFunctionCopyTankData(Optional<Holder<LootItemCondition>> condition) {
+        super(condition);
     }
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        if (lootContext.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof BlockEntityTankInventory tile) {
+        if (lootContext.getOptional(LootContextParams.BLOCK_ENTITY) instanceof BlockEntityTankInventory tile) {
             SingleUseTank fluidHandlerTile = tile.getTank();
             ItemAccess itemAccess = ItemAccess.forStack(itemStack);
             return Optional.ofNullable(itemAccess.getCapability(Capabilities.Fluid.ITEM))

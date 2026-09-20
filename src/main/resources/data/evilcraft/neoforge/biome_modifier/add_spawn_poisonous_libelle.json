@@ -4,9 +4,12 @@
   "spawners": [
     {
       "type": "evilcraft:poisonous_libelle",
-      "weight": 1,
-      "minCount": 1,
-      "maxCount": 2
+      "count": {
+        "type": "minecraft:uniform",
+        "min_inclusive": 1,
+        "max_inclusive": 2
+      },
+      "weight": 1
     }
   ]
 }

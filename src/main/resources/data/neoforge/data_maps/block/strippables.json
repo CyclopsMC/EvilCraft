@@ -1,0 +1,10 @@
+{
+  "values": {
+    "evilcraft:undead_log": {
+      "stripped_block": "evilcraft:undead_log_stripped"
+    },
+    "evilcraft:undead_wood": {
+      "stripped_block": "evilcraft:undead_wood_stripped"
+    }
+  }
+}

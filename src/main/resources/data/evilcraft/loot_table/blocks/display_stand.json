@@ -6,19 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "evilcraft:copy_display_stand_data"
-            }
-          ],
+          "modifier": {
+            "type": "evilcraft:copy_display_stand_data"
+          },
           "name": "evilcraft:display_stand"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }

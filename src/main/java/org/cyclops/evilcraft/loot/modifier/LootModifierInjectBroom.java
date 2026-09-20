@@ -7,6 +7,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -27,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -40,8 +42,8 @@ public class LootModifierInjectBroom extends LootModifier {
 
     private final List<String> lootTables;
 
-    public LootModifierInjectBroom(LootItemCondition[] conditionsIn, int priority, List<String> lootTables) {
-        super(conditionsIn, priority);
+    public LootModifierInjectBroom(Optional<Holder<LootItemCondition>> condition, int priority, List<String> lootTables) {
+        super(condition, priority);
         this.lootTables = lootTables;
     }
 

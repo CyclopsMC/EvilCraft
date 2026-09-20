@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.loot.functions;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Copies BOEC data to the item.
@@ -23,13 +24,13 @@ public class LootFunctionCopyBoxOfEternalClosureData extends LootItemConditional
             builder -> commonFields(builder).apply(builder, LootFunctionCopyBoxOfEternalClosureData::new)
     );
 
-    protected LootFunctionCopyBoxOfEternalClosureData(List<LootItemCondition> conditionsIn) {
-        super(conditionsIn);
+    protected LootFunctionCopyBoxOfEternalClosureData(Optional<Holder<LootItemCondition>> condition) {
+        super(condition);
     }
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        BlockEntity tile = lootContext.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        BlockEntity tile = lootContext.getOptional(LootContextParams.BLOCK_ENTITY);
         if (tile instanceof BlockEntityBoxOfEternalClosure) {
             CompoundTag tag = new CompoundTag();
             CompoundTag spiritTag = ((BlockEntityBoxOfEternalClosure) tile).getSpiritTag();

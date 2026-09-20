@@ -111,7 +111,7 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result == InteractionResult.SUCCESS, Component.literal("Result is not successful"));
+            helper.assertTrue(result instanceof InteractionResult.Success, Component.literal("Result is not successful"));
 
             // Check tank has water
             BlockEntityDarkTank tank = helper.getBlockEntity(POS, BlockEntityDarkTank.class);
@@ -138,7 +138,7 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result == InteractionResult.SUCCESS, Component.literal("Result is not successful"));
+            helper.assertTrue(result instanceof InteractionResult.Success, Component.literal("Result is not successful"));
 
             // Check filled cauldron
             helper.assertBlockPresent(Blocks.WATER_CAULDRON, POS);
@@ -165,7 +165,7 @@ public class GameTestsItemEternalWater {
 
         helper.succeedWhen(() -> {
             // Check result
-            helper.assertTrue(result == InteractionResult.SUCCESS, Component.literal("Result is not successful"));
+            helper.assertTrue(result instanceof InteractionResult.Success, Component.literal("Result is not successful"));
 
             // Check filled cauldron
             helper.assertBlockPresent(Blocks.WATER_CAULDRON, POS);

@@ -80,11 +80,11 @@ public class RenderBlockEntityEnvironmentalAccumulator extends RenderBlockEntity
         // Draw the actual item at the origin
         if (stack.getItem() instanceof BlockItem) {
             matrixStackIn.translate(1F, 0.675F, 1F);
-            matrixStackIn.mulPose(Axis.YP.rotationDegrees(angle));
+            matrixStackIn.rotateDegrees(Axis.YP, angle);
 
         } else {
             matrixStackIn.translate(1F, 1F, 1F);
-            matrixStackIn.mulPose(Axis.YP.rotationDegrees(angle));
+            matrixStackIn.rotateDegrees(Axis.YP, angle);
         }
         matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 

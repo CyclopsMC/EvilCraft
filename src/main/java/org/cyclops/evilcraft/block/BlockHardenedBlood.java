@@ -32,7 +32,7 @@ public class BlockHardenedBlood extends Block {
             BlockPos blockPos = BlockPos.containing(builder.getOptionalParameter(LootContextParams.ORIGIN));
             BlockState blockState = world.getBlockState(blockPos.offset(0, -1, 0));
 
-            if (blockState.blocksMotion() || blockState.liquid()) {
+            if (blockState.isSolid() || blockState.liquid()) {
                 world.setBlockAndUpdate(blockPos, RegistryEntries.BLOCK_BLOOD.get().defaultBlockState());
             }
         }

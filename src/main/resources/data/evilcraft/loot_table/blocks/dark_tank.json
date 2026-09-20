@@ -6,23 +6,21 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
+          "modifier": [
             {
-              "function": "minecraft:copy_name",
+              "type": "minecraft:copy_name",
               "source": "block_entity"
             },
             {
-              "function": "evilcraft:copy_tank_data"
+              "type": "evilcraft:copy_tank_data"
             }
           ],
           "name": "evilcraft:dark_tank"
         }
       ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ]
+      "condition": {
+        "type": "minecraft:survives_explosion"
+      }
     }
   ]
 }

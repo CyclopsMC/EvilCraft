@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.core.degradation.effect;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
@@ -40,7 +41,10 @@ public class MobSpawnDegradation extends StochasticDegradationEffect {
         float x = spawn.getX() + 0.5F;
         float y = spawn.getY();
         float z = spawn.getZ() + 0.5F;
-        Optional<MobSpawnSettings.SpawnerData> spawnlistentry = world.getBiome(spawn).value().getMobSettings().getMobs(MobCategory.MONSTER).getRandom(world.getRandom());
+        Optional<MobSpawnSettings.SpawnerData> spawnlistentry = world.environmentAttributes()
+                .getValue(EnvironmentAttributes.NATURAL_MOB_SPAWNS, spawn)
+                .getMobsToSpawn(MobCategory.MONSTER)
+                .getRandom(world.getRandom());
         Mob entityliving;
 
         try {

@@ -55,8 +55,8 @@ public class RenderBroom extends EntityRenderer<EntityBroom, RenderStateBroom> {
         // In case this causes other problems, you can replace it by the yaw again
         float rotationYaw = renderState.yRotO + (renderState.yRot - renderState.yRotO) * renderState.partialTick;
         float rotationPitch = renderState.xRotO + (renderState.xRot - renderState.xRotO) * renderState.partialTick;
-        poseStack.mulPose(Axis.YP.rotationDegrees(-rotationYaw));
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotationPitch));
+        poseStack.rotateDegrees(Axis.YP, -rotationYaw);
+        poseStack.rotateDegrees(Axis.XP, rotationPitch);
 
         poseStack.scale(2, 2, 2);
         ItemStackRenderState renderStateItemStack = new ItemStackRenderState();

@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.loot.functions;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.cyclops.evilcraft.block.BlockDisplayStand;
 import org.cyclops.evilcraft.blockentity.BlockEntityDisplayStand;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Copies display stand data to the item.
@@ -22,13 +23,13 @@ public class LootFunctionCopyDisplayStandData extends LootItemConditionalFunctio
             builder -> commonFields(builder).apply(builder, LootFunctionCopyDisplayStandData::new)
     );
 
-    protected LootFunctionCopyDisplayStandData(List<LootItemCondition> conditionsIn) {
-        super(conditionsIn);
+    protected LootFunctionCopyDisplayStandData(Optional<Holder<LootItemCondition>> condition) {
+        super(condition);
     }
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        BlockEntity tile = lootContext.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        BlockEntity tile = lootContext.getOptional(LootContextParams.BLOCK_ENTITY);
         if (tile instanceof BlockEntityDisplayStand) {
             ItemStack type = ((BlockEntityDisplayStand) tile).getDisplayStandType();
             BlockDisplayStand.setDisplayStandType(itemStack, type);
