@@ -178,6 +178,11 @@ public class GameTestsVengeanceSpirits {
         helper.setBlock(POS.south().south(), Blocks.STONE);
         helper.setBlock(POS.south(), Blocks.STONE);
 
+        // Roof the zombie, so it can't catch fire in the sun and die by a non-player damage source,
+        // as that would not spawn a spirit at all.
+        // The structure is encased in barriers, but those do not dampen skylight.
+        helper.setBlock(POS.above().south().above().above(), Blocks.STONE);
+
         helper.succeedWhen(() -> {
             helper.assertEntityNotPresent(EntityTypes.ZOMBIE);
             helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
