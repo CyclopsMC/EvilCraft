@@ -55,9 +55,9 @@ public class RenderDarkStick extends EntityRenderer<EntityItemDarkStick, RenderS
             rotation = (((float)renderState.ageInTicks) / 20.0F + renderState.bobOffset) * (180F / (float)Math.PI);
         }
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
-        poseStack.mulPose(Axis.YP.rotationDegrees(-90));
-        poseStack.mulPose(Axis.XP.rotationDegrees(25));
+        poseStack.rotateDegrees(Axis.YP, rotation);
+        poseStack.rotateDegrees(Axis.YP, -90);
+        poseStack.rotateDegrees(Axis.XP, 25);
 
         // , renderState.isValid() ? -renderState.bobOffset * 20/* to undo hoverstart in ItemRenderer */ : renderState.partialTick
         EntityRenderer entityRenderer = Minecraft.getInstance().getEntityRenderDispatcher().renderers.get(EntityTypes.ITEM);

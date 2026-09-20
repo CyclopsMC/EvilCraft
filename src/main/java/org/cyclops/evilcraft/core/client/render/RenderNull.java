@@ -19,7 +19,7 @@ public class RenderNull extends EntityRenderer<Entity, EntityRenderState> {
     }
 
     @Override
-    public boolean shouldRender(Entity livingEntityIn, Frustum camera, double camX, double camY, double camZ) {
+    public boolean shouldRender(Entity livingEntityIn, Frustum camera, double camX, double camY, double camZ, float partialTicks) {
         return false;
     }
 

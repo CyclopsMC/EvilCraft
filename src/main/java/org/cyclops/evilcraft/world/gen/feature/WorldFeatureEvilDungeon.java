@@ -1,6 +1,6 @@
 package org.cyclops.evilcraft.world.gen.feature;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.RandomizableContainer;
@@ -9,9 +9,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.MonsterRoomFeature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.neoforged.neoforge.common.MonsterRoomHooks;
 import org.cyclops.cyclopscore.helper.IModHelpers;
@@ -23,7 +22,9 @@ import org.cyclops.evilcraft.RegistryEntries;
  * @author rubensworks
  *
  */
-public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
+public class WorldFeatureEvilDungeon implements Feature {
+
+    public static final MapCodec<WorldFeatureEvilDungeon> CODEC = MapCodec.unit(WorldFeatureEvilDungeon::new);
 
     private static final int RADIUS_X = 3;
     private static final int RADIUS_X_RAND = 4;
@@ -32,15 +33,13 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
     private static final int CHESTS = 2;
     private static final int CHESTS_RAND = 2;
 
-    public WorldFeatureEvilDungeon(Codec<NoneFeatureConfiguration> config) {
-        super(config);
+    @Override
+    public MapCodec<WorldFeatureEvilDungeon> codec() {
+        return CODEC;
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        WorldGenLevel world = context.level();
-        BlockPos blockPos = context.origin();
-        RandomSource random = context.random();
+    public boolean place(WorldGenLevel world, ChunkGenerator chunkGenerator, RandomSource random, BlockPos blockPos) {
 
         int height = 3;
         int radiusX = random.nextInt(RADIUS_X_RAND) + RADIUS_X;
@@ -140,7 +139,7 @@ public class WorldFeatureEvilDungeon extends MonsterRoomFeature {
                     BlockEntity tile = world.getBlockEntity(loopPos);
 
                     if (tile instanceof SpawnerBlockEntity) {
-                        ((SpawnerBlockEntity) tile).getSpawner().setEntityId(MonsterRoomHooks.getRandomMonsterRoomMob(random), null, random, loopPos);
+                        ((SpawnerBlockEntity) tile).setEntityId(MonsterRoomHooks.getRandomMonsterRoomMob(random), random);
                     } else {
                         System.err.println("Failed to fetch mob spawner entity at (" + xs + ", " + y + ", " + zs + ")");
                     }

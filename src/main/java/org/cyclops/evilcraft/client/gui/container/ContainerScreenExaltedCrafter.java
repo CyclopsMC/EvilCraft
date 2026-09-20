@@ -16,7 +16,6 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.client.key.Keys;
 import org.cyclops.evilcraft.inventory.container.ContainerExaltedCrafter;
 import org.cyclops.evilcraft.item.ItemExaltedCrafter;
-import org.lwjgl.glfw.GLFW;
 
 /**
  * GUI for the {@link ItemExaltedCrafter}.
@@ -44,7 +43,7 @@ public class ContainerScreenExaltedCrafter extends ContainerScreenExtended<Conta
 
     @Override
     public boolean keyPressed(KeyEvent evt) {
-        if (evt.key() != GLFW.GLFW_KEY_ESCAPE) {
+        if (evt.key() != InputConstants.KEY_ESCAPE) {
             if (handleKeyCode(evt)) {
                 return true;
             }

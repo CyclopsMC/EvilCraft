@@ -45,7 +45,6 @@ public class EntityNoMob extends PathfinderMob {
     }
 
     public void aiStep() {
-        this.updateSwingTime();
         this.updateNoActionTime();
         super.aiStep();
     }

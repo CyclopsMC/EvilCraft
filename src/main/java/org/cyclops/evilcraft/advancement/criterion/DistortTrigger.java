@@ -2,11 +2,12 @@ package org.cyclops.evilcraft.advancement.criterion;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.predicates.ContextAwarePredicate;
 import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ public class DistortTrigger extends SimpleCriterionTrigger<DistortTrigger.Instan
 
     public static final Codec<DistortTrigger.Instance> CODEC = RecordCodecBuilder.create(
             p_311401_ -> p_311401_.group(
-                            EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(DistortTrigger.Instance::player),
+                            LootItemCondition.CODEC.optionalFieldOf("player").forGetter(DistortTrigger.Instance::player),
                             Codec.INT.optionalFieldOf("min_entities").forGetter(DistortTrigger.Instance::minEntities),
                             EntityPredicate.CODEC.optionalFieldOf("entity").forGetter(DistortTrigger.Instance::entityPredicate)
                     )
@@ -36,7 +37,7 @@ public class DistortTrigger extends SimpleCriterionTrigger<DistortTrigger.Instan
     }
 
     public static record Instance(
-            Optional<ContextAwarePredicate> player,
+            Optional<Holder<LootItemCondition>> player,
             Optional<Integer> minEntities,
             Optional<EntityPredicate> entityPredicate
     ) implements SimpleCriterionTrigger.SimpleInstance {

@@ -2,11 +2,12 @@ package org.cyclops.evilcraft.advancement.criterion;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.predicates.ContextAwarePredicate;
 import net.minecraft.advancements.predicates.entity.EntityPredicate;
 import net.minecraft.advancements.triggers.SimpleCriterionTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class NecromanceTrigger extends SimpleCriterionTrigger<NecromanceTrigger.
 
     public static final Codec<NecromanceTrigger.Instance> CODEC = RecordCodecBuilder.create(
             p_311401_ -> p_311401_.group(
-                            EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(NecromanceTrigger.Instance::player),
+                            LootItemCondition.CODEC.optionalFieldOf("player").forGetter(NecromanceTrigger.Instance::player),
                             EntityPredicate.CODEC.fieldOf("entity").forGetter(NecromanceTrigger.Instance::entityPredicate)
                     )
                     .apply(p_311401_, NecromanceTrigger.Instance::new)
@@ -34,7 +35,7 @@ public class NecromanceTrigger extends SimpleCriterionTrigger<NecromanceTrigger.
     }
 
     public static record Instance(
-            Optional<ContextAwarePredicate> player,
+            Optional<Holder<LootItemCondition>> player,
             EntityPredicate entityPredicate
     ) implements SimpleCriterionTrigger.SimpleInstance {
         public boolean test(ServerPlayer player, Entity entity) {

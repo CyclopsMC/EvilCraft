@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -17,7 +16,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -46,7 +44,6 @@ import javax.annotation.Nullable;
  */
 public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements CubeDetector.IDetectionListener {
 
-    public static final MapCodec<BlockColossalBloodChest> CODEC = simpleCodec(BlockColossalBloodChest::new);
 
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
@@ -57,10 +54,6 @@ public class BlockColossalBloodChest extends BlockWithEntityGuiTank implements C
                 .setValue(ACTIVE, false));
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     @Nullable

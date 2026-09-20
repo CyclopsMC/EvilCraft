@@ -1,31 +1,27 @@
 {
-    "pools": [
+  "pools": [
+    {
+      "name": "evilcraft:vengeance_spirit",
+      "condition": {
+        "type": "minecraft:killed_by_player"
+      },
+      "rolls": 1,
+      "entries": [
         {
-            "name": "evilcraft:vengeance_spirit",
-            "conditions": [
-                {
-                    "condition": "minecraft:killed_by_player"
-                }
-            ],
-            "rolls": 1,
-            "entries": [
-                {
-                    "type": "minecraft:item",
-                    "name": "evilcraft:vengeance_essence",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "minecraft:enchanted_count_increase",
-                            "enchantment": "minecraft:looting",
-                            "count": {
-                                "type": "minecraft:uniform",
-                                "max": 1.0,
-                                "min": 0.0
-                            }
-                        }
-                    ]
-                }
-            ]
+          "type": "minecraft:item",
+          "name": "evilcraft:vengeance_essence",
+          "weight": 1,
+          "modifier": {
+            "type": "minecraft:enchanted_count_increase",
+            "enchantment": "minecraft:looting",
+            "count": {
+              "type": "minecraft:uniform",
+              "max": 1.0,
+              "min": 0.0
+            }
+          }
         }
-    ]
+      ]
+    }
+  ]
 }

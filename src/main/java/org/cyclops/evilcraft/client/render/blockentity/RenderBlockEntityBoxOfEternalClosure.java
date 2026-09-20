@@ -97,7 +97,7 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
         }
 
         poseStack.translate(0.5F, 0.5F, 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+        poseStack.rotateDegrees(Axis.YP, rotation);
         poseStack.translate(-0.5F, -0.5F, -0.5F);
 
         // Render box
@@ -114,10 +114,10 @@ public class RenderBlockEntityBoxOfEternalClosure extends RendererBlockEntityEnd
                 + (renderState.lidAngle - renderState.previousLidAngle) * renderState.partialTicks;
         poseStack.pushPose();
         poseStack.translate(0.5F, 0.5F, 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(180));
+        poseStack.rotateDegrees(Axis.YP, 180);
         poseStack.translate(-0.5F, -0.5F, -0.5F);
         poseStack.translate(0.25F, 0.375F, 0F);
-        poseStack.mulPose(Axis.ZP.rotationDegrees(angle));
+        poseStack.rotateDegrees(Axis.ZP, angle);
         poseStack.translate(-0.25F, -0.375F, 0F);
         java.util.List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> lidParts = new java.util.ArrayList<>();
         model.getBoxLidModel().collectParts(net.minecraft.util.RandomSource.create(), lidParts);

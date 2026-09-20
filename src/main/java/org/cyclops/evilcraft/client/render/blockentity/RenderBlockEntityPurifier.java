@@ -7,13 +7,13 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.object.book.BookModel;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.EnchantTableRenderer;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -127,9 +127,9 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
             poseStack.scale(0.6F, 0.6F, 0.6F);
         } else {
             poseStack.translate(1F, 1.2F, 1F);
-            poseStack.mulPose(Axis.XP.rotationDegrees(25F));
-            poseStack.mulPose(Axis.YP.rotationDegrees(25F));
-            poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+            poseStack.rotateDegrees(Axis.XP, 25F);
+            poseStack.rotateDegrees(Axis.YP, 25F);
+            poseStack.rotateDegrees(Axis.YP, rotation);
         }
 
         renderState.submit(poseStack, submitNodeCollector, 15728880, OverlayTexture.NO_OVERLAY, 0);
@@ -154,12 +154,12 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         }
 
         float rotation = renderState.additionalRotationPrev + speedUp * partialTickTime;
-        poseStack.mulPose(Axis.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
+        poseStack.rotateDegrees(Axis.YP, -rotation * 180.0F / (float) Math.PI);
 
         poseStack.translate(0F, 0.5F, 0F);
         if (!(itemStack.getItem() instanceof BlockItem)) {
-            poseStack.mulPose(Axis.YP.rotationDegrees(25));
-            poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+            poseStack.rotateDegrees(Axis.YP, 25);
+            poseStack.rotateDegrees(Axis.YP, rotation);
         }
 
         ItemStackRenderState renderStateItem = new ItemStackRenderState();
@@ -183,8 +183,8 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         }
 
         float rotation = renderState.additionalRotationPrev + speedUp * partialTickTime;
-        poseStack.mulPose(Axis.YP.rotationDegrees(-rotation * 180.0F / (float) Math.PI));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(80.0F));
+        poseStack.rotateDegrees(Axis.YP, -rotation * 180.0F / (float) Math.PI);
+        poseStack.rotateDegrees(Axis.ZP, 80.0F);
 
         float f3 = Mth.lerp(partialTickTime, renderState.oFlip, renderState.flip);
         float f4 = Mth.frac(f3 + 0.25F) * 1.6F - 0.3F;
@@ -193,7 +193,12 @@ public class RenderBlockEntityPurifier implements BlockEntityRenderer<BlockEntit
         this.enchantmentBook.setupAnim(BookModel.State.forAnimation(rotation, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), f6));
         SpriteId material = itemStack.getItem() == DisenchantPurifyAction.ALLOWED_BOOK.get() ? TEXTURE_BLOOK : EnchantTableRenderer.BOOK_TEXTURE;
         BookModel.State bookmodel$state = BookModel.State.forAnimation(tick, Mth.clamp(f4, 0.0F, 1.0F), Mth.clamp(f5, 0.0F, 1.0F), renderState.open);
-        submitNodeCollector.submitModel(this.enchantmentBook, bookmodel$state, poseStack, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, material, this.sprites, 0, renderState.breakProgress);
+        submitNodeCollector.submitModel(this.enchantmentBook, bookmodel$state, poseStack, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, material, this.sprites, 0);
+        if (renderState.breakProgress != null) {
+            submitNodeCollector.order(1)
+                    .submitCrumblingOverlay(this.enchantmentBook, bookmodel$state, poseStack, material.renderType(this.enchantmentBook.renderType()),
+                            renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, renderState.breakProgress);
+        }
 
         poseStack.popPose();
     }

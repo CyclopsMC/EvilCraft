@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.blockentity.state.ChestRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
@@ -46,7 +47,7 @@ public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBloc
 
     protected void handleRotation(S renderState, PoseStack matrixStack) {
         float f = getDirection(renderState).toYRot();
-        matrixStack.mulPose(Axis.YP.rotationDegrees(-f));
+        matrixStack.rotateDegrees(Axis.YP, -f);
     }
 
     @Override
@@ -66,7 +67,12 @@ public abstract class RenderBlockEntityChestBase<T extends BlockEntity & LidBloc
 
         float f1 = renderState.openNess;
         SpriteId spriteId = this.getSpriteId(renderState);
-        submitNodeCollector.submitModel(this.singleModel, f1, poseStack, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, spriteId, this.sprites, 0, renderState.breakProgress);
+        submitNodeCollector.submitModel(this.singleModel, f1, poseStack, renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, spriteId, this.sprites, 0);
+        if (renderState.breakProgress != null) {
+            submitNodeCollector.order(1)
+                    .submitCrumblingOverlay(this.singleModel, f1, poseStack, spriteId.renderType(RenderTypes::entityCutout),
+                            renderState.lightCoords, OverlayTexture.NO_OVERLAY, -1, renderState.breakProgress);
+        }
 
         poseStack.popPose();
     }

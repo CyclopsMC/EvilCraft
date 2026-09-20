@@ -65,9 +65,9 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
 
     private void renderStar(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, float rotation, float progress, Random random) {
         /* Rotate opposite direction at 20% speed */
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotation * -0.2f % 360 / 2));
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation * -0.2f % 360));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(rotation * -0.2f % 360 / 2));
+        poseStack.rotateDegrees(Axis.XP, rotation * -0.2f % 360 / 2);
+        poseStack.rotateDegrees(Axis.YP, rotation * -0.2f % 360);
+        poseStack.rotateDegrees(Axis.ZP, rotation * -0.2f % 360 / 2);
 
         /* Configuration tweaks */
         float BEAM_START_DISTANCE = 2F;
@@ -82,12 +82,12 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
         }
 
         for (int i = 0; i < (progress + progress * progress) / 2.0F * 60.0F; ++i) {
-            poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F + progress * 90.0F));
+            poseStack.rotateDegrees(Axis.XP, random.nextFloat() * 360.0F);
+            poseStack.rotateDegrees(Axis.YP, random.nextFloat() * 360.0F);
+            poseStack.rotateDegrees(Axis.ZP, random.nextFloat() * 360.0F);
+            poseStack.rotateDegrees(Axis.XP, random.nextFloat() * 360.0F);
+            poseStack.rotateDegrees(Axis.YP, random.nextFloat() * 360.0F);
+            poseStack.rotateDegrees(Axis.ZP, random.nextFloat() * 360.0F + progress * 90.0F);
             float f3 = random.nextFloat() * BEAM_END_DISTANCE + 5.0F + f2 * 10.0F;
             float f4 = random.nextFloat() * BEAM_START_DISTANCE + 1.0F + f2 * 2.0F;
             submitNodeCollector.submitCustomGeometry(poseStack, RenderTypes.lightning(), (pose, vb) -> {
@@ -103,8 +103,8 @@ public class RenderBlockEntitySpiritPortal implements BlockEntityRenderer<BlockE
     private void renderPortalBase(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState, float progress) {
         poseStack.pushPose();
 
-        poseStack.mulPose(cameraRenderState.orientation);
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        poseStack.rotate(cameraRenderState.orientation);
+        poseStack.rotateDegrees(Axis.YP, 180.0F);
         renderIconForProgress(poseStack, submitNodeCollector, ((int) (progress * 100)) % 4, progress);
 
         poseStack.popPose();

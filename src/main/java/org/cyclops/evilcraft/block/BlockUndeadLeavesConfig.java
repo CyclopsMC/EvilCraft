@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.block;
 
-import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import org.cyclops.cyclopscore.config.ConfigurablePropertyCommon;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.BlockConfigCommon;
@@ -26,15 +26,11 @@ public class BlockUndeadLeavesConfig extends BlockConfigCommon<EvilCraft> {
                         .strength(0.5F)
                         .sound(SoundType.GRAVEL)
                         .noOcclusion()),
-                getDefaultItemConstructor(EvilCraft._instance)
+                getDefaultItemConstructor(EvilCraft._instance, properties -> properties
+                        .compostable(ContextIntProviders.COMPOSTABLE_LOW))
         );
     }
 
-    @Override
-    public void onRegistryRegistered() {
-        super.onRegistryRegistered();
-        ComposterBlock.COMPOSTABLES.put(getItemInstance(), 0.3F);
-    }
 
     @Override
     public BlockClientConfig<EvilCraft> constructBlockClientConfig() {

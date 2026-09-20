@@ -2,6 +2,7 @@ package org.cyclops.evilcraft.loot.functions;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -14,7 +15,7 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
 import org.cyclops.evilcraft.item.ItemEntangledChalice;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Copies entangled chalice data to the item.
@@ -25,13 +26,13 @@ public class LootFunctionCopyEntangledChaliceData extends LootItemConditionalFun
             builder -> commonFields(builder).apply(builder, LootFunctionCopyEntangledChaliceData::new)
     );
 
-    protected LootFunctionCopyEntangledChaliceData(List<LootItemCondition> conditionsIn) {
-        super(conditionsIn);
+    protected LootFunctionCopyEntangledChaliceData(Optional<Holder<LootItemCondition>> condition) {
+        super(condition);
     }
 
     @Override
     public ItemStack run(ItemStack itemStack, LootContext lootContext) {
-        BlockEntity tile = lootContext.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        BlockEntity tile = lootContext.getOptional(LootContextParams.BLOCK_ENTITY);
         if (tile instanceof BlockEntityEntangledChalice) {
             String tankId = ((BlockEntityEntangledChalice) tile).getWorldTankId();
             ItemAccess itemAccess = ItemAccess.forStack(itemStack);

@@ -32,9 +32,9 @@ import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.state.level.QuadParticleRenderState;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.texture.UvMapping;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.geometry.ItemQuads;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.FormattedCharSequence;
@@ -251,8 +251,18 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public <S> void submitModel(Model<? super S> model, S s, PoseStack poseStack, RenderType renderType, int i, int i1, int i2, @Nullable TextureAtlasSprite textureAtlasSprite, int i3, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
-            this.submitNodeCollector.submitModel(model, s, poseStack, this.renderTypeOverride, i, i1, i2, textureAtlasSprite, i3, crumblingOverlay);
+        public <S> void submitModel(Model<? super S> model, S s, PoseStack poseStack, RenderType renderType, int i, int i1, int i2, @Nullable UvMapping uvMapping, int i3) {
+            this.submitNodeCollector.submitModel(model, s, poseStack, this.renderTypeOverride, i, i1, i2, uvMapping, i3);
+        }
+
+        @Override
+        public <S> void submitCrumblingOverlay(Model<? super S> model, S s, PoseStack poseStack, RenderType renderType, int i, int i1, int i2, ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
+            this.submitNodeCollector.submitCrumblingOverlay(model, s, poseStack, this.renderTypeOverride, i, i1, i2, crumblingOverlay);
+        }
+
+        @Override
+        public void submitTextBackground(PoseStack poseStack, float v, float v1, float v2, float v3, int i, Font.DisplayMode displayMode, int i1) {
+            this.submitNodeCollector.submitTextBackground(poseStack, v, v1, v2, v3, i, displayMode, i1);
         }
 
         @Override
@@ -266,8 +276,8 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public void submitBreakingBlockModel(PoseStack poseStack, List<BlockStateModelPart> list, int i) {
-            this.submitNodeCollector.submitBreakingBlockModel(poseStack, list, i);
+        public void submitBreakingBlockModel(PoseStack poseStack, List<BlockStateModelPart> list, int i, boolean b) {
+            this.submitNodeCollector.submitBreakingBlockModel(poseStack, list, i, b);
         }
 
         @Override
@@ -276,8 +286,8 @@ public class RenderVengeanceSpirit extends EntityRenderer<EntityVengeanceSpirit,
         }
 
         @Override
-        public void submitItem(PoseStack poseStack, ItemDisplayContext itemDisplayContext, int i, int i1, int i2, int[] ints, List<BakedQuad> list, ItemStackRenderState.FoilType foilType) {
-            this.submitNodeCollector.submitItem(poseStack, itemDisplayContext, i, i1, i2, ints, list, foilType);
+        public void submitItem(PoseStack poseStack, ItemDisplayContext itemDisplayContext, int i, int i1, int i2, int[] ints, ItemQuads itemQuads, ItemStackRenderState.FoilType foilType) {
+            this.submitNodeCollector.submitItem(poseStack, itemDisplayContext, i, i1, i2, ints, itemQuads, foilType);
         }
 
         @Override

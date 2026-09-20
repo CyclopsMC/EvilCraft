@@ -7,6 +7,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -17,6 +18,7 @@ import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -44,8 +46,8 @@ public class LootModifierInjectBoxOfEternalClosure extends LootModifier {
 
     private final List<String> lootTables;
 
-    public LootModifierInjectBoxOfEternalClosure(LootItemCondition[] conditionsIn, int priority, List<String> lootTables) {
-        super(conditionsIn, priority);
+    public LootModifierInjectBoxOfEternalClosure(Optional<Holder<LootItemCondition>> condition, int priority, List<String> lootTables) {
+        super(condition, priority);
         this.lootTables = lootTables;
     }
 

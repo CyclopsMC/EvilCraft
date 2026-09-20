@@ -1,7 +1,7 @@
 package org.cyclops.evilcraft.client.render.entity;
 
 import net.minecraft.client.model.geom.ModelLayers;
-import net.minecraft.client.model.monster.zombie.AbstractZombieModel;
+import net.minecraft.client.model.monster.zombie.ZombieModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.state.ZombieRenderState;
@@ -16,7 +16,7 @@ import org.cyclops.evilcraft.entity.monster.EntityControlledZombieConfig;
  * @author rubensworks
  *
  */
-public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlledZombie, ZombieRenderState, AbstractZombieModel<ZombieRenderState>> {
+public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlledZombie, ZombieRenderState, ZombieModel<ZombieRenderState>> {
 
     private final Identifier texture;
 
@@ -42,7 +42,7 @@ public class RenderControlledZombie extends HumanoidMobRenderer<EntityControlled
         state.isConverting = false;
     }
 
-    public static class Model extends AbstractZombieModel<ZombieRenderState> {
+    public static class Model extends ZombieModel<ZombieRenderState> {
         protected Model(EntityRendererProvider.Context context) {
             super(context.bakeLayer(ModelLayers.ZOMBIE));
         }

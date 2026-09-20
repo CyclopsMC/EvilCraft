@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:ore",
+  "discard_chance_on_air_exposure": 0.0,
+  "size": 9,
+  "targets": [
+    {
+      "state": "evilcraft:infested_nether_netherrack",
+      "target": {
+        "predicate_type": "minecraft:block_match",
+        "block": "minecraft:netherrack"
+      }
+    },
+    {
+      "state": "evilcraft:infested_nether_nether_bricks",
+      "target": {
+        "predicate_type": "minecraft:block_match",
+        "block": "minecraft:nether_bricks"
+      }
+    },
+    {
+      "state": "evilcraft:infested_nether_soul_sand",
+      "target": {
+        "predicate_type": "minecraft:block_match",
+        "block": "minecraft:soul_sand"
+      }
+    }
+  ]
+}

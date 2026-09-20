@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -9,7 +8,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -35,13 +33,11 @@ import java.util.Locale;
  */
 public class BlockSanguinaryPedestal extends BlockWithEntity implements IBlockRarityProvider, IBlockTank {
 
-    private final MapCodec<BlockSanguinaryPedestal> codec;
     private final int tier;
 
     public BlockSanguinaryPedestal(Block.Properties properties, int tier) {
         super(properties, BlockEntitySanguinaryPedestal::new);
         this.tier = tier;
-        this.codec = simpleCodec(p -> new BlockSanguinaryPedestal(p, tier));
     }
 
     @Override
@@ -91,8 +87,4 @@ public class BlockSanguinaryPedestal extends BlockWithEntity implements IBlockRa
         return false;
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return codec;
-    }
 }

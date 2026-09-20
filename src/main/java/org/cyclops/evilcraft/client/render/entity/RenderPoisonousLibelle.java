@@ -22,7 +22,7 @@ public class RenderPoisonousLibelle extends RenderModelLiving<EntityPoisonousLib
     @Override
     protected void scale(RenderStatePoisonousLibelle renderState, PoseStack poseStack) {
         super.scale(renderState, poseStack);
-        poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+        poseStack.rotateDegrees(Axis.YP, 180F);
         poseStack.scale(-0.5F, 0.5F, -0.5F);
         poseStack.translate(0, 0.5F, 0);
     }

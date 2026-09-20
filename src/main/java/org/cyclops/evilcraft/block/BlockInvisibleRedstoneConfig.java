@@ -23,7 +23,7 @@ public class BlockInvisibleRedstoneConfig extends BlockConfigCommon<IModBase> {
                 EvilCraft._instance,
                 "invisible_redstone",
                 (eConfig, properties) -> new BlockInvisibleRedstone(properties
-                        .pushReaction(PushReaction.BLOCK)
+                        .pushReaction(PushReaction.IMMOVEABLE)
                         .air()
                         .strength(5.0F, 10.0F)
                         .sound(SoundType.METAL)),

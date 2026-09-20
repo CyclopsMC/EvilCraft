@@ -11,11 +11,13 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.MobSpawnSettings;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.component.DataComponentBiomeConfig;
 import org.cyclops.evilcraft.entity.item.EntityBiomeExtract;
@@ -131,8 +133,11 @@ public class ItemBiomeExtract extends Item {
     }
 
     protected Rarity getRarity(Holder<Biome> biome) {
-        return biome.value().getMobSettings().getCreatureProbability() <= 0.05F
+        float creatureProbability = biome.value().getModifiedEnvironmentAttributes()
+                .applyModifier(EnvironmentAttributes.CREATURE_WORLD_GEN_SPAWN_PROBABILITY,
+                        MobSpawnSettings.DEFAULT_CREATURE_WORLD_GEN_SPAWN_PROBABILITY);
+        return creatureProbability <= 0.05F
                 ? Rarity.EPIC
-                : (biome.value().getMobSettings().getCreatureProbability() <= 0.1F ? Rarity.RARE : Rarity.UNCOMMON);
+                : (creatureProbability <= 0.1F ? Rarity.RARE : Rarity.UNCOMMON);
     }
 }

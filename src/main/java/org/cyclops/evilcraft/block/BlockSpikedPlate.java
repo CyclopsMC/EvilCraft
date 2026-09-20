@@ -1,6 +1,5 @@
 package org.cyclops.evilcraft.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -9,7 +8,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BasePressurePlateBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,16 +30,11 @@ import java.util.List;
  */
 public class BlockSpikedPlate extends BlockPressurePlate {
 
-    public static final MapCodec<BlockSpikedPlate> CODEC = simpleCodec(BlockSpikedPlate::new);
 
     public BlockSpikedPlate(Block.Properties properties) {
         super(properties);
     }
 
-    @Override
-    protected MapCodec<? extends BasePressurePlateBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos blockPos) {

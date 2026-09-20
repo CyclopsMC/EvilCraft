@@ -1,7 +1,6 @@
 package org.cyclops.evilcraft.block;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -54,7 +52,6 @@ import java.util.Map;
  */
 public class BlockDisplayStand extends BlockWithEntity {
 
-    public static final MapCodec<BlockDisplayStand> CODEC = simpleCodec(BlockDisplayStand::new);
 
     public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class, Direction.values());
     public static final BooleanProperty AXIS_X = BooleanProperty.create("axis_x");
@@ -81,10 +78,6 @@ public class BlockDisplayStand extends BlockWithEntity {
                 .setValue(AXIS_X, false));
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     @Nullable
