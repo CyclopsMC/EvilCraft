@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -29,7 +30,11 @@ public class ItemCreativeBloodDropConfig extends ItemConfig {
             "creative_blood_drop",
                 eConfig -> new ItemCreativeBloodDrop(new Item.Properties())
         );
-        EvilCraft._instance.getModEventBus().addListener(this::registerCapability);
+        // CyclopsCore registers a regular (finite, initially empty) fluid handler for every
+        // DamageIndicatedItemFluidContainer, and the first registered provider wins.
+        // Mod load order between evilcraft and cyclopscore is unconstrained, so raise our priority
+        // to make sure the creative handler below always takes precedence.
+        EvilCraft._instance.getModEventBus().addListener(EventPriority.HIGH, this::registerCapability);
         EvilCraft._instance.getModEventBus().addListener(this::fillCreativeTab);
     }
 
