@@ -10,15 +10,21 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
+
+import java.util.List;
+import java.util.UUID;
 
 @GameTestHolder(Reference.MOD_ID)
 @PrefixGameTestTemplate(false)
@@ -176,4 +182,32 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_6")
+    public void testVengeanceSpiritReleasePlayerDropsEmptyBox(GameTestHelper helper) {
+        helper.setBlock(POS, Blocks.STONE);
+
+        // Place a box containing a player, as found in loot
+        ItemStack boxFilled = new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE);
+        BlockBoxOfEternalClosure.setPlayerContent(boxFilled, UUID.fromString("068d4de0-3a75-4c6a-9f01-8c37e16a394c"), "kroeserr");
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setItemInHand(InteractionHand.MAIN_HAND, boxFilled);
+        BlockPos posFloor = helper.absolutePos(POS);
+        boxFilled.useOn(new UseOnContext(player, InteractionHand.MAIN_HAND, new BlockHitResult(posFloor.getCenter().add(0, 0.5, 0), Direction.UP, posFloor, false)));
+        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.above());
+        helper.assertTrue(box.hasSpirit(), "Placed box is empty");
+        helper.assertValueEqual(box.getPlayerName(), "kroeserr", "Placed box has invalid player");
+
+        // Open box
+        helper.getBlockState(POS.above()).useWithoutItem(helper.getLevel(), player, new BlockHitResult(helper.absolutePos(POS.above()).getCenter(), Direction.DOWN, helper.absolutePos(POS.above()), false));
+
+        helper.succeedWhen(() -> {
+            helper.assertFalse(box.hasSpirit(), "Box is not empty");
+            helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
+
+            // Breaking the box must drop an empty box
+            List<ItemStack> drops = Block.getDrops(helper.getBlockState(POS.above()), helper.getLevel(), helper.absolutePos(POS.above()), box);
+            helper.assertValueEqual(drops.size(), 1, "Invalid number of drops");
+            helper.assertTrue(ItemStack.isSameItemSameComponents(drops.get(0), new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE)), "Dropped box is not empty: " + drops.get(0).getComponentsPatch());
+        });
+    }
 }

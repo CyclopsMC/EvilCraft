@@ -217,6 +217,9 @@ public class BlockEntityBoxOfEternalClosure extends CyclopsBlockEntity {
     private void clearSpirit() {
         spiritTag = new CompoundTag();
         spiritData = null;
+        playerId = "";
+        playerName = "";
+        setChanged();
     }
 
     private float randomFloat(float min, float max) {
