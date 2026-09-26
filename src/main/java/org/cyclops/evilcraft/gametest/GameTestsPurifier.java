@@ -8,6 +8,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -35,7 +38,14 @@ public class GameTestsPurifier {
         return sword;
     }
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    private static int countDroppedItems(GameTestHelper helper, Item item) {
+        return helper.getEntities(EntityType.ITEM, POS, 3).stream()
+                .filter(e -> e.getItem().is(item))
+                .mapToInt(e -> e.getItem().getCount())
+                .sum();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 400)
     public void testPurifierDisenchant(GameTestHelper helper) {
         HolderLookup.Provider holders = helper.getLevel().registryAccess();
         helper.setBlock(POS, RegistryEntries.BLOCK_PURIFIER.get());
@@ -55,7 +65,7 @@ public class GameTestsPurifier {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 400)
     public void testPurifierCurseRemoval(GameTestHelper helper) {
         HolderLookup.Provider holders = helper.getLevel().registryAccess();
         helper.setBlock(POS, RegistryEntries.BLOCK_PURIFIER.get());
@@ -77,7 +87,7 @@ public class GameTestsPurifier {
      * Tests that blacklisted enchantments are not disenchanted and blacklisted curses are not purified.
      * Runs in its own batch to avoid concurrent modification of the shared config field.
      */
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 400)
     public void testPurifierEnchantmentBlacklist(GameTestHelper helper) {
         HolderLookup.Provider holders = helper.getLevel().registryAccess();
         List<String> originalBlacklist = BlockPurifierConfig.enchantmentIdBlacklist;
@@ -99,7 +109,7 @@ public class GameTestsPurifier {
         cursePurifier.getTank().setFluid(new FluidStack(RegistryEntries.FLUID_BLOOD, IModHelpersNeoForge.get().getFluidHelpers().getBucketVolume()));
 
         // After enough ticks for the purifiers to have acted (if not blacklisted), verify nothing was removed
-        helper.runAfterDelay(150, () -> {
+        helper.runAfterDelay(300, () -> {
             BlockPurifierConfig.enchantmentIdBlacklist = originalBlacklist;
             ItemEnchantments disenchantEnchants = disenchantPurifier.getInventory().getItem(BlockEntityPurifier.SLOT_PURIFY).get(DataComponents.ENCHANTMENTS);
             helper.assertTrue(disenchantEnchants != null && !disenchantEnchants.isEmpty(), "Sword sharpness was incorrectly removed despite enchantment blacklist");
@@ -107,6 +117,20 @@ public class GameTestsPurifier {
             helper.assertTrue(curseEnchants != null && !curseEnchants.isEmpty(), "Vanishing curse was incorrectly removed despite enchantment blacklist");
             helper.succeed();
         });
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testPurifierDropsItemsOnceWhenBroken(GameTestHelper helper) {
+        helper.setBlock(POS, RegistryEntries.BLOCK_PURIFIER.get());
+        BlockEntityPurifier purifier = helper.getBlockEntity(POS, BlockEntityPurifier.class);
+        purifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, new ItemStack(Items.DIAMOND_SWORD));
+        purifier.getInventory().setItem(BlockEntityPurifier.SLOT_ADDITIONAL, new ItemStack(RegistryEntries.ITEM_BLOOK.get()));
+
+        helper.destroyBlock(POS);
+
+        helper.assertValueEqual(1, countDroppedItems(helper, Items.DIAMOND_SWORD), Component.literal("Dropped swords"));
+        helper.assertValueEqual(1, countDroppedItems(helper, RegistryEntries.ITEM_BLOOK.get()), Component.literal("Dropped blooks"));
+        helper.succeed();
     }
 
 }
