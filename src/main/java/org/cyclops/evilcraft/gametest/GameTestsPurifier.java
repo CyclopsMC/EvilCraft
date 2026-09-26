@@ -9,7 +9,9 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.Identifier;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -178,6 +180,27 @@ public class GameTestsPurifier {
             }
             helper.succeed();
         });
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testPurifierDropsItemsOnceWhenBroken(GameTestHelper helper) {
+        helper.setBlock(POS, RegistryEntries.BLOCK_PURIFIER.get());
+        BlockEntityPurifier purifier = helper.getBlockEntity(POS, BlockEntityPurifier.class);
+        purifier.getInventory().setItem(BlockEntityPurifier.SLOT_PURIFY, new ItemStack(Items.DIAMOND_SWORD));
+        purifier.getInventory().setItem(BlockEntityPurifier.SLOT_ADDITIONAL, new ItemStack(RegistryEntries.ITEM_BLOOK.get()));
+
+        helper.destroyBlock(POS);
+
+        helper.assertValueEqual(1, countDroppedItems(helper, Items.DIAMOND_SWORD), Component.literal("Dropped swords"));
+        helper.assertValueEqual(1, countDroppedItems(helper, RegistryEntries.ITEM_BLOOK.get()), Component.literal("Dropped blooks"));
+        helper.succeed();
+    }
+
+    private static int countDroppedItems(GameTestHelper helper, Item item) {
+        return helper.getEntities(EntityType.ITEM, POS, 3).stream()
+                .filter(e -> e.getItem().is(item))
+                .mapToInt(e -> e.getItem().getCount())
+                .sum();
     }
 
 }
