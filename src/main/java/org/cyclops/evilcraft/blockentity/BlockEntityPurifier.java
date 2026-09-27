@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.cyclops.cyclopscore.blockentity.BlockEntityTickerDelayed;
 import org.cyclops.cyclopscore.fluid.SingleUseTank;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.cyclopscore.helper.IModHelpersNeoForge;
 import org.cyclops.cyclopscore.inventory.SimpleInventory;
 import org.cyclops.cyclopscore.persist.nbt.NBTPersist;
@@ -321,12 +320,6 @@ public class BlockEntityPurifier extends BlockEntityTankInventory {
     public void onTankChanged() {
         super.onTankChanged();
         sendUpdate();
-    }
-
-    @Override
-    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
-        super.preRemoveSideEffects(pos, state);
-        IModHelpers.get().getInventoryHelpers().dropItems(level, getInventory(), pos);
     }
 
     public static class Ticker extends BlockEntityTickerDelayed<BlockEntityPurifier> {

@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Fixes:
+* Fix Purifier duplicating items when broken (#1276), Closes #1274
+* Fix opened player Boxes of Eternal Closure keeping player data, Closes #1272 (#1273)
+* Fix random failures of the vengeance spirit catch game test (#1266)
+* Fix server crash when a player without the mod sees a biome change (#1265)
+* Fix random failures of blood infuser game tests (#1263)

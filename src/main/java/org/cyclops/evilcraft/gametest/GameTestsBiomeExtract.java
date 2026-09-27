@@ -5,6 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,6 +23,27 @@ public class GameTestsBiomeExtract {
 
     @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 150)
     public void testBiomeExtractThrow(GameTestHelper helper) {
+        // Let player throw biome extract
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
+        player.setXRot(90F);
+        ItemStack biomeExtract = new ItemStack(RegistryEntries.ITEM_BIOME_EXTRACT);
+        biomeExtract.set(RegistryEntries.COMPONENT_BIOME, new DataComponentBiomeConfig.BiomeHolder(Identifier.fromNamespaceAndPath("minecraft", "beach"), helper.getLevel().holderLookup(Registries.BIOME)));
+        player.setItemInHand(InteractionHand.MAIN_HAND, biomeExtract);
+        player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
+
+        helper.succeedWhen(() -> {
+            helper.assertValueEqual(helper.getLevel().getBiome(helper.absolutePos(POS)).getRegisteredName(), "minecraft:beach", Component.literal("Biome was not changed"));
+        });
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 150, environment = "evilcraft:biome_extract_tracking_player")
+    public void testBiomeExtractThrowWithTrackingPlayer(GameTestHelper helper) {
+        // Player that is tracking the chunk, and that has no channel for our biome update packet
+        ServerPlayer trackingPlayer = helper.makeMockServerPlayerInLevel();
+        trackingPlayer.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
+        helper.getLevel().getChunkSource().move(trackingPlayer);
+
         // Let player throw biome extract
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
