@@ -1,8 +1,17 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.97"></a>
+## [1.21.1-1.2.97](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.96...1.21.1-1.2.97) - 2026-09-27 06:45:47
+
+
+### Fixed
+* Fix opened player Boxes of Eternal Closure keeping player data, Closes #1272 (#1273)
+* Fix random failures of the vengeance spirit catch game test (#1266)
+* Fix server crash when a player without the mod sees a biome change (#1265)
+
 <a name="1.21.1-1.2.96"></a>
-## [1.21.1-1.2.96](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.95...1.21.1-1.2.96) - 2026-09-11 17:45:24
+## [1.21.1-1.2.96](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.95...1.21.1-1.2.96) - 2026-09-11 17:45:24 +0200
 
 
 ### Added

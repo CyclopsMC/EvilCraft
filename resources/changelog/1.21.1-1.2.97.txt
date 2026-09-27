@@ -1,0 +1,7 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Fixes:
+* Fix opened player Boxes of Eternal Closure keeping player data, Closes #1272 (#1273)
+* Fix random failures of the vengeance spirit catch game test (#1266)
+* Fix server crash when a player without the mod sees a biome change (#1265)
