@@ -1,8 +1,19 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.106"></a>
+## [26.1.2-1.2.106](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.105...26.1.2-1.2.106) - 2026-09-27 06:58:41
+
+
+### Fixed
+* Fix Purifier duplicating items when broken (#1276), Closes #1274
+* Fix opened player Boxes of Eternal Closure keeping player data, Closes #1272 (#1273)
+* Fix random failures of the vengeance spirit catch game test (#1266)
+* Fix server crash when a player without the mod sees a biome change (#1265)
+* Fix random failures of blood infuser game tests (#1263)
+
 <a name="26.1.2-1.2.105"></a>
-## [26.1.2-1.2.105](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.104...26.1.2-1.2.105) - 2026-09-11 17:55:29
+## [26.1.2-1.2.105](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.104...26.1.2-1.2.105) - 2026-09-11 17:55:29 +0200
 
 
 ### Added
