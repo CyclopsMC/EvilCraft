@@ -10,22 +10,27 @@ import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import org.cyclops.cyclopscore.gametest.GameTest;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
+import org.cyclops.evilcraft.block.BlockBoxOfEternalClosure;
 import org.cyclops.evilcraft.blockentity.BlockEntityBoxOfEternalClosure;
 import org.cyclops.evilcraft.entity.monster.EntityVengeanceSpirit;
 
+import java.util.List;
+import java.util.UUID;
 
 public class GameTestsVengeanceSpirits {
 
     public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
     public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300, environment = "evilcraft:vengeance_spirit_catch")
     public void testVengeanceSpiritCatch(GameTestHelper helper) {
         // Spawn spirit, and pre-freeze it so the box can reliably find and capture it (the box only targets frozen spirits)
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south().above());
@@ -50,7 +55,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300, environment = "evilcraft:vengeance_spirit_player_catch")
     public void testVengeanceSpiritPlayerCatch(GameTestHelper helper) {
         // Spawn spirit
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.south().south());
@@ -78,7 +83,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, environment = "evilcraft:vengeance_spirit_release")
     public void testVengeanceSpiritRelease(GameTestHelper helper) {
         // Add filled box
         helper.setBlock(POS.above(), RegistryEntries.BLOCK_BOX_OF_ETERNAL_CLOSURE.value());
@@ -99,7 +104,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200, environment = "evilcraft:vengeance_spirit_attack")
     public void testVengeanceSpiritAttack(GameTestHelper helper) {
         // Spawn spirit
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.above().south().south());
@@ -125,7 +130,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, environment = "evilcraft:vengeance_spirit_spawn")
     public void testVengeanceSpiritSpawn(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
@@ -157,7 +162,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, environment = "evilcraft:vengeance_spirit_spawn_without_ring")
     public void testVengeanceSpiritSpawnWithoutRing(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
@@ -191,7 +196,7 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
-    @GameTest(template = TEMPLATE_EMPTY)
+    @GameTest(template = TEMPLATE_EMPTY, environment = "evilcraft:vengeance_spirit_spawn_not_when_killed_by_non_player")
     public void testVengeanceSpiritSpawnNotWhenKilledByNonPlayer(GameTestHelper helper) {
         // Spawn zombie
         Zombie zombie = helper.spawnWithNoFreeWill(EntityType.ZOMBIE, POS.above().south());
@@ -206,4 +211,32 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
+    @GameTest(template = TEMPLATE_EMPTY, environment = "evilcraft:vengeance_spirit_release_player_drops_empty_box")
+    public void testVengeanceSpiritReleasePlayerDropsEmptyBox(GameTestHelper helper) {
+        helper.setBlock(POS, Blocks.STONE);
+
+        // Place a box containing a player, as found in loot
+        ItemStack boxFilled = new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE);
+        BlockBoxOfEternalClosure.setPlayerContent(boxFilled, UUID.fromString("068d4de0-3a75-4c6a-9f01-8c37e16a394c"), "kroeserr");
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setItemInHand(InteractionHand.MAIN_HAND, boxFilled);
+        BlockPos posFloor = helper.absolutePos(POS);
+        boxFilled.useOn(new UseOnContext(player, InteractionHand.MAIN_HAND, new BlockHitResult(posFloor.getCenter().add(0, 0.5, 0), Direction.UP, posFloor, false)));
+        BlockEntityBoxOfEternalClosure box = helper.getBlockEntity(POS.above(), BlockEntityBoxOfEternalClosure.class);
+        helper.assertTrue(box.hasSpirit(), "Placed box is empty");
+        helper.assertValueEqual(box.getPlayerName(), "kroeserr", "Placed box has invalid player");
+
+        // Open box
+        helper.getBlockState(POS.above()).useWithoutItem(helper.getLevel(), player, new BlockHitResult(helper.absolutePos(POS.above()).getCenter(), Direction.DOWN, helper.absolutePos(POS.above()), false));
+
+        helper.succeedWhen(() -> {
+            helper.assertFalse(box.hasSpirit(), "Box is not empty");
+            helper.assertEntityPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
+
+            // Breaking the box must drop an empty box
+            List<ItemStack> drops = Block.getDrops(helper.getBlockState(POS.above()), helper.getLevel(), helper.absolutePos(POS.above()), box);
+            helper.assertValueEqual(drops.size(), 1, "Invalid number of drops");
+            helper.assertTrue(ItemStack.isSameItemSameComponents(drops.get(0), new ItemStack(RegistryEntries.ITEM_BOX_OF_ETERNAL_CLOSURE)), "Dropped box is not empty: " + drops.get(0).getComponentsPatch());
+        });
+    }
 }
