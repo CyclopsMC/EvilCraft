@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.107"></a>
+## [26.1.2-1.2.107](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.106...26.1.2-1.2.107) - 2026-10-03 14:51:04
+
+
+### Fixed
+* Fix vengeance spirit hitbox not matching inner entity, Closes #1278 (#1279)
+
 <a name="26.1.2-1.2.106"></a>
-## [26.1.2-1.2.106](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.105...26.1.2-1.2.106) - 2026-09-27 06:58:41
+## [26.1.2-1.2.106](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.105...26.1.2-1.2.106) - 2026-09-27 06:58:41 +0200
 
 
 ### Fixed
