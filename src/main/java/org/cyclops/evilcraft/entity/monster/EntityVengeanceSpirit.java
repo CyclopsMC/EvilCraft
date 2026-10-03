@@ -500,6 +500,15 @@ public class EntityVengeanceSpirit extends EntityNoMob {
         return super.getDefaultDimensions(poseIn);
     }
 
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        super.onSyncedDataUpdated(accessor);
+        // Dimensions depend on these, and are otherwise only refreshed on pose changes.
+        if (WATCHERID_INNER.equals(accessor) || WATCHERID_ISSWARM.equals(accessor) || WATCHERID_SWARMTIER.equals(accessor)) {
+            refreshDimensions();
+        }
+    }
+
     /**
      * Get the inner entity.
      * @return inner entity, null if it is a swarm

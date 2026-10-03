@@ -105,6 +105,44 @@ public class GameTestsVengeanceSpirits {
         });
     }
 
+    @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_7")
+    public void testVengeanceSpiritDimensions(GameTestHelper helper) {
+        EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS);
+        spirit.setInnerEntityType(EntityType.ENDERMAN);
+        helper.assertValueEqual(spirit.getBbHeight(), EntityType.ENDERMAN.getHeight(), "Spirit has invalid height");
+        helper.assertValueEqual(spirit.getBbWidth(), EntityType.ENDERMAN.getWidth(), "Spirit has invalid width");
+
+        spirit.setSwarm(true);
+        spirit.setSwarmTier(3);
+        helper.assertValueEqual(spirit.getBbHeight(), 2F, "Swarm has invalid height");
+        helper.assertValueEqual(spirit.getBbWidth(), 2F, "Swarm has invalid width");
+
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200, batch = "vengeance_spirits_8")
+    public void testVengeanceSpiritAttackTallHead(GameTestHelper helper) {
+        // Spawn a tall spirit, frozen so it stays in place
+        helper.setBlock(POS, Blocks.STONE);
+        helper.setBlock(POS.south().south(), Blocks.STONE);
+        EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.above().south().south());
+        spirit.setInnerEntityType(EntityType.ENDERMAN);
+        spirit.setFrozenDuration(200);
+
+        // Shoot horizontally from eye height, which is above the dummy 1x1 hitbox
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setPos(helper.absolutePos(POS.above()).getBottomCenter());
+        player.setXRot(0F);
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_PIERCING_VENGEANCE_FOCUS));
+        player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
+        helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
+
+        helper.succeedWhen(() -> {
+            helper.assertItemEntityPresent(RegistryEntries.ITEM_VENGEANCE_ESSENCE.get());
+            helper.assertEntityNotPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
+        });
+    }
+
     @GameTest(template = TEMPLATE_EMPTY, batch = "vengeance_spirits_3")
     public void testVengeanceSpiritSpawn(GameTestHelper helper) {
         // Spawn zombie
