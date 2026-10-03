@@ -120,7 +120,45 @@ public class GameTestsVengeanceSpirits {
         // Let player use piercing vengeance focus
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS)));
-        player.setXRot(25F);
+        player.setXRot(15F);
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_PIERCING_VENGEANCE_FOCUS));
+        player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
+        helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
+
+        helper.succeedWhen(() -> {
+            helper.assertItemEntityPresent(RegistryEntries.ITEM_VENGEANCE_ESSENCE.get());
+            helper.assertEntityNotPresent(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get());
+        });
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY, environment = "evilcraft:vengeance_spirit_dimensions")
+    public void testVengeanceSpiritDimensions(GameTestHelper helper) {
+        EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS);
+        spirit.setInnerEntityType(EntityTypes.ENDERMAN);
+        helper.assertValueEqual(spirit.getBbHeight(), EntityTypes.ENDERMAN.getHeight(), Component.literal("Spirit has invalid height"));
+        helper.assertValueEqual(spirit.getBbWidth(), EntityTypes.ENDERMAN.getWidth(), Component.literal("Spirit has invalid width"));
+
+        spirit.setSwarm(true);
+        spirit.setSwarmTier(3);
+        helper.assertValueEqual(spirit.getBbHeight(), 2F, Component.literal("Swarm has invalid height"));
+        helper.assertValueEqual(spirit.getBbWidth(), 2F, Component.literal("Swarm has invalid width"));
+
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 200, environment = "evilcraft:vengeance_spirit_attack_tall_head")
+    public void testVengeanceSpiritAttackTallHead(GameTestHelper helper) {
+        // Spawn a tall spirit, frozen so it stays in place
+        helper.setBlock(POS, Blocks.STONE);
+        helper.setBlock(POS.south().south(), Blocks.STONE);
+        EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS.above().south().south());
+        spirit.setInnerEntityType(EntityTypes.ENDERMAN);
+        spirit.setFrozenDuration(200);
+
+        // Shoot horizontally from eye height, which is above the dummy 1x1 hitbox
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setPos(Vec3.atBottomCenterOf(helper.absolutePos(POS.above())));
+        player.setXRot(0F);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(RegistryEntries.ITEM_PIERCING_VENGEANCE_FOCUS));
         player.getItemInHand(InteractionHand.MAIN_HAND).use(helper.getLevel(), player, InteractionHand.MAIN_HAND);
         helper.onEachTick(() -> player.getItemInHand(InteractionHand.MAIN_HAND).onUseTick(helper.getLevel(), player, 0));
