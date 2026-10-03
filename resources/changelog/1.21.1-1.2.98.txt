@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.28.0 or higher.
+
+Fixes:
+* Fix vengeance spirit hitbox not matching inner entity, Closes #1278 (#1279)

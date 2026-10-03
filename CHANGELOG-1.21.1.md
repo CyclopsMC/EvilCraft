@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.98"></a>
+## [1.21.1-1.2.98](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.97...1.21.1-1.2.98) - 2026-10-03 14:47:49
+
+
+### Fixed
+* Fix vengeance spirit hitbox not matching inner entity, Closes #1278 (#1279)
+
 <a name="1.21.1-1.2.97"></a>
-## [1.21.1-1.2.97](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.96...1.21.1-1.2.97) - 2026-09-27 06:45:47
+## [1.21.1-1.2.97](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.96...1.21.1-1.2.97) - 2026-09-27 06:45:47 +0200
 
 
 ### Fixed
