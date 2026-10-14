@@ -149,6 +149,9 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
+
+        // The random inner entity is set when defining synced data, which does not trigger a dimensions refresh.
+        refreshDimensions();
     }
 
     @Override
