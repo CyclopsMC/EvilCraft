@@ -12,6 +12,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -41,6 +42,7 @@ public class EntityWerewolfConfig extends EntityConfig<EntityWerewolf> {
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "werewolf_spawn_egg", Helpers.RGBToInt(105, 67, 18), Helpers.RGBToInt(57, 25, 10))
         );
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onEntityAttributeCreationEvent);
+        MinecraftForge.EVENT_BUS.register(EntityWerewolf.class);
         DistExecutor.safeCallWhenOn(Dist.CLIENT, () -> ModelLoader::registerModel);
     }
 

@@ -24,7 +24,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,10 +37,6 @@ import org.cyclops.evilcraft.RegistryEntries;
  *
  */
 public class EntityWerewolf extends Monster {
-
-    static {
-        MinecraftForge.EVENT_BUS.register(EntityWerewolf.class);
-    }
 
     private CompoundTag villagerNBTTagCompound = new CompoundTag();
     private boolean fromVillager = false;
@@ -80,10 +75,15 @@ public class EntityWerewolf extends Monster {
     public static void transformWerewolfVillager(LivingEvent.LivingTickEvent event) {
         if(event.getEntity() instanceof Villager && !event.getEntity().level().isClientSide()) {
             Villager villager = (Villager) event.getEntity();
-            if(EntityWerewolf.isWerewolfTime(event.getEntity().level())
-                    && villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF
-                    && villager.level().getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
-                EntityWerewolf.replaceVillager(villager);
+            if (villager.getVillagerData().getProfession() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF) {
+                // Villagers that obtained this profession from a POI start at level 1, which has no trades.
+                if (villager.getVillagerData().getLevel() < 2) {
+                    EntityWerewolf.initializeWerewolfVillagerData(villager);
+                }
+                if(EntityWerewolf.isWerewolfTime(event.getEntity().level())
+                        && villager.level().getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
+                    EntityWerewolf.replaceVillager(villager);
+                }
             }
         }
     }
