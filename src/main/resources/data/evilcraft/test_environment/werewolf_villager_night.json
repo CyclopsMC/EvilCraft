@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:all_of",
+  "definitions": [
+    "minecraft:default",
+    {
+      "type": "minecraft:clock_time",
+      "clock": "minecraft:overworld",
+      "time": 18000
+    }
+  ]
+}

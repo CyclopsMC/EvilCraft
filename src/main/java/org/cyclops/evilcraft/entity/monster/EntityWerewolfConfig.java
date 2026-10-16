@@ -4,6 +4,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityClientConfig;
 import org.cyclops.cyclopscore.config.extendedconfig.EntityConfigCommon;
@@ -26,6 +27,7 @@ public class EntityWerewolfConfig extends EntityConfigCommon<ModBaseNeoForge<?>,
                 getDefaultSpawnEggItemConfigConstructor(EvilCraft._instance, "werewolf_spawn_egg")
         );
         EvilCraft._instance.getModEventBus().addListener(this::onEntityAttributeCreationEvent);
+        NeoForge.EVENT_BUS.register(EntityWerewolf.class);
     }
 
     @Override

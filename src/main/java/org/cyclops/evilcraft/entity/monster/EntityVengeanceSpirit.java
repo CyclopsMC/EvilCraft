@@ -130,6 +130,7 @@ public class EntityVengeanceSpirit extends EntityNoMob {
 
         setRemainingLife(remainingLife);
         setFrozenDuration(0);
+        refreshDimensions();
     }
 
     @Override

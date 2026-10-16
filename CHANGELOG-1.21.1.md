@@ -1,8 +1,17 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.99"></a>
+## [1.21.1-1.2.99](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.98...1.21.1-1.2.99) - 2026-10-16 05:14:32
+
+
+### Fixed
+* Fix vengeance spirit hitbox not matching inner entity (#1286)
+* Fix vengeance spirit hitbox when inner entity matches initial random one (#1284)
+* Fix werewolf villagers from POIs being stuck at level 1 (#1285)
+
 <a name="1.21.1-1.2.98"></a>
-## [1.21.1-1.2.98](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.97...1.21.1-1.2.98) - 2026-10-03 14:47:49
+## [1.21.1-1.2.98](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.97...1.21.1-1.2.98) - 2026-10-03 14:47:49 +0200
 
 
 ### Fixed

@@ -483,6 +483,7 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
                 GameTestsSpiritFurnace.class,
                 GameTestsSpiritReanimator.class,
                 GameTestsVengeanceSpirits.class,
+                GameTestsWerewolfVillager.class,
         };
     }
 
