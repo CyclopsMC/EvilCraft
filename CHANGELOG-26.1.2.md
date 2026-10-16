@@ -1,8 +1,17 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.108"></a>
+## [26.1.2-1.2.108](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.107...26.1.2-1.2.108) - 2026-10-16 05:17:50
+
+
+### Fixed
+* Fix vengeance spirit hitbox not matching inner entity (#1286)
+* Fix vengeance spirit hitbox when inner entity matches initial random one (#1284)
+* Fix werewolf villagers from POIs being stuck at level 1 (#1285)
+
 <a name="26.1.2-1.2.107"></a>
-## [26.1.2-1.2.107](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.106...26.1.2-1.2.107) - 2026-10-03 14:51:04
+## [26.1.2-1.2.107](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.106...26.1.2-1.2.107) - 2026-10-03 14:51:04 +0200
 
 
 ### Fixed
