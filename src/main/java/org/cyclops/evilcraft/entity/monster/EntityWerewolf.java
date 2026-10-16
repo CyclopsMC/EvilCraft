@@ -30,7 +30,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.RegistryEntries;
@@ -41,10 +40,6 @@ import org.cyclops.evilcraft.RegistryEntries;
  *
  */
 public class EntityWerewolf extends Monster {
-
-    static {
-        NeoForge.EVENT_BUS.register(EntityWerewolf.class);
-    }
 
     private CompoundTag villagerNBTTagCompound = new CompoundTag();
     private boolean fromVillager = false;
@@ -81,10 +76,15 @@ public class EntityWerewolf extends Monster {
     public static void transformWerewolfVillager(EntityTickEvent.Post event) {
         if(event.getEntity() instanceof Villager && !event.getEntity().level().isClientSide()) {
             Villager villager = (Villager) event.getEntity();
-            if(EntityWerewolf.isWerewolfTime((ServerLevel) event.getEntity().level(), event.getEntity().getOnPos())
-                    && villager.getVillagerData().profession().value() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()
-                    && villager.level().getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
-                EntityWerewolf.replaceVillager(villager);
+            if (villager.getVillagerData().profession().value() == RegistryEntries.VILLAGER_PROFESSION_WEREWOLF.get()) {
+                // Villagers that obtained this profession from a POI start at level 1, which has no trades.
+                if (villager.getVillagerData().level() < 2) {
+                    EntityWerewolf.initializeWerewolfVillagerData(villager);
+                }
+                if(EntityWerewolf.isWerewolfTime((ServerLevel) event.getEntity().level(), event.getEntity().getOnPos())
+                        && villager.level().getBrightness(LightLayer.SKY, villager.blockPosition()) > 0) {
+                    EntityWerewolf.replaceVillager(villager);
+                }
             }
         }
     }

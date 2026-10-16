@@ -1,8 +1,23 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.3.4"></a>
+## [1.20.1-1.3.4](/compare/1.20.1-1.3.3...1.20.1-1.3.4) - 2026-10-16 05:11:36
+
+
+### Fixed
+* Fix vengeance spirit hitbox not matching inner entity (#1286)
+* Fix werewolf villagers from POIs being stuck at level 1 (#1285)
+
+<a name="1.20.1-1.3.3"></a>
+## [1.20.1-1.3.3](/compare/1.20.1-1.3.2...1.20.1-1.3.3) - 2026-09-11 17:41:32 +0200
+
+
+### Added
+* Allow reverting mob head progression in the Purifier (#1260), Closes #1258
+
 <a name="1.20.1-1.3.2"></a>
-## [1.20.1-1.3.2](/compare/1.20.1-1.3.1...1.20.1-1.3.2) - 2026-09-05 12:49:35
+## [1.20.1-1.3.2](/compare/1.20.1-1.3.1...1.20.1-1.3.2) - 2026-09-05 12:49:35 +0200
 
 
 ### Fixed

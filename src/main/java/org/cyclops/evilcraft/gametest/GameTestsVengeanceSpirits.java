@@ -133,6 +133,10 @@ public class GameTestsVengeanceSpirits {
     @GameTest(template = TEMPLATE_EMPTY, environment = "evilcraft:vengeance_spirit_dimensions")
     public void testVengeanceSpiritDimensions(GameTestHelper helper) {
         EntityVengeanceSpirit spirit = helper.spawnWithNoFreeWill(RegistryEntries.ENTITY_VENGEANCE_SPIRIT.get(), POS);
+        // Dimensions must match the initial random inner entity, as setting the same type again does not refresh them
+        helper.assertValueEqual(spirit.getBbHeight(), spirit.getDimensions(spirit.getPose()).height(), Component.literal("Spirit has invalid initial height"));
+        helper.assertValueEqual(spirit.getBbWidth(), spirit.getDimensions(spirit.getPose()).width(), Component.literal("Spirit has invalid initial width"));
+
         spirit.setInnerEntityType(EntityType.ENDERMAN);
         helper.assertValueEqual(spirit.getBbHeight(), EntityType.ENDERMAN.getHeight(), Component.literal("Spirit has invalid height"));
         helper.assertValueEqual(spirit.getBbWidth(), EntityType.ENDERMAN.getWidth(), Component.literal("Spirit has invalid width"));
