@@ -3,6 +3,7 @@ package org.cyclops.evilcraft.gametest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -15,6 +16,7 @@ import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityDarkTank;
 import org.cyclops.evilcraft.blockentity.BlockEntityEntangledChalice;
+import org.cyclops.evilcraft.core.fluid.WorldSharedTankCache;
 
 public class GameTestsEntangledChalice {
 
@@ -123,4 +125,16 @@ public class GameTestsEntangledChalice {
             helper.assertValueEqual(true, fluidHandler2.getResource(0).isEmpty(), Component.literal("Disconnected chalice item fluid type"));
         });
     }
+
+    @GameTest(template = TEMPLATE_EMPTY)
+    public void testEntangledChaliceLoginWithoutChannel(GameTestHelper helper) {
+        // Ensure a shared tank exists, so a packet is sent on login
+        WorldSharedTankCache.getInstance().setTankContent("login", new FluidStack(RegistryEntries.FLUID_BLOOD, 1000));
+
+        // Mock players have no channel for our packets, this must not throw
+        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+
+        helper.succeedIf(() -> helper.assertTrue(player.isAlive(), Component.literal("Player is not alive")));
+    }
+
 }
