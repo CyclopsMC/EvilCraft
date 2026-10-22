@@ -23,6 +23,7 @@ public class BloodConfig extends FluidConfigNeoForge {
                                 .density(1500)
                                 .viscosity(3000)
                                 .temperature(309)
+                                .isWaterLike(true)
                                 .rarity(Rarity.COMMON)
                                 .descriptionId("block.evilcraft.blood")
                                 .supportsBoating(true)
