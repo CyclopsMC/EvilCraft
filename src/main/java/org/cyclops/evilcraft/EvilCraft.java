@@ -482,6 +482,7 @@ public class EvilCraft extends ModBaseNeoForge<EvilCraft> {
                 GameTestsSanguinaryEnvironmentalAccumulator.class,
                 GameTestsSpiritFurnace.class,
                 GameTestsSpiritReanimator.class,
+                GameTestsUndeadLogTags.class,
                 GameTestsVengeanceSpirits.class,
                 GameTestsWerewolfVillager.class,
         };
