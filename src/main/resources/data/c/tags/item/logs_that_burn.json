@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-      "evilcraft:undead_log",
-      "evilcraft:undead_log_stripped"
+    "#evilcraft:undead_logs"
   ]
 }

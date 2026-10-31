@@ -1,8 +1,18 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.3.5"></a>
+## [1.20.1-1.3.5](/compare/1.20.1-1.3.4...1.20.1-1.3.5) - 2026-10-31 13:21:06
+
+
+### Added
+* Add undead wood variants to log tags (#1293), Closes #1290
+
+### Fixed
+* Fix random disconnects due to Blood Magic soul network packet race (#19)
+
 <a name="1.20.1-1.3.4"></a>
-## [1.20.1-1.3.4](/compare/1.20.1-1.3.3...1.20.1-1.3.4) - 2026-10-16 05:11:36
+## [1.20.1-1.3.4](/compare/1.20.1-1.3.3...1.20.1-1.3.4) - 2026-10-16 05:11:36 +0200
 
 
 ### Fixed

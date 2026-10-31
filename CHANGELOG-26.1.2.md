@@ -1,8 +1,19 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.109"></a>
+## [26.1.2-1.2.109](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.108...26.1.2-1.2.109) - 2026-10-31 13:26:02
+
+
+### Added
+* Add undead wood variants to log tags (#1291), Closes #1290
+
+### Fixed
+* Fix random disconnects due to Blood Magic soul network packet race (#19)
+* Fix entities getting stuck in Blood and Poison (#1289), Closes #1288
+
 <a name="26.1.2-1.2.108"></a>
-## [26.1.2-1.2.108](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.107...26.1.2-1.2.108) - 2026-10-16 05:17:50
+## [26.1.2-1.2.108](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.107...26.1.2-1.2.108) - 2026-10-16 05:17:50 +0200
 
 
 ### Fixed

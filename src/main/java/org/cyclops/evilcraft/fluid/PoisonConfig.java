@@ -24,6 +24,7 @@ public class PoisonConfig extends FluidConfigNeoForge {
                                 .density(1000)
                                 .viscosity(1000)
                                 .temperature(290)
+                                .isWaterLike(true)
                                 .rarity(Rarity.UNCOMMON)
                                 .descriptionId("block.evilcraft.poison")
                                 .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
