@@ -1,8 +1,18 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.100"></a>
+## [1.21.1-1.2.100](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.99...1.21.1-1.2.100) - 2026-10-31 13:24:20
+
+
+### Added
+* Add undead wood variants to log tags (#1293), Closes #1290
+
+### Fixed
+* Fix random disconnects due to Blood Magic soul network packet race (#19)
+
 <a name="1.21.1-1.2.99"></a>
-## [1.21.1-1.2.99](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.98...1.21.1-1.2.99) - 2026-10-16 05:14:32
+## [1.21.1-1.2.99](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.98...1.21.1-1.2.99) - 2026-10-16 05:14:32 +0200
 
 
 ### Fixed
