@@ -301,10 +301,7 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
                     // Save the recipe
                     this.recipe = recipe;
-                    this.recipeDisplay = IModHelpers.get().getCraftingHelpers().getRecipeDisplays(
-                            this.recipe.value().getType(),
-                            this.recipe.id()
-                    ).getFirst().display();
+                    this.recipeDisplay = this.recipe.value().display().getFirst();
                     this.sendUpdate();
 
                     if (!level.isClientSide()) {
