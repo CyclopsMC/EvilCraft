@@ -301,8 +301,6 @@ public class BlockEntityEnvironmentalAccumulator extends BlockEntityBeacon imple
 
                     // Save the recipe
                     this.recipe = recipe;
-                    // The recipe-book display cache may omit recipes on dedicated servers.
-                    // This recipe owns the display needed to synchronize the machine's animation.
                     this.recipeDisplay = this.recipe.value().display().getFirst();
                     this.sendUpdate();
 

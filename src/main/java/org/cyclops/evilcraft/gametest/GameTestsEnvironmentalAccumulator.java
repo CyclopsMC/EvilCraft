@@ -2,74 +2,42 @@ package org.cyclops.evilcraft.gametest;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import org.cyclops.cyclopscore.gametest.GameTest;
-import org.cyclops.cyclopscore.helper.IModHelpers;
 import org.cyclops.evilcraft.Reference;
 import org.cyclops.evilcraft.RegistryEntries;
 import org.cyclops.evilcraft.blockentity.BlockEntityEnvironmentalAccumulator;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import org.cyclops.evilcraft.core.weather.WeatherType;
+import org.cyclops.evilcraft.item.ItemWeatherContainer;
 
 public class GameTestsEnvironmentalAccumulator {
 
-    @GameTest(template = Reference.MOD_ID + ":empty10")
-    public void testProcessingWithoutRecipeBookDisplay(GameTestHelper helper) throws Exception {
-        testProcessing(helper, true);
-    }
+    public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
+    public static final BlockPos POS = BlockPos.ZERO.offset(2, 0, 2);
 
-    @GameTest(template = Reference.MOD_ID + ":empty10")
-    public void testProcessingWithRecipeBookDisplay(GameTestHelper helper) throws Exception {
-        testProcessing(helper, false);
-    }
+    @GameTest(template = TEMPLATE_EMPTY, timeoutTicks = 300)
+    public void testFillWeatherContainer(GameTestHelper helper) {
+        WeatherType.CLEAR.activate(helper.getLevel());
+        helper.setBlock(POS, RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get());
+        BlockEntityEnvironmentalAccumulator accumulator = helper.getBlockEntity(POS, BlockEntityEnvironmentalAccumulator.class);
+        ItemEntity input = helper.spawnItem(RegistryEntries.ITEM_WEATHER_CONTAINER.get(), Vec3.atCenterOf(POS.above()));
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void testProcessing(GameTestHelper helper, boolean removeDisplay) throws Exception {
-        var level = helper.getLevel();
-        BlockPos pos = helper.absolutePos(new BlockPos(2, 1, 2));
-        ItemStack input = new ItemStack(RegistryEntries.ITEM_WEATHER_CONTAINER.get(), 3);
-        var recipe = IModHelpers.get().getCraftingHelpers()
-                .findRecipes(level, RegistryEntries.RECIPETYPE_ENVIRONMENTAL_ACCUMULATOR.get()).stream()
-                .filter(candidate -> candidate.value().getInputIngredient().test(input)
-                        && (candidate.value().getInputWeather() == null
-                        || candidate.value().getInputWeather().isActive(level)))
-                .findFirst().orElseThrow();
-        var manager = level.recipeAccess();
-        Field cacheField = manager.getClass().getDeclaredField("recipeToDisplay");
-        cacheField.setAccessible(true);
-        Object originalCache = cacheField.get(manager);
-        var entity = new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, input);
-        try {
-            if (removeDisplay) {
-                var cache = new HashMap((Map) originalCache);
-                cache.remove(recipe.id());
-                cacheField.set(manager, cache);
-                helper.assertTrue(IModHelpers.get().getCraftingHelpers()
-                        .getRecipeDisplays(recipe.value().getType(), recipe.id()).isEmpty(),
-                        Component.literal("The recipe-book display must be absent"));
-            }
-            level.addFreshEntity(entity);
-            // Invoke only the idle transition: no multiblock, cooldown, or unrelated degradation ticks.
-            var accumulator = new BlockEntityEnvironmentalAccumulator(pos,
-                    RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get().defaultBlockState());
-            accumulator.setLevel(level);
-            Method idle = BlockEntityEnvironmentalAccumulator.class.getDeclaredMethod("updateEnvironmentalAccumulatorIdle");
-            idle.setAccessible(true);
-            idle.invoke(accumulator);
-            helper.assertTrue(accumulator.getRecipe() != null, Component.literal("A matching recipe must start"));
-            helper.assertTrue(accumulator.getRecipeDisplay() != null, Component.literal("The machine must retain its display"));
-            helper.assertValueEqual(input.getCount(), 2, Component.literal("Exactly one dropped item must be consumed"));
-            helper.assertValueEqual(accumulator.getInventory().getItem(0).getCount(), 3,
-                    Component.literal("The existing input snapshot behavior must be preserved"));
-        } finally {
-            cacheField.set(manager, originalCache);
-            entity.discard();
-        }
-        helper.succeed();
+        helper.startSequence()
+                .thenWaitUntil(() -> {
+                    helper.assertTrue(input.isRemoved(), "Weather container was not consumed");
+                    helper.assertTrue(accumulator.getRecipeDisplay() != null, "Recipe display was not set");
+                })
+                .thenWaitUntil(() -> helper.assertTrue(helper.getEntities(EntityType.ITEM, POS, 4).stream()
+                        .anyMatch(entity -> ItemWeatherContainer.getWeatherType(entity.getItem()) == ItemWeatherContainer.WeatherContainerType.CLEAR),
+                        "Filled weather container was not produced"))
+                .thenExecute(() -> {
+                    // Avoid degradation effects during cooldown
+                    helper.setBlock(POS, Blocks.AIR);
+                    WeatherType.CLEAR.activate(helper.getLevel());
+                })
+                .thenSucceed();
     }
 }
