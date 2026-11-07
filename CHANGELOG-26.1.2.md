@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.110"></a>
+## [26.1.2-1.2.110](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.109...26.1.2-1.2.110) - 2026-11-07 16:25:08
+
+
+### Fixed
+* Fix accumulator crash when recipe-book display is missing (#1299), Closes #1297
+
 <a name="26.1.2-1.2.109"></a>
-## [26.1.2-1.2.109](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.108...26.1.2-1.2.109) - 2026-10-31 13:26:02
+## [26.1.2-1.2.109](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.108...26.1.2-1.2.109) - 2026-10-31 13:26:02 +0100
 
 
 ### Added
