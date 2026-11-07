@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Fixes:
+* Fix accumulator crash when recipe-book display is missing (#1299), Closes #1297
