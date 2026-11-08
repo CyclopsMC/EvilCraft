@@ -13,6 +13,8 @@ import org.cyclops.evilcraft.blockentity.BlockEntityEnvironmentalAccumulator;
 import org.cyclops.evilcraft.core.weather.WeatherType;
 import org.cyclops.evilcraft.item.ItemWeatherContainer;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class GameTestsEnvironmentalAccumulator {
 
     public static final String TEMPLATE_EMPTY = Reference.MOD_ID + ":empty10";
@@ -23,11 +25,14 @@ public class GameTestsEnvironmentalAccumulator {
         WeatherType.CLEAR.activate(helper.getLevel());
         helper.setBlock(POS, RegistryEntries.BLOCK_ENVIRONMENTAL_ACCUMULATOR.get());
         BlockEntityEnvironmentalAccumulator accumulator = helper.getBlockEntity(POS, BlockEntityEnvironmentalAccumulator.class);
-        ItemEntity input = helper.spawnItem(RegistryEntries.ITEM_WEATHER_CONTAINER.get(), Vec3.atCenterOf(POS.above()));
+        AtomicReference<ItemEntity> input = new AtomicReference<>();
 
         helper.startSequence()
+                // Rain or thunder from earlier tests may still be fading out
+                .thenWaitUntil(() -> helper.assertTrue(WeatherType.CLEAR.isActive(helper.getLevel()), "Weather did not become clear"))
+                .thenExecute(() -> input.set(helper.spawnItem(RegistryEntries.ITEM_WEATHER_CONTAINER.get(), Vec3.atCenterOf(POS.above()))))
                 .thenWaitUntil(() -> {
-                    helper.assertTrue(input.isRemoved(), "Weather container was not consumed");
+                    helper.assertTrue(input.get().isRemoved(), "Weather container was not consumed");
                     helper.assertTrue(accumulator.getRecipeDisplay() != null, "Recipe display was not set");
                 })
                 .thenWaitUntil(() -> helper.assertTrue(helper.getEntities(EntityType.ITEM, POS, 4).stream()
