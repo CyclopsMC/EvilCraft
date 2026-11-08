@@ -20,7 +20,6 @@ public class WeatherTypeClear extends WeatherType {
 
     @Override
     public void activate(ServerLevel world) {
-        // Unconditional, as isActive lags behind the weather flags while rain and thunder fade
         LIGHTNING.deactivate(world);
         RAIN.deactivate(world);
     }
