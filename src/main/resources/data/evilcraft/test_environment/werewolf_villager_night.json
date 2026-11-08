@@ -6,6 +6,12 @@
       "type": "minecraft:clock_time",
       "clock": "minecraft:overworld",
       "time": 18000
+    },
+    {
+      "type": "minecraft:game_rules",
+      "rules": {
+        "minecraft:advance_time": false
+      }
     }
   ]
 }
