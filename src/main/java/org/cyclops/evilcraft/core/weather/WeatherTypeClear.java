@@ -20,11 +20,8 @@ public class WeatherTypeClear extends WeatherType {
 
     @Override
     public void activate(ServerLevel world) {
-        if (LIGHTNING.isActive(world))
-            LIGHTNING.deactivate(world);
-
-        if (RAIN.isActive(world))
-            RAIN.deactivate(world);
+        LIGHTNING.deactivate(world);
+        RAIN.deactivate(world);
     }
 
     @Override
