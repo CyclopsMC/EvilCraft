@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.101"></a>
+## [1.21.1-1.2.101](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.100...1.21.1-1.2.101) - 2026-11-15 10:47:51
+
+
+### Fixed
+* Remove invalid broom modifier book appendices (#1300), Closes #1282
+
 <a name="1.21.1-1.2.100"></a>
-## [1.21.1-1.2.100](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.99...1.21.1-1.2.100) - 2026-10-31 13:24:20
+## [1.21.1-1.2.100](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.99...1.21.1-1.2.100) - 2026-10-31 13:24:20 +0100
 
 
 ### Added
