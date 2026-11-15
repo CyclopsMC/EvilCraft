@@ -1,0 +1,9 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Fixes:
+* Let RenderStateVengeanceSpirit extend from LivingEntityRenderState
+  This fixes crashes with mods such as Ice & Fire that make assumptions about this.
+  Closes #1305
+* Remove invalid broom modifier book appendices (#1300), Closes #1282
+* Fix flaky environmental accumulator game test (#1301)

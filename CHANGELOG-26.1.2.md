@@ -1,8 +1,19 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.111"></a>
+## [26.1.2-1.2.111](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.110...26.1.2-1.2.111) - 2026-11-15 10:53:50
+
+
+### Fixed
+* Let RenderStateVengeanceSpirit extend from LivingEntityRenderState
+  This fixes crashes with mods such as Ice & Fire that make assumptions about this.
+  Closes #1305
+* Remove invalid broom modifier book appendices (#1300), Closes #1282
+* Fix flaky environmental accumulator game test (#1301)
+
 <a name="26.1.2-1.2.110"></a>
-## [26.1.2-1.2.110](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.109...26.1.2-1.2.110) - 2026-11-07 16:25:08
+## [26.1.2-1.2.110](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.109...26.1.2-1.2.110) - 2026-11-07 16:25:08 +0100
 
 
 ### Fixed
