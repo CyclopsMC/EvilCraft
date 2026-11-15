@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.112"></a>
+## [26.1.2-1.2.112](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.111...26.1.2-1.2.112) - 2026-11-15 16:13:03
+
+
+### Fixed
+* Fix display stand recipe assemble returning null (#1308), Closes #1307
+
 <a name="26.1.2-1.2.111"></a>
-## [26.1.2-1.2.111](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.110...26.1.2-1.2.111) - 2026-11-15 10:53:50
+## [26.1.2-1.2.111](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.110...26.1.2-1.2.111) - 2026-11-15 10:53:50 +0100
 
 
 ### Fixed
