@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.102"></a>
+## [1.21.1-1.2.102](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.101...1.21.1-1.2.102) - 2026-11-15 16:11:54
+
+
+### Fixed
+* Fix display stand recipe assemble returning null (#1308), Closes #1307
+
 <a name="1.21.1-1.2.101"></a>
-## [1.21.1-1.2.101](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.100...1.21.1-1.2.101) - 2026-11-15 10:47:51
+## [1.21.1-1.2.101](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.100...1.21.1-1.2.101) - 2026-11-15 10:47:51 +0100
 
 
 ### Fixed
