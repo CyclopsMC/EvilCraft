@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.3.6"></a>
+## [1.20.1-1.3.6](/compare/1.20.1-1.3.5...1.20.1-1.3.6) - 2026-11-15 16:10:52
+
+
+### Fixed
+* Fix display stand recipe assemble returning null (#1308), Closes #1307
+
 <a name="1.20.1-1.3.5"></a>
-## [1.20.1-1.3.5](/compare/1.20.1-1.3.4...1.20.1-1.3.5) - 2026-10-31 13:21:06
+## [1.20.1-1.3.5](/compare/1.20.1-1.3.4...1.20.1-1.3.5) - 2026-10-31 13:21:06 +0100
 
 
 ### Added
