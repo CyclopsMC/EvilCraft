@@ -38,7 +38,7 @@ public class RecipeSerializerCraftingShapedCustomOutputDisplayStandConfig extend
                         });
                     }
                     if (plankWoodStack.get().isEmpty()) {
-                        return null;
+                        return ItemStack.EMPTY;
                     }
                     BlockState plankWoodBlockState = IModHelpers.get().getBlockHelpers().getBlockStateFromItemStack(plankWoodStack.get());
                     return RegistryEntries.BLOCK_DISPLAY_STAND.get().getTypedDisplayStandItem(plankWoodBlockState);
