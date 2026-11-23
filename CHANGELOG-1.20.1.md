@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.20.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.20.1-1.3.7"></a>
+## [1.20.1-1.3.7](/compare/1.20.1-1.3.6...1.20.1-1.3.7) - 2026-11-23 17:14:28
+
+
+### Fixed
+* Fix server stall on login due to exploration maps in Spirit Furnace JEI drops (#21), Closes CyclopsMC/EvilCraft#1313
+
 <a name="1.20.1-1.3.6"></a>
-## [1.20.1-1.3.6](/compare/1.20.1-1.3.5...1.20.1-1.3.6) - 2026-11-15 16:10:52
+## [1.20.1-1.3.6](/compare/1.20.1-1.3.5...1.20.1-1.3.6) - 2026-11-15 16:10:52 +0100
 
 
 ### Fixed
