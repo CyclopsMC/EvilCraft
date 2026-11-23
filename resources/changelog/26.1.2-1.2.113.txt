@@ -1,0 +1,5 @@
+As always, don't forget to backup your world before updating!
+Requires CyclopsCore version 1.30.0 or higher.
+
+Fixes:
+* Fix server stall on login due to exploration maps in Spirit Furnace JEI drops (#21), Closes CyclopsMC/EvilCraft#1313
