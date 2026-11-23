@@ -1,8 +1,15 @@
 # Changelog for Minecraft 26.1.2
 All notable changes to this project will be documented in this file.
 
+<a name="26.1.2-1.2.113"></a>
+## [26.1.2-1.2.113](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.112...26.1.2-1.2.113) - 2026-11-23 17:18:43
+
+
+### Fixed
+* Fix server stall on login due to exploration maps in Spirit Furnace JEI drops (#21), Closes CyclopsMC/EvilCraft#1313
+
 <a name="26.1.2-1.2.112"></a>
-## [26.1.2-1.2.112](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.111...26.1.2-1.2.112) - 2026-11-15 16:13:03
+## [26.1.2-1.2.112](https://github.com/CyclopsMC/EvilCraft/compare/26.1.2-1.2.111...26.1.2-1.2.112) - 2026-11-15 16:13:03 +0100
 
 
 ### Fixed
