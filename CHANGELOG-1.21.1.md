@@ -1,8 +1,15 @@
 # Changelog for Minecraft 1.21.1
 All notable changes to this project will be documented in this file.
 
+<a name="1.21.1-1.2.103"></a>
+## [1.21.1-1.2.103](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.102...1.21.1-1.2.103) - 2026-11-23 17:16:43
+
+
+### Fixed
+* Fix server stall on login due to exploration maps in Spirit Furnace JEI drops (#21), Closes CyclopsMC/EvilCraft#1313
+
 <a name="1.21.1-1.2.102"></a>
-## [1.21.1-1.2.102](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.101...1.21.1-1.2.102) - 2026-11-15 16:11:54
+## [1.21.1-1.2.102](https://github.com/CyclopsMC/EvilCraft/compare/1.21.1-1.2.101...1.21.1-1.2.102) - 2026-11-15 16:11:54 +0100
 
 
 ### Fixed
